@@ -1,1 +1,62 @@
 
+<project>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.pih</groupId>
+    <artifactId>openmrs-config-pihemr</artifactId>
+    <name>PIH-EMR OpenMRS Configuration</name>
+    <description>Top-Level configuration for PIH-EMR OpenMRS distro</description>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <developers>
+        <developer>
+            <name>Partners In Health</name>
+        </developer>
+    </developers>
+
+    <organization>
+        <name>Partners In Health</name>
+        <url>http://pih.org</url>
+    </organization>
+
+
+    <build>
+        <filters>
+            <filter>${project.build.directory}/openmrs-packager-config/constants.properties</filter>
+        </filters>
+        <plugins>
+            <plugin>
+                <groupId>org.openmrs.maven.plugins</groupId>
+                <artifactId>openmrs-packager-maven-plugin</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <executions>
+                    <execution>
+                        <id>generate-resource-filters</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>generate-resource-filters</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>compile-configurations</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile-configurations</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>package-configurations</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>package-configurations</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+
+
