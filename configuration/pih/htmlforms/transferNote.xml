@@ -1,0 +1,43 @@
+<!--
+  ~ The contents of this file are subject to the OpenMRS Public License
+  ~ Version 1.0 (the "License"); you may not use this file except in
+  ~ compliance with the License. You may obtain a copy of the License at
+  ~ http://license.openmrs.org
+  ~
+  ~ Software distributed under the License is distributed on an "AS IS"
+  ~ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing rights and limitations
+  ~ under the License.
+  ~
+  ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+  -->
+
+<htmlform formUuid="d068bc80-fb95-11e2-b778-0800200c9a66" formName="Transfer" formEncounterType="436cfe33-6b81-40ef-a455-f134a9f7e580" formVersion="1.1">
+
+    <h2><label><uimessage code="mirebalais.transferNote.label"/></label></h2>
+
+    <section id="transfer">
+        <p>
+            <label><uimessage code="mirebalais.transferNote.transferDate.label"/></label>
+            <encounterDate id="encounterDate" showTime="false" default="now"/>
+        </p>
+
+        <p id="provider">
+            <label><uimessage code="mirebalais.transferNote.transferringClinician.label"/></label>
+            <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
+        </p>
+
+        <p id="location">
+            <label><uimessage code="mirebalais.transferNote.transferredTo.label"/></label>
+            <encounterLocation required="true" tags="Transfer Location"/>
+        </p>
+    </section>
+
+    <ifMode mode="VIEW" include="false">
+        <div id="buttons">
+            <submit submitClass="confirm right" submitCode="mirebalais.save"/>
+            <button type="button" class="cancel"><uimessage code="emr.cancel"/></button>
+        </div>
+    </ifMode>
+
+</htmlform>

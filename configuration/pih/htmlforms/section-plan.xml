@@ -1,0 +1,594 @@
+<htmlform id="primary-care-plan-form" formUuid="00a30a40-bef8-11e5-a837-0800200c9a66" formName="Plan" formVersion="1.0">
+
+    <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.ApplyDispositionAction"/>
+
+    <style type="text/css">
+
+        form fieldset {
+            display: block;
+        }
+
+        #test-orders {
+        }
+
+
+        #test-orders input[type=checkbox] {
+            float: none;
+            vertical-align: middle;
+        }
+
+        #test-orders p {
+            margin-bottom: 5px
+        }
+
+        #test-orders span, #test-orders label {
+            display: inline !important;
+            vertical-align: middle;
+        }
+
+        .two-columns {
+            column-count: 2;
+            -webkit-column-count: 2;
+            -moz-column-count: 2;
+        }
+
+        .three-columns {
+            column-count: 3;
+            -webkit-column-count: 3;
+            -moz-column-count: 3;
+        }
+
+        p.radio > * {
+            display: inline;
+            float: none !important;
+            min-width: initial;
+        }
+
+        .section-container-color {
+            background: #F2F2F2;
+            box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+            padding: 10px 5px 10px 15px;
+            line-height: 1.5em; /*add this for vertical spacing between elements*/
+        }
+
+        .section {
+            width: 100%;
+        }
+
+        label {
+            padding: 0px 3px 0px 0px
+        }
+
+    </style>
+
+    <ifMode mode="VIEW" include="false">
+        <script type="text/javascript">
+
+            var $j = jQuery;
+
+            htmlForm.getBeforeValidation().push(function() {
+
+                var valid = true;
+
+                jq('fieldset.medication').each(function() {
+
+                    // clear out any existing error messages
+                    jq(this).find('.field-error').first().html('');
+
+                    //var medication = (jq(this).find('.medication-name input').val()).trim();
+
+                    // UHM-3781 we need to look for the value set by the automcomplete widget.
+                    // The value should be in the format of Drug:DRUG_ID
+                    var medication = jq(this).find('.medication-name input[type=hidden]').val();
+
+                    var dose = jq(this).find('.dose input').val();
+                    var doseUnits = jq(this).find('.dose-unit select').val();
+                    var frequency = jq(this).find('.frequency select').val();
+                    var duration = jq(this).find('.duration input').val();
+                    var durationUnits = jq(this).find('.duration-unit select').val();
+                    var instructions = jq(this).find('.medication-instructions input').val();
+
+                    if (!medication &amp;&amp; (dose || doseUnits || frequency || duration || durationUnits || instructions)) {
+                        valid = false;
+                        jq(this).find('.field-error').first().append("<uimessage
+                        code="pihcore.visitNote.plan.medications.error.noMedication"/>. ").show();
+                    }
+
+                    if (dose &amp;&amp; !doseUnits) {
+                        valid = false;
+                        jq(this).find('.field-error').first().append("<uimessage
+                            code="pihcore.visitNote.plan.medications.error.noDoseUnits"/>. ").show();
+                    }
+
+                    if (!dose &amp;&amp; doseUnits) {
+                        valid = false;
+                        jq(this).find('.field-error').first().append("<uimessage
+                            code="pihcore.visitNote.plan.medications.error.noDose"/>. ").show();
+                    }
+
+                    if (duration &amp;&amp; !durationUnits) {
+                        valid = false;
+                        jq(this).find('.field-error').first().append("<uimessage
+                            code="pihcore.visitNote.plan.medications.error.noDurationUnits"/>. ").show();
+                    }
+
+                    if (!duration &amp;&amp; durationUnits) {
+                        valid = false;
+                        jq(this).find('.field-error').first().append("<uimessage
+                            code="pihcore.visitNote.plan.medications.error.noDuration"/>. ").show();
+                    }
+
+                });
+                return valid;
+
+            });
+
+            jq(function() {
+
+                var hasValue = function(element) {
+                    return jq(element).find('.medication-name input').val();
+                };
+
+                var hideOtherMeds = function() {
+                    jq('#medication-2').hide();
+                    jq('#medication-3').hide();
+                    jq('#medication-4').hide();
+                    jq('#medication-5').hide();
+                    jq('#medication-6').hide();
+                    jq('#medication-7').hide();
+                    jq('#medication-8').hide();
+                };
+
+                if (!hasValue('#medication-2') &amp;&amp; !hasValue('#medication-3') &amp;&amp; !hasValue('#medication-4')
+                    &amp;&amp; !hasValue('#medication-5') &amp;&amp; !hasValue('#medication-6') &amp;&amp;
+                    !hasValue('#medication-7')
+                    &amp;&amp; !hasValue('#medication-8')) {
+                        hideOtherMeds();
+                        jq('#show-more-medications-button').show();
+                }
+
+                jq('#show-more-medications-button').click(function() {
+                jq('.medication').show();
+                jq('#show-more-medications-button').hide();
+                jq('#show-less-medications-button').show();
+            });
+
+            jq('#show-less-medications-button').click(function() {
+                hideOtherMeds();
+                jq('#show-less-medications-button').hide();
+                jq('#show-more-medications-button').show();
+            });
+
+            })
+
+        </script>
+    </ifMode>
+
+    <ifMode mode="VIEW" include="false">
+        <h1>
+            <uimessage code="pihcore.visitNote.plan"/>
+        </h1>
+    </ifMode>
+
+    <section id="clinical-management-plan" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.consult.clinicalManagementPlan">
+        <div class="section-container-color">
+            <p>
+                <obs conceptId="CIEL:162749" style="textarea" rows="5" id="clinical-management-plan"/>
+            </p>
+        </div>
+    </section>
+
+    <!-- ToDo: This section is duplicated by the section-lab-order.xml and should be replace
+         with including forms within htmlforms.  Formlets? -->
+    <section id="test-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.lab.lab_tests.title">
+        <div class="section-container-color">
+            <div class="three-columns">
+                <p>
+                    <label>
+                        <uimessage code="pihcore.lab.hematology.title"/>
+                    </label>
+                </p>
+                <repeat>
+                    <template>
+                        <p>
+                            <obs conceptId="PIH:Lab test ordered coded"
+                                 answerConceptId="{labName}"
+                                 style="checkbox"/>
+                        </p>
+                    </template>
+
+                    <!-- Hematology -->
+                    <render labName="PIH:HEMOGLOBIN" comment="Hemoglobin"/>
+                    <render labName="PIH:HEMATOCRIT" comment="Hematocrit"/>
+                    <render labName="CIEL:1019" comment="Hemogram"/>
+                    <render labName="CIEL:160225" comment="Sickling"/>
+                    <render labName="CIEL:161152" comment="Coagulation"/>
+                    <render labName="PIH:BLOOD TYPING" comment="Blood group"/>
+                    <render labName="CIEL:161233" comment="Crossmatching"/>
+                    <render labName="CIEL:161421" comment="Hemoglobin electrophoresis"/>
+                </repeat>
+
+                <!-- Parasitology -->
+                <label>
+                    <uimessage code="pihcore.lab.parasitology.title"/>
+                </label>
+
+                <repeat>
+                    <template>
+                        <p>
+                            <obs conceptId="PIH:Lab test ordered coded"
+                                 answerConceptId="{labName}"
+                                 style="checkbox"/>
+                        </p>
+                    </template>
+                    <render labName="CIEL:32" comment="Malaria smear"/>
+                    <render labName="CIEL:1643" comment="Malaria RDT"/>
+                    <render labName="CIEL:304" comment="Stool"/>
+                </repeat>
+
+                <!-- ANC -->
+                <includeIf velocityTest="$patient.gender == 'F' ">
+                    <p>
+                        <label>
+                            ANC
+                        </label>
+                    </p>
+                    <repeat>
+                        <template>
+                            <p>
+                                <obs conceptId="PIH:Lab test ordered coded"
+                                     answerConceptId="{labName}"
+                                     answerCode="{codeLabel}"
+                                     style="checkbox"/>
+                            </p>
+                        </template>
+                        <render labName="PIH:B-HCG" codeLabel="pihcore.lab.pregnancy" comment="Pregnancy"/>
+                        <render labName="PIH:RPR" codeLabel="pihcore.lab.syphilis" comment="Syphilis (RPR)"/>
+                        <render labName="PIH:11481" codeLabel="pihcore.lab.vaginal" comment="Vaginal discharge"/>
+                    </repeat>
+                </includeIf>
+
+                <includeIf velocityTest="$patient.gender == 'M' ">
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                </includeIf>
+
+                <!-- Chemistry -->
+                <p>
+                    <label>
+                        <uimessage code="pihcore.lab.chemistry.title"/>
+                    </label>
+                </p>
+                <repeat>
+                    <template>
+                        <p>
+                            <obs conceptId="PIH:Lab test ordered coded"
+                                 answerConceptId="{labName}"
+                                 style="checkbox"/>
+                        </p>
+                    </template>
+                    <render labName="CIEL:887" comment="Glucose"/>
+                    <render labName="CIEL:159644" comment="HbA1c"/>
+                    <render labName="CIEL:953" comment="Liver (LFT)"/>
+                    <render labName="CIEL:161488" comment="Renal (RFT)"/>
+                    <render labName="CIEL:1010" comment="Lipid panel"/>
+                    <render labName="CIEL:5473" comment="Electrolytes"/>
+                </repeat>
+
+                <p>
+                    <label>
+                        <uimessage code="pihcore.lab.serology.title"/>
+                    </label>
+                </p>
+                <repeat>
+                    <template>
+                        <p>
+                            <obs conceptId="PIH:Lab test ordered coded"
+                                 answerConceptId="{labName}"
+                                 style="checkbox"/>
+                        </p>
+                    </template>
+
+                    <!-- Serology -->
+                    <render labName="CIEL:163618" comment="Chlamydia"/>
+                    <render labName="CIEL:161475" comment="Hep B"/>
+                    <render labName="CIEL:161474" comment="Hep C"/>
+                    <render labName="CIEL:159645" comment="Spinal fluid (CSF)"/>
+                    <render labName="CIEL:161500" comment="C-reactive protein"/>
+                    <render labName="CIEL:163613" comment="CrAg"/>
+                </repeat>
+                <repeat>
+                    <template>
+                        <p>
+                            <obs conceptId="PIH:Lab test ordered coded"
+                                 answerConceptId="{labName}"
+                                 answerCode="{codeLabel}"
+                                 style="checkbox"/>
+                        </p>
+                    </template>
+
+                    <!-- Serology continued -->
+                    <render labName="CIEL:306" codeLabel="pihcore.lab.typhoid" comment="Typhoid (Widal)"/>
+                    <render labName="CIEL:161469" codeLabel="ASO" comment="ASO"/>
+                </repeat>
+
+                <includeIf velocityTest="$patient.gender == 'F' ">
+                    <br/>
+                </includeIf>
+                <includeIf velocityTest="$patient.age &lt; 2">
+                    <br/>
+                </includeIf>
+
+                <!-- TB -->
+                <p>
+                    <label>
+                        <uimessage code="pihcore.lab.tb.title"/>
+                    </label>
+                </p>
+                <repeat>
+                    <template>
+                        <p>
+                            <obs conceptId="PIH:Lab test ordered coded"
+                                 answerConceptId="{labName}"
+                                 answerCode="{codeLabel}"
+                                 style="checkbox"/>
+                        </p>
+                    </template>
+
+                    <render labName="PIH:TUBERCULOSIS SMEAR RESULT" codeLabel="pihcore.lab.tbSmear"
+                            comment="AFB / Smear"/>
+                    <render labName="PIH:TUBERCULOSIS CULTURE RESULT" codeLabel="pihcore.lab.tbCulture"
+                            comment="TB culture"/>
+                    <render labName="CIEL:164945" codeLabel="pihcore.lab.tbRIF" comment="GenXpert"/>
+                </repeat>
+
+                <!-- HIV -->
+                <label>
+                    <uimessage code="pihcore.lab.hiv.title"/>
+                </label>
+
+                <!-- Only for infant (less than 2) -->
+                <includeIf velocityTest="$patient.age &lt; 2">
+                    <repeat>
+                        <template>
+                            <p>
+                                <obs conceptId="PIH:Lab test ordered coded"
+                                     answerConceptId="{labName}"
+                                     answerCode="{codeLabel}"
+                                     style="checkbox"/>
+                            </p>
+                        </template>
+                        <render labName="CIEL:1030" codeLabel="pihcore.lab.hivpcr" comment="HIV PCR"/>
+                    </repeat>
+                </includeIf>
+
+                <repeat>
+                    <template>
+                        <p>
+                            <obs conceptId="PIH:Lab test ordered coded"
+                                 answerConceptId="{labName}"
+                                 answerCode="{codeLabel}"
+                                 style="checkbox"/>
+                        </p>
+                    </template>
+
+                    <render labName="CIEL:163722" codeLabel="pihcore.lab.hivRapid" comment="AFB / Smear"/>
+                    <render labName="PIH:1041" codeLabel="pihcore.lab.elisaQuant" comment="HIV ELISA (quant)"/>
+                    <!-- ToDo: ELISA EID -->
+                    <render labName="PIH:HIV VIRAL LOAD" codeLabel="pihcore.lab.viralLoad" comment="HIV viral load"/>
+                    <render labName="PIH:CD4 COUNT" codeLabel="pihcore.lab.cd4" comment="CD4 count"/>
+                </repeat>
+
+                <!-- Other -->
+                <label>
+                    <uimessage code="pihcore.other"/>
+                </label>
+
+                <includeIf velocityTest="$patient.gender == 'F' ">
+                    <repeat>
+                        <template>
+                            <p>
+                                <obs conceptId="PIH:Lab test ordered coded"
+                                     answerConceptId="{labName}"
+                                     answerCode="{comment}"
+                                     style="checkbox"/>
+                            </p>
+                        </template>
+                        <render labName="CIEL:885" comment="PAP test"/>
+                    </repeat>
+                </includeIf>
+
+                <repeat>
+                    <template>
+                        <p>
+                            <obs conceptId="PIH:Lab test ordered coded"
+                                 answerConceptId="{labName}"
+                                 answerCode="{comment}"
+                                 style="checkbox"/>
+                        </p>
+                    </template>
+                    <render labName="CIEL:302" comment="pihcore.lab.urine"/>
+                    <render labName="CIEL:161454" comment="Gram stain"/>
+                    <render labName="CIEL:163620" comment="H pylori"/>
+                </repeat>
+                <p>
+                    <obs conceptId="PIH:Lab test ordered coded"
+                         answerConceptId="PIH:OTHER"
+                         answerCode="zl.ifOtherSpecify"
+                         style="checkbox"
+                         showCommentField="true" commentFieldLabel=""/>
+                </p>
+            </div>
+        </div>
+
+    </section>
+
+    <section id="radiology-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.rad_order.title">
+        <div class="section-container-color">
+            <includeIf velocityTest="!$config.isComponentEnabled('radiology')">
+
+                <!-- ToDo: This is different from the Radiology app which uses encounter
+                     and order.  This uses  'Radiology procedure performed'.
+                     Add interpretation and date -->
+                <p>
+                    <obs conceptId="PIH:Radiology image ordered"
+                         answerConceptId="PIH:Chest 1 view (XRay)"
+                         style="checkbox"/>
+                </p>
+                <p>
+                    <label>
+                        <uimessage code="zl.ifOtherSpecify"/>
+                    </label>
+                </p>
+                <p>
+                    <obs conceptId="PIH:Radiology image ordered"
+                         answerClasses="Radiology/Imaging Procedure"
+                         style="autocomplete"/>
+                </p>
+
+            </includeIf>
+            <includeIf velocityTest="$config.isComponentEnabled('radiology')">
+                <p>At HUM, use
+                    <uimessage code="pihcore.rad_order.title"/>
+                </p>
+            </includeIf>
+        </div>
+    </section>
+
+    <!-- Stolen from the dispensing module, but using prescription construct instead of dispensing -->
+    <section id="drug-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.visitNote.orders.medications">
+
+        <!-- UHM-3782 For NCDs only, show list of meds entered previously in old data model -->
+        <!-- ToDo: This might be confusing to show this here
+        <includeIf velocityTest="$encounter.encounterType.uuid == 'ae06d311-1866-455b-8a64-126a9bd74171' || $encounter.encounterType.uuid == '5cbfd6a2-92d9-4ad0-b526-9d29bfe1d10c'" >
+            Past NCD medications:
+            <lookup complexExpression="#foreach($med in $fn.allObs('PIH:Medications prescribed at end of visit')) $med.valueCoded.name,  #end"/>
+        </includeIf>
+        -->
+
+        <div class="section-container-color">
+            <repeat with="['1'],['2'],['3'],['4'],['5'],['6'],['7'],['8']">
+                <span id="medication-{0}" class="medication">
+                    <obsgroup groupingConceptId="PIH:Prescription construct" showIfEmpty="false">
+                        <h3>
+                            <uimessage code="pihcore.visitNote.plan.medication"/>
+                            {0}
+                        </h3>
+                        <fieldset class="medication">
+                            <p class="field-error" style="display:none"></p>
+                            <p>
+                                <label>
+                                    <uimessage code="pihcore.visitNote.plan.name"/>
+                                </label>
+                                <obs id="name{0}" class="medication-name" conceptId="PIH:MEDICATION ORDERS"
+                                     answerDrugs="true"/>
+                            </p>
+                            <p class="inline">
+                                <label>
+                                    <uimessage code="pihcore.visitNote.plan.dose"/>
+                                </label>
+                                <obs id="dose{0}" class="dose doseInput" conceptId="CIEL:160856"/>
+                                <obs id="doseUnit{0}" class="dose-unit doseInput select-arrow"
+                                     conceptId="PIH:Dosing units coded"
+                                     answerConceptIds="CIEL:161553,CIEL:161554,CIEL:162263,PIH:APPLICATION,CIEL:1608,CIEL:1513,CIEL:162356,CIEL:162366,CIEL:162370,PIH:Pump,PIH:SACHET,CIEL:162264"
+                                     answerCodes="pihcore.visitNote.plan.medication.units.mg,pihcore.visitNote.plan.medication.units.g,pihcore.visitNote.plan.medication.units.mL,pihcore.visitNote.plan.medication.units.application,pihcore.visitNote.plan.medication.units.capsule,pihcore.visitNote.plan.medication.units.tablet,pihcore.visitNote.plan.medication.units.drop,pihcore.visitNote.plan.medication.units.mcg,pihcore.visitNote.plan.medication.units.patch,pihcore.visitNote.plan.medication.units.pump,pihcore.visitNote.plan.medication.units.sachet,pihcore.visitNote.plan.medication.units.IU"/>
+                                <!-- answers="mg,g,mL,Application,Capsule,Comprimé,Goutte,Microgramme,Patch,Pompe,Sachet,Unités internationals" -->
+
+                            </p>
+                            <p class="inline">
+                                <label>
+                                    <uimessage code="pihcore.visitNote.plan.frequency"/>
+                                </label>
+
+
+                                <obs id="frequencyCoded{0}" class="frequency select-arrow"
+                                     conceptId="PIH:Drug frequency for HUM"
+                                     answerConceptIds=
+                                             "PIH:OD,PIH:BID,PIH:TID,PIH:QID,PIH:5D,PIH:6D,PIH:7D,PIH:8D,PIH:9D,PIH:OM,PIH:ON,PIH:PRN,PIH:STAT,PIH:Q2H,PIH:Q3H,PIH:Q4H,PIH:Q6H,PIH:Q12H,PIH:5622"
+                                     answerCodes="OD,BID,TID,QID,5D,6D,7D,8D,9D,OM,ON,SOS,STAT,Q2H,Q3H,Q4H,Q6H,Q12H,pihcore.visitNote.plan.other"/>
+                            </p>
+
+                            <p class="inline">
+                                <label>
+                                    <uimessage code="pihcore.visitNote.plan.duration"/>
+                                </label>
+                                <obs id="duration{0}" class="duration doseInput" conceptId="CIEL:159368"/>
+                                <obs id="durationUnit{0}" class="duration-unit select-arrow" conceptId="PIH:TIME UNITS"
+                                     answerConceptIds="PIH:Days,PIH:1073,PIH:Months"/>
+                            </p>
+
+                            <p>
+                                <label>
+                                    <uimessage code="pihcore.visitNote.plan.instructions"/>
+                                </label>
+                                <obs id="instructions{0}" class="medication-instructions"
+                                     conceptId="PIH:Prescription instructions non-coded"/>
+                            </p>
+                        </fieldset>
+                    </obsgroup>
+                </span>
+            </repeat>
+            <button id="show-more-medications-button" type="button" style="display:none">
+                <uimessage code="pihcore.showMore"/>
+            </button>
+            <button id="show-less-medications-button" type="button" style="display:none">
+                <uimessage code="pihcore.showLess"/>
+            </button>
+        </div>
+
+    </section>
+
+    <section id="disposition-section" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="coreapps.consult.disposition">
+
+        <div class="section-container-color">
+
+            <div id="disposition">
+                <encounterDisposition/>
+            </div>
+
+            <label>
+                <uimessage code="pihcore.comment"/>
+            </label>
+            <obs conceptId="PIH:DISPOSITION COMMENTS" style="text"/>
+
+            <!-- For both NCD encounters, the return visit date is required; Other encounters, it is not required. -->
+            <includeIf velocityTest="$encounter.encounterType.uuid == 'ae06d311-1866-455b-8a64-126a9bd74171' || $encounter.encounterType.uuid == '5cbfd6a2-92d9-4ad0-b526-9d29bfe1d10c'" >
+                <p class="narrow">
+                    <label>
+                        <lookup expression="fn.getConcept('PIH:RETURN VISIT DATE').name"/>
+                    </label>
+                    <obs conceptId="PIH:RETURN VISIT DATE" allowFutureDates="true" id="apptDate"
+                         required="true" />
+                </p>
+            </includeIf>
+
+            <!-- Do not require return visit date for non-NCD encounters -->
+            <includeIf velocityTest="!($encounter.encounterType.uuid == 'ae06d311-1866-455b-8a64-126a9bd74171' || $encounter.encounterType.uuid == '5cbfd6a2-92d9-4ad0-b526-9d29bfe1d10c')" >
+                <p class="narrow">
+                    <label>
+                        <lookup expression="fn.getConcept('PIH:RETURN VISIT DATE').name"/>
+                    </label>
+                    <obs conceptId="PIH:RETURN VISIT DATE" allowFutureDates="true" id="apptDate" />
+                </p>
+            </includeIf>
+        </div>
+
+    </section>
+
+    <ifMode mode="VIEW" include="false">
+        <div id="buttons">
+            <submit submitClass="confirm right" submitCode="emr.save"/>
+            <button type="button" class="cancel">
+                <uimessage code="emr.cancel"/>
+            </button>
+        </div>
+    </ifMode>
+
+</htmlform>

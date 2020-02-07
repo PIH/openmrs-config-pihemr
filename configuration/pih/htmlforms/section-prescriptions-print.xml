@@ -1,0 +1,121 @@
+<htmlform id="primary-care-prescriptions-form" formUuid="CA8D072A-2681-4E06-B83C-AD3B0FC3D49D" formName="Prescriptions" formVersion="1.0">
+
+
+    <style type="text/css">
+
+        form fieldset {
+        display: block;
+        }
+
+        .two-columns {
+        column-count: 2;
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        }
+
+        p.radio > * {
+        display: inline;
+        float: none !important;
+        min-width: initial;
+        }
+
+        .section-container {
+        background: #F2F2F2;
+        box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+        padding: 10px 5px 10px 15px;
+        line-height: 1.5em; /*add this for vertical spacing between elements*/
+        }
+
+        .section-container-color {
+        background: #F2F2F2;
+        box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+        padding: 10px 5px 10px 15px;
+        line-height: 1.5em; /*add this for vertical spacing between elements*/
+        }
+
+        .section-container input[type="checkbox"] {
+        margin: 0px 5px; /*changed values to vertical, horizontal*/
+        top:5px; /*added to offset the checkbox position to line up*/
+        }
+
+        .section-container label { /*new definition to override labels inside section-containers*/
+        margin: 0px;
+        }
+
+       - .section {
+        width: 100%;
+        }
+
+    </style>
+
+   <div id="prescriptionsDiv">
+    <!-- Stolen from the dispensing module, but using prescription construct instead of dispensing -->
+    <section id="drug-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.visitNote.orders.medications">
+        <div class="section-container-color">
+            <repeat with="['1'],['2'],['3'],['4'],['5'],['6'],['7'],['8']">
+                <obsgroup groupingConceptId="PIH:Prescription construct" showIfEmpty="false">
+                    <div style="page-break-inside: avoid">
+                    <h3>
+                        <uimessage code="pihcore.visitNote.plan.medication"/>
+                        {0}
+                    </h3>
+                    <fieldset class="medication">
+                        <p class="field-error" style="display:none"></p>
+                        <p>
+                            <label>
+                                <uimessage code="pihcore.visitNote.plan.name"/>
+                            </label>
+                            <obs id="name{0}" class="medication-name" conceptId="PIH:MEDICATION ORDERS" answerDrugs="true"/>
+                        </p>
+                        <p class="inline">
+                            <label>
+                                <uimessage code="pihcore.visitNote.plan.dose"/>
+                            </label>
+                            <obs id="dose{0}" class="doseInput" conceptId="CIEL:160856"/>
+                            <obs id="doseUnit{0}" class="doseInput select-arrow" conceptId="PIH:Dosing units coded"
+                                 answerConceptIds="CIEL:161553,CIEL:161554,CIEL:162263,PIH:APPLICATION,CIEL:1608,CIEL:1513,CIEL:162356,CIEL:162366,CIEL:162370,PIH:Pump,PIH:SACHET,CIEL:162264"
+                                 answerCodes="pihcore.visitNote.plan.medication.units.mg,pihcore.visitNote.plan.medication.units.g,pihcore.visitNote.plan.medication.units.mL,pihcore.visitNote.plan.medication.units.application,pihcore.visitNote.plan.medication.units.capsule,pihcore.visitNote.plan.medication.units.tablet,pihcore.visitNote.plan.medication.units.drop,pihcore.visitNote.plan.medication.units.mcg,pihcore.visitNote.plan.medication.units.patch,pihcore.visitNote.plan.medication.units.pump,pihcore.visitNote.plan.medication.units.sachet,pihcore.visitNote.plan.medication.units.IU" />
+                            <!-- answers="mg,g,mL,Application,Capsule,Comprimé,Goutte,Microgramme,Patch,Pompe,Sachet,Unités internationals" -->
+
+                        </p>
+                        <p class="inline">
+                            <label>
+                                <uimessage code="pihcore.visitNote.plan.frequency"/>
+                            </label>
+
+
+                            <obs id="frequencyCoded{0}" class="frequency select-arrow" conceptId="PIH:Drug frequency for HUM"
+                                 answerConceptIds=
+                                         "PIH:OD,PIH:BID,PIH:TID,PIH:QID,PIH:5D,PIH:6D,PIH:7D,PIH:8D,PIH:9D,PIH:OM,PIH:ON,PIH:PRN,PIH:STAT,PIH:Q2H,PIH:Q3H,PIH:Q4H,PIH:Q6H,PIH:Q12H,PIH:5622"
+                                 answerCodes="OD,BID,TID,QID,5D,6D,7D,8D,9D,OM,ON,SOS,STAT,Q2H,Q3H,Q4H,Q6H,Q12H,pihcore.visitNote.plan.other" />
+                        </p>
+
+                        <p class="inline">
+                            <label>
+                                <uimessage code="pihcore.visitNote.plan.duration"  />
+                            </label>
+                            <obs id="duration{0}" class="duration doseInput" conceptId="CIEL:159368"/>
+                            <obs id="durationUnit{0}" class="duration-unit select-arrow" conceptId="PIH:TIME UNITS" answerConceptIds="PIH:Days,PIH:1073,PIH:Months,PIH:Hours"/>
+                        </p>
+
+                        <p>
+                            <label>
+                                <uimessage code="pihcore.visitNote.plan.instructions"/>
+                            </label>
+                            <obs id="instructions{0}" class="medication-instructions" conceptId="PIH:Prescription instructions non-coded"/>
+                        </p>
+                    </fieldset>
+                    </div>
+                </obsgroup>
+            </repeat>
+        </div>
+    </section>
+
+   <div style="clear:both; padding-top:25px">
+       Signature:
+       <div style="border-bottom: 1px black solid; width: 450px; display: inline-block"></div>
+       <br/>
+   </div>
+
+</div>
+</htmlform>

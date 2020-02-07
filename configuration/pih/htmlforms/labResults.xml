@@ -1,0 +1,545 @@
+<htmlform formUuid="4d778ef4-0620-11e5-a6c0-1697f925ec7b" formName="Lab results"
+          formEncounterType="4d77916a-0620-11e5-a6c0-1697f925ec7b" formVersion="1.0">
+
+    <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.SetObsDatesToSpecimenCollectionDateAction"/>
+
+    <style type="text/css">
+
+        .section-header {
+            margin-top: 1.5em;
+        }
+
+        p.radio > * {
+            display: inline;
+            float: none !important;
+            min-width: initial;
+        }
+
+        .section-container input[type="checkbox"] {
+            margin: 0px 5px; /*changed values to vertical, horizontal*/
+            top:5px; /*added to offset the checkbox position to line up*/
+        }
+
+    </style>
+
+    <ifMode mode="VIEW" include="false">
+        <script type="text/javascript">
+
+            jq(function() {
+                getField('specimen-collection-date-hematology.value').datepicker('option', 'maxDate', new Date());
+                getField('test-date-hematology.value').datepicker('option', 'maxDate', new Date());
+            });
+
+        </script>
+    </ifMode>
+
+    <section id="labResults" sectionTag="section" headerStyle="title" headerCode="pihcore.lab.lab_results.title">
+
+        <fieldset class="multi-line-confirmation" field-separator=" ">
+            <!-- field separator is set as a workaround for the super-hack, see below -->
+
+            <legend>
+                <uimessage code="pihcore.lab.dates"/>
+            </legend>
+            <h3>
+                <uimessage code="pihcore.lab.dates"/>
+            </h3>
+
+            <!-- this is a super-hack to get around the fact that if the date is first field in a form, the
+                 datepicker opens immediately, AND in this case we are getting some odd interactions between this
+                 first datepicker and the hidden datepicker at the bottom form for encounter date -->
+            <field>
+                <span class="ui-helper-hidden-accessible"><input type="text"/></span>
+            </field>
+
+            <p>
+                <label for="specimen-collection-date-hematology">
+                    <uimessage code="pihcore.lab.specimen_collection_date"/>
+                </label>
+                <field>
+                    <encounterDate id="specimen-collection-date-hematology"
+                                   default="now" />
+
+                    <div class="section-container">
+                        <obs conceptId="PIH:11781" answerConceptId="PIH:YES"
+                             style="checkbox" answerCode="pihcore.date_estimated"/>
+                    </div>
+                </field>
+            </p>
+
+            <br/><br/>
+            <p>
+                <label for="test-date-hematology">
+                    <uimessage code="pihcore.lab.test_date"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs  id="test-date-hematology" conceptId="PIH:DATE OF LABORATORY TEST"
+                              placeholder="Enter date"/>
+                    </field>
+                </span>
+            </p>
+        </fieldset>
+
+        <fieldset class="multi-line-confirmation">
+            <legend>
+                <uimessage code="pihcore.lab.hematology.title"/>
+            </legend>
+            <h3>
+                <uimessage code="pihcore.lab.hematology.title"/>
+            </h3>
+
+            <p>
+
+                <label for="hemoglobin">
+                    <uimessage code="pihcore.lab.hemoglobin"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="hemoglobin" conceptId="PIH:HEMOGLOBIN" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="hemoglobin-a1c">
+                    HbA1c
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="hemoglobin-a1c" conceptId="PIH:HbA1c" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="hematocrit">
+                    <uimessage code="pihcore.lab.hematocrit"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="hematocrit" conceptId="PIH:HEMATOCRIT" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="white-blood-cell">
+                    <uimessage code="pihcore.lab.white_blood_cell"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="white-blood-cell" conceptId="PIH:WHITE BLOOD CELLS" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="neutrophil">
+                    <uimessage code="pihcore.lab.neutrophil"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="neutrophil" conceptId="PIH:Absolute Neutrophil Count" showUnits="true"/>
+                    </field>
+                    <field>
+                        (<obs conceptId="PIH:NEUTROPHILS" showUnits="true"/>)
+                    </field>
+                </span>
+
+                <label for="lymphocyte">
+                    <uimessage code="pihcore.lab.lymphocyte"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="lymphocyte" conceptId="PIH:ABSOLUTE LYMPHOCYTE COUNT" showUnits="true"/>
+                    </field>
+                    <field>
+                        (<obs conceptId="PIH:LYMPHOCYTES" showUnits="true"/>)
+                    </field>
+                </span>
+
+                <label for="platelets">
+                    <uimessage code="pihcore.lab.platelets"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="platelets" conceptId="PIH:PLATELETS" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="esr">
+                    <uimessage code="pihcore.lab.esr"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="esr" conceptId="PIH:ERYTHROCYTE SEDIMENTATION RATE" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="inr">
+                    <uimessage code="pihcore.lab.inr"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="inr" conceptId="PIH:INTERNATIONAL NORMALIZED RATIO"
+                             placeholder="Enter value"/>
+                    </field>
+                </span>
+
+
+                <label for="cd4">
+                    <uimessage code="pihcore.lab.cd4"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="cd4" conceptId="PIH:CD4 COUNT"
+                             placeholder="Enter value"/>
+                    </field>
+                </span>
+
+                <label for="blood-type">
+                    <uimessage code="pihcore.lab.blood_type"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="blood-type" conceptId="PIH:BLOOD TYPING" />
+                    </field>
+                </span>
+
+            </p>
+
+        </fieldset>
+
+        <fieldset class="multi-line-confirmation">
+
+            <legend>
+                <uimessage code="pihcore.lab.biochemistry.title"/>
+            </legend>
+            <h3>
+                <uimessage code="pihcore.lab.biochemistry.title"/>
+            </h3>
+            <p>
+                <label for="serum-glutamic-oxaloacetic-transaminase">SGOT</label>
+                <span class="small">
+                    <field>
+                        <obs id="serum-glutamic-oxaloacetic-transaminase"
+                             conceptId="PIH:SERUM GLUTAMIC-OXALOACETIC TRANSAMINASE" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="serum-glutamic-pyruvic-transaminase">SGPT</label>
+                <span class="small">
+                    <field>
+                        <obs id="serum-glutamic-pyruvic-transaminase"
+                             conceptId="PIH:SERUM GLUTAMIC-PYRUVIC TRANSAMINASE" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="bilirubin">
+                    <uimessage code="pihcore.lab.bilirubin"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="bilirubin" conceptId="PIH:TOTAL BILIRUBIN" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="alk-phos">
+                    <uimessage code="pihcore.lab.alk_phos"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="alk-phos" conceptId="PIH:ALKALINE PHOSPHATASE" showUnits="true"/>
+                    </field>
+                </span>
+            </p>
+
+        </fieldset>
+
+        <fieldset class="multi-line-confirmation">
+
+            <legend>
+                <uimessage code="pihcore.lab.iStat.title"/>
+            </legend>
+            <h3>
+                <uimessage code="pihcore.lab.iStat.title"/>
+            </h3>
+
+            <p>
+
+                <label for="sodium">
+                    <uimessage code="pihcore.lab.sodium"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="sodium" conceptId="PIH:SERUM SODIUM" showUnits="true"/>
+                    </field>
+                </span>
+                <label for="potassium">
+                    <uimessage code="pihcore.lab.potassium"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="potassium" conceptId="PIH:SERUM POTASSIUM" showUnits="true"/>
+                    </field>
+                </span>
+                <label for="serum-chloride">
+                    <uimessage code="pihcore.lab.chloride"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="serum-chloride" conceptId="PIH:SERUM CHLORIDE" showUnits="true"/>
+                    </field>
+                </span>
+                <label for="co2">
+                    <uimessage code="pihcore.lab.co2"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs for="co2" conceptId="PIH:SERUM CARBON DIOXIDE" showUnits="true"/>
+                    </field>
+                </span>
+                <label for="urea">
+                    <uimessage code="pihcore.lab.urea"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="urea" conceptId="PIH:BLOOD UREA NITROGEN" showUnits="true"/>
+                    </field>
+                </span>
+                <label for="creatinine-i-stat">
+                    <uimessage code="pihcore.lab.creatinine"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="creatinine-i-stat" conceptId="PIH:Creatinine mg per dL" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="glucose">
+                    <uimessage code="pihcore.lab.glucose"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="glucose" conceptId="PIH:SERUM GLUCOSE" showUnits="true"/>
+                    </field>
+                </span>
+                <label for="calcium">
+                    <uimessage code="pihcore.lab.calcium" showUnits="true"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="calcium" conceptId="PIH:SERUM CALCIUM" showUnits="true"/>
+                    </field>
+                </span>
+            </p>
+        </fieldset>
+
+        <fieldset class="multi-line-confirmation">
+
+            <legend>
+                <uimessage code="pihcore.lab.carbs.title"/>
+            </legend>
+            <h3>
+                <uimessage code="pihcore.lab.carbs.title"/>
+            </h3>
+            <p>
+                <label for="glucose-prandial">
+                    <uimessage code="pihcore.lab.glucose-prandial"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="glucose-prandial" conceptId="CIEL:160914" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="glucose-fasting">
+                    <uimessage code="pihcore.lab.glucose-fasting"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="glucose-fasting" conceptId="CIEL:160912" showUnits="true"/>
+                    </field>
+                </span>
+            </p>
+        </fieldset>
+
+        <fieldset class="multi-line-confirmation">
+
+            <legend>
+                <uimessage code="pihcore.lab.lipids.title"/>
+            </legend>
+            <h3>
+                <uimessage code="pihcore.lab.lipids.title"/>
+            </h3>
+            <p>
+                <label for="total-chol">
+                    <uimessage code="pihcore.lab.total_chol"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="total-chol" conceptId="PIH:TOTAL CHOLESTEROL" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="ldl">
+                    <uimessage code="pihcore.lab.ldl"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="ldl" conceptId="PIH:LOW-DENSITY LIPOPROTEIN CHOLESTEROL" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="hdl">
+                    <uimessage code="pihcore.lab.hdl"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="hdl" conceptId="PIH:HIGH-DENSITY LIPOPROTEIN CHOLESTEROL" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="trigly">
+                    <uimessage code="pihcore.lab.trigly"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="trigly" conceptId="PIH:TRIGLYCERIDES" showUnits="true"/>
+                    </field>
+                </span>
+            </p>
+
+        </fieldset>
+
+        <fieldset class="multi-line-confirmation">
+
+            <legend>
+                <uimessage code="pihcore.other"/>
+            </legend>
+            <h3>
+                <uimessage code="pihcore.other"/>
+            </h3>
+            <p>
+                <label for="malarial-smear">
+                    <uimessage code="pihcore.lab.malarial_smear"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="malarial-smear" conceptId="PIH:MALARIAL SMEAR"
+                             placeholder="Enter value"/>
+                    </field>
+                </span>
+
+                <label for="ldh">
+                    <uimessage code="pihcore.lab.ldh"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="ldh" conceptId="PIH:LACTATE DEHYDROGENASE"  showUnits="true"
+                             placeholder="Enter value"/>
+                    </field>
+                </span>
+
+                <label for="hiv-test">
+                    <uimessage code="pihcore.lab.hiv"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="hiv-test" conceptId="PIH:RESULT OF HIV TEST"
+                             answerConceptIds="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE" />
+                    </field>
+                </span>
+
+                <label for="viral-load">
+                    <uimessage code="pihcore.lab.viral_load"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="viral-load" conceptId="PIH:HIV VIRAL LOAD"  showUnits="true"
+                             placeholder="Enter value"/>
+                    </field>
+                </span>
+
+                <label for="zika-pcr">
+                    <uimessage code="pihcore.lab.zika_pcr"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="zika-pcr" conceptId="CIEL:164920"
+                             answerConceptIds="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE" />
+                    </field>
+                </span>
+                <label for="chik-pcr">
+                    <uimessage code="pihcore.lab.chik_pcr"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="chik-pcr" conceptId="CIEL:164924"
+                             answerConceptIds="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE" />
+                    </field>
+                </span>
+                <label for="dengue-pcr">
+                    <uimessage code="pihcore.lab.dengue_pcr"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="dengue-pcr" conceptId="CIEL:164926"
+                             answerConceptIds="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE" />
+                    </field>
+                </span>
+
+                <label for="zika-igg">
+                    <uimessage code="pihcore.lab.zika_igg"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="zika-igg" conceptId="CIEL:164934"
+                             answerConceptIds="CIEL:164931,CIEL:164932,CIEL:164933,PIH:NEGATIVE" />
+                    </field>
+                </span>
+                <label for="zika-igm">
+                    <uimessage code="pihcore.lab.zika_igm"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="zika-igm" conceptId="CIEL:164930"
+                             answerConceptIds="CIEL:164931,CIEL:164932,CIEL:164933,PIH:NEGATIVE" />
+                    </field>
+                </span>
+            </p>
+
+            <p>
+                <!-- ToDo: Add other lab tests or free-text
+                <strong><uimessage code="pihcore.other"/></strong>
+                  -->
+            </p>
+
+
+        </fieldset>
+    </section>
+
+    <!-- To Do: What to do about retrospective entry?  Check the who? when? where? -->
+    <div class="hidden" id="encounter-details" sectionTag="section" headerStyle="title" headerLabel="Encounter Details">
+        <!-- See above for specimen collection date
+        <fieldset>
+            <legend>When?</legend>
+            <label>When?</label>
+
+            <encounterDate default="now" showTime="false"/>
+        </fieldset>
+        -->
+
+        <fieldset>
+            <legend>Who?</legend>
+            <label>Who?</label>
+
+            <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05"
+                                      required="true"/>
+        </fieldset>
+
+        <fieldset>
+            <legend>Where?</legend>
+            <label>Where?</label>
+
+            <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"/>
+        </fieldset>
+    </div>
+
+
+    <submit/>
+
+</htmlform>

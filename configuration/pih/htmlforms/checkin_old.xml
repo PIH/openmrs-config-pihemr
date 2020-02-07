@@ -1,0 +1,193 @@
+<!--
+  ~ The contents of this file are subject to the OpenMRS Public License
+  ~ Version 1.0 (the "License"); you may not use this file except in
+  ~ compliance with the License. You may obtain a copy of the License at
+  ~ http://license.openmrs.org
+  ~
+  ~ Software distributed under the License is distributed on an "AS IS"
+  ~ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing rights and limitations
+  ~ under the License.
+  ~
+  ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+  -->
+
+<!-- ** keeping this around because it is the only good documentation of how to use exit handlers! **-->
+
+<htmlform formUuid="8757a568-23d1-4e18-907b-728b56ca7756" formName="Checkin"
+          formEncounterType="55a0d3ea-a4d7-4e88-8f01-5aceb2d3c61b" formVersion="2.0">
+    <style>
+
+        .encounter-summary-container {
+        font-size: 1em;
+        font-weight: normal;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        var requestApptConceptId = "<lookup expression="fn.getConcept('3dcc2507-639a-4837-b6e8-71bd3b3f613d').id"/>"
+
+        var typeOfVisitExitHandler = {
+        handleExit: function(field) {
+
+                // if "request appt" reason for visit has been selected
+                if (field.value() == requestApptConceptId) {
+
+                    // hide the payment amount question
+                    NavigatorController.getQuestionById('payment-amount-question').hide();
+
+                    // show the appointment scheduling fields
+                    NavigatorController.getQuestionById('appt-date-question').show();
+                    NavigatorController.getQuestionById('service-question').show();
+
+                }
+                else {
+
+                    // hide the appointment scheduling fields
+                    NavigatorController.getQuestionById('appt-date-question').hide();
+                    NavigatorController.getQuestionById('service-question').hide();
+
+                    // hack to reset the date field since the navigator does not yet support zeroing dates automatically
+                    setValue('apptDate.value','');
+
+                    // show the payment amount question
+                    NavigatorController.getQuestionById('payment-amount-question').show();
+
+                }
+
+                return true;
+            }
+        }
+
+        ExitHandlers['type-of-visit-question'] = typeOfVisitExitHandler;
+
+        jq(function() {
+
+            // hack to make the datepicker show when the form is opened
+            getField('encounterDate.value').datepicker('show');
+
+                // hide the appointment scheduling fields when opening the form
+                NavigatorController.getQuestionById('appt-date-question').hide();
+                NavigatorController.getQuestionById('service-question').hide();
+
+                // hack to disallow freeform enter on appt date
+                getField('apptDate.value').attr( 'readOnly' , 'true' );
+
+        });
+    </script>
+
+    <section id="checkin" sectionTag="section" headerStyle="title" headerCode="mirebalais.retrospectiveCheckin.label">
+
+        <fieldset class="required">
+            <legend>
+                <uimessage code="mirebalais.retrospectiveCheckin.checkinDate.label"/>
+            </legend>
+            <h3>
+                <uimessage code="mirebalais.retrospectiveCheckin.checkinDate.label"/>
+            </h3>
+
+            <p class="left">
+                <encounterDate id="encounterDate" showTime="false" default="now"/>
+            </p>
+        </fieldset>
+
+
+        <fieldset class="required">
+            <legend>
+                <uimessage code="mirebalais.retrospectiveCheckin.provider.label"/>
+            </legend>
+            <h3>
+                <uimessage code="mirebalais.retrospectiveCheckin.provider.label"/>
+            </h3>
+
+            <p class="left">
+                <encounterProviderAndRole default="currentUser" encounterRole="cbfe0b9d-9923-404c-941b-f048adc8cdc0"
+                                          required="true"/>
+            </p>
+        </fieldset>
+
+        <fieldset class="required">
+            <legend>
+                <uimessage code="mirebalais.retrospectiveCheckin.location.label"/>
+            </legend>
+            <h3>
+                <uimessage code="mirebalais.retrospectiveCheckin.location.label"/>
+            </h3>
+
+            <p class="left">
+                <encounterLocation required="true"/>
+            </p>
+        </fieldset>
+
+
+        <fieldset class="type-of-visit-question">
+            <legend>
+                <uimessage code="mirebalais.retrospectiveCheckin.visitType.label"/>
+            </legend>
+            <h3>
+                <uimessage code="mirebalais.retrospectiveCheckin.visitType.label"/>
+            </h3>
+
+            <p class="left">
+                <obs conceptId="PIH:Type of HUM visit" id="typeOfVisit" showUnits="false"
+                     unitsCssClass="append-to-value" style="dropdown" size="9">
+                </obs>
+            </p>
+        </fieldset>
+
+        <obsgroup groupingConceptId="PIH:Scheduled visit construct">
+
+            <fieldset id="service-question" class="required">
+                <legend>
+                    <uimessage code="mirebalais.retrospectiveCheckin.service.label"/>
+                </legend>
+                <h3>
+                    <uimessage code="mirebalais.retrospectiveCheckin.service.label"/>
+                </h3>
+
+                <p class="left">
+                    <obs conceptId="PIH:Hospital service" id="service" showUnits="false"
+                         unitsCssClass="append-to-value" style="dropdown" size="8"/>
+                </p>
+            </fieldset>
+
+            <fieldset id="appt-date-question" class="required">
+                <legend>
+                    <uimessage code="mirebalais.retrospectiveCheckin.appointmentDate.label"/>
+                </legend>
+                <h3>
+                    <uimessage code="mirebalais.retrospectiveCheckin.appointmentDate.label"/>
+                </h3>
+
+                <p class="left">
+                    <obs conceptId="PIH:RETURN VISIT DATE" id="apptDate"
+                         allowFutureDates="true"/>
+                </p>
+            </fieldset>
+
+        </obsgroup>
+
+
+        <fieldset id="payment-amount-question" class="required">
+            <legend>
+                <uimessage code="mirebalais.retrospectiveCheckin.paymentAmount.label"/>
+            </legend>
+            <h3>
+                <uimessage code="mirebalais.retrospectiveCheckin.paymentAmount.label"/>
+            </h3>
+            <obsgroup groupingConceptId="PIH:Payment construct">
+                <p class="left">
+                    <obs conceptId="PIH:Payment amount" id="paymentAmount" showUnits="false"
+                         unitsCssClass="append-to-value" style="dropdown" size="3" answerLabels="50,Exempt"
+                         answers="50,0" defaultValue="50"/>
+                </p>
+            </obsgroup>
+        </fieldset>
+
+
+    </section>
+
+    <submit/>
+
+</htmlform>

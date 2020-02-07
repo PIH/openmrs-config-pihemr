@@ -1,0 +1,344 @@
+<htmlform formUuid="c278f802-57be-11e9-8647-d663bd873d93"
+          formName="Pediatrics feeding and supplements" formVersion="1.0">
+
+    <style type="text/css">
+
+        form fieldset {
+            display: block;
+        }
+
+        .section-header {
+            margin-top: 1.5em;
+        }
+
+        p.radio > * {
+        display: inline;
+        float: none !important;
+        min-width: initial;
+        }
+
+        .section-container {
+        background: #F2F2F2;
+        box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+        padding: 10px 5px 10px 15px;
+        line-height: 1.5em; /*add this for vertical spacing between elements*/
+        }
+
+        .section-container-color {
+        background: #F2F2F2;
+        box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+        padding: 10px 5px 10px 15px;
+        line-height: 1.5em; /*add this for vertical spacing between elements*/
+        }
+
+        .section-container input[type="checkbox"] {
+        margin: 0px 5px; /*changed values to vertical, horizontal*/
+        top:5px; /*added to offset the checkbox position to line up*/
+        }
+
+        .section-container label { /*new definition to override labels inside section-containers*/
+        margin: 0px;
+        }
+
+        .section-container input[type="text"] {
+            min-width: 0%;
+        }
+
+       - .section {
+        width: 100%;
+        }
+
+        .hasDatepicker {
+            min-width: 100%;
+        }
+    </style>
+
+    <script type="text/javascript">
+        jq(function() {
+
+            var validateAgeInput = function(boxElement, focus) {
+                var ageInput = boxElement.closest('tr').find('.ageReceived').find('input[type=text]');
+                if (typeof ageInput !== "undefined" ) {
+                    if ( boxElement.prop("checked") ) {
+                        ageInput.prop('disabled', false);
+                        //uncheck the No checkbox
+                        var noCheckBox = boxElement.closest('tr').find('.no-feeding').find('input[type=checkbox]');
+                        if (typeof noCheckBox !== "undefined" ) {
+                            noCheckBox.prop("checked", false);
+                        }
+                        if (focus) {
+                            ageInput.focus();
+                        }
+                    } else {
+                        ageInput.val("");
+                        ageInput.prop('disabled', true);
+                    }
+                }
+
+                return true;
+            }
+
+            var disableAgeInput = function(boxElement) {
+                var ageInput = boxElement.closest('tr').find('.ageReceived').find('input[type=text]');
+                if (typeof ageInput !== "undefined" ) {
+                    if ( boxElement.prop("checked") ) {
+                        ageInput.val("");
+                        ageInput.prop('disabled', true);
+                        //uncheck the Yes checkbox
+                        var yesCheckBox = boxElement.closest('tr').find('.yes-feeding').find('input[type=checkbox]');
+                        if (typeof yesCheckBox !== "undefined" ) {
+                            yesCheckBox.prop("checked", false);
+                        }
+                    }
+                }
+                return true;
+            }
+
+            function enableAgeEntries() {
+                jq('.yes-feeding').find('input[type=checkbox]').each(function() {
+                    validateAgeInput(jq(this), false);
+                });
+            }
+
+            jq('.yes-feeding').find('input[type=checkbox]').change(function() {
+                validateAgeInput(jq(this), true);
+            });
+
+            jq('.no-feeding').find('input[type=checkbox]').change(function() {
+                disableAgeInput(jq(this));
+            });
+
+            // handle our custom functionality for triggering going to the next section when the "Next" button is clicked
+            jq('#next').click(function() {
+                window.htmlForm.getBeforeSubmit().push(function () {
+                    window.htmlForm.setReturnUrl(window.htmlForm.getReturnUrl() + "&amp;goToNextSection=pihcore-peds");
+                    return true;
+                });
+
+                window.htmlForm.submitHtmlForm();
+            })
+
+            jq('#submit').click(function() {
+                window.htmlForm.submitHtmlForm();
+            })
+
+            enableAgeEntries();
+        });
+    </script>
+
+    <script type="text/javascript">
+        jq(function() {
+
+            var validateAgeInputSupp = function(boxElement, focus) {
+                var ageInput = boxElement.closest('tr').find('input[type=text]');
+                if (typeof ageInput !== "undefined" ) {
+                    if ( boxElement.prop("checked") ) {
+                        ageInput.prop('disabled', false);
+                        if (focus) {
+                            ageInput.focus();
+                        }
+                    } else {
+                        ageInput.val("");
+                        ageInput.prop('disabled', true);
+                    }
+                }
+
+                return true;
+            }
+
+            function enableAgeEntriesSupp() {
+                jq('.supplement').find('input[type=checkbox]').each(function() {
+                    validateAgeInputSupp(jq(this), false);
+                });
+            }
+
+            jq('.supplement').find('input[type=checkbox]').change(function() {
+                validateAgeInputSupp(jq(this), true);
+
+            });
+
+            enableAgeEntriesSupp();
+        });
+    </script>
+
+    <ifMode mode="VIEW" include="false">
+        <h2><uimessage code="pihcore.supplements.history.title"/></h2>
+    </ifMode>
+
+    <section id="supplements" sectionTag="fieldset" headerTag="legend">
+        <div class="section-container">
+            <table >
+                <thead>
+                    <tr>
+                        <th><uimessage code="pihcore.supplements.history.title"/></th>
+                        <th><uimessage code="coreapps.age"/></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <obsgroup groupingConceptId="PIH:SUPPLEMENT HISTORY CONSTRUCT">
+                        <tr>
+                            <td>
+                                <span>
+                                    <obs conceptId="PIH:SUPPLEMENT RECEIVED" answerConceptId="PIH:VITAMIN A" style="checkbox" id="vitamin-a" class="supplement"/>
+                                </span>
+                            </td>
+
+                            <td>
+                                <obs conceptId="PIH:AGE SUPPLEMENT RECEIVED" placeholder="Specify" class="ageReceived"/>
+                            </td>
+                        </tr>
+                    </obsgroup>
+                    <obsgroup groupingConceptId="PIH:SUPPLEMENT HISTORY CONSTRUCT">
+                        <tr>
+                            <td>
+                                <span>
+                                    <obs conceptId="PIH:SUPPLEMENT RECEIVED" answerConceptId="PIH:FERROUS SULFATE" style="checkbox" class="supplement"/>
+                                </span>
+                            </td>
+
+                            <td>
+                                <obs conceptId="PIH:AGE SUPPLEMENT RECEIVED" class="ageReceived" placeholder="Specify" />
+                            </td>
+                        </tr>
+                    </obsgroup>
+                    <obsgroup groupingConceptId="PIH:SUPPLEMENT HISTORY CONSTRUCT">
+                        <tr>
+                            <td>
+                                <span>
+                                    <obs conceptId="PIH:SUPPLEMENT RECEIVED" answerConceptId="PIH:IODINE" style="checkbox" class="supplement" />
+                                </span>
+                            </td>
+
+                            <td>
+                                <obs conceptId="PIH:AGE SUPPLEMENT RECEIVED" placeholder="Specify" class="ageReceived"/>
+                            </td>
+                        </tr>
+                    </obsgroup>
+                    <obsgroup groupingConceptId="PIH:SUPPLEMENT HISTORY CONSTRUCT">
+                        <tr>
+                            <td>
+                                <span>
+                                    <obs conceptId="PIH:SUPPLEMENT RECEIVED" answerConceptId="PIH:DEWORMING" style="checkbox" class="supplement" />
+                                </span>
+                            </td>
+
+                            <td>
+                                <obs conceptId="PIH:AGE SUPPLEMENT RECEIVED" placeholder="Specify" class="ageReceived"/>
+                            </td>
+                        </tr>
+                    </obsgroup>
+                    <obsgroup groupingConceptId="PIH:SUPPLEMENT HISTORY CONSTRUCT">
+                        <tr>
+                            <td>
+                                <span>
+                                    <obs conceptId="PIH:SUPPLEMENT RECEIVED" answerConceptId="PIH:ZINC" style="checkbox" class="supplement" />
+                                </span>
+                            </td>
+
+                            <td>
+                                <obs conceptId="PIH:AGE SUPPLEMENT RECEIVED" placeholder="Specify" class="ageReceived"/>
+                            </td>
+                        </tr>
+                    </obsgroup>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
+    <ifMode mode="VIEW" include="false">
+        <h2><uimessage code="pihcore.feeding.history.title"/></h2>
+    </ifMode>
+
+   <section id="feeding" sectionTag="fieldset" headerTag="legend">
+        <div class="section-container">
+            <table >
+                <thead>
+                    <tr>
+                        <th><uimessage code="pihcore.feeding.history.title"/></th>
+                        <th><uimessage code="emr.yes"/></th>
+                        <th><uimessage code="emr.no"/></th>
+                        <th><uimessage code="coreapps.age"/></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <obsgroup groupingConceptId="PIH:PEDIATRIC FEEDING HISTORY CONSTRUCT">
+                    <tr>
+                        <td><uimessage code="zl.breastfeedExclusively"/></td>
+                        <td>
+                            <obs conceptId="PIH:FEEDING METHOD PRESENT" answerConceptId="PIH:BREASTFED EXCLUSIVELY" style="checkbox" answerCode="" id="breastfeeding-yes" class="yes-feeding"/>  <!-- id used for smoke tests -->
+                        </td>
+                        <td>
+                            <obs conceptId="PIH:FEEDING METHOD ABSENT" answerConceptId="PIH:BREASTFED EXCLUSIVELY" style="checkbox" class="no-feeding" answerCode=""/>
+                        </td>
+                        <td>
+                            <obs id="breastfeedAge" conceptId="PIH:FEEDING METHOD AGE" placeholder="Specify" class="ageReceived"/>
+                        </td>
+                    </tr>
+                    </obsgroup>
+                    <obsgroup groupingConceptId="PIH:PEDIATRIC FEEDING HISTORY CONSTRUCT">
+                        <tr>
+                            <td><uimessage code="zl.infantFormula"/></td>
+                            <td>
+                                <obs conceptId="PIH:FEEDING METHOD PRESENT" answerConceptId="PIH:INFANT FORMULA" style="checkbox" class="yes-feeding" answerCode=""/>
+                            </td>
+                            <td>
+                                <obs conceptId="PIH:FEEDING METHOD ABSENT" answerConceptId="PIH:INFANT FORMULA" style="checkbox" answerCode="" class="no-feeding"/>
+                            </td>
+                            <td>
+                                <obs conceptId="PIH:FEEDING METHOD AGE" placeholder="Specify" class="ageReceived"/>
+                            </td>
+                        </tr>
+                    </obsgroup>
+                    <obsgroup groupingConceptId="PIH:PEDIATRIC FEEDING HISTORY CONSTRUCT">
+                        <tr>
+                            <td><uimessage code="zl.mixedFeeding"/></td>
+                            <td>
+                                <obs conceptId="PIH:FEEDING METHOD PRESENT" answerConceptId="PIH:MIXED FEEDING" style="checkbox" class="yes-feeding" answerCode=""/>
+                            </td>
+                            <td>
+                                <obs conceptId="PIH:FEEDING METHOD ABSENT" answerConceptId="PIH:MIXED FEEDING" style="checkbox" answerCode="" class="no-feeding"/>
+                            </td>
+                            <td>
+                                <obs conceptId="PIH:FEEDING METHOD AGE" placeholder="Specify" class="ageReceived"/>
+                            </td>
+                        </tr>
+                    </obsgroup>
+                    <obsgroup groupingConceptId="PIH:PEDIATRIC FEEDING HISTORY CONSTRUCT">
+                        <tr>
+                            <td><uimessage code="zl.breastfeedStopped"/></td>
+                            <td>
+                                <obs conceptId="PIH:FEEDING METHOD PRESENT" answerConceptId="PIH:WEANED" style="checkbox" class="yes-feeding" answerCode=""/>
+                            </td>
+                            <td>
+                                <obs conceptId="PIH:FEEDING METHOD ABSENT" answerConceptId="PIH:WEANED" style="checkbox" answerCode="" class="no-feeding"/>
+                            </td>
+                            <td>
+                                <obs conceptId="PIH:FEEDING METHOD AGE" placeholder="Specify" class="ageReceived"/>
+                            </td>
+                        </tr>
+                    </obsgroup>
+
+                    <tr>
+                        <td colspan="4">
+                            <label>
+                                <uimessage code="pihcore.exam.comment" />
+                            </label>
+                            <obs conceptId="PIH:6906" style="textarea" rows="2" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </section>
+
+    <ifMode mode="VIEW" include="false">
+        <div id="buttons">
+            <button id="next" type="button" class="submitButton confirm right"><uimessage code="emr.next"/><i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i></button>
+            <button id="submit" class="submitButton confirm right"><uimessage code="mirebalais.save"/><i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i></button>
+            <button id="cancel" type="button" class="cancel"><uimessage code="emr.cancel"/></button>
+        </div>
+    </ifMode>
+
+</htmlform>

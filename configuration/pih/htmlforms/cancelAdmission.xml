@@ -1,0 +1,138 @@
+
+<htmlform formUuid="912c7800-df82-11e3-8b68-0800200c9a66" formName="Cancel Admission" formEncounterType="edbb857b-e736-4296-9438-462b31f97ef9" formVersion="1.0">
+
+    <script type="text/javascript">
+
+        jq(document).ready(function() {
+
+            var validateForm = function () {
+
+                var isValid =   $('#cancel-reason select').val() != '';
+
+                if (isValid) {
+                    htmlForm.enableSubmitButton();
+                }
+                else {
+                    htmlForm.disableSubmitButton();
+                }
+            }
+
+            // yes, a rather large amount of events trigger a validation...
+            $(document).change(validateForm);
+            $(document).click(validateForm);
+            validateForm();
+
+
+            // the logic below handles special validation that occurs when we cross-reference the reason
+            // the provider selected against the most recent disposition for the patient
+            var skipConfirmCancel = false;
+
+
+            var confirmCancelDialog = emr.setupConfirmationDialog({
+                selector: '#confirm-cancel-admission',
+                actions: {
+                    confirm: function() {
+                        confirmCancelDialog.close();
+                        skipConfirmCancel = true;
+                        ('.submitButton').click();
+                    },
+                    cancel: function() {
+                        confirmCancelDialog.close();
+                    }
+                }
+            });
+
+            // we map the various reasons that the provider could be selected against the disposition expected for
+            // that reason; if there isn't a match, we prompt the user with a warning
+            var cancelReasonToDispositionMap = {
+                                                    '<lookup expression="fn.getConcept('PIH:PATIENT DIED').id" />': 'PIH:DEATH',
+                                                    '<lookup expression="fn.getConcept('PIH:Departed without medical discharge').id" />': 'PIH:Departed without medical discharge',
+                                                    '<lookup expression="fn.getConcept('PIH:Transfer to another hospital').id" />': 'PIH:Transfer out of hospital',
+                                                    '<lookup expression="fn.getConcept('PIH:HEALTH IMPROVED').id" />': 'PIH:DISCHARGED'
+                                               }
+
+            var mostRecentDisposition = '<lookup expression="visit.mostRecentDisposition.conceptCode" />';
+
+            // set the most recent disposition within the cancel confirmation warning message
+            var mostRecentDispositionName = '<lookup expression="fn.message($visit.mostRecentDisposition.name)" />';
+            jq('#mostRecentDisposition').text(mostRecentDispositionName)
+
+            beforeSubmit.push(function() {
+
+                var cancelReason = getValue('cancel-reason.value');
+
+                if (!skipConfirmCancel &amp;&amp;
+                    cancelReasonToDispositionMap[cancelReason] != undefined &amp;&amp;
+                    cancelReasonToDispositionMap[cancelReason] != mostRecentDisposition) {
+
+                        // set the selected cancel reason within the cancel confirmation warning message
+                        jq('#selectedCancelReason').text(getField('cancel-reason.value').children('option:selected').text());
+
+                        confirmCancelDialog.show();
+                        return false;
+                }
+                return true;
+            });
+        })
+
+    </script>
+
+    <ifMode mode="VIEW" include="false">
+        <h2><label><uimessage code="mirebalais.cancelAdmissionNote.title"/></label></h2>
+    </ifMode>
+
+    <!-- hidden div for setting date/provider/location in when entering a form -->
+    <ifMode mode="VIEW" include="false">
+        <div class="hidden" id="encounter-details" sectionTag="section" headerStyle="title" headerLabel="Encounter Details">
+            <fieldset>
+                <encounterDate id="encounterDate" default="now" showTime="false"/>
+            </fieldset>
+
+            <fieldset>
+                <encounterProviderAndRole default="currentUser" encounterRole="cbfe0b9d-9923-404c-941b-f048adc8cdc0" required="true"/>
+            </fieldset>
+
+            <fieldset>
+                <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"/>
+            </fieldset>
+        </div>
+    </ifMode>
+
+    <span style="display:none">
+        <obs conceptId="org.openmrs.module.emrapi:Admission Decision" valueCoded="org.openmrs.module.emrapi:Deny Admission" defaultValue="org.openmrs.module.emrapi:Deny Admission"></obs>
+    </span>
+
+    <p>
+        <label><uimessage code="mirebalais.cancelAdmissionNote.reason"/>:</label>
+        <obs id="cancel-reason" conceptId="PIH:Reason not admitted"></obs>
+    </p>
+
+    <p>
+        <label><uimessage code="mirebalais.cancelAdmissionNote.clincialNote"/></label>
+        <obs conceptId="PIH:CLINICAL IMPRESSION COMMENTS" style="textarea" rows="5"/>
+    </p>
+
+    <ifMode mode="VIEW" include="false">
+        <div id="buttons">
+            <submit submitClass="confirm right" submitCode="mirebalais.save"/>
+            <button type="button" class="cancel"><uimessage code="emr.cancel"/></button>
+        </div>
+    </ifMode>
+
+    <div id="confirm-cancel-admission" class="dialog" style="display: none">
+        <div class="dialog-header">
+            <i class="icon-check-in"></i>
+            <h3>
+                <uimessage code="mirebalais.cancelAdmissionNote.confirmDialog.title"/>
+            </h3>
+        </div>
+        <div class="dialog-content">
+            <p class="dialog-instructions">
+            <uimessage code="mirebalais.cancelAdmissionNote.confirmWhenDispositionDoesNotMatch" arg0="&lt;span id='selectedCancelReason'&gt;&lt;/span&gt;" arg1="&lt;span id='mostRecentDisposition'&gt;&lt;/span&gt;"/></p>
+
+            <button id="confirm-cancel-admission-button" class="confirm right"><uimessage code="uicommons.confirm"/><i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i></button>
+            <button type="button" class="cancel"><uimessage code="uicommons.cancel"/></button>
+        </div>
+    </div>
+
+</htmlform>

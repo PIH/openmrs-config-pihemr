@@ -1,0 +1,1048 @@
+<!--
+  ~ The contents of this file are subject to the OpenMRS Public License
+  ~ Version 1.0 (the "License"); you may not use this file except in
+  ~ compliance with the License. You may obtain a copy of the License at
+  ~ http//license.openmrs.org
+  ~
+  ~ Software distributed under the License is distributed on an "AS IS"
+  ~ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing rights and limitations
+  ~ under the License.
+  ~
+  ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+  -->
+
+<htmlform id="mh-assessment" class="simple-form-ui"
+          formUuid="a8584dd8-cc2a-11e5-9956-625662870761"
+          htmlformUuid="a8584f5e-cc2a-11e5-9956-625662870761"
+          formName="Mental Health Assessment"
+          formEncounterType="a8584ab8-cc2a-11e5-9956-625662870761" formVersion="1.0">
+
+    <translations defaultLocale="fr">
+        <code name="yes">
+            <variant locale="en" value="yes"/>
+            <variant locale="fr" value="oui"/>
+        </code>
+        <code name="no">
+            <variant locale="en" value="no"/>
+            <variant locale="fr" value="non"/>
+        </code>
+        <code name="permonth">
+            <variant locale="en" value="per month"/>
+            <variant locale="fr" value="par mois"/>
+        </code>
+    </translations>
+
+    <style type="text/css">
+
+        #who-when-where {
+            margin-bottom: 6px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        #who-when-where p {
+            display: inline-block;
+            padding-right: 20px;
+        }
+
+        #where > input[type=text] {
+        display: inline-block;
+        }
+
+        .narrow {
+        width: 200px;
+        }
+
+        .field-error {
+        color: #ff6666;
+        font-size: 1.1em;
+        display: block;
+        }
+
+        .two-columns {
+        column-count: 2;
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        }
+
+        .three-columns {
+            column-count: 3;
+            -webkit-column-count: 3;
+            -moz-column-count: 3;
+        }
+
+        .simple-form-ui input {
+        min-width: 80%
+        }
+
+        form fieldset {
+        min-width: 90%;
+        display: block;
+        }
+
+        #calculated-waist-hip-ratio {
+        font-weight: bold;
+        font-size: 1.4em;
+        }
+
+        .encounter-summary-container #calculated-ratio {
+        font-size: 1em;
+        font-weight: normal;
+        }
+
+        #encounterDate input {
+        min-width: 15%
+        }
+
+        .half-size-text {
+        color: #ff6666;
+        font-size: 50%;
+        display: block;
+        }
+
+        .section-container {
+        background: #F2F2F2;
+        box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+        padding: 10px 5px 10px 15px;
+        line-height: 1.5em; /*add this for vertical spacing between elements*/
+        }
+
+        .section-container input[type="checkbox"] {
+        margin: 0px 5px; /*changed values to vertical, horizontal*/
+        top:5px; /*added to offset the checkbox position to line up*/
+        }
+
+        .section-container label { /*new definition to override labels inside section-containers*/
+        margin: 0px;
+        }
+
+       - .section {
+        width: 100%;
+        }
+
+        textarea {
+        width: 95%;
+        }
+
+        /* line 56, ../../../compass/sass/dispensing.scss */
+        fieldset.medication2 p.inline2 select {
+        width: 100px;
+        }
+        /* line 61, ../../../compass/sass/dispensing.scss */
+        fieldset.medication2 .select-arrow2 {
+        overflow: hidden;
+        }
+        /* line 64, ../../../compass/sass/dispensing.scss */
+        fieldset.medication2 .select-arrow2:after {
+        margin-top: 0;
+        }
+        /* line 68, ../../../compass/sass/dispensing.scss */
+        fieldset.medication2 .select-arrow2 select {
+        min-width: 0;
+        min-width: 70px;
+        padding-right: 19px;
+        padding-left: 5px;
+        }
+        /* line 76, ../../../compass/sass/dispensing.scss */
+        fieldset.medication2 .doseInput2 {
+        display: inline-block;
+        vertical-align: top;
+        }
+        /* line 80, ../../../compass/sass/dispensing.scss */
+        fieldset.medication2 .doseInput2 input, fieldset.medication .doseInput2 select {
+        display: inline;
+        min-width: 0;
+        }
+        /* line 85, ../../../compass/sass/dispensing.scss */
+        fieldset.medication2 .doseInput2 input {
+        display: block;
+        width: 50px;
+        }
+        /* line 90, ../../../compass/sass/dispensing.scss */
+        fieldset.medication2 .doseInput2 select {
+        width: 70px;
+        }
+
+        .simple-form-ui input {
+            min-width: unset;
+        }
+        .simple-form-ui select {
+            min-width: unset;
+        }
+    </style>
+
+    <ifMode mode="VIEW" include="false">
+        <script type="text/javascript">
+            var $j = jQuery;
+
+            jq(function() {
+
+                // return appointment date can never be before encounter date
+                var setMinReturnVisitDate = function () {
+
+                    var returnVisitDate = getValue('return-visit-date.value');
+
+                    getField('return-visit-date.value').datepicker('option', 'minDate', getField('encounterDate.value').datepicker('getDate'));
+
+                    if (returnVisitDate  &amp;&amp; returnVisitDate != getValue('return-visit-date.value')) {
+                        setValue('return-visit-date.value','');  // reset return visit date if change to encounter date makes it invalid
+                        alert('<uimessage code="pihcore.mentalhealth.returnVisitDateResetWarning"/>');
+                    }
+                }
+
+                getField('encounterDate.value').change(setMinReturnVisitDate);
+
+                setMinReturnVisitDate();
+
+                $('.medication-checkbox > input:checkbox').each(function(idx, it){
+                    if($(it).not(':checked')){
+                        $(it).closest("td").siblings().find(":input").each(function(i, el){
+                            $(el).attr("disabled", "disabled");
+                        });
+                    }
+
+                    $(it).change(function(){
+                        if($(this).is(':checked')){
+                            $(this).closest("td").siblings().find(":input").each(function(i, el){
+                                $(el).removeAttr("disabled");
+                            });
+                        } else {
+                            $(this).closest("td").siblings().find(":input").each(function(i, el){
+                                $(el).val('').attr("disabled", "disabled");
+                            });
+                        }
+                    });
+                });
+            });
+
+        </script>
+    </ifMode>
+
+    <div class="print-form-datestamps" style="display:none">
+        <p><uimessage code="created_on"/>:
+            <lookup complexExpression="$form.dateCreated"/>
+        </p>
+        <p><uimessage code="last_updated_on"/>:
+            <lookup complexExpression="$form.dateChanged"/>
+        </p>
+        <p><uimessage code="printed_on"/>:
+            <lookup complexExpression="$formGeneratedDatetime"/>
+        </p>
+    </div>
+
+    <ifMode mode="VIEW" include="false">
+        <h2>
+            <label>
+                <uimessage code="pihcore.mentalhealth.title"/>
+            </label>
+        </h2>
+
+        <!-- users with retroConsultNote privilege can edit provider, location, and date for both retro and active visits -->
+        <includeIf velocityTest="$user.hasPrivilege('Task: emr.retroConsultNote')">
+            <script type="text/javascript">
+
+                // set the encounter location to the visit location
+                // this is to prevent assigning to encounter a location different than its visit location, except Mirebalais Hospital which has just one location
+                var mirebalaisVisitLocationUuid = 'a084f714-a536-473b-94e6-ec317b152b43'
+                var visitLocationUuid = '<lookup expression="visit.visit.location.uuid"/>';
+                var visitLocationId = '<lookup expression="visit.visit.location.id"/>';
+
+                $(function() {
+                    if(visitLocationId != '' &amp;&amp; visitLocationUuid != mirebalaisVisitLocationUuid) {
+                        setValue('encounterLocation.value', visitLocationId);
+
+                        getField('encounterLocation.value').change(function() {
+                            var location = getValue('encounterLocation.value');
+                            if (location !== visitLocationId) {
+                                getField('encounterLocation.error').text("<uimessage code='mirebalais.encounterLocation.hasToMatch.visitLocation'/>").show();
+                            } else {
+                                getField('encounterLocation.error').hide();
+                            }
+                        });
+                    }
+                });
+
+
+                beforeSubmit.push(function() {
+                    var encounterLocationId = getValue('encounterLocation.value');
+                    if (encounterLocationId !== visitLocationId &amp;&amp; visitLocationUuid != mirebalaisVisitLocationUuid) {
+                        getField('encounterLocation.error').text("<uimessage code='mirebalais.encounterLocation.hasToMatch.visitLocation'/>").show();
+                        return false;
+                    } else {
+                      return true;
+                    }
+                    return false;
+                });
+
+            </script>
+            <div id="who-when-where">
+                <p id="who">
+                    <label>
+                        <uimessage code="emr.patientDashBoard.providerRequired"/>
+                    </label>
+                    <span>
+                        <!-- ToDo:  Add and change encounter_role -->
+                        <encounterProviderAndRole default="currentUser"
+                                                  encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
+                    </span>
+                </p>
+                <p id="where">
+                    <label>
+                        <uimessage code="emr.locationRequired"/>
+                    </label>
+                    <span>
+                        <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"
+                                           tags="Consult Note Location"/>
+                    </span>
+                </p>
+                <p id="when">
+                    <label>
+                        <uimessage code="emr.patientDashBoard.date"/>
+                    </label>
+                    <span>
+                        <encounterDate id="encounterDate" default="now"/>
+                    </span>
+                </p>
+            </div>
+        </includeIf>
+        <!-- users with retroConsultNoteThisProviderOnly can edit location and date (but not provider) for retro visits -->
+        <includeIf
+                velocityTest="$user.hasPrivilege('Task: emr.retroConsultNoteThisProviderOnly') and !($user.hasPrivilege('Task: emr.retroConsultNote')) and (!$visit.open)">
+            <div style="display:none">
+                <!-- ToDo:  Add and change encounter_role -->
+                <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05"
+                                          required="true"/>
+            </div>
+
+            <div id="who-when-where">
+                <p id="who">
+                    <label>
+                        <uimessage code="emr.patientDashBoard.provider"/>
+                    </label>
+                    <span>
+                        <lookup expression="user.person.personName"/>
+                    </span>
+                </p>
+                <p id="where">
+                    <label>
+                        <uimessage code="emr.locationRequired"/>
+                    </label>
+                    <span>
+                        <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"
+                                           tags="Consult Note Location"/>
+                    </span>
+                </p>
+                <p id="when">
+                    <label>
+                        <uimessage code="emr.patientDashBoard.date"/>
+                    </label>
+                    <span>
+                        <encounterDate id="encounterDate" default="now"/>
+                    </span>
+                </p>
+            </div>
+
+        </includeIf>
+        <!-- all users that don't have retroConsultNote privilege cannot edit provider, location or date when active visit -->
+        <includeIf velocityTest="(!$user.hasPrivilege('Task: emr.retroConsultNote')) and ($visit.open)">
+            <div style="display:none">
+                <!-- ToDo:  Create and change encounter_role -->
+                <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05"
+                                          required="true"/>
+                <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"/>
+                <encounterDate id="encounterDate" default="now"/>
+            </div>
+            <div id="who-when-where">
+                <table id="who-where-when-view">
+                    <tr>
+                        <td>
+                            <label>
+                                <uimessage code="emr.patientDashBoard.provider"/>
+                            </label>
+                            <span>
+                                <lookup complexExpression="#if($encounter) $ui.format($encounter.provider) #else $ui.format($user.person) #end"/>
+                            </span>
+                        </td>
+                        <td>
+                            <label>
+                                <uimessage code="emr.location"/>
+                            </label>
+                            <span>
+                                <lookup complexExpression="#if($encounter) $ui.format($encounter.location) #else $ui.format($sessionContext.sessionLocation) #end"/>
+                            </span>
+                        </td>
+                        <td>
+                            <label>
+                                <uimessage code="emr.patientDashBoard.date"/>
+                            </label>
+                            <span>
+                                <lookup complexExpression="#if($encounter) $ui.format($fn.startOfDay($encounter.encounterDatetime)) #else $ui.format($fn.startOfDay($formGeneratedDatetime)) #end"/>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </includeIf>
+    </ifMode>
+
+    <!-- The form -->
+    <section id="mh_refer" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.mentalhealth.referral">
+
+        <!-- Program enrollment -->
+        <enrollInProgram programId="Mental Health" />
+
+        <div class="section-container">
+            <div class="two-columns">
+                <p>
+                    <label>
+                        <uimessage code="pihcore.mentalhealth.referredBy" />:
+                    </label>
+                    <repeat with="['PIH:Teacher'],['PIH:TRADITIONAL HEALER'],['PIH:VILLAGE HEALTH WORKER'],['PIH:11783'],['CIEL:978'],['PIH:Other medical service']">
+                            <obs conceptId="PIH:Role of referring person" answerConceptId="{0}"
+                                 style="checkbox"/>
+                    </repeat>
+                    <obs conceptId="PIH:Role of referring person" answerConceptId="PIH:OTHER"
+                        style="checkbox" commentFieldLabel=" " />
+                </p>
+
+                <p>
+                    <label>
+                        <uimessage code="pihcore.mentalhealth.internalReferredBy" />:
+                    </label>
+
+                    <repeat with="['PIH:DOCTOR'],['PIH:NURSE'],['PIH:SOCIAL WORKER SERVICE	']">
+                        <obs conceptId="PIH:Type of referral role" answerConceptId="{0}"
+                                 style="checkbox"/>
+                    </repeat>
+                    <obs conceptId="PIH:Type of referral role" answerConceptId="PIH:OTHER"
+                         style="checkbox" commentFieldLabel=" " />
+                </p>
+                <br/><br/>
+            </div>
+
+            <hr/>
+            <div class="two-columns">
+
+                <!-- Hospitalization -->
+                <p>
+                    <label>
+                        <uimessage code="pihcore.ncd.plan.hospitalized"/>
+                    </label>
+                    <obs conceptId="CIEL:976"
+                         style="radio" answerConceptIds="PIH:YES,PIH:NO"
+                         answerCodes="yes,no"  answerSeparator=""/>
+
+                    <obs conceptId="CIEL:162879" labelCode="pihcore.reasonHospitalized" />
+                </p>
+
+                <p>
+                    <obs conceptId="PIH:TYPE OF PATIENT" answerConceptId="PIH:INPATIENT HOSPITALIZATION"
+                         style="checkbox" answerCode="pihcore.currentHospitalization"  answerSeparator="" />
+                </p>
+
+                <p>
+                    <obs conceptId="PIH:12362"
+                         style="checkbox" answerConceptId="PIH:YES"
+                         answerCode="pihcore.traumaticEvent" />
+                </p>
+            </div>
+            <br/>
+            <div>
+                <p class="radio">
+                    <label>
+                        <uimessage code="pihcore.ncd.plan.appt"/>
+                    </label>
+                    <obs conceptId="PIH:Appearance at appointment time" style="radio"
+                         answerConceptIds="PIH:12718,PIH:YES,PIH:Between 1 and 7,PIH:More than 7"
+                         answerCodes="pihcore.meds.7DaysorMoreEarly,yes,pihcore.meds.late1to7Days,pihcore.meds.late7orMoreDays"
+                         answerSeparator=""/>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="mh_scores" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.mentalhealth.scores">
+
+        <div class="section-container">
+
+            <!-- ToDo:  Add later with UHM-4171
+            <label>
+                <uimessage code="pihcore.mentalhealth.depressionScreening"/>
+            </label>
+
+            <obs conceptId="CIEL:165554" style="checkbox"
+                 answerConceptId="CIEL:165536"
+                 answerCode="pihcore.mentalhealth.sadOrDepressed" />
+            <obs conceptId="CIEL:165554" style="checkbox"
+                 answerConceptId="CIEL:165537"
+                 answerCode="pihcore.mentalhealth.lostInterest" />
+            <obs conceptId="CIEL:165554" style="checkbox"
+                 answerConceptId="CIEL:165538"
+                 answerCode="pihcore.mentalhealth.suspDepression" />
+
+            <br/>
+            -->
+
+            <label>
+                <uimessage code="pihcore.mentalhealth.zldsi"/>:
+            </label>
+
+            <span class="small">
+                <obs conceptId="CIEL:163225"/>
+            </span>
+
+            <div class="two-columns">
+                <label>
+                    <uimessage code="pihcore.mentalhealth.cesd"/>:
+                </label>
+                <span class="small">
+                    <obs conceptId="CIEL:163228"/>
+                </span>
+
+                <label>
+                    <uimessage code="pihcore.mentalhealth.psc35"/>:
+                </label>
+                <span class="small">
+                    <obs conceptId="CIEL:165534"/>
+                </span>
+
+                <label>
+                    <uimessage code="pihcore.mentalhealth.pcl"/>:
+                </label>
+                <span class="small">
+                    <obs conceptId="CIEL:165535"/>
+                </span>
+
+                <br/>
+
+                <label>
+                    <uimessage code="pihcore.mentalhealth.cgis"/>:
+                </label>
+                <span class="small">
+                    <obs conceptId="CIEL:163222"/>
+                </span>
+
+                <label>
+                    <uimessage code="pihcore.mentalhealth.cgii"/>:
+                </label>
+                <span class="small">
+                    <obs conceptId="CIEL:163223"/>
+                </span>
+
+                <label>
+                    <uimessage code="pihcore.mentalhealth.cgie"/>:
+                </label>
+                <span class="small">
+                    <obs conceptId="CIEL:163224"/>
+                </span>
+            </div>
+        </div>
+        <br/>
+
+        <div class="section-container">
+            <!-- NOTE:  WHODAS required for 18+ -->
+            <p>
+                <includeIf velocityTest="$patient.age &gt; 17" >
+                    <label>
+                        <uimessage code="pihcore.mentalhealth.whodas"/> (<uimessage code="emr.formValidation.messages.requiredField.label"/>):
+                    </label>
+                    <span class="small">
+                        <obs conceptId="CIEL:163226" required="true" />
+                    </span>
+                </includeIf>
+                <includeIf velocityTest="$patient.age &lt; 18" >
+                    <label>
+                        <uimessage code="pihcore.mentalhealth.whodas"/>:
+                    </label>
+                    <span class="small">
+                        <obs conceptId="CIEL:163226" />
+                    </span>
+                </includeIf>
+            </p>
+
+            <p>
+                <label>
+                    <uimessage code="pihcore.mentalhealth.difficultDays"/>:
+                </label>
+                <span class="small">
+                    <obs conceptId="PIH:Days with difficulties in past month"/>
+                </span>
+            </p>
+
+            <p>
+                <label>
+                    <uimessage code="pihcore.mentalhealth.nonFunctioningDays"/>:
+                </label>
+                <span class="small">
+                    <obs conceptId="PIH:Days without usual activity in past month"/>
+                </span>
+            </p>
+
+            <p>
+                <label>
+                    <uimessage code="pihcore.mentalhealth.reducedFunctionDays"/>:
+                </label>
+                <span class="small">
+                    <obs conceptId="PIH:Days with less activity in past month"/>
+                </span>
+            </p>
+        </div>
+        <br/>
+
+        <div class="section-container">
+
+            <label>
+                <uimessage code="pihcore.mentalhealth.aims"/>:
+            </label>
+            <obs conceptId="CIEL:163227"/>
+            <br/>
+
+            <label>
+                <uimessage code="pihcore.mentalhealth.epilepsySeizureFrequency"/>:
+            </label>
+
+            <obsgroup groupingConceptId="CIEL:161245">
+                <span class="small">
+                    <obs conceptId="PIH:6797"/>
+                    <uimessage code="permonth"/>
+                </span>
+            </obsgroup>
+        </div>
+    </section>
+
+    <section id="mh-suicide" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.mentalhealth.suicideEval">
+        <div class="section-container">
+
+            <table>
+                <tr>
+                    <th></th>
+                    <th>
+                        <label><uimessage code="pihcore.mentalhealth.suicideIdea"/></label>
+                    </th>
+                    <th>
+                        <label><uimessage code="pihcore.mentalhealth.suicideAttempt"/></label>
+                    </th>
+                </tr>
+                <tr>
+                    <th><label><uimessage code="pihcore.past.label"/></label></th>
+                    <td>
+                        <obs conceptId="CIEL:1628" style="checkbox"
+                             answerConceptId="CIEL:125562" answerCode=""/>
+                    </td>
+                    <td>
+                        <!-- History of suicide attempt -->
+                        <obs conceptId="CIEL:1628" style="checkbox"
+                             answerConceptId="CIEL:148143" answerCode=""/>
+                    </td>
+                </tr>
+                <tr>
+                    <th><label><uimessage code="pihcore.current.label"/></label></th>
+                    <td>
+                        <!-- Suicidal ideation -->
+                        <obs conceptId="PIH:Mental health diagnosis" style="checkbox"
+                             answerConceptId="CIEL:125562" answerCode="" />
+                    </td>
+                    <td>
+                        <!-- Suicide attempt -->
+                        <obs conceptId="PIH:Mental health diagnosis" style="checkbox"
+                             answerConceptId="CIEL:148143" answerCode="" />
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                    </td>
+                    <td>
+
+                        <!-- Date of suicide attempt -->
+                        <label>
+                            <uimessage code="pihcore.mentalhealth.dateSuicideAttempt"/>
+                        </label>
+                        <obs conceptId="CIEL:165530"/>
+                    </td>
+                </tr>
+
+            </table>
+
+            <br/>
+            <obs conceptId="PIH:Suicidal evaluation" style="checkbox"
+                 answerConceptId="PIH:YES" answerCode="pihcore.mentalhealth.evalCompleted"
+                 toggle="suicideScreening"/>
+
+            <div id="suicideScreening">
+                <br/>
+                <div class="two-columns">
+                    <label>
+                        <uimessage code="pihcore.mentalhealth.suicideScreenResult"/>
+                    </label>
+                    <obs conceptId="PIH:12376" style="radio"
+                         answerConceptIds="CIEL:1407,CIEL:164944,CIEL:1408" answerSeparator=""/>
+
+                    <br/>
+                    <label>
+                        <uimessage code="pihcore.mentalhealth.ifHighAnswer"/>
+                    </label>
+
+                    <obs conceptId="CIEL:165531" answerConceptId="CIEL:165532"/>
+                    <obs conceptId="PIH:Mental health intervention" answerConceptId="PIH:10646" answerCode="pihcore.mentalhealth.safetyPlan" />
+                    <obs conceptId="CIEL:165531" answerConceptId="CIEL:165533"/>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="mh-diagnoses" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.diagnoses.label">
+        <div class="section-container">
+            <p>
+                <obs conceptId="PIH:Mental health diagnosis" answerConceptSetIds="PIH:HUM Psychological diagnosis"
+                     style="autocomplete"/>
+            </p>
+            <p>
+                <obs conceptId="PIH:Mental health diagnosis" answerConceptSetIds="PIH:HUM Psychological diagnosis"
+                     style="autocomplete"/>
+            </p>
+            <p>
+            <obs conceptId="PIH:Mental health diagnosis" answerConceptSetIds="PIH:HUM Psychological diagnosis"
+                 style="autocomplete"/>
+            </p>
+
+        </div>
+    </section>
+
+    <section id="mh-interventions" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.mentalhealth.interventions">
+        <div class="section-container">
+            <obs conceptId="PIH:Mental health intervention"
+                 answerConceptId="PIH:Interpersonal Therapy"
+                 toggle="interpersonal" />
+
+            <!-- ToDo:  Indent these -->
+            <div id="interpersonal">
+                <blockquote>
+                    <div class="two-columns">
+                        <repeat with="['CIEL:165476','Interpersonal inventory'],
+                                  ['CIEL:165477','Giving hope'],
+                                  ['CIEL:165478','Giving sick role'],
+                                  ['CIEL:165479','Giving the diagnosis'],
+                                  ['CIEL:165480','Communications analysis'],
+                                  ['CIEL:165481','Decision analysis'],
+                                  ['CIEL:165482','Role play']">
+                            <obs conceptId="PIH:Mental health intervention" answerConceptId="{0}"/>
+                        </repeat>
+                    </div>
+                </blockquote>
+            </div>
+
+            <div class="two-columns">
+                <repeat with="['PIH:Behavioral activation'],
+                              ['PIH:Cognitive processing therapy'],
+                              ['CIEL:165424','Cognitive-behavior therapy'],
+                              ['PIH:Psychotherapy'],
+                              ['CIEL:165486','Supportive psychotherapy'],
+                              ['PIH:Psychoeducation'],
+                              ['PIH:PSYCHOSOCIAL COUNSELING'],
+                              ['PIH:Relaxation'],
+                              ['PIH:Family Support'],
+                              ['PIH:Grief counseling'],
+                              ['PIH:Parenting skills'],
+                              ['CIEL:165484','Deep breathing'],
+                              ['CIEL:165485','Progressive muscle relaxation'],
+                              ['CIEL:165328','HIV/AIDS counseling']">
+                        <obs conceptId="PIH:Mental health intervention" answerConceptId="{0}"/>
+                </repeat>
+                <br/>
+
+                <obs conceptId="PIH:Mental health intervention" answerConceptId="PIH:OTHER"
+                     commentFieldLabel=""/>
+                <br/>
+            </div>
+        </div>
+    </section>
+
+    <section id="mh-meds-v2" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.visitNote.plan.medication">
+        <div class="section-container">
+
+            <!-- ToDo:  Introduce the new modelling in the next release -->
+                <table style="table-layout:fixed">
+                    <tr>
+                        <th colspan="2">
+                            <uimessage code="pihcore.visitNote.plan.dose"/>
+                        </th>
+                        <th>
+                            <uimessage code="pihcore.visitNote.plan.frequency"/>
+                        </th>
+                        <th colspan="2">
+                            <uimessage code="pihcore.visitNote.plan.duration"/>
+                        </th>
+                        <th>
+                            <uimessage code="pihcore.drug.route"/>
+                        </th>
+                    </tr>
+
+                    <!-- ToDo: Improve formatting; Add placeholders/suggestions for un-entered inputs; Fix toggles -->
+                    <repeat>
+                        <template>
+                            <obsgroup groupingConceptId="PIH:Prescription construct">
+                            <tr>
+                                <td id="{name}-rx" colspan="6">
+                                    <obs conceptId="PIH:Mental health medication"
+                                         answerConceptId="{drug}"
+                                         style="checkbox"
+                                         toggle="{id: '{name}-rx-dose', style: 'dim'}" class="medication-checkbox"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                    <td id="{name}-rx-dose" align="right">
+                                        <obs id="dose-{name}" class="doseInput" conceptId="CIEL:160856" placeholder="dose"/>
+                                    </td>
+                                    <td id="{name}-rx-dose-unit">
+                                        <obs id="doseUnit-{name}" class="doseInput select-arrow" placeholder="unit"
+                                             conceptId="PIH:Dosing units coded"
+                                             answerConceptIds="CIEL:161553,CIEL:161554"
+                                             answerCodes="mg,g"/>
+                                        <!-- tablet, capsule, ampule, bottle, vial, mg, mL -->
+                                    </td>
+                                    <td id="{name}-rx-frequency">
+                                        <obs id="frequencyCoded-{name}" class="frequency select-arrow"
+                                             conceptId="PIH:Drug frequency for HUM"
+                                             answerConceptIds=
+                                                     "PIH:OD,PIH:BID,PIH:TID,PIH:QID,PIH:OM,PIH:ON"
+                                             answerCodes="OD,BID,TID,QID,OM,ON"/>
+                                    </td>
+                                    <td id="{name}-rx-duration" align="right">
+                                        <obs id="duration-{name}" class="duration doseInput" conceptId="CIEL:159368"/>
+                                    </td>
+                                    <td id="{name}-rx-duration-unit">
+                                        <obs id="durationUnit-{name}" class="duration-unit select-arrow"
+                                             conceptId="PIH:TIME UNITS"
+                                             answerConceptIds="PIH:Days,PIH:1073,PIH:Months"/>
+                                    </td>
+                                    <td id="{name}-rx-route">
+                                        <obs id="route-{name}" class="route select-arrow"
+                                             conceptId="PIH:12651"
+                                             answerConceptIds="CIEL:160240,CIEL:160242,CIEL:160243"/>
+                                    </td>
+                            </tr>
+                            </obsgroup>
+                        </template>
+
+                    <render drug="PIH:AMITRYPTILINE" name="amitrypilineHCl" />
+                    <render drug="PIH:CARBAMAZEPINE" name="carbamaepine" />
+                    <render drug="PIH:LEVODOPA + CARBIDOPA" name="carbidLevoDopa" />
+                    <render drug="PIH:DIAZEPAM" name="diazepam" />
+                    <render drug="PIH:DIPHENHYDRAMINE" name="diphen" />
+                    <render drug="CIEL:76553" name="fluoxetineHCl" />
+                    <render drug="PIH:HALOPERIDOL" name="haloperidol" />
+                    <render drug="PIH:PHENOBARBITAL" name="phenobarb" />
+                    <render drug="PIH:PHENYTOIN" name="phenytoin" />
+                    <render drug="CIEL:83405" name="risperidone" />
+                    <render drug="PIH:SODIUM VALPROATE" name="NaValproate" />
+                    <render drug="PIH:TRIHEXYPHENIDYL" name="trihex" />
+
+                    <!-- Using concepts (class=drug), not OpenMRS drugs
+                    <render drug="7f7178bd-a1f8-44dd-85a9-02e49065e56b" name="FluoxetineHCl20mgt"/>
+                        <render drug="5edb194a-70bf-4fbf-b2ca-4dce586af7f3" name="AmitryptilineHCl25t"/>
+                        <render drug="9a499fca-699e-4809-8175-732ef43d5c14" name="Phenobarb50mgt" />
+                        <render drug="4eb3c71f-b716-4f01-beb7-394cebd6c191" name="PhenobarbAmpule"/>
+                        <render drug="34dd5905-c28d-4cf8-8ebe-0b83e5093e17" name="PhenytoinNa100t"/>
+                        <render drug="d8297181-0a3f-48fc-89c5-cc283e5a8d42" name="PhenytoinNa50a"/>
+                        <render drug="03818046-358b-4b90-a91b-24913dd32459" name="Risperidone1mgt"/>
+                        <render drug="7dffc3c0-d5f6-4887-8fe7-dcaa2a473590" name="Risperidone3mgt"/>
+                        <render drug="c1f95407-9517-4eb5-af8d-d633293f4793" name="Haloperidol1mgt"/>
+                        <render drug="23f2d94b-3072-4e86-b737-d5ccded81bc0" name="Haloperidol5mgt"/>
+                        <render drug="a8541367-1eb0-4144-9cc7-41a909902d5d" name="Haloperidol5mgmLa"/>
+                        <render drug="39d7a7ee-b0ff-48e0-a7ca-685688147c8f" name="Diazepam5mgt"/>
+                        <render drug="923e3e90-8b5c-4ae6-b17f-b6d547803437" name="Diazepam5mga"/>
+                        <render drug="29c41917-38b4-492b-8181-0945c171a72d" name="Carbamazepine100mg"/>
+                        <render drug="e371d811-d32c-4f6e-8493-2fa667b7b44c" name="Carbamazepine200mgt"/>
+                        <render drug="b2b0d66a-4865-49fa-9af8-6d898f46dc78" name="SodiumValproate200mgt"/>
+                        <render drug="fc899af0-e745-4e60-ab06-3b3375333786" name="SodiumValproate500mgt"/>
+                        <render drug="d89a847c-1e50-471d-9219-f7ad71bafa7e" name="SodiumValproateSyrup"/>
+                        <render drug="81694757-3336-4195-ac6b-ea574b9b8597" name="DiphenhydramineHCl25mgt"/>
+                        <render drug="b476d417-800f-4e2e-89ec-09de8fd07607" name="DiphenhydramineHCl50mga"/>
+                        <render drug="6a2a96d1-c01f-48d3-b3b9-2741bce4e064" name="ChlorpromazineHCl25mgt"/>
+                        <render drug="ed2ebd08-2f59-4f74-80ad-d69d123035ee" name="Carbidopa25mg-Levodopa250mgt"/>
+                        <render drug="c18e751c-1ec5-420b-8ba7-68a22c5d1acc" name="Trihexyphenidyl5mgt"/>
+                        -->
+                    </repeat>
+                </table>
+
+
+            <br/>
+            <p>
+                <label>
+                    <uimessage code="pihcore.exam.comment"/>:
+                </label>
+                <obs conceptId="PIH:Medication comments (text)"/>
+            </p>
+        </div>
+
+        <!-- Temporarily:  Remove other drugs
+        <br/>
+
+        <div class="section-container-color">
+            <repeat with="['1'],['2'],['3']">
+                <span id="medication-{0}" class="medication">
+                    <obsgroup groupingConceptId="PIH:Prescription construct" showIfEmpty="false">
+                        <h3>
+                            <uimessage code="pihcore.other"/>
+                            <uimessage code="pihcore.visitNote.plan.medication"/>
+                            {0}
+                        </h3>
+                        <fieldset class="medication">
+                            <p class="field-error" style="display:none"></p>
+                            <p>
+                                <label>
+                                    <uimessage code="pihcore.visitNote.plan.name"/>
+                                </label>
+                                <obs id="name{0}" class="medication-name" conceptId="PIH:MEDICATION ORDERS"
+                                     answerDrugs="true"/>
+                            </p>
+                            <p class="inline">
+                                <label>
+                                    <uimessage code="pihcore.visitNote.plan.dose"/>
+                                </label>
+                                <obs id="dose{0}" class="dose doseInput" conceptId="CIEL:160856"/>
+                                <obs id="doseUnit{0}" class="dose-unit doseInput select-arrow"
+                                     conceptId="PIH:Dosing units coded"
+                                     answerConceptIds="CIEL:161553,CIEL:161554,CIEL:162263,PIH:APPLICATION,CIEL:1608,CIEL:1513,CIEL:162356,CIEL:162366,CIEL:162370,PIH:Pump,PIH:SACHET,CIEL:162264"
+                                     answerCodes="pihcore.visitNote.plan.medication.units.mg,pihcore.visitNote.plan.medication.units.g,pihcore.visitNote.plan.medication.units.mL,pihcore.visitNote.plan.medication.units.application,pihcore.visitNote.plan.medication.units.capsule,pihcore.visitNote.plan.medication.units.tablet,pihcore.visitNote.plan.medication.units.drop,pihcore.visitNote.plan.medication.units.mcg,pihcore.visitNote.plan.medication.units.patch,pihcore.visitNote.plan.medication.units.pump,pihcore.visitNote.plan.medication.units.sachet,pihcore.visitNote.plan.medication.units.IU"/>
+                            </p>
+                            <p class="inline">
+                                <label>
+                                    <uimessage code="pihcore.visitNote.plan.frequency"/>
+                                </label>
+
+
+                                <obs id="frequencyCoded{0}" class="frequency select-arrow"
+                                     conceptId="PIH:Drug frequency for HUM"
+                                     answerConceptIds=
+                                             "PIH:OD,PIH:BID,PIH:TID,PIH:QID,PIH:5D,PIH:6D,PIH:7D,PIH:8D,PIH:9D,PIH:OM,PIH:ON,PIH:PRN,PIH:STAT,PIH:Q2H,PIH:Q3H,PIH:Q4H,PIH:Q6H,PIH:Q12H,PIH:5622"
+                                     answerCodes="OD,BID,TID,QID,5D,6D,7D,8D,9D,OM,ON,SOS,STAT,Q2H,Q3H,Q4H,Q6H,Q12H,pihcore.visitNote.plan.other"/>
+                            </p>
+
+                            <p class="inline">
+                                <label>
+                                    <uimessage code="pihcore.visitNote.plan.duration"/>
+                                </label>
+                                <obs id="duration{0}" class="duration doseInput" conceptId="CIEL:159368"/>
+                                <obs id="durationUnit{0}" class="duration-unit select-arrow" conceptId="PIH:TIME UNITS"
+                                     answerConceptIds="PIH:Days,PIH:1073,PIH:Months,PIH:Hours"/>
+                            </p>
+
+                            <p>
+                                <label>
+                                    <uimessage code="pihcore.visitNote.plan.instructions"/>
+                                </label>
+                                <obs id="instructions{0}" class="medication-instructions"
+                                     conceptId="PIH:Prescription instructions non-coded"/>
+                            </p>
+                        </fieldset>
+                    </obsgroup>
+                </span>
+            </repeat>
+            <button id="show-more-medications-button" type="button" style="display:none">
+                <uimessage code="pihcore.showMore"/>
+            </button>
+            <button id="show-less-medications-button" type="button" style="display:none">
+                <uimessage code="pihcore.showLess"/>
+            </button>
+        </div>
+        -->
+
+    </section>
+
+    <section id="mh-plan" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.visitNote.plan">
+        <div class="section-container">
+
+            <includeIf velocityTest="$patient.gender == 'F' ">
+
+                    <!-- Pregnant -->
+                    <obs conceptId="CIEL:5272" toggle="pregnant"
+                         answerConceptId="CIEL:1065"
+                         answerCode="pihcore.pregnancy.status"
+                         style="checkbox"/>
+
+                    <div class="two-columns">
+                        <div id="pregnant">
+                            <p>
+                                <!-- DPR? -->
+                                <label>
+                                    <uimessage code="pihcore.pregnancy.lastPeriod"/>
+                                </label>
+                                <obs conceptId="CIEL:1427"/>
+                            </p>
+
+                            <p>
+                                <!-- DPA -->
+                                <label>
+                                    <uimessage code="pihcore.pregnancy.dueDate"/>
+                                </label>
+                                <obs conceptId="CIEL:5596" allowFutureDates="true"/>
+                            </p>
+                        </div>
+                    </div>
+                <br/>
+            </includeIf>
+
+            <div class="two-columns">
+                <p>
+                    <label>
+                        <uimessage code="pihcore.mentalhealth.providerType"/>:
+                    </label>
+                    <repeat with="['PIH:DOCTOR'],['PIH:NURSE'],['PIH:SOCIAL WORKER SERVICE'],['PIH:MENTAL HEALTH SPECIALIST']">
+                        <obs conceptId="PIH:Type of provider" answerConceptId="{0}"
+                             style="checkbox"/>
+                    </repeat>
+                </p>
+
+                <p style="-webkit-column-break-before: always;break-before:column">
+                    <label>
+                        <uimessage code="pihcore.referredTo"/>:
+                    </label>
+                    <repeat with="['PIH:DOCTOR'],['PIH:NURSE'],['PIH:SOCIAL WORKER SERVICE'],['PIH:MENTAL HEALTH SPECIALIST'],['PIH:VILLAGE HEALTH WORKER']">
+                            <obs conceptId="PIH:Role of referral out provider" answerConceptId="{0}" style="checkbox"/>
+                    </repeat>
+                </p>
+            </div>
+
+            <div id="disposition">
+                <encounterDisposition/>
+            </div>
+
+            <p>
+                <label>
+                    <uimessage code="pihcore.comment"/>:
+                </label>
+                <obs conceptId="PIH:PATIENT PLAN COMMENTS" style="textarea" rows="10"/>
+            </p>
+
+            <p>
+                <label>
+                    <uimessage code="pihcore.consult.returnVisitDate"/>:
+                </label>
+                <span class="small">
+                    <obs id="return-visit-date" conceptId="PIH:RETURN VISIT DATE" allowFutureDates="true" />
+                </span>
+            </p>
+
+        </div>
+    </section>
+
+
+    <ifMode mode="VIEW" include="false">
+        <div id="buttons">
+            <submit submitClass="confirm right" submitCode="mirebalais.save"/>
+            <button type="button" class="cancel">
+                <uimessage code="emr.cancel"/>
+            </button>
+        </div>
+    </ifMode>
+
+</htmlform>
