@@ -1,0 +1,239 @@
+<htmlform formUuid="793915d6-f8d9-11e2-8ff2-fd54ab5fdb2a" formName="ED Note" formEncounterType="92fd09b4-5335-4f7e-9f63-b2a663fd09a6" formVersion="1.0">
+
+    <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.ApplyDispositionAction"/>
+    <includeIf velocityTest="$config.isComponentEnabled('deathCertificate')">
+        <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.RedirectToDeathNoteIfMissing"/>
+    </includeIf>
+
+    <style type="text/css">
+        #who-when-where {
+            margin-bottom: 6px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        #who-when-where p {
+            display: inline-block;
+            padding-right: 20px;
+        }
+
+        #where > input[type=text] {
+            display: inline-block;
+        }
+
+        .narrow {
+            width: 200px;
+        }
+
+        .field-error {
+            color: #ff6666;
+            font-size: 1.1em;
+            display: block;
+        }
+
+        #data-collection {
+            display: inline-block;
+            width: 58%;
+            vertical-align: top;
+        }
+
+        #encounter-diagnoses-target {
+            display: inline-block;
+            width: 40%;
+            vertical-align: top;
+        }
+
+        #encounter-diagnoses-app {
+            margin-bottom: 20px;
+        }
+
+        <ifMode mode="EDIT">
+            #disposition small {
+                font-size: 100%;
+                display: block;
+            }
+
+            #disposition span {
+                padding-left: 15px;
+            }
+        </ifMode>
+    </style>
+
+    <ifMode mode="VIEW" include="false">
+        <script type="text/javascript">
+
+
+            var validateForm = function () {
+
+                var needsDisposition = true;
+
+                var hasDisposition = $('#disposition select:first').val() != '';
+
+                var isValid =   $('#where select').val() != '' &amp;&amp;
+                                $('#who select').val() != '' &amp;&amp;
+                                $('#when input').val() != '' &amp;&amp;      // does this actually work?
+                                $('.diagnosis').length &amp;&amp;
+                                getValue("trauma.value") &amp;&amp;
+                               (getValue("trauma.value") != yesCode || $('#trauma-type-container select').val() != '');
+
+                if (hasDisposition || needsDisposition) {
+                    // make sure disposition and all related field have been filled out
+                    isValid = isValid &amp;&amp; !$('#disposition select:visible').is(function() { return $(this).val() == ''; })  &amp;&amp;
+                                                    !$('#disposition input:visible').is(function() { return $(this).val() == ''; })
+                }
+
+                if (isValid) {
+                    htmlForm.enableSubmitButton();
+                }
+                else {
+                    htmlForm.disableSubmitButton();
+                }
+
+            }
+
+            var yesCode = <lookup expression="fn.getConcept('PIH:YES').id"/>;
+            var traumaFieldName = null;
+
+            radioClicked = function(radioButton) {
+                // override this to do nothing -- we don't want to allow unselecting radio buttons here
+            }
+
+            var updateTraumaQuestions = function() {
+                var trauma = getValue("trauma.value") == yesCode;
+                console.log(getValue("trauma.value"));
+                if (!trauma) {
+                    getField("traumaType.value").val("");
+                }
+                $('#trauma-type-container').toggle(trauma);
+            }
+
+            $(function() {
+                traumaFieldName = $('#trauma input[type=radio]').last().attr('name');
+                //$('input[name=' + traumaFieldName + ']').change(updateTraumaQuestions);
+                $('#trauma input').change(updateTraumaQuestions);
+                updateTraumaQuestions();
+
+                // hack to make this look like the entry form. need a better fix in HFE to make radio buttons look right
+                $('#trauma input[type=radio]').last().appendTo('#no-goes-here');
+                $('#trauma label').last().appendTo('#no-goes-here');
+                $('#trauma span.required').hide();
+
+                // yes, a rather large amount of events trigger a validation...
+                $(document).change(validateForm);
+                $(document).click(validateForm);
+                validateForm();
+
+            });
+        </script>
+    </ifMode>
+
+    <ifMode mode="VIEW" include="false">
+        <h2><uimessage code="emr.ed.consult.title"/></h2>
+        <!-- users with retroConsultNote privilege can edit provider, location, and date for both retro and active visits -->
+        <includeIf velocityTest="$user.hasPrivilege('Task: emr.retroConsultNote')">
+            <div id="who-when-where">
+                <p id="who">
+                    <label><uimessage code="emr.patientDashBoard.providerRequired"/></label>
+                    <span><encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/></span>
+                </p>
+                <p id="where">
+                    <label><uimessage code="emr.locationRequired"/></label>
+                    <span><encounterLocation  default="SessionAttribute:emrContext.sessionLocationId" tags="ED Note Location"/></span>
+                </p>
+                <p id="when">
+                    <label><uimessage code="emr.patientDashBoard.date"/></label>
+                    <span><encounterDate id="encounterDate" default="now" /></span>
+                </p>
+            </div>
+        </includeIf>
+        <!-- users with retroConsultNoteThisProviderOnly can edit location and date (but not provider) for retro visits -->
+        <includeIf velocityTest="$user.hasPrivilege('Task: emr.retroConsultNoteThisProviderOnly') and !($user.hasPrivilege('Task: emr.retroConsultNote')) and (!$visit.open)">
+                <div style="display:none">
+                <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
+            </div>
+
+            <div id="who-when-where">
+                <p id="who">
+                    <label><uimessage code="emr.patientDashBoard.provider"/></label>
+                    <span><lookup expression="user.person.personName" /></span>
+                </p>
+                <p id="where">
+                    <label><uimessage code="emr.locationRequired"/></label>
+                    <span><encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="ED Note Location"/></span>
+                </p>
+                <p id="when">
+                    <label><uimessage code="emr.patientDashBoard.date"/></label>
+                    <span><encounterDate id="encounterDate" default="now" /></span>
+                </p>
+            </div>
+        </includeIf>
+        <!-- all users that don't have retroConsultNote privilege cannot edit provider, location or date when active visit -->
+        <includeIf velocityTest="(!$user.hasPrivilege('Task: emr.retroConsultNote')) and ($visit.open)">
+            <div style="display:none">
+                <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
+                <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"/>
+                <encounterDate id="encounterDate" default="now" />
+            </div>
+            <div id="who-when-where">
+                <table id="who-where-when-view">
+                    <tr>
+                        <td>
+                            <label><uimessage code="emr.patientDashBoard.provider"/></label>
+                            <span><lookup complexExpression="#if($encounter) $ui.format($encounter.provider) #else $ui.format($user.person) #end"/></span>
+                        </td>
+                        <td>
+                            <label><uimessage code="emr.location"/></label>
+                            <span><lookup complexExpression="#if($encounter) $ui.format($encounter.location) #else $ui.format($sessionContext.sessionLocation) #end"/></span>
+                        </td>
+                        <td>
+                            <label><uimessage code="emr.patientDashBoard.date"/></label>
+                            <span><lookup complexExpression="#if($encounter) $ui.format($fn.startOfDay($encounter.encounterDatetime)) #else $ui.format($fn.startOfDay($formGeneratedDatetime)) #end"/></span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </includeIf>
+    </ifMode>
+
+    <div id="data-collection">
+
+        <encounterDiagnosesByObs required="true" selectedDiagnosesTarget="#encounter-diagnoses-target"/>
+
+        <div id="disposition">
+            <encounterDisposition/>
+        </div>
+
+        <label><lookup expression="fn.getConcept('PIH:Occurrence of trauma').name"/> (<uimessage code="emr.formValidation.messages.requiredField.label"/>)</label>
+        <p class="radio-btn">
+            <obs id="trauma" conceptId="PIH:Occurrence of trauma" required="true" answerConceptIds="PIH:YES,PIH:NO" style="radio"/>
+        </p>
+        <p class="radio-btn" id="no-goes-here">
+        </p>
+
+        <p id="trauma-type-container">
+            <label><lookup expression="fn.getConcept('PIH:Type of trauma').name"/></label>
+            <obs id="traumaType" conceptId="PIH:Type of trauma" answerConceptIds="PIH:Transport Accident,SNOMED CT:397940009,PIH:Home accident,SNOMED CT:371772001,SNOMED CT:17542004,PIH:OTHER NON-CODED"/>
+        </p>
+
+        <p class="narrow">
+            <label><lookup expression="fn.getConcept('PIH:RETURN VISIT DATE').name"/></label>
+            <obs conceptId="PIH:RETURN VISIT DATE" allowFutureDates="true"/>
+        </p>
+
+        <p>
+            <label><uimessage code="emr.consult.freeTextComments"/></label>
+            <obs conceptId="PIH:CLINICAL IMPRESSION COMMENTS" style="textarea" rows="5"/>
+        </p>
+
+    </div>
+
+    <div id="encounter-diagnoses-target">
+    </div>
+
+    <ifMode mode="VIEW" include="false">
+        <div id="buttons">
+            <button class="submitButton confirm right disabled" onclick="submitHtmlForm()"><uimessage code="mirebalais.save"/><i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i></button>
+            <button type="button" class="cancel"><uimessage code="emr.cancel"/></button>
+        </div>
+    </ifMode>
+
+</htmlform>

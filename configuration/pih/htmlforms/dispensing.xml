@@ -1,0 +1,242 @@
+<htmlform formUuid="ba22eda5-148d-456e-8adc-f36247d1f7c3" formName="Dispensing" formEncounterType="8ff50dea-18a1-4609-b4c9-3f8f2d611b84" formVersion="1.0" class="dispensing-form">
+    <script type="text/javascript">
+        var $j = jQuery;
+
+        htmlForm.getBeforeValidation().push(function() {
+            var numErrors = 0;
+            var numDispensed = 0;
+            var scrolled = false;
+
+            var requiredAndEmpty = function(jqEl) {
+                // medication-instructions is optional
+                // duration and duration-units are optional if frequency = STAT
+                // everything else is required
+                var empty = !jqEl.val() &amp;&amp; jqEl.siblings('input[type="hidden"]').length == 0 || jqEl.siblings('input[type="hidden"]').attr("value") == "";
+                var optional = false;
+                if (jqEl.closest('.medication-instructions').length) {
+                    optional = true;
+                } else if (jqEl.closest('.duration').length || jqEl.closest('.duration-unit').length) {
+                    var freq = jqEl.closest('.medication').find('.frequency select')[0];
+                    if (freq.selectedOptions &amp;&amp; freq.selectedOptions[0].label == 'STAT') {
+                        optional = true;
+                    }
+                }
+                return empty &amp;&amp; !optional;
+            }
+
+            $('fieldset.medication').each(function() {
+                var numEmptyFields = 0;
+                var numFilledFields = 0;
+                $(this).find('input:not(:last), select').each(function() {
+                    $(this).removeClass('emptyValue');
+
+                    if ($(this).val()) {
+                        numFilledFields += 1;
+                    } else {
+                        numEmptyFields += 1;
+                    }
+                });
+
+                var anyErrors = false;
+                if (numFilledFields > 0) {
+                    $(this).find('input, select').each(function () {
+                        if (requiredAndEmpty($(this))) {
+                            if (!$(this).hasClass('illegalValue')) {
+                                $(this).addClass('emptyValue');
+                            }
+                            anyErrors = true;
+                            if (!scrolled) {
+                                $(window).scrollTop($(this).offset().top);
+                                scrolled = true;
+                            }
+                        }
+                    });
+                }
+                if (anyErrors) {
+                    ++numErrors;
+                    $(this).find('.field-error').first().html("<uimessage code="dispensing.error.missingRequiredFields"/>").show();
+
+                    $('.medication input.emptyValue, .medication select.emptyValue').on('blur', function() {
+                        if ($(this).val()) {
+                            if($(this).hasClass('illegalValue')) {
+                                $(this).removeClass('emptyValue');
+                            } else {
+                                if($(this).siblings('input[type="hidden"]').length = 0) {
+                                    $(this).removeClass('emptyValue').addClass('notEmpty');
+                                } else {
+                                    if($(this).siblings('input[type="hidden"]').attr("value") != "") {
+                                        $(this).removeClass('emptyValue').addClass('notEmpty');
+                                    }
+                                }
+                            }
+                        } else {
+                            $(this).removeClass('notEmpty').addClass('emptyValue');
+                        }
+                    });
+
+                } else {
+                    $(this).find('.field-error').first().html("").hide();
+                    if (numFilledFields > 0) {
+                        numDispensed += 1;
+                    }
+                }
+            });
+
+            if (numErrors == 0 &amp;&amp; numDispensed == 0) {
+                $('fieldset.medication').first().find('.field-error').first().html("All fields are required!").show();
+                $(window).scrollTop(300);
+            }
+            return numErrors == 0 &amp;&amp; numDispensed > 0;
+        });
+    </script>
+
+    <ifMode mode="VIEW" include="false">
+        <h2>
+            <uimessage code="mirebalais.dispensing.dispensing"/>
+        </h2>
+    </ifMode>
+    <table id="who-where-when-view">
+        <tr>
+            <includeIf velocityTest="$user.hasRole('Application Role: sysAdmin')">
+                <td>
+                    <label><uimessage code="mirebalais.dispensing.dispensedBy"/></label>
+                    <span><encounterProviderAndRole default="currentUser"
+                                                    providerRoles="8fd1552e-6cb9-4719-b198-23a2c512a073,7ec19cca-f563-4cee-940f-effec16b3b80"
+                                                    encounterRole="bad21515-fd04-4ff6-bfcd-78456d12f168" required="true"/></span>
+                </td>
+                <td>
+                    <label><uimessage code="emr.location"/></label>
+                    <span> <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Dispensing Location"/></span>
+                </td>
+                <td>
+                    <label><uimessage code="emr.patientDashBoard.date"/></label>
+                    <span><encounterDate id="encounterDate" default="today" /></span>
+                </td>
+            </includeIf>
+
+            <includeIf velocityTest="($user.hasRole('Application Role: pharmacist') || $user.hasRole('Application Role: pharmacyAide') || $user.hasRole('Application Role: pharmacyManager'))  and !$user.hasRole('Application Role: sysAdmin')">
+                <div style="display:none">
+                    <encounterProviderAndRole default="currentUser"
+                                              providerRoles="8fd1552e-6cb9-4719-b198-23a2c512a073,7ec19cca-f563-4cee-940f-effec16b3b80"
+                                              encounterRole="bad21515-fd04-4ff6-bfcd-78456d12f168" required="true"/>
+                    <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"/>
+                </div>
+
+                <ifMode mode="ENTER">
+                    <td>
+                        <label><uimessage code="mirebalais.dispensing.dispensedBy"/></label>
+                        <span><lookup expression="user.person.personName" /></span>
+                    </td>
+                    <td>
+                        <label><uimessage code="emr.location"/></label>
+                        <span><lookup complexExpression="$ui.format($sessionContext.sessionLocation)"/></span>
+                    </td>
+                </ifMode>
+
+                <ifMode mode="VIEW" include="false">
+                    <td>
+                        <label><uimessage code="emr.patientDashBoard.date"/></label>
+                        <span><encounterDate id="encounterDate" default="today" /></span>
+                    </td>
+                </ifMode>
+
+            </includeIf>
+        </tr>
+    </table>
+    <div id="typePrescription">
+        <div>
+            <span class="input-container">
+                <label>
+                    <uimessage code="dispensing.medication.typeOfPrescription"/>
+                </label>
+                <obs id="Timing of hospital prescription" required="true" class="select-arrow" conceptId="PIH:9292"/>
+            </span>
+            <span class="input-container">
+                <label>
+                    <uimessage code="dispensing.medication.locationOfPrescription"/>
+                </label>
+
+                <obs id="Discharge location" required="true" style="location" class="select-arrow" conceptId="PIH:9293" />
+            </span>
+            <span class="input-container provider">
+                <label>
+                    <uimessage code="mirebalais.dispensing.prescriber"/>
+                </label>
+
+                <span class="select-arrow">
+                    <encounterProviderAndRole encounterRole="c458d78e-8374-4767-ad58-9f8fe276e01c"
+                                              providerRoles="3182ee51-b895-4804-a342-5f261e995222,556ceee6-d899-43d4-a98b-7973ebc85b75"/>
+                </span>
+            </span>
+        </div>
+   </div>
+
+    <repeat with="['1'],['2'],['3'],['4'],['5'],['6'],['7'],['8']">
+        <obsgroup groupingConceptId="PIH:9070" showIfEmpty="false">
+            <h3>
+                <uimessage code="mirebalais.dispensing.medication"/>
+                {0}
+            </h3>
+            <fieldset class="medication">
+                <p class="field-error" style="display:none"></p>
+                <p>
+                    <label>
+                        <uimessage code="mirebalais.dispensing.medicationName"/>
+                    </label>
+                    <obs id="name{0}" class="medication-name" conceptId="PIH:1282" answerDrugs="true"/>
+                </p>
+                <p class="inline">
+                    <label>
+                        <uimessage code="dispensing.medication.dose"/>
+                    </label>
+                    <obs id="dose{0}" class="doseInput" conceptId="CIEL:160856"/>
+                    <obs id="doseUnit{0}" class="doseInput select-arrow" conceptId="PIH:9074"
+                         answers="mg,g,mL,Application,Capsule,Comprimé,Goutte,Microgramme,Patch,Pompe,Sachet,Unités internationals"
+                         answerCodes="dispensing.units.mg,dispensing.units.g,dispensing.units.mL,dispensing.units.application,dispensing.units.capsule,dispensing.units.tablet,dispensing.units.drop,dispensing.units.mcg,dispensing.units.patch,dispensing.units.pump,dispensing.units.sachet,dispensing.units.IU"/>
+                </p>
+                <p class="inline">
+                    <label>
+                        <uimessage code="mirebalais.dispensing.medicationFrequency"/>
+                    </label>
+
+
+                    <obs id="frequencyCoded{0}" class="frequency select-arrow" conceptId="PIH:9363"
+                         answerConceptIds=
+                                 "PIH:OD,PIH:BID,PIH:TID,PIH:QID,PIH:5D,PIH:6D,PIH:7D,PIH:8D,PIH:9D,PIH:OM,PIH:ON,PIH:PRN,PIH:STAT,PIH:Q2H,PIH:Q3H,PIH:Q4H,PIH:Q6H,PIH:Q12H,PIH:5622"
+                         answerCodes="OD,BID,TID,QID,5D,6D,7D,8D,9D,OM,ON,SOS,STAT,Q2H,Q3H,Q4H,Q6H,Q12H,dispensing.general.other" />
+               </p>
+
+                <p class="inline">
+                    <label>
+                        <uimessage code="mirebalais.dispensing.medicationDuration"  />
+                    </label>
+                    <obs id="duration{0}" class="duration doseInput" conceptId="CIEL:159368"/>
+                        <obs id="durationUnit{0}" class="duration-unit select-arrow" conceptId="PIH:6412" answerConceptIds="PIH:Days,PIH:1073,PIH:Months,PIH:Hours"/>
+                </p>
+                <p class="inline">
+                    <label>
+                        <uimessage code="mirebalais.dispensing.medicationAmount"/>
+                    </label>
+                    <obs id="amount{0}" conceptId="PIH:9071"/>
+                </p>
+                <p>
+                    <label>
+                        <uimessage code="mirebalais.dispensing.medicationInstructions"/>
+                    </label>
+                    <obs id="instructions{0}" class="medication-instructions" conceptId="PIH:9072"/>
+                </p>
+            </fieldset>
+        </obsgroup>
+    </repeat>
+
+    <ifMode mode="VIEW" include="false">
+        <br/><br/>
+        <div id="buttons">
+            <button class="submitButton confirm right" onclick="submitHtmlForm()"><uimessage code="mirebalais.save"/><i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i></button>
+            <button type="button" class="cancel">
+                <uimessage code="emr.cancel"/>
+            </button>
+        </div>
+    </ifMode>
+
+</htmlform>

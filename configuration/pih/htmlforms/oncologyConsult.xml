@@ -1,0 +1,422 @@
+<!--
+  ~ The contents of this file are subject to the OpenMRS Public License
+  ~ Version 1.0 (the "License"); you may not use this file except in
+  ~ compliance with the License. You may obtain a copy of the License at
+  ~ http//license.openmrs.org
+  ~
+  ~ Software distributed under the License is distributed on an "AS IS"
+  ~ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing rights and limitations
+  ~ under the License.
+  ~
+  ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+  -->
+
+
+<htmlform id="oncology-consult-note" class="simple-form-ui" formUuid="28b76a20-105d-11e5-b939-0800200c9a66"
+          htmlformUuid="2a13edbf-4e17-4d9d-9bf8-da10faad5fc5"
+          formName="Oncology Consult Note"
+          formEncounterType="035fb8da-226a-420b-8d8b-3904f3bedb25" formVersion="1.0">
+
+    <style type="text/css">
+
+        #who-when-where {
+        margin-bottom: 6px;
+        border-bottom: 1px solid #ccc;
+        }
+
+        #who-when-where p {
+        display: inline-block;
+        padding-right: 20px;
+        }
+
+        #where > input[type=text] {
+        display: inline-block;
+        }
+
+        .narrow {
+        width: 200px;
+        }
+
+        .field-error {
+        color: #ff6666;
+        font-size: 1.1em;
+        display: block;
+        }
+
+        .column {
+        float: left;
+        width: 50%
+        }
+
+        .column_narrow {
+        float: left;
+        width: 20%
+        }
+
+        .column_wide {
+        float: left;
+        width: 80%
+        }
+
+        .simple-form-ui input {
+        min-width: 80%
+        }
+
+        form fieldset {
+        min-width: 90%
+        }
+
+        #encounterDate input {
+        min-width: 15%
+        }
+
+        textarea {
+        overflow-y: hidden; /* fixes scrollbar flash - kudos to @brettjonesdev */
+        padding-top: 1.1em; /* fixes text jump on Enter keypress */
+        }
+
+        @media print {
+        .print-form-datestamps { display: block !important }
+        button.cancel, button.submit { display: none }
+        label { font-weight: bold }
+        label[for] { font-weight: normal } /* refers to the radio set label */
+        }
+
+        .section-container {
+        background: #F2F2F2;
+        box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+        padding: 10px 5px 10px 15px;
+        line-height: 1.5em; /*add this for vertical spacing between elements*/
+        }
+
+        .section-container input[type="checkbox"] {
+        margin: 0px 5px; /*changed values to vertical, horizontal*/
+        top:5px; /*added to offset the checkbox position to line up*/
+        }
+
+        .section-container label { /*new definition to override labels inside section-containers*/
+        margin: 0px;
+        }
+
+        .section {
+        width: 100%;
+        }
+
+        .diagnosis, .diagnosis-primary, .diagnosis-secondary, .diagnosis-confirmed {
+        display: inline-block;
+        }
+
+        .diagnosis {
+        min-width: 60%
+        }
+
+        .diagnosis-primary, .diagnosis-secondary {
+        min-width: 15%;
+        }
+
+    </style>
+
+
+    <ifMode mode="VIEW" include="false">
+        <script type="text/javascript">
+
+            jq(function() {
+
+                // handle disabling/enabled primary/secondary checkboxes, and setting hidden confirmed checkbox
+                jq('.diagnosis input').focusout(function(e) {
+                    var construct = jq(e.target).closest('.diagnosis-construct');
+                    if (jq(e.target).val()) {
+                        construct.find('.diagnosis-confirmed input').attr('checked', true);
+                    if (!construct.find('.diagnosis-primary input').attr('checked') &amp;&amp;
+                        !construct.find('.diagnosis-secondary input').attr('checked')) {
+                        construct.find('.diagnosis-primary input').attr('checked', true);
+                    }
+                    }
+                    else {
+                        construct.find('.diagnosis-confirmed input').attr('checked', false);
+                        construct.find('.diagnosis-primary input').attr('checked', false);
+                        construct.find('.diagnosis-secondary input').attr('checked', false);
+                    }
+
+                });
+
+                // handle toggling primary/secondary buttons for diagnoses
+                jq('.diagnosis-primary input').change(function(e) {
+                    var construct = jq(e.target).closest('.diagnosis-construct');
+
+                    // can't check if no diagnosis selected
+                    if (!construct.find('.diagnosis input').val()) {
+                        jq(e.target).attr('checked',false);
+                    }
+                    //
+                    else {
+                        jq(e.target).attr('checked', true);
+                        construct.find('.diagnosis-secondary input').attr('checked', false);
+                    }
+                });
+
+                jq('.diagnosis-secondary input').change(function(e) {
+                    var construct = jq(e.target).closest('.diagnosis-construct');
+                    if (!construct.find('.diagnosis input').val()) {
+                        jq(e.target).attr('checked',false);
+                    }
+                    else {
+                        jq(e.target).attr('checked', true);
+                        construct.find('.diagnosis-primary input').attr('checked', false);
+                    }
+                });
+
+            });
+
+        </script>
+    </ifMode>
+
+
+
+    <div class="print-form-datestamps" style="display:none">
+        <p><uimessage code="pihcore.form.created_on"/>:
+            <lookup complexExpression="$form.dateCreated"/>
+        </p>
+        <p><uimessage code="pihcore.form.last_updated_on"/>:
+            <lookup complexExpression="$form.dateChanged"/>
+        </p>
+        <p><uimessage code="pihcore.form.printed_on"/>:
+            <lookup complexExpression="$formGeneratedDatetime"/>
+        </p>
+    </div>
+
+    <ifMode mode="VIEW" include="false">
+        <h2>
+            <label>
+                <uimessage code="pihcore.oncologyConsult.title"/>
+            </label>
+        </h2>
+
+        <!-- users with retroConsultNote privilege can edit provider, location, and date for both retro and active visits -->
+        <includeIf velocityTest="$user.hasPrivilege('Task: emr.retroConsultNote')">
+            <div id="who-when-where">
+                <p id="who">
+                    <label>
+                        <uimessage code="emr.patientDashBoard.providerRequired"/>
+                    </label>
+                    <span>
+                        <encounterProviderAndRole default="currentUser"
+                                                  encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
+                    </span>
+                </p>
+                <p id="where">
+                    <label>
+                        <uimessage code="emr.locationRequired"/>
+                    </label>
+                    <span>
+                        <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"
+                                           tags="Consult Note Location"/>
+                    </span>
+                </p>
+                <p id="when">
+                    <label>
+                        <uimessage code="emr.patientDashBoard.date"/>
+                    </label>
+                    <span>
+                        <encounterDate id="encounterDate" default="now"/>
+                    </span>
+                </p>
+            </div>
+        </includeIf>
+        <!-- users with retroConsultNoteThisProviderOnly can edit location and date (but not provider) for retro visits -->
+        <includeIf
+                velocityTest="$user.hasPrivilege('Task: emr.retroConsultNoteThisProviderOnly') and !($user.hasPrivilege('Task: emr.retroConsultNote')) and (!$visit.open)">
+            <div style="display:none">
+                <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05"
+                                          required="true"/>
+            </div>
+
+            <div id="who-when-where">
+                <p id="who">
+                    <label>
+                        <uimessage code="emr.patientDashBoard.provider"/>
+                    </label>
+                    <span>
+                        <lookup expression="user.person.personName"/>
+                    </span>
+                </p>
+                <p id="where">
+                    <label>
+                        <uimessage code="emr.locationRequired"/>
+                    </label>
+                    <span>
+                        <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"
+                                           tags="Consult Note Location"/>
+                    </span>
+                </p>
+                <p id="when">
+                    <label>
+                        <uimessage code="emr.patientDashBoard.date"/>
+                    </label>
+                    <span>
+                        <encounterDate id="encounterDate" default="now"/>
+                    </span>
+                </p>
+            </div>
+
+        </includeIf>
+        <!-- all users that don't have retroConsultNote privilege cannot edit provider, location or date when active visit -->
+        <includeIf velocityTest="(!$user.hasPrivilege('Task: emr.retroConsultNote')) and ($visit.open)">
+            <div style="display:none">
+                <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05"
+                                          required="true"/>
+                <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"/>
+                <encounterDate id="encounterDate" default="now"/>
+            </div>
+            <div id="who-when-where">
+                <table id="who-where-when-view">
+                    <tr>
+                        <td>
+                            <label>
+                                <uimessage code="emr.patientDashBoard.provider"/>
+                            </label>
+                            <span>
+                                <lookup complexExpression="#if($encounter) $ui.format($encounter.provider) #else $ui.format($user.person) #end"/>
+                            </span>
+                        </td>
+                        <td>
+                            <label>
+                                <uimessage code="emr.location"/>
+                            </label>
+                            <span>
+                                <lookup complexExpression="#if($encounter) $ui.format($encounter.location) #else $ui.format($sessionContext.sessionLocation) #end"/>
+                            </span>
+                        </td>
+                        <td>
+                            <label>
+                                <uimessage code="emr.patientDashBoard.date"/>
+                            </label>
+                            <span>
+                                <lookup complexExpression="#if($encounter) $ui.format($fn.startOfDay($encounter.encounterDatetime)) #else $ui.format($fn.startOfDay($formGeneratedDatetime)) #end"/>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </includeIf>
+    </ifMode>
+
+    <section id="consult" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.oncologyConsult.consult">
+        <div class="section-container">
+            <p>
+                <label>
+                    <uimessage code="pihcore.oncologyConsult.hpi"/>
+                </label>
+                <obs conceptId="PIH:PRESENTING HISTORY" style="textarea" rows="3" cols="80"/>
+            </p>
+            <p>
+                <label>
+                    <uimessage code="pihcore.oncologyIntake.confirmed_diagnosis"/>
+                </label>
+            </p>
+            <!-- TODO: right labels -->
+            <p class="diagnosis-construct">
+                <obsgroup groupingConceptId="PIH:Visit Diagnoses">
+                    <obs class="diagnosis" conceptId="PIH:DIAGNOSIS"
+                         answerConceptSetIds="PIH:7820,PIH:7933,PIH:7934,PIH:7935,PIH:7936,PIH:7942,PIH:7957,PIH:8928,PIH:8934,PIH:8955,PIH:9662,PIH:9684,PIH:9685,PIH:9781"
+                         style="autocomplete"/>
+                    <obs class="diagnosis-primary" conceptId="PIH:Diagnosis order" answerConceptId="PIH:primary" style="checkbox" answerCode="pihcore.oncologyIntake.primary" />
+                    <obs class="diagnosis-secondary" conceptId="PIH:Diagnosis order" answerConceptId="PIH:secondary" style="checkbox" answerCode="pihcore.oncologyIntake.secondary" />
+                    <span style="display:none">
+                        <obs class="diagnosis-confirmed" conceptId="PIH:CLINICAL IMPRESSION DIAGNOSIS CONFIRMED" answerConceptId="PIH:CONFIRMED" style="checkbox"/>
+                    </span>
+                </obsgroup>
+            </p>
+            <p class="diagnosis-construct">
+                <obsgroup groupingConceptId="PIH:Visit Diagnoses">
+                    <obs class="diagnosis" conceptId="PIH:DIAGNOSIS"
+                         answerConceptSetIds="PIH:7820,PIH:7933,PIH:7934,PIH:7935,PIH:7936,PIH:7942,PIH:7957,PIH:8928,PIH:8934,PIH:8955,PIH:9662,PIH:9684,PIH:9685,PIH:9781"
+                         style="autocomplete"/>
+                    <obs class="diagnosis-primary" conceptId="PIH:Diagnosis order" answerConceptId="PIH:primary" style="checkbox" answerCode="pihcore.oncologyIntake.primary" />
+                    <obs class="diagnosis-secondary" conceptId="PIH:Diagnosis order" answerConceptId="PIH:secondary" style="checkbox" answerCode="pihcore.oncologyIntake.secondary"/>
+                    <span style="display:none">
+                        <obs class="diagnosis-confirmed" conceptId="PIH:CLINICAL IMPRESSION DIAGNOSIS CONFIRMED" answerConceptId="PIH:CONFIRMED" style="checkbox"/>
+                    </span>
+                </obsgroup>
+            </p>
+            <p class="diagnosis-construct">
+                <obsgroup groupingConceptId="PIH:Visit Diagnoses">
+                    <obs class="diagnosis" conceptId="PIH:DIAGNOSIS"
+                         answerConceptSetIds="PIH:7820,PIH:7933,PIH:7934,PIH:7935,PIH:7936,PIH:7942,PIH:7957,PIH:8928,PIH:8934,PIH:8955,PIH:9662,PIH:9684,PIH:9685,PIH:9781"
+                         style="autocomplete"/>
+                    <obs class="diagnosis-primary" conceptId="PIH:Diagnosis order" answerConceptId="PIH:primary" style="checkbox" answerCode="pihcore.oncologyIntake.primary" />
+                    <obs class="diagnosis-secondary" conceptId="PIH:Diagnosis order" answerConceptId="PIH:secondary" style="checkbox" answerCode="pihcore.oncologyIntake.secondary"/>
+                    <span style="display:none">
+                        <obs class="diagnosis-confirmed" conceptId="PIH:CLINICAL IMPRESSION DIAGNOSIS CONFIRMED" answerConceptId="PIH:CONFIRMED" style="checkbox"/>
+                    </span>
+                </obsgroup>
+            </p>
+            <p>
+                <label>
+                    <uimessage code="pihcore.oncologyConsult.disease_status"/>
+                </label>
+                <obs conceptId="CIEL:163050" style="dropdown"
+                     answerConceptIds="CIEL:163051,CIEL:163052,CIEL:163053,CIEL:163054,CIEL:163055,CIEL:163056,PIH:1067,PIH:5622"/>
+            </p>
+            <div>
+                <div class="column_narrow">
+                    <label>
+                        <uimessage code="pihcore.oncologyConsult.ecog_perf_status"/>
+                    </label>
+                    <span class="small">
+                        <obs conceptId="CIEL:160379"/>
+                    </span>
+                </div>
+
+                <ifMode mode="VIEW" include="false">
+                    <div class="column_wide">
+                        <br/>
+                        <table align="left" class="muted-header" style="font-size:small">
+                            <tr>
+                                <th><uimessage code="pihcore.oncologyConsult.grade"/></th>
+                                <th><uimessage code="pihcore.oncologyConsult.ecog_performance_status"/></th>
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td><uimessage code="pihcore.oncologyConsult.performance_status_0"/></td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td><uimessage code="pihcore.oncologyConsult.performance_status_1"/></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><uimessage code="pihcore.oncologyConsult.performance_status_2"/></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td><uimessage code="pihcore.oncologyConsult.performance_status_3"/></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td><uimessage code="pihcore.oncologyConsult.performance_status_4"/></td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td><uimessage code="pihcore.oncologyConsult.performance_status_5"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                </ifMode>
+            </div>
+            <p>.
+            </p>
+        </div>
+    </section>
+
+    <ifMode mode="VIEW" include="false">
+        <div id="buttons">
+            <submit submitClass="confirm right" submitCode="mirebalais.save"/>
+            <button type="button" class="cancel">
+                <uimessage code="emr.cancel"/>
+            </button>
+        </div>
+    </ifMode>
+
+</htmlform>

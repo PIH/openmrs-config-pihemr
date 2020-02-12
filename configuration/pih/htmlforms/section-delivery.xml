@@ -1,0 +1,350 @@
+<htmlform id="section-delivery"
+          formUuid="14ebad5e-d7dc-11e8-9f8b-f2801f1b9fd1"
+          formName="MCH Delivery section"
+          formVersion="1.0">
+
+    <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.CleanDiagnosisConstructAction"/>
+
+    <style type="text/css">
+
+        form fieldset {
+            min-width: 90%
+        }
+
+        #encounterDate input {
+            min-width: 15%
+        }
+
+        textarea {
+            overflow-y: hidden; /* fixes scrollbar flash - kudos to @brettjonesdev */
+            padding-top: 1.1em; /* fixes text jump on Enter keypress */
+        }
+
+        @media print {
+            .print-form-datestamps { display: block !important }
+            button.cancel, button.submit { display: none }
+            label { font-weight: bold }
+            label[for] { font-weight: normal } /* refers to the radio set label */
+        }
+
+        .section-container {
+            background: #F2F2F2;
+            box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+            padding: 10px 5px 10px 15px;
+            line-height: 1.5em; /*add this for vertical spacing between elements*/
+        }
+
+        .section-container input[type="checkbox"] {
+            margin: 0px 5px; /*changed values to vertical, horizontal*/
+            top:5px; /*added to offset the checkbox position to line up*/
+        }
+
+        .section-container label { /*new definition to override labels inside section-containers*/
+            margin: 0px;
+        }
+
+       - .section {
+        width: 100%;
+        }
+
+        .two-columns {
+            column-count: 2;
+            -webkit-column-count: 2;
+            -moz-column-count: 2;
+        }
+
+    </style>
+
+    <style type="text/css">
+        <ifMode mode="VIEW" include="true">
+
+            #section-delivery legend {
+            display: none;
+            }
+
+            #section-delivery fieldset {
+            margin: 0px;
+            border: 0px;
+            padding: 0px;
+            }
+
+            #section-delivery fieldset h3 {
+            font-size: 1em;
+            width: 200px;
+            display: inline-block;
+            margin: 0px;
+            margin-right: 10px;
+            color: #501d3d;
+            vertical-align: top;
+            }
+
+            #section-delivery fieldset p {
+            vertical-align: top;
+            display: inline-block;
+            float: none;
+            }
+
+            #section-delivery fieldset .left {
+            vertical-align: top;
+            display: inline-block;
+            float: none;
+            }
+
+            #section-delivery .title {
+            display: none;
+            }
+
+            form input[type="radio"], .form input[type="radio"] {
+                float: none;
+                display: inline-block;
+            }
+
+            .apgar label {
+                display: inline-block;
+            }
+
+            #section-delivery .encounter-date {
+            display: none;
+            }
+
+            #section-delivery .encounter-provider {
+            display: none;
+            }
+
+            #section-delivery .encounter-location {
+            display: none;
+            }
+
+            #section-delivery .comment-label {
+            display: none;
+            }
+
+            #section-delivery .comment-field {
+            display: block;
+            margin-left: 215px;
+            }
+
+            #section-delivery br {
+            display: none;
+            }
+        </ifMode>
+    </style>
+
+    <ifMode mode="VIEW" include="false">
+
+        <script type="text/javascript">
+            jq(document).ready(function() {
+
+            // get timestamp of obs.valueDateTime
+            var lastLMP = '<lookup expression="fn.latestObs('CIEL:1427').getValueDatetime().getTime()"/>';
+            // console.log("lastLMP: " + lastLMP);
+            var currentEncounterDate = '<lookup expression="encounter.getEncounterDatetime().getTime()"/>';
+            if (typeof lastLMP !== "undefined" &amp;&amp; lastLMP !== null &amp;&amp; (lastLMP.length > 0)) {
+
+                var lastLMPDate = new Date(+lastLMP);
+
+                if ( (Object.prototype.toString.call(lastLMPDate) === "[object Date]") &amp;&amp; !isNaN(lastLMPDate.getTime())) {
+                    var today = new Date();
+                    if (typeof currentEncounterDate !== "undefined" &amp;&amp; currentEncounterDate !== null &amp;&amp; (currentEncounterDate.length > 0)) {
+                        // calculate the gestational age at the time of the encounter
+                        today = new Date(+currentEncounterDate);
+                    }
+
+                    var years = today.getFullYear() - lastLMPDate.getFullYear();  // Start with difference in calendar year
+                    var months = today.getMonth() - lastLMPDate.getMonth(); // Add or subtract the months apart
+                    var dayDiff = today.getDate() - lastLMPDate.getDate(); // Subtract a month if the day of the month is earlier
+                    var monthsBetween = years*12 + months - (dayDiff >= 0 ? 0 : 1);
+
+                    if (monthsBetween >= 1 &amp;&amp;  monthsBetween &lt;= 9) {
+                        // patient is pregnant
+
+                        // time difference
+                        var timeDiff = Math.abs(today.getTime() - lastLMPDate.getTime());
+                        // weeks difference = gestational age
+                        var diffWeeks = Math.ceil(timeDiff / (1000 * 3600 * 24 * 7));
+
+                        var estimatedDeliveryDate = new Date(+lastLMP);
+                        // Estimated Delivery Date = (LMP - 3 months) + 12 months + 7 days
+                        estimatedDeliveryDate.setMonth(estimatedDeliveryDate.getMonth() - 3);
+                        estimatedDeliveryDate.setFullYear(estimatedDeliveryDate.getFullYear() + 1);
+                        estimatedDeliveryDate.setDate(estimatedDeliveryDate.getDate() + 7);
+
+                        var widgetDate = getField('lastPeriodDate.value').datepicker('setDate', estimatedDeliveryDate).val();
+                        getField('lastPeriodDate.value').datepicker('setDate', null);
+
+                        jq('#calculated-edd-and-gestational').show();
+                        jq('#calculated-edd').text(widgetDate);
+                        jq('#calculated-gestational-age-value').text(diffWeeks + " " + '<uimessage code="pihcore.weeks"/>');
+                    }
+
+              }
+            } else {
+              jq('#calculated-edd-and-gestational').hide();
+            }
+
+                // handle our custom functionality for triggering going to the next section when the "Next" button is clicked
+                jq('#next').click(function() {
+                    window.htmlForm.getBeforeSubmit().push(function () {
+                        window.htmlForm.setReturnUrl(window.htmlForm.getReturnUrl() + "&amp;goToNextSection=section-delivery");
+                        return true;
+                    });
+
+                    window.htmlForm.submitHtmlForm();
+                });
+
+                jq('#submit').click(function() {
+                    window.htmlForm.submitHtmlForm();
+                })
+
+            });
+        </script>
+    </ifMode>
+
+    <section id="labor-delivery" sectionTag="fieldset" headerTag="legend"
+             headerStyle="title" headerCode="pihcore.delivery.title">
+
+        <div class="section-container">
+                <div class="two-columns">
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.mch.deliveryDate"/>
+                        </label>
+                        <span class="small">
+                            <obs conceptId="CIEL:5599" allowTime="false" />
+                        </span>
+                    </p>
+
+                    <div id="calculated-edd-and-gestational" class="hidden">
+                        <p>
+                            <span id="calculated-edd-wrapper">
+                                <span id="calculated-edd-label">
+                                    <uimessage code="pihcore.calculatedEstimatedDeliveryDate"/>:&#160;
+                                </span>
+                                <span id='calculated-edd' class="value">
+                                    <lookup expression="fn.latestObs('CIEL:1427').valueDatetime"/>
+                                </span>
+                                <span class="small hidden">
+                                    <obs id="lastPeriodDate" conceptId="CIEL:1427" allowFutureDates="false"/>
+                                </span>
+                            </span>
+                        </p>
+                        <p>
+                            <span id="calculated-gestational-age-wrapper">
+                                <span id="calculated-gestational-age-label">
+                                    <uimessage code="pihcore.calculatedGestationalAge"/>:&#160;
+                                </span>
+                                <span id='calculated-gestational-age-value' class="value"></span>
+                            </span>
+                        </p>
+                    </div>
+                    <!-- Mental Health -->
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.mentalhealth.title"/>
+                        </label>
+
+                        <obs conceptId="PIH:Mental health diagnosis" answerConceptId="PIH:DEPRESSION"
+                             style="checkbox"/>
+                        <obs conceptId="PIH:Mental health diagnosis" answerConceptId="PIH:Post traumatic stress disorder"
+                             style="checkbox"/>
+                        <obs conceptId="PIH:Mental health diagnosis" answerConceptId="PIH:SCHIZOPHRENIA"
+                             style="checkbox"/>
+                    </p>
+                    <br/><br/>
+
+                    <!-- Delivery type -->
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.mch.deliveryType"/>
+                        </label>
+                        <obs conceptId="PIH:11663" answerConceptId="CIEL:162595" style="checkbox"  />
+                        <obs conceptId="PIH:11663" answerConceptId="CIEL:161631" style="checkbox"  />
+                        <obs conceptId="PIH:11663" answerConceptId="CIEL:155884" style="checkbox"  />
+                    </p>
+
+                    <!-- APGAR -->
+                    <p class="apgar">
+                        <label>
+                            <uimessage code="pihcore.mch.apgarScore"/>
+                        </label>
+
+                        <obs conceptId="PIH:11932" answerConceptIds="PIH:11933,PIH:11934,PIH:11935"
+                             answerCodes="pihcore.mch.lessThan4,pihcore.mch.between4and8,pihcore.mch.greaterThan8"
+                             style="radio" answerSeparator=""  />
+                    </p>
+                </div>
+
+                <hr/>
+                <p>
+                    <label>
+                        <uimessage code="pihcore.findings.label"/>
+                    </label>
+                </p>
+
+                <div class="two-columns">
+                    <!-- Findings during delivery -->
+                    <p>
+                        <repeat>
+                            <template>
+                                <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
+                                    <obs conceptId="PIH:DIAGNOSIS" answerConceptId="{concept}" style="checkbox" />
+                                </obsgroup>
+                            </template>
+
+                            <!-- Baby -->
+                            <render concept="CIEL:130109" name="abnormal placenta"/>
+                            <render concept="CIEL:115939" name="abnormal presentation"/>
+                            <render concept="CIEL:145935" name="cephalopelvic distortion"/>
+                            <render concept="CIEL:162239" name="low birth weight"/>
+                            <render concept="CIEL:111523" name="Premature less than 28 weeks"/>
+                            <render concept="PIH:11789" name="Premature (28-32)"/>
+                            <render concept="PIH:11790" name="Premature (32-36)"/>
+                            <render concept="CIEL:127639" name="Respiratory distress" />
+                            <render concept="PIH:Birth Asphyxia" name="birth asphyxia"/>
+                            <render concept="PIH:Fetal distress" name="Fetal distress" />
+                            <render concept="CIEL:116642" name="Fetal demise"/>
+                            <render concept="CIEL:118245" name="fetal retardation"/>
+                            <render concept="CIEL:143849" name="Congenital malformation" />
+                            <render concept="CIEL:145548" name="Chorioamnionitis" />
+                            <render concept="CIEL:129211" name="rupture membrane"/>
+                            <render concept="CIEL:115866" name="aspiration meconium"/>
+
+                            <!-- Momma -->
+                            <render concept="CIEL:165088" name="gbv"/>
+                            <render concept="CIEL:113006" name="severe pre-eclampsia"/>
+                            <render concept="PIH:Eclampsia" name="eclampsia"/>
+                            <render concept="PIH:POSTPARTUM HEMORRHAGE" name="postpartum hemorrhage"/>
+                            <render concept="CIEL:121856" name="Acute pulmonary edema" />
+                            <render concept="CIEL:130" name="Puerperal sepsis" />
+                            <render concept="CIEL:138706" name="herpes"/>
+                            <render concept="CIEL:112493" name="syphilis"/>
+                        </repeat>
+
+                            <obs conceptId="PIH:6644" answerConceptId="PIH:174"
+                                 answerCode="pihcore.mch.otherSTI" style="checkbox"/>
+
+                            <obs conceptId="PIH:6644" answerConceptId="PIH:OTHER"
+                                 showCommentField="true" commentFieldLabel="" style="checkbox" />
+                        <br/>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    <ifMode mode="VIEW" include="false">
+        <div id="buttons">
+            <button id="next" type="button" class="submitButton confirm right">
+                <uimessage code="emr.next"/>
+                <i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i>
+            </button>
+            <button id="submit" class="submitButton confirm right">
+                <uimessage code="mirebalais.save"/>
+                <i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i>
+            </button>
+            <button id="cancel" type="button" class="cancel">
+                <uimessage code="emr.cancel"/>
+            </button>
+        </div>
+    </ifMode>
+
+</htmlform>

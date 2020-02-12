@@ -1,0 +1,329 @@
+<!--
+  ~ The contents of this file are subject to the OpenMRS Public License
+  ~ Version 1.0 (the "License"); you may not use this file except in
+  ~ compliance with the License. You may obtain a copy of the License at
+  ~ http://license.openmrs.org
+  ~
+  ~ Software distributed under the License is distributed on an "AS IS"
+  ~ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing rights and limitations
+  ~ under the License.
+  ~
+  ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+  -->
+
+<htmlform formUuid="43acf930-eb1b-11e2-91e2-0800200c9a66" formName="Admission" formEncounterType="260566e1-c909-4d61-a96f-c1019291a09d" formVersion="2.0">
+
+    <style type="text/css">
+        #who-when-where {
+        margin-bottom: 6px;
+        border-bottom: 1px solid #ccc;
+        }
+
+        #who-when-where p {
+        display: inline-block;
+        padding-right: 20px;
+        }
+
+        #where > input[type=text] {
+        display: inline-block;
+        }
+
+        .narrow {
+        width: 200px;
+        }
+
+        .field-error {
+        color: #ff6666;
+        font-size: 1.1em;
+        display: block;
+        }
+
+        <ifMode mode="VIEW" include="false">
+            #data-collection {
+            display: inline-block;
+            width: 58%;
+            vertical-align: top;
+            }
+
+            #encounter-diagnoses-target {
+            display: inline-block;
+            width: 40%;
+            vertical-align: top;
+            }
+
+            #encounter-diagnoses-app {
+            margin-bottom: 20px;
+            }
+
+        </ifMode>
+
+    </style>
+
+    <script type="text/javascript">
+
+        var validateForm = function () {
+
+            var isValid =   jq('#where select').val() != '' &amp;&amp;
+                            jq('#who select').val() != '' &amp;&amp;
+                            jq('#when input').val() != '' &amp;&amp;      // does this actually work?
+                            jq('.diagnosis').length;
+
+            if (isValid) {
+                htmlForm.enableSubmitButton();
+            }
+            else {
+                htmlForm.disableSubmitButton();
+            }
+
+        }
+
+
+        $(function() {
+            // yes, a rather large amount of events trigger a validation...
+            jq(document).change(validateForm);
+            jq(document).click(validateForm);
+            validateForm();
+        });
+
+    </script>
+
+    <!-- WRISTBAND FUNCTIONALITY (JAVASCRIPT)  -->
+    <!-- dialog to ask whether or not to print a wristband, which we only do for active visits in ENTER mode at locations that have wristband printer configured -->
+    <ifMode mode="ENTER" include="true">
+        <includeIf velocityTest="($visit.open)">
+            <script type="text/javascript">
+
+                jq(function() {
+
+                    // this lookup returns a comma-separated list of locations that support wristbands, which then can be assigned as an array to this variable
+                    var idsOflocationsThatSupportWristbandPrinting = [<lookup complexExpression="#set ($locations = $printer.fn.getLocationsWithDefaultPrinter($printer.type.WRISTBAND)) #foreach ($location in $locations)'$location.id'#if ($velocityCount &lt;= $locations.size() - 1),#end#end"/>]
+
+                    var printWristbandDialog;
+                    var printWristband = null; // (null = we have not yet prompted user if they want to print a wristband; true = print wristband; false = don't print wristband)
+
+                    // set up the dialog to prompt the user if they want to print a wristband or not
+                    printWristbandDialog = emr.setupConfirmationDialog({
+                        selector: '#print-wristband-dialog',
+                        actions: {
+                            confirm: function(event) {
+                                event.stopPropagation();
+                                printWristbandDialog.close();
+                                printWristband = true;  // user selected yes ("confirm") so set flag to print wristband
+                            },
+                            cancel: function(event) {
+                                event.stopPropagation();
+                                printWristbandDialog.close();
+                                printWristband = false; // user selected no ("cancel") so set flag to *not* print wristband
+                                jq('.submitButton').click();  // re-trigger submit
+                            }
+                        }
+                    });
+
+                    beforeSubmit.push(function() {
+
+                        // if this is not a location with a wristband printer configured, skip prompting to print
+                        if (idsOflocationsThatSupportWristbandPrinting.indexOf(getValue('encounterLocation.value')) == -1) {
+                            return true;
+                        }
+
+                        // if we have not yet asked whether or not to print a wristband, show that dialog and suspend the submit
+                        if (printWristband == null) {
+                            printWristbandDialog.show();
+                            return false;
+                        }
+
+                        // otherwise print the print wristband if requested
+                        else {
+                            if(printWristband == true) {
+
+                                // temporarily turn ajax to synchronized so we can block if printing is not successful (a little bit hacky, probably better ito disable just this call?)
+                                jq.ajaxSetup({async:false});
+
+                                // call the function to print a wristband (at the admission location)
+                                emr.getFragmentActionWithCallback('mirebalais', 'wristband', 'printWristband', { patientId: <lookup expression="patient.id"/> , locationId: getValue("encounterLocation.value") },
+                                    function(data) {
+                                        success = data.success;
+                                        if (success) {
+                                            emr.successMessage(data.message);
+                                        }
+                                        else {
+                                            // reopen display error message and reopen modal
+                                            jq('#print-wristband-error').text(data.message + " <uimessage code='mirebalais.admissionNote.admitWithoutWristband'/>");
+                                            jq('#print-wristband-error').show();
+                                            printWristbandDialog.show();
+                                        }
+                                    });
+
+                                jq.ajaxSetup({async:true});
+
+                                // continue with submit if wristband printing was successful
+                                return success;
+                            }
+                            else {
+                                // continue with submit if user chooses *not* to print a wristband
+                                return true;
+                            }
+                        }
+                    });
+                });
+
+            </script>
+        </includeIf>
+    </ifMode>
+    <!-- END WRISTBAND FUNCTIONALITY (JAVASCRIPT)  -->
+
+    <ifMode mode="ENTER" include="true">
+        <includeIf velocityTest="($visit.open)">
+            <script type="text/javascript">
+
+                // if this is an active visit (visit.open), and we are entering this form for the first time (mode=ENTER),
+                // set the encounter location to the most recent location that an admission request was placed for this patient during *this visit*
+
+                var admitToLocationId = '<lookup expression="fn.latestObs('f3e04276-2db0-4181-b937-d73275dc1b15').valueText"/>';
+                var admitToLocationVisitId = '<lookup expression="fn.latestObs('f3e04276-2db0-4181-b937-d73275dc1b15').encounter.visit.id"/>';
+                var activeVisitId = '<lookup expression="visit.visit.id"/>';
+
+                $(function() {
+                    if(admitToLocationId != '' &amp;&amp; admitToLocationVisitId == activeVisitId) {
+                        setValue('encounterLocation.value', admitToLocationId);
+                    }
+                });
+
+            </script>
+        </includeIf>
+    </ifMode>
+
+    <h2><label><uimessage code="mirebalais.admissionNote.label"/></label></h2>
+
+    <!-- users with retroConsultNote privilege can edit provider, location, and date for both retro and active visits -->
+    <includeIf velocityTest="$user.hasPrivilege('Task: emr.retroConsultNote')">
+        <div id="who-when-where">
+            <p id="who">
+                <label><uimessage code="mirebalais.admissionNote.admittingClinician.label"/></label>
+                <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
+            </p>
+
+            <p id="where">
+                <label><uimessage code="mirebalais.admissionNote.admittedTo.label"/></label>
+                <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Admission Location"/>
+            </p>
+
+            <p id="when">
+                <label><uimessage code="mirebalais.admissionNote.admissionDate.label"/></label>
+                <encounterDate id="encounterDate" showTime="false" default="now"/>
+            </p>
+        </div>
+    </includeIf>
+    <!-- users with retroConsultNoteThisProviderOnly can edit location and date (but not provider) for retro visits -->
+    <includeIf velocityTest="$user.hasPrivilege('Task: emr.retroConsultNoteThisProviderOnly') and !($user.hasPrivilege('Task: emr.retroConsultNote')) and (!$visit.open)">
+        <div style="display:none">
+            <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
+        </div>
+
+        <div id="who-when-where">
+            <p id="who">
+                <label><uimessage code="mirebalais.admissionNote.admittingClinician.label"/></label>
+                <span><lookup expression="user.person.personName" /></span>
+            </p>
+
+            <p id="where">
+                <label><uimessage code="mirebalais.admissionNote.admittedTo.label"/></label>
+                <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"  tags="Admission Location"/>
+            </p>
+
+            <p id="when">
+                <label><uimessage code="mirebalais.admissionNote.admissionDate.label"/></label>
+                <encounterDate id="encounterDate" showTime="false" default="now"/>
+            </p>
+        </div>
+
+    </includeIf>
+    <!-- all users that don't have retroConsultNote privilege can only edit location when active visit -->
+    <includeIf velocityTest="(!$user.hasPrivilege('Task: emr.retroConsultNote')) and ($visit.open)">
+        <div style="display:none">
+            <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
+        </div>
+        <div id="who-when-where">
+            <p id="who">
+                <label><uimessage code="mirebalais.admissionNote.admittingClinician.label"/></label>
+                <span><lookup complexExpression="#if($encounter) $ui.format($encounter.provider) #else $ui.format($user.person) #end"/></span>
+            </p>
+            <p id="where">
+                <label><uimessage code="mirebalais.admissionNote.admittedTo.label"/></label>
+                <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"  tags="Admission Location"/>
+            </p>
+            <p id="when">
+                <label><uimessage code="mirebalais.admissionNote.admissionDate.label"/></label>
+                <span><lookup complexExpression="#if($encounter) $ui.format($fn.startOfDay($encounter.encounterDatetime)) #else $ui.format($fn.startOfDay($formGeneratedDatetime)) #end"/></span>
+            </p>
+        </div>
+        <div style="display:none">
+            <encounterDate id="encounterDate" default="now" />
+        </div>
+    </includeIf>
+
+    <div id="data-collection">
+        <encounterDiagnosesByObs required="true" selectedDiagnosesTarget="#encounter-diagnoses-target" includePriorDiagnosesFromMostRecentEncounterWithDispositionOfType="ADMIT"/>
+    </div>
+
+    <div id="encounter-diagnoses-target">
+    </div>
+
+    <ifMode mode="VIEW" include="false">
+        <div id="buttons">
+            <submit submitClass="confirm right" submitCode="mirebalais.save"/>
+            <button type="button" class="cancel"><uimessage code="emr.cancel"/></button>
+        </div>
+    </ifMode>
+
+
+    <!-- WRISTBAND FUNCTIONALITY (DIALOG) -->
+    <!-- dialog to ask whether or not to print a wristband, which we only do for active visits in ENTER mode at admission locations that have wristband printer configured -->
+    <ifMode mode="ENTER" include="true">
+        <includeIf velocityTest="($visit.open)">
+            <div id="print-wristband-dialog" class="dialog" style="display: none">
+                <div class="dialog-header">
+                    <i class="icon-folder-open"></i>
+                    <h3><uimessage code="mirebalais.admissionNote.printWristband.title"/></h3>
+                </div>
+                <div class="dialog-content">
+                    <span class="error field-error" style="display: none" id="print-wristband-error"></span>
+                    <p class="dialog-instructions"><uimessage code="mirebalais.admissionNote.printWristband.prompt"/></p>
+
+                    <!-- we decide whether to default to "yes" or "no" based on the most recent check-in location; patients
+                    at these locations should already have received wristbands:
+                    Ijans (f3a5586e-f06c-4dfb-96b0-6f3451a35e90)
+                    Sal Avan Operasyon | PACU (109a13a9-029d-498d-b66e-bab5eb396996)
+                    Chimyoterapi (dc8413be-1075-48b5-9857-9bd4954686ed)
+                    Ijans | Sante Fanm (d65eb8cf-d781-4ea8-9d9a-2b3e03c6074c)
+                    Sal Aprè Akouchman (950852f3-8a96-4d82-a5f8-a68a92043164)
+                    Swen Entansif Neonatal (62a9500e-a1a5-4235-844f-3a8cc0765d53) -->
+
+                    <includeIf velocityTest="$visit.mostRecentCheckInEncounter.location.uuid == 'f3a5586e-f06c-4dfb-96b0-6f3451a35e90'
+                                            || $visit.mostRecentCheckInEncounter.location.uuid == '109a13a9-029d-498d-b66e-bab5eb396996'
+                                            || $visit.mostRecentCheckInEncounter.location.uuid == 'dc8413be-1075-48b5-9857-9bd4954686ed'
+                                            || $visit.mostRecentCheckInEncounter.location.uuid == 'd65eb8cf-d781-4ea8-9d9a-2b3e03c6074c'
+                                            || $visit.mostRecentCheckInEncounter.location.uuid == '950852f3-8a96-4d82-a5f8-a68a92043164'
+                                            || $visit.mostRecentCheckInEncounter.location.uuid == '62a9500e-a1a5-4235-844f-3a8cc0765d53'">
+                        <!-- first button will have focus by default, so we have default=no here -->
+                        <button  class="cancel"><uimessage code="emr.no"/></button>
+                        <button  class="confirm right"><uimessage code="emr.yes"/></button>
+                    </includeIf>
+                    <includeIf velocityTest="$visit.checkInEncounter.location.uuid != 'f3a5586e-f06c-4dfb-96b0-6f3451a35e90'
+                                            &amp;&amp; $visit.mostRecentCheckInEncounter.location.uuid != '109a13a9-029d-498d-b66e-bab5eb396996'
+                                            &amp;&amp; $visit.mostRecentCheckInEncounter.location.uuid != 'dc8413be-1075-48b5-9857-9bd4954686ed'
+                                            &amp;&amp; $visit.mostRecentCheckInEncounter.location.uuid != 'd65eb8cf-d781-4ea8-9d9a-2b3e03c6074c'
+                                            &amp;&amp; $visit.mostRecentCheckInEncounter.location.uuid != '950852f3-8a96-4d82-a5f8-a68a92043164'
+                                            &amp;&amp; $visit.mostRecentCheckInEncounter.location.uuid != '62a9500e-a1a5-4235-844f-3a8cc0765d53'">
+                        <!-- first button will have focus by default, so we have default=true here -->
+                        <button  class="confirm right"><uimessage code="emr.yes"/></button>
+                        <button  type="button" class="cancel"><uimessage code="emr.no"/></button>
+                    </includeIf>
+                </div>
+            </div>
+        </includeIf>
+    </ifMode>
+    <!-- END WRISTBAND FUNCTIONALITY (DIALOG) -->
+
+</htmlform>

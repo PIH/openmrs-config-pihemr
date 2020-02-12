@@ -1,0 +1,382 @@
+<htmlform formUuid="178f9aa8-550a-11e7-b114-b2f933d5fe66"
+          formName="Test order" formVersion="1.0">
+
+    <style type="text/css">
+
+        form fieldset {
+        display: block;
+        }
+
+        #test-orders {
+        }
+
+        #test-orders input[type=checkbox] {
+            float: none;
+            vertical-align: middle;
+        }
+
+        #test-orders p {
+            margin-bottom: 5px
+        }
+
+        #test-orders span, #test-orders label {
+            display: inline !important;
+            vertical-align: middle;
+        }
+
+
+        .three-columns {
+            column-count: 3;
+            -webkit-column-count: 3;
+            -moz-column-count: 3;
+        }
+
+        .section-container-color {
+            background: #F2F2F2;
+            box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+            padding: 10px 5px 10px 15px;
+            line-height: 1.5em; /*add this for vertical spacing between elements*/
+        }
+
+
+       - .section {
+        width: 100%;
+        }
+
+        label {
+            padding: 0px 3px 0px 0px
+        }
+
+    </style>
+
+    <ifMode mode="VIEW" include="false">
+        <h3>
+            <uimessage code="pihcore.order.title"/>
+        </h3>
+
+        <script type="text/javascript">
+            jq(document).ready(function() {
+
+                // handle our custom functionality for triggering going to the next section when the "Next" button is clicked
+                jq('#next').click(function() {
+                    window.htmlForm.getBeforeSubmit().push(function () {
+                        window.htmlForm.setReturnUrl(window.htmlForm.getReturnUrl() + "&amp;goToNextSection=lab-rad-order");
+                        return true;
+                    });
+
+                    window.htmlForm.submitHtmlForm();
+                })
+
+                jq('#submit').click(function() {
+                    window.htmlForm.submitHtmlForm();
+                })
+
+            });
+        </script>
+    </ifMode>
+
+    <div class="lab-rad-order">
+        <h4>
+            <uimessage code="pihcore.lab_order.title"/>
+        </h4>
+
+        <div class="three-columns">
+            <p>
+                <label>
+                    <uimessage code="pihcore.lab.hematology.title"/>
+                </label>
+            </p>
+            <repeat>
+                <template>
+                    <p>
+                        <obs conceptId="PIH:Lab test ordered coded"
+                             answerConceptId="{labName}"
+                             style="checkbox" />
+                    </p>
+                </template>
+
+                <!-- Hematology -->
+                <render labName="PIH:HEMOGLOBIN" comment="Hemoglobin"/>
+                <render labName="PIH:HEMATOCRIT" comment="Hematocrit"/>
+                <render labName="CIEL:1019" comment="Hemogram"/>
+                <render labName="CIEL:160225" comment="Sickling"/>
+                <render labName="CIEL:161152" comment="Coagulation"/>
+                <render labName="PIH:BLOOD TYPING" comment="Blood group"/>
+                <render labName="CIEL:161233" comment="Crossmatching"/>
+                <render labName="CIEL:161421" comment="Hemoglobin electrophoresis"/>
+            </repeat>
+
+            <!-- Parasitology -->
+            <hr/>
+            <label>
+                <uimessage code="pihcore.lab.parasitology.title"/>
+            </label>
+
+            <repeat>
+                <template>
+                    <p>
+                        <obs conceptId="PIH:Lab test ordered coded"
+                             answerConceptId="{labName}"
+                             style="checkbox" />
+                    </p>
+                </template>
+                <render labName="CIEL:32" comment="Malaria smear"/>
+                <render labName="CIEL:1643" comment="Malaria RDT"/>
+                <render labName="CIEL:304" comment="Stool"/>
+            </repeat>
+
+            <!-- ANC -->
+            <includeIf velocityTest="$patient.gender == 'F' ">
+                <hr/>
+                <p>
+                    <label>
+                        ANC
+                    </label>
+                </p>
+                <repeat>
+                    <template>
+                        <p>
+                            <obs conceptId="PIH:Lab test ordered coded"
+                                 answerConceptId="{labName}"
+                                 answerCode="{codeLabel}"
+                                 style="checkbox"/>
+                        </p>
+                    </template>
+                    <render labName="PIH:B-HCG" codeLabel="pihcore.lab.pregnancy" comment="Pregnancy"/>
+                    <render labName="PIH:RPR" codeLabel="pihcore.lab.syphilis" comment="Syphilis (RPR)"/>
+                    <render labName="PIH:11481" codeLabel="pihcore.lab.vaginal" comment="Vaginal discharge"/>
+                </repeat>
+            </includeIf>
+
+            <includeIf velocityTest="$patient.gender == 'M' ">
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+            </includeIf>
+
+            <!-- Chemistry -->
+            <p>
+                <label>
+                    <uimessage code="pihcore.lab.chemistry.title"/>
+                </label>
+            </p>
+            <repeat>
+                <template>
+                    <p>
+                        <obs conceptId="PIH:Lab test ordered coded"
+                             answerConceptId="{labName}"
+                             style="checkbox" />
+                    </p>
+                </template>
+                <render labName="CIEL:887" comment="Glucose"/>
+                <render labName="CIEL:159644" comment="HbA1c"/>
+                <render labName="CIEL:953" comment="Liver (LFT)"/>
+                <render labName="CIEL:161488" comment="Renal (RFT)"/>
+                <render labName="CIEL:1010" comment="Lipid panel"/>
+                <render labName="CIEL:5473" comment="Electrolytes" />
+            </repeat>
+
+            <p>
+                <label>
+                    <uimessage code="pihcore.lab.serology.title"/>
+                </label>
+            </p>
+            <repeat>
+                <template>
+                    <p>
+                        <obs conceptId="PIH:Lab test ordered coded"
+                             answerConceptId="{labName}"
+                             style="checkbox" />
+                    </p>
+                </template>
+
+                <!-- Serology -->
+                <render labName="CIEL:163618" comment="Chlamydia"/>
+                <render labName="CIEL:161475" comment="Hep B"/>
+                <render labName="CIEL:161474" comment="Hep C"/>
+                <render labName="CIEL:159645" comment="Spinal fluid (CSF)"/>
+                <render labName="CIEL:161500" comment="C-reactive protein"/>
+                <render labName="CIEL:163613" comment="CrAg"/>
+           </repeat>
+           <repeat>
+               <template>
+                   <p>
+                       <obs conceptId="PIH:Lab test ordered coded"
+                            answerConceptId="{labName}"
+                            answerCode="{codeLabel}"
+                            style="checkbox" />
+                   </p>
+               </template>
+
+               <!-- Serology continued -->
+                <render labName="CIEL:306" codeLabel="pihcore.lab.typhoid" comment="Typhoid (Widal)"/>
+                <render labName="CIEL:161469" codeLabel="ASO" comment="ASO"/>
+            </repeat>
+
+            <includeIf velocityTest="$patient.gender == 'F' ">
+                <br/>
+                <br/>
+            </includeIf>
+            <includeIf velocityTest="$patient.age &lt; 2">
+                <br/>
+            </includeIf>
+
+            <!-- TB -->
+            <p>
+                <label>
+                    <uimessage code="pihcore.lab.tb.title"/>
+                </label>
+            </p>
+            <repeat>
+                <template>
+                    <p>
+                        <obs conceptId="PIH:Lab test ordered coded"
+                             answerConceptId="{labName}"
+                             answerCode="{codeLabel}"
+                             style="checkbox" />
+                    </p>
+                </template>
+
+                <render labName="PIH:TUBERCULOSIS SMEAR RESULT" codeLabel="pihcore.lab.tbSmear" comment="AFB / Smear"/>
+                <render labName="PIH:TUBERCULOSIS CULTURE RESULT" codeLabel="pihcore.lab.tbCulture" comment="TB culture"/>
+                <render labName="CIEL:164945" codeLabel="pihcore.lab.tbGeneXpert" comment="GenXpert"/>
+            </repeat>
+
+            <!-- HIV -->
+            <p>
+                <label>
+                    <uimessage code="pihcore.lab.hiv.title"/>
+                </label>
+            </p>
+
+            <!-- Only for infant (less than 2) -->
+            <includeIf velocityTest="$patient.age &lt; 2">
+                <repeat>
+                    <template>
+                        <p>
+                            <obs conceptId="PIH:Lab test ordered coded"
+                                 answerConceptId="{labName}"
+                                 answerCode="{codeLabel}"
+                                 style="checkbox"/>
+                        </p>
+                    </template>
+                    <render labName="CIEL:1030" codeLabel="pihcore.lab.hivpcr" comment="HIV PCR"/>
+                </repeat>
+            </includeIf>
+
+            <repeat>
+                <template>
+                    <p>
+                        <obs conceptId="PIH:Lab test ordered coded"
+                             answerConceptId="{labName}"
+                             answerCode="{codeLabel}"
+                             style="checkbox" />
+                    </p>
+                </template>
+
+                <render labName="CIEL:163722" codeLabel="pihcore.lab.hivRapid" comment="AFB / Smear"/>
+                <render labName="PIH:1041" codeLabel="pihcore.lab.elisaQuant" comment="HIV ELISA (quant)"/>
+                <!-- ToDo: ELISA EID -->
+                <render labName="PIH:HIV VIRAL LOAD" codeLabel="pihcore.lab.viralLoad" comment="HIV viral load"/>
+                <includeIf velocityTest="$patient.age &lt; 2">
+                    <render labName="PIH:CD4 COUNT" codeLabel="pihcore.lab.hivpcr" comment="HIV PCR"/>
+                </includeIf>
+                <render labName="PIH:CD4 COUNT" codeLabel="pihcore.lab.cd4" comment="CD4 count"/>
+            </repeat>
+
+            <!-- Other -->
+            <p>
+                <label>
+                    <uimessage code="pihcore.other"/>
+                </label>
+            </p>
+
+            <includeIf velocityTest="$patient.gender == 'F' ">
+                <repeat>
+                    <template>
+                        <p>
+                            <obs conceptId="PIH:Lab test ordered coded"
+                                 answerConceptId="{labName}"
+                                 answerCode="{comment}"
+                                 style="checkbox"/>
+                        </p>
+                    </template>
+                    <render labName="CIEL:885" comment="PAP test"/>
+                </repeat>
+            </includeIf>
+
+            <repeat>
+                <template>
+                    <p>
+                        <obs conceptId="PIH:Lab test ordered coded"
+                             answerConceptId="{labName}"
+                             answerCode="{comment}"
+                             style="checkbox" />
+                    </p>
+                </template>
+                <render labName="CIEL:302" comment="pihcore.lab.urine"/>
+                <render labName="CIEL:161454" comment="Gram stain"/>
+                <render labName="CIEL:163620" comment="H pylori"/>
+            </repeat>
+            <p>
+                <obs conceptId="PIH:Lab test ordered coded"
+                     answerConceptId="PIH:OTHER"
+                     answerCode="zl.ifOtherSpecify"
+                     style="checkbox"
+                     showCommentField="true" commentFieldLabel=""/>
+            </p>
+        </div>
+    </div>
+
+    <hr/>
+    <div id="rad-orders">
+        <h4>
+            <uimessage code="pihcore.rad_order.title"/>
+        </h4>
+
+        <includeIf velocityTest="!$config.isComponentEnabled('radiology')">
+
+            <!-- ToDo: This is different from the Radiology app which uses encounter
+                 and order.  This uses  'Radiology procedure performed'.
+                 Add interpretation and date -->
+            <p>
+                <obs conceptId="PIH:Radiology image ordered"
+                     answerConceptId="PIH:Chest 1 view (XRay)"
+                     style="checkbox"/>
+            </p>
+            <p>
+                <label>
+                    <uimessage code="zl.ifOtherSpecify"/>
+                </label>
+            </p>
+            <p>
+                <obs conceptId="PIH:Radiology image ordered"
+                     answerClasses="Radiology/Imaging Procedure"
+                     style="autocomplete"/>
+            </p>
+
+        </includeIf>
+        <includeIf velocityTest="$config.isComponentEnabled('radiology')">
+            <p>At HUM, use <uimessage code="pihcore.rad_order.title"/></p>
+        </includeIf>
+
+    </div>
+
+    <ifMode mode="VIEW" include="false">
+        <div id="buttons">
+            <button id="next" type="button" class="submitButton confirm right">
+                <uimessage code="emr.next"/>
+                <i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i>
+            </button>
+            <button id="submit" class="submitButton confirm right">
+                <uimessage code="mirebalais.save"/>
+                <i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i>
+            </button>
+            <button id="cancel" type="button" class="cancel">
+                <uimessage code="emr.cancel"/>
+            </button>
+        </div>
+    </ifMode>
+
+</htmlform>

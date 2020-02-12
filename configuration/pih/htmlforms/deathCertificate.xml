@@ -1,0 +1,703 @@
+<htmlform class="simple-form-ui2" formUuid="c18d68ce-a130-4460-8cdf-6fbfaa33487e" formName="Death certificate"
+          htmlformUuid="0a05b378-0479-47ba-ae98-d87b5483cb17"
+          formEncounterType="1545d7ff-60f1-485e-9c95-5740b8e6634b" formVersion="2.1">
+
+    <script type="text/javascript">
+        window.messages = window.messages || { };
+        window.messages['htmlformentry.general.days'] = '<uimessage code="htmlformentry.general.days"/>';
+    </script>
+
+    <style class="text/css">
+        @media print {
+            div.patient-header {
+                display: none;
+            }
+            body {
+                font-size: 13px;
+            }
+        }
+
+        /* the "required" class tells simple-form-entry UI to apply a validation, but it causes HFE to make the color red */
+        .required.date-component {
+            color: #003F5E; // $text from Mirebalais customVariables.scss
+        }
+
+        fieldset#institutional-view {
+            float: left;
+            width: 45%;
+        }
+
+        fieldset#extra-institutional-view {
+            display: inline-block;
+            width: 45%;
+            vertical-align: top;
+        }
+
+        #permit {
+            display: inline-block;
+            width: 45%;
+            margin-top: 20px;
+            margin-left: 12px;
+        }
+
+        p.start-line {
+            clear: left;
+        }
+
+        .one-quarter {
+            display: inline-block;
+            width: 22%;
+            vertical-align: top;
+        }
+
+        .three-quarters {
+            display: inline-block;
+            width: 70%;
+            vertical-align: top;
+        }
+
+        .one-third {
+            display: inline-block;
+            width: 30%;
+            vertical-align: top;
+        }
+
+        .two-thirds {
+            display: inline-block;
+            width: 60%;
+            vertical-align: top;
+        }
+
+        .one-half {
+            display: inline-block;
+            width: 46%;
+            vertical-align: top;
+        }
+
+        .value {
+            font-weight: bold;
+            color: blue;
+        }
+
+        .spaced {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        label {
+            font-size: 0.8em;
+        }
+
+        h4#title {
+            text-align: center;
+            border-top: 1px #a0a0a0 solid;
+            border-bottom: 1px #a0a0a0 solid;
+        }
+
+        .big-display {
+            font-size: 1.5em;
+        }
+
+        .coded-or-free-text-title, .coded-or-free-text-between {
+            font-size: 0.8em;
+        }
+    </style>
+
+    <ifMode mode="VIEW">
+        <lookup complexExpression="#set( $certificate = $fn.getObs($encounter, 'PIH: Visited provider during illness').valueCoded.equals($fn.getConcept('PIH: YES')) )"/>
+
+        <h4 id="title">
+            <small>MINISTERE DE LA SANTE PUBLIQUE ET DE LA POPULATION (MSPP)</small>
+            <br/>
+            CERTIFICAT / CONSTAT DE DECES
+        </h4>
+
+        <section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Caracteristiques du defunt">
+            <p>
+                <label>Nom</label>
+                <lookup class="value" expression="patient.personName"/>
+            </p>
+            <p class="one-third">
+                <label>Sexe</label>
+                <lookup class="value" expression="patient.gender"/>
+            </p>
+            <p class="one-third">
+                <label>Âge</label>
+                <lookup class="value" expression="patient.age"/>
+            </p>
+            <p class="one-third">
+                <label>Date de naissance</label>
+                <lookup class="value" complexExpression="#if( \$patient.birthdateEstimated ) ~#end"/> <lookup class="value" expression="patient.birthdate"/>
+            </p>
+            <p>
+                <label>Résidence</label>
+                <lookup class="value" complexExpression="#foreach( $addr in $patient.addresses ) $ui.format($addr).replaceAll('\n', ', ') &lt;br/&gt;#end"/>
+            </p>
+            <p class="one-quarter">
+            </p>
+            <p class="three-quarters">
+                <label>Habitat</label>
+                <obs conceptId="PIH: Classification of residential environment" locale="fr"/>
+            </p>
+            <p class="one-third">
+                <label>État matrimonial</label>
+                <obs conceptId="PIH: CIVIL STATUS" locale="fr"/>
+            </p>
+            <p class="one-half">
+                <label>Occupation</label>
+                <obs conceptId="PIH: MAIN ACTIVITY, NON-CODED" locale="fr"/>
+            </p>
+            <p class="one-quarter">
+                <label>Décès maternel</label>
+                <obs conceptId="PIH: Maternal death" locale="fr"/>
+            </p>
+        </section>
+
+        <section id="location" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Lieu du deces">
+            <p class="one-half">
+                <includeIf velocityTest="$fn.getObs($encounter, 'PIH: Location of death').valueCoded.equals($fn.getConcept('PIH: Home')) || $fn.getObs($encounter, 'PIH: Location of death').valueCoded.equals($fn.getConcept('PIH: OTHER NON-CODED'))">
+                    <span class="value">[X] <lookup expression="fn.getConcept('PIH: Outside of institution').getName($fn.locale('fr'))"/></span>
+                </includeIf>
+                <excludeIf velocityTest="$fn.getObs($encounter, 'PIH: Location of death').valueCoded.equals($fn.getConcept('PIH: Home')) || $fn.getObs($encounter, 'PIH: Location of death').valueCoded.equals($fn.getConcept('PIH: OTHER NON-CODED'))">
+                    <span class="emptyValue">[&amp;nbsp;&amp;nbsp;] <lookup expression="fn.getConcept('PIH: Outside of institution').getName($fn.locale('fr'))"/></span>
+                </excludeIf>
+            </p>
+            <p class="one-half">
+                <obs id="institutional-death-span" conceptId="PIH: Location of death" answerConceptId="PIH: HOSPITAL" locale="fr"/>
+            </p>
+            <p class="one-quarter">
+                <label>Si extra institutionnel</label>
+            </p>
+            <p class="three-quarters">
+                <span class="one-third">
+                    <obs conceptId="PIH: Location of death" answerConceptId="PIH: Home" locale="fr"/>
+                </span>
+                <span class="two-thirds">
+                    <obs conceptId="PIH: Location of death" answerConceptId="PIH: OTHER NON-CODED" locale="fr"/>
+                    <obs conceptId="PIH: Location of death non coded" locale="fr"/>
+                </span>
+            </p>
+            <p class="one-quarter">
+                <label>Si institutionnel</label>
+            </p>
+            <p class="three-quarters">
+                <span class="one-half">
+                    Institution:
+                    <includeIf velocityTest="$fn.getObs($encounter, 'PIH: Location of death').valueCoded.equals($fn.getConcept('PIH: HOSPITAL'))">
+                        <span class="value">HUM</span>
+                    </includeIf>
+                </span>
+                <span class="one-half">
+                    Lieu du deces: <obs conceptId="PIH: Location of death at institution" style="location" locale="fr"/>
+                </span>
+            </p>
+            <p class="two-thirds">
+                <label>Durée d'hospitalisation (en jours)</label>
+                <obs conceptId="PIH: Duration of hospitalization when patient died" locale="fr"/>
+            </p>
+            <p class="one-third">
+                <label>Numéro dossier</label>
+                <lookup class="value" complexExpression="#foreach( $patId in $patientIdentifiers.get('Nimewo Dosye') ) $patId #end "/>
+            </p>
+        </section>
+
+        <section id="care" sectionTag="div" headerTag="div" headerStyle="" headerCode="">
+            <p class="spaced">
+                <label>Le défunt-a-t-il été vu par un personnel de santé au cours de cette maladie?</label>
+                <obs conceptId="PIH: Visited provider during illness" locale="fr"/><br/>
+            </p>
+        </section>
+
+        <section id="institutional-view" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Certificat / Constat de deces">
+            <p>
+                <label>Je soussigné</label>
+                <span class="value">
+                    <encounterProviderAndRole encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05"/>
+                </span>
+            </p>
+            <obsgroup groupingConceptId="PIH:9722">
+            <p>
+                <obs conceptId="PIH:TITLE WHO COMPLETED FORM" answerConceptIds="PIH:DOCTOR,PIH:NURSE,PIH:OTHER" style="radio" locale="fr"/>
+                <obs conceptId="PIH:GENERAL FREE TEXT"/>
+            </p>
+            </obsgroup>
+            <p>
+                <label>
+                    certifie par la présente que la personne identifiée ci-dessus est décédée le
+                </label>
+                <includeIf velocityTest="$certificate">
+                    <encounterDate showTime="true"/>
+                </includeIf>
+            </p>
+
+            <br/>
+            <p>
+                I. <causeOfDeathList locale="fr"/>
+            </p>
+
+            <br/>
+            <p>
+                II. <label>Autre état morbide important ayant contribué au décès mais sans rapport avec la maladie ou l'état morbide qui l'a provoqué</label>
+                <codedOrFreeTextObs codedConceptId="PIH: Condition contributing to the death"
+                                    nonCodedConceptId="PIH: Condition contributing to the death non coded" locale="fr"/>
+            </p>
+
+            <br/>
+            <p>
+                <label>Moyen(s) de confirmation du diagnostic</label>
+                <p>
+                    <obs conceptId="PIH: Method of confirming death" answerConceptId="PIH: SURGERY" locale="fr"/>
+                </p>
+                <p>
+                    <obs conceptId="PIH: Method of confirming death" answerConceptId="PIH: Autopsy" locale="fr"/>
+                </p>
+            </p>
+        </section>
+
+        <section id="extra-institutional-view" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Source d'information">
+            <p>
+                <obs conceptId="PIH: Source of information" answerConceptId="PIH: FAMILY MEMBER" locale="fr"/>
+            </p>
+            <p>
+                <obs conceptId="PIH: Source of information" answerConceptId="PIH: Police" locale="fr"/>
+            </p>
+            <p>
+                <obs conceptId="PIH: Source of information" answerConceptId="PIH: Undertaker" locale="fr"/>
+            </p>
+            <p>
+                <obs conceptId="PIH: Source of information" answerConceptId="PIH: OTHER NON-CODED" locale="fr"/>
+            </p>
+            <p>
+                <br/>
+                <label>Circonstances du décès</label>
+                <br/>
+                <obs conceptId="PIH: Circumstances of death" style="textarea" rows="4" cols="80"/>
+            </p>
+            <p>
+                <excludeIf velocityTest="$certificate">
+                    <br/>
+                    <label>Date de décès</label>
+                    <encounterDate showTime="true"/>
+                </excludeIf>
+            </p>
+        </section>
+
+        <section id="permit" sectionTag="div" headerTag="div">
+            <p>
+                <label>Permis d'inhumer : N°</label>
+                <obs conceptId="PIH: Burial certificate" />
+            </p>
+            <p>
+                <label>CODE CIM-10</label>
+                <lookup class="value" complexExpression="#foreach($mapping in $patient.causeOfDeath.conceptMappings) #if($mapping.conceptReferenceTerm.conceptSource.name == 'ICD-10-WHO') $mapping.conceptReferenceTerm.code #end  #end"/>
+            </p>
+        </section>
+
+        <div style="clear:both; padding-top:25px">
+            Signature:
+            <div style="border-bottom: 1px black solid; width: 450px; display: inline-block"></div>
+            <br/>
+            <div style="padding-left: 150px; font-size: 0.9em;">
+                Hôpital Universitaire de Mirebalais<br/>
+                Route Départmentale 11,
+                Mirebalais, Haïti
+            </div>
+        </div>
+    </ifMode>
+
+    <p style="display: none">
+        <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"/>
+    </p>
+
+    <ifMode mode="VIEW" include="false">
+        <script type="text/javascript">
+            var encounterDateInput; // set in a script at the end of the page
+            ExitHandlers['calc-enc-date'] = {
+                handleExit: function(fieldModel) {
+                    var date = $('.calc-enc-date.year').val() + '-' +
+                        $('.calc-enc-date.month').val() + '-' +
+                        leadingZero($('.calc-enc-date.day').val());
+                    encounterDateInput.val(date);
+
+                    $('#encounterDate .hfe-seconds').val(0);
+                    if (Number($('.calc-enc-date.hour').val()) == 0) {
+                        $('.calc-enc-date.hour').val('');
+                        $('.calc-enc-date.minute').val('');
+                        $('.calc-enc-date.ampm').val('AM');
+
+                        $('#encounterDate .hfe-hours').val(hours);
+                        $('#encounterDate .hfe-minutes').val(minutes);
+                    }
+                    else {
+                        var hours = ($('.calc-enc-date.ampm').val() == 'PM' ? 12 : 0) +
+                        Number($('.calc-enc-date.hour').val());
+                        var minutes = $('.calc-enc-date.minute').val();
+
+                        $('#encounterDate .hfe-hours').val(hours);
+                        $('#encounterDate .hfe-minutes').val(minutes);
+                    }
+                    return true;
+                }
+            }
+
+            function leadingZero(input) {
+                return (input &lt; 10) ? ("0" + input) : input;
+            }
+
+            var defaultDeathDate = null;
+            if ('<lookup expression="patient.deathDate"/>') {
+                defaultDeathDate = new Date(<lookup expression="patient.deathDate.time"/>);
+            }
+
+            $(function() {
+                // when you navigate to one of the date component field, select all its text
+                // (might be nice to do this elsewhere also)
+                $('.date-component').focus(function() {
+                    $(this).select();
+                });
+
+                var demogConfirm = '<lookup expression="patient.personName.familyName"/>, ';
+                demogConfirm += '<lookup expression="patient.personName.givenName"/>, ';
+                demogConfirm += '<lookup expression="patient.gender"/>, ';
+                demogConfirm += '<lookup complexExpression="#if( $patient.birthdateEstimated )~#end"/>';
+                demogConfirm += '<lookup expression="patient.birthdate"/>,';
+                demogConfirm += '<lookup complexExpression="#foreach( $addr in $patient.addresses ) $ui.format($addr).replaceAll('\n', ', ')#end"/>';
+                $('#hidden-demog').val(demogConfirm);
+            });
+        </script>
+
+        <section id="demographics" sectionTag="section" headerStyle="title" headerCode="mirebalais.deathCertificate.demographics">
+
+            <fieldset>
+                <legend>Patient</legend>
+                <p class="left">
+                    <label>Nom</label>
+                    <span class="big-display">
+                        <lookup expression="patient.personName.familyName"/>
+                    </span>
+                </p>
+                <p class="left">
+                    <label>Prénom</label>
+                    <span class="big-display">
+                        <lookup expression="patient.personName.givenName"/>
+                    </span>
+                </p>
+                <p style="clear: left" class="left">
+                    <label><uimessage code="coreapps.gender"/></label>
+                    <span class="big-display">
+                        <lookup expression="patient.gender"/>
+                    </span>
+                </p>
+                <p class="left">
+                    <label><uimessage code="coreapps.birthdate"/></label>
+                    <span class="big-display">
+                        <lookup complexExpression="#if( $patient.birthdateEstimated ) ~ #end"/>
+                        <lookup expression="patient.birthdate"/>
+                    </span>
+                </p>
+                <p class="left">
+                    <label><uimessage code="coreapps.age"/></label>
+                    <span class="big-display">
+                        <lookup expression="patient.age"/>
+                    </span>
+                </p>
+                <p style="clear: left">
+                    <label><uimessage code="mirebalais.deathCertificate.address"/></label>
+                    <span class="big-display">
+                        <lookup complexExpression="#foreach( $addr in $patient.addresses ) $ui.format($addr).replaceAll('\n', ', ') &lt;br/&gt;#end"/>
+                    </span>
+                </p>
+                <p style="clear: left">
+                    <label style="display: none">Name</label>
+                    <br/>
+                    <br/>
+                    <uimessage code="mirebalais.vitals.calculatedField.continue"/>
+                    <input type="hidden" id="hidden-demog"/>
+                </p>
+            </fieldset>
+
+            <fieldset>
+                <legend><uimessage code="mirebalais.deathCertificate.habitat"/></legend>
+                <p class="radio">
+                    <label><uimessage code="mirebalais.deathCertificate.habitat"/></label>
+                    <obs conceptId="PIH: Classification of residential environment" size="2" answerConceptIds="PIH:Urban,PIH:Rural"/>
+                </p>
+            </fieldset>
+
+            <fieldset>
+                <legend><uimessage code="mirebalais.deathCertificate.civil_status"/></legend>
+                <p>
+                    <label><uimessage code="mirebalais.deathCertificate.civil_status"/></label>
+                    <obs conceptId="PIH: CIVIL STATUS" size="7" answerConceptIds="PIH:SINGLE OR A CHILD,PIH:MARRIED,PIH:LIVING WITH PARTNER,PIH:SEPARATED,PIH:DIVORCED,PIH:WIDOWED"/>
+                </p>
+            </fieldset>
+
+            <fieldset>
+                <legend><uimessage code="mirebalais.deathCertificate.occupation"/></legend>
+                <p>
+                    <label><uimessage code="mirebalais.deathCertificate.occupation"/></label>
+                    <obs conceptId="PIH: MAIN ACTIVITY, NON-CODED" size="60"/>
+                </p>
+            </fieldset>
+
+            <fieldset>
+                <legend><uimessage code="mirebalais.deathCertificate.maternal_death"/></legend>
+                <p>
+                    <label><uimessage code="mirebalais.deathCertificate.maternal_death"/></label>
+                    <obs conceptId="PIH: Maternal death" size="2"/>
+                </p>
+            </fieldset>
+        </section>
+
+        <section id="death" sectionTag="section" headerStyle="title" headerCode="mirebalais.deathCertificate.death_details">
+            <fieldset display-template="{{field.[0]}} {{field.[1]}} {{field.[2]}} {{#if field.[3]}}{{field.[3]}}:{{/if}}{{field.[4]}} {{#if field.[3]}}{{field.[5]}}{{/if}}" class="calc-enc-date">
+                <legend><uimessage code="mirebalais.deathCertificate.date_of_death"/></legend>
+                <h3><uimessage code="mirebalais.deathCertificate.date_of_death"/></h3>
+
+                <encounterDate showTime="true" default="now" widget="hidden"/>
+
+                <p class="required left" id="test-container">
+                    <label><uimessage code="uicommons.multipleInputDate.day.label"/></label>
+                    <input type="text" name="death-date-day" class="calc-enc-date day number numeric-range date-component required" min="1" max="31" maxLength="2" size="5"/>
+                </p>
+                <p class="required left">
+                    <label><uimessage code="uicommons.multipleInputDate.month.label"/></label>
+                    <select name="death-date-month" class="calc-enc-date month date-component required">
+                        <option value=""></option>
+                        <option value="01"><uimessage code="uicommons.month.1"/></option>
+                        <option value="02"><uimessage code="uicommons.month.2"/></option>
+                        <option value="03"><uimessage code="uicommons.month.3"/></option>
+                        <option value="04"><uimessage code="uicommons.month.4"/></option>
+                        <option value="05"><uimessage code="uicommons.month.5"/></option>
+                        <option value="06"><uimessage code="uicommons.month.6"/></option>
+                        <option value="07"><uimessage code="uicommons.month.7"/></option>
+                        <option value="08"><uimessage code="uicommons.month.8"/></option>
+                        <option value="09"><uimessage code="uicommons.month.9"/></option>
+                        <option value="10"><uimessage code="uicommons.month.10"/></option>
+                        <option value="11"><uimessage code="uicommons.month.11"/></option>
+                        <option value="12"><uimessage code="uicommons.month.12"/></option>
+                    </select>
+                </p>
+                <p class="required left">
+                    <label><uimessage code="uicommons.multipleInputDate.year.label"/></label>
+                    <input type="text" name="death-date-year" class="calc-enc-date year number date-component required" min="1900" max="2100" maxLength="4" size="5"/>
+                </p>
+                <p class="left" style="clear: left">
+                    <label><uimessage code="mirebalais.deathCertificate.hour"/></label>
+                    <input type="text" name="death-date-hour" class="calc-enc-date hour number numeric-range date-component" min="1" max="12" maxLength="2" size="5"/>
+                </p>
+                <p class="left">
+                    <label><uimessage code="mirebalais.deathCertificate.minute"/></label>
+                    <input type="text" name="death-date-minute" class="calc-enc-date minute number numeric-range leading-zeros date-component" min="0" max="59" maxLength="2" size="5"/>
+                </p>
+                <p class="left">
+                    <label>AM/PM</label>
+                    <select name="death-date-ampm" class="calc-enc-date ampm date-component" style="min-width: 0px">
+                        <option value="AM">AM</option>
+                        <option value="PM">PM</option>
+                    </select>
+                </p>
+            </fieldset>
+
+            <fieldset display-template="{{field.[0]}} ({{field.[1]}}{{#if field.[2]}}: {{field.[2]}}{{/if}})">
+                <legend><uimessage code="mirebalais.deathCertificate.death_captured_by"/></legend>
+
+                <p class="required">
+                    <label><uimessage code="mirebalais.deathCertificate.form_signed_by"/></label>
+                    <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
+                </p>
+
+                <obsgroup groupingConceptId="PIH:9722">
+                    <p class="required">
+                        <label><uimessage code="mirebalais.deathCertificate.form_signed_role"/></label>
+                        <obs id="form-signed-role" conceptId="PIH:TITLE WHO COMPLETED FORM" answerConceptIds="PIH:DOCTOR,PIH:NURSE,PIH:OTHER" size="3">
+                            <controls>
+                                <when value="PIH:OTHER"
+                                      thenJavaScript="htmlForm.simpleUi.showField('form-signed-role-other')"
+                                      elseJavaScript="htmlForm.simpleUi.hideField('form-signed-role-other')"/>
+                            </controls>
+                        </obs>
+                    </p>
+                    <p id="form-signed-role-other" class="left">
+                        <label><uimessage code="mirebalais.deathCertificate.specify"/></label>
+                        <obs conceptId="PIH:GENERAL FREE TEXT"/>
+                    </p>
+                </obsgroup>
+            </fieldset>
+        </section>
+
+        <section id="location" sectionTag="section" headerStyle="title" headerCode="mirebalais.deathCertificate.location">
+            <fieldset>
+                <legend><uimessage code="mirebalais.deathCertificate.location"/></legend>
+
+                <p class="required">
+                    <label><uimessage code="mirebalais.deathCertificate.location"/></label>
+                    <obs id="deathLocation" conceptId="PIH: Location of death" answerConceptIds="PIH: HOSPITAL,PIH: Home,PIH: OTHER NON-CODED" size="3">
+                        <controls>
+                            <when value="PIH: HOSPITAL"
+                                  thenJavaScript="htmlForm.simpleUi.showQuestion('if-institutional')"
+                                  elseJavaScript="htmlForm.simpleUi.hideQuestion('if-institutional')"/>
+                            <when value="PIH: OTHER NON-CODED"
+                                  thenJavaScript="htmlForm.simpleUi.showField('if-other')"
+                                  elseJavaScript="htmlForm.simpleUi.hideField('if-other')"/>
+                        </controls>
+                    </obs>
+                </p>
+                <p id="if-other">
+                    <label><uimessage code="mirebalais.deathCertificate.specify"/></label>
+                    <obs conceptId="PIH: Location of death non coded"/>
+                </p>
+            </fieldset>
+
+            <fieldset id="if-institutional" display-template="{{field.[0]}}{{#if field.[1]}}, {{field.[1]}} {{message 'htmlformentry.general.days'}}{{/if}}">
+                <legend><uimessage code="mirebalais.deathCertificate.if_internal"/></legend>
+                <p>
+                    <label><uimessage code="mirebalais.deathCertificate.location"/></label>
+                    <obs conceptId="PIH: Location of death at institution" style="location"/>
+                </p>
+
+                <p>
+                    <label><uimessage code="mirebalais.deathCertificate.days_in_hospital"/></label>
+                    <obs conceptId="PIH: Duration of hospitalization when patient died"/>
+                </p>
+            </fieldset>
+        </section>
+
+        <section id="care" sectionTag="section" headerStyle="title" headerCode="mirebalais.deathCertificate.doctor_visit_short">
+            <fieldset>
+                <legend><uimessage code="mirebalais.deathCertificate.doctor_visit_short"/></legend>
+
+                <p class="required">
+                    <label><uimessage code="mirebalais.deathCertificate.doctor_visit"/></label>
+                    <obs id="seenByDoctor" conceptId="PIH: Visited provider during illness" style="dropdown" size="3">
+                        <controls>
+                            <when value="PIH: YES"
+                                  thenJavaScript="htmlForm.simpleUi.showSection('certificat-constat')"
+                                  elseJavaScript="htmlForm.simpleUi.hideSection('certificat-constat')"/>
+                            <when value="PIH: NO"
+                                  thenJavaScript="htmlForm.simpleUi.showSection('source-circumstances')"
+                                  elseJavaScript="htmlForm.simpleUi.hideSection('source-circumstances')"/>
+                        </controls>
+                    </obs>
+                </p>
+            </fieldset>
+        </section>
+
+        <section id="certificat-constat" sectionTag="section" headerStyle="title" headerCode="mirebalais.deathCertificate.death_certificate">
+            <fieldset>
+                <legend><uimessage code="mirebalais.deathCertificate.cause_of_death"/></legend>
+                <causeOfDeathList/>
+            </fieldset>
+            <fieldset>
+                <legend><uimessage code="mirebalais.deathCertificate.contributing_condition_title"/></legend>
+                <codedOrFreeTextObs titleCode="mirebalais.deathCertificate.contributing_condition"
+                                    codedConceptId="PIH: Condition contributing to the death"
+                                    nonCodedConceptId="PIH: Condition contributing to the death non coded"
+                                    conceptClasses="Diagnosis,Finding,Symptom/Finding" />
+            </fieldset>
+            <fieldset>
+                <legend><uimessage code="mirebalais.deathCertificate.diagnosis_method_short"/></legend>
+                <h3><uimessage code="mirebalais.deathCertificate.diagnosis_method"/></h3>
+                <p>
+                    <obs conceptId="PIH: Method of confirming death" answerConceptId="PIH: SURGERY"/>
+                </p>
+                <p>
+                    <obs conceptId="PIH: Method of confirming death" answerConceptId="PIH: Autopsy"/>
+                </p>
+            </fieldset>
+        </section>
+
+        <section id="source-circumstances" sectionTag="section" headerStyle="title" headerCode="mirebalais.deathCertificate.info_source">
+            <fieldset display-template="{{field.[0]}}{{#if field.[0]}}:{{/if}} {{field.[1]}}">
+                <legend><uimessage code="mirebalais.deathCertificate.info_source"/></legend>
+                <p>
+                    <label><uimessage code="mirebalais.deathCertificate.info_source"/></label>
+                    <obs conceptId="PIH: Source of information" style="dropdown" size="5"
+                         answerConceptIds="PIH: FAMILY MEMBER, PIH: Police, PIH: Undertaker, PIH: OTHER NON-CODED"/>
+                </p>
+                <p class="required">
+                    <label><uimessage code="mirebalais.deathCertificate.circumstances"/></label>
+                    <obs conceptId="PIH: Circumstances of death" style="textarea" rows="4" cols="75"/>
+                </p>
+            </fieldset>
+        </section>
+
+        <section id="burial" sectionTag="section" headerStyle="title" headerCode="mirebalais.deathCertificate.burial_certificate">
+            <fieldset>
+                <legend><uimessage code="mirebalais.deathCertificate.burial_certificate"/></legend>
+                <p>
+                    <label><uimessage code="mirebalais.deathCertificate.burial_certificate"/></label>
+                    <obs conceptId="PIH: Burial certificate" />
+                </p>
+            </fieldset>
+        </section>
+
+        <markPatientDead/>
+
+        <script type="text/javascript">
+            // this code snippet is here (outside of a $(function) block) because we need it to happen before the navigator
+            // model is built, and the date question does determineDisplayValue() the first time.
+
+            encounterDateInput = $('#encounterDate input[type=hidden]').first();
+
+            // set both the hidden inputs (from the encounterDate tag) and the custom visible inputs for this form
+            if (defaultDeathDate) {
+                // set date (y/m/d) fields
+                var ymd = defaultDeathDate.toISOString();
+                encounterDateInput.val(ymd.substring(0,10));
+                $('.calc-enc-date.year').val(ymd.substring(0, 4));
+                $('.calc-enc-date.month').val(ymd.substring(5, 7));
+                $('.calc-enc-date.day').val(ymd.substring(8, 10));
+
+                var hour = defaultDeathDate.getHours();
+                var minute = defaultDeathDate.getMinutes();
+                $('#encounterDate .hfe-hours').val(leadingZero(hour));
+                $('#encounterDate .hfe-minutes').val(leadingZero(minute));
+                $('#encounterDate .hfe-seconds').val(0);
+
+                if (hour == 0 &amp;&amp; minute == 0) {
+                    $('.calc-enc-date.hour').val('');
+                    $('.calc-enc-date.ampm').val('AM');
+                    $('.calc-enc-date.minute').val('');
+                } else {
+                    $('.calc-enc-date.minute').val(leadingZero(minute));
+                    if (hour == 0) {
+                        $('.calc-enc-date.hour').val('12');
+                        $('.calc-enc-date.ampm').val('AM');
+                    } else if (hour > 12) {
+                        $('.calc-enc-date.hour').val(hour-12);
+                        $('.calc-enc-date.ampm').val('PM');
+                    } else {
+                        $('.calc-enc-date.hour').val(hour);
+                        $('.calc-enc-date.ampm').val('AM');
+                    }
+                }
+
+            } else {
+                encounterDateInput.val('');
+                $('#encounterDate .hfe-hours').val('');
+                $('#encounterDate .hfe-minutes').val('');
+                $('.calc-enc-date').val(''); // all visible inputs
+            }
+
+            $(function() {
+                onBlurAutocomplete = function(element){
+                var hiddenField = jQuery("#"+element.id+"_hid");
+                var textField = jQuery(element);
+                if (hiddenField.val() == "" || hiddenField.val() == "ERROR") {
+                    if(textField.val() != ""){
+                        hiddenField.val("ERROR");
+                        textField.css('color', 'red');
+                        textField.addClass("invalid");
+                    } else if (textField.val() == ""){
+                        hiddenField.val("");
+                        textField.removeClass("invalid");
+                    }
+                } else {
+                    textField.removeClass("error");
+                }
+            }
+            });
+        </script>
+    </ifMode>
+</htmlform>

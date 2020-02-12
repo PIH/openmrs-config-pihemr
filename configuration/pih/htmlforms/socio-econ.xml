@@ -1,0 +1,391 @@
+<htmlform formName="Socioeconomics Note" class="simple-form-ui"
+          formUuid="de845312-11e1-11e8-b642-0ed5f89f718b"
+          formEncounterType="de844e58-11e1-11e8-b642-0ed5f89f718b"
+          formVersion="1.0">
+
+    <style type="text/css">
+        <ifMode mode="VIEW" include="false">
+
+            #data-collection {
+                display: inline-block;
+                width: 58%;
+                vertical-align: top;
+            }
+
+            form input[type="checkbox"], form input[type="radio"],
+            .form input[type="checkbox"], .form input[type="radio"] {
+                float: none;
+                display: inline-block;
+            }
+
+            form label, .form label {
+                display: inline-block;
+            }
+
+            .two-columns {
+                column-count: 2;
+                -webkit-column-count: 2;
+                -moz-column-count: 2;
+            }
+
+           - .section {
+        width: 100%;
+        }
+
+        </ifMode>
+    </style>
+
+    <ifMode mode="VIEW" include="false">
+        <h2>
+            <label>
+                <uimessage code="pihcore.socioEconomic.title"/>
+            </label>
+        </h2>
+    </ifMode>
+
+    <div class="socio-economics">
+        <section id="edu" sectionTag="fieldset" headerTag="legend"
+                 headerStyle="title" headerCode="pihcore.socioEconomic.education">
+            <div class="section-container">
+                <p>
+                    <obs conceptId="CIEL:1712" style="radio"
+                         answerConceptIds="CIEL:1107,CIEL:1713,CIEL:1714,PIH:3396,CIEL:159785"/>
+                </p>
+            </div>
+        </section>
+        <p></p>
+
+        <!-- Note: Civil status is within registration -->
+        <section id="house" sectionTag="fieldset" headerTag="legend"
+                 headerStyle="title" headerCode="pihcore.socioEconomic.housing">
+            <div class="section-container">
+                <div class="two-columns">
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.socioEconomic.numPeople"/>
+                        </label>
+                        <span class="small">
+                            <obs conceptId="CIEL:1474"/>
+                        </span>
+
+                    </p>
+
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.socioEconomic.numChild"/>
+                        </label>
+                        <span class="small">
+                            <obs conceptId="CIEL:1825"/>
+                        </span>
+                    </p>
+
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.socioEconomic.numRooms"/>
+                        </label>
+                        <span class="small">
+                            <obs conceptId="CIEL:1475"/>
+                        </span>
+                    </p>
+
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.socioEconomic.radio"/>
+                        </label>
+                        <obs conceptId="PIH:1318" style="radio"
+                             answerConceptIds="PIH:YES,PIH:NO"
+                             answerSeparator=""/>
+                    </p>
+
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.socioEconomic.tv"/>
+                        </label>
+                        <obs conceptId="CIEL:159746" style="radio"
+                             answerConceptIds="PIH:YES,PIH:NO"
+                             answerSeparator=""/>
+                    </p>
+
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.socioEconomic.fridge"/>
+                        </label>
+                        <obs conceptId="CIEL:159745" style="radio"
+                             answerConceptIds="PIH:YES,PIH:NO"
+                             answerSeparator=""/>
+                    </p>
+
+
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.socioEconomic.bank"/>
+                        </label>
+                        <obs conceptId="PIH:11936" style="radio"
+                             answerConceptIds="PIH:YES,PIH:NO"
+                             answerSeparator=""/>
+                    </p>
+
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.socioEconomic.toilet"/>
+                        </label>
+                        <obs conceptId="CIEL:159389" style="radio"
+                             answerConceptIds="PIH:YES,PIH:NO"
+                             answerSeparator=""/>
+                    </p>
+
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.socioEconomic.latrine"/>
+                        </label>
+                        <obs conceptId="PIH:Latrine" style="radio"
+                             answerConceptIds="PIH:YES,PIH:NO"
+                             answerSeparator=""/>
+                    </p>
+
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.socioEconomic.floor"/>
+                        </label>
+                        <obs conceptId="CIEL:159387" style="radio"
+                             answerConceptIds="CIEL:1943,CIEL:1944,CIEL:159679,CIEL:5622"
+                             answerSeparator="&amp;nbsp;" />
+                    </p>
+
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.socioEconomic.roof"/>
+                        </label>
+                        <obs conceptId="CIEL:1290" style="radio"
+                             answerConceptIds="PIH:1320,CIEL:1942,CIEL:1943,CIEL:5622"
+                             answerSeparator="&amp;nbsp;" />
+                    </p>
+
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.socioEconomic.wall"/>
+                        </label>
+                        <obs conceptId="PIH:1668" style="radio"
+                             answerConceptIds="CIEL:1943,PIH:11939,PIH:2937,CIEL:159685,PIH:11938,CIEL:1944,CIEL:5622"
+                             answerSeparator="&amp;nbsp;" />
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+    <p></p>
+
+    <section id="transport" sectionTag="fieldset" headerTag="legend"
+             headerStyle="title" headerCode="pihcore.socioEconomic.transport">
+        <div class="section-container">
+
+            <div>
+                <p>
+                    <label>
+                        <uimessage code="pihcore.socioEconomic.methodTransport"/>
+                    </label>
+                    <br/>
+                    <obs conceptId="PIH:975" style="radio"
+                         answerSeparator="&amp;nbsp;"
+                         answerConceptIds="PIH:WALKING,PIH:BY BICYCLE,PIH:MOTORBIKE,PIH:CAR,PIH:MINI BUS,PIH:980,PIH:STRETCHER,PIH:OTHER"/>
+                </p>
+
+                <p>
+                    <label>
+                        <uimessage code="pihcore.socioEconomic.transportCost" />
+                    </label>
+                    <br/>
+                    <span class="small">
+                        <obs conceptId="CIEL:159470" showUnits="pihcore.socioEconomic.currency" />
+                    </span>
+                </p>
+
+                <p>
+                    <label>
+                        <uimessage code="pihcore.socioEconomic.transportTime"/>
+                    </label>
+                    <br/>
+                    <obs conceptId="PIH:CLINIC TRAVEL TIME" style="radio"
+                         answerSeparator="&amp;nbsp;"
+                         answerConceptIds="PIH:1049,PIH:1050,PIH:1051,PIH:982,PIH:3669"/>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <p></p>
+
+    <section id="activity" sectionTag="fieldset" headerTag="legend"
+             headerStyle="title" headerCode="pihcore.socioEconomic.dailyActivity">
+        <div class="section-container">
+
+            <!-- ToDo: We are collecting occupation during registration.
+                Is that different from "main activity"? -->
+            <p>
+                <label>
+                    Ki pi gwo aktivite ke w te konn fè anvan w te vinn malad ?  (pa ekzanp : fè jaden, gade bèt, fè travay nan kay, okipe timoun, fè komès, ale lekòl) ?
+                </label>
+                <obs conceptId="PIH:1402" />
+            </p>
+            <p>
+                <label>
+                    Eske kounye a jan w santi w la, anpeche w fè gwo aktivite sa a ?
+                </label>
+                <obs conceptId="PIH:11543" />
+            </p>
+        </div>
+    </section>
+
+    <p></p>
+
+    <section id="assistance" sectionTag="fieldset" headerTag="legend"
+             headerStyle="title" headerCode="pihcore.socioEconomic.assistance">
+        <table>
+            <tr>
+                <td></td>
+                <td>
+                    <label>
+                        <uimessage code="pihcore.received"/>
+                    </label>
+                </td>
+                <td>
+                    <label>
+                        <uimessage code="pihcore.recommended"/>
+                    </label>
+                </td>
+            </tr>
+
+            <repeat>
+                <template>
+                    <tr>
+                        <td>
+                            <label>
+                                <uimessage code="{aidLabel}"/>
+                            </label>
+                        </td>
+                        <td>
+                            <obs conceptId="PIH:2156" answerConceptId="{aid}"
+                                 answerLabel="" style="checkbox" />
+                        </td>
+                        <td>
+                            <obs conceptId="PIH:2157" answerConceptId="{aid}"
+                                 answerLabel="" style="checkbox" />
+                        </td>
+                    </tr>
+                </template>
+                <render aid="PIH:ASSISTANCE WITH TRANSPORT" aidLabel="pihcore.aid.transport"/>
+                <render aid="PIH:NUTRITIONAL AID" aidLabel="pihcore.aid.food"/>
+                <render aid="PIH:SCHOOL EXPENSES" aidLabel="pihcore.aid.school"/>
+                <render aid="PIH:HOUSING EXPENSES" aidLabel="pihcore.aid.home"/>
+            </repeat>
+
+            <tr>
+                <td>
+                    <obs conceptId="PIH:SOCIO-ECONOMIC ASSISTANCE NON-CODED"
+                         labelCode="zl.ifOtherSpecify"/>
+                </td>
+                <td>
+                    <obs conceptId="PIH:2156" answerConceptId="CIEL:5622"
+                         answerLabel="" style="checkbox" />
+                </td>
+                <td>
+                    <obs conceptId="PIH:2157" answerConceptId="CIEL:5622"
+                         answerLabel="" style="checkbox" />
+                </td>
+            </tr>
+
+        </table>
+
+        <p>
+            <label>
+                <uimessage code="pihcore.remarks"/>:
+            </label>
+            <obs conceptId="PIH:SOCIO-ECONOMIC ASSISTANCE COMMENT" style="text"/>
+        </p>
+    </section>
+
+    <section id="mpi" sectionTag="fieldset" headerTag="legend"
+             headerStyle="title" headerCode="pihcore.socioEconomic.mpi.title">
+        <table>
+
+            <tr>
+                <th>
+                    <label>
+                        <uimessage code="pihcore.socioEconomic.mpi.deprived.header" />
+                    </label>
+                </th>
+                <th>
+                    <label>
+                        <uimessage code="pihcore.socioEconomic.mpi.responses.header" />
+                    </label>
+                </th>
+            </tr>
+
+            <repeat>
+                <template>
+                    <tr>
+                        <td>
+                            <label>
+                                <uimessage code="pihcore.socioEconomic.mpi.{questionLabel}" />
+                            </label>
+                        </td>
+                        <td width="30%">
+                            <obs conceptId="CIEL:{cielMap}"
+                                 answerConceptIds="PIH:YES,PIH:NO,PIH:UNKNOWN"
+                                 answerCodes="coreapps.yes,coreapps.no,pihcore.unknown"
+                                 style="radio" answerSeparator="&amp;nbsp;" />
+                        </td>
+                    </tr>
+                </template>
+                <render questionLabel="nutrition" cielMap="165491" />
+                <render questionLabel="infantMort" cielMap="165492" />
+                <render questionLabel="yrsSchool" cielMap="165493" />
+                <render questionLabel="attendSchool" cielMap="165494" />
+                <render questionLabel="cookingFuel" cielMap="165495" />
+                <render questionLabel="sanitation" cielMap="165496" />
+                <render questionLabel="water" cielMap="165497" />
+                <render questionLabel="electric" cielMap="165498" />
+                <render questionLabel="housing" cielMap="165499" />
+                <render questionLabel="assets" cielMap="165500" />
+            </repeat>
+
+        </table>
+    </section>
+
+    <!-- To Do: What to do about retrospective entry?  Check the who? when? where? -->
+    <div class="hidden" id="encounter-details"
+         sectionTag="section" headerStyle="title" headerLabel="Encounter Details">
+        <fieldset>
+            <legend>When?</legend>
+            <label>When?</label>
+
+            <encounterDate default="now" showTime="false"/>
+        </fieldset>
+
+        <fieldset>
+            <legend>Who?</legend>
+            <label>Who?</label>
+
+            <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05"
+                                      required="true"/>
+        </fieldset>
+
+        <fieldset>
+            <legend>Where?</legend>
+            <label>Where?</label>
+
+            <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"/>
+        </fieldset>
+    </div>
+
+    <br/>
+    <ifMode mode="VIEW" include="false">
+        <div id="buttons">
+            <submit submitClass="confirm right" submitCode="mirebalais.save"/>
+            <button type="button" class="cancel">
+                <uimessage code="emr.cancel"/>
+            </button>
+        </div>
+    </ifMode>
+
+</htmlform>
