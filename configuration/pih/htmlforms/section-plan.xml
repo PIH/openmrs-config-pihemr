@@ -246,7 +246,7 @@
                         </template>
                         <render labName="PIH:B-HCG" codeLabel="pihcore.lab.pregnancy" comment="Pregnancy"/>
                         <render labName="PIH:RPR" codeLabel="pihcore.lab.syphilis" comment="Syphilis (RPR)"/>
-                        <render labName="PIH:11481" codeLabel="pihcore.lab.vaginal" comment="Vaginal discharge"/>
+                        <render labName="CIEL:165553" codeLabel="pihcore.lab.vaginal" comment="Vaginal discharge"/>
                     </repeat>
                 </includeIf>
 
