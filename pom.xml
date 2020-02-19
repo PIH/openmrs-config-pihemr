@@ -57,7 +57,7 @@
             <plugin>
                 <groupId>org.openmrs.maven.plugins</groupId>
                 <artifactId>openmrs-packager-maven-plugin</artifactId>
-                <version>1.0.2</version>
+                <version>1.1.0</version>
                 <executions>
                     <execution>
                         <id>generate-resource-filters</id>
