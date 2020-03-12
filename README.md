@@ -1,6 +1,6 @@
 
 
-#PIH EMR Configuration
+# PIH EMR Configuration
 
 This repository provides standard configuration that is shared across all instances of the PIH-EMR. In addition to this, 
 each country-level distro has it's own configuration repository that can override and supplement the customization
@@ -23,13 +23,13 @@ build a site-specific deployment configuration can be found at the above link.
 As part of our build, the latest configuration artifacts for each country are deployed to [sonatype](https://oss.sonatype.org/#nexus-search;quick~org.pih.openmrs).
 
 
-##Configurable elements
+## Configurable elements
 
 We are in the process of moving all of our configuration out of code (generally in the PIH Core and
 Mirebalais modules) into these new config projects.  Below is a list of what is currently configured here, but we
 expect this to continue to grow in the near future.
 
-###PIH Config
+### PIH Config
 
 PIH Config json files (which determine what components are turned on for each server, among other things) are
 found in the country-specific config projects in the 'configuration/pih' directory. Which "config" files are
@@ -54,7 +54,7 @@ Unfortunately, these files currently aren't "hot reloadable", but will be reload
 
 Components are defined in [pihcore/.../config/Components.java](https://github.com/PIH/openmrs-module-pihcore/blob/master/api/src/main/java/org/openmrs/module/pihcore/config/Components.java). Based on these component selections (and often some other criteria) the CALF ([mirebalais/.../CustomAppLoaderFactory.java](https://github.com/PIH/openmrs-module-mirebalais/blob/master/api/src/main/java/org/openmrs/module/mirebalais/apploader/CustomAppLoaderFactory.java)) loads apps and forms. Apps are defined in [mirebalais/.../CustomAppLoaderConstants.java](https://github.com/PIH/openmrs-module-mirebalais/blob/master/api/src/main/java/org/openmrs/module/mirebalais/apploader/CustomAppLoaderConstants.java).
 
-####Existing Components
+#### Existing Components
 
 - **activeVisits**: Adds the "Active Visits" app to the homepage. It lists the current 
   active visits. On humdemo
@@ -158,7 +158,7 @@ Components are defined in [pihcore/.../config/Components.java](https://github.co
 
 
 
-###Addresses and Address Hierarchy
+### Addresses and Address Hierarchy
 
 (Note that we haven't migrated all existing implementations to use this method, but that shouldn't stop up from 
 configuring new implementations using this method)
@@ -178,7 +178,7 @@ addressConfig tree in your PIH config file (found in
 If you don’t provide this configuration, this file provides defaults.
 
 
-###Concepts (and misc metadata in MDS packages)
+### Concepts (and misc metadata in MDS packages)
 
 Concepts installed via Metadata Sharing Package (the majority of the concepts) are now packaged within the
 config projects.  The installer will install all metadata sharing packages found in the "/configuration/pih/concepts"
@@ -197,7 +197,7 @@ these over to the PIH Config when we switch from using MDD and MDS to Iniz to in
 More details about Concept Management can be found in the [Concept
 Management](#concept-management) section below.
 
-####Existing MDS Packages
+#### Existing MDS Packages
 
 Metadata sharing packages include these:
 
@@ -233,7 +233,7 @@ Metadata sharing packages include these:
 
 
 
-##Forms
+## Forms
 
 All forms are now packages within the PIH Config.  Any form suitable to be shared across implementations can 
 be found "/configuration/pih/htmlforms" directory of this project.  Country-specific forms can be found in the
@@ -262,7 +262,7 @@ at the active location.  Location Tags are currently still setup in code in [ope
 
 
 
-#Concept Management
+# Concept Management
 
 This is described on the [OpenMRS wiki](https://wiki.openmrs.org/display/docs/Metadata+Server+Management).
 
