@@ -1,5 +1,155 @@
-<htmlform formUuid="7a2002bf-eeb2-4d71-b951-7e0b5a80f931" formName="Maternal Danger Signs" formVersion="1.0">
-    <div>
-        Maternal Danger Signs
-    </div>
+<htmlform id="maternal-danger-signs-form" formUuid="7a2002bf-eeb2-4d71-b951-7e0b5a80f931"
+              formName="Maternal Danger Signs"
+              formVersion="1.0">
+
+    <!-- ToDo:  Use messages.properties -->
+    <translations defaultLocale="fr">
+        <code name="yes">
+            <variant locale="en" value="yes"/>
+            <variant locale="fr" value="oui"/>
+        </code>
+        <code name="no">
+            <variant locale="en" value="no"/>
+            <variant locale="fr" value="non"/>
+        </code>
+    </translations>
+
+    <ifMode mode="VIEW" include="true">
+        <!-- a template to display the "view" version of an html form provided by the htmlfromentryui getAsHtml method
+      specifically designed to reformat our "one-question-per-screen" forms to should line-by-line obs -->
+
+        <style>
+
+            #maternal-danger-signs-form legend {
+            display: none;
+            }
+
+            #maternal-danger-signs-form fieldset {
+            margin: 0px;
+            border: 0px;
+            padding: 0px;
+            }
+
+            #maternal-danger-signs-form fieldset h3 {
+            font-size: 1em;
+            width: 200px;
+            display: inline-block;
+            margin: 0px;
+            margin-right: 10px;
+            color: #501d3d;
+            vertical-align: top;
+            }
+
+            #maternal-danger-signs-form fieldset p {
+            vertical-align: top;
+            display: inline-block;
+            float: none;
+            }
+
+            #maternal-danger-signs-form fieldset .left {
+            vertical-align: top;
+            display: inline-block;
+            float: none;
+            }
+
+            #maternal-danger-signs-form .title {
+            display: none;
+            }
+
+            #maternal-danger-signs-form .encounter-date {
+            display: none;
+            }
+
+            #maternal-danger-signs-form .encounter-provider {
+            display: none;
+            }
+
+            #maternal-danger-signs-form .encounter-location {
+            display: none;
+            }
+
+            #maternal-danger-signs-form .append-to-value {
+            padding-left: 5px;
+            }
+
+        </style>
+
+    </ifMode>
+
+    <section id="danger-signs" sectionTag="section" headerStyle="title" headerCode="pihcore.mch.maternalDangerSigns.title">
+
+        <fieldset field-separator=" ">
+            <legend><uimessage code="pihcore.passageOfFluids"/></legend>
+            <h3><uimessage code="pihcore.passageOfFluids"/></h3>
+
+            <p class="left">
+                <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:148968" answerLabel="yes"/>
+            </p>
+        </fieldset>
+        <fieldset field-separator=" ">
+            <legend><uimessage code="pihcore.decreaseFetalMovements"/></legend>
+            <h3><uimessage code="pihcore.decreaseFetalMovements"/></h3>
+
+            <p class="left">
+                <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:113377" answerLabel="yes"/>
+            </p>
+        </fieldset>
+        <fieldset field-separator=" ">
+            <legend><uimessage code="pihcore.severeHeadache"/></legend>
+            <h3><uimessage code="pihcore.severeHeadache"/></h3>
+
+            <p class="left">
+                <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:139081" answerLabel="yes"/>
+            </p>
+        </fieldset>
+        <fieldset field-separator=" ">
+            <legend><uimessage code="pihcore.visionProblem"/></legend>
+            <h3><uimessage code="pihcore.visionProblem"/></h3>
+
+            <p class="left">
+                <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:118938" answerLabel="yes"/>
+            </p>
+        </fieldset>
+        <fieldset field-separator=" ">
+            <legend><uimessage code="pihcore.oedema"/></legend>
+            <h3><uimessage code="pihcore.oedema"/></h3>
+
+            <p class="left">
+                <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:460" answerLabel="yes"/>
+            </p>
+        </fieldset>
+        <fieldset field-separator=" ">
+            <legend><uimessage code="pihcore.abdominalPain"/></legend>
+            <h3><uimessage code="pihcore.abdominalPain"/></h3>
+
+            <p class="left">
+                <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:151" answerLabel="yes"/>
+            </p>
+        </fieldset>
+        <fieldset field-separator=" ">
+            <legend><uimessage code="pihcore.vaginalInfection"/></legend>
+            <h3><uimessage code="pihcore.vaginalInfection"/></h3>
+
+            <p class="left">
+                <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:117010" answerLabel="yes"/>
+            </p>
+        </fieldset>
+        <fieldset field-separator=" ">
+            <legend><uimessage code="pihcore.abnormalVaginalBleeding"/></legend>
+            <h3><uimessage code="pihcore.abnormalVaginalBleeding"/></h3>
+
+            <p class="left">
+                <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:150802" answerLabel="yes"/>
+            </p>
+        </fieldset>
+        <fieldset field-separator=" ">
+            <legend><uimessage code="pihcore.fever"/></legend>
+            <h3><uimessage code="pihcore.fever"/></h3>
+
+            <p class="left">
+                <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:140238" answerLabel="yes"/>
+            </p>
+        </fieldset>
+
+    </section>
 </htmlform>

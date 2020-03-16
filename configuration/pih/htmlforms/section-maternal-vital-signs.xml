@@ -1,5 +1,134 @@
-<htmlform formUuid="8dba188c-d170-4755-9895-4c8324f67e33" formName="Maternal Vital Signs" formVersion="1.0">
-    <div>
-        Maternal Vital Signs
-    </div>
+<htmlform id="maternal-vital-signs-form" formUuid="8dba188c-d170-4755-9895-4c8324f67e33"
+              formName="Maternal Vital Signs"
+              formVersion="1.0">
+
+        <ifMode mode="VIEW" include="true">
+            <!-- a template to display the "view" version of an html form provided by the htmlfromentryui getAsHtml method
+          specifically designed to reformat our "one-question-per-screen" forms to should line-by-line obs -->
+
+            <style>
+
+                #maternal-vital-signs-form legend {
+                display: none;
+                }
+
+                #maternal-vital-signs-form fieldset {
+                margin: 0px;
+                border: 0px;
+                padding: 0px;
+                }
+
+                #maternal-vital-signs-form fieldset h3 {
+                font-size: 1em;
+                width: 200px;
+                display: inline-block;
+                margin: 0px;
+                margin-right: 10px;
+                color: #501d3d;
+                vertical-align: top;
+                }
+
+                #maternal-vital-signs-form fieldset p {
+                vertical-align: top;
+                display: inline-block;
+                float: none;
+                }
+
+                #maternal-vital-signs-form fieldset .left {
+                vertical-align: top;
+                display: inline-block;
+                float: none;
+                }
+
+                #maternal-vital-signs-form .title {
+                display: none;
+                }
+
+                #maternal-vital-signs-form .encounter-date {
+                display: none;
+                }
+
+                #maternal-vital-signs-form .encounter-provider {
+                display: none;
+                }
+
+                #maternal-vital-signs-form .encounter-location {
+                display: none;
+                }
+
+                #maternal-vital-signs-form .append-to-value {
+                padding-left: 5px;
+                }
+
+            </style>
+
+        </ifMode>
+
+        <section id="vitals" sectionTag="section" headerStyle="title" headerCode="mirebalais.vitals.title">
+
+            <fieldset field-separator=" ">
+                <legend><uimessage code="mirebalais.vitals.height.title"/></legend>
+                <h3><uimessage code="mirebalais.vitals.height.title"/></h3>
+
+                <p class="left">
+                    <obs conceptId="PIH:HEIGHT (CM)" id="height_cm" showUnits="emr.units.centimeters" unitsCssClass="append-to-value"/>
+                </p>
+
+            </fieldset>
+
+            <fieldset field-separator=" ">
+                <legend><uimessage code="mirebalais.vitals.weight.title"/></legend>
+                <h3><uimessage code="mirebalais.vitals.weight.title"/></h3>
+
+                <p class="left">
+                    <obs conceptId="PIH:WEIGHT (KG)" id="weight_kg" showUnits="emr.units.kilograms" unitsCssClass="append-to-value"/>
+                </p>
+
+            </fieldset>
+
+            <fieldset field-separator=" ">
+                <legend><uimessage code="mirebalais.vitals.temperature.title"/></legend>
+                <h3><uimessage code="mirebalais.vitals.temperature.title"/></h3>
+
+                <p class="left">
+                    <obs conceptId="PIH:TEMPERATURE (C)" id="temperature_c" showUnits="emr.units.degreesCelsius" unitsCssClass="append-to-value"/>
+                </p>
+
+            </fieldset>
+
+            <fieldset>
+                <legend><uimessage code="mirebalais.vitals.heartRate.title"/></legend>
+                <h3><uimessage code="mirebalais.vitals.heartRate.title"/></h3>
+
+                <p>
+                    <obs conceptId="PIH:PULSE" id="heart_rate" showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
+                </p>
+            </fieldset>
+
+            <fieldset>
+                <legend><uimessage code="mirebalais.vitals.respiratoryRate.title"/></legend>
+                <h3><uimessage code="mirebalais.vitals.respiratoryRate.title"/></h3>
+
+                <p>
+                    <obs conceptId="PIH:RESPIRATORY RATE" id="respiratory_rate" showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
+                </p>
+            </fieldset>
+
+            <fieldset field-separator=" / ">
+                <legend><uimessage code="mirebalais.vitals.bloodPressure.title"/></legend>
+                <h3><uimessage code="mirebalais.vitals.bloodPressure.title"/></h3>
+
+                <p class="left">
+                    <obs conceptId="PIH:SYSTOLIC BLOOD PRESSURE" id="bp_systolic"/>
+                </p>
+                <p class="left">
+                    /
+                </p>
+                <p class="left">
+                    <obs conceptId="PIH:DIASTOLIC BLOOD PRESSURE" id="bp_diastolic"/>
+                </p>
+            </fieldset>
+
+        </section>
+
 </htmlform>
