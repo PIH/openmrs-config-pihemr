@@ -1,5 +1,78 @@
-<htmlform formUuid="12d6922a-1dea-452d-ae2c-bb09366de400" formName="Comments" formVersion="1.0">
-    <div>
-        Comments
-    </div>
+<htmlform id="comments-form" formUuid="12d6922a-1dea-452d-ae2c-bb09366de400"
+              formName="Comments"
+              formVersion="1.0">
+        <ifMode mode="VIEW" include="true">
+            <!-- a template to display the "view" version of an html form provided by the htmlfromentryui getAsHtml method
+          specifically designed to reformat our "one-question-per-screen" forms to should line-by-line obs -->
+
+            <style>
+
+                #comments-form legend {
+                display: none;
+                }
+
+                #comments-form fieldset {
+                margin: 0px;
+                border: 0px;
+                padding: 0px;
+                }
+
+                #comments-form fieldset h3 {
+                font-size: 1em;
+                width: 200px;
+                display: inline-block;
+                margin: 0px;
+                margin-right: 10px;
+                color: #501d3d;
+                vertical-align: top;
+                }
+
+                #comments-form fieldset p {
+                vertical-align: top;
+                display: inline-block;
+                float: none;
+                }
+
+                #comments-form fieldset .left {
+                vertical-align: top;
+                display: inline-block;
+                float: none;
+                }
+
+                #comments-form .title {
+                display: none;
+                }
+
+                #comments-form .encounter-date {
+                display: none;
+                }
+
+                #comments-form .encounter-provider {
+                display: none;
+                }
+
+                #comments-form .encounter-location {
+                display: none;
+                }
+
+                #comments-form .append-to-value {
+                padding-left: 5px;
+                }
+
+            </style>
+
+        </ifMode>
+    
+    <section id="comments-section" sectionTag="section" headerStyle="title" headerCode="pihcore.comments.title">
+
+        <fieldset field-separator=" ">
+            <legend><uimessage code="pihcore.comments.title"/></legend>
+            <h3><uimessage code="pihcore.comments.title"/></h3>
+
+            <p class="left">
+                <obs conceptId="PIH:1364" />
+            </p>
+        </fieldset>
+
+    </section>
 </htmlform>

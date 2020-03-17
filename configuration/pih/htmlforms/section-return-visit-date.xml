@@ -1,5 +1,78 @@
-<htmlform formUuid="674b13aa-9dcd-4c3e-979b-121b6b681bf4" formName="Return Visit Date" formVersion="1.0">
-    <div>
-        Return Visit Date
-    </div>
+<htmlform id="return-visit-date-form" formUuid="674b13aa-9dcd-4c3e-979b-121b6b681bf4"
+              formName="Return Visit Date"
+              formVersion="1.0">
+    <ifMode mode="VIEW" include="true">
+        <!-- a template to display the "view" version of an html form provided by the htmlfromentryui getAsHtml method
+      specifically designed to reformat our "one-question-per-screen" forms to should line-by-line obs -->
+
+        <style>
+
+            #return-visit-date-form legend {
+            display: none;
+            }
+
+            #return-visit-date-form fieldset {
+            margin: 0px;
+            border: 0px;
+            padding: 0px;
+            }
+
+            #return-visit-date-form fieldset h3 {
+            font-size: 1em;
+            width: 200px;
+            display: inline-block;
+            margin: 0px;
+            margin-right: 10px;
+            color: #501d3d;
+            vertical-align: top;
+            }
+
+            #return-visit-date-form fieldset p {
+            vertical-align: top;
+            display: inline-block;
+            float: none;
+            }
+
+            #return-visit-date-form fieldset .left {
+            vertical-align: top;
+            display: inline-block;
+            float: none;
+            }
+
+            #return-visit-date-form .title {
+            display: none;
+            }
+
+            #return-visit-date-form .encounter-date {
+            display: none;
+            }
+
+            #return-visit-date-form .encounter-provider {
+            display: none;
+            }
+
+            #return-visit-date-form .encounter-location {
+            display: none;
+            }
+
+            #return-visit-date-form .append-to-value {
+            padding-left: 5px;
+            }
+
+        </style>
+
+    </ifMode>
+
+    <section id="return-date" sectionTag="section" headerStyle="title" headerCode="pihcore.returnVisitDate.title">
+
+        <fieldset field-separator=" ">
+            <legend><uimessage code="pihcore.returnVisitDate.title"/></legend>
+            <h3><uimessage code="pihcore.returnVisitDate.title"/></h3>
+
+            <p class="left">
+                <obs conceptId="PIH:RETURN VISIT DATE" allowFutureDates="true" id="apptDate" />
+            </p>
+        </fieldset>
+
+    </section>
 </htmlform>
