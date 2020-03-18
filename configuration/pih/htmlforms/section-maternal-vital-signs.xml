@@ -67,26 +67,6 @@
         <section id="vitals" sectionTag="section" headerStyle="title" headerCode="mirebalais.vitals.title">
 
             <fieldset field-separator=" ">
-                <legend><uimessage code="mirebalais.vitals.height.title"/></legend>
-                <h3><uimessage code="mirebalais.vitals.height.title"/></h3>
-
-                <p class="left">
-                    <obs conceptId="PIH:HEIGHT (CM)" id="height_cm" showUnits="emr.units.centimeters" unitsCssClass="append-to-value"/>
-                </p>
-
-            </fieldset>
-
-            <fieldset field-separator=" ">
-                <legend><uimessage code="mirebalais.vitals.weight.title"/></legend>
-                <h3><uimessage code="mirebalais.vitals.weight.title"/></h3>
-
-                <p class="left">
-                    <obs conceptId="PIH:WEIGHT (KG)" id="weight_kg" showUnits="emr.units.kilograms" unitsCssClass="append-to-value"/>
-                </p>
-
-            </fieldset>
-
-            <fieldset field-separator=" ">
                 <legend><uimessage code="mirebalais.vitals.temperature.title"/></legend>
                 <h3><uimessage code="mirebalais.vitals.temperature.title"/></h3>
 

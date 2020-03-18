@@ -62,7 +62,7 @@
             </style>
 
         </ifMode>
-    
+
     <section id="comments-section" sectionTag="section" headerStyle="title" headerCode="pihcore.comments.title">
 
         <fieldset field-separator=" ">

@@ -1,5 +1,141 @@
-<htmlform formUuid="544d566e-a4c6-4f18-b5a7-5cea32d09301" formName="Referrals" formVersion="1.0">
-    <div>
-        Referrals
-    </div>
+<htmlform id="mch-referral-form" formUuid="544d566e-a4c6-4f18-b5a7-5cea32d09301"
+          formName="Referrals"
+          formVersion="1.0">
+
+<translations defaultLocale="fr">
+    <code name="yes">
+        <variant locale="en" value="yes"/>
+        <variant locale="fr" value="oui"/>
+    </code>
+</translations>
+
+
+<ifMode mode="VIEW" include="true">
+    <!-- a template to display the "view" version of an html form provided by the htmlfromentryui getAsHtml method
+  specifically designed to reformat our "one-question-per-screen" forms to should line-by-line obs -->
+
+    <style>
+
+
+        #mch-referral-form fieldset {
+        margin: 0px;
+        border: 0px;
+        padding: 0px;
+        }
+
+        #mch-referral-form fieldset h3 {
+        font-size: 1em;
+        width: 200px;
+        display: inline-block;
+        margin: 0px;
+        margin-right: 10px;
+        color: #501d3d;
+        vertical-align: top;
+        }
+
+        #mch-referral-form fieldset p {
+        vertical-align: top;
+        display: inline-block;
+        float: none;
+        }
+
+        #mch-referral-form fieldset .left {
+        vertical-align: top;
+        display: inline-block;
+        float: none;
+        }
+
+
+        #mch-referral-form .append-to-value {
+        padding-left: 5px;
+        }
+
+        .column {
+        float: left;
+        width: 50%
+        }
+
+        .simple-form-ui input {
+        min-width: 80%
+        }
+
+        form fieldset {
+        min-width: 90%
+        }
+
+        .section-container {
+        background: #F2F2F2;
+        box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+        padding: 10px 5px 10px 15px;
+        line-height: 1.5em; /*add this for vertical spacing between elements*/
+        }
+
+        .section-container input[type="checkbox"] {
+        margin: 0px 5px; /*changed values to vertical, horizontal*/
+        top:5px; /*added to offset the checkbox position to line up*/
+        }
+
+        .section-container label { /*new definition to override labels inside section-containers*/
+        margin: 0px;
+        }
+
+        .section {
+        width: 100%;
+        }
+
+    </style>
+
+</ifMode>
+
+    <section id="hospitalReferral" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="">
+
+        <div class="section-container">
+            <p class="radio">
+                <strong>
+                    <label>
+                        <uimessage code="pihcore.mch.patientReferredToHospital"/>
+                    </label>
+                </strong>
+                <br />
+                <label>
+                    <uimessage code="pihcore.mch.urgent"/>&amp;nbsp;&amp;nbsp;&amp;nbsp;
+                </label>
+                <obs conceptId="PIH:7813" style="radio" answerConceptIds="PIH:YES,PIH:NO"
+                     answerCodes="yes,no" answerSeparator="&amp;nbsp;&amp;nbsp;&amp;nbsp;"/>
+            </p>
+            <br />
+            <p class="radio">
+                <br />
+                <label>
+                    <uimessage code="pihcore.mch.familyMemberReferredToHospital"/>&amp;nbsp;&amp;nbsp;&amp;nbsp;
+                </label>
+                <obs conceptId="PIH:12745" style="radio" answerConceptIds="PIH:YES,PIH:NO"
+                     answerCodes="yes,no" answerSeparator="&amp;nbsp;&amp;nbsp;&amp;nbsp;"/>
+            </p>
+        </div>
+
+    </section>
+
+    <section id="mentalHealthReferral" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="">
+
+        <div class="section-container">
+
+            <p class="radio">
+                <strong>
+                    <label>
+                        <uimessage code="pihcore.mch.reasonForMentalHealthReferral"/>
+                    </label>
+                </strong>
+                <br />
+                <obs conceptId="PIH:12746" style="radio" answerSeparator="&lt;br /&gt;"
+                     answerConceptIds="CIEL:165088,CIEL:165538,CIEL:5622"
+                     answerCodes="pihcore.mch.victimOfGenderBasedViolence,pihcore.mch.suspectedDepression,pihcore.mch.other"/>
+            </p>
+        </div>
+
+    </section>
+
 </htmlform>
+
