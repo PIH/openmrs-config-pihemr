@@ -87,6 +87,23 @@
 
 </ifMode>
 
+    <section id="chwReferral" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="">
+
+        <div class="section-container">
+
+            <p class="radio">
+                <strong>
+                    <label>
+                        <uimessage code="pihcore.mch.chw.name"/>:&amp;nbsp;&amp;nbsp;&amp;nbsp;
+                    </label>
+                </strong>
+                <obs conceptId="CIEL:164141"/>
+            </p>
+        </div>
+
+    </section>
+
     <section id="hospitalReferral" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="">
 
@@ -132,6 +149,28 @@
                 <obs conceptId="PIH:12746" style="radio" answerSeparator="&lt;br /&gt;"
                      answerConceptIds="CIEL:165088,CIEL:165538,CIEL:5622"
                      answerCodes="pihcore.mch.victimOfGenderBasedViolence,pihcore.mch.suspectedDepression,pihcore.mch.other"/>
+            </p>
+        </div>
+
+    </section>
+
+    <section id="vaccinationReferral" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="">
+
+        <div class="section-container">
+
+            <p class="radio">
+                <strong>
+                    <label>
+                        <uimessage code="pihcore.visitNote.vaccinations.label"/>
+                    </label>
+                </strong>
+                <br />
+                <label>
+                    <uimessage code="pihcore.mch.tetanusVaccinationReferral"/>&amp;nbsp;&amp;nbsp;&amp;nbsp;
+                </label>
+                <obs conceptId="PIH:12747" style="radio" answerConceptIds="PIH:YES,PIH:NO"
+                     answerCodes="yes,no" answerSeparator="&amp;nbsp;&amp;nbsp;&amp;nbsp;"/>
             </p>
         </div>
 
