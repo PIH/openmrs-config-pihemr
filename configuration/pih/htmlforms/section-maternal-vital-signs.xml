@@ -66,6 +66,21 @@
 
         <section id="vitals" sectionTag="section" headerStyle="title" headerCode="mirebalais.vitals.title">
 
+            <fieldset field-separator=" / ">
+                <legend><uimessage code="mirebalais.vitals.bloodPressure.title"/></legend>
+                <h3><uimessage code="mirebalais.vitals.bloodPressure.title"/></h3>
+
+                <p class="left">
+                    <obs conceptId="PIH:SYSTOLIC BLOOD PRESSURE" id="bp_systolic"/>
+                </p>
+                <p class="left">
+                    /
+                </p>
+                <p class="left">
+                    <obs conceptId="PIH:DIASTOLIC BLOOD PRESSURE" id="bp_diastolic"/>
+                </p>
+            </fieldset>
+
             <fieldset field-separator=" ">
                 <legend><uimessage code="mirebalais.vitals.temperature.title"/></legend>
                 <h3><uimessage code="mirebalais.vitals.temperature.title"/></h3>
@@ -91,21 +106,6 @@
 
                 <p>
                     <obs conceptId="PIH:RESPIRATORY RATE" id="respiratory_rate" showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
-                </p>
-            </fieldset>
-
-            <fieldset field-separator=" / ">
-                <legend><uimessage code="mirebalais.vitals.bloodPressure.title"/></legend>
-                <h3><uimessage code="mirebalais.vitals.bloodPressure.title"/></h3>
-
-                <p class="left">
-                    <obs conceptId="PIH:SYSTOLIC BLOOD PRESSURE" id="bp_systolic"/>
-                </p>
-                <p class="left">
-                    /
-                </p>
-                <p class="left">
-                    <obs conceptId="PIH:DIASTOLIC BLOOD PRESSURE" id="bp_diastolic"/>
                 </p>
             </fieldset>
 
