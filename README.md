@@ -260,6 +260,27 @@ in [CALF](https://github.com/PIH/openmrs-module-mirebalais/blob/master/api/src/m
 Note that this application logic often depends both on which components are enabled and which location tags are enabled
 at the active location.  Location Tags are currently still setup in code in [openmrs-module-pihcore/api/src/main/java/org/openmrs/module/pihcore/setup/LocationTagSetup.java](https://github.com/PIH/openmrs-module-pihcore/blob/master/api/src/main/java/org/openmrs/module/pihcore/setup/LocationTagSetup.java).
 
+## Logo
+
+To customize the header logo, you can put a "logo.png" file in "configuration/pih/logo" and it will replace the default PIH "hands" logo.  
+
+See:
+
+https://github.com/PIH/openmrs-config-pihliberia/tree/master/configuration/pih/logo
+
+# Custom JavaScript and CSS
+
+An implementation can add it's own custom JavaScript and CSS by adding a "[country_name].js" file to
+"configuration/pih/scripts" and a "[country_name].css" file to "configuration/pih/styles".
+
+See:
+
+https://github.com/PIH/openmrs-config-pihliberia/tree/master/configuration/pih
+
+Note that the CSS and JS file names need to match the "country name" as defined in the PIH Config (in lowercase), 
+we will likely be expanded this in the future to load all JS and CSS files:
+
+ https://pihemr.atlassian.net/browse/UHM-4451
 
 
 # Concept Management
