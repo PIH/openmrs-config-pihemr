@@ -2,13 +2,6 @@
           formName="Referrals"
           formVersion="1.0">
 
-<translations defaultLocale="fr">
-    <code name="yes">
-        <variant locale="en" value="yes"/>
-        <variant locale="fr" value="oui"/>
-    </code>
-</translations>
-
 
 <ifMode mode="VIEW" include="true">
     <!-- a template to display the "view" version of an html form provided by the htmlfromentryui getAsHtml method
@@ -87,6 +80,20 @@
 
 </ifMode>
 
+    <script type="text/javascript">
+        jq(function() {
+            // we need this hacky code to set the default values here because the initial data for this form
+            // is coming in from a 3rd party source (Commcare) and so we are always opening the form in "edit"
+            // mode and in 'edit' mode the "defaultValue" attribute does not have any effect
+            getField('hospital_referral.value') &amp;&amp; getField('hospital_referral.value').val(<lookup expression="fn.getConcept('PIH:HOSPITAL').id"/>);
+            getField('mental_health_referral.value') &amp;&amp; getField('mental_health_referral.value').val(<lookup expression="fn.getConcept('PIH:MENTAL HEALTH SERVICES').id"/>);
+            getField('family_member_referral.value') &amp;&amp; getField('family_member_referral.value').val(<lookup expression="fn.getConcept('PIH:FAMILY MEMBER').id"/>);
+            getField('tetanus_vaccination_referral.value') &amp;&amp; getField('tetanus_vaccination_referral.value').val(<lookup expression="fn.getConcept('PIH:12747').id"/>);
+            getField('pediatric_vaccination_referral.value') &amp;&amp; getField('pediatric_vaccination_referral.value').val(<lookup expression="fn.getConcept('PIH:12836').id"/>);
+            getField('malnutrition_referral.value') &amp;&amp; getField('malnutrition_referral.value').val(<lookup expression="fn.getConcept('PIH:MALNUTRITION PROGRAM').id"/>);
+        });
+    </script>
+
     <section id="chwReferral" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="">
 
@@ -98,83 +105,176 @@
                         <uimessage code="pihcore.mch.chw.name"/>:&amp;nbsp;&amp;nbsp;&amp;nbsp;
                     </label>
                 </strong>
-                <obs conceptId="CIEL:164141"/>
+                <lookup complexExpression="$fn.getObs($encounter, 'CIEL:164141').valueText"/>
             </p>
+
         </div>
 
     </section>
 
-    <section id="hospitalReferral" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="">
-
+    <section>
         <div class="section-container">
-            <p class="radio">
-                <strong>
-                    <label>
-                        <uimessage code="pihcore.mch.patientReferredToHospital"/>
-                    </label>
-                </strong>
-                <br />
-                <label>
-                    <uimessage code="pihcore.mch.urgent"/>&amp;nbsp;&amp;nbsp;&amp;nbsp;
-                </label>
-                <obs conceptId="PIH:7813" style="radio" answerConceptIds="PIH:YES,PIH:NO"
-                     answerCodes="yes,no" answerSeparator="&amp;nbsp;&amp;nbsp;&amp;nbsp;"/>
-            </p>
-            <br />
-            <p class="radio">
-                <br />
-                <label>
-                    <uimessage code="pihcore.mch.familyMemberReferredToHospital"/>&amp;nbsp;&amp;nbsp;&amp;nbsp;
-                </label>
-                <obs conceptId="PIH:12745" style="radio" answerConceptIds="PIH:YES,PIH:NO"
-                     answerCodes="yes,no" answerSeparator="&amp;nbsp;&amp;nbsp;&amp;nbsp;"/>
-            </p>
-        </div>
+            <table>
+                <tr>
+                    <th>
+                        <uimessage code="pihcore.mch.referralType"/>
+                    </th>
+                    <th>
+                        <uimessage code="pihcore.mch.referralDetails"/>
+                    </th>
+                    <th>
+                        <uimessage code="pihcore.mch.referralActions"/>
+                    </th>
+                    <th>
+                        <uimessage code="pihcore.mch.referralComments"/>
+                    </th>
+                </tr>
+                <includeIf velocityTest="$fn.getObs($encounter, 'CIEL:1788').valueCoded.equals($fn.getConcept('PIH:YES'))">
+                    <tr>
+                        <obsgroup groupingConceptId="PIH:12837">
+                            <td>
+                                <uimessage code="pihcore.mch.referralTypes.hospital"/>
+                                <!-- note that JavaScript code above (line 90) is used to set default value and needs to be kept in sync with this -->
+                                <span style="display:none">
+                                    <obs id="hospital_referral" conceptId="PIH:REFERRALS ORDERED" answerConceptIds="PIH:HOSPITAL"/>
+                                </span>
+                            </td>
+                            <td>
+                                <includeIf velocityTest="$fn.getObs($encounter, 'PIH:7813').valueCoded.equals($fn.getConcept('PIH:YES'))">
+                                    <uimessage code="pihcore.mch.urgent"/>
+                                </includeIf>
+                            </td>
+                            <td>
+                                <obs conceptId="b8496eb7-daf0-444d-842d-5c331c821c17" style="dropdown"/>
+                            </td>
+                            <td>
+                                <obs conceptId="CIEL:161011" style="text"/>
+                            </td>
+                        </obsgroup>
+                    </tr>
+                </includeIf>
+                <!-- note that this question gets shown if there's *any* answer specified for PIH:12746 ("Reason for mental health referral") -->
+                <includeIf velocityTest="$fn.getObs($encounter, 'PIH:12746')">
+                    <tr>
+                        <obsgroup groupingConceptId="PIH:12837">
+                            <td>
+                                <uimessage code="pihcore.mch.referralTypes.mentalHealth"/>
+                                <!-- note that JavaScript code above (line 90) is used to set default value and needs to be kept in sync with this -->
+                                <span style="display:none">
+                                    <obs id="mental_health_referral" conceptId="PIH:REFERRALS ORDERED" answerConceptIds="PIH:MENTAL HEALTH SERVICES"/>
+                                </span>
+                            </td>
+                            <td>
+                                <lookup complexExpression="$fn.getObs($encounter, 'PIH:12746').valueCoded.name"/>
+                            </td>
+                            <td>
+                                <obs conceptId="b8496eb7-daf0-444d-842d-5c331c821c17" style="dropdown"/>
+                            </td>
+                            <td>
+                                <obs conceptId="CIEL:161011" style="text"/>
+                            </td>
+                        </obsgroup>
+                    </tr>
+                </includeIf>
+                <includeIf velocityTest="$fn.getObs($encounter, 'PIH:12745').valueCoded.equals($fn.getConcept('PIH:YES'))">
+                    <tr>
+                        <obsgroup groupingConceptId="PIH:12837">
+                            <td>
+                                <uimessage code="pihcore.mch.referralTypes.familyMember"/>
+                                <!-- note that JavaScript code above (line 90) is used to set default value and needs to be kept in sync with this -->
+                                <span style="display:none">
+                                    <obs id="family_member_referral" conceptId="PIH:REFERRALS ORDERED" answerConceptIds="PIH:FAMILY MEMBER"/>
+                                </span>
+                            </td>
+                            <td>
 
+                            </td>
+                            <td>
+                                <obs conceptId="b8496eb7-daf0-444d-842d-5c331c821c17" style="dropdown"/>
+                            </td>
+                            <td>
+                                <obs conceptId="CIEL:161011" style="text"/>
+                            </td>
+                        </obsgroup>
+                    </tr>
+                </includeIf>
+                <includeIf velocityTest="$fn.getObs($encounter, 'PIH:12747').valueCoded.equals($fn.getConcept('PIH:YES'))">
+                    <tr>
+                        <obsgroup groupingConceptId="PIH:12837">
+                            <td>
+                                <uimessage code="pihcore.mch.referralTypes.tetanusVaccination"/>
+                                <!-- note that JavaScript code above (line 90) is used to set default value and needs to be kept in sync with this -->
+                                <span style="display:none">
+                                    <obs id="tetanus_vaccination_referral" conceptId="PIH:REFERRALS ORDERED" answerConceptIds="PIH:12747"/>
+                                </span>
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+                                <obs conceptId="b8496eb7-daf0-444d-842d-5c331c821c17" style="dropdown"/>
+                            </td>
+                            <td>
+                                <obs conceptId="CIEL:161011" style="text"/>
+                            </td>
+                        </obsgroup>
+                    </tr>
+                </includeIf>
+                <includeIf velocityTest="$fn.getObs($encounter, 'PIH:12836').valueCoded.equals($fn.getConcept('PIH:YES'))">
+                    <tr>
+                        <obsgroup groupingConceptId="PIH:12837">
+                            <td>
+                                <uimessage code="pihcore.mch.referralTypes.pediatricVaccination"/>
+                                <!-- note that JavaScript code above (line 90) is used to set default value and needs to be kept in sync with this -->
+                                <span style="display:none">
+                                    <obs id="pediatric_vaccination_referral" conceptId="PIH:REFERRALS ORDERED" answerConceptIds="PIH:12836"/>
+                                </span>
+                            </td>
+                            <td>
+
+                            </td>
+                            <td>
+                                <obs conceptId="b8496eb7-daf0-444d-842d-5c331c821c17" style="dropdown"/>
+                            </td>
+                            <td>
+                                <obs conceptId="CIEL:161011" style="text"/>
+                            </td>
+                        </obsgroup>
+                    </tr>
+                </includeIf>
+                <includeIf velocityTest="$fn.getObs($encounter, 'PIH:12731')">
+                    <tr>
+                        <obsgroup groupingConceptId="PIH:12837">
+                            <td>
+                                <uimessage code="pihcore.mch.referralTypes.malnutrition"/>
+                                <!-- note that JavaScript code above (line 90) is used to set default value and needs to be kept in sync with this -->
+                                <span style="display:none">
+                                    <obs id="malnutrition_referral" conceptId="PIH:REFERRALS ORDERED" answerConceptIds="PIH:MALNUTRITION PROGRAM"/>
+                                </span>
+                            </td>
+                            <td>
+                                <lookup complexExpression="$fn.getObs($encounter, 'PIH:12731').valueDate"/>
+                            </td>
+                            <td>
+                                <obs conceptId="b8496eb7-daf0-444d-842d-5c331c821c17" style="dropdown"/>
+                            </td>
+                            <td>
+                                <obs conceptId="CIEL:161011" style="text"/>
+                            </td>
+                        </obsgroup>
+                    </tr>
+                </includeIf>
+            </table>
+        </div>
     </section>
 
-    <section id="mentalHealthReferral" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="">
-
-        <div class="section-container">
-
-            <p class="radio">
-                <strong>
-                    <label>
-                        <uimessage code="pihcore.mch.reasonForMentalHealthReferral"/>
-                    </label>
-                </strong>
-                <br />
-                <obs conceptId="PIH:12746" style="radio" answerSeparator="&lt;br /&gt;"
-                     answerConceptIds="CIEL:165088,CIEL:165538,CIEL:5622"
-                     answerCodes="pihcore.mch.victimOfGenderBasedViolence,pihcore.mch.suspectedDepression,pihcore.mch.other"/>
-            </p>
+    <ifMode mode="VIEW" include="false">
+        <br/>
+        <div id="buttons">
+            <button class="submitButton confirm right" onclick="submitHtmlForm()"><uimessage code="mirebalais.save"/><i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i></button>
+            <button type="button" class="cancel"><uimessage code="emr.cancel"/></button>
         </div>
-
-    </section>
-
-    <section id="vaccinationReferral" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="">
-
-        <div class="section-container">
-
-            <p class="radio">
-                <strong>
-                    <label>
-                        <uimessage code="pihcore.visitNote.vaccinations.label"/>
-                    </label>
-                </strong>
-                <br />
-                <label>
-                    <uimessage code="pihcore.mch.tetanusVaccinationReferral"/>&amp;nbsp;&amp;nbsp;&amp;nbsp;
-                </label>
-                <obs conceptId="PIH:12747" style="radio" answerConceptIds="PIH:YES,PIH:NO"
-                     answerCodes="yes,no" answerSeparator="&amp;nbsp;&amp;nbsp;&amp;nbsp;"/>
-            </p>
-        </div>
-
-    </section>
+    </ifMode>
 
 </htmlform>
 
