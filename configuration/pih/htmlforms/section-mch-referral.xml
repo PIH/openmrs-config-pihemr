@@ -140,12 +140,12 @@
                                 </span>
                             </td>
                             <td>
-                                <includeIf velocityTest="$fn.getObs($encounter, 'PIH:7813').valueCoded.equals($fn.getConcept('PIH:YES'))">
+                                <includeIf velocityTest="$fn.getObs($encounter, 'PIH:Emergency').valueCoded.equals($fn.getConcept('PIH:YES'))">
                                     <uimessage code="pihcore.mch.urgent"/>
                                 </includeIf>
                             </td>
                             <td>
-                                <obs conceptId="b8496eb7-daf0-444d-842d-5c331c821c17" style="dropdown"/>
+                                <obs conceptId="PIH:Fulfillment status" style="dropdown"/>
                             </td>
                             <td>
                                 <obs conceptId="CIEL:161011" style="text"/>
@@ -168,7 +168,7 @@
                                 <lookup complexExpression="$fn.getObs($encounter, 'PIH:12746').valueCoded.name"/>
                             </td>
                             <td>
-                                <obs conceptId="b8496eb7-daf0-444d-842d-5c331c821c17" style="dropdown"/>
+                                <obs conceptId="PIH:Fulfillment status" style="dropdown"/>
                             </td>
                             <td>
                                 <obs conceptId="CIEL:161011" style="text"/>
@@ -190,7 +190,7 @@
 
                             </td>
                             <td>
-                                <obs conceptId="b8496eb7-daf0-444d-842d-5c331c821c17" style="dropdown"/>
+                                <obs conceptId="PIH:Fulfillment status" style="dropdown"/>
                             </td>
                             <td>
                                 <obs conceptId="CIEL:161011" style="text"/>
@@ -212,7 +212,7 @@
 
                             </td>
                             <td>
-                                <obs conceptId="b8496eb7-daf0-444d-842d-5c331c821c17" style="dropdown"/>
+                                <obs conceptId="PIH:Fulfillment status" style="dropdown"/>
                             </td>
                             <td>
                                 <obs conceptId="CIEL:161011" style="text"/>
@@ -234,7 +234,7 @@
 
                             </td>
                             <td>
-                                <obs conceptId="b8496eb7-daf0-444d-842d-5c331c821c17" style="dropdown"/>
+                                <obs conceptId="PIH:Fulfillment status" style="dropdown"/>
                             </td>
                             <td>
                                 <obs conceptId="CIEL:161011" style="text"/>
@@ -256,7 +256,7 @@
                                 <lookup complexExpression="$fn.getObs($encounter, 'PIH:12731').valueDate"/>
                             </td>
                             <td>
-                                <obs conceptId="b8496eb7-daf0-444d-842d-5c331c821c17" style="dropdown"/>
+                                <obs conceptId="PIH:Fulfillment status" style="dropdown"/>
                             </td>
                             <td>
                                 <obs conceptId="CIEL:161011" style="text"/>
