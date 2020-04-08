@@ -145,7 +145,10 @@
                                 </includeIf>
                             </td>
                             <td>
-                                <obs conceptId="PIH:Fulfillment status" style="dropdown"/>
+                                <obs conceptId="PIH:Fulfillment status"
+                                     answerConceptIds="CIEL:160068,CIEL:1267,CIEL:162866,CIEL:164143,CIEL:165170,CIEL:5622"
+                                     answerCodes="pihcore.mch.referralActions.unmet,pihcore.mch.referralActions.completed,pihcore.mch.referralActions.pending,pihcore.mch.referralActions.noshow,pihcore.mch.referralActions.cancelled,pihcore.mch.referralActions.other"
+                                     style="dropdown"/>
                             </td>
                             <td>
                                 <obs conceptId="CIEL:161011" style="text"/>
@@ -165,10 +168,13 @@
                                 </span>
                             </td>
                             <td>
-                                <lookup complexExpression="$fn.getObs($encounter, 'PIH:12746').valueCoded.name"/>
+                                <lookup complexExpression="#foreach($obs in $fn.allObs($encounter, 'PIH:12746')) $obs.valueCoded.name &lt;br/&gt; #end"/>
                             </td>
                             <td>
-                                <obs conceptId="PIH:Fulfillment status" style="dropdown"/>
+                                <obs conceptId="PIH:Fulfillment status"
+                                     answerConceptIds="CIEL:160068,CIEL:1267,CIEL:162866,CIEL:164143,CIEL:165170,CIEL:5622"
+                                     answerCodes="pihcore.mch.referralActions.unmet,pihcore.mch.referralActions.completed,pihcore.mch.referralActions.pending,pihcore.mch.referralActions.noshow,pihcore.mch.referralActions.cancelled,pihcore.mch.referralActions.other"
+                                     style="dropdown"/>
                             </td>
                             <td>
                                 <obs conceptId="CIEL:161011" style="text"/>
@@ -190,7 +196,10 @@
 
                             </td>
                             <td>
-                                <obs conceptId="PIH:Fulfillment status" style="dropdown"/>
+                                <obs conceptId="PIH:Fulfillment status"
+                                     answerConceptIds="CIEL:160068,CIEL:1267,CIEL:162866,CIEL:164143,CIEL:165170,CIEL:5622"
+                                     answerCodes="pihcore.mch.referralActions.unmet,pihcore.mch.referralActions.completed,pihcore.mch.referralActions.pending,pihcore.mch.referralActions.noshow,pihcore.mch.referralActions.cancelled,pihcore.mch.referralActions.other"
+                                     style="dropdown"/>
                             </td>
                             <td>
                                 <obs conceptId="CIEL:161011" style="text"/>
@@ -212,7 +221,10 @@
 
                             </td>
                             <td>
-                                <obs conceptId="PIH:Fulfillment status" style="dropdown"/>
+                                <obs conceptId="PIH:Fulfillment status"
+                                     answerConceptIds="CIEL:160068,CIEL:1267,CIEL:162866,CIEL:164143,CIEL:165170,CIEL:5622"
+                                     answerCodes="pihcore.mch.referralActions.unmet,pihcore.mch.referralActions.completed,pihcore.mch.referralActions.pending,pihcore.mch.referralActions.noshow,pihcore.mch.referralActions.cancelled,pihcore.mch.referralActions.other"
+                                     style="dropdown"/>
                             </td>
                             <td>
                                 <obs conceptId="CIEL:161011" style="text"/>
@@ -234,7 +246,10 @@
 
                             </td>
                             <td>
-                                <obs conceptId="PIH:Fulfillment status" style="dropdown"/>
+                                <obs conceptId="PIH:Fulfillment status"
+                                     answerConceptIds="CIEL:160068,CIEL:1267,CIEL:162866,CIEL:164143,CIEL:165170,CIEL:5622"
+                                     answerCodes="pihcore.mch.referralActions.unmet,pihcore.mch.referralActions.completed,pihcore.mch.referralActions.pending,pihcore.mch.referralActions.noshow,pihcore.mch.referralActions.cancelled,pihcore.mch.referralActions.other"
+                                     style="dropdown"/>
                             </td>
                             <td>
                                 <obs conceptId="CIEL:161011" style="text"/>
@@ -256,7 +271,10 @@
                                 <lookup complexExpression="$fn.getObs($encounter, 'PIH:12731').valueDate"/>
                             </td>
                             <td>
-                                <obs conceptId="PIH:Fulfillment status" style="dropdown"/>
+                                <obs conceptId="PIH:Fulfillment status"
+                                     answerConceptIds="CIEL:160068,CIEL:1267,CIEL:162866,CIEL:164143,CIEL:165170,CIEL:5622"
+                                     answerCodes="pihcore.mch.referralActions.unmet,pihcore.mch.referralActions.completed,pihcore.mch.referralActions.pending,pihcore.mch.referralActions.noshow,pihcore.mch.referralActions.cancelled,pihcore.mch.referralActions.other"
+                                     style="dropdown"/>
                             </td>
                             <td>
                                 <obs conceptId="CIEL:161011" style="text"/>
