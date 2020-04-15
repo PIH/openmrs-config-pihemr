@@ -78,6 +78,7 @@
 
     <section id="danger-signs" sectionTag="section" headerStyle="title" headerCode="pihcore.mch.maternalDangerSigns.title">
 
+        <excludeIf velocityTest="$encounter.encounterType.uuid == '0CF4717A-479F-4349-AE6F-8602E2AA41D3'">
         <fieldset field-separator=" ">
             <legend><uimessage code="pihcore.passageOfFluids"/></legend>
             <h3><uimessage code="pihcore.passageOfFluids"/></h3>
@@ -142,6 +143,8 @@
                 <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:150802" answerLabel="yes"/>
             </p>
         </fieldset>
+        </excludeIf>
+
         <fieldset field-separator=" ">
             <legend><uimessage code="pihcore.fever"/></legend>
             <h3><uimessage code="pihcore.fever"/></h3>

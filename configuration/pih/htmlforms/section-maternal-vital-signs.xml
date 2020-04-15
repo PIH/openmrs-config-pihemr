@@ -66,6 +66,7 @@
 
         <section id="vitals" sectionTag="section" headerStyle="title" headerCode="mirebalais.vitals.title">
 
+            <excludeIf velocityTest="$encounter.encounterType.uuid == '0CF4717A-479F-4349-AE6F-8602E2AA41D3'" >
             <fieldset field-separator=" / ">
                 <legend><uimessage code="mirebalais.vitals.bloodPressure.title"/></legend>
                 <h3><uimessage code="mirebalais.vitals.bloodPressure.title"/></h3>
@@ -80,6 +81,7 @@
                     <obs conceptId="PIH:DIASTOLIC BLOOD PRESSURE" id="bp_diastolic"/>
                 </p>
             </fieldset>
+            </excludeIf>
 
             <fieldset field-separator=" ">
                 <legend><uimessage code="mirebalais.vitals.temperature.title"/></legend>
