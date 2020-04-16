@@ -154,5 +154,42 @@
             </p>
         </fieldset>
 
+        <excludeIf velocityTest="$encounter.encounterType.uuid != '0CF4717A-479F-4349-AE6F-8602E2AA41D3'">
+        <fieldset field-separator=" ">
+            <legend><uimessage code="pihcore.mch.diarrhea"/></legend>
+            <h3><uimessage code="pihcore.mch.diarrhea"/></h3>
+
+            <p class="left">
+                <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:142412" answerLabel="yes"/>
+            </p>
+        </fieldset>
+
+        <fieldset field-separator=" ">
+            <legend><uimessage code="pihcore.mch.jaundice"/></legend>
+            <h3><uimessage code="pihcore.mch.jaundice"/></h3>
+
+            <p class="left">
+                <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:136443" answerLabel="yes"/>
+            </p>
+        </fieldset>
+
+        <fieldset field-separator=" ">
+            <legend><uimessage code="pihcore.mch.cough"/></legend>
+            <h3><uimessage code="pihcore.mch.cough"/></h3>
+
+            <p class="left">
+                <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:143264" answerLabel="yes"/>
+            </p>
+        </fieldset>
+
+        <fieldset field-separator=" ">
+            <legend><uimessage code="pihcore.mch.convulsionsnewborn"/></legend>
+            <h3><uimessage code="pihcore.mch.convulsionsnewborn"/></h3>
+
+            <p class="left">
+                <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:143388" answerLabel="yes"/>
+            </p>
+        </fieldset>
+        </excludeIf>
     </section>
 </htmlform>
