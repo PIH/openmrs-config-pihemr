@@ -2,14 +2,6 @@
           formUuid="d2ac7d33-cb7b-440e-93b9-45a75859109f"
           formName="Postpartum training">
 
-    <translations defaultLocale="fr">
-        <code name="yes">
-            <variant locale="en" value="yes"/>
-            <variant locale="fr" value="oui"/>
-        </code>
-    </translations>
-
-
     <ifMode mode="VIEW" include="true">
         <!-- a template to display the "view" version of an html form provided by the htmlfromentryui getAsHtml method
       specifically designed to reformat our "one-question-per-screen" forms to should line-by-line obs -->

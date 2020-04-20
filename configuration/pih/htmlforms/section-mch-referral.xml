@@ -105,7 +105,7 @@
                         <uimessage code="pihcore.mch.chw.name"/>:&amp;nbsp;&amp;nbsp;&amp;nbsp;
                     </label>
                 </strong>
-                <lookup complexExpression="$fn.getObs($encounter, 'CIEL:164141').valueText"/>
+                <lookup expression="fn.getObs($encounter, 'CIEL:164141').valueText"/>
             </p>
 
         </div>

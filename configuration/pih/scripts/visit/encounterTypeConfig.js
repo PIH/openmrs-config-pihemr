@@ -319,6 +319,16 @@ angular.module("encounterTypeConfig", ["constants"])
             templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-postpartum-counsel.xml"),
         };
 
+        var maternalFamilyPlanning = {
+            type: "encounter-section",
+            id: "maternal-family-planning",
+            label: "pihcore.familyPlanning.title",
+            icon: "icon-umbrella",
+            shortTemplate: "templates/sections/defaultSectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-family-planning-simple.xml"),
+        };
+
         var comments = {
           type: "encounter-section",
           id: "section-comments",
@@ -430,8 +440,8 @@ angular.module("encounterTypeConfig", ["constants"])
                 returnVisitDate,
                 comments,
                 postpartumCounsel,
-                maternalDangerSigns
-                // family planning
+                maternalDangerSigns,
+                maternalFamilyPlanning
             ],
         };
 
@@ -445,7 +455,7 @@ angular.module("encounterTypeConfig", ["constants"])
                 maternalVitalSigns,
                 mchReferral,
                 postpartumCounsel,
-                // family planning
+                maternalFamilyPlanning,
                 comments
             ],
         };
