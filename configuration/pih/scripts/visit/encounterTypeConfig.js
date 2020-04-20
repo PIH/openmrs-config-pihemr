@@ -309,6 +309,16 @@ angular.module("encounterTypeConfig", ["constants"])
           templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-education-subjects.xml"),
         };
 
+        var postpartumCounsel = {
+            type: "encounter-section",
+            id: "section-postpartum-training",
+            label: "pihcore.mch.educationSubjects.title",
+            icon: "fas fa-fw fa-clipboard-check",
+            shortTemplate: "templates/sections/defaultSectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-postpartum-counsel.xml"),
+        };
+
         var comments = {
           type: "encounter-section",
           id: "section-comments",
@@ -419,7 +429,7 @@ angular.module("encounterTypeConfig", ["constants"])
                 mchReferral,
                 returnVisitDate,
                 comments,
-                educationSubjects,
+                postpartumCounsel,
                 maternalDangerSigns
                 // family planning
             ],
@@ -434,7 +444,7 @@ angular.module("encounterTypeConfig", ["constants"])
             sections: [
                 maternalVitalSigns,
                 mchReferral,
-                educationSubjects,
+                postpartumCounsel,
                 // family planning
                 comments
             ],
