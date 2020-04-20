@@ -409,17 +409,35 @@ angular.module("encounterTypeConfig", ["constants"])
         };
 
         encounterTypes[EncounterTypes.maternalPostPartumHomeAssessment.uuid] = {
-          defaultState: "short",
-          shortTemplate: "templates/encounters/defaultEncounterShort.page",
-          longTemplate: "templates/encounters/defaultEncounterLong.page",
-          showOnVisitList: true
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/defaultEncounterLong.page",
+            icon: "fas fa-fw fa-female",
+            showOnVisitList: true,
+            sections: [
+                maternalVitalSigns,
+                mchReferral,
+                returnVisitDate,
+                comments,
+                educationSubjects,
+                maternalDangerSigns
+                // family planning
+            ],
         };
 
         encounterTypes[EncounterTypes.maternalFollowUpHomeAssessment.uuid] = {
-          defaultState: "short",
-          shortTemplate: "templates/encounters/defaultEncounterShort.page",
-          longTemplate: "templates/encounters/defaultEncounterLong.page",
-          showOnVisitList: true
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/defaultEncounterLong.page",
+            icon: "fas fa-fw fa-female",
+            showOnVisitList: true,
+            sections: [
+                maternalVitalSigns,
+                mchReferral,
+                educationSubjects,
+                // family planning
+                comments
+            ],
         };
 
         encounterTypes[EncounterTypes.checkIn.uuid] = {
