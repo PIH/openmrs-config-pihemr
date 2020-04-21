@@ -438,8 +438,6 @@ angular.module("encounterTypeConfig", ["constants"])
             sections: [
                 maternalVitalSigns,
                 mchReferral,
-                returnVisitDate,
-                comments,
                 postpartumCounsel,
                 maternalDangerSigns,
                 maternalFamilyPlanning

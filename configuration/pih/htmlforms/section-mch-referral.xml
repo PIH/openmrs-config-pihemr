@@ -108,12 +108,6 @@
                 <lookup expression="fn.getObs($encounter, 'CIEL:164141').valueText"/>
             </p>
 
-        </div>
-
-    </section>
-
-    <section>
-        <div class="section-container">
             <table>
                 <tr>
                     <th>
@@ -283,6 +277,30 @@
                     </tr>
                 </includeIf>
             </table>
+
+            <!-- Postpartum only -->
+            <ifMode mode="VIEW" include="true">
+                <includeIf velocityTest="$encounter.encounterType.uuid == '0E7160DF-2DD1-4728-B951-641BBE4136B8'">
+                    <p class="radio">
+                        <strong>
+                            <label>
+                                <uimessage code="pihcore.returnVisitDate.title"/>
+                            </label>
+                        </strong>
+                        <obs conceptId="PIH:RETURN VISIT DATE" allowFutureDates="true" id="apptDate" />
+                    </p>
+
+                    <p class="radio">
+                        <strong>
+                            <label>
+                                <uimessage code="pihcore.comments.title"/>:&amp;nbsp;&amp;nbsp;&amp;nbsp;
+                            </label>
+                        </strong>
+                        <obs conceptId="CIEL:159395"/>
+                    </p>
+                </includeIf>
+            </ifMode>
+
         </div>
     </section>
 
