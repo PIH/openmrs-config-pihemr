@@ -207,7 +207,7 @@
                         </obsgroup>
                     </tr>
                 </includeIf>
-                <includeIf velocityTest="$fn.getObs($encounter, 'PIH:12747').valueCoded.equals($fn.getConcept('PIH:YES')) || $encounter.encounterType.uuid != '0CF4717A-479F-4349-AE6F-8602E2AA41D3'">
+                <includeIf velocityTest="$fn.getObs($encounter, 'PIH:12747').valueCoded.equals($fn.getConcept('PIH:YES'))">
                     <tr>
                         <obsgroup groupingConceptId="PIH:12837">
                             <td>
@@ -232,7 +232,7 @@
                         </obsgroup>
                     </tr>
                 </includeIf>
-                <includeIf velocityTest="$fn.getObs($encounter, 'PIH:12836').valueCoded.equals($fn.getConcept('PIH:YES')) || $encounter.encounterType.uuid != '0CF4717A-479F-4349-AE6F-8602E2AA41D3'">
+                <includeIf velocityTest="$fn.getObs($encounter, 'PIH:12836').valueCoded.equals($fn.getConcept('PIH:YES'))">
                     <tr>
                         <obsgroup groupingConceptId="PIH:12837">
                             <td>
