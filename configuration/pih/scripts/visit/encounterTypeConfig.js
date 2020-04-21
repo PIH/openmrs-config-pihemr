@@ -416,7 +416,7 @@ angular.module("encounterTypeConfig", ["constants"])
         encounterTypes[EncounterTypes.pediatricHomeAssessment.uuid] = {
           defaultState: "short",
           shortTemplate: "templates/encounters/defaultEncounterShort.page",
-          longTemplate: "templates/encounters/defaultEncounterLong.page",
+          longTemplate: "templates/encounters/defaultEncounterShort.page",
           icon: "fas fa-fw fa-baby",
           showOnVisitList: true,
           sections: [
@@ -432,7 +432,7 @@ angular.module("encounterTypeConfig", ["constants"])
         encounterTypes[EncounterTypes.maternalPostPartumHomeAssessment.uuid] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
-            longTemplate: "templates/encounters/defaultEncounterLong.page",
+            longTemplate: "templates/encounters/defaultEncounterShort.page",
             icon: "fas fa-fw fa-female",
             showOnVisitList: true,
             sections: [
@@ -449,7 +449,7 @@ angular.module("encounterTypeConfig", ["constants"])
         encounterTypes[EncounterTypes.maternalFollowUpHomeAssessment.uuid] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
-            longTemplate: "templates/encounters/defaultEncounterLong.page",
+            longTemplate: "templates/encounters/defaultEncounterShort.page",
             icon: "fas fa-fw fa-female",
             showOnVisitList: true,
             sections: [
