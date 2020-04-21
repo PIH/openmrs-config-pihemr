@@ -85,7 +85,7 @@
             <p class="radio">
                 <repeat>
                     <template>
-                        <obs conceptId="CIEL:164481" style="checkbox" answerSeparator="&lt;br /&gt;"
+                        <obs conceptId="CIEL:164481" style="checkbox"
                              answerConceptId="{map}"
                              answerCode="{text}"
                         />
