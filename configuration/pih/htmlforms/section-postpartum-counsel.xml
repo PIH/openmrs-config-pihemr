@@ -92,10 +92,10 @@
                         <br/>
                     </template>
                     <render map="CIEL:161050" text="pihcore.mch.dangerSigns" />
-                    <render map="CIEL:1910" text="pihcore.mch.counselling.breastfeeding" />
-                    <render map="CIEL:161073" text="pihcore.mch.counselling.goodNutrition" />
-                    <render map="CIEL:1906" text="pihcore.mch.counselling.generalHygiene" />
-                    <render map="CIEL:1382" text="pihcore.mch.counselling.familyPlanning" />
+                    <render map="CIEL:1910" text="pihcore.mch.breastfeeding" />
+                    <render map="CIEL:161073" text="pihcore.goodNutrition" />
+                    <render map="CIEL:1906" text="pihcore.generalHygiene" />
+                    <render map="CIEL:1382" text="pihcore.familyPlanning.title" />
                     <render map="CIEL:5622" text="pihcore.other" />
                 </repeat>
 

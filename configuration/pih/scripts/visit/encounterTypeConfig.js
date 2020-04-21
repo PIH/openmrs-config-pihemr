@@ -417,6 +417,7 @@ angular.module("encounterTypeConfig", ["constants"])
           defaultState: "short",
           shortTemplate: "templates/encounters/defaultEncounterShort.page",
           longTemplate: "templates/encounters/defaultEncounterLong.page",
+          icon: "fas fa-fw fa-baby",
           showOnVisitList: true,
           sections: [
             mchReferral,
