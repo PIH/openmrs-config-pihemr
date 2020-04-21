@@ -281,7 +281,7 @@ angular.module("encounterTypeConfig", ["constants"])
         var maternalDangerSigns = {
           type: "encounter-section",
           id: "section-maternal-danger-signs",
-          label: "pihcore.mch.maternalDangerSigns.title",
+          label: "pihcore.mch.dangerSigns",
           icon: "icon-warning-sign",
           shortTemplate: "templates/sections/defaultSectionShort.page",
           longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",

@@ -117,7 +117,7 @@
             />
             <br />
             <obs conceptId="CIEL:1912" style="checkbox" answerSeparator="&lt;br /&gt;"
-                 answerConceptId="PIH:8853"
+                 answerConceptId="CIEL:1382"
                  answerCodes="pihcore.mch.counselling.familyPlanning"
             />
             <br />
