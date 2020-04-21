@@ -156,7 +156,18 @@ Components are defined in [pihcore/.../config/Components.java](https://github.co
 - **wristbands**: Adds Print Wristbands to general actions.
 - **zika**: program
 
+### EncounterTypeConfig.js
 
+The Encounter Type Config is a JavaScript file that configures the way that encounters are displayed on the 
+PIH "Visit Note" page.  Originally packaged within the PIH Core module, we moved it into the PIH EMR config project,
+taking advantage of the ability to load JavaScript files from the file system (see the "Custom JavaScript and CSS" 
+section below).
+
+Although one could override the Encounter Type Config in a distro config project, that's not recommended at this 
+point, better to issue PRs against the existing Encounter Type Config.  (Ideally in the future we will provide
+a more sophisticated way to override parts of the Encounter Type Config without having to override all of it).
+
+https://github.com/PIH/openmrs-config-pihemr/blob/master/configuration/pih/scripts/visit/encounterTypeConfig.js
 
 ### Addresses and Address Hierarchy
 
@@ -233,7 +244,7 @@ Metadata sharing packages include these:
 
 
 
-## Forms
+### Forms
 
 All forms are now packages within the PIH Config.  Any form suitable to be shared across implementations can 
 be found "/configuration/pih/htmlforms" directory of this project.  Country-specific forms can be found in the
@@ -260,7 +271,7 @@ in [CALF](https://github.com/PIH/openmrs-module-mirebalais/blob/master/api/src/m
 Note that this application logic often depends both on which components are enabled and which location tags are enabled
 at the active location.  Location Tags are currently still setup in code in [openmrs-module-pihcore/api/src/main/java/org/openmrs/module/pihcore/setup/LocationTagSetup.java](https://github.com/PIH/openmrs-module-pihcore/blob/master/api/src/main/java/org/openmrs/module/pihcore/setup/LocationTagSetup.java).
 
-## Logo
+### Logo
 
 To customize the header logo, you can put a "logo.png" file in "configuration/pih/logo" and it will replace the default PIH "hands" logo.  
 
@@ -268,19 +279,35 @@ See:
 
 https://github.com/PIH/openmrs-config-pihliberia/tree/master/configuration/pih/logo
 
-# Custom JavaScript and CSS
+### Custom JavaScript and CSS
 
-An implementation can add it's own custom JavaScript and CSS by adding a "[country_name].js" file to
-"configuration/pih/scripts" and a "[country_name].css" file to "configuration/pih/styles".
+An implementation can add it's own custom JavaScript and CSS by adding JavaScript files to
+"configuration/pih/scripts" directory and CSS file to "configuration/pih/styles".  These files
+can then be accessed as a "file" resource within application code.
 
-See:
+As an example, we currently include the encounterTypeConfig.js this way:
 
-https://github.com/PIH/openmrs-config-pihliberia/tree/master/configuration/pih
+https://github.com/PIH/openmrs-config-pihemr/tree/master/configuration/pih/scripts
 
-Note that the CSS and JS file names need to match the "country name" as defined in the PIH Config (in lowercase), 
-we will likely be expanded this in the future to load all JS and CSS files:
+To reference the file, we do the following:
 
- https://pihemr.atlassian.net/browse/UHM-4451
+https://github.com/PIH/openmrs-module-pihcore/blob/master/omod/src/main/webapp/pages/visit/visit.gsp#L41
+
+Note that in the above "includeJavaScript" command we state that this is a "file" resource type and then 
+include the path relative to the application data directory.  Note that you need to set the fourth parameter
+(pathIsRelativeToScripts) to false or OpenMRS will incorrectly append  "scripts/" to the front of the path you 
+specify as the second parameter.
+
+Adding CSS using the "includeCss" function works in a similar way.
+ 
+#### Globally including CSS and JavaScript
+
+Additionally, any JavaScript or CSS files included in the "configuration/pih/scripts/global" and 
+"configuration/pih/styles/global" directory will be automatically included by the UI Framework on *all* display pages.
+This is a good way to provide a custom style sheet for all UI Framework pages.  The Liberia distribution does
+this, for example:
+ 
+https://github.com/PIH/openmrs-config-pihliberia/tree/master/configuration/pih/styles/global
 
 
 # Concept Management
