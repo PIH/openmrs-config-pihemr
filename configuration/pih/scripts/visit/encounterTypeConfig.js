@@ -292,7 +292,7 @@ angular.module("encounterTypeConfig", ["constants"])
         var maternalVitalSigns = {
           type: "encounter-section",
           id: "section-maternal-vital-signs",
-          label: "pihcore.mch.maternalVitalSigns.title",
+          label: "summary.vitalSigns",
           icon: "fas fa-fw fa-heartbeat",
           shortTemplate: "templates/sections/defaultSectionShort.page",
           longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
@@ -423,7 +423,7 @@ angular.module("encounterTypeConfig", ["constants"])
             mchReferral,
             maternalDangerSigns,
             maternalVitalSigns,
-            educationSubjects,
+            postpartumCounsel,
             comments,
             returnVisitDate
           ],

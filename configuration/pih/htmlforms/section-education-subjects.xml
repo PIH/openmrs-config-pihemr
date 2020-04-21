@@ -13,8 +13,6 @@
   specifically designed to reformat our "one-question-per-screen" forms to should line-by-line obs -->
 
     <style>
-
-
         #mch-education-form fieldset {
         margin: 0px;
         border: 0px;

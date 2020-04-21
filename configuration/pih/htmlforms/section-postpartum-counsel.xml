@@ -43,23 +43,47 @@
 
     <section id="training" >
         <div class="section-container">
-            <p class="radio">
-                <repeat>
-                    <template>
-                        <obs conceptId="CIEL:164481" style="checkbox"
-                             answerConceptId="{map}"
-                             answerCode="{text}"
-                        />
-                        <br/>
-                    </template>
-                    <render map="CIEL:161050" text="pihcore.mch.dangerSigns" />
-                    <render map="CIEL:1910" text="pihcore.mch.breastfeeding" />
-                    <render map="CIEL:161073" text="pihcore.goodNutrition" />
-                    <render map="CIEL:1906" text="pihcore.generalHygiene" />
-                    <render map="CIEL:1382" text="pihcore.familyPlanning.title" />
-                    <render map="CIEL:5622" text="pihcore.other" />
-                </repeat>
-            </p>
+            <!-- Postpartum and followup -->
+            <includeIf velocityTest="$encounter.encounterType.uuid != '0CF4717A-479F-4349-AE6F-8602E2AA41D3'">
+                <p class="radio">
+                    <repeat>
+                        <template>
+                            <obs conceptId="CIEL:164481" style="checkbox"
+                                 answerConceptId="{map}"
+                                 answerCode="{text}"
+                            />
+                            <br/>
+                        </template>
+                        <render map="CIEL:161050" text="pihcore.mch.dangerSigns" />
+                        <render map="CIEL:1910" text="pihcore.mch.breastfeeding" />
+                        <render map="CIEL:161073" text="pihcore.goodNutrition" />
+                        <render map="CIEL:1906" text="pihcore.generalHygiene" />
+                        <render map="CIEL:1382" text="pihcore.familyPlanning.title" />
+                        <render map="CIEL:5622" text="pihcore.other" />
+                    </repeat>
+                </p>
+            </includeIf>
+
+            <!-- Pediatric -->
+            <includeIf velocityTest="$encounter.encounterType.uuid == '0CF4717A-479F-4349-AE6F-8602E2AA41D3'">
+                <p class="radio">
+                    <repeat>
+                        <template>
+                            <obs conceptId="CIEL:164481" style="checkbox"
+                                 answerConceptId="{map}"
+                                 answerCode="{text}"
+                            />
+                            <br/>
+                        </template>
+                        <render map="CIEL:159860" text="pihcore.mch.dangerSigns" />
+                        <render map="CIEL:1910" text="pihcore.mch.breastfeeding" />
+                        <render map="CIEL:161073" text="pihcore.goodNutrition" />
+                        <render map="CIEL:1906" text="pihcore.generalHygiene" />
+                        <render map="CIEL:1382" text="pihcore.familyPlanning.title" />
+                        <render map="CIEL:5622" text="pihcore.other" />
+                    </repeat>
+                </p>
+            </includeIf>
         </div>
     </section>
 

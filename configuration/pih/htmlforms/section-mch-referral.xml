@@ -289,6 +289,7 @@
                         </strong>
                         <obs conceptId="PIH:RETURN VISIT DATE" allowFutureDates="true" id="apptDate" />
                     </p>
+                    <br/>
 
                     <p class="radio">
                         <strong>

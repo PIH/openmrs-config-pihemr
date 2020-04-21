@@ -66,20 +66,22 @@
 
         <section id="vitals" sectionTag="section" headerStyle="title" headerCode="mirebalais.vitals.title">
 
-            <fieldset field-separator=" / ">
-                <legend><uimessage code="mirebalais.vitals.bloodPressure.title"/></legend>
-                <h3><uimessage code="mirebalais.vitals.bloodPressure.title"/></h3>
+            <includeIf velocityTest="$encounter.encounterType.uuid != '0CF4717A-479F-4349-AE6F-8602E2AA41D3'">
+                <fieldset field-separator=" / ">
+                    <legend><uimessage code="mirebalais.vitals.bloodPressure.title"/></legend>
+                    <h3><uimessage code="mirebalais.vitals.bloodPressure.title"/></h3>
 
-                <p class="left">
-                    <obs conceptId="PIH:SYSTOLIC BLOOD PRESSURE" id="bp_systolic"/>
-                </p>
-                <p class="left">
-                    /
-                </p>
-                <p class="left">
-                    <obs conceptId="PIH:DIASTOLIC BLOOD PRESSURE" id="bp_diastolic"/>
-                </p>
-            </fieldset>
+                    <p class="left">
+                        <obs conceptId="PIH:SYSTOLIC BLOOD PRESSURE" id="bp_systolic"/>
+                    </p>
+                    <p class="left">
+                        /
+                    </p>
+                    <p class="left">
+                        <obs conceptId="PIH:DIASTOLIC BLOOD PRESSURE" id="bp_diastolic"/>
+                    </p>
+                </fieldset>
+            </includeIf>
 
             <fieldset field-separator=" ">
                 <legend><uimessage code="mirebalais.vitals.temperature.title"/></legend>
@@ -109,6 +111,44 @@
                 </p>
             </fieldset>
 
+            <!-- Pediatric -->
+            <includeIf velocityTest="$encounter.encounterType.uuid == '0CF4717A-479F-4349-AE6F-8602E2AA41D3'">
+                <fieldset>
+                    <legend><uimessage code="mirebalais.vitals.weight.title"/></legend>
+                    <h3><uimessage code="mirebalais.vitals.weight.title"/></h3>
+
+                    <p>
+                        <obs conceptId="PIH:WEIGHT (KG)" id="weight_kg" showUnits="emr.units.kilograms" unitsCssClass="append-to-value"/>
+                    </p>
+                </fieldset>
+
+                <fieldset>
+                    <legend><uimessage code="mirebalais.vitals.height.title"/></legend>
+                    <h3><uimessage code="mirebalais.vitals.height.title"/></h3>
+
+                    <p>
+                        <obs conceptId="PIH:HEIGHT (CM)" id="height_cm" showUnits="emr.units.centimeters" unitsCssClass="append-to-value"/>
+                    </p>
+                </fieldset>
+
+                <fieldset>
+                    <legend><uimessage code="mirebalais.vitals.head.navigation.title"/></legend>
+                    <h3><uimessage code="mirebalais.vitals.head.title"/></h3>
+
+                    <p>
+                        <obs conceptId="PIH:HEAD CIRCUMFERENCE" id="head_cm" showUnits="emr.units.centimeters" unitsCssClass="append-to-value"/>
+                    </p>
+                </fieldset>
+
+                <fieldset>
+                    <legend><uimessage code="mirebalais.vitals.muac.navigation.title"/></legend>
+                    <h3><uimessage code="mirebalais.vitals.muac.navigation.title"/></h3>
+
+                    <p>
+                        <obs conceptId="CIEL:160908" />
+                    </p>
+                </fieldset>
+            </includeIf>
         </section>
 
 </htmlform>
