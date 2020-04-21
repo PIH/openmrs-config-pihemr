@@ -40,11 +40,8 @@
     </ifMode>
 
 
-    <section id="maternal-fp" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="">
-
+    <section id="maternal-fp" >
         <div class="section-container">
-
             <repeat>
                 <template>
                     <obs conceptId="CIEL:374"
@@ -63,9 +60,7 @@
                 <render fpMethod="CIEL:1107" comment="None"/>
                 <render fpMethod="CIEL:1175" comment="N/A"/>
             </repeat>
-
         </div>
-
     </section>
 
 </htmlform>
