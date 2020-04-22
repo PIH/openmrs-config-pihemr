@@ -159,16 +159,15 @@
             <repeat>
                 <template>
                     <fieldset field-separator=" ">
-                        <label>
-                            <uimessage code="pihcore.{text}"/>
-                        </label>
-
                         <p class="left">
                             <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox"
                                  answerConceptId="{map}" answerCode="coreapps.yes"/>
                             <obs conceptId="PIH:SYMPTOM ABSENT" style="checkbox"
                                  answerConceptId="{map}" answerCode="coreapps.no"/>
                         </p>
+                        <label>
+                            <uimessage code="pihcore.{text}"/>
+                        </label>
                     </fieldset>
                 </template>
 
@@ -187,16 +186,15 @@
             <repeat>
                 <template>
                     <fieldset field-separator=" ">
-                        <label>
-                            <uimessage code="pihcore.{text}"/>
-                        </label>
-
                         <p class="left">
                             <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox"
                                  answerConceptId="{map}" answerCode="coreapps.yes"/>
                             <obs conceptId="PIH:SYMPTOM ABSENT" style="checkbox"
                                  answerConceptId="{map}" answerCode="coreapps.no"/>
                         </p>
+                        <label>
+                            <uimessage code="pihcore.{text}"/>
+                        </label>
                     </fieldset>
                 </template>
                 <render map="CIEL:159860" text="pihcore.mch.dangerSigns" />
