@@ -102,10 +102,10 @@
             <p class="radio">
                 <strong>
                     <label>
-                        <uimessage code="pihcore.mch.chw.name"/>:&amp;nbsp;&amp;nbsp;&amp;nbsp;
+                        <uimessage code="pihcore.chw"/>&amp;nbsp;ID:
                     </label>
                 </strong>
-                <lookup expression="fn.getObs($encounter, 'CIEL:164141').valueText"/>
+                <obs conceptId="CIEL:164141" />
             </p>
 
             <table>
