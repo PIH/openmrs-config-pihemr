@@ -171,9 +171,6 @@ https://github.com/PIH/openmrs-config-pihemr/blob/master/configuration/pih/scrip
 
 ### Addresses and Address Hierarchy
 
-(Note that we haven't migrated all existing implementations to use this method, but that shouldn't stop up from 
-configuring new implementations using this method)
-
 There are two parts to address configuration.
 
 First there is the Address Hierarchy module configuration, which manages the address hierarchy
