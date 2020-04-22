@@ -98,32 +98,32 @@
             <br />
             <obs conceptId="CIEL:1912" style="checkbox" answerSeparator="&lt;br /&gt;"
                  answerConceptId="CIEL:161050"
-                 answerCodes="pihcore.mch.counselling.dangerSignsOfPregnancy"
+                 answerCodes="pihcore.mch.dangerSigns"
             />
             <br />
             <obs conceptId="CIEL:1912" style="checkbox" answerSeparator="&lt;br /&gt;"
                  answerConceptId="CIEL:1910"
-                 answerCodes="pihcore.mch.counselling.breastfeeding"
+                 answerCodes="pihcore.mch.breastfeeding"
             />
             <br />
             <obs conceptId="CIEL:1912" style="checkbox" answerSeparator="&lt;br /&gt;"
                  answerConceptId="CIEL:161073"
-                 answerCodes="pihcore.mch.counselling.goodNutrition"
+                 answerCodes="pihcore.goodNutrition"
             />
             <br />
             <obs conceptId="CIEL:1912" style="checkbox" answerSeparator="&lt;br /&gt;"
                  answerConceptId="CIEL:1906"
-                 answerCodes="pihcore.mch.counselling.generalHygiene"
+                 answerCodes="pihcore.generalHygiene"
             />
             <br />
             <obs conceptId="CIEL:1912" style="checkbox" answerSeparator="&lt;br /&gt;"
                  answerConceptId="CIEL:1382"
-                 answerCodes="pihcore.mch.counselling.familyPlanning"
+                 answerCodes="pihcore.familyPlanning.title"
             />
             <br />
             <obs conceptId="CIEL:1912" style="checkbox" answerSeparator="&lt;br /&gt;"
                  answerConceptId="CIEL:5622"
-                 answerCodes="pihcore.mch.other"
+                 answerCodes="pihcore.other"
             />
         </p>
     </div>

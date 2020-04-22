@@ -292,7 +292,7 @@ angular.module("encounterTypeConfig", ["constants"])
         var maternalVitalSigns = {
           type: "encounter-section",
           id: "section-maternal-vital-signs",
-          label: "summary.vitalSigns",
+          label: "pihcore.vitalSigns",
           icon: "fas fa-fw fa-heartbeat",
           shortTemplate: "templates/sections/defaultSectionShort.page",
           longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
