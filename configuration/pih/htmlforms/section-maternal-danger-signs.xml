@@ -78,78 +78,134 @@
 
     <section id="danger-signs" sectionTag="section" headerStyle="title" headerCode="pihcore.mch.maternalDangerSigns.title">
 
-        <fieldset field-separator=" ">
-            <legend><uimessage code="pihcore.passageOfFluids"/></legend>
-            <h3><uimessage code="pihcore.passageOfFluids"/></h3>
+        <!-- Prenatal -->
+        <includeIf velocityTest="$encounter.encounterType.uuid == '91DDF969-A2D4-4603-B979-F2D6F777F4AF'">
+            <fieldset field-separator=" ">
+                <legend><uimessage code="pihcore.passageOfFluids"/></legend>
+                <h3><uimessage code="pihcore.passageOfFluids"/></h3>
 
-            <p class="left">
-                <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:148968" answerLabel="yes"/>
-            </p>
-        </fieldset>
-        <fieldset field-separator=" ">
-            <legend><uimessage code="pihcore.decreaseFetalMovements"/></legend>
-            <h3><uimessage code="pihcore.decreaseFetalMovements"/></h3>
+                <p class="left">
+                    <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:148968" answerLabel="yes"/>
+                </p>
+            </fieldset>
+            <fieldset field-separator=" ">
+                <legend><uimessage code="pihcore.decreaseFetalMovements"/></legend>
+                <h3><uimessage code="pihcore.decreaseFetalMovements"/></h3>
 
-            <p class="left">
-                <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:113377" answerLabel="yes"/>
-            </p>
-        </fieldset>
-        <fieldset field-separator=" ">
-            <legend><uimessage code="pihcore.severeHeadache"/></legend>
-            <h3><uimessage code="pihcore.severeHeadache"/></h3>
+                <p class="left">
+                    <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:113377" answerLabel="yes"/>
+                </p>
+            </fieldset>
+            <fieldset field-separator=" ">
+                <legend><uimessage code="pihcore.severeHeadache"/></legend>
+                <h3><uimessage code="pihcore.severeHeadache"/></h3>
 
-            <p class="left">
-                <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:139081" answerLabel="yes"/>
-            </p>
-        </fieldset>
-        <fieldset field-separator=" ">
-            <legend><uimessage code="pihcore.visionProblem"/></legend>
-            <h3><uimessage code="pihcore.visionProblem"/></h3>
+                <p class="left">
+                    <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:139081" answerLabel="yes"/>
+                </p>
+            </fieldset>
+            <fieldset field-separator=" ">
+                <legend><uimessage code="pihcore.visionProblem"/></legend>
+                <h3><uimessage code="pihcore.visionProblem"/></h3>
 
-            <p class="left">
-                <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:118938" answerLabel="yes"/>
-            </p>
-        </fieldset>
-        <fieldset field-separator=" ">
-            <legend><uimessage code="pihcore.oedema"/></legend>
-            <h3><uimessage code="pihcore.oedema"/></h3>
+                <p class="left">
+                    <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:118938" answerLabel="yes"/>
+                </p>
+            </fieldset>
+            <fieldset field-separator=" ">
+                <legend><uimessage code="pihcore.oedema"/></legend>
+                <h3><uimessage code="pihcore.oedema"/></h3>
 
-            <p class="left">
-                <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:460" answerLabel="yes"/>
-            </p>
-        </fieldset>
-        <fieldset field-separator=" ">
-            <legend><uimessage code="pihcore.abdominalPain"/></legend>
-            <h3><uimessage code="pihcore.abdominalPain"/></h3>
+                <p class="left">
+                    <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:460" answerLabel="yes"/>
+                </p>
+            </fieldset>
+            <fieldset field-separator=" ">
+                <legend><uimessage code="pihcore.abdominalPain"/></legend>
+                <h3><uimessage code="pihcore.abdominalPain"/></h3>
 
-            <p class="left">
-                <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:151" answerLabel="yes"/>
-            </p>
-        </fieldset>
-        <fieldset field-separator=" ">
-            <legend><uimessage code="pihcore.vaginalInfection"/></legend>
-            <h3><uimessage code="pihcore.vaginalInfection"/></h3>
+                <p class="left">
+                    <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:151" answerLabel="yes"/>
+                </p>
+            </fieldset>
+            <fieldset field-separator=" ">
+                <legend><uimessage code="pihcore.vaginalInfection"/></legend>
+                <h3><uimessage code="pihcore.vaginalInfection"/></h3>
 
-            <p class="left">
-                <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:117010" answerLabel="yes"/>
-            </p>
-        </fieldset>
-        <fieldset field-separator=" ">
-            <legend><uimessage code="pihcore.abnormalVaginalBleeding"/></legend>
-            <h3><uimessage code="pihcore.abnormalVaginalBleeding"/></h3>
+                <p class="left">
+                    <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:117010" answerLabel="yes"/>
+                </p>
+            </fieldset>
+            <fieldset field-separator=" ">
+                <legend><uimessage code="pihcore.abnormalVaginalBleeding"/></legend>
+                <h3><uimessage code="pihcore.abnormalVaginalBleeding"/></h3>
 
-            <p class="left">
-                <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:150802" answerLabel="yes"/>
-            </p>
-        </fieldset>
-        <fieldset field-separator=" ">
-            <legend><uimessage code="pihcore.fever"/></legend>
-            <h3><uimessage code="pihcore.fever"/></h3>
+                <p class="left">
+                    <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:150802" answerLabel="yes"/>
+                </p>
+            </fieldset>
+            <fieldset field-separator=" ">
+                <legend><uimessage code="pihcore.fever"/></legend>
+                <h3><uimessage code="pihcore.fever"/></h3>
 
-            <p class="left">
-                <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:140238" answerLabel="yes"/>
-            </p>
-        </fieldset>
+                <p class="left">
+                    <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox" answerConceptId="CIEL:140238" answerLabel="yes"/>
+                </p>
+            </fieldset>
+        </includeIf>
 
+        <!-- Postpartum -->
+        <includeIf velocityTest="$encounter.encounterType.uuid == '0E7160DF-2DD1-4728-B951-641BBE4136B8'">
+            <repeat>
+                <template>
+                    <fieldset field-separator=" ">
+                        <label>
+                            <uimessage code="pihcore.{text}"/>
+                        </label>
+
+                        <p class="left">
+                            <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox"
+                                 answerConceptId="{map}" answerCode="coreapps.yes"/>
+                            <obs conceptId="PIH:SYMPTOM ABSENT" style="checkbox"
+                                 answerConceptId="{map}" answerCode="coreapps.no"/>
+                        </p>
+                    </fieldset>
+                </template>
+
+                <render map="CIEL:230" text="pihcore.postpartumHemorrhage" />
+                <render map="CIEL:139081" text="pihcore.severeHeadache" />
+                <render map="CIEL:118938" text="pihcore.visionProblem" />
+                <render map="CIEL:165193" text="pihcore.edemaFaceHands" />
+                <render map="CIEL:151" text="pihcore.abdominalPain" />
+                <render map="CIEL:117010" text="pihcore.vaginalInfection" />
+                <render map="CIEL:140238" text="pihcore.fever" />
+            </repeat>
+        </includeIf>
+
+        <!-- Pediatrics -->
+        <includeIf velocityTest="$encounter.encounterType.uuid == '0CF4717A-479F-4349-AE6F-8602E2AA41D3'">
+            <repeat>
+                <template>
+                    <fieldset field-separator=" ">
+                        <label>
+                            <uimessage code="pihcore.{text}"/>
+                        </label>
+
+                        <p class="left">
+                            <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox"
+                                 answerConceptId="{map}" answerCode="coreapps.yes"/>
+                            <obs conceptId="PIH:SYMPTOM ABSENT" style="checkbox"
+                                 answerConceptId="{map}" answerCode="coreapps.no"/>
+                        </p>
+                    </fieldset>
+                </template>
+                <render map="CIEL:159860" text="pihcore.mch.dangerSigns" />
+                <render map="CIEL:140238" text="pihcore.fever" />
+                <render map="CIEL:142412" text="pihcore.diarrhea" />
+                <render map="CIEL:136443" text="pihcore.jaundice" />
+                <render map="CIEL:143264" text="pihcore.cough" />
+                <render map="CIEL:113054" text="pihcore.seizures" />
+            </repeat>
+        </includeIf>
     </section>
 </htmlform>
