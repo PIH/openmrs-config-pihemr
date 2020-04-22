@@ -270,7 +270,7 @@ angular.module("encounterTypeConfig", ["constants"])
         var mchReferral = {
           type: "encounter-section",
           id: "section-mch-referral",
-          label: "pihcore.mch.referral.title",
+          label: "pihcore.refer.title",
           icon: "icon-share",
           shortTemplate: "templates/sections/defaultSectionShort.page",
           longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
@@ -302,7 +302,7 @@ angular.module("encounterTypeConfig", ["constants"])
         var educationSubjects = {
           type: "encounter-section",
           id: "section-education-subjects",
-          label: "pihcore.mch.educationSubjects.title",
+          label: "pihcore.socioEconomic.education",
           icon: "fas fa-fw fa-clipboard-check",
           shortTemplate: "templates/sections/defaultSectionShort.page",
           longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
@@ -312,7 +312,7 @@ angular.module("encounterTypeConfig", ["constants"])
         var postpartumCounsel = {
             type: "encounter-section",
             id: "section-postpartum-training",
-            label: "pihcore.mch.educationSubjects.title",
+            label: "pihcore.socioEconomic.education",
             icon: "fas fa-fw fa-clipboard-check",
             shortTemplate: "templates/sections/defaultSectionShort.page",
             longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",

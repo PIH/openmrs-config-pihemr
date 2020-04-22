@@ -111,23 +111,23 @@
             <table>
                 <tr>
                     <th>
-                        <uimessage code="pihcore.mch.referralType"/>
+                        <uimessage code="pihcore.type"/>
                     </th>
                     <th>
-                        <uimessage code="pihcore.mch.referralDetails"/>
+                        <uimessage code="pihcore.details"/>
                     </th>
                     <th>
-                        <uimessage code="pihcore.mch.referralActions"/>
+                        <uimessage code="pihcore.visitNote.visitActions"/>
                     </th>
                     <th>
-                        <uimessage code="pihcore.mch.referralComments"/>
+                        <uimessage code="pihcore.comments.title"/>
                     </th>
                 </tr>
                 <includeIf velocityTest="$fn.getObs($encounter, 'CIEL:1788').valueCoded.equals($fn.getConcept('PIH:YES'))">
                     <tr>
                         <obsgroup groupingConceptId="PIH:12837">
                             <td>
-                                <uimessage code="pihcore.mch.referralTypes.hospital"/>
+                                <uimessage code="pihcore.hospitalName"/>
                                 <!-- note that JavaScript code above (line 90) is used to set default value and needs to be kept in sync with this -->
                                 <span style="display:none">
                                     <obs id="hospital_referral" conceptId="PIH:REFERRALS ORDERED" answerConceptIds="PIH:HOSPITAL"/>
@@ -141,7 +141,7 @@
                             <td>
                                 <obs conceptId="PIH:Fulfillment status"
                                      answerConceptIds="CIEL:160068,CIEL:1267,CIEL:162866,CIEL:164143,CIEL:165170,CIEL:5622"
-                                     answerCodes="pihcore.mch.referralActions.unmet,pihcore.mch.referralActions.completed,pihcore.mch.referralActions.pending,pihcore.mch.referralActions.noshow,pihcore.mch.referralActions.cancelled,pihcore.mch.referralActions.other"
+                                     answerCodes="pihcore.unmet,pihcore.completed,pihcore.pending,pihcore.noshow,pihcore.cancelled,pihcore.other"
                                      style="dropdown"/>
                             </td>
                             <td>
@@ -155,7 +155,7 @@
                     <tr>
                         <obsgroup groupingConceptId="PIH:12837">
                             <td>
-                                <uimessage code="pihcore.mch.referralTypes.mentalHealth"/>
+                                <uimessage code="pihcore.ncd.mental"/>
                                 <!-- note that JavaScript code above (line 90) is used to set default value and needs to be kept in sync with this -->
                                 <span style="display:none">
                                     <obs id="mental_health_referral" conceptId="PIH:REFERRALS ORDERED" answerConceptIds="PIH:MENTAL HEALTH SERVICES"/>
@@ -180,7 +180,7 @@
                     <tr>
                         <obsgroup groupingConceptId="PIH:12837">
                             <td>
-                                <uimessage code="pihcore.mch.referralTypes.familyMember"/>
+                                <uimessage code="pihcore.familyMember"/>
                                 <!-- note that JavaScript code above (line 90) is used to set default value and needs to be kept in sync with this -->
                                 <span style="display:none">
                                     <obs id="family_member_referral" conceptId="PIH:REFERRALS ORDERED" answerConceptIds="PIH:FAMILY MEMBER"/>
@@ -205,7 +205,7 @@
                     <tr>
                         <obsgroup groupingConceptId="PIH:12837">
                             <td>
-                                <uimessage code="pihcore.mch.referralTypes.tetanusVaccination"/>
+                                <uimessage code="pihcore.tetanusVaccination"/>
                                 <!-- note that JavaScript code above (line 90) is used to set default value and needs to be kept in sync with this -->
                                 <span style="display:none">
                                     <obs id="tetanus_vaccination_referral" conceptId="PIH:REFERRALS ORDERED" answerConceptIds="PIH:12747"/>
@@ -230,7 +230,7 @@
                     <tr>
                         <obsgroup groupingConceptId="PIH:12837">
                             <td>
-                                <uimessage code="pihcore.mch.referralTypes.pediatricVaccination"/>
+                                <uimessage code="pihcore.pediatricVaccination"/>
                                 <!-- note that JavaScript code above (line 90) is used to set default value and needs to be kept in sync with this -->
                                 <span style="display:none">
                                     <obs id="pediatric_vaccination_referral" conceptId="PIH:REFERRALS ORDERED" answerConceptIds="PIH:12836"/>
@@ -255,7 +255,7 @@
                     <tr>
                         <obsgroup groupingConceptId="PIH:12837">
                             <td>
-                                <uimessage code="pihcore.mch.referralTypes.malnutrition"/>
+                                <uimessage code="pihcore.ncd.malnutrition"/>
                                 <!-- note that JavaScript code above (line 90) is used to set default value and needs to be kept in sync with this -->
                                 <span style="display:none">
                                     <obs id="malnutrition_referral" conceptId="PIH:REFERRALS ORDERED" answerConceptIds="PIH:MALNUTRITION PROGRAM"/>
