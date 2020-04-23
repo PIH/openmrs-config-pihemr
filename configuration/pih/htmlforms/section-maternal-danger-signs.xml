@@ -106,7 +106,7 @@
                 <render map="CIEL:113377" text="decreaseFetalMovements" />
                 <render map="CIEL:139081" text="severeHeadache" />
                 <render map="CIEL:118938" text="visionProblem" />
-                <render map="CIEL:460" text="oedema" />
+                <render map="CIEL:460" text="edema" />
                 <render map="CIEL:151" text="abdominalPain" />
                 <render map="CIEL:117010" text="vaginalInfection" />
                 <render map="CIEL:150802" text="abnormalVaginalBleeding" />
@@ -157,7 +157,6 @@
                         </strong>
                     </fieldset>
                 </template>
-                <render map="CIEL:159860" text="mch.dangerSigns" />
                 <render map="CIEL:140238" text="fever" />
                 <render map="CIEL:142412" text="diarrhea" />
                 <render map="CIEL:136443" text="jaundice" />
