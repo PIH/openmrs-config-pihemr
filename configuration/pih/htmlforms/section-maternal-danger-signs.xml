@@ -172,9 +172,9 @@
                             <obs conceptId="PIH:SYMPTOM ABSENT" style="checkbox"
                                  answerConceptId="{map}" answerCode="coreapps.no"/>
                         </p>
-                        <label>
+                        <strong>
                             <uimessage code="pihcore.{text}"/>
-                        </label>
+                        </strong>
                     </fieldset>
                 </template>
 
@@ -199,9 +199,9 @@
                             <obs conceptId="PIH:SYMPTOM ABSENT" style="checkbox"
                                  answerConceptId="{map}" answerCode="coreapps.no"/>
                         </p>
-                        <label>
+                        <strong>
                             &amp;nbsp;<uimessage code="pihcore.{text}"/>
-                        </label>
+                        </strong>
                     </fieldset>
                 </template>
                 <render map="CIEL:159860" text="mch.dangerSigns" />

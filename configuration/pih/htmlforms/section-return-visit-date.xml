@@ -66,12 +66,7 @@
     <section id="return-date" sectionTag="section" headerStyle="title" headerCode="pihcore.returnVisitDate.title">
 
         <fieldset field-separator=" ">
-            <legend><uimessage code="pihcore.returnVisitDate.title"/></legend>
-            <h3><uimessage code="pihcore.returnVisitDate.title"/></h3>
-
-            <p class="left">
-                <obs conceptId="PIH:RETURN VISIT DATE" allowFutureDates="true" id="apptDate" />
-            </p>
+            <legend><uimessage code="pihcore.consult.returnVisitDate"/></legend>
         </fieldset>
 
     </section>

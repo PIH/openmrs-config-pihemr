@@ -67,7 +67,7 @@
 
         <fieldset field-separator=" ">
             <legend><uimessage code="pihcore.comments.title"/></legend>
-            <h3><uimessage code="pihcore.comments.title"/></h3>
+            <h3><uimessage code="pihcore.remarks"/></h3>
 
             <p class="left">
                 <obs conceptId="PIH:1364" />
