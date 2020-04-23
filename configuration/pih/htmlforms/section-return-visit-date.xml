@@ -67,6 +67,11 @@
 
         <fieldset field-separator=" ">
             <legend><uimessage code="pihcore.consult.returnVisitDate"/></legend>
+            <h3><uimessage code="pihcore.consult.returnVisitDate"/></h3>
+
+            <p class="left">
+                <obs conceptId="PIH:RETURN VISIT DATE" allowFutureDates="true" id="apptDate" />
+            </p>
         </fieldset>
 
     </section>
