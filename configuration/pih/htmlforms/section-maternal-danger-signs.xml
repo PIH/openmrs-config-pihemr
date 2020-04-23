@@ -21,62 +21,69 @@
         <style>
 
             #maternal-danger-signs-form legend {
-            display: none;
+                display: none;
             }
 
             #maternal-danger-signs-form fieldset {
-            margin: 0px;
-            border: 0px;
-            padding: 0px;
+                margin: 0px;
+                border: 0px;
+                padding: 0px;
             }
 
             #maternal-danger-signs-form fieldset h3 {
-            font-size: 1em;
-            width: 200px;
-            display: inline-block;
-            margin: 0px;
-            margin-right: 10px;
-            color: #501d3d;
-            vertical-align: top;
+                font-size: 1em;
+                width: 200px;
+                display: inline-block;
+                margin: 0px;
+                margin-right: 10px;
+                color: #501d3d;
+                vertical-align: top;
             }
 
             #maternal-danger-signs-form fieldset p {
-            vertical-align: top;
-            display: inline-block;
-            float: none;
+                vertical-align: top;
+                display: inline-block;
+                float: none;
             }
 
             #maternal-danger-signs-form fieldset .left {
-            vertical-align: top;
-            display: inline-block;
-            float: none;
+                vertical-align: top;
+                display: inline-block;
+                float: none;
             }
 
             #maternal-danger-signs-form .title {
-            display: none;
+                display: none;
             }
 
             #maternal-danger-signs-form .encounter-date {
-            display: none;
+                display: none;
             }
 
             #maternal-danger-signs-form .encounter-provider {
-            display: none;
+                display: none;
             }
 
             #maternal-danger-signs-form .encounter-location {
-            display: none;
+                display: none;
             }
 
             #maternal-danger-signs-form .append-to-value {
-            padding-left: 5px;
+                padding-left: 5px;
             }
-
+            .section-container {
+                background: #F2F2F2;
+                box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+                padding: 10px 5px 10px 15px;
+                line-height: 1.5em; /*add this for vertical spacing between elements*/
+            }
         </style>
 
     </ifMode>
 
-    <section id="danger-signs" sectionTag="section" headerStyle="title" headerCode="pihcore.mch.maternalDangerSigns.title">
+    <div class="section-container">
+    <section id="danger-signs" sectionTag="section"
+             headerStyle="title" headerCode="pihcore.mch.dangerSigns">
 
         <!-- Prenatal -->
         <includeIf velocityTest="$encounter.encounterType.uuid == '91DDF969-A2D4-4603-B979-F2D6F777F4AF'">
@@ -171,13 +178,13 @@
                     </fieldset>
                 </template>
 
-                <render map="CIEL:230" text="pihcore.postpartumHemorrhage" />
-                <render map="CIEL:139081" text="pihcore.severeHeadache" />
-                <render map="CIEL:118938" text="pihcore.visionProblem" />
-                <render map="CIEL:165193" text="pihcore.edemaFaceHands" />
-                <render map="CIEL:151" text="pihcore.abdominalPain" />
-                <render map="CIEL:117010" text="pihcore.vaginalInfection" />
-                <render map="CIEL:140238" text="pihcore.fever" />
+                <render map="CIEL:230" text="postpartumHemorrhage" />
+                <render map="CIEL:139081" text="severeHeadache" />
+                <render map="CIEL:118938" text="visionProblem" />
+                <render map="CIEL:165193" text="edemaFaceHands" />
+                <render map="CIEL:151" text="abdominalPain" />
+                <render map="CIEL:117010" text="vaginalInfection" />
+                <render map="CIEL:140238" text="fever" />
             </repeat>
         </includeIf>
 
@@ -193,17 +200,18 @@
                                  answerConceptId="{map}" answerCode="coreapps.no"/>
                         </p>
                         <label>
-                            <uimessage code="pihcore.{text}"/>
+                            &amp;nbsp;<uimessage code="pihcore.{text}"/>
                         </label>
                     </fieldset>
                 </template>
-                <render map="CIEL:159860" text="pihcore.mch.dangerSigns" />
-                <render map="CIEL:140238" text="pihcore.fever" />
-                <render map="CIEL:142412" text="pihcore.diarrhea" />
-                <render map="CIEL:136443" text="pihcore.jaundice" />
-                <render map="CIEL:143264" text="pihcore.cough" />
-                <render map="CIEL:113054" text="pihcore.seizures" />
+                <render map="CIEL:159860" text="mch.dangerSigns" />
+                <render map="CIEL:140238" text="fever" />
+                <render map="CIEL:142412" text="diarrhea" />
+                <render map="CIEL:136443" text="jaundice" />
+                <render map="CIEL:143264" text="cough" />
+                <render map="CIEL:113054" text="seizures" />
             </repeat>
         </includeIf>
     </section>
+    </div>
 </htmlform>
