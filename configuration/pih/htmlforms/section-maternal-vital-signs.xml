@@ -60,95 +60,116 @@
                 padding-left: 5px;
                 }
 
+                .section-container {
+                    background: #F2F2F2;
+                    box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+                    padding: 10px 5px 10px 15px;
+                    line-height: 1.5em; /*add this for vertical spacing between elements*/
+                }
+
+                .section-container input[type="checkbox"] {
+                    margin: 0px 5px; /*changed values to vertical, horizontal*/
+                    top: 5px; /*added to offset the checkbox position to line up*/
+                }
+
+                .section-container label { /*new definition to override labels inside section-containers*/
+                    margin: 0px;
+                }
+
+                .section {
+                    width: 100%;
+                }
             </style>
 
         </ifMode>
 
         <section id="vitals" sectionTag="section" headerStyle="title" headerCode="mirebalais.vitals.title">
 
-            <includeIf velocityTest="$encounter.encounterType.uuid != '0CF4717A-479F-4349-AE6F-8602E2AA41D3'">
-                <fieldset field-separator=" / ">
-                    <legend><uimessage code="mirebalais.vitals.bloodPressure.title"/></legend>
-                    <h3><uimessage code="mirebalais.vitals.bloodPressure.title"/></h3>
+            <div class="section-container">
+                <includeIf velocityTest="$encounter.encounterType.uuid != '0CF4717A-479F-4349-AE6F-8602E2AA41D3'">
+                    <fieldset field-separator=" / ">
+                        <legend><uimessage code="mirebalais.vitals.bloodPressure.title"/></legend>
+                        <h3><uimessage code="mirebalais.vitals.bloodPressure.title"/></h3>
+
+                        <p class="left">
+                            <obs conceptId="PIH:SYSTOLIC BLOOD PRESSURE" id="bp_systolic"/>
+                        </p>
+                        <p class="left">
+                            /
+                        </p>
+                        <p class="left">
+                            <obs conceptId="PIH:DIASTOLIC BLOOD PRESSURE" id="bp_diastolic"/>
+                        </p>
+                    </fieldset>
+                </includeIf>
+
+                <fieldset field-separator=" ">
+                    <legend><uimessage code="mirebalais.vitals.temperature.title"/></legend>
+                    <h3><uimessage code="mirebalais.vitals.temperature.title"/></h3>
 
                     <p class="left">
-                        <obs conceptId="PIH:SYSTOLIC BLOOD PRESSURE" id="bp_systolic"/>
+                        <obs conceptId="PIH:TEMPERATURE (C)" id="temperature_c" showUnits="emr.units.degreesCelsius" unitsCssClass="append-to-value"/>
                     </p>
-                    <p class="left">
-                        /
-                    </p>
-                    <p class="left">
-                        <obs conceptId="PIH:DIASTOLIC BLOOD PRESSURE" id="bp_diastolic"/>
-                    </p>
+
                 </fieldset>
-            </includeIf>
 
-            <fieldset field-separator=" ">
-                <legend><uimessage code="mirebalais.vitals.temperature.title"/></legend>
-                <h3><uimessage code="mirebalais.vitals.temperature.title"/></h3>
-
-                <p class="left">
-                    <obs conceptId="PIH:TEMPERATURE (C)" id="temperature_c" showUnits="emr.units.degreesCelsius" unitsCssClass="append-to-value"/>
-                </p>
-
-            </fieldset>
-
-            <fieldset>
-                <legend><uimessage code="mirebalais.vitals.heartRate.title"/></legend>
-                <h3><uimessage code="mirebalais.vitals.heartRate.title"/></h3>
-
-                <p>
-                    <obs conceptId="PIH:PULSE" id="heart_rate" showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
-                </p>
-            </fieldset>
-
-            <fieldset>
-                <legend><uimessage code="mirebalais.vitals.respiratoryRate.title"/></legend>
-                <h3><uimessage code="mirebalais.vitals.respiratoryRate.title"/></h3>
-
-                <p>
-                    <obs conceptId="PIH:RESPIRATORY RATE" id="respiratory_rate" showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
-                </p>
-            </fieldset>
-
-            <!-- Pediatric -->
-            <includeIf velocityTest="$encounter.encounterType.uuid == '0CF4717A-479F-4349-AE6F-8602E2AA41D3'">
                 <fieldset>
-                    <legend><uimessage code="mirebalais.vitals.weight.title"/></legend>
-                    <h3><uimessage code="mirebalais.vitals.weight.title"/></h3>
+                    <legend><uimessage code="mirebalais.vitals.heartRate.title"/></legend>
+                    <h3><uimessage code="mirebalais.vitals.heartRate.title"/></h3>
 
                     <p>
-                        <obs conceptId="PIH:WEIGHT (KG)" id="weight_kg" showUnits="emr.units.kilograms" unitsCssClass="append-to-value"/>
+                        <obs conceptId="PIH:PULSE" id="heart_rate" showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
                     </p>
                 </fieldset>
 
                 <fieldset>
-                    <legend><uimessage code="mirebalais.vitals.height.title"/></legend>
-                    <h3><uimessage code="mirebalais.vitals.height.title"/></h3>
+                    <legend><uimessage code="mirebalais.vitals.respiratoryRate.title"/></legend>
+                    <h3><uimessage code="mirebalais.vitals.respiratoryRate.title"/></h3>
 
                     <p>
-                        <obs conceptId="PIH:HEIGHT (CM)" id="height_cm" showUnits="emr.units.centimeters" unitsCssClass="append-to-value"/>
+                        <obs conceptId="PIH:RESPIRATORY RATE" id="respiratory_rate" showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
                     </p>
                 </fieldset>
 
-                <fieldset>
-                    <legend><uimessage code="mirebalais.vitals.head.navigation.title"/></legend>
-                    <h3><uimessage code="mirebalais.vitals.head.title"/></h3>
+                <!-- Pediatric -->
+                <includeIf velocityTest="$encounter.encounterType.uuid == '0CF4717A-479F-4349-AE6F-8602E2AA41D3'">
+                    <fieldset>
+                        <legend><uimessage code="mirebalais.vitals.weight.title"/></legend>
+                        <h3><uimessage code="mirebalais.vitals.weight.title"/></h3>
 
-                    <p>
-                        <obs conceptId="PIH:HEAD CIRCUMFERENCE" id="head_cm" showUnits="emr.units.centimeters" unitsCssClass="append-to-value"/>
-                    </p>
-                </fieldset>
+                        <p>
+                            <obs conceptId="PIH:WEIGHT (KG)" id="weight_kg" showUnits="emr.units.kilograms" unitsCssClass="append-to-value"/>
+                        </p>
+                    </fieldset>
 
-                <fieldset>
-                    <legend><uimessage code="mirebalais.vitals.muac.navigation.title"/></legend>
-                    <h3><uimessage code="mirebalais.vitals.muac.navigation.title"/></h3>
+                    <fieldset>
+                        <legend><uimessage code="mirebalais.vitals.height.title"/></legend>
+                        <h3><uimessage code="mirebalais.vitals.height.title"/></h3>
 
-                    <p>
-                        <obs conceptId="CIEL:160908" />
-                    </p>
-                </fieldset>
-            </includeIf>
+                        <p>
+                            <obs conceptId="PIH:HEIGHT (CM)" id="height_cm" showUnits="emr.units.centimeters" unitsCssClass="append-to-value"/>
+                        </p>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend><uimessage code="mirebalais.vitals.head.navigation.title"/></legend>
+                        <h3><uimessage code="mirebalais.vitals.head.title"/></h3>
+
+                        <p>
+                            <obs conceptId="PIH:HEAD CIRCUMFERENCE" id="head_cm" showUnits="emr.units.centimeters" unitsCssClass="append-to-value"/>
+                        </p>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend><uimessage code="mirebalais.vitals.muac.navigation.title"/></legend>
+                        <h3><uimessage code="mirebalais.vitals.muac.navigation.title"/></h3>
+
+                        <p>
+                            <obs conceptId="CIEL:160908" />
+                        </p>
+                    </fieldset>
+                </includeIf>
+            </div>
         </section>
 
 </htmlform>

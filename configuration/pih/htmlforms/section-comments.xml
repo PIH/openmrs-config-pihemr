@@ -59,20 +59,39 @@
                 padding-left: 5px;
                 }
 
+                .section-container {
+                    background: #F2F2F2;
+                    box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+                    padding: 10px 5px 10px 15px;
+                    line-height: 1.5em; /*add this for vertical spacing between elements*/
+                }
+
+                .section-container input[type="checkbox"] {
+                    margin: 0px 5px; /*changed values to vertical, horizontal*/
+                    top: 5px; /*added to offset the checkbox position to line up*/
+                }
+
+                .section-container label { /*new definition to override labels inside section-containers*/
+                    margin: 0px;
+                }
+
+                .section {
+                    width: 100%;
+                }
             </style>
 
         </ifMode>
 
     <section id="comments-section" sectionTag="section" headerStyle="title" headerCode="pihcore.comments.title">
+        <div class="section-container">
+            <fieldset field-separator=" ">
+                <legend><uimessage code="pihcore.comments.title"/></legend>
+                <h3><uimessage code="pihcore.remarks"/></h3>
 
-        <fieldset field-separator=" ">
-            <legend><uimessage code="pihcore.comments.title"/></legend>
-            <h3><uimessage code="pihcore.remarks"/></h3>
-
-            <p class="left">
-                <obs conceptId="PIH:1364" />
-            </p>
-        </fieldset>
-
+                <p class="left">
+                    <obs conceptId="PIH:1364" />
+                </p>
+            </fieldset>
+        </div>
     </section>
 </htmlform>
