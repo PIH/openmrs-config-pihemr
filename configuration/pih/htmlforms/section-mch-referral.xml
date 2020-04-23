@@ -120,7 +120,7 @@
                         <uimessage code="pihcore.visitNote.visitActions"/>
                     </th>
                     <th>
-                        <uimessage code="pihcore.comments.title"/>
+                        <uimessage code="pihcore.remarks"/>
                     </th>
                 </tr>
                 <includeIf velocityTest="$fn.getObs($encounter, 'CIEL:1788').valueCoded.equals($fn.getConcept('PIH:YES'))">

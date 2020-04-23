@@ -332,7 +332,7 @@ angular.module("encounterTypeConfig", ["constants"])
         var comments = {
           type: "encounter-section",
           id: "section-comments",
-          label: "pihcore.comments.title",
+          label: "pihcore.remarks",
           icon: "icon-comment",
           shortTemplate: "templates/sections/defaultSectionShort.page",
           longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
@@ -342,7 +342,7 @@ angular.module("encounterTypeConfig", ["constants"])
         var returnVisitDate = {
           type: "encounter-section",
           id: "section-return-visit-date",
-          label: "pihcore.returnVisitDate.title",
+          label: "pihcore.consult.returnVisitDate",
           icon: "icon-calendar",
           shortTemplate: "templates/sections/defaultSectionShort.page",
           longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
