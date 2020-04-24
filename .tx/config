@@ -1,0 +1,11 @@
+[main]
+host = https://www.transifex.com/
+
+[mirebalais.config-pihemr]
+source_file = configuration/messageproperties/messages_en.properties
+source_lang = en
+trans.fr = configuration/messagesproperties/messages_fr.properties
+trans.ht = configuration/messagesproperties/messages_ht.properties
+trans.es = configuration/messagesproperties/messages_es.properties
+
+
