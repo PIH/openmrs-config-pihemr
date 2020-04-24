@@ -405,8 +405,8 @@ angular.module("encounterTypeConfig", ["constants"])
           showOnVisitList: true,
           sections: [
             mchReferral,
-            maternalDangerSigns,
             maternalVitalSigns,
+            maternalDangerSigns,
             educationSubjects,
             comments,
             returnVisitDate
@@ -421,8 +421,8 @@ angular.module("encounterTypeConfig", ["constants"])
           showOnVisitList: true,
           sections: [
             mchReferral,
-            maternalDangerSigns,
             maternalVitalSigns,
+            maternalDangerSigns,
             postpartumCounsel,
             comments,
             returnVisitDate
@@ -436,11 +436,14 @@ angular.module("encounterTypeConfig", ["constants"])
             icon: "fas fa-fw fa-female",
             showOnVisitList: true,
             sections: [
-                maternalVitalSigns,
                 mchReferral,
-                postpartumCounsel,
+                maternalVitalSigns,
                 maternalDangerSigns,
-                maternalFamilyPlanning
+                postpartumCounsel,
+                maternalFamilyPlanning,
+                comments,
+                returnVisitDate
+                // Add Comments + next appt
             ],
         };
 
@@ -451,8 +454,8 @@ angular.module("encounterTypeConfig", ["constants"])
             icon: "fas fa-fw fa-female",
             showOnVisitList: true,
             sections: [
-                maternalVitalSigns,
                 mchReferral,
+                maternalVitalSigns,
                 postpartumCounsel,
                 maternalFamilyPlanning,
                 comments

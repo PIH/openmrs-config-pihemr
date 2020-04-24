@@ -278,30 +278,6 @@
                 </includeIf>
             </table>
 
-            <!-- Postpartum only -->
-            <ifMode mode="VIEW" include="true">
-                <includeIf velocityTest="$encounter.encounterType.uuid == '0E7160DF-2DD1-4728-B951-641BBE4136B8'">
-                    <p class="radio">
-                        <strong>
-                            <label>
-                                <uimessage code="pihcore.consult.returnVisitDate"/>
-                            </label>
-                        </strong>
-                        <obs conceptId="PIH:RETURN VISIT DATE" allowFutureDates="true" id="apptDate" />
-                    </p>
-                    <br/>
-
-                    <p class="radio">
-                        <strong>
-                            <label>
-                                <uimessage code="pihcore.remarks"/>:&amp;nbsp;&amp;nbsp;&amp;nbsp;
-                            </label>
-                        </strong>
-                        <obs conceptId="CIEL:159395"/>
-                    </p>
-                </includeIf>
-            </ifMode>
-
         </div>
     </section>
 
