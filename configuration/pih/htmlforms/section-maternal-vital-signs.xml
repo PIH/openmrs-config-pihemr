@@ -168,6 +168,15 @@
                             <obs conceptId="CIEL:160908" />
                         </p>
                     </fieldset>
+
+                    <fieldset>
+                        <legend><uimessage code="pihcore.mealsPerDay"/></legend>
+                        <h3><uimessage code="pihcore.mealsPerDay"/></h3>
+
+                        <p>
+                            <obs conceptId="CIEL:165591" />
+                        </p>
+                    </fieldset>
                 </includeIf>
             </div>
         </section>

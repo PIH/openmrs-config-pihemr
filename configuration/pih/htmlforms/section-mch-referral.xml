@@ -123,33 +123,43 @@
                         <uimessage code="pihcore.remarks"/>
                     </th>
                 </tr>
-                <includeIf velocityTest="$fn.getObs($encounter, 'CIEL:1788').valueCoded.equals($fn.getConcept('PIH:YES'))">
+
                     <tr>
-                        <obsgroup groupingConceptId="PIH:12837">
+                        <includeIf velocityTest="$fn.getObs($encounter, 'CIEL:1788').valueCoded.equals($fn.getConcept('PIH:YES'))">
+                            <obsgroup groupingConceptId="PIH:12837">
+                                <td>
+                                    <uimessage code="pihcore.hospitalName"/>
+                                    <!-- note that JavaScript code above (line 90) is used to set default value and needs to be kept in sync with this -->
+                                    <span style="display:none">
+                                        <obs id="hospital_referral" conceptId="PIH:REFERRALS ORDERED" answerConceptIds="PIH:HOSPITAL"/>
+                                    </span>
+                                </td>
+                                <td>
+                                    <includeIf velocityTest="$fn.getObs($encounter, 'PIH:Emergency').valueCoded.equals($fn.getConcept('PIH:YES'))">
+                                        <uimessage code="pihcore.mch.urgent"/>
+                                    </includeIf>
+                                </td>
+                                <td>
+                                    <obs conceptId="PIH:Fulfillment status"
+                                         answerConceptIds="CIEL:160068,CIEL:1267,CIEL:162866,CIEL:164143,CIEL:165170,CIEL:5622"
+                                         answerCodes="pihcore.unmet,pihcore.completed,pihcore.pending,pihcore.noshow,pihcore.cancelled,pihcore.other"
+                                         style="dropdown"/>
+                                </td>
+                                <td>
+                                    <obs conceptId="CIEL:161011" style="text"/>
+                                </td>
+                            </obsgroup>
+                        </includeIf>
+                        <includeIf velocityTest="$fn.getObs($encounter, 'CIEL:1788').valueCoded.equals($fn.getConcept('PIH:NO'))">
                             <td>
                                 <uimessage code="pihcore.hospitalName"/>
-                                <!-- note that JavaScript code above (line 90) is used to set default value and needs to be kept in sync with this -->
-                                <span style="display:none">
-                                    <obs id="hospital_referral" conceptId="PIH:REFERRALS ORDERED" answerConceptIds="PIH:HOSPITAL"/>
-                                </span>
                             </td>
-                            <td>
-                                <includeIf velocityTest="$fn.getObs($encounter, 'PIH:Emergency').valueCoded.equals($fn.getConcept('PIH:YES'))">
-                                    <uimessage code="pihcore.mch.urgent"/>
-                                </includeIf>
+                            <td colspan="3">
+                                <uimessage code="pihcore.none.label"/>
                             </td>
-                            <td>
-                                <obs conceptId="PIH:Fulfillment status"
-                                     answerConceptIds="CIEL:160068,CIEL:1267,CIEL:162866,CIEL:164143,CIEL:165170,CIEL:5622"
-                                     answerCodes="pihcore.unmet,pihcore.completed,pihcore.pending,pihcore.noshow,pihcore.cancelled,pihcore.other"
-                                     style="dropdown"/>
-                            </td>
-                            <td>
-                                <obs conceptId="CIEL:161011" style="text"/>
-                            </td>
-                        </obsgroup>
+                        </includeIf>
                     </tr>
-                </includeIf>
+
                 <!-- note that this question gets shown if there's *any* answer specified for PIH:12746 ("Reason for mental health referral") -->
                 <includeIf velocityTest="$fn.getObs($encounter, 'PIH:12746')">
                     <tr>
@@ -176,6 +186,7 @@
                         </obsgroup>
                     </tr>
                 </includeIf>
+
                 <includeIf velocityTest="$fn.getObs($encounter, 'PIH:12745').valueCoded.equals($fn.getConcept('PIH:YES'))">
                     <tr>
                         <obsgroup groupingConceptId="PIH:12837">

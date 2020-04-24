@@ -443,7 +443,6 @@ angular.module("encounterTypeConfig", ["constants"])
                 maternalFamilyPlanning,
                 comments,
                 returnVisitDate
-                // Add Comments + next appt
             ],
         };
 
