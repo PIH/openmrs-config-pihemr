@@ -142,7 +142,7 @@
                                 <td>
                                     <obs conceptId="PIH:Fulfillment status"
                                          answerConceptIds="CIEL:160068,CIEL:1267,CIEL:162866,CIEL:164143,CIEL:165170,CIEL:5622"
-                                         answerCodes="pihcore.referral.completed,pihcore.referral.pending,pihcore.noshow,pihcore.cancelled,pihcore.other"
+                                         answerCodes="pihcore.referral.unmet,pihcore.referral.completed,pihcore.referral.pending,pihcore.noshow,pihcore.cancelled,pihcore.other"
                                          style="dropdown"/>
                                 </td>
                                 <td>
