@@ -142,7 +142,7 @@
                                 <td>
                                     <obs conceptId="PIH:Fulfillment status"
                                          answerConceptIds="CIEL:160068,CIEL:1267,CIEL:162866,CIEL:164143,CIEL:165170,CIEL:5622"
-                                         answerCodes="pihcore.unmet,pihcore.completed,pihcore.pending,pihcore.noshow,pihcore.cancelled,pihcore.other"
+                                         answerCodes="pihcore.completed,pihcore.pending,pihcore.noshow,pihcore.cancelled,pihcore.other"
                                          style="dropdown"/>
                                 </td>
                                 <td>
@@ -177,7 +177,7 @@
                             <td>
                                 <obs conceptId="PIH:Fulfillment status"
                                      answerConceptIds="CIEL:160068,CIEL:1267,CIEL:162866,CIEL:164143,CIEL:165170,CIEL:5622"
-                                     answerCodes="pihcore.mch.referralActions.unmet,pihcore.mch.referralActions.completed,pihcore.mch.referralActions.pending,pihcore.mch.referralActions.noshow,pihcore.mch.referralActions.cancelled,pihcore.mch.referralActions.other"
+                                     answerCodes="pihcore.unmet,pihcore.completed,pihcore.pending,pihcore.noshow,pihcore.cancelled,pihcore.other"
                                      style="dropdown"/>
                             </td>
                             <td>
@@ -203,7 +203,7 @@
                             <td>
                                 <obs conceptId="PIH:Fulfillment status"
                                      answerConceptIds="CIEL:160068,CIEL:1267,CIEL:162866,CIEL:164143,CIEL:165170,CIEL:5622"
-                                     answerCodes="pihcore.mch.referralActions.unmet,pihcore.mch.referralActions.completed,pihcore.mch.referralActions.pending,pihcore.mch.referralActions.noshow,pihcore.mch.referralActions.cancelled,pihcore.mch.referralActions.other"
+                                     answerCodes="pihcore.unmet,pihcore.completed,pihcore.pending,pihcore.noshow,pihcore.cancelled,pihcore.other"
                                      style="dropdown"/>
                             </td>
                             <td>
@@ -228,7 +228,7 @@
                             <td>
                                 <obs conceptId="PIH:Fulfillment status"
                                      answerConceptIds="CIEL:160068,CIEL:1267,CIEL:162866,CIEL:164143,CIEL:165170,CIEL:5622"
-                                     answerCodes="pihcore.mch.referralActions.unmet,pihcore.mch.referralActions.completed,pihcore.mch.referralActions.pending,pihcore.mch.referralActions.noshow,pihcore.mch.referralActions.cancelled,pihcore.mch.referralActions.other"
+                                     answerCodes="pihcore.unmet,pihcore.completed,pihcore.pending,pihcore.noshow,pihcore.cancelled,pihcore.other"
                                      style="dropdown"/>
                             </td>
                             <td>
@@ -253,7 +253,7 @@
                             <td>
                                 <obs conceptId="PIH:Fulfillment status"
                                      answerConceptIds="CIEL:160068,CIEL:1267,CIEL:162866,CIEL:164143,CIEL:165170,CIEL:5622"
-                                     answerCodes="pihcore.mch.referralActions.unmet,pihcore.mch.referralActions.completed,pihcore.mch.referralActions.pending,pihcore.mch.referralActions.noshow,pihcore.mch.referralActions.cancelled,pihcore.mch.referralActions.other"
+                                     answerCodes="pihcore.unmet,pihcore.completed,pihcore.pending,pihcore.noshow,pihcore.cancelled,pihcore.other"
                                      style="dropdown"/>
                             </td>
                             <td>
@@ -278,7 +278,7 @@
                             <td>
                                 <obs conceptId="PIH:Fulfillment status"
                                      answerConceptIds="CIEL:160068,CIEL:1267,CIEL:162866,CIEL:164143,CIEL:165170,CIEL:5622"
-                                     answerCodes="pihcore.mch.referralActions.unmet,pihcore.mch.referralActions.completed,pihcore.mch.referralActions.pending,pihcore.mch.referralActions.noshow,pihcore.mch.referralActions.cancelled,pihcore.mch.referralActions.other"
+                                     answerCodes="pihcore.unmet,pihcore.completed,pihcore.pending,pihcore.noshow,pihcore.cancelled,pihcore.other"
                                      style="dropdown"/>
                             </td>
                             <td>
