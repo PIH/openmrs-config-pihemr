@@ -268,6 +268,22 @@ in [CALF](https://github.com/PIH/openmrs-module-mirebalais/blob/master/api/src/m
 Note that this application logic often depends both on which components are enabled and which location tags are enabled
 at the active location.  Location Tags are currently still setup in code in [openmrs-module-pihcore/api/src/main/java/org/openmrs/module/pihcore/setup/LocationTagSetup.java](https://github.com/PIH/openmrs-module-pihcore/blob/master/api/src/main/java/org/openmrs/module/pihcore/setup/LocationTagSetup.java).
 
+### Message Properties
+
+Message properties files are used to localize the PIH EMR into different languages.  Currently we support French,
+Haitian Kreyol, and Spanish, and there's a separate messages_<lang>.properties files for each within the
+configuration/messagesproperties folder. 
+
+Note that the *only* messages properties file that should be edited directly in the code is the source file,
+messages_en.properties. For translations we use a third-party translation tool, Transifex (www.transifex) and it
+directly integrates with Github.  Instructions on how to use it can be found here:
+
+https://pihemr.atlassian.net/wiki/spaces/PIHEMR/pages/657260615/Localization+using+Transifex
+
+Implementations can add their own message properties files the configuration/messageproperties files as as long as 
+they are given a unique filename (ie not "messages_<lang>.properties") they should also be loaded on startup
+and not override any of the message codes provided by the PIH EMR config.  
+
 ### Logo
 
 To customize the header logo, you can put a "logo.png" file in "configuration/pih/logo" and it will replace the default PIH "hands" logo.  
