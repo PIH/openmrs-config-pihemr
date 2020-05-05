@@ -751,7 +751,8 @@
                               ['PIH:Parenting skills'],
                               ['CIEL:165484','Deep breathing'],
                               ['CIEL:165485','Progressive muscle relaxation'],
-                              ['CIEL:165328','HIV/AIDS counseling']">
+                              ['CIEL:165328','HIV/AIDS counseling'],
+                              ['CIEL:165973','Psychological first aid']">
                         <obs conceptId="PIH:Mental health intervention" answerConceptId="{0}"/>
                 </repeat>
                 <br/>
