@@ -274,15 +274,52 @@ Message properties files are used to localize the PIH EMR into different languag
 Haitian Kreyol, and Spanish, and there's a separate messages_<lang>.properties files for each within the
 configuration/messagesproperties folder. 
 
+#### Transifex
+
 Note that the *only* messages properties file that should be edited directly in the code is the source file,
-messages_en.properties. For translations we use a third-party translation tool, Transifex (www.transifex) and it
-directly integrates with Github.  Instructions on how to use it can be found here:
+messages_en.properties. For translations we use a third-party translation tool, Transifex (www.transifex).
 
-https://pihemr.atlassian.net/wiki/spaces/PIHEMR/pages/657260615/Localization+using+Transifex
+To provide translations, you need to add new codes to the messages_en.properties file, push them up to Transifex, 
+do the translations, and then pull down the translations.  
 
-Implementations can add their own message properties files the configuration/messageproperties files as as long as 
-they are given a unique filename (ie not "messages_<lang>.properties") they should also be loaded on startup
-and not override any of the message codes provided by the PIH EMR config.  
+##### Installing the Transifex Client
+
+Instructions can be found here: 
+
+https://docs.transifex.com/client/installing-the-client
+
+##### Pushing new source codes to Transifex
+
+Add a new code and English translation to the "messages_en.properties" file.
+
+Run the following command from the top-level directory from where you have "openmrs-config-pihemr" checked out:
+
+```tx push -s```
+
+You then should see your new message code in Transifex under the "PIH EMR Config" project. You can proceed
+to provide translations there.
+
+##### Pulling new translation from Transifex
+
+To pull new translations you've provided to Transifex back into the code, run the following command:
+
+```tx  pull -a```
+
+You can confirm that the changes have been properly pulled into the translation files and then can
+commit them using Git.
+
+##### Full Transifex Client document
+
+Can be found here: 
+
+https://docs.transifex.com/client/introduction
+
+
+#### Implementation-specific messages code
+
+Implementations can add their own message properties files the configuration/messageproperties directory of
+their own config projects, as as long as they are given a unique filename (ie not "messages_<lang>.properties").
+so as not to conflict with any of the message files provided by the PIH EMR config.  
 
 ### Logo
 
