@@ -1,0 +1,297 @@
+<config>
+    <globalProperties>
+
+        <!-- OpenMRS Core -->
+        <globalProperty>
+            <property>security.passwordMinimumLength</property>
+            <value>8</value>
+        </globalProperty>
+        <globalProperty>
+            <property>security.passwordRequiresDigit</property>
+            <value>false</value>
+        </globalProperty>
+        <globalProperty>
+            <property>security.passwordRequiresNonDigit</property>
+            <value>false</value>
+        </globalProperty>
+        <globalProperty>
+            <property>security.passwordRequiresUpperAndLowerCase</property>
+            <value>false</value>
+        </globalProperty>
+        <globalProperty>
+            <property>patient.nameValidationRegex</property>
+            <value></value>
+        </globalProperty>
+        <globalProperty>
+            <property>search.caseSensitiveDatabaseStringComparison</property>
+            <value>false</value>
+        </globalProperty>
+        <globalProperty>
+            <property>concept.unknown</property>
+            <value>${concept.unknown.uuid}</value>
+        </globalProperty>
+
+        <!-- HTML Form Entry -->
+        <globalProperty>
+            <property>htmlformentry.dateFormat</property>
+            <value>${javaDateFormat}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>htmlformentry.timeFormat</property>
+            <value>${javaTimeFormat}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>htmlformentry.showDateFormat</property>
+            <value>false</value>
+        </globalProperty>
+
+        <!-- Reporting -->
+        <globalProperty>
+            <property>reporting.testPatientsCohortDefinition</property>
+            <value></value>
+        </globalProperty>
+
+        <!-- REST Web Services -->
+        <!-- increases number of results returned by single call (in Lab Workflow OWA we want to fetch batches of 3000) -->
+        <globalProperty>
+            <property>webservices.rest.maxResultsAbsolute</property>
+            <value>3000</value>
+        </globalProperty>
+        <globalProperty>
+            <property>webservices.rest.maxResultsDefault</property>
+            <value>500</value>
+        </globalProperty>
+
+        <!-- UI Framework -->
+        <globalProperty>
+            <property>uiframework.formatter.dateFormat</property>
+            <value>${javaDateFormat}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>uiframework.formatter.dateAndTimeFormat</property>
+            <value>${javaDateTimeFormat}</value>
+        </globalProperty>
+
+        <!-- EMR API -->
+        <globalProperty>
+            <property>emrapi.useLegacyDiagnosisService</property>
+            <value>true</value>
+        </globalProperty>
+        <globalProperty>
+            <property>emrapi.EmrApiVisitAssignmentHandler.adjustEncounterTimeOfDayIfNecessary</property>
+            <value>true</value>
+        </globalProperty>
+
+        <!-- EMR -->
+        <globalProperty>
+            <property>emr.paymentAmountConcept</property>
+            <value>${concept.paymentAmount.uuid}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>emr.paymentReasonConcept</property>
+            <value>${concept.paymentReason.uuid}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>emr.paymentReceiptNumberConcept</property>
+            <value>${concept.paymentReceiptNumber.uuid}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>emr.paymentConstructConcept</property>
+            <value>${concept.paymentConstruct.uuid}</value>
+        </globalProperty>
+
+        <!-- Core Apps -->
+        <!-- (force user to hit enter when searching, no "autocomplete" -->
+        <globalProperty>
+            <property>coreapps.searchDelayShort</property>
+            <value>99999999</value>
+        </globalProperty>
+        <globalProperty>
+            <property>coreapps.searchDelayLong</property>
+            <value>99999999</value>
+        </globalProperty>
+
+        <!-- Registration Core -->
+        <globalProperty>
+            <property>registrationcore.patientNameSearch</property>
+            <value>registrationcore.ExistingPatientNameSearch</value>
+        </globalProperty>
+        <globalProperty>
+            <property>registrationcore.fastSimilarPatientSearchAlgorithm</property>
+            <value>pihcore.PihPatientSearchAlgorithm</value>
+        </globalProperty>
+        <globalProperty>
+            <property>registrationcore.preciseSimilarPatientSearchAlgorithm</property>
+            <value>registrationcore.BasicExactPatientSearchAlgorithm</value>
+        </globalProperty>
+
+        <!-- Name Phonetics -->
+        <globalProperty>
+            <property>namephonetics.givenNameStringEncoder</property>
+            <value>Double Metaphone Alternate</value>
+        </globalProperty>
+        <globalProperty>
+            <property>namephonetics.middleNameStringEncoder</property>
+            <value>Double Metaphone Alternate</value>
+        </globalProperty>
+        <globalProperty>
+            <property>namephonetics.familyNameStringEncoder</property>
+            <value>Double Metaphone Alternate</value>
+        </globalProperty>
+        <globalProperty>
+            <property>namephonetics.familyName2StringEncoder</property>
+            <value>Double Metaphone Alternate</value>
+        </globalProperty>
+
+        <!-- Allergies -->
+        <globalProperty>
+            <property>allergy.concept.unknown</property>
+            <value>${concept.unknown.uuid}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>allergy.concept.otherNonCoded</property>
+            <value>${concept.otherNonCoded.uuid}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>allergy.concept.severity.mild</property>
+            <value>${concept.allergySeverityMild.uuid}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>allergy.concept.severity.moderate</property>
+            <value>${concept.allergySeverityModerate.uuid}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>allergy.concept.severity.severe</property>
+            <value>${concept.allergySeveritySevere.uuid}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>allergy.concept.allergen.food</property>
+            <value>${concept.allergyFoodSet.uuid}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>allergy.concept.allergen.drug</property>
+            <value>${concept.allergyDrugSet.uuid}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>allergy.concept.allergen.environment</property>
+            <value>${concept.allergyEnvironmentSet.uuid}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>allergy.concept.reactions</property>
+            <value>${concept.allergyReactionsSet.uuid}</value>
+        </globalProperty>
+
+        <!-- Attachments -->
+        <globalProperty>
+            <property>attachments.allowNoCaption</property>
+            <value>true</value>
+        </globalProperty>
+        <globalProperty>
+            <property>attachments.allowWebcam</property>
+            <value>false</value>
+        </globalProperty>
+        <globalProperty>
+            <property>attachments.maxStorageFileSize</property>
+            <value>5.0</value>
+        </globalProperty>
+        <globalProperty>
+            <property>attachments.maxUploadFileSize</property>
+            <value>5.0</value>
+        </globalProperty>
+        <!-- allow uploading documents outside of a visit -->
+        <globalProperty>
+            <property>attachments.associateWithVisit</property>
+            <value>false</value>
+        </globalProperty>
+        <globalProperty>
+            <property>attachments.encounterTypeUuid</property>
+            <value></value>
+        </globalProperty>
+
+        <!-- Order Entry OWA -->
+        <!-- TODO: do we still need order.encounterType and order.encounterRole? -->
+        <globalProperty>
+            <property>orderentryowa.encounterType</property>
+            <value>Test Order</value>
+        </globalProperty>
+        <globalProperty>
+            <property>orderentryowa.encounterRole</property>
+            <value>Ordering Provider</value>
+        </globalProperty>
+        <globalProperty>
+            <property>orderentryowa.dateAndTimeFormat</property>
+            <value>${javaScriptDateTimeFormat}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>orderentryowa.labOrderAutoExpireTimeInDay</property>
+            <value>30</value>
+        </globalProperty>
+
+        <!-- Lab Workflow OWA -->
+        <globalProperty>
+            <property>labworkflowowa.labResultsEntryEncounterType</property>
+            <value>${encounterType.labSpecimenCollection.uuid}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>labworkflowowa.labResultsEncounterTypes</property>
+            <value>${encounterType.labSpecimenCollection.uuid},${encounterType.labResults.uuid}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>labworkflowowa.labResultsEncounterRole</property>
+            <value>${encounterRole.labTechnician.uuid}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>labworkflowowa.labResultsDateConcept</property>
+            <value>${concept.dateOfTestResults.uuid}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>labworkflowowa.testOrderNumberConcept</property>
+            <value>${concept.testOrderNumber.uuid}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>labworkflowowa.didNotPerformQuestion</property>
+            <value>${concept.testStatus.uuid}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>labworkflowowa.didNotPerformAnswer</property>
+            <value>${concept.notDone.uuid}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>labworkflowowa.didNotPerformReason</property>
+            <value>${concept.didNotPerformReason.uuid}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>labworkflowowa.dateAndTimeFormat</property>
+            <value>${javaScriptDateTimeFormat}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>labworkflowowa.estimatedCollectionDateQuestion</property>
+            <value>${concept.estimatedCollectionDate.uuid}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>labworkflowowa.estimatedCollectionDateAnswer</property>
+            <value>${concept.yes.uuid}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>labworkflowowa.testOrderType</property>
+            <value>{orderType.testOrder.uuid}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>labworkflowowa.orderLabTestLink</property>
+            <value>coreapps/findpatient/findPatient.page?app=pih.app.labs.ordering</value>
+        </globalProperty>
+        <globalProperty>
+            <property>labworkflowowa.enableLabelPrinting</property>
+            <value>true</value>
+        </globalProperty>
+        <globalProperty>
+            <property>labworkflowowa.labelPrintingEndpoint</property>
+            <value>mirebalais/lablabelprinter</value>
+        </globalProperty>
+        <globalProperty>
+            <property>labworkflowowa.ordersBatchSize</property>
+            <value>3000</value>
+        </globalProperty>
+
+    </globalProperties>
+</config>

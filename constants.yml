@@ -1,0 +1,61 @@
+
+javaDateFormat: "dd MMM yyyy"
+javaTimeFormat: "h:mm aa"
+javaDateTimeFormat: "dd MMM yyyy h:mm aa"
+javaScriptDateTimeFormat: "DD-MMM-YYYY HH:mm"
+
+concept:
+  allergyDrugSet:
+    uuid: "4c886e88-04c1-11e5-8418-1697f925ec7b"
+  allergyEnvironmentSet:
+    uuid: "4c887806-04c1-11e5-8418-1697f925ec7b"
+  allergyFoodSet:
+    uuid: "4c887216-04c1-11e5-8418-1697f925ec7b"
+  allergyReactionsSet:
+    uuid: "4c8865b4-04c1-11e5-8418-1697f925ec7b"
+  allergySeverityMild:
+    uuid: "3cdef9ae-26fe-102b-80cb-0017a47871b2"
+  allergySeverityModerate:
+    uuid: "3cdef832-26fe-102b-80cb-0017a47871b2"
+  allergySeveritySevere:
+    uuid: "3cdefc92-26fe-102b-80cb-0017a47871b2"
+  dateOfTestResults:
+    uuid: "68d6bd27-37ff-4d7a-87a0-f5e0f9c8dcc0"
+  didNotPerformReason:
+    uuid: "5dc35a2a-228c-41d0-ae19-5b1e23618eda"
+  estimatedCollectionDate:
+    uuid: "87f506e3-4433-40ec-b16c-b3c65e40298"
+  notDone:
+    uuid: "3cd75550-26fe-102b-80cb-0017a47871b2"
+  otherNonCoded:
+    uuid: "3cee7fb4-26fe-102b-80cb-0017a47871b2"
+  paymentAmount:
+    uuid: "5d1bc5de-6a35-4195-8631-7322941fe528"
+  paymentConstruct:
+    uuid: "7a6330f1-9503-465c-8d63-82e1ad914b47"
+  paymentReason:
+    uuid: "36ba7721-fae0-4da4-aef2-7e476cc04bdf"
+  paymentReceiptNumber:
+    uuid: "20438dc7-c5b4-4d9c-8480-e888f4795123"
+  testOrderNumber:
+    uuid: "393dec41-2fb5-428f-acfa-36ea85da6666"
+  testStatus:
+    uuid: "7e0cf626-dbe8-42aa-9b25-483b51350bf8"
+  unknown:
+    uuid: "3cd6fac4-26fe-102b-80cb-0017a47871b2"
+  yes:
+    uuid: "3cd6f600-26fe-102b-80cb-0017a47871b2"
+
+encounterRole:
+  labTechnician:
+    uuid: "781bee46-89c5-4230-a490-68fe21d61383"
+
+encounterType:
+  labSpecimenCollection:
+    uuid: "39C09928-0CAB-4DBA-8E48-39C631FA4286"
+  labResults:
+    uuid: "4d77916a-0620-11e5-a6c0-1697f925ec7b"
+
+orderType:
+  testOrder:
+    uuid: "52a447d3-a64a-11e3-9aeb-50e549534c5e"
