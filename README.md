@@ -85,6 +85,7 @@ Components are defined in [pihcore/.../config/Components.java](https://github.co
 - **cohortBuilder**: Adds cohort builder OWA. openmrs-owa-cohortbuilder
 - **conditionList**: A dashboard widget that lists "conditions".
 - **consult**: Adds outpatientConsult form to visit actions. Uses Consult Note Location tag.
+- **covid19**: Adds COVID-19 forms to visit actions along with reports.  Under construction.
 - **dataExports**: Enables the "data exports" section of the Reports app on the home page.
 - **deathCertificate**: Custom death certificate built for Mirabalis, not currently used.
 - **diabetesProgram**: Needs DiabetesProgram bundle, used by CES
