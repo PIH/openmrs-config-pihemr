@@ -1,0 +1,490 @@
+<!--
+  ~ The contents of this file are subject to the OpenMRS Public License
+  ~ Version 1.0 (the "License"); you may not use this file except in
+  ~ compliance with the License. You may obtain a copy of the License at
+  ~ http//license.openmrs.org
+  ~
+  ~ Software distributed under the License is distributed on an "AS IS"
+  ~ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing rights and limitations
+  ~ under the License.
+  ~
+  ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+  -->
+
+<htmlform id="covid19Intake" class="simple-form-ui"
+          formName="COVID19 Admission"
+          formUuid="82be8c44-cc17-4704-ae10-1179ae9702db"
+          formEncounterType="8d50b938-dcf9-4b8e-9938-e625bd2f0a81"
+          formVersion="1.0">
+
+    <style type="text/css">
+
+        #who-when-where {
+            margin-bottom: 6px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        #who-when-where p {
+            display: inline-block;
+            padding-right: 20px;
+        }
+
+        #where > input[type=text] {
+            display: inline-block;
+        }
+
+        .narrow {
+            width: 200px;
+        }
+
+        .field-error {
+            color: #ff6666;
+            font-size: 1.1em;
+            display: block;
+        }
+
+        .simple-form-ui input {
+            min-width: 90%
+        }
+
+        form fieldset {
+            min-width: 90%
+        }
+
+        #encounterDate input {
+            min-width: 15%
+        }
+
+        .section-container {
+            background: #F2F2F2;
+            box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+            padding: 10px 5px 10px 15px;
+            line-height: 1.5em; /*add this for vertical spacing between elements*/
+        }
+
+        .section-container input[type="checkbox"] {
+            margin: 0px 5px; /*changed values to vertical, horizontal*/
+            top:5px; /*added to offset the checkbox position to line up*/
+        }
+
+        .section-container label { /*new definition to override labels inside section-containers*/
+            margin: 0px;
+        }
+
+        .section {
+            width: 100%;
+        }
+
+        .two-columns {
+            column-count: 2;
+            -webkit-column-count: 2;
+            -moz-column-count: 2;
+        }
+
+        form input[type="checkbox"], form input[type="radio"],
+        .form input[type="checkbox"], .form input[type="radio"] {
+            float: none;
+            display: inline-block;
+        }
+
+        form label, .form label {
+            display: inline-block;
+        }
+    </style>
+
+    <ifMode mode="VIEW" include="false" >
+        <script type="text/javascript">
+
+            jq(function() {
+
+            var updateEdd = function() {
+
+            var lastPeriodDate = htmlForm.getValueIfLegal('lastPeriodDate.value');
+            if (typeof lastPeriodDate !== "undefined" &amp;&amp; lastPeriodDate !== null &amp;&amp; (lastPeriodDate.length > 0)) {
+
+            var today = new Date();
+            var currentEncounterDate = '<lookup expression="encounter.getEncounterDatetime().getTime()"/>';
+            if (typeof currentEncounterDate !== "undefined" &amp;&amp; currentEncounterDate !== null &amp;&amp; (currentEncounterDate.length > 0)) {
+            // calculate the gestational age at the time of the encounter
+            today = new Date(+currentEncounterDate);
+            }
+
+            var dateObj = getField('lastPeriodDate.value').datepicker('getDate');
+            var newDate = new Date(dateObj);
+            // time difference
+            var timeDiff = Math.abs(today.getTime() - newDate.getTime());
+            // weeks difference = gestational age
+            var diffWeeks = Math.ceil(timeDiff / (1000 * 3600 * 24 * 7));
+
+            // Estimated Delivery Date = (LMP - 3 months) + 12 months + 7 days
+            newDate.setMonth(newDate.getMonth() - 3);
+            newDate.setFullYear(newDate.getFullYear() + 1);
+            newDate.setDate(newDate.getDate() + 7);
+
+            var widgetDate = getField('lastPeriodDate.value').datepicker('setDate', newDate).val();
+            getField('lastPeriodDate.value').datepicker('setDate', dateObj);
+
+            jq('#calculated-edd-and-gestational').show();
+            jq('#calculated-edd').text(widgetDate);
+            jq('#calculated-gestational-age-value').text(diffWeeks + " " + '<uimessage code="pihcore.weeks"/>');
+
+            } else {
+            jq('#calculated-edd-and-gestational').hide();
+            }
+            };
+
+            jq('#calculated-edd-and-gestational').hide();
+
+            jq("#lastPeriodDate input[type='hidden']").change(function() {
+            updateEdd();
+            });
+
+            updateEdd();
+            });
+        </script>
+    </ifMode>
+
+    <ifMode mode="VIEW" include="false">
+        <script type="text/javascript">
+
+        </script>
+    </ifMode>
+
+    <div class="print-form-datestamps" style="display:none">
+        <p><uimessage code="pih.form.created_on"/>:
+            <lookup complexExpression="$form.dateCreated"/>
+        </p>
+        <p><uimessage code="pih.form.last_updated_on"/>:
+            <lookup complexExpression="$form.dateChanged"/>
+        </p>
+        <p><uimessage code="pih.form.printed_on"/>:
+            <lookup complexExpression="$formGeneratedDatetime"/>
+        </p>
+    </div>
+
+    <ifMode mode="VIEW" include="false">
+        <h2>
+            <label>
+                <uimessage code="ui.i18n.EncounterType.name.8d50b938-dcf9-4b8e-9938-e625bd2f0a81"/>
+            </label>
+        </h2>
+
+        <!-- users with retroConsultNote privilege can edit provider, location, and date for both retro and active visits -->
+        <includeIf velocityTest="$user.hasPrivilege('Task: emr.retroConsultNote')">
+            <div id="who-when-where">
+                <p id="who">
+                    <label>
+                        <uimessage code="emr.patientDashBoard.providerRequired"/>
+                    </label>
+                    <span>
+                        <encounterProviderAndRole default="currentUser"
+                                                  encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
+                    </span>
+                </p>
+                <p id="where">
+                    <label>
+                        <uimessage code="emr.locationRequired"/>
+                    </label>
+                    <span>
+                        <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"
+                                           tags="Consult Note Location"/>
+                    </span>
+                </p>
+                <p id="when">
+                    <label>
+                        <uimessage code="emr.patientDashBoard.date"/>
+                    </label>
+                    <span>
+                        <encounterDate id="encounterDate" default="now"/>
+                    </span>
+                </p>
+            </div>
+        </includeIf>
+
+        <!-- users with retroConsultNoteThisProviderOnly can edit location and date (but not provider) for retro visits -->
+        <includeIf
+                velocityTest="$user.hasPrivilege('Task: emr.retroConsultNoteThisProviderOnly') and !($user.hasPrivilege('Task: emr.retroConsultNote')) and (!$visit.open)">
+            <div style="display:none">
+                <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05"
+                                          required="true"/>
+            </div>
+
+            <div id="who-when-where">
+                <p id="who">
+                    <label>
+                        <uimessage code="emr.patientDashBoard.provider"/>
+                    </label>
+                    <span>
+                        <lookup expression="user.person.personName"/>
+                    </span>
+                </p>
+                <p id="where">
+                    <label>
+                        <uimessage code="emr.locationRequired"/>
+                    </label>
+                    <span>
+                        <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"
+                                           tags="Consult Note Location"/>
+                    </span>
+                </p>
+                <p id="when">
+                    <label>
+                        <uimessage code="emr.patientDashBoard.date"/>
+                    </label>
+                    <span>
+                        <encounterDate id="encounterDate" default="now"/>
+                    </span>
+                </p>
+            </div>
+
+        </includeIf>
+
+        <!-- all users that don't have retroConsultNote privilege cannot edit provider, location or date when active visit -->
+        <includeIf velocityTest="(!$user.hasPrivilege('Task: emr.retroConsultNote')) and ($visit.open)">
+            <div style="display:none">
+                <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05"
+                                          required="true"/>
+                <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"/>
+                <encounterDate id="encounterDate" default="now"/>
+            </div>
+            <div id="who-when-where">
+                <table id="who-where-when-view">
+                    <tr>
+                        <td>
+                            <label>
+                                <uimessage code="emr.patientDashBoard.provider"/>
+                            </label>
+                            <span>
+                                <lookup complexExpression="#if($encounter) $ui.format($encounter.provider) #else $ui.format($user.person) #end"/>
+                            </span>
+                        </td>
+                        <td>
+                            <label>
+                                <uimessage code="emr.location"/>
+                            </label>
+                            <span>
+                                <lookup complexExpression="#if($encounter) $ui.format($encounter.location) #else $ui.format($sessionContext.sessionLocation) #end"/>
+                            </span>
+                        </td>
+                        <td>
+                            <label>
+                                <uimessage code="emr.patientDashBoard.date"/>
+                            </label>
+                            <span>
+                                <lookup complexExpression="#if($encounter) $ui.format($fn.startOfDay($encounter.encounterDatetime)) #else $ui.format($fn.startOfDay($formGeneratedDatetime)) #end"/>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </includeIf>
+      </ifMode>
+
+    <section id="demographics" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="patientDashboard.demographics">
+        <div class="section-container">
+            <includeIf velocityTest="$patient.gender == 'F' ">
+            <p>
+                <!-- Pregnant -->
+                <label>
+                    <uimessage code="pihcore.pregnancy.status"/>
+                </label>
+                <obs conceptId="CIEL:5272"
+                     answerConceptIds="CIEL:1065,CIEL:1066"
+                     style="radio" />
+            </p>
+
+            <div class="two-columns">
+                <!-- Last menstrual period (LMP or DDR) -->
+                <p>
+                    <label>
+                        <uimessage code="pihcore.pregnancy.lastPeriod"/>
+                    </label>
+                    <span class="small">
+                        <obs id="lastPeriodDate" conceptId="CIEL:1427" allowFutureDates="false"/>
+                    </span>
+                </p>
+
+                <!-- Due date (DPA) -->
+                <p>
+                    <label>
+                        <uimessage code="pihcore.pregnancy.dueDate"/>
+                    </label>
+                    <span class="small">
+                        <obs conceptId="CIEL:5596" allowFutureDates="true"/>
+                    </span>
+                </p>
+            </div>
+
+            <div id="calculated-edd-and-gestational" class="two-columns hidden">
+                <p>
+                    <span id="calculated-gestational-age-wrapper">
+                        <span id="calculated-gestational-age-label">
+                            <uimessage code="pihcore.calculatedGestationalAge"/>:&#160;
+                        </span>
+                        <span id='calculated-gestational-age-value' class="value"></span>
+                    </span>
+                </p>
+                <p>
+                    <span id="calculated-edd-wrapper">
+                        <span id="calculated-edd-label">
+                            <uimessage code="pihcore.calculatedEstimatedDeliveryDate"/>:&#160;
+                        </span>
+                        <span id='calculated-edd' class="value"></span>
+                    </span>
+                </p>
+
+            </div>
+            </includeIf>
+
+            <!-- Todo: Check the age for "infant" -->
+            <includeIf velocityTest="$patient.age &lt; 2">
+                <p>
+                    <label>
+                        <uimessage code="pihcore.breastfeeding"/>
+                    </label>
+                    <obs conceptId="CIEL:5632"
+                         answerConceptIds="CIEL:1065,CIEL:1066"
+                         style="radio" />
+                </p>
+            </includeIf>
+        </div>
+    </section>
+
+    <section id="history" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="zl.consultNote.patientHistory.title">
+        <div class="section-container">
+            <p>
+                <label>
+                    <!-- ToDo: Add content -->
+                    <i>
+                        <uimessage code="tbd"/>
+                    </i>
+                </label>
+            </p>
+        </div>
+    </section>
+
+    <section id="comorbitity" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.vitalSigns">
+        <div class="section-container">
+            <p>
+                <label>
+                    <!-- ToDo: Add content -->
+                    <i>
+                        <uimessage code="tbd"/>
+                    </i>
+                </label>
+            </p>
+        </div>
+    </section>
+
+    <section id="comorbitity" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.comorbidities.label">
+        <div class="section-container">
+            <p>
+                <obs id="underlying-comorbidity" style="radio" conceptId="CIEL:162747"
+                     labelText="Any underlying conditions or comorbidities?"
+                     answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067">
+                    <controls>
+                        <when value="CIEL:1065" thenDisplay="#comorbidities"/>
+                    </controls>
+                </obs>
+
+            </p>
+
+            <div id="comorbities">
+                <div class="two-columns">
+                    <repeat with="['Type 1 DM','CIEL:142474'],
+                                    ['Type 2 DM','CIEL:142473'],
+                                    ['Hypertension','CIEL:117399'],
+                                    ['Epilepsy','CIEL:155'],
+                                    ['Sickle cell','CIEL:117703'],
+                                    ['Rheumatic heart disease','CIEL:113227'],
+                                    ['HIV','CIEL:138405'],
+                                    ['Update CIEL:145438 - Chronic kidney disease','PIH:3699'],
+                                    ['Asthma','CIEL:121375'],
+                                    ['Chronic pulmonary disease','CIEL:1295'],
+                                    ['Update CIEL:112141 - TB','PIH:58'],
+                                    ['Cardiomyopathy','CIEL:5016'],
+                                    ['Stroke','CIEL:111103'],
+                                    ['Malnutrition','CIEL:115122'],
+                                    ['TBD: Depression','CIEL:119537'],
+                                    ['Post partum','CIEL:129317]">
+                        <obs conceptId="CIEL:162747" answerConceptId="{1}" style="checkbox"/>
+                        <br/>
+
+                    </repeat>
+                </div>
+            </div>
+
+            <br/>
+            <p>
+                <label>
+                    <uimessage code="pihcore.habits.smoking"/>
+                </label>
+                <obs conceptId="CIEL:163731" answerConceptIds="CIEL:159450,CIEL:159452,CIEL:1090" style="radio"/>
+            </p>
+
+            <p>
+                <!-- ToDo: Add comment -->
+                <i>Other: co-morbidity comment</i>
+            </p>
+        </div>
+    </section>
+
+    <section id="physicalexam" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="zl.exam.physicalExam.title">
+        <div class="section-container">
+            <p>
+                <label>
+                    <!-- ToDo: Add content -->
+                    <i>
+                        <uimessage code="tbd"/>
+                    </i>
+                </label>
+            </p>
+        </div>
+    </section>
+
+    <section id="plan" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.visitNote.plan">
+        <div class="section-container">
+            <p>
+                <label>
+                    <uimessage code="pihcore.supportiveCare" />
+                </label>
+                <br/>
+                <obs conceptId="PIH:10726" toggle="oxygen"
+                     answerConceptId="CIEL:81341"
+                     style="checkbox"/>
+                <br/>
+                <obs conceptId="PIH:10726" toggle="ivf"
+                     answerConceptId="CIEL:1765"
+                     style="checkbox"/>
+                <br/>
+                <obs conceptId="PIH:10726" toggle="paracetamol"
+                     answerConceptId="CIEL:70116"
+                     style="checkbox"/>
+            </p>
+
+            <p>
+                <label>
+                    <uimessage code="pihcore.oncologyIntake.patient_plan_details"/>
+                </label>
+                <obs conceptId="PIH:PATIENT PLAN COMMENTS" style="textarea" rows="3" cols="80"/>
+            </p>
+
+            <p>
+                <div id="disposition">
+                    <encounterDisposition/>
+                </div>
+            </p>
+        </div>
+    </section>
+
+    <ifMode mode="VIEW" include="false">
+        <div id="buttons">
+            <submit submitClass="confirm right" submitCode="mirebalais.save"/>
+            <button type="button" class="cancel">
+                <uimessage code="emr.cancel"/>
+            </button>
+        </div>
+    </ifMode>
+
+  </htmlform>

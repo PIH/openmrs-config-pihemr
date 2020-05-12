@@ -275,8 +275,11 @@
                 </template>
                 <render aid="PIH:ASSISTANCE WITH TRANSPORT" aidLabel="pihcore.aid.transport"/>
                 <render aid="PIH:NUTRITIONAL AID" aidLabel="pihcore.aid.food"/>
+                <render aid="PIH:1847" aidLabel="pihcore.aid.foodPackage"/>
                 <render aid="PIH:SCHOOL EXPENSES" aidLabel="pihcore.aid.school"/>
                 <render aid="PIH:HOUSING EXPENSES" aidLabel="pihcore.aid.home"/>
+                <render aid="PIH:12886" aidLabel="pihcore.aid.homeKit"/>
+                <render aid="PIH:12885" aidLabel="pihcore.aid.cashTransfer"/>
             </repeat>
 
             <tr>

@@ -544,6 +544,78 @@
 
     </section>
 
+    <!-- For NCD followup only, add socio-economic assistance -->
+    <includeIf velocityTest="$encounter.encounterType.uuid == '5cbfd6a2-92d9-4ad0-b526-9d29bfe1d10c'">
+        <section id="assistance" sectionTag="fieldset" headerTag="legend"
+                 headerStyle="title" headerCode="pihcore.socioEconomic.assistance">
+            <table>
+                <tr>
+                    <td></td>
+                    <td>
+                        <label>
+                            <uimessage code="pihcore.received"/>
+                        </label>
+                    </td>
+                    <td>
+                        <label>
+                            <uimessage code="pihcore.recommended"/>
+                        </label>
+                    </td>
+                </tr>
+
+                <repeat>
+                    <template>
+                        <tr>
+                            <td>
+                                <label>
+                                    <uimessage code="{aidLabel}"/>
+                                </label>
+                            </td>
+                            <td>
+                                <obs conceptId="PIH:2156" answerConceptId="{aid}"
+                                     answerLabel="" style="checkbox"/>
+                            </td>
+                            <td>
+                                <obs conceptId="PIH:2157" answerConceptId="{aid}"
+                                     answerLabel="" style="checkbox"/>
+                            </td>
+                        </tr>
+                    </template>
+                    <render aid="PIH:ASSISTANCE WITH TRANSPORT" aidLabel="pihcore.aid.transport"/>
+                    <render aid="PIH:NUTRITIONAL AID" aidLabel="pihcore.aid.food"/>
+                    <render aid="PIH:1847" aidLabel="pihcore.aid.foodPackage"/>
+                    <render aid="PIH:SCHOOL EXPENSES" aidLabel="pihcore.aid.school"/>
+                    <render aid="PIH:HOUSING EXPENSES" aidLabel="pihcore.aid.home"/>
+                    <render aid="PIH:12886" aidLabel="pihcore.aid.homeKit"/>
+                    <render aid="PIH:12885" aidLabel="pihcore.aid.cashTransfer"/>
+                </repeat>
+
+                <tr>
+                    <td>
+                        <obs conceptId="PIH:SOCIO-ECONOMIC ASSISTANCE NON-CODED"
+                             labelCode="zl.ifOtherSpecify"/>
+                    </td>
+                    <td>
+                        <obs conceptId="PIH:2156" answerConceptId="CIEL:5622"
+                             answerLabel="" style="checkbox"/>
+                    </td>
+                    <td>
+                        <obs conceptId="PIH:2157" answerConceptId="CIEL:5622"
+                             answerLabel="" style="checkbox"/>
+                    </td>
+                </tr>
+
+            </table>
+
+            <p>
+                <label>
+                    <uimessage code="pihcore.remarks"/>:
+                </label>
+                <obs conceptId="PIH:SOCIO-ECONOMIC ASSISTANCE COMMENT" style="text"/>
+            </p>
+        </section>
+    </includeIf>
+
     <section id="disposition-section" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="coreapps.consult.disposition">
 

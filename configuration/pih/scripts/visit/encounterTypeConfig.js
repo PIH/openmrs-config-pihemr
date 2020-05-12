@@ -867,6 +867,37 @@ angular.module("encounterTypeConfig", ["constants"])
             showOnVisitList: true
         };
 
+        // COVID-19 forms
+        encounterTypes[EncounterTypes.covid19Admission.uuid] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("covid19Intake.xml"),
+            icon: "fas fa-fw fa-sun",
+            editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("covid19Intake.xml"),
+            showOnVisitList: true
+        };
+
+        encounterTypes[EncounterTypes.covid19Progress.uuid] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("covid19Followup.xml"),
+            icon: "fas fa-fw fa-sun",
+            editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("covid19Followup.xml"),
+            showOnVisitList: true
+        };
+
+        encounterTypes[EncounterTypes.covid19Discharge.uuid] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("covid19Discharge.xml"),
+            icon: "fas fa-fw fa-sun",
+            editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("covid19Discharge.xml"),
+            showOnVisitList: true
+        };
+
         encounterTypes[EncounterTypes.primaryCareVisit.uuid] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
