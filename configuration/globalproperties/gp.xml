@@ -85,19 +85,23 @@
         <!-- EMR -->
         <globalProperty>
             <property>emr.paymentAmountConcept</property>
-            <value>${concept.paymentAmount.uuid}</value>
+            <!-- Concept: Amount patient paid -->
+            <value>5d1bc5de-6a35-4195-8631-7322941fe528</value>
         </globalProperty>
         <globalProperty>
             <property>emr.paymentReasonConcept</property>
-            <value>${concept.paymentReason.uuid}</value>
+            <!-- Concept: Reason for HUM Visit -->
+            <value>36ba7721-fae0-4da4-aef2-7e476cc04bdf</value>
         </globalProperty>
         <globalProperty>
             <property>emr.paymentReceiptNumberConcept</property>
-            <value>${concept.paymentReceiptNumber.uuid}</value>
+            <!-- Concept: Receipt number -->
+            <value>20438dc7-c5b4-4d9c-8480-e888f4795123</value>
         </globalProperty>
         <globalProperty>
             <property>emr.paymentConstructConcept</property>
-            <value>${concept.paymentConstruct.uuid}</value>
+            <!-- Concept: Payment construct -->
+            <value>7a6330f1-9503-465c-8d63-82e1ad914b47</value>
         </globalProperty>
 
         <!-- Core Apps -->
@@ -154,31 +158,38 @@
         </globalProperty>
         <globalProperty>
             <property>allergy.concept.severity.mild</property>
-            <value>${concept.allergySeverityMild.uuid}</value>
+            <!-- Concept: Mild, CIEL:1498 -->
+            <value>3cdef9ae-26fe-102b-80cb-0017a47871b2</value>
         </globalProperty>
         <globalProperty>
             <property>allergy.concept.severity.moderate</property>
-            <value>${concept.allergySeverityModerate.uuid}</value>
+            <!-- Concept: Moderate, CIEL:1499 -->
+            <value>3cdef832-26fe-102b-80cb-0017a47871b2</value>
         </globalProperty>
         <globalProperty>
             <property>allergy.concept.severity.severe</property>
-            <value>${concept.allergySeveritySevere.uuid}</value>
+            <!-- Concept: Severe, CIEL:1500 -->
+            <value>3cdefc92-26fe-102b-80cb-0017a47871b2</value>
         </globalProperty>
         <globalProperty>
             <property>allergy.concept.allergen.food</property>
-            <value>${concept.allergyFoodSet.uuid}</value>
+            <!-- Concept: PIH Core food allergens -->
+            <value>4c887216-04c1-11e5-8418-1697f925ec7b</value>
         </globalProperty>
         <globalProperty>
             <property>allergy.concept.allergen.drug</property>
-            <value>${concept.allergyDrugSet.uuid}</value>
+            <!-- Concept: PIH Core drug allerges -->
+            <value>4c886e88-04c1-11e5-8418-1697f925ec7b</value>
         </globalProperty>
         <globalProperty>
             <property>allergy.concept.allergen.environment</property>
-            <value>${concept.allergyEnvironmentSet.uuid}</value>
+            <!-- Concept: PIH Core environmental allergens -->
+            <value>4c887806-04c1-11e5-8418-1697f925ec7b</value>
         </globalProperty>
         <globalProperty>
             <property>allergy.concept.reactions</property>
-            <value>${concept.allergyReactionsSet.uuid}</value>
+            <!-- Concept: PIH Core allergic reactions -->
+            <value>4c8865b4-04c1-11e5-8418-1697f925ec7b</value>
         </globalProperty>
 
         <!-- Attachments -->
@@ -234,7 +245,7 @@
         </globalProperty>
         <globalProperty>
             <property>labworkflowowa.labResultsEncounterTypes</property>
-            <value>${encounterType.labSpecimenCollection.uuid},${encounterType.labResults.uuid}</value>
+            <value>${encounterType.labSpecimenCollection.uuid},${encounterType.laboratoryResults.uuid}</value>
         </globalProperty>
         <globalProperty>
             <property>labworkflowowa.labResultsEncounterRole</property>
@@ -242,23 +253,28 @@
         </globalProperty>
         <globalProperty>
             <property>labworkflowowa.labResultsDateConcept</property>
-            <value>${concept.dateOfTestResults.uuid}</value>
+            <!-- Concept: Date of test results -->
+            <value>68d6bd27-37ff-4d7a-87a0-f5e0f9c8dcc0</value>
         </globalProperty>
         <globalProperty>
             <property>labworkflowowa.testOrderNumberConcept</property>
-            <value>${concept.testOrderNumber.uuid}</value>
+            <!-- Concept: Test order number -->
+            <value>393dec41-2fb5-428f-acfa-36ea85da6666</value>
         </globalProperty>
         <globalProperty>
             <property>labworkflowowa.didNotPerformQuestion</property>
-            <value>${concept.testStatus.uuid}</value>
+            <!-- Concept: Test status -->
+            <value>7e0cf626-dbe8-42aa-9b25-483b51350bf8</value>
         </globalProperty>
         <globalProperty>
             <property>labworkflowowa.didNotPerformAnswer</property>
-            <value>${concept.notDone.uuid}</value>
+            <!-- Concept: Not done, CIEL:1118 -->
+            <value>3cd75550-26fe-102b-80cb-0017a47871b2</value>
         </globalProperty>
         <globalProperty>
             <property>labworkflowowa.didNotPerformReason</property>
-            <value>${concept.didNotPerformReason.uuid}</value>
+            <!-- Concept: Reason lab procedure not performed, CIEL:165182 -->
+            <value>5dc35a2a-228c-41d0-ae19-5b1e23618eda</value>
         </globalProperty>
         <globalProperty>
             <property>labworkflowowa.dateAndTimeFormat</property>
@@ -266,7 +282,8 @@
         </globalProperty>
         <globalProperty>
             <property>labworkflowowa.estimatedCollectionDateQuestion</property>
-            <value>${concept.estimatedCollectionDate.uuid}</value>
+            <!-- Concept: Estimated collection date -->
+            <value>87f506e3-4433-40ec-b16c-b3c65e402989</value>
         </globalProperty>
         <globalProperty>
             <property>labworkflowowa.estimatedCollectionDateAnswer</property>
