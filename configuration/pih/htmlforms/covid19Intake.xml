@@ -432,14 +432,68 @@
 
     <section id="physicalexam" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="zl.exam.physicalExam.title">
         <div class="section-container">
-            <p>
-                <label>
-                    <!-- ToDo: Add content -->
-                    <i>
-                        <uimessage code="tbd"/>
-                    </i>
-                </label>
-            </p>
+            <table>
+                <tr>
+                    <td>
+                        <label>
+                            <uimessage code="pihcore.AVPU" />
+                        </label>
+                    </td>
+                    <td colspan="2">
+                        <repeat with="['Awake','CIEL:160282'],
+                                      ['Verbal','CIEL:162645'],
+                                      ['Pain','CIEL:162644'],
+                                      ['Unresponsive','CIEL:159508]">
+                        <obs conceptId="CIEL:162643" answerConceptId="{1}" style="checkbox"/>&amp;nbsp;
+                        </repeat>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>System</th>
+                    <th></th>
+                    <th>
+                        <label>
+                            <uimessage code="pihcore.findings.label" />
+                        </label>
+                    </th>
+                </tr>
+
+                <!-- Todo: Add neck, thorax, back -->
+                <!-- ToDo: update skin with CIEL:160981 -->
+                <repeat with="['heent','CIEL:1122','CIEL:163045'],
+                              ['chest','CIEL:1123','CIEL:160689'],
+                              ['cardiac','CIEL:1124','CIEL:163046'],
+                              ['abdominal','CIEL:1125','CIEL:160947'],
+                              ['urogenital','CIEL:1126','CIEL:163047'],
+                              ['skin','CIEL:1120','PIH:2726'],
+                              ['musculoskeletal','CIEL:1128','CIEL:163048'],
+                              ['neuro','CIEL:1129','PIH:11570']">
+                    <tr>
+                        <td>
+                            <label>
+                                <uimessage code="pihcore.exam.{0}_exam" />
+                            </label>
+                        </td>
+                        <td>
+                            <obs conceptId="{1}" answerConceptIds="CIEL:1115,CIEL:1116" style="radio" />&amp;nbsp;
+                        </td>
+                        <td width="60%">
+                            <obs conceptId="{2}" />
+                        </td>
+                    </tr>
+                </repeat>
+
+                <tr>
+                    <td colspan="3">
+                        <label>
+                            <uimessage code="zl.ifOtherSpecify" />
+                        </label>
+                        <obs conceptId="CIEL:163042" cols="60" />
+                    </td>
+                </tr>
+
+            </table>
         </div>
     </section>
 
