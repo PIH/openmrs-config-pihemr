@@ -353,18 +353,45 @@
 
     <section id="history" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="zl.consultNote.patientHistory.title">
         <div class="section-container">
+
+            <p class="small">
+                <obs conceptId="CIEL:1730" labelCode="pihcore.startDate" />
+            </p>
+
+            <div class="two-columns">
+                <repeat>
+                    <template>
+                            <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox"
+                                 answerConceptId="{map}" />
+                        <!-- answerCode="pihcore.{text}" -->
+                        <br/>
+                    </template>
+                    <render map="CIEL:140238" text="fever" />
+                    <render map="CIEL:143264" text="cough" />
+                    <render map="CIEL:5957" text="productiveCough" />
+                    <render map="CIEL:141600" text="shortOfBreath" />
+                    <render map="CIEL:158843" text="soreThroat" />
+                    <render map="CIEL:165501" text="runnyNose" />
+                    <render map="CIEL:139084" text="headache" />
+                    <render map="PIH:136" text="chestPain" /> <!-- CIEL:120749 -->
+                    <render map="CIEL:133632" text="musclesAcheMyalgias" />
+                    <render map="CIEL:140501" text="Fatigue/malaise" />
+                    <render map="CIEL:133473" text="Nausea/vomiting" />
+                    <render map="CIEL:142412" text="diarrhea" />
+                    <render map="CIEL:135588" text="loss of taste" />
+                    <render map="CIEL:135589" text="loss of smell" />
+                    <render map="CIEL:120345" text="confusion" />
+                </repeat>
+            </div>
+
             <p>
-                <label>
-                    <!-- ToDo: Add content -->
-                    <i>
-                        <uimessage code="tbd"/>
-                    </i>
-                </label>
+                <!-- Todo: Add other symptoms -->
+                <br/><i>other symptom</i>
             </p>
         </div>
     </section>
 
-    <section id="comorbitity" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.vitalSigns">
+    <section id="vitals" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.vitalSigns">
         <div class="section-container">
             <p>
                 <label>
@@ -459,7 +486,8 @@
                     </th>
                 </tr>
 
-                <!-- Todo: Add neck, thorax, back -->
+                <!-- Todo: Add neck, chest=lungs/thorax, back=spinal? -->
+                <!--  ['neck','CIEL:163388','CIEL:?'], -->
                 <!-- ToDo: update skin with CIEL:160981 -->
                 <repeat with="['heent','CIEL:1122','CIEL:163045'],
                               ['chest','CIEL:1123','CIEL:160689'],
