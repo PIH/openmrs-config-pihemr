@@ -7,12 +7,17 @@ javaScriptDateTimeFormat: "DD-MMM-YYYY HH:mm"
 # references the uuids of frequently-used concepts
 # for easy lookup, all keys should be there fully-specified name, camel-case
 concept:
+  heightCM:
+    uuid: "3ce93cf2-26fe-102b-80cb-0017a47871b2"
+  weightKG:
+    uuid: "3ce93b62-26fe-102b-80cb-0017a47871b2"
   otherNonCoded:
     uuid: "3cee7fb4-26fe-102b-80cb-0017a47871b2"
   unknown:
     uuid: "3cd6fac4-26fe-102b-80cb-0017a47871b2"
   yes:
     uuid: "3cd6f600-26fe-102b-80cb-0017a47871b2"
+
 
 # for easy lookup, keys should be the name of the encounter role in the DB
 encounterRole:

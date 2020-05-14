@@ -30,6 +30,40 @@
             <property>concept.unknown</property>
             <value>${concept.unknown.uuid}</value>
         </globalProperty>
+        <globalProperty>
+            <property>concept.height</property>
+            <value>${concept.heightCM.uuid}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>concept.weight</property>
+            <value>${concept.weightKG.uuid}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>concept.causeOfDeath</property>
+            <!-- Concept: 	CAUSE OF DEATH FROM DEATH CERTIFICATE, CIEL:1814 -->
+            <value>1814AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</value>
+        </globalProperty>
+        <globalProperty>
+            <property>order.drugRoutesConceptUuid</property>
+            <!-- Concept: Routes of administration, CIEL:162394 -->
+            <value>162394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</value>
+        </globalProperty>
+        <globalProperty>
+            <property>order.durationUnitsConceptUuid</property>
+            <!-- Concept: Time units, CIEL:1732 -->
+            <value>f1904502-319d-4681-9030-e642111e7ce2</value>
+        </globalProperty>
+        <globalProperty>
+            <property>order.drugDosingUnitsConceptUuid</property>
+            <!-- Concept: Dosing unit, CIEL:162384 -->
+            <value>162384AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</value>
+        </globalProperty>
+        <globalProperty>
+            <property>order.drugDispensingUnitsConceptUuid</property>
+            <!-- Concept: Dispensing units, CIEL:162402 -->
+            <value>162402AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</value>
+        </globalProperty>
+
 
         <!-- HTML Form Entry -->
         <globalProperty>
@@ -219,8 +253,16 @@
             <value></value>
         </globalProperty>
 
+        <!-- Growth Chart -->
+        <globalProperty>
+            <property>growthchart.headCircumferenceConceptUuid</property>
+            <!-- Concept: Head circumference (cm), CIEL:5314 -->
+            <value>3ceb96b4-26fe-102b-80cb-0017a47871b2</value>
+        </globalProperty>
+
         <!-- Order Entry OWA -->
         <!-- TODO: do we still need order.encounterType and order.encounterRole? -->
+        <!-- orderentryowa.labOrderablesConceptSet set in country-specific GP packages -->
         <globalProperty>
             <property>orderentryowa.encounterType</property>
             <value>Test Order</value>
@@ -239,6 +281,7 @@
         </globalProperty>
 
         <!-- Lab Workflow OWA -->
+        <!-- labworkflowowa.locationOfLaboratory set in country-specific GP packages -->
         <globalProperty>
             <property>labworkflowowa.labResultsEntryEncounterType</property>
             <value>${encounterType.labSpecimenCollection.uuid}</value>
@@ -308,6 +351,12 @@
         <globalProperty>
             <property>labworkflowowa.ordersBatchSize</property>
             <value>3000</value>
+        </globalProperty>
+
+        <!-- SPA -->
+        <globalProperty>
+            <property>spa.frontend.directory</property>
+            <value>configuration/frontend</value>
         </globalProperty>
 
     </globalProperties>
