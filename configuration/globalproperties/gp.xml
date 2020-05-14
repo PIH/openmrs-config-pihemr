@@ -334,7 +334,7 @@
         </globalProperty>
         <globalProperty>
             <property>labworkflowowa.testOrderType</property>
-            <value>{orderType.testOrder.uuid}</value>
+            <value>${orderType.testOrder.uuid}</value>
         </globalProperty>
         <globalProperty>
             <property>labworkflowowa.orderLabTestLink</property>
