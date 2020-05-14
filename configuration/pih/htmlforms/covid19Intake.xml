@@ -283,6 +283,15 @@
 
     <section id="demographics" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="patientDashboard.demographics">
         <div class="section-container">
+            <p>
+                <label>
+                    <uimessage code="zl.registration.patient.occupation.healthCareWorker.label"/>
+                </label>
+                <!-- ToDo: Use CIEL:5619 -->
+                <obs conceptId="PIH:1538" style="radio"
+                     answerConceptIds="CIEL:1065,CIEL:1066" />
+            </p>
+
             <includeIf velocityTest="$patient.gender == 'F' ">
             <p>
                 <!-- Pregnant -->
@@ -335,10 +344,37 @@
                 </p>
 
             </div>
+
+                <!-- Post partum -->
+                <!-- NOTE: Stored as co-morbidity and without "no" -->
+                <p>
+                    <obs conceptId="CIEL:162747" answerConceptId="CIEL:129317" style="checkbox"/>
+                </p>
+
+                <p>
+                    <label>
+                        <uimessage code="pihcore.outcome" />
+                    </label>
+                    <obs conceptId="CIEL:161033" answerConceptId="CIEL:151849" style="checkbox"/>&amp;nbsp;
+                    <obs conceptId="CIEL:161033" answerConceptId="CIEL:125872" style="checkbox"/>
+                </p>
+                <p>
+                        <obs conceptId="CIEL:5599" labelCode="pihcore.mch.deliveryDate"
+                             allowTime="false" />
+                </p>
             </includeIf>
 
-            <!-- Todo: Check the age for "infant" -->
-            <includeIf velocityTest="$patient.age &lt; 2">
+            <!-- ToDo: Check the age for "infant" -->
+            <!-- ToDo:  Are these questions for the baby and/or mother
+            <includeIf velocityTest="$patient.age &lt; 2"> -->
+                <p>
+                    <label>
+                        <uimessage code="pihcore.gestationalOutcome" />
+                    </label>
+                    <obs conceptId="CIEL:161033" answerConceptId="CIEL:1395" style="checkbox"/>&amp;nbsp;
+                    <obs conceptId="CIEL:161033" answerConceptId="CIEL:129218" style="checkbox"/>
+
+                </p>
                 <p>
                     <label>
                         <uimessage code="pihcore.breastfeeding"/>
@@ -347,14 +383,26 @@
                          answerConceptIds="CIEL:1065,CIEL:1066"
                          style="radio" />
                 </p>
-            </includeIf>
+           <!-- </includeIf> -->
+
+            <!-- Todo: Check the age for "child"
+            <includeIf velocityTest="$patient.age &lt; 18"> -->
+                <p>
+                    <label>
+                        <uimessage code="pihcore.vaccinations.upToDate"/>
+                    </label>
+                    <obs conceptId="CIEL:5585"
+                         answerConceptIds="CIEL:1065,CIEL:1066"
+                         style="radio" />
+                </p>
+            <!-- </includeIf> -->
         </div>
     </section>
 
     <section id="history" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="zl.consultNote.patientHistory.title">
         <div class="section-container">
 
-            <p class="small">
+            <p>
                 <obs conceptId="CIEL:1730" labelCode="pihcore.startDate" />
             </p>
 
@@ -384,10 +432,9 @@
                 </repeat>
             </div>
 
-            <p>
-                <!-- Todo: Add other symptoms -->
-                <br/><i>other symptom</i>
-            </p>
+            <!-- Todo: Add other symptoms CIEL:x -->
+            <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox"
+                 answerConceptId="CIEL:5622" commentFieldCode="zl.ifOtherSpecify" />
         </div>
     </section>
 
@@ -433,16 +480,14 @@
                                     ['Cardiomyopathy','CIEL:5016'],
                                     ['Stroke','CIEL:111103'],
                                     ['Malnutrition','CIEL:115122'],
-                                    ['TBD: Depression','CIEL:119537'],
-                                    ['Post partum','CIEL:129317]">
+                                    ['TBD: Depression','CIEL:119537']">
                         <obs conceptId="CIEL:162747" answerConceptId="{1}" style="checkbox"/>
                         <br/>
-
                     </repeat>
                 </div>
             </div>
-
             <br/>
+
             <p>
                 <label>
                     <uimessage code="pihcore.habits.smoking"/>
@@ -451,9 +496,22 @@
             </p>
 
             <p>
-                <!-- ToDo: Add comment -->
-                <i>Other: co-morbidity comment</i>
+                <!-- ToDo: Add CIEL comment -->
+                <obs conceptId="CIEL:162747" answerConceptId="CIEL:5622" commentFieldCode="zl.ifOtherSpecify" />
             </p>
+        </div>
+    </section>
+
+    <section id="onset-admission" sectionTag="fieldset" headerTag="legend"
+             headerStyle="title" headerCode="disposition.emrapi.admitToHospital">
+        <div class="section-container">
+            <!-- ToDo: Add transfer info -->
+            <div>
+                <label>
+                    <uimessage code="pihcore.covid.caseContact"/>
+                </label>
+                <obs conceptId="CIEL:162633" answerConceptIds="CIEL:1065,CIEL:1066" style="radio"/>
+            </div>
         </div>
     </section>
 
@@ -478,7 +536,7 @@
 
                 <tr>
                     <th>System</th>
-                    <th></th>
+                    <th>Normal</th>
                     <th>
                         <label>
                             <uimessage code="pihcore.findings.label" />
@@ -487,7 +545,7 @@
                 </tr>
 
                 <!-- Todo: Add neck, chest=lungs/thorax, back=spinal? -->
-                <!--  ['neck','CIEL:163388','CIEL:?'], -->
+                <!--  ['neck','CIEL:163388','CIEL:165983'], -->
                 <!-- ToDo: update skin with CIEL:160981 -->
                 <repeat with="['heent','CIEL:1122','CIEL:163045'],
                               ['chest','CIEL:1123','CIEL:160689'],
@@ -504,7 +562,8 @@
                             </label>
                         </td>
                         <td>
-                            <obs conceptId="{1}" answerConceptIds="CIEL:1115,CIEL:1116" style="radio" />&amp;nbsp;
+                            <obs conceptId="{1}" answerConceptIds="CIEL:1115,CIEL:1116"
+                                 answerCodes="pihcore.yes.oneChar,pihcore.no.oneChar" style="radio" />&amp;nbsp;
                         </td>
                         <td width="60%">
                             <obs conceptId="{2}" />
