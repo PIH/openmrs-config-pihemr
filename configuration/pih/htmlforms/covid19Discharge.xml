@@ -208,6 +208,24 @@
         </includeIf>
       </ifMode>
 
+    <section id="icu" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.icuIsolation">
+        <div class="section-container">
+            <p>
+                <label>
+                    <uimessage code="pihcore.icuHduAdmission" />
+                </label>
+                <obs conceptId="CIEL:165644" style="radio"
+                     answerConceptIds="CIEL:1065,CIEL:1066"/>
+            </p>
+
+            <p>
+                <obs conceptId="CIEL:163204" />
+            </p>
+
+        </div>
+    </section>
+
     <section id="something" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.xIntake.diagnosis">
         <div class="section-container">
 

@@ -91,6 +91,22 @@
         form label, .form label {
             display: inline-block;
         }
+
+        #data-collection {
+            display: inline-block;
+            width: 58%;
+            vertical-align: top;
+        }
+
+        #encounter-diagnoses-target {
+            display: inline-block;
+            width: 40%;
+            vertical-align: top;
+        }
+
+        #encounter-diagnoses-app {
+            margin-bottom: 20px;
+        }
     </style>
 
     <ifMode mode="VIEW" include="false" >
@@ -283,90 +299,100 @@
 
     <section id="demographics" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="patientDashboard.demographics">
         <div class="section-container">
-            <p>
-                <label>
-                    <uimessage code="zl.registration.patient.occupation.healthCareWorker.label"/>
-                </label>
-                <!-- ToDo: Use CIEL:5619 -->
-                <obs conceptId="PIH:1538" style="radio"
-                     answerConceptIds="CIEL:1065,CIEL:1066" />
-            </p>
+            <!-- Health care worker (> 16 yo) -->
+            <includeIf velocityTest="$patient.age &gt; 16">
+                <p>
+                    <label>
+                        <uimessage code="zl.registration.patient.occupation.healthCareWorker.label"/>
+                    </label>
+                    <!-- ToDo: Use CIEL:5619 -->
+                    <obs conceptId="PIH:1538" style="radio"
+                         answerConceptIds="CIEL:1065,CIEL:1066" />
+                </p>
+            </includeIf>
 
             <includeIf velocityTest="$patient.gender == 'F' ">
-            <p>
-                <!-- Pregnant -->
-                <label>
-                    <uimessage code="pihcore.pregnancy.status"/>
-                </label>
-                <obs conceptId="CIEL:5272"
-                     answerConceptIds="CIEL:1065,CIEL:1066"
-                     style="radio" />
-            </p>
-
-            <div class="two-columns">
-                <!-- Last menstrual period (LMP or DDR) -->
                 <p>
+                    <!-- Pregnant -->
                     <label>
-                        <uimessage code="pihcore.pregnancy.lastPeriod"/>
+                        <uimessage code="pihcore.pregnancy.status"/>
                     </label>
-                    <span class="small">
-                        <obs id="lastPeriodDate" conceptId="CIEL:1427" allowFutureDates="false"/>
-                    </span>
+                    <obs conceptId="CIEL:5272"
+                         answerConceptIds="CIEL:1065,CIEL:1066"
+                         style="radio" />
                 </p>
 
-                <!-- Due date (DPA) -->
-                <p>
-                    <label>
-                        <uimessage code="pihcore.pregnancy.dueDate"/>
-                    </label>
-                    <span class="small">
-                        <obs conceptId="CIEL:5596" allowFutureDates="true"/>
-                    </span>
-                </p>
-            </div>
-
-            <div id="calculated-edd-and-gestational" class="two-columns hidden">
-                <p>
-                    <span id="calculated-gestational-age-wrapper">
-                        <span id="calculated-gestational-age-label">
-                            <uimessage code="pihcore.calculatedGestationalAge"/>:&#160;
+                <div class="two-columns">
+                    <!-- Last menstrual period (LMP or DDR) -->
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.pregnancy.lastPeriod"/>
+                        </label>
+                        <span class="small">
+                            <obs id="lastPeriodDate" conceptId="CIEL:1427" allowFutureDates="false"/>
                         </span>
-                        <span id='calculated-gestational-age-value' class="value"></span>
-                    </span>
-                </p>
-                <p>
-                    <span id="calculated-edd-wrapper">
-                        <span id="calculated-edd-label">
-                            <uimessage code="pihcore.calculatedEstimatedDeliveryDate"/>:&#160;
-                        </span>
-                        <span id='calculated-edd' class="value"></span>
-                    </span>
-                </p>
+                    </p>
 
-            </div>
+                    <!-- Due date (DPA) -->
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.pregnancy.dueDate"/>
+                        </label>
+                        <span class="small">
+                            <obs conceptId="CIEL:5596" allowFutureDates="true"/>
+                        </span>
+                    </p>
+                </div>
+
+                <div id="calculated-edd-and-gestational" class="two-columns hidden">
+                    <p>
+                        <span id="calculated-gestational-age-wrapper">
+                            <span id="calculated-gestational-age-label">
+                                <uimessage code="pihcore.calculatedGestationalAge"/>:&#160;
+                            </span>
+                            <span id='calculated-gestational-age-value' class="value"></span>
+                        </span>
+                    </p>
+                    <p>
+                        <span id="calculated-edd-wrapper">
+                            <span id="calculated-edd-label">
+                                <uimessage code="pihcore.calculatedEstimatedDeliveryDate"/>:&#160;
+                            </span>
+                            <span id='calculated-edd' class="value"></span>
+                        </span>
+                    </p>
+
+                </div>
 
                 <!-- Post partum -->
                 <!-- NOTE: Stored as co-morbidity and without "no" -->
                 <p>
-                    <obs conceptId="CIEL:162747" answerConceptId="CIEL:129317" style="checkbox"/>
+                    <obs conceptId="CIEL:162747" answerConceptId="CIEL:129317"
+                         style="checkbox" toggle="postpartum" />
                 </p>
 
-                <p>
-                    <label>
-                        <uimessage code="pihcore.outcome" />
-                    </label>
-                    <obs conceptId="CIEL:161033" answerConceptId="CIEL:151849" style="checkbox"/>&amp;nbsp;
-                    <obs conceptId="CIEL:161033" answerConceptId="CIEL:125872" style="checkbox"/>
-                </p>
-                <p>
-                        <obs conceptId="CIEL:5599" labelCode="pihcore.mch.deliveryDate"
-                             allowTime="false" />
-                </p>
+                <div id="postpartum" class="two-columns">
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.outcome" />
+                        </label>
+                        <obs conceptId="CIEL:161033" answerConceptId="CIEL:151849" style="checkbox"/>&amp;nbsp;
+                        <obs conceptId="CIEL:161033" answerConceptId="CIEL:125872" style="checkbox"/>
+                    </p>
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.mch.deliveryDate" />
+                        </label>
+                        <span class="small">
+                            <obs conceptId="CIEL:5599" allowTime="false" />
+                        </span>
+                    </p>
+                </div>
             </includeIf>
 
-            <!-- ToDo: Check the age for "infant" -->
-            <!-- ToDo:  Are these questions for the baby and/or mother
-            <includeIf velocityTest="$patient.age &lt; 2"> -->
+            <!-- "infant" < 1yo -->
+            <includeIf velocityTest="$patient.age &lt; 1">
+                <hr/>
                 <p>
                     <label>
                         <uimessage code="pihcore.gestationalOutcome" />
@@ -383,10 +409,11 @@
                          answerConceptIds="CIEL:1065,CIEL:1066"
                          style="radio" />
                 </p>
-           <!-- </includeIf> -->
+           </includeIf>
 
-            <!-- Todo: Check the age for "child"
-            <includeIf velocityTest="$patient.age &lt; 18"> -->
+            <!-- Child < 14 yo -->
+            <includeIf velocityTest="$patient.age &lt; 14">
+                <hr/>
                 <p>
                     <label>
                         <uimessage code="pihcore.vaccinations.upToDate"/>
@@ -395,7 +422,17 @@
                          answerConceptIds="CIEL:1065,CIEL:1066"
                          style="radio" />
                 </p>
-            <!-- </includeIf> -->
+            </includeIf>
+        </div>
+    </section>
+
+    <section id="current-medications" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="zl.consultNote.currentMedications.title">
+        <div class="section-container">
+            <!-- Médicaments actuels -->
+            <p>
+                <obs conceptId="PIH:CURRENT MEDICATIONS" style="textarea"/>
+            </p>
         </div>
     </section>
 
@@ -403,7 +440,12 @@
         <div class="section-container">
 
             <p>
-                <obs conceptId="CIEL:1730" labelCode="pihcore.startDate" />
+                <label>
+                    <uimessage code="pihcore.startDate"/>
+                </label>
+                <span class="small">
+                    <obs conceptId="CIEL:1730" />
+                </span>
             </p>
 
             <div class="two-columns">
@@ -421,7 +463,7 @@
                     <render map="CIEL:158843" text="soreThroat" />
                     <render map="CIEL:165501" text="runnyNose" />
                     <render map="CIEL:139084" text="headache" />
-                    <render map="PIH:136" text="chestPain" /> <!-- CIEL:120749 -->
+                    <render map="CIEL:120749" text="chestPain" />
                     <render map="CIEL:133632" text="musclesAcheMyalgias" />
                     <render map="CIEL:140501" text="Fatigue/malaise" />
                     <render map="CIEL:133473" text="Nausea/vomiting" />
@@ -434,19 +476,104 @@
 
             <!-- Todo: Add other symptoms CIEL:x -->
             <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox"
-                 answerConceptId="CIEL:5622" commentFieldCode="zl.ifOtherSpecify" />
+                 answerConceptId="CIEL:5622" commentFieldCode="zl.familyHistoryRelativeCheckboxes.specifyLabel" />
         </div>
     </section>
 
     <section id="vitals" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.vitalSigns">
         <div class="section-container">
+
             <p>
                 <label>
-                    <!-- ToDo: Add content -->
-                    <i>
-                        <uimessage code="tbd"/>
-                    </i>
+                    <uimessage code="mirebalais.vitals.temperature.title"/>
                 </label>
+                <span class="small">
+                    <obs conceptId="PIH:TEMPERATURE (C)" id="temperature_c"
+                         showUnits="emr.units.degreesCelsius" unitsCssClass="append-to-value"/>
+                </span>
+            </p>
+
+            <p>
+                <label>
+                    <uimessage code="mirebalais.vitals.heartRate.title"/>
+                </label>
+                <span class="small">
+                    <obs conceptId="PIH:PULSE" id="heart_rate"
+                         showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
+                </span>
+            </p>
+
+            <p>
+                <label>
+                    <uimessage code="mirebalais.vitals.respiratoryRate.title"/>
+                </label>
+                <span class="small">
+                    <obs conceptId="PIH:RESPIRATORY RATE" id="respiratory_rate"
+                         showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
+                </span>
+            </p>
+
+            <p class="left">
+                <label>
+                    <uimessage code="mirebalais.vitals.bloodPressure.title"/>
+                </label>
+            </p>
+            <p class="left">
+                    <obs conceptId="PIH:SYSTOLIC BLOOD PRESSURE" id="bp_systolic"/>
+            </p>
+            <p class="left">
+                    /
+            </p>
+            <p class="left">
+                    <obs conceptId="PIH:DIASTOLIC BLOOD PRESSURE" id="bp_diastolic"/>
+            </p>
+
+            <p>.</p>
+            <p>.</p>
+
+            <p>
+                <label>
+                    <uimessage code="mirebalais.vitals.o2sat.title"/>
+                </label>
+                <span class="small">
+                    <obs conceptId="PIH:BLOOD OXYGEN SATURATION" id="o2_sat"
+                         showUnits="emr.units.percent" unitsCssClass="append-to-value"/>
+                </span>
+                <span class="small">
+                    <!-- Room air -->
+                    <obs conceptId="CIEL:162739" answerConceptId="CIEL:162735"/>
+                </span>
+            </p>
+
+            <p>
+                <!-- ToDo: Get CIEL concept O2 volume L/min
+                <obs conceptId="CIEL:165986" /> -->
+            </p>
+
+            <p>
+                <label>
+                    <!-- cap refill, pain -->
+                    <uimessage code="pihcore.capRefillTime"/>
+                </label>
+
+                <span class="small">
+                    <obs conceptId="CIEL:165890"
+                         answerConceptIds="CIEL:165891,CIEL:162512"
+                         answerCodes="&lt;3 sec,&gt; 3 sec"
+                         style="radio"/>
+                </span>
+                <span class="small">
+                    <obs conceptId="CIEL:162513"
+                         showUnits="s" unitsCssClass="append-to-value"/>
+                </span>
+            </p>
+
+            <p>
+                <!-- ToDo: Replace with CIEL concept -->
+                <obs id="pain" style="radio" conceptId="PIH:12916"
+                     labelCode="pihcore.pain"
+                     answerConceptIds="CIEL:1107,CIEL:1498,CIEL:1499,CIEL:1500">
+            </obs>
             </p>
         </div>
     </section>
@@ -496,8 +623,8 @@
             </p>
 
             <p>
-                <!-- ToDo: Add CIEL comment -->
-                <obs conceptId="CIEL:162747" answerConceptId="CIEL:5622" commentFieldCode="zl.ifOtherSpecify" />
+                <obs conceptId="CIEL:162747" answerConceptId="CIEL:5622"
+                     commentFieldCode="zl.ifOtherSpecify" />
             </p>
         </div>
     </section>
@@ -505,7 +632,30 @@
     <section id="onset-admission" sectionTag="fieldset" headerTag="legend"
              headerStyle="title" headerCode="disposition.emrapi.admitToHospital">
         <div class="section-container">
-            <!-- ToDo: Add transfer info -->
+            <!-- Transfer info -->
+            <p>
+                <obs conceptId="CIEL:160563"
+                     labelCode="pihcore.transferFromFacility"
+                     answerConceptIds="CIEL:1065,CIEL:1066" style="radio"/>
+            </p>
+
+            <div class="two-columns">
+                <p>
+                    <label>
+                        <uimessage code="pihcore.transferFacility"/>
+                    </label>
+                    <obs conceptId="CIEL:161550"  />
+
+                </p>
+
+                <p>
+                    <label>
+                        <uimessage code="pihcore.admitDate"/>
+                    </label>
+                    <obs conceptId="CIEL:1640" allowTime="false" />
+                </p>
+            </div>
+
             <div>
                 <label>
                     <uimessage code="pihcore.covid.caseContact"/>
@@ -519,22 +669,6 @@
         <div class="section-container">
             <table>
                 <tr>
-                    <td>
-                        <label>
-                            <uimessage code="pihcore.AVPU" />
-                        </label>
-                    </td>
-                    <td colspan="2">
-                        <repeat with="['Awake','CIEL:160282'],
-                                      ['Verbal','CIEL:162645'],
-                                      ['Pain','CIEL:162644'],
-                                      ['Unresponsive','CIEL:159508]">
-                        <obs conceptId="CIEL:162643" answerConceptId="{1}" style="checkbox"/>&amp;nbsp;
-                        </repeat>
-                    </td>
-                </tr>
-
-                <tr>
                     <th>System</th>
                     <th>Normal</th>
                     <th>
@@ -544,15 +678,14 @@
                     </th>
                 </tr>
 
-                <!-- Todo: Add neck, chest=lungs/thorax, back=spinal? -->
-                <!--  ['neck','CIEL:163388','CIEL:165983'], -->
-                <!-- ToDo: update skin with CIEL:160981 -->
+                <!-- Todo: Add chest=lungs/thorax, back -->
                 <repeat with="['heent','CIEL:1122','CIEL:163045'],
+                              ['neck','CIEL:163388','CIEL:165983'],
                               ['chest','CIEL:1123','CIEL:160689'],
                               ['cardiac','CIEL:1124','CIEL:163046'],
                               ['abdominal','CIEL:1125','CIEL:160947'],
                               ['urogenital','CIEL:1126','CIEL:163047'],
-                              ['skin','CIEL:1120','PIH:2726'],
+                              ['skin','CIEL:1120','CIEL:160981'],
                               ['musculoskeletal','CIEL:1128','CIEL:163048'],
                               ['neuro','CIEL:1129','PIH:11570']">
                     <tr>
@@ -572,6 +705,19 @@
                 </repeat>
 
                 <tr>
+                    <td>
+                    </td>
+                    <td colspan="2">
+                        <repeat with="['Awake','CIEL:160282'],
+                                      ['Verbal','CIEL:162645'],
+                                      ['Pain','CIEL:162644'],
+                                      ['Unresponsive','CIEL:159508]">
+                            <obs conceptId="CIEL:162643" answerConceptId="{1}" style="checkbox"/>&amp;nbsp;
+                        </repeat>
+                    </td>
+                </tr>
+
+                <tr>
                     <td colspan="3">
                         <label>
                             <uimessage code="zl.ifOtherSpecify" />
@@ -584,31 +730,108 @@
         </div>
     </section>
 
-    <section id="plan" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.visitNote.plan">
+    <section id="diagnosis" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.diagnosis.label">
         <div class="section-container">
             <p>
                 <label>
-                    <uimessage code="pihcore.supportiveCare" />
+                    COVID-19:
                 </label>
+                <repeat with="['Confirmed','CIEL:159392'],
+                              ['Suspected','CIEL:162743'],
+                              ['No','CIEL:1066']">
+                    <obs conceptId="CIEL:165793" answerConceptId="{1}" style="checkbox"/>&amp;nbsp;
+                </repeat>
+            </p>
+        </div>
+
+        <div id="data-collection">
+            <encounterDiagnosesByObs selectedDiagnosesTarget="#encounter-diagnoses-target"/>
+        </div>
+
+    </section>
+
+    <section id="plan" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.visitNote.plan">
+        <div class="section-container">
+            <p>
+                <strong>
+                    <uimessage code="pihcore.supportiveCare" />
+                </strong>
                 <br/>
-                <obs conceptId="PIH:10726" toggle="oxygen"
-                     answerConceptId="CIEL:81341"
-                     style="checkbox"/>
+
+                <!-- toggle="oxygen"
+                    <obs conceptId="CIEL:165986" />
+
+                    ivf
+                    <obsgroup groupingConceptId="PIH:IVF construct">
+                        <obs conceptId="PIH:IVF administered" />
+                        <obs conceptId="PIH:IVF volume" />
+                        <obs conceptId="CIEL:165987" />
+                    </obsgroup>
+                    -->
+                <!--  ToDo: Get concepts from CIEL
+                    ['Mask','CIEL:165989'],
+                    ['Mask with non-re-breather','CIEL:165990'],
+                    ['BIPAP','CIEL:165988'],
+                    ['Mechanical ventilator','CIEL:?'],
+                    ['IV fluid','CIEL:1765']
+                -->
+                <repeat with="['Oxygen','CIEL:81341'],
+                              ['Analgesic','CIEL:163206'],
+                              ['Nasal cannula','CIEL:165893'],
+                              ['CPAP','CIEL:165944'],
+                              ['FIO2','CIEL:165927']">
+                    <obs conceptId="PIH:10726"
+                         answerConceptId="{1}" answerCode="{0}"
+                         style="checkbox"/>
+
+                </repeat>
                 <br/>
+
                 <obs conceptId="PIH:10726" toggle="ivf"
-                     answerConceptId="CIEL:1765"
+                     answerConceptId="CIEL:1765" answerCode="IV fluid"
                      style="checkbox"/>
-                <br/>
-                <obs conceptId="PIH:10726" toggle="paracetamol"
-                     answerConceptId="CIEL:70116"
-                     style="checkbox"/>
+
+                <div id="ivf">
+                    <p>
+                        <strong>
+                            <uimessage code="pihcore.ivf.fluids_admin"/>
+                        </strong>
+
+                        <div class="two-columns">
+                            <repeat with="['1'],['2'],['3'],['4']">
+                                <p>
+                                    <obsgroup groupingConceptId="PIH:IVF construct">
+                                        <label>
+                                            <uimessage code="pihcore.ivf"/>
+                                        </label>
+                                        <obs conceptId="PIH:IVF administered"/>
+                                        <span class="small">
+                                            <obs conceptId="PIH:IVF volume" showUnits="true"/>
+                                            <!-- ToDo: Replace with CIEL concept
+                                            <obs conceptId="CIEL:165987" />
+                                            -->
+                                        </span>
+                                    </obsgroup>
+                                </p>
+                            </repeat>
+                        </div>
+                    </p>
+                </div>
             </p>
 
             <p>
                 <label>
-                    <uimessage code="pihcore.oncologyIntake.patient_plan_details"/>
+                    <uimessage code="pihcore.consult.clinicalManagementPlan"/>
                 </label>
+                <!-- ToDo:  CIEL:162749 -->
                 <obs conceptId="PIH:PATIENT PLAN COMMENTS" style="textarea" rows="3" cols="80"/>
+            </p>
+
+            <p>
+                <label>
+                    <uimessage code="pihcore.nursingAdmitNote"/>
+                </label>
+                <obs conceptId="CIEL:162879" style="textarea" rows="3" cols="80"/>
             </p>
 
             <p>
