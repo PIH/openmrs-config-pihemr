@@ -429,9 +429,19 @@
     <section id="current-medications" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="zl.consultNote.currentMedications.title">
         <div class="section-container">
-            <!-- Médicaments actuels -->
             <p>
-                <obs conceptId="PIH:CURRENT MEDICATIONS" style="textarea"/>
+                <obs conceptId="PIH:CURRENT MEDICATIONS"
+                     style="textarea" rows="3" cols="80"/>
+            </p>
+        </div>
+    </section>
+
+    <section id="allergies" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="coreapps.clinicianfacing.allergies">
+        <div class="section-container">
+            <p>
+                <obs conceptId="PIH:3516"
+                     style="textarea" rows="3" cols="80"/>
             </p>
         </div>
     </section>
@@ -451,8 +461,10 @@
             <div class="two-columns">
                 <repeat>
                     <template>
-                            <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox"
+                        <obsgroup groupingConceptId="CIEL:1727">
+                            <obs conceptId="CIEL:1728" style="checkbox"
                                  answerConceptId="{map}" />
+                        </obsgroup>
                         <!-- answerCode="pihcore.{text}" -->
                         <br/>
                     </template>
@@ -475,106 +487,109 @@
             </div>
 
             <!-- Todo: Add other symptoms CIEL:x -->
-            <obs conceptId="PIH:SYMPTOM PRESENT" style="checkbox"
-                 answerConceptId="CIEL:5622" commentFieldCode="zl.familyHistoryRelativeCheckboxes.specifyLabel" />
-        </div>
+            <obsgroup groupingConceptId="CIEL:1727">
+                <obs conceptId="CIEL:1728" style="checkbox"
+                     answerConceptId="CIEL:5622"
+                     commentFieldCode="zl.familyHistoryRelativeCheckboxes.specifyLabel" />
+
+            </obsgroup>
+         </div>
     </section>
 
     <section id="vitals" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.vitalSigns">
         <div class="section-container">
+            <div class="two-columns">
+                <p>
+                    <label>
+                        <uimessage code="mirebalais.vitals.temperature.title"/>
+                    </label>
+                    <span class="small">
+                        <obs conceptId="PIH:TEMPERATURE (C)" id="temperature_c"
+                             showUnits="emr.units.degreesCelsius" unitsCssClass="append-to-value"/>
+                    </span>
+                </p>
 
-            <p>
-                <label>
-                    <uimessage code="mirebalais.vitals.temperature.title"/>
-                </label>
-                <span class="small">
-                    <obs conceptId="PIH:TEMPERATURE (C)" id="temperature_c"
-                         showUnits="emr.units.degreesCelsius" unitsCssClass="append-to-value"/>
-                </span>
-            </p>
+                <p>
+                    <label>
+                        <uimessage code="mirebalais.vitals.heartRate.title"/>
+                    </label>
+                    <span class="small">
+                        <obs conceptId="PIH:PULSE" id="heart_rate"
+                             showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
+                    </span>
+                </p>
 
-            <p>
-                <label>
-                    <uimessage code="mirebalais.vitals.heartRate.title"/>
-                </label>
-                <span class="small">
-                    <obs conceptId="PIH:PULSE" id="heart_rate"
-                         showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
-                </span>
-            </p>
+                <p>
+                    <label>
+                        <uimessage code="mirebalais.vitals.respiratoryRate.title"/>
+                    </label>
+                    <span class="small">
+                        <obs conceptId="PIH:RESPIRATORY RATE" id="respiratory_rate"
+                             showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
+                    </span>
+                </p>
 
-            <p>
-                <label>
-                    <uimessage code="mirebalais.vitals.respiratoryRate.title"/>
-                </label>
-                <span class="small">
-                    <obs conceptId="PIH:RESPIRATORY RATE" id="respiratory_rate"
-                         showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
-                </span>
-            </p>
+                <p class="left">
+                    <label>
+                        <uimessage code="mirebalais.vitals.bloodPressure.title"/>
+                    </label>
+                </p>
+                <p class="left">
+                        <obs conceptId="PIH:SYSTOLIC BLOOD PRESSURE" id="bp_systolic"/>
+                </p>
+                <p class="left">
+                        /
+                </p>
+                <p class="left">
+                        <obs conceptId="PIH:DIASTOLIC BLOOD PRESSURE" id="bp_diastolic"/>
+                </p>
 
-            <p class="left">
-                <label>
-                    <uimessage code="mirebalais.vitals.bloodPressure.title"/>
-                </label>
-            </p>
-            <p class="left">
-                    <obs conceptId="PIH:SYSTOLIC BLOOD PRESSURE" id="bp_systolic"/>
-            </p>
-            <p class="left">
-                    /
-            </p>
-            <p class="left">
-                    <obs conceptId="PIH:DIASTOLIC BLOOD PRESSURE" id="bp_diastolic"/>
-            </p>
+                <p>.</p>
+                <p>.</p>
 
-            <p>.</p>
-            <p>.</p>
+                <p>
+                    <label>
+                        <uimessage code="mirebalais.vitals.o2sat.title"/>
+                    </label>
+                    <span class="small">
+                        <obs conceptId="PIH:BLOOD OXYGEN SATURATION" id="o2_sat"
+                             showUnits="emr.units.percent" unitsCssClass="append-to-value"/>
+                    </span>
+                    <span class="small">
+                        <!-- Room air -->
+                        <obs conceptId="CIEL:162739" answerConceptId="CIEL:162735"/>
+                    </span>
+                </p>
 
-            <p>
-                <label>
-                    <uimessage code="mirebalais.vitals.o2sat.title"/>
-                </label>
-                <span class="small">
-                    <obs conceptId="PIH:BLOOD OXYGEN SATURATION" id="o2_sat"
-                         showUnits="emr.units.percent" unitsCssClass="append-to-value"/>
-                </span>
-                <span class="small">
-                    <!-- Room air -->
-                    <obs conceptId="CIEL:162739" answerConceptId="CIEL:162735"/>
-                </span>
-            </p>
+                <p>
+                    <!-- ToDo: Get CIEL concept O2 volume L/min
+                    <obs conceptId="CIEL:165986" /> -->
+                </p>
 
-            <p>
-                <!-- ToDo: Get CIEL concept O2 volume L/min
-                <obs conceptId="CIEL:165986" /> -->
-            </p>
+                <p>
+                    <label>
+                        <uimessage code="pihcore.capRefillTime"/>
+                    </label>
 
-            <p>
-                <label>
-                    <!-- cap refill, pain -->
-                    <uimessage code="pihcore.capRefillTime"/>
-                </label>
+                    <span class="small">
+                        <obs conceptId="CIEL:165890"
+                             answerConceptIds="CIEL:165891,CIEL:162512"
+                             answerCodes="&lt;3 sec,&gt; 3 sec"
+                             style="radio"/>
+                    </span>
+                    <span class="small">
+                        <obs conceptId="CIEL:162513"
+                             showUnits="s" unitsCssClass="append-to-value"/>
+                    </span>
+                </p>
 
-                <span class="small">
-                    <obs conceptId="CIEL:165890"
-                         answerConceptIds="CIEL:165891,CIEL:162512"
-                         answerCodes="&lt;3 sec,&gt; 3 sec"
-                         style="radio"/>
-                </span>
-                <span class="small">
-                    <obs conceptId="CIEL:162513"
-                         showUnits="s" unitsCssClass="append-to-value"/>
-                </span>
-            </p>
-
-            <p>
-                <!-- ToDo: Replace with CIEL concept -->
-                <obs id="pain" style="radio" conceptId="PIH:12916"
-                     labelCode="pihcore.pain"
-                     answerConceptIds="CIEL:1107,CIEL:1498,CIEL:1499,CIEL:1500">
-            </obs>
-            </p>
+                <p>
+                    <!-- ToDo: Replace with CIEL:166000 concept -->
+                    <obs id="pain" style="radio" conceptId="PIH:12916"
+                         labelCode="pihcore.pain"
+                         answerConceptIds="CIEL:1107,CIEL:1498,CIEL:1499,CIEL:1500"/>
+                </p>
+            </div>
         </div>
     </section>
 
@@ -594,20 +609,20 @@
             <div id="comorbities">
                 <div class="two-columns">
                     <repeat with="['Type 1 DM','CIEL:142474'],
-                                    ['Type 2 DM','CIEL:142473'],
-                                    ['Hypertension','CIEL:117399'],
-                                    ['Epilepsy','CIEL:155'],
-                                    ['Sickle cell','CIEL:117703'],
-                                    ['Rheumatic heart disease','CIEL:113227'],
-                                    ['HIV','CIEL:138405'],
-                                    ['Update CIEL:145438 - Chronic kidney disease','PIH:3699'],
-                                    ['Asthma','CIEL:121375'],
-                                    ['Chronic pulmonary disease','CIEL:1295'],
-                                    ['Update CIEL:112141 - TB','PIH:58'],
-                                    ['Cardiomyopathy','CIEL:5016'],
-                                    ['Stroke','CIEL:111103'],
-                                    ['Malnutrition','CIEL:115122'],
-                                    ['TBD: Depression','CIEL:119537']">
+                                  ['Type 2 DM','CIEL:142473'],
+                                  ['Hypertension','CIEL:117399'],
+                                  ['Epilepsy','CIEL:155'],
+                                  ['Sickle cell','CIEL:117703'],
+                                  ['Rheumatic heart disease','CIEL:113227'],
+                                  ['HIV','CIEL:138405'],
+                                  ['Update CIEL:145438 - Chronic kidney disease','PIH:3699'],
+                                  ['Asthma','CIEL:121375'],
+                                  ['Chronic pulmonary disease','CIEL:1295'],
+                                  ['Update CIEL:112141 - TB','PIH:58'],
+                                  ['Cardiomyopathy','CIEL:5016'],
+                                  ['Stroke','CIEL:111103'],
+                                  ['Malnutrition','CIEL:115122'],
+                                  ['TBD: Depression','CIEL:119537']">
                         <obs conceptId="CIEL:162747" answerConceptId="{1}" style="checkbox"/>
                         <br/>
                     </repeat>
@@ -662,6 +677,54 @@
                 </label>
                 <obs conceptId="CIEL:162633" answerConceptIds="CIEL:1065,CIEL:1066" style="radio"/>
             </div>
+        </div>
+    </section>
+
+    <section id="radiology-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.rad_order.title">
+        <div class="section-container">
+            <includeIf velocityTest="!$config.isComponentEnabled('radiology')">
+                <!-- ToDo: Use PACS? -->
+                <p>At HUM, use
+                    <uimessage code="pihcore.rad_order.title"/>
+                </p>
+            </includeIf>
+
+            <div class="two-columns">
+                <p>
+                    <obsgroup groupingConceptId="PIH:Radiology report construct">
+                        <obs conceptId="PIH:Radiology procedure performed"
+                             answerConceptId="PIH:Chest 1 view (XRay)"
+                             style="checkbox"/>
+                        <br/>
+                        <obs conceptId="PIH:Radiology report comments"
+                             labelCode="pihcore.vitals.latest.results.label" />
+                    </obsgroup>
+                </p>
+                <p>
+                <obsgroup groupingConceptId="PIH:Radiology report construct">
+                    <obs conceptId="PIH:Radiology procedure performed"
+                         answerConceptId="PIH:Ultrasound"
+                         style="checkbox"/>
+                    <br/>
+                    <obs conceptId="PIH:Radiology report comments"
+                         labelCode="pihcore.vitals.latest.results.label"/>
+                </obsgroup>
+                </p>
+            </div>
+
+            <p>
+                <label>
+                    <uimessage code="zl.ifOtherSpecify"/>
+                </label>
+                <obsgroup groupingConceptId="PIH:Radiology report construct">
+                    <obs conceptId="PIH:Radiology procedure performed"
+                         answerClasses="Radiology/Imaging Procedure"
+                         style="checkbox"/>
+                    <obs conceptId="PIH:Radiology report comments"
+                         labelCode="pihcore.vitals.latest.results.label"/>
+                </obsgroup>
+            </p>
         </div>
     </section>
 
@@ -752,12 +815,48 @@
 
     <section id="plan" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.visitNote.plan">
         <div class="section-container">
+            <h3>
+                <uimessage code="mirebalais.dispensing.medication" />
+            </h3>
             <p>
-                <strong>
-                    <uimessage code="pihcore.supportiveCare" />
-                </strong>
+                <label>
+                    <uimessage code="First-line" />
+                </label>
+            </p>
+            <p>
+                <label>
+                    <uimessage code="Second-line" />
+                </label>
                 <br/>
+                <repeat with="['Lopinavir/Ritonavir','CIEL:794'],
+                              ['Remdesivir','CIEL:165878']">
+                    <obsgroup groupingConceptId="PIH:Prescription construct">
+                        <obs conceptId="PIH:1282" answerConceptId="{1}"
+                             style="checkbox"/>
+                    </obsgroup>
+                    <br/>
+                </repeat>
+            </p>
+            <p>
+                <label>
+                    <uimessage code="pihcore.antibiotics" />
+                </label>
+                <br/>
+                <repeat with="['Ceftriasone','CIEL:73041'],
+                              ['Amoxicillin','CIEL:71160'],
+                              ['Doxycycline','CIEL:75222']">
+                    <obsgroup groupingConceptId="PIH:Prescription construct">
+                        <obs conceptId="PIH:1282" answerConceptId="{1}"
+                             style="checkbox"/>
+                    </obsgroup>
+                    <br/>
+                </repeat>
+            </p>
 
+            <h3>
+                <uimessage code="pihcore.supportiveCare" />
+            </h3>
+            <p>
                 <!-- toggle="oxygen"
                     <obs conceptId="CIEL:165986" />
 
@@ -819,18 +918,18 @@
                 </div>
             </p>
 
+            <h3>
+                <uimessage code="pihcore.consult.clinicalManagementPlan"/>
+            </h3>
             <p>
-                <label>
-                    <uimessage code="pihcore.consult.clinicalManagementPlan"/>
-                </label>
                 <!-- ToDo:  CIEL:162749 -->
                 <obs conceptId="PIH:PATIENT PLAN COMMENTS" style="textarea" rows="3" cols="80"/>
             </p>
 
+            <h3>
+                <uimessage code="pihcore.nursingAdmitNote"/>
+            </h3>
             <p>
-                <label>
-                    <uimessage code="pihcore.nursingAdmitNote"/>
-                </label>
                 <obs conceptId="CIEL:162879" style="textarea" rows="3" cols="80"/>
             </p>
 
@@ -838,6 +937,15 @@
                 <div id="disposition">
                     <encounterDisposition/>
                 </div>
+            </p>
+            <p>
+                <!-- ToDo: Move this into encounterDisposition
+                            and add CIEL:165994-->
+                <obsgroup groupingConceptId="org.openmrs.module.emrapi:Disposition Concept Set">
+                    <obs conceptId="org.openmrs.module.emrapi:Disposition"
+                         answerConceptId="CIEL:165901" answerCode="pihcore.dischargeHomeIsolate"
+                         style="checkbox"/>
+                </obsgroup>
             </p>
         </div>
     </section>
