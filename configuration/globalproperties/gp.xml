@@ -277,7 +277,7 @@
         </globalProperty>
         <globalProperty>
             <property>orderentryowa.labOrderAutoExpireTimeInDays</property>
-            <value>45</value>
+            <value>30</value>
         </globalProperty>
 
         <!-- Lab Workflow OWA -->
