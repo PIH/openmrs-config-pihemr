@@ -486,13 +486,13 @@
                 </repeat>
             </div>
 
-            <!-- Todo: Add other symptoms CIEL:x -->
             <obsgroup groupingConceptId="CIEL:1727">
                 <obs conceptId="CIEL:1728" style="checkbox"
                      answerConceptId="CIEL:5622"
                      commentFieldCode="zl.familyHistoryRelativeCheckboxes.specifyLabel" />
-
             </obsgroup>
+            <!-- Other symptoms CIEL:165996 -->
+            <obs conceptId="CIEL:165996" style="textarea" rows="3" cols="80" />
          </div>
     </section>
 
@@ -562,8 +562,8 @@
                 </p>
 
                 <p>
-                    <!-- ToDo: Get CIEL concept O2 volume L/min
-                    <obs conceptId="CIEL:165986" /> -->
+                    <!-- O2 volume L/min -->
+                    <obs conceptId="CIEL:165986" showUnits="true" />
                 </p>
 
                 <p>
@@ -584,8 +584,7 @@
                 </p>
 
                 <p>
-                    <!-- ToDo: Replace with CIEL:166000 concept -->
-                    <obs id="pain" style="radio" conceptId="PIH:12916"
+                    <obs id="pain" style="radio" conceptId="CIEL:166000"
                          labelCode="pihcore.pain"
                          answerConceptIds="CIEL:1107,CIEL:1498,CIEL:1499,CIEL:1500"/>
                 </p>
@@ -858,35 +857,25 @@
             </h3>
             <p>
                 <!-- toggle="oxygen"
-                    <obs conceptId="CIEL:165986" />
+                    <obs conceptId="CIEL:165986" /> -->
 
-                    ivf
-                    <obsgroup groupingConceptId="PIH:IVF construct">
-                        <obs conceptId="PIH:IVF administered" />
-                        <obs conceptId="PIH:IVF volume" />
-                        <obs conceptId="CIEL:165987" />
-                    </obsgroup>
-                    -->
-                <!--  ToDo: Get concepts from CIEL
-                    ['Mask','CIEL:165989'],
-                    ['Mask with non-re-breather','CIEL:165990'],
-                    ['BIPAP','CIEL:165988'],
-                    ['Mechanical ventilator','CIEL:?'],
-                    ['IV fluid','CIEL:1765']
-                -->
                 <repeat with="['Oxygen','CIEL:81341'],
                               ['Analgesic','CIEL:163206'],
+                              ['Mechanical ventilator','CIEL:165998'],
+                              ['Mask','CIEL:165989'],
+                              ['Mask with non-re-breather','CIEL:165990'],
                               ['Nasal cannula','CIEL:165893'],
                               ['CPAP','CIEL:165944'],
+                              ['BiPAP','CIEL:165988'],
                               ['FIO2','CIEL:165927']">
-                    <obs conceptId="PIH:10726"
+                    <obs conceptId="CIEL:165995"
                          answerConceptId="{1}" answerCode="{0}"
                          style="checkbox"/>
 
                 </repeat>
                 <br/>
 
-                <obs conceptId="PIH:10726" toggle="ivf"
+                <obs conceptId="CIEL:165995" toggle="ivf"
                      answerConceptId="CIEL:1765" answerCode="IV fluid"
                      style="checkbox"/>
 
@@ -905,10 +894,7 @@
                                         </label>
                                         <obs conceptId="PIH:IVF administered"/>
                                         <span class="small">
-                                            <obs conceptId="PIH:IVF volume" showUnits="true"/>
-                                            <!-- ToDo: Replace with CIEL concept
-                                            <obs conceptId="CIEL:165987" />
-                                            -->
+                                            <obs conceptId="CIEL:165987" showUnits="true"/>
                                         </span>
                                     </obsgroup>
                                 </p>
@@ -922,8 +908,7 @@
                 <uimessage code="pihcore.consult.clinicalManagementPlan"/>
             </h3>
             <p>
-                <!-- ToDo:  CIEL:162749 -->
-                <obs conceptId="PIH:PATIENT PLAN COMMENTS" style="textarea" rows="3" cols="80"/>
+                <obs conceptId="CIEL:162749" style="textarea" rows="3" cols="80"/>
             </p>
 
             <h3>
@@ -939,11 +924,16 @@
                 </div>
             </p>
             <p>
-                <!-- ToDo: Move this into encounterDisposition
-                            and add CIEL:165994-->
+                <!-- ToDo: Move this into encounterDisposition -->
                 <obsgroup groupingConceptId="org.openmrs.module.emrapi:Disposition Concept Set">
                     <obs conceptId="org.openmrs.module.emrapi:Disposition"
                          answerConceptId="CIEL:165901" answerCode="pihcore.dischargeHomeIsolate"
+                         style="checkbox"/>
+                </obsgroup>
+                <br/>
+                <obsgroup groupingConceptId="org.openmrs.module.emrapi:Disposition Concept Set">
+                    <obs conceptId="org.openmrs.module.emrapi:Disposition"
+                         answerConceptId="CIEL:165994"
                          style="checkbox"/>
                 </obsgroup>
             </p>
