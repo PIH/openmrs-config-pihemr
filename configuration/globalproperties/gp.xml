@@ -276,7 +276,7 @@
             <value>${javaScriptDateTimeFormat}</value>
         </globalProperty>
         <globalProperty>
-            <property>orderentryowa.labOrderAutoExpireTimeInDay</property>
+            <property>orderentryowa.labOrderAutoExpireTimeInDays</property>
             <value>30</value>
         </globalProperty>
 
