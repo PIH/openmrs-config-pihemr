@@ -305,8 +305,7 @@
                     <label>
                         <uimessage code="zl.registration.patient.occupation.healthCareWorker.label"/>
                     </label>
-                    <!-- ToDo: Use CIEL:5619 -->
-                    <obs conceptId="PIH:1538" style="radio"
+                    <obs conceptId="CIEL:5619" style="radio"
                          answerConceptIds="CIEL:1065,CIEL:1066" />
                 </p>
             </includeIf>
@@ -430,8 +429,9 @@
              headerCode="zl.consultNote.currentMedications.title">
         <div class="section-container">
             <p>
-                <obs conceptId="PIH:CURRENT MEDICATIONS"
-                     style="textarea" rows="3" cols="80"/>
+                <!-- Home medications -->
+                <obs conceptId="CIEL:162165"
+                     style="textarea" rows="3" cols="60"/>
             </p>
         </div>
     </section>
@@ -440,8 +440,8 @@
              headerCode="coreapps.clinicianfacing.allergies">
         <div class="section-container">
             <p>
-                <obs conceptId="PIH:3516"
-                     style="textarea" rows="3" cols="80"/>
+                <obs conceptId="CIEL:162141"
+                     style="textarea" rows="3" cols="60"/>
             </p>
         </div>
     </section>
@@ -483,16 +483,13 @@
                     <render map="CIEL:135588" text="loss of taste" />
                     <render map="CIEL:135589" text="loss of smell" />
                     <render map="CIEL:120345" text="confusion" />
+                    <render map="CIEL:125562" text="Suicidal thoughts" />
                 </repeat>
             </div>
 
-            <obsgroup groupingConceptId="CIEL:1727">
-                <obs conceptId="CIEL:1728" style="checkbox"
-                     answerConceptId="CIEL:5622"
-                     commentFieldCode="zl.familyHistoryRelativeCheckboxes.specifyLabel" />
-            </obsgroup>
-            <!-- Other symptoms CIEL:165996 -->
-            <obs conceptId="CIEL:165996" style="textarea" rows="3" cols="80" />
+            <!-- Other symptoms -->
+            <obs conceptId="CIEL:165996" style="textarea" rows="3" cols="60"
+                 labelCode="zl.ifOtherSpecify"  />
          </div>
     </section>
 
@@ -504,7 +501,7 @@
                         <uimessage code="mirebalais.vitals.temperature.title"/>
                     </label>
                     <span class="small">
-                        <obs conceptId="PIH:TEMPERATURE (C)" id="temperature_c"
+                        <obs conceptId="CIEL:5088" id="temperature_c"
                              showUnits="emr.units.degreesCelsius" unitsCssClass="append-to-value"/>
                     </span>
                 </p>
@@ -514,7 +511,7 @@
                         <uimessage code="mirebalais.vitals.heartRate.title"/>
                     </label>
                     <span class="small">
-                        <obs conceptId="PIH:PULSE" id="heart_rate"
+                        <obs conceptId="CIEL:5087" id="heart_rate"
                              showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
                     </span>
                 </p>
@@ -524,46 +521,24 @@
                         <uimessage code="mirebalais.vitals.respiratoryRate.title"/>
                     </label>
                     <span class="small">
-                        <obs conceptId="PIH:RESPIRATORY RATE" id="respiratory_rate"
+                        <obs conceptId="CIEL:5242" id="respiratory_rate"
                              showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
                     </span>
                 </p>
 
-                <p class="left">
+                <p>
                     <label>
                         <uimessage code="mirebalais.vitals.bloodPressure.title"/>
                     </label>
-                </p>
-                <p class="left">
-                        <obs conceptId="PIH:SYSTOLIC BLOOD PRESSURE" id="bp_systolic"/>
-                </p>
-                <p class="left">
+                    <span class="small">
+                        <obs conceptId="CIEL:5085" id="bp_systolic"/>
+                    </span>
+                    <span class="small">
                         /
-                </p>
-                <p class="left">
-                        <obs conceptId="PIH:DIASTOLIC BLOOD PRESSURE" id="bp_diastolic"/>
-                </p>
-
-                <p>.</p>
-                <p>.</p>
-
-                <p>
-                    <label>
-                        <uimessage code="mirebalais.vitals.o2sat.title"/>
-                    </label>
-                    <span class="small">
-                        <obs conceptId="PIH:BLOOD OXYGEN SATURATION" id="o2_sat"
-                             showUnits="emr.units.percent" unitsCssClass="append-to-value"/>
                     </span>
                     <span class="small">
-                        <!-- Room air -->
-                        <obs conceptId="CIEL:162739" answerConceptId="CIEL:162735"/>
+                        <obs conceptId="CIEL:5086" id="bp_diastolic"/>
                     </span>
-                </p>
-
-                <p>
-                    <!-- O2 volume L/min -->
-                    <obs conceptId="CIEL:165986" showUnits="true" />
                 </p>
 
                 <p>
@@ -589,6 +564,20 @@
                          answerConceptIds="CIEL:1107,CIEL:1498,CIEL:1499,CIEL:1500"/>
                 </p>
             </div>
+
+            <p>
+                <label>
+                    <uimessage code="mirebalais.vitals.o2sat.title"/>
+                </label>
+                <span class="small">
+                    <obs conceptId="CIEL:5092" id="o2_sat"
+                         showUnits="emr.units.percent" unitsCssClass="append-to-value"/>
+                </span>
+                <span class="small">
+                    <!-- Room air -->
+                    <obs conceptId="CIEL:162739" answerConceptId="CIEL:162735"/>
+                </span>
+            </p>
         </div>
     </section>
 
@@ -614,20 +603,25 @@
                                   ['Sickle cell','CIEL:117703'],
                                   ['Rheumatic heart disease','CIEL:113227'],
                                   ['HIV','CIEL:138405'],
-                                  ['Update CIEL:145438 - Chronic kidney disease','PIH:3699'],
+                                  ['Chronic kidney disease','CIEL:145438'],
                                   ['Asthma','CIEL:121375'],
                                   ['Chronic pulmonary disease','CIEL:1295'],
-                                  ['Update CIEL:112141 - TB','PIH:58'],
+                                  ['TB','CIEL:112141'],
                                   ['Cardiomyopathy','CIEL:5016'],
                                   ['Stroke','CIEL:111103'],
-                                  ['Malnutrition','CIEL:115122'],
-                                  ['TBD: Depression','CIEL:119537']">
+                                  ['Malnutrition','CIEL:115122']">
                         <obs conceptId="CIEL:162747" answerConceptId="{1}" style="checkbox"/>
                         <br/>
                     </repeat>
                 </div>
             </div>
             <br/>
+
+            <p>
+                <!-- Mental health condition -->
+                <obs conceptId="CIEL:163044" labelCode="pih.task.mentalHealth.label"
+                     textarea="textarea" rows="1" cols="60"/>
+            </p>
 
             <p>
                 <label>
@@ -690,40 +684,34 @@
             </includeIf>
 
             <div class="two-columns">
+                <repeat with="['Chest x-ray','CIEL:165152'],
+                              ['Cardiac U/S','CIEL:163041'],
+                              ['Abdominal U/S','CIEL:845']">
                 <p>
                     <obsgroup groupingConceptId="PIH:Radiology report construct">
                         <obs conceptId="PIH:Radiology procedure performed"
-                             answerConceptId="PIH:Chest 1 view (XRay)"
+                             answerConceptId="{1}"
                              style="checkbox"/>
                         <br/>
                         <obs conceptId="PIH:Radiology report comments"
                              labelCode="pihcore.vitals.latest.results.label" />
                     </obsgroup>
                 </p>
+                </repeat>
+
                 <p>
-                <obsgroup groupingConceptId="PIH:Radiology report construct">
-                    <obs conceptId="PIH:Radiology procedure performed"
-                         answerConceptId="PIH:Ultrasound"
-                         style="checkbox"/>
-                    <br/>
-                    <obs conceptId="PIH:Radiology report comments"
-                         labelCode="pihcore.vitals.latest.results.label"/>
-                </obsgroup>
+                    <label>
+                        <uimessage code="zl.ifOtherSpecify"/>
+                    </label>
+                    <obsgroup groupingConceptId="PIH:Radiology report construct">
+                        <obs conceptId="PIH:Radiology procedure performed"
+                             answerClasses="Radiology/Imaging Procedure"
+                             style="checkbox"/>
+                        <obs conceptId="PIH:Radiology report comments"
+                             labelCode="pihcore.vitals.latest.results.label"/>
+                    </obsgroup>
                 </p>
             </div>
-
-            <p>
-                <label>
-                    <uimessage code="zl.ifOtherSpecify"/>
-                </label>
-                <obsgroup groupingConceptId="PIH:Radiology report construct">
-                    <obs conceptId="PIH:Radiology procedure performed"
-                         answerClasses="Radiology/Imaging Procedure"
-                         style="checkbox"/>
-                    <obs conceptId="PIH:Radiology report comments"
-                         labelCode="pihcore.vitals.latest.results.label"/>
-                </obsgroup>
-            </p>
         </div>
     </section>
 
@@ -740,16 +728,19 @@
                     </th>
                 </tr>
 
-                <!-- Todo: Add chest=lungs/thorax, back -->
-                <repeat with="['heent','CIEL:1122','CIEL:163045'],
+                <!-- Physical exam -->
+                <repeat with="['general','CIEL:1119','CIEL:163042'],
+                              ['heent','CIEL:1122','CIEL:163045'],
                               ['neck','CIEL:163388','CIEL:165983'],
                               ['chest','CIEL:1123','CIEL:160689'],
                               ['cardiac','CIEL:1124','CIEL:163046'],
                               ['abdominal','CIEL:1125','CIEL:160947'],
                               ['urogenital','CIEL:1126','CIEL:163047'],
-                              ['skin','CIEL:1120','CIEL:160981'],
+                              ['rectal','CIEL:163746','CIEL:160961'],
                               ['musculoskeletal','CIEL:1128','CIEL:163048'],
-                              ['neuro','CIEL:1129','PIH:11570']">
+                              ['lymph','CIEL:1121','PIH:11572'],
+                              ['skin','CIEL:1120','CIEL:160981'],
+                              ['neuro','CIEL:1129','CIEL:163109']">
                     <tr>
                         <td>
                             <label>
@@ -757,8 +748,8 @@
                             </label>
                         </td>
                         <td>
-                            <obs conceptId="{1}" answerConceptIds="CIEL:1115,CIEL:1116"
-                                 answerCodes="pihcore.yes.oneChar,pihcore.no.oneChar" style="radio" />&amp;nbsp;
+                            <obs conceptId="{1}" answerConceptIds="CIEL:1115,CIEL:1116,CIEL:1067"
+                                 answerCodes="pihcore.yes.oneChar,pihcore.no.oneChar,pihcore.unknown.oneChar" style="radio" />
                         </td>
                         <td width="60%">
                             <obs conceptId="{2}" />
@@ -798,11 +789,9 @@
                 <label>
                     COVID-19:
                 </label>
-                <repeat with="['Confirmed','CIEL:159392'],
-                              ['Suspected','CIEL:162743'],
-                              ['No','CIEL:1066']">
-                    <obs conceptId="CIEL:165793" answerConceptId="{1}" style="checkbox"/>&amp;nbsp;
-                </repeat>
+                <!-- Confirmed, Suspected, No -->
+                <obs conceptId="CIEL:165793"
+                     answerConceptIds="CIEL:159392,CIEL:162743,CIEL:1066" style="radio"/>
             </p>
         </div>
 
@@ -812,7 +801,8 @@
 
     </section>
 
-    <section id="plan" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.visitNote.plan">
+    <section id="plan" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             eaderCode="pihcore.visitNote.plan">
         <div class="section-container">
             <h3>
                 <uimessage code="mirebalais.dispensing.medication" />
@@ -851,30 +841,49 @@
                     <br/>
                 </repeat>
             </p>
+            <p>
+                <obs conceptId="PIH:Medication comments (text)"
+                     style="textarea" rows="3" cols="60"/>
+            </p>
 
             <h3>
                 <uimessage code="pihcore.supportiveCare" />
             </h3>
-            <p>
-                <!-- toggle="oxygen"
-                    <obs conceptId="CIEL:165986" /> -->
+            <div>
+                <div class="two-columns">
+                    <!-- toggle="oxygen" -->
+                    <obs conceptId="CIEL:165995"
+                         answerConceptId="CIEL:81341" answerCode="Oxygen"
+                         style="checkbox"/>
+                    <span class="small">
+                        <obs conceptId="CIEL:165986" showUnits="true" />
+                    </span>
+                    <br/><br/>
+                    <obs conceptId="CIEL:165995"
+                         answerConceptId="CIEL:163206" answerCode="Analgesic"
+                         style="checkbox" commentFieldCode="zl.familyHistoryRelativeCheckboxes.specifyLabel" />
+                </div>
 
-                <repeat with="['Oxygen','CIEL:81341'],
-                              ['Analgesic','CIEL:163206'],
-                              ['Mechanical ventilator','CIEL:165998'],
+                <repeat with="['Mechanical ventilator','CIEL:165998'],
                               ['Mask','CIEL:165989'],
-                              ['Mask with non-re-breather','CIEL:165990'],
-                              ['Nasal cannula','CIEL:165893'],
+                              ['Mask with non-re-breather','CIEL:165990']">
+                    <obs conceptId="CIEL:165995"
+                         answerConceptId="{1}" answerCode="{0}"
+                         style="checkbox"/>
+                </repeat>
+                <br/>
+
+                <repeat with="['Nasal cannula','CIEL:165893'],
                               ['CPAP','CIEL:165944'],
                               ['BiPAP','CIEL:165988'],
                               ['FIO2','CIEL:165927']">
                     <obs conceptId="CIEL:165995"
                          answerConceptId="{1}" answerCode="{0}"
                          style="checkbox"/>
-
                 </repeat>
-                <br/>
+            </div>
 
+            <div>
                 <obs conceptId="CIEL:165995" toggle="ivf"
                      answerConceptId="CIEL:1765" answerCode="IV fluid"
                      style="checkbox"/>
@@ -892,30 +901,33 @@
                                         <label>
                                             <uimessage code="pihcore.ivf"/>
                                         </label>
-                                        <obs conceptId="PIH:IVF administered"/>
-                                        <span class="small">
+                                        <obs conceptId="CIEL:161911" style="radio"
+                                             answerConceptIds="CIEL:78617,CIEL:80804,CIEL:161250"
+                                             answerCodes="LR,Normal saline,Dextrose 5%"/>
+
+                                        <p class="small">
                                             <obs conceptId="CIEL:165987" showUnits="true"/>
-                                        </span>
+                                        </p>
                                     </obsgroup>
                                 </p>
                             </repeat>
                         </div>
                     </p>
                 </div>
-            </p>
+            </div>
 
             <h3>
                 <uimessage code="pihcore.consult.clinicalManagementPlan"/>
             </h3>
             <p>
-                <obs conceptId="CIEL:162749" style="textarea" rows="3" cols="80"/>
+                <obs conceptId="CIEL:162749" style="textarea" rows="3" cols="60"/>
             </p>
 
             <h3>
                 <uimessage code="pihcore.nursingAdmitNote"/>
             </h3>
             <p>
-                <obs conceptId="CIEL:162879" style="textarea" rows="3" cols="80"/>
+                <obs conceptId="CIEL:162879" style="textarea" rows="3" cols="60"/>
             </p>
 
             <p>
