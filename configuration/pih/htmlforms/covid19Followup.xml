@@ -107,6 +107,103 @@
     <ifMode mode="VIEW" include="false">
         <script type="text/javascript">
 
+            var $j = jQuery;
+
+            htmlForm.getBeforeValidation().push(function() {
+
+            var valid = true;
+
+            jq('fieldset.medication').each(function() {
+
+            // clear out any existing error messages
+            jq(this).find('.field-error').first().html('');
+
+            //var medication = (jq(this).find('.medication-name input').val()).trim();
+
+            // UHM-3781 we need to look for the value set by the automcomplete widget.
+            // The value should be in the format of Drug:DRUG_ID
+            var medication = jq(this).find('.medication-name input[type=hidden]').val();
+
+            var dose = jq(this).find('.dose input').val();
+            var doseUnits = jq(this).find('.dose-unit select').val();
+            var frequency = jq(this).find('.frequency select').val();
+            var duration = jq(this).find('.duration input').val();
+            var durationUnits = jq(this).find('.duration-unit select').val();
+            var instructions = jq(this).find('.medication-instructions input').val();
+
+            if (!medication &amp;&amp; (dose || doseUnits || frequency || duration || durationUnits || instructions)) {
+            valid = false;
+            jq(this).find('.field-error').first().append("<uimessage
+                code="pihcore.visitNote.plan.medications.error.noMedication"/>. ").show();
+            }
+
+            if (dose &amp;&amp; !doseUnits) {
+            valid = false;
+            jq(this).find('.field-error').first().append("<uimessage
+                code="pihcore.visitNote.plan.medications.error.noDoseUnits"/>. ").show();
+            }
+
+            if (!dose &amp;&amp; doseUnits) {
+            valid = false;
+            jq(this).find('.field-error').first().append("<uimessage
+                code="pihcore.visitNote.plan.medications.error.noDose"/>. ").show();
+            }
+
+            if (duration &amp;&amp; !durationUnits) {
+            valid = false;
+            jq(this).find('.field-error').first().append("<uimessage
+                code="pihcore.visitNote.plan.medications.error.noDurationUnits"/>. ").show();
+            }
+
+            if (!duration &amp;&amp; durationUnits) {
+            valid = false;
+            jq(this).find('.field-error').first().append("<uimessage
+                code="pihcore.visitNote.plan.medications.error.noDuration"/>. ").show();
+            }
+
+            });
+            return valid;
+
+            });
+
+            jq(function() {
+
+            var hasValue = function(element) {
+            return jq(element).find('.medication-name input').val();
+            };
+
+            var hideOtherMeds = function() {
+            jq('#medication-2').hide();
+            jq('#medication-3').hide();
+            jq('#medication-4').hide();
+            jq('#medication-5').hide();
+            jq('#medication-6').hide();
+            jq('#medication-7').hide();
+            jq('#medication-8').hide();
+            };
+
+            if (!hasValue('#medication-2') &amp;&amp; !hasValue('#medication-3') &amp;&amp; !hasValue('#medication-4')
+            &amp;&amp; !hasValue('#medication-5') &amp;&amp; !hasValue('#medication-6') &amp;&amp;
+            !hasValue('#medication-7')
+            &amp;&amp; !hasValue('#medication-8')) {
+            hideOtherMeds();
+            jq('#show-more-medications-button').show();
+            }
+
+            jq('#show-more-medications-button').click(function() {
+            jq('.medication').show();
+            jq('#show-more-medications-button').hide();
+            jq('#show-less-medications-button').show();
+            });
+
+            jq('#show-less-medications-button').click(function() {
+            hideOtherMeds();
+            jq('#show-less-medications-button').hide();
+            jq('#show-more-medications-button').show();
+            });
+
+            })
+
         </script>
     </ifMode>
 
@@ -240,6 +337,13 @@
         </includeIf>
       </ifMode>
 
+    <section id="condition" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.healthCondition">
+        <div class="section-container">
+            <obs conceptId="CIEL:162633"
+                 answerConceptIds="CIEL:1498,CIEL:1499,CIEL:164830" style="radio"/>
+        </div>
+    </section>
+
     <section id="history" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="zl.consultNote.patientHistory.title">
         <div class="section-container">
 
@@ -252,19 +356,39 @@
                 </span>
             </p>
 
+            <table>
+                <tr>
+                    <th>
+                       <label>
+                           <uimessage code="pihcore.symptoms" />
+                       </label>
+                    </th>
+                    <th>
+                        <label>
+                            <uimessage code="general.new" />
+                        </label>
+                    </th>
+                    <th>
+                    </th>
+                </tr>
             <repeat>
                 <template>
-                    <!-- ToDo: Add new and changes -->
                     <obsgroup groupingConceptId="CIEL:1727">
-                        <obs conceptId="CIEL:1728" style="checkbox"
-                             answerConceptId="{map}" />
-                        <obs conceptId="CIEL:165341" answerConceptId="CIEL:1066"
-                             answerCode="new" style="checkbox" />
-                        <obs conceptId="CIEL:162676" style="radio"
-                             answerConceptIds="CIEL:162677,CIEL:162679,CIEL:162678" />
+                        <tr>
+                            <td>
+                                <obs conceptId="CIEL:1728" style="checkbox"
+                                     answerConceptId="{map}" />
+                            </td>
+                            <td>
+                                <obs conceptId="CIEL:165341" answerConceptId="CIEL:1066"
+                                     answerCode="" style="checkbox" />
+                            </td>
+                            <td>
+                                <obs conceptId="CIEL:162676" style="radio"
+                                     answerConceptIds="CIEL:162677,CIEL:162679,CIEL:162678" />
+                            </td>
+                        </tr>
                     </obsgroup>
-                    <!-- answerCode="pihcore.{text}" -->
-                    <br/>
                 </template>
                 <render map="CIEL:140238" text="fever" />
                 <render map="CIEL:143264" text="cough" />
@@ -284,11 +408,15 @@
                 <render map="CIEL:125562" text="Suicidal thoughts" />
                 <render map="CIEL:148143" text="Attempted suicide" />
             </repeat>
-            <br/>
 
             <!-- Other symptoms -->
-            <obs conceptId="CIEL:165996" style="textarea" rows="3" cols="60"
-                 labelCode="zl.ifOtherSpecify"  />
+                <tr>
+                    <td colspan="3">
+                        <obs conceptId="CIEL:165996" style="textarea" rows="3" cols="60"
+                             labelCode="zl.ifOtherSpecify"  />
+                    </td>
+                </tr>
+            </table>
         </div>
     </section>
 
@@ -380,83 +508,6 @@
         </div>
     </section>
 
-    <section id="lab" sectionTag="fieldset" headerTag="legend"
-             headerStyle="title" headerCode="pihcore.lab.lab_tests.title">
-        <div class="section-container">
-
-            <h3>
-                <uimessage code="ABG (Arterial Blood Gas)"/>
-            </h3>
-            <div class="three-columns">
-                <repeat>
-                    <template>
-                        <label>
-                            <uimessage code="{text}"/>
-                        </label>
-                        <span class="small">
-                            <obs conceptId="{map}" showUnits="true"/>
-                        </span>
-                        <br/>
-                    </template>
-
-                    <render map="CIEL:165984" text="pH" />
-                    <render map="CIEL:163595" text="PCO2" />
-                    <render map="CIEL:163598" text="PO2" />
-                    <render map="CIEL:166002" text="TCO2" />
-                    <render map="CIEL:163596" text="HCO3" />
-                    <render map="CIEL:163599" text="BE" />
-                    <render map="CIEL:163597" text="sO2" />
-                    <render map="CIEL:165997" text="Lactate" />
-                </repeat>
-                <br/>
-            </div>
-
-        </div>
-    </section>
-
-    <section id="radiology-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="pihcore.rad_order.title">
-        <div class="section-container">
-            <includeIf velocityTest="!$config.isComponentEnabled('radiology')">
-                <!-- ToDo: Use PACS? -->
-                <p>At HUM, use
-                    <uimessage code="pihcore.rad_order.title"/>
-                </p>
-            </includeIf>
-
-            <div class="three-columns">
-                <repeat with="['Chest (X-ray)','CIEL:165152'],
-                              ['Cardiac (U/S)','CIEL:163041'],
-                              ['Abdominal (U/S)','CIEL:845']">
-                    <p>
-                        <obsgroup groupingConceptId="PIH:Radiology report construct">
-                            <obs conceptId="PIH:Radiology procedure performed"
-                                 answerConceptId="{1}"
-                                 answerCode="{0}"
-                                 style="checkbox"/>
-                            <br/>
-                            <obs conceptId="PIH:Radiology report comments"
-                                 labelCode="pihcore.vitals.latest.results.label" />
-                        </obsgroup>
-                    </p>
-                </repeat>
-            </div>
-
-            <p>
-                <label>
-                    <uimessage code="zl.ifOtherSpecify"/>
-                </label>
-                <obsgroup groupingConceptId="PIH:Radiology report construct">
-                    <obs conceptId="PIH:Radiology procedure performed"
-                         answerClasses="Radiology/Imaging Procedure"
-                         style="checkbox"/>
-                    <obs conceptId="PIH:Radiology report comments"
-                         labelCode="pihcore.vitals.latest.results.label"/>
-                </obsgroup>
-            </p>
-        </div>
-    </section>
-
     <section id="physicalexam" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="zl.exam.physicalExam.title">
         <div class="section-container">
             <table>
@@ -543,15 +594,92 @@
 
     </section>
 
+    <section id="lab" sectionTag="fieldset" headerTag="legend"
+             headerStyle="title" headerCode="pihcore.lab.lab_tests.title">
+        <div class="section-container">
+
+            <h3>
+                <uimessage code="ABG (Arterial Blood Gas)"/>
+            </h3>
+            <div class="three-columns">
+                <repeat>
+                    <template>
+                        <label>
+                            <uimessage code="{text}"/>
+                        </label>
+                        <span class="small">
+                            <obs conceptId="{map}" showUnits="true"/>
+                        </span>
+                        <br/>
+                    </template>
+
+                    <render map="CIEL:165984" text="pH" />
+                    <render map="CIEL:163595" text="PCO2" />
+                    <render map="CIEL:163598" text="PO2" />
+                    <render map="CIEL:166002" text="TCO2" />
+                    <render map="CIEL:163596" text="HCO3" />
+                    <render map="CIEL:163599" text="BE" />
+                    <render map="CIEL:163597" text="sO2" />
+                    <render map="CIEL:165997" text="Lactate" />
+                </repeat>
+                <br/>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="radiology-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.rad_order.title">
+        <div class="section-container">
+            <includeIf velocityTest="!$config.isComponentEnabled('radiology')">
+                <!-- ToDo: Use PACS? -->
+                <p>At HUM, use
+                    <uimessage code="pihcore.rad_order.title"/>
+                </p>
+            </includeIf>
+
+            <div class="three-columns">
+                <repeat with="['Chest (X-ray)','CIEL:165152'],
+                              ['Cardiac (U/S)','CIEL:163041'],
+                              ['Abdominal (U/S)','CIEL:845']">
+                    <p>
+                        <obsgroup groupingConceptId="PIH:Radiology report construct">
+                            <obs conceptId="PIH:Radiology procedure performed"
+                                 answerConceptId="{1}"
+                                 answerCode="{0}"
+                                 style="checkbox"/>
+                            <br/>
+                            <obs conceptId="PIH:Radiology report comments"
+                                 labelCode="pihcore.vitals.latest.results.label" />
+                        </obsgroup>
+                    </p>
+                </repeat>
+            </div>
+
+            <p>
+                <label>
+                    <uimessage code="zl.ifOtherSpecify"/>
+                </label>
+                <obsgroup groupingConceptId="PIH:Radiology report construct">
+                    <obs conceptId="PIH:Radiology procedure performed"
+                         answerClasses="Radiology/Imaging Procedure"
+                         style="checkbox"/>
+                    <obs conceptId="PIH:Radiology report comments"
+                         labelCode="pihcore.vitals.latest.results.label"/>
+                </obsgroup>
+            </p>
+        </div>
+    </section>
+
     <section id="plan" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             eaderCode="pihcore.visitNote.plan">
+             headerCode="pihcore.visitNote.plan">
         <div class="section-container">
             <h3>
                 <uimessage code="mirebalais.dispensing.medication" />
             </h3>
             <p>
                 <strong>
-                    <uimessage code="First-line" />
+                    <uimessage code="pihcore.firstLineMeds" />
                 </strong>
                 <br/>
                 <repeat with="['Chloroquine','CIEL:73300']">
@@ -621,7 +749,7 @@
             </p>
             <p>
                 <strong>
-                    <uimessage code="Second-line" />
+                    <uimessage code="pihcore.secondLineMeds" />
                 </strong>
                 <br/>
                 <repeat with="['Lopinavir/Ritonavir','CIEL:794'],
@@ -653,10 +781,10 @@
                      style="textarea" rows="3" cols="60"/>
             </p>
 
-            <h3>
-                <uimessage code="pihcore.supportiveCare" />
-            </h3>
             <div>
+                <strong>
+                    <uimessage code="pihcore.supportiveCare" />
+                </strong>
                 <div class="two-columns">
                     <!-- toggle="oxygen" -->
                     <obs conceptId="CIEL:165995"
@@ -691,10 +819,11 @@
             </div>
 
             <div>
+                <p>
                 <obs conceptId="CIEL:165995" toggle="ivf"
                      answerConceptId="CIEL:1765" answerCode="IV fluid"
                      style="checkbox"/>
-
+                </p>
                 <div id="ivf">
                     <p>
                         <strong>
@@ -726,16 +855,16 @@
                 </div>
             </div>
 
-            <h3>
+            <strong>
                 <uimessage code="pihcore.consult.clinicalManagementPlan"/>
-            </h3>
+            </strong>
             <p>
                 <obs conceptId="CIEL:162749" style="textarea" rows="3" cols="60"/>
             </p>
 
-            <h3>
+            <strong>
                 <uimessage code="pihcore.nursingAdmitNote"/>
-            </h3>
+            </strong>
             <p>
                 <obs conceptId="CIEL:162879" style="textarea" rows="3" cols="60"/>
             </p>
