@@ -339,6 +339,12 @@
 
     <section id="condition" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.healthCondition">
         <div class="section-container">
+
+            <!-- Program enrollment (if the patient hasn't already been enrolled)-->
+            <p>
+                <enrollInProgram programId="COVID-19"/>
+            </p>
+
             <obs conceptId="CIEL:162633"
                  answerConceptIds="CIEL:1498,CIEL:1499,CIEL:164830" style="radio"/>
         </div>

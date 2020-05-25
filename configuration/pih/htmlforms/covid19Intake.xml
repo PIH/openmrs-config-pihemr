@@ -412,6 +412,12 @@
 
     <section id="demographics" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="patientDashboard.demographics">
         <div class="section-container">
+
+            <!-- Program enrollment -->
+            <p>
+                <enrollInProgram programId="COVID-19"/>
+            </p>
+
             <!-- Health care worker (> 16 yo) -->
             <includeIf velocityTest="$patient.age &gt; 16">
                 <p>
