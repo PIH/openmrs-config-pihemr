@@ -897,7 +897,7 @@
         <h3>
             <uimessage code="ABG (Arterial Blood Gas)"/>
         </h3>
-        <div class="three-columns">
+        <div class="two-columns">
             <repeat>
                 <template>
                     <label>
@@ -918,7 +918,6 @@
                 <render map="CIEL:163597" text="sO2" />
                 <render map="CIEL:165997" text="Lactate" />
             </repeat>
-            <br/>
         </div>
 
     </div>
@@ -977,7 +976,6 @@
                 <strong>
                     <uimessage code="pihcore.firstLineMeds" />
                 </strong>
-                <br/>
                 <repeat with="['Chloroquine','CIEL:73300']">
                     <obsgroup groupingConceptId="PIH:Prescription construct">
                         <obs conceptId="PIH:1282" answerConceptId="{1}"

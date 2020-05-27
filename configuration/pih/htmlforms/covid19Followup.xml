@@ -607,7 +607,7 @@
             <h3>
                 <uimessage code="ABG (Arterial Blood Gas)"/>
             </h3>
-            <div class="three-columns">
+            <div class="two-columns">
                 <repeat>
                     <template>
                         <label>
@@ -628,7 +628,6 @@
                     <render map="CIEL:163597" text="sO2" />
                     <render map="CIEL:165997" text="Lactate" />
                 </repeat>
-                <br/>
             </div>
 
         </div>

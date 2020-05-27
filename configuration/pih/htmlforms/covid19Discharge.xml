@@ -109,7 +109,7 @@
     <ifMode mode="VIEW" include="false">
         <h2>
             <label>
-                <uimessage code="pihcore.covid19Intake.title"/>
+                <uimessage code="ui.i18n.EncounterType.name.5e82bea0-fd7b-47f9-858a-91be87521073"/>
             </label>
         </h2>
 
