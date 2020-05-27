@@ -131,7 +131,7 @@
                     </label>
                     <span>
                         <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"
-                                           tags="Consult Note Location"/>
+                                           tags="COVID-19 Location"/>
                     </span>
                 </p>
                 <p id="when">
@@ -168,7 +168,7 @@
                     </label>
                     <span>
                         <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"
-                                           tags="Consult Note Location"/>
+                                           tags="COVID-19 Location"/>
                     </span>
                 </p>
                 <p id="when">

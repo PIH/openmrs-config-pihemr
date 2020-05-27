@@ -244,7 +244,7 @@
                     </label>
                     <span>
                         <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"
-                                           tags="Consult Note Location"/>
+                                           tags="COVID-19 Location"/>
                     </span>
                 </p>
                 <p id="when">
@@ -281,7 +281,7 @@
                     </label>
                     <span>
                         <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"
-                                           tags="Consult Note Location"/>
+                                           tags="COVID-19 Location"/>
                     </span>
                 </p>
                 <p id="when">
@@ -686,7 +686,7 @@
                 <strong>
                     <uimessage code="pihcore.firstLineMeds" />
                 </strong>
-                <br/>
+
                 <repeat with="['Chloroquine','CIEL:73300']">
                     <obsgroup groupingConceptId="PIH:Prescription construct">
                         <obs conceptId="PIH:1282" answerConceptId="{1}"
@@ -756,7 +756,6 @@
                 <strong>
                     <uimessage code="pihcore.secondLineMeds" />
                 </strong>
-                <br/>
                 <repeat with="['Lopinavir/Ritonavir','CIEL:794'],
                               ['Remdesivir','CIEL:165878']">
                     <obsgroup groupingConceptId="PIH:Prescription construct">
@@ -770,7 +769,7 @@
                 <strong>
                     <uimessage code="pihcore.antibiotics" />
                 </strong>
-                <br/>
+
                 <repeat with="['Ceftriasone','CIEL:73041'],
                               ['Amoxicillin','CIEL:71160'],
                               ['Doxycycline','CIEL:75222']">
@@ -860,20 +859,6 @@
                 </div>
             </div>
 
-            <strong>
-                <uimessage code="pihcore.consult.clinicalManagementPlan"/>
-            </strong>
-            <p>
-                <obs conceptId="CIEL:162749" style="textarea" rows="3" cols="60"/>
-            </p>
-
-            <strong>
-                <uimessage code="pihcore.nursingAdmitNote"/>
-            </strong>
-            <p>
-                <obs conceptId="CIEL:162879" style="textarea" rows="3" cols="60"/>
-            </p>
-
             <p>
                 <div id="disposition">
                     <encounterDisposition/>
@@ -893,6 +878,21 @@
                          style="checkbox"/>
                 </obsgroup>
             </p>
+
+            <strong>
+                <uimessage code="pihcore.consult.clinicalManagementPlan"/>
+            </strong>
+            <p>
+                <obs conceptId="CIEL:162749" style="textarea" rows="3" cols="60"/>
+            </p>
+
+            <strong>
+                <uimessage code="pihcore.nursingAdmitNote"/>
+            </strong>
+            <p>
+                <obs conceptId="CIEL:162879" style="textarea" rows="3" cols="60"/>
+            </p>
+
         </div>
     </section>
 
