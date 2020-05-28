@@ -933,23 +933,21 @@
                 </p>
             </includeIf>
 
-            <div class="three-columns">
-                <repeat with="['Chest (X-ray)','CIEL:165152'],
-                              ['Cardiac (U/S)','CIEL:163041'],
-                              ['Abdominal (U/S)','CIEL:845']">
-                <p>
-                    <obsgroup groupingConceptId="PIH:Radiology report construct">
-                        <obs conceptId="PIH:Radiology procedure performed"
-                             answerConceptId="{1}"
-                             answerCode="{0}"
-                             style="checkbox"/>
-                        <br/>
-                        <obs conceptId="PIH:Radiology report comments"
-                             labelCode="pihcore.vitals.latest.results.label" />
-                    </obsgroup>
-                </p>
-                </repeat>
-            </div>
+            <repeat with="['Chest (X-ray)','CIEL:165152','order1'],
+                          ['Cardiac (U/S)','CIEL:163041','order2'],
+                          ['Abdominal (U/S)','CIEL:845','order3']">
+            <p>
+                <obsgroup groupingConceptId="PIH:Radiology report construct">
+                    <obs conceptId="PIH:Radiology procedure performed"
+                         answerConceptId="{1}"
+                         answerCode="{0}" toggle="{2)"
+                         style="checkbox"/>
+                    <!-- ToDo:  Add result label? -->
+                    <obs conceptId="PIH:Radiology report comments"
+                         rows="2" cols="40"/>
+                </obsgroup>
+            </p>
+            </repeat>
 
             <p>
                 <label>
@@ -960,7 +958,8 @@
                          answerClasses="Radiology/Imaging Procedure"
                          style="checkbox"/>
                     <obs conceptId="PIH:Radiology report comments"
-                         labelCode="pihcore.vitals.latest.results.label"/>
+                         labelCode="pihcore.vitals.latest.results.label"
+                         rows="2" cols="40" />
                 </obsgroup>
             </p>
         </div>
@@ -1116,33 +1115,37 @@
                      style="checkbox"/>
 
                 <div id="ivf">
-                    <p>
-                        <strong>
-                            <uimessage code="pihcore.ivf.fluids_admin"/>
-                        </strong>
+                    <table>
+                        <tr>
+                            <th colspan="2">
+                                <uimessage code="pihcore.ivf.fluids_admin"/>
+                            </th>
+                        </tr>
 
-                        <div class="two-columns">
-                            <repeat with="['1'],['2'],['3'],['4']">
-                                <p>
+                        <repeat with="['1'],['2'],['3']">
+                            <tr>
+                                <td>{0}</td>
+
+                                <td>
                                     <obsgroup groupingConceptId="PIH:IVF construct">
-                                        <label>
-                                            <uimessage code="pihcore.ivf"/>
-                                        </label>
                                         <obs conceptId="CIEL:161911" style="radio"
                                              answerConceptIds="CIEL:78617,CIEL:80804,CIEL:161250"
                                              answerCodes="LR,Normal saline,Dextrose 5%"/>
 
                                         <p class="small">
                                             <obs conceptId="CIEL:165987" showUnits="true"/>
-                                            <obs conceptId="CIEL:166006" style="radio"
-                                                 answerConceptIds="CIEL:162625,CIEL:166004"
-                                                 answerCodes="central,peripheral" />
                                         </p>
+
+                                        <obs conceptId="CIEL:166006" style="radio"
+                                             answerConceptIds="CIEL:162625,CIEL:166004"
+                                             answerCodes="central,peripheral" />
+
                                     </obsgroup>
-                                </p>
-                            </repeat>
-                        </div>
-                    </p>
+                                </td>
+                            </tr>
+                        </repeat>
+
+                    </table>
                 </div>
             </div>
 
@@ -1156,12 +1159,6 @@
                 <obsgroup groupingConceptId="org.openmrs.module.emrapi:Disposition Concept Set">
                     <obs conceptId="org.openmrs.module.emrapi:Disposition"
                          answerConceptId="CIEL:165901" answerCode="pihcore.dischargeHomeIsolate"
-                         style="checkbox"/>
-                </obsgroup>
-                <br/>
-                <obsgroup groupingConceptId="org.openmrs.module.emrapi:Disposition Concept Set">
-                    <obs conceptId="org.openmrs.module.emrapi:Disposition"
-                         answerConceptId="CIEL:165994"
                          style="checkbox"/>
                 </obsgroup>
             </p>

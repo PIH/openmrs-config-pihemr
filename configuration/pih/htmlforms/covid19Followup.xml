@@ -592,12 +592,11 @@
                 <obs conceptId="CIEL:165793"
                      answerConceptIds="CIEL:159392,CIEL:162743,CIEL:1066" style="radio"/>
             </p>
-        </div>
 
-        <div id="data-collection">
-            <encounterDiagnosesByObs selectedDiagnosesTarget="#encounter-diagnoses-target"/>
+            <div id="data-collection">
+                <encounterDiagnosesByObs selectedDiagnosesTarget="#encounter-diagnoses-target"/>
+            </div>
         </div>
-
     </section>
 
     <section id="lab" sectionTag="fieldset" headerTag="legend"
@@ -829,33 +828,37 @@
                      style="checkbox"/>
                 </p>
                 <div id="ivf">
-                    <p>
-                        <strong>
-                            <uimessage code="pihcore.ivf.fluids_admin"/>
-                        </strong>
+                    <table>
+                        <tr>
+                            <th colspan="2">
+                                <uimessage code="pihcore.ivf.fluids_admin"/>
+                            </th>
+                        </tr>
 
-                        <div class="two-columns">
-                            <repeat with="['1'],['2'],['3'],['4']">
-                                <p>
+                        <repeat with="['1'],['2'],['3']">
+                            <tr>
+                                <td>{0}</td>
+
+                                <td>
                                     <obsgroup groupingConceptId="PIH:IVF construct">
-                                        <label>
-                                            <uimessage code="pihcore.ivf"/>
-                                        </label>
                                         <obs conceptId="CIEL:161911" style="radio"
                                              answerConceptIds="CIEL:78617,CIEL:80804,CIEL:161250"
                                              answerCodes="LR,Normal saline,Dextrose 5%"/>
 
                                         <p class="small">
                                             <obs conceptId="CIEL:165987" showUnits="true"/>
-                                            <obs conceptId="CIEL:166006" style="radio"
-                                                 answerConceptIds="CIEL:162625,CIEL:166004"
-                                                 answerCodes="central,peripheral" />
                                         </p>
+
+                                        <obs conceptId="CIEL:166006" style="radio"
+                                             answerConceptIds="CIEL:162625,CIEL:166004"
+                                             answerCodes="central,peripheral" />
+
                                     </obsgroup>
-                                </p>
-                            </repeat>
-                        </div>
-                    </p>
+                                </td>
+                            </tr>
+                        </repeat>
+
+                    </table>
                 </div>
             </div>
 
@@ -869,12 +872,6 @@
                 <obsgroup groupingConceptId="org.openmrs.module.emrapi:Disposition Concept Set">
                     <obs conceptId="org.openmrs.module.emrapi:Disposition"
                          answerConceptId="CIEL:165901" answerCode="pihcore.dischargeHomeIsolate"
-                         style="checkbox"/>
-                </obsgroup>
-                <br/>
-                <obsgroup groupingConceptId="org.openmrs.module.emrapi:Disposition Concept Set">
-                    <obs conceptId="org.openmrs.module.emrapi:Disposition"
-                         answerConceptId="CIEL:165994"
                          style="checkbox"/>
                 </obsgroup>
             </p>

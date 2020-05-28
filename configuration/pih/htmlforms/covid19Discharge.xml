@@ -228,35 +228,83 @@
     <section id="diagnosis" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.diagnosis.label">
         <div class="section-container">
             <p>
-                <label>
+                <b>
                     COVID-19:
-                </label>
+                </b>
                 <!-- Confirmed, Suspected, No -->
                 <obs conceptId="CIEL:165793"
                      answerConceptIds="CIEL:159392,CIEL:162743,CIEL:1066" style="radio"/>
             </p>
+
+            <div id="data-collection">
+                <encounterDiagnosesByObs selectedDiagnosesTarget="#encounter-diagnoses-target"/>
+            </div>
         </div>
 
-        <div id="data-collection">
-            <encounterDiagnosesByObs selectedDiagnosesTarget="#encounter-diagnoses-target"/>
-        </div>
+    </section>
 
+    <section id="therapy" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.therapy">
+        <div class="section-container">
+            <repeat with="['o2Therapy','165864'],
+                          ['nonInvVent','165945'],
+                          ['vasopressor','165926'],
+                          ['antibiotics','165991']">
+                <p>
+                    <label>
+                        <uimessage code="pihcore.{0}" />
+                    </label>
+                    <obs conceptId="CIEL:{1}" style="radio"
+                         answerConceptIds="CIEL:1065,CIEL:1066" />
+                </p>
+            </repeat>
+
+            <p>
+                <label>
+                    <uimessage code="pihcore.otherIntervention" />
+                </label>
+                <obs conceptId="CIEL:165264" rows="2" cols="40" />
+            </p>
+        </div>
     </section>
 
     <section id="icu" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.icuIsolation">
         <div class="section-container">
             <p>
-                <label>
-                    <uimessage code="pihcore.icuHduAdmission" />
-                </label>
-                <obs conceptId="CIEL:165644" style="radio"
-                     answerConceptIds="CIEL:1065,CIEL:1066"/>
+                <obs conceptId="CIEL:165644" style="checkbox" toggle="icuDetails"
+                     answerConceptId="CIEL:1065" answerCode="pihcore.icuHduAdmission"/>
             </p>
 
-            <p>
-                <obs conceptId="CIEL:163204" />
-            </p>
+            <div id="icuDetails">
+                <p>
+                    <label>
+                        <uimessage code="pihcore.daysICU" />
+                    </label>
+                    <span class="small">
+                        <obs conceptId="CIEL:163204" />
+                    </span>
+                </p>
+
+                <div class="two-columns">
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.admitICUDate" />
+                        </label>
+                        <span class="small">
+                            <obs conceptId="CIEL:165992" allowTime="false" />
+                        </span>
+                    </p>
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.dischargeICUDate" />
+                        </label>
+                        <span class="small">
+                        <obs conceptId="CIEL:165993" allowTime="false" />
+                        </span>
+                    </p>
+                </div>
+            </div>
 
         </div>
     </section>
@@ -268,10 +316,7 @@
                 <uimessage code="mirebalais.dispensing.medication" />
             </h3>
             <p>
-                <strong>
-                    <uimessage code="pihcore.firstLineMeds" />
-                </strong>
-                <br/>
+                <!-- ToDo:  Remove chloroquine? -->
                 <repeat with="['Chloroquine','CIEL:73300']">
                     <obsgroup groupingConceptId="PIH:Prescription construct">
                         <obs conceptId="PIH:1282" answerConceptId="{1}"
@@ -279,6 +324,32 @@
                     </obsgroup>
                     <br/>
                 </repeat>
+
+                <p>
+                    <repeat with="['Amoxicillin','CIEL:71160'],
+                              ['Doxycycline','CIEL:75222']">
+                        <obsgroup groupingConceptId="PIH:Prescription construct">
+                            <obs conceptId="PIH:1282" answerConceptId="{1}"
+                                 style="checkbox"/>
+                        </obsgroup>
+                        <br/>
+                    </repeat>
+                </p>
+
+                <p>
+                    <repeat with="['Corticosteroids','CIEL:165948'],
+                              ['Antifungal agent','CIEL:79831'],
+                              ['Paracetamol','CIEL:70116']">
+                        <obsgroup groupingConceptId="PIH:Prescription construct">
+                            <obs conceptId="PIH:1282" answerConceptId="{1}"
+                                 answerCode="{0}"
+                                 style="checkbox"/>
+                        </obsgroup>
+                        <br/>
+                    </repeat>
+                </p>
+
+
                 <repeat with="['1']">
                     <span id="medication-{0}" class="medication">
                         <obsgroup groupingConceptId="PIH:Prescription construct" showIfEmpty="false">
@@ -339,23 +410,37 @@
             </p>
 
             <p>
-                <strong>
-                    <uimessage code="pihcore.antibiotics" />
-                </strong>
-                <br/>
-                <repeat with="['Ceftriasone','CIEL:73041'],
-                              ['Amoxicillin','CIEL:71160'],
-                              ['Doxycycline','CIEL:75222']">
-                    <obsgroup groupingConceptId="PIH:Prescription construct">
-                        <obs conceptId="PIH:1282" answerConceptId="{1}"
-                             style="checkbox"/>
-                    </obsgroup>
-                    <br/>
-                </repeat>
-            </p>
-            <p>
+                <label>
+                    <uimessage code="pihcore.otherMeds" />
+                </label>
                 <obs conceptId="PIH:Medication comments (text)"
                      style="textarea" rows="3" cols="60"/>
+            </p>
+
+
+            <p>
+                <div id="disposition">
+                    <encounterDisposition/>
+                </div>
+            </p>
+
+            <p>
+                <!-- ToDo: Move this into encounterDisposition -->
+                <obsgroup groupingConceptId="org.openmrs.module.emrapi:Disposition Concept Set">
+                    <obs conceptId="org.openmrs.module.emrapi:Disposition"
+                         answerConceptId="CIEL:165901" answerCode="pihcore.dischargeHomeIsolate"
+                         style="checkbox"/>
+                </obsgroup>
+            </p>
+
+            <p>
+                <label>
+                    <uimessage code="mirebalais.dischargeCondition" />
+                </label>
+                <obs conceptId="CIEL:160116"
+                     answerConceptIds="CIEL:159405,CIEL:160113,CIEL:160115"
+                     answerCodes="pihcore.good,pihcore.fair,pihcore.poor"
+                     style="radio"/>
             </p>
 
             <strong>
@@ -366,30 +451,10 @@
             </p>
 
             <strong>
-                <uimessage code="pihcore.nursingAdmitNote"/>
+                <uimessage code="pihcore.remarks"/>
             </strong>
             <p>
-                <obs conceptId="CIEL:162879" style="textarea" rows="3" cols="60"/>
-            </p>
-
-            <p>
-                <div id="disposition">
-                    <encounterDisposition/>
-                </div>
-            </p>
-            <p>
-                <!-- ToDo: Move this into encounterDisposition -->
-                <obsgroup groupingConceptId="org.openmrs.module.emrapi:Disposition Concept Set">
-                    <obs conceptId="org.openmrs.module.emrapi:Disposition"
-                         answerConceptId="CIEL:165901" answerCode="pihcore.dischargeHomeIsolate"
-                         style="checkbox"/>
-                </obsgroup>
-                <br/>
-                <obsgroup groupingConceptId="org.openmrs.module.emrapi:Disposition Concept Set">
-                    <obs conceptId="org.openmrs.module.emrapi:Disposition"
-                         answerConceptId="CIEL:165994"
-                         style="checkbox"/>
-                </obsgroup>
+                <obs conceptId="CIEL:161011" style="textarea" rows="3" cols="60"/>
             </p>
         </div>
     </section>
