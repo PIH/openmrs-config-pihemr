@@ -232,7 +232,7 @@
                     COVID-19:
                 </b>
                 <!-- Confirmed, Suspected, No -->
-                <obs conceptId="CIEL:165793"
+                <obs conceptId="CIEL:165793" required="true"
                      answerConceptIds="CIEL:159392,CIEL:162743,CIEL:1066" style="radio"/>
             </p>
 
