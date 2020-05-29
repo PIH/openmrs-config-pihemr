@@ -246,25 +246,35 @@
     <section id="therapy" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.therapy">
         <div class="section-container">
-            <repeat with="['o2Therapy','165864'],
+            <table>
+                <repeat with="['o2Therapy','165864'],
                           ['nonInvVent','165945'],
                           ['vasopressor','165926'],
                           ['antibiotics','165991']">
-                <p>
-                    <label>
-                        <uimessage code="pihcore.{0}" />
-                    </label>
-                    <obs conceptId="CIEL:{1}" style="radio"
-                         answerConceptIds="CIEL:1065,CIEL:1066" />
-                </p>
-            </repeat>
+                    <tr>
+                        <td>
+                            <label>
+                                <uimessage code="pihcore.{0}"/>
+                            </label>
+                        </td>
+                        <td>
+                            <obs conceptId="CIEL:{1}" style="radio"
+                                 answerConceptIds="CIEL:1065,CIEL:1066"/>
+                        </td>
+                    </tr>
+                </repeat>
 
-            <p>
-                <label>
-                    <uimessage code="pihcore.otherIntervention" />
-                </label>
-                <obs conceptId="CIEL:165264" rows="2" cols="40" />
-            </p>
+                <tr>
+                    <td>
+                        <label>
+                            <uimessage code="pihcore.otherIntervention"/>
+                        </label>
+                    </td>
+                    <td>
+                        <obs conceptId="CIEL:165264" rows="2" cols="40"/>
+                    </td>
+                </tr>
+            </table>
         </div>
     </section>
 
@@ -327,13 +337,18 @@
 
                 <p>
                     <repeat with="['Amoxicillin','CIEL:71160'],
-                              ['Doxycycline','CIEL:75222']">
+                                  ['Doxycycline','CIEL:75222']">
                         <obsgroup groupingConceptId="PIH:Prescription construct">
                             <obs conceptId="PIH:1282" answerConceptId="{1}"
                                  style="checkbox"/>
                         </obsgroup>
                         <br/>
                     </repeat>
+                    <!-- ToDo:  Other antibiotics -->
+                    <obsgroup groupingConceptId="PIH:Prescription construct">
+                        <obs conceptId="PIH:1282" answerConceptId="CIEL:5622"
+                             style="checkbox" commentFieldLabel="" />
+                    </obsgroup>
                 </p>
 
                 <p>
@@ -349,7 +364,8 @@
                     </repeat>
                 </p>
 
-
+                <!-- ToDo:  Not sure about this section -->
+                <!--
                 <repeat with="['1']">
                     <span id="medication-{0}" class="medication">
                         <obsgroup groupingConceptId="PIH:Prescription construct" showIfEmpty="false">
@@ -371,8 +387,6 @@
                                          conceptId="PIH:Dosing units coded"
                                          answerConceptIds="CIEL:161553,CIEL:161554,CIEL:162263,PIH:APPLICATION,CIEL:1608,CIEL:1513,CIEL:162356,CIEL:162366,CIEL:162370,PIH:Pump,PIH:SACHET,CIEL:162264"
                                          answerCodes="pihcore.visitNote.plan.medication.units.mg,pihcore.visitNote.plan.medication.units.g,pihcore.visitNote.plan.medication.units.mL,pihcore.visitNote.plan.medication.units.application,pihcore.visitNote.plan.medication.units.capsule,pihcore.visitNote.plan.medication.units.tablet,pihcore.visitNote.plan.medication.units.drop,pihcore.visitNote.plan.medication.units.mcg,pihcore.visitNote.plan.medication.units.patch,pihcore.visitNote.plan.medication.units.pump,pihcore.visitNote.plan.medication.units.sachet,pihcore.visitNote.plan.medication.units.IU"/>
-                                    <!-- answers="mg,g,mL,Application,Capsule,Comprimé,Goutte,Microgramme,Patch,Pompe,Sachet,Unités internationals" -->
-
                                 </p>
                                 <p class="inline">
                                     <label>
@@ -407,6 +421,7 @@
                         </obsgroup>
                     </span>
                 </repeat>
+                            -->
             </p>
 
             <p>
@@ -443,16 +458,16 @@
                      style="radio"/>
             </p>
 
-            <strong>
-                <uimessage code="pihcore.consult.clinicalManagementPlan"/>
-            </strong>
+            <label>
+                <uimessage code="pihcore.followupPlan"/>
+            </label>
             <p>
                 <obs conceptId="CIEL:162749" style="textarea" rows="3" cols="60"/>
             </p>
 
-            <strong>
-                <uimessage code="pihcore.remarks"/>
-            </strong>
+            <label>
+                <uimessage code="pihcore.otherComments"/>
+            </label>
             <p>
                 <obs conceptId="CIEL:161011" style="textarea" rows="3" cols="60"/>
             </p>
