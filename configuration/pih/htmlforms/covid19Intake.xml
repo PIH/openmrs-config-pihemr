@@ -893,6 +893,71 @@
     <section id="lab" sectionTag="fieldset" headerTag="legend"
              headerStyle="title" headerCode="pihcore.lab.lab_tests.title">
     <div class="section-container">
+        <h3>
+            <uimessage code="pihcore.lab.covidTest"/>
+        </h3>
+        <table>
+            <tr>
+                <repeat with="['lab.specimen_date'],['specimenType'],['result']">
+                        <th>
+                            <label>
+                                <uimessage code="pihcore.{0}" />
+                            </label>
+                        </th>
+                </repeat>
+            </tr>
+
+            <repeat with="['0'],['1'],['3']">
+                    <!-- PIH concept for Specimen set -->
+                    <obsgroup groupingConceptId="PIH:12973">
+                        <tr>
+                            <td>
+                                <!-- Specimen collection date -->
+                                <obs conceptId="CIEL:159951" allowTime="false"/>
+                            </td>
+                            <td width="25%">
+                                <obs conceptId="CIEL:159959" style="checkbox"
+                                     answerConceptId="CIEL:163363" answerCode="pihcore.specimen.nasalSwab" />
+                                <br/>
+                                <obs conceptId="CIEL:159959" style="checkbox"
+                                     answerConceptId="CIEL:163362" answerCode="pihcore.specimen.oroSwab" />
+                                <br/>
+                                <obs conceptId="CIEL:159959" style="checkbox"
+                                     answerConceptId="CIEL:165888" answerCode="pihcore.specimen.veinBlood" />
+                                <br/>
+                                <obs conceptId="CIEL:159959" style="checkbox"
+                                     answerConceptId="CIEL:165889" answerCode="pihcore.specimen.fingerPrick" />
+                            </td>
+                            <td>
+                                <obs conceptId="PIH:10745" style="checkbox" toggle="Ab{0}"
+                                     answerConceptId="CIEL:165853" answerCode=""/>
+                                <strong><uimessage code="pihcore.antibodyTest" /> </strong><br/>
+                                <obs conceptId="CIEL:165853" style="radio" id="Ab{0}"
+                                     answerConceptIds="CIEL:664,CIEL:165855,CIEL:165856,CIEL:165857,CIEL:163611"
+                                     answerCodes="pihcore.negative,pihcore.posIgM,pihcore.posIgG,pihcore.posIgMandIgG,pihcore.invalid"/>
+
+                                <br/>
+                                <obs conceptId="PIH:10745" style="checkbox" toggle="Ag{0}"
+                                     answerConceptId="CIEL:165852" answerCode=""/>
+                                <strong><uimessage code="pihcore.antigenTest" /> </strong><br/>
+                                <obs conceptId="CIEL:165852" style="radio" id="Ag{0}"
+                                     answerConceptIds="CIEL:664,CIEL:703,CIEL:163611"/>
+
+                                <br/>
+                                <obs conceptId="PIH:10745" style="checkbox" toggle="pcr{0}"
+                                     answerConceptId="CIEL:165840" answerCode=""/>
+                                <strong><uimessage code="pihcore.rtPCR" /> </strong><br/>
+                                <obs conceptId="CIEL:165840" style="radio" id="pcr{0}"
+                                     answerConceptIds="CIEL:664,CIEL:703,CIEL:163611"/>
+                            </td>
+                        </tr>
+                    </obsgroup>
+            </repeat>
+        </table>
+
+        <h3>
+            <uimessage code="pihcore.lab.other" />
+        </h3>
 
         <h3>
             <uimessage code="ABG (Arterial Blood Gas)"/>
