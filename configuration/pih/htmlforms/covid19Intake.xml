@@ -1011,7 +1011,7 @@
                                  style="checkbox"/>
                             <br/>
                             <obs conceptId="PIH:Radiology report comments"
-                                 labelCode="pihcore.vitals.latest.results.label" />
+                                 labelCode="pihcore.findings.label" />
                         </obsgroup>
                     </p>
                 </repeat>
@@ -1026,7 +1026,7 @@
                          answerClasses="Radiology/Imaging Procedure"
                          style="checkbox"/>
                     <obs conceptId="PIH:Radiology report comments"
-                         labelCode="pihcore.vitals.latest.results.label"/>
+                         labelCode="pihcore.findings.label"/>
                 </obsgroup>
             </p>
         </div>
@@ -1147,29 +1147,27 @@
             </strong>
             <div>
                 <div class="two-columns">
-                    <!-- toggle="oxygen" -->
-                    <obs conceptId="CIEL:165995"
-                         answerConceptId="CIEL:81341" answerCode="Oxygen"
-                         style="checkbox"/>
+                    <obs conceptId="CIEL:165995" style="checkbox"
+                         answerConceptId="CIEL:81341" />
                     <span class="small">
                         <obs conceptId="CIEL:165986" showUnits="true" />
                     </span>
                     <br/><br/>
                     <obs conceptId="CIEL:165995"
-                         answerConceptId="CIEL:163206" answerCode="Analgesic"
+                         answerConceptId="CIEL:163206" answerCode="pihcore.analgesic"
                          style="checkbox" commentFieldCode="zl.familyHistoryRelativeCheckboxes.specifyLabel" />
                 </div>
 
-                <repeat with="['Mechanical ventilator','CIEL:165998'],
-                              ['Mask','CIEL:165989'],
-                              ['Mask with non-re-breather','CIEL:165990']">
+                <repeat with="['mechVent','CIEL:165998'],
+                              ['mask','CIEL:165989'],
+                              ['maskNonReBreather','CIEL:165990']">
                     <obs conceptId="CIEL:165995"
-                         answerConceptId="{1}" answerCode="{0}"
+                         answerConceptId="{1}" answerCode="pihcore.{0}"
                          style="checkbox"/>
                 </repeat>
                 <br/>
 
-                <repeat with="['Nasal cannula','CIEL:165893'],
+                <repeat with="['pihcore.nasalCannula','CIEL:165893'],
                               ['CPAP','CIEL:165944'],
                               ['BiPAP','CIEL:165988'],
                               ['FIO2','CIEL:165927']">
@@ -1181,17 +1179,11 @@
 
             <div>
                 <obs conceptId="CIEL:165995" toggle="ivf"
-                     answerConceptId="CIEL:1765" answerCode="IV fluid"
+                     answerConceptId="CIEL:1765" answerCode="pihcore.ivf"
                      style="checkbox"/>
 
                 <div id="ivf">
                     <table>
-                        <tr>
-                            <th colspan="2">
-                                <uimessage code="pihcore.ivf.fluids_admin"/>
-                            </th>
-                        </tr>
-
                         <repeat with="['1'],['2'],['3']">
                             <tr>
                                 <td>{0}</td>
@@ -1208,13 +1200,12 @@
 
                                         <obs conceptId="CIEL:166006" style="radio"
                                              answerConceptIds="CIEL:162625,CIEL:166004"
-                                             answerCodes="central,peripheral" />
+                                             answerCodes="pihcore.central,pihcore.peripheral" />
 
                                     </obsgroup>
                                 </td>
                             </tr>
                         </repeat>
-
                     </table>
                 </div>
             </div>

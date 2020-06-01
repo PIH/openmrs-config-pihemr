@@ -406,6 +406,48 @@
         </fieldset>
 
         <fieldset class="multi-line-confirmation">
+            <legend>
+                <uimessage code="SARS-CoV-2"/>
+            </legend>
+            <h3>
+                <uimessage code="SARS-CoV-2"/>
+            </h3>
+
+            <p>
+                <label for="covid-ab">
+                    <uimessage code="pihcore.antibodyTest"/>
+                </label>
+                <span>
+                    <field>
+                        <obs conceptId="CIEL:165853" id="covid-ab"
+                             answerConceptIds="CIEL:664,CIEL:165855,CIEL:165856,CIEL:165857,CIEL:163611"
+                             answerCodes="pihcore.negative,pihcore.posIgM,pihcore.posIgG,pihcore.posIgMandIgG,pihcore.invalid"/>
+                    </field>
+                </span>
+
+                <label for="covid-ag">
+                    <uimessage code="pihcore.antigenTest"/>
+                </label>
+                <span>
+                    <field>
+                        <obs conceptId="CIEL:165852" id="covid-ag"
+                             answerConceptIds="CIEL:664,CIEL:703,CIEL:163611"/>
+                    </field>
+                </span>
+
+                <label for="covid-pcr">
+                    <uimessage code="pihcore.rtPCR"/>
+                </label>
+                <span>
+                    <field>
+                        <obs conceptId="CIEL:165840" id="covid-pcr"
+                             answerConceptIds="CIEL:664,CIEL:703,CIEL:163611"/>
+                    </field>
+                </span>
+            </p>
+        </fieldset>
+
+        <fieldset class="multi-line-confirmation">
 
             <legend>
                 <uimessage code="pihcore.other"/>
