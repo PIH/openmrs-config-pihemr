@@ -545,7 +545,7 @@
     </section>
 
     <section id="current-medications" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="zl.consultNote.currentMedications.title">
+             headerCode="pihcore.homeMeds">
         <div class="section-container">
             <p>
                 <!-- Home medications -->
@@ -1211,7 +1211,7 @@
             </div>
 
             <strong>
-                <uimessage code="pihcore.consult.clinicalManagementPlan"/>
+                <uimessage code="pihcore.providerClinicalPlan"/>
             </strong>
             <p>
                 <obs conceptId="CIEL:162749" style="textarea" rows="3" cols="60"/>
