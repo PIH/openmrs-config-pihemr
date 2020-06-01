@@ -614,11 +614,12 @@
          </div>
     </section>
 
-    <section id="comorbitity" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.comorbidities.label">
+    <section id="comorbitity" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.comorbidities.label">
         <div class="section-container">
             <p>
                 <obs id="underlying-comorbidity" style="radio" conceptId="CIEL:162747"
-                     labelText="Any underlying conditions or comorbidities?"
+                     labelCode="pihcore.comorbidities.label"
                      answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067">
                     <controls>
                         <when value="CIEL:1065" thenDisplay="#comorbidities"/>
