@@ -1,0 +1,52 @@
+[
+  {
+    "uuid": "admitToHospital",
+    "type": "ADMIT",
+    "careSettingTypes": ["OUTPATIENT"],
+    "name": "disposition.emrapi.admitToHospital",
+    "conceptCode": "PIH:ADMIT TO HOSPITAL",
+    "actions": []
+  },
+  {
+    "uuid": "discharge",
+    "type": "DISCHARGE",
+    "name": "disposition.emrapi.discharge",
+    "conceptCode": "PIH:DISCHARGED",
+    "additionalObs": []
+  },
+  {
+    "uuid": "leftWithoutSeeingAClinician",
+    "name": "disposition.emrapi.leftWithoutSeeingAClinician",
+    "conceptCode": "PIH:Left without seeing a clinician",
+    "additionalObs": []
+  },
+  {
+    "uuid": "leftWithoutCompletionOfTreatment",
+    "name": "disposition.emrapi.leftWithoutCompletionOfTreatment",
+    "conceptCode": "PIH:Departed without medical discharge",
+    "additionalObs": []
+  },
+  {
+    "uuid": "transferOutOfHospital",
+    "name": "disposition.emrapi.transferOutOfHospital",
+    "conceptCode": "PIH:Transfer out of hospital",
+    "additionalObs": []
+  },
+  {
+    "uuid": "markPatientDead",
+    "name": "disposition.emrapi.death",
+    "conceptCode": "PIH:DEATH",
+    "actions": [
+      "markPatientDeadDispositionAction"
+    ],
+    "additionalObs": [
+      {
+        "label": "disposition.emrapi.death.deathDate",
+        "conceptCode": "org.openmrs.module.emrapi: Date of Death",
+        "params": {
+          "id": "dateOfDeath"
+        }
+      }
+    ]
+  }
+]
