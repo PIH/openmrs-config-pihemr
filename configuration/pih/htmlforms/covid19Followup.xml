@@ -345,8 +345,8 @@
                 <enrollInProgram programId="COVID-19"/>
             </p>
 
-            <obs conceptId="CIEL:162633"
-                 answerConceptIds="CIEL:1498,CIEL:1499,CIEL:164830" style="radio"/>
+            <obs conceptId="CIEL:159640" style="radio"
+                 answerConceptIds="CIEL:1498,CIEL:1499,CIEL:1500,CIEL:164830"/>
         </div>
     </section>
 
@@ -584,14 +584,6 @@
                 <strong>
                     <uimessage code="pihcore.firstLineMeds"/>
                 </strong>
-
-                <repeat with="['Chloroquine','CIEL:73300']">
-                    <obsgroup groupingConceptId="PIH:Prescription construct">
-                        <obs conceptId="PIH:1282" answerConceptId="{1}"
-                             style="checkbox"/>
-                    </obsgroup>
-                    <br/>
-                </repeat>
             </p>
             <p>
                 <strong>
@@ -740,7 +732,7 @@
                  answerConceptIds="CIEL:664,CIEL:703,CIEL:163611"/>
 
             <h3>
-                <uimessage code="ABG (Arterial Blood Gas)"/>
+                <uimessage code="pihcore.lab.abg"/>
             </h3>
             <div class="two-columns">
                 <repeat>
@@ -778,23 +770,22 @@
                 </p>
             </includeIf>
 
-            <div class="three-columns">
-                <repeat with="['chestXRay','CIEL:165152'],
-                              ['cardioUS','CIEL:163041'],
-                              ['abUS','CIEL:845']">
-                    <p>
-                        <obsgroup groupingConceptId="PIH:Radiology report construct">
-                            <obs conceptId="PIH:Radiology procedure performed"
-                                 answerConceptId="{1}"
-                                 answerCode="pihcore.rad.{0}"
-                                 style="checkbox"/>
-                            <br/>
-                            <obs conceptId="PIH:Radiology report comments"
-                                 labelCode="pihcore.findings.label" />
-                        </obsgroup>
-                    </p>
-                </repeat>
-            </div>
+            <repeat with="['chestXRay','CIEL:165152'],
+                          ['cardioUS','CIEL:163041'],
+                          ['abUS','CIEL:845']">
+                <p>
+                    <obsgroup groupingConceptId="PIH:Radiology report construct">
+                        <obs conceptId="PIH:Radiology procedure performed"
+                             answerConceptId="{1}" toggle="{0}"
+                             answerCode="pihcore.rad.{0}"
+                             style="checkbox"/>
+                        <br/>
+                        <obs id="{0}"
+                             conceptId="PIH:Radiology report comments"
+                             labelCode="pihcore.findings.label" />
+                    </obsgroup>
+                </p>
+            </repeat>
 
             <p>
                 <label>
@@ -819,14 +810,6 @@
                 <div id="disposition">
                     <encounterDisposition/>
                 </div>
-            </p>
-            <p>
-                <!-- ToDo: Move this into encounterDisposition -->
-                <obsgroup groupingConceptId="org.openmrs.module.emrapi:Disposition Concept Set">
-                    <obs conceptId="org.openmrs.module.emrapi:Disposition"
-                         answerConceptId="CIEL:165901" answerCode="pihcore.dischargeHomeIsolate"
-                         style="checkbox"/>
-                </obsgroup>
             </p>
 
             <strong>
