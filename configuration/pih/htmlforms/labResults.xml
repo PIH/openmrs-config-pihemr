@@ -16,8 +16,50 @@
         }
 
         .section-container input[type="checkbox"] {
-            margin: 0px 5px; /*changed values to vertical, horizontal*/
-            top:5px; /*added to offset the checkbox position to line up*/
+            margin: 0px 5px; /* changed values to vertical, horizontal */
+            top: 5px; /* added to offset the checkbox position to line up */
+        }
+
+        @media (max-width: 991px) { /* Bootstrap "lg" */
+
+            ul#formBreadcrumb.options {
+                display: flex;
+                float: inherit;
+                width: inherit;
+                vertical-align: inherit;
+            }
+
+            ul#formBreadcrumb li:first-child {
+                flex-basis: 85%;
+            }
+
+            ul#formBreadcrumb li:first-child ul {
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            ul#formBreadcrumb li:first-child ul li {
+                flex-basis: 160px;
+            }
+
+            ul#formBreadcrumb > li:last-child {
+                display: flex;
+                align-items: center;
+                align-self: center;
+                height: 45px;
+                color: #444;
+                border: 1px solid #CCC;
+                background: #DDD;
+                box-shadow: 0 0 5px -1px rgba(0,0,0,0.2);
+                vertical-align: middle;
+                padding: 5px;
+                text-align: center;
+            }
+
+            ul#formBreadcrumb > li:last-child:active {
+                color: blue;
+                box-shadow: 0 0 5px -1px rgba(0,0,0,0.6);
+            }
         }
 
     </style>
