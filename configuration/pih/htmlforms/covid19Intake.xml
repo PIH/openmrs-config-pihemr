@@ -563,7 +563,8 @@
         </div>
     </section>
 
-    <section id="history" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="zl.consultNote.patientHistory.title">
+    <section id="history" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.hiv.symptomSigns">
         <div class="section-container">
 
             <p>
@@ -720,7 +721,7 @@
             <div class="two-columns">
                 <p>
                     <label>
-                        <uimessage code="mirebalais.vitals.temperature.title"/>
+                        <uimessage code="Temp"/>
                     </label>
                     <span class="small">
                         <obs conceptId="CIEL:5088" id="temperature_c"
@@ -730,7 +731,7 @@
 
                 <p>
                     <label>
-                        <uimessage code="mirebalais.vitals.heartRate.title"/>
+                        <uimessage code="mirebalais.vitals.short.heartRate.title"/>
                     </label>
                     <span class="small">
                         <obs conceptId="CIEL:5087" id="heart_rate"
@@ -740,7 +741,7 @@
 
                 <p>
                     <label>
-                        <uimessage code="mirebalais.vitals.respiratoryRate.title"/>
+                        <uimessage code="mirebalais.vitals.respiratoryRate.short.title"/>
                     </label>
                     <span class="small">
                         <obs conceptId="CIEL:5242" id="respiratory_rate"
@@ -750,7 +751,7 @@
 
                 <p>
                     <label>
-                        <uimessage code="mirebalais.vitals.bloodPressure.title"/>
+                        <uimessage code="mirebalais.vitals.bloodPressure.short.title"/>
                     </label>
                     <span class="small">
                         <obs conceptId="CIEL:5085" id="bp_systolic"/>
@@ -959,7 +960,7 @@
         </h3>
 
         <h3>
-            <uimessage code="ABG (Arterial Blood Gas)"/>
+            <uimessage code="pihcore.lab.abg"/>
         </h3>
         <div class="two-columns">
             <repeat>
@@ -997,17 +998,17 @@
                 </p>
             </includeIf>
 
-            <repeat with="['Chest (X-ray)','CIEL:165152'],
-                          ['Cardiac (U/S)','CIEL:163041'],
-                          ['Abdominal (U/S)','CIEL:845']">
+            <repeat with="['Chest (X-ray)','CIEL:165152','chestXRay'],
+                          ['Cardiac (U/S)','CIEL:163041','cardioUS'],
+                          ['Abdominal (U/S)','CIEL:845','abUS']">
                 <p>
                     <obsgroup groupingConceptId="PIH:Radiology report construct">
                         <obs conceptId="PIH:Radiology procedure performed"
-                             answerConceptId="{1}"
-                             answerCode="{0}"  toggle="{0}"
+                             answerConceptId="{1}" toggle="{2}"
+                             answerCode="pihcore.rad.{2}"
                              style="checkbox"/>
                         <br/>
-                        <obs id="{0}"
+                        <obs id="{2}"
                              conceptId="PIH:Radiology report comments"
                              labelCode="pihcore.findings.label" />
                     </obsgroup>
