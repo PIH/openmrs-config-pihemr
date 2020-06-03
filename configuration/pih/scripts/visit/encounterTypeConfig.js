@@ -1,6 +1,6 @@
-angular.module("encounterTypeConfig", ["constants"])
+angular.module("encounterTypeConfig", [])
 
-    .factory("EncounterTypeConfig", [ "EncounterTypes", "EncounterRoles", function(EncounterTypes, EncounterRoles) {
+    .factory("EncounterTypeConfig", function() {
 
         var hfeSimpleEditUrl = "/htmlformentryui/htmlform/editHtmlFormWithSimpleUi.page?patientId={{encounter.patient.uuid}}&encounterId={{encounter.uuid}}&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}";
         var hfeStandardEditUrl = "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{encounter.patient.uuid}}&encounterId={{encounter.uuid}}&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}";
@@ -349,6 +349,8 @@ angular.module("encounterTypeConfig", ["constants"])
           templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-return-visit-date.xml"),
         };
 
+        
+
         /**
          * Define Encounter Types
          * Should support all of the following formats:
@@ -392,13 +394,15 @@ angular.module("encounterTypeConfig", ["constants"])
             }
         };
 
-        encounterTypes[EncounterTypes.patientRegistration.uuid] = {  // should never appear on dashboard?
+        // patientRegistration
+        encounterTypes["873f968a-73a8-4f9c-ac78-9f4778b751b6"] = {  // should never appear on dashboard?
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/defaultEncounterLong.page"
         };
 
-        encounterTypes[EncounterTypes.prenatalHomeAssessment.uuid] = {
+        // prenatalHomeAssessment
+        encounterTypes["91DDF969-A2D4-4603-B979-F2D6F777F4AF"] = {
           defaultState: "short",
           shortTemplate: "templates/encounters/defaultEncounterShort.page",
           longTemplate: "templates/encounters/defaultEncounterShort.page",
@@ -413,7 +417,8 @@ angular.module("encounterTypeConfig", ["constants"])
           ],
         };
 
-        encounterTypes[EncounterTypes.pediatricHomeAssessment.uuid] = {
+        // pediatricHomeAssessment
+        encounterTypes["0CF4717A-479F-4349-AE6F-8602E2AA41D3"] = {
           defaultState: "short",
           shortTemplate: "templates/encounters/defaultEncounterShort.page",
           longTemplate: "templates/encounters/defaultEncounterShort.page",
@@ -429,7 +434,8 @@ angular.module("encounterTypeConfig", ["constants"])
           ],
         };
 
-        encounterTypes[EncounterTypes.maternalPostPartumHomeAssessment.uuid] = {
+        // maternalPostPartumHomeAssessment
+        encounterTypes["0E7160DF-2DD1-4728-B951-641BBE4136B8"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/defaultEncounterShort.page",
@@ -446,7 +452,8 @@ angular.module("encounterTypeConfig", ["constants"])
             ],
         };
 
-        encounterTypes[EncounterTypes.maternalFollowUpHomeAssessment.uuid] = {
+        // maternalFollowUpHomeAssessment
+        encounterTypes["690670E2-A0CC-452B-854D-B95E2EAB75C9"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/defaultEncounterShort.page",
@@ -461,7 +468,8 @@ angular.module("encounterTypeConfig", ["constants"])
             ],
         };
 
-        encounterTypes[EncounterTypes.checkIn.uuid] = {
+        // checkIn
+        encounterTypes["55a0d3ea-a4d7-4e88-8f01-5aceb2d3c61b"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/checkInShort.page",
             longTemplate: "templates/encounters/defaultHtmlFormEncounterLong.page",
@@ -470,7 +478,8 @@ angular.module("encounterTypeConfig", ["constants"])
             editUrl: hfeSimpleEditUrl
         };
 
-        encounterTypes[EncounterTypes.vitals.uuid] = {
+        // vitals
+        encounterTypes["4fb47712-34a6-40d2-8ed3-e153abbd25b7"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/vitalsShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
@@ -479,7 +488,8 @@ angular.module("encounterTypeConfig", ["constants"])
             editUrl: hfeSimpleEditUrl
         };
 
-        encounterTypes[EncounterTypes.consultation.uuid] = {
+        // consultation
+        encounterTypes["92fd09b4-5335-4f7e-9f63-b2a663fd09a6"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/clinicConsultLong.page",
@@ -488,7 +498,8 @@ angular.module("encounterTypeConfig", ["constants"])
             showOnVisitList: true
         };
 
-        encounterTypes[EncounterTypes.primaryCarePedsInitialConsult.uuid] = {
+        // primaryCarePedsInitialConsult
+        encounterTypes["5b812660-0262-11e6-a837-0800200c9a66"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/defaultEncounterShort.page",  // no expanded view, instead there are individual sections
@@ -505,7 +516,8 @@ angular.module("encounterTypeConfig", ["constants"])
             ]
         };
 
-        encounterTypes[EncounterTypes.primaryCarePedsFollowupConsult.uuid] = {
+        // primaryCarePedsFollowupConsult
+        encounterTypes["229e5160-031b-11e6-a837-0800200c9a66"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/defaultEncounterShort.page",   // no expanded view, instead there are individual sections
@@ -522,7 +534,8 @@ angular.module("encounterTypeConfig", ["constants"])
             ]
         };
 
-        encounterTypes[EncounterTypes.primaryCareAdultInitialConsult.uuid] = {
+        // primaryCareAdultInitialConsult
+        encounterTypes["27d3a180-031b-11e6-a837-0800200c9a66"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/defaultEncounterShort.page",   // no expanded view, instead there are individual sections
@@ -537,7 +550,8 @@ angular.module("encounterTypeConfig", ["constants"])
             ]
         };
 
-        encounterTypes[EncounterTypes.primaryCareAdultFollowupConsult.uuid] = {
+        // primaryCareAdultFollowupConsult
+        encounterTypes["27d3a181-031b-11e6-a837-0800200c9a66"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/defaultEncounterShort.page",   // no expanded view, instead there are individual sections
@@ -552,7 +566,8 @@ angular.module("encounterTypeConfig", ["constants"])
             ]
         };
 
-        encounterTypes[EncounterTypes.ncdInitialConsult.uuid] = {
+        // ncdInitialConsult
+        encounterTypes["ae06d311-1866-455b-8a64-126a9bd74171"] = {
             DEFAULT: {
                 defaultState: "short",
                 shortTemplate: "templates/encounters/defaultEncounterShort.page",
@@ -581,7 +596,8 @@ angular.module("encounterTypeConfig", ["constants"])
             }
         };
 
-        encounterTypes[EncounterTypes.ncdFollowupConsult.uuid] = {
+        // ncdFollowupConsult
+        encounterTypes["5cbfd6a2-92d9-4ad0-b526-9d29bfe1d10c"] = {
             DEFAULT: {
                 defaultState: "short",
                 shortTemplate: "templates/encounters/defaultEncounterShort.page",
@@ -608,7 +624,8 @@ angular.module("encounterTypeConfig", ["constants"])
             }
         };
 
-        encounterTypes[EncounterTypes.echocardiogramConsult.uuid] = {
+        // echocardiogramConsult
+        encounterTypes["fdee591e-78ba-11e9-8f9e-2a86e4085a59"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
@@ -618,8 +635,9 @@ angular.module("encounterTypeConfig", ["constants"])
             showOnVisitList: true
         };
 
+        // zlHivIntake
         // ToDo: Replace the icon and add more sections
-        encounterTypes[EncounterTypes.zlHivIntake.uuid] = {
+        encounterTypes["c31d306a-40c4-11e7-a919-92ebcb67fe33"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/defaultEncounterShort.page",   // no expanded view, instead there are individual sections
@@ -636,8 +654,9 @@ angular.module("encounterTypeConfig", ["constants"])
             ]
         };
 
+        // zlHivFollowup
         // ToDo: Replace the icon and add sections
-        encounterTypes[EncounterTypes.zlHivFollowup.uuid] = {
+        encounterTypes["c31d3312-40c4-11e7-a919-92ebcb67fe33"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/defaultEncounterShort.page",   // no expanded view, instead there are individual sections
@@ -654,7 +673,8 @@ angular.module("encounterTypeConfig", ["constants"])
             ]
         };
 
-        encounterTypes[EncounterTypes.oncologyConsult.uuid] = {
+        // oncologyConsult
+        encounterTypes["035fb8da-226a-420b-8d8b-3904f3bedb25"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
@@ -664,7 +684,8 @@ angular.module("encounterTypeConfig", ["constants"])
             showOnVisitList: true
         };
 
-        encounterTypes[EncounterTypes.oncologyInitialVisit.uuid] = {
+        // oncologyInitialVisit
+        encounterTypes["f9cfdf8b-d086-4658-9b9d-45a62896da03"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
@@ -674,7 +695,8 @@ angular.module("encounterTypeConfig", ["constants"])
             showOnVisitList: true
         };
 
-        encounterTypes[EncounterTypes.chemotherapySession.uuid] = {
+        // chemotherapySession
+        encounterTypes["828964fa-17eb-446e-aba4-e940b0f4be5b"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
@@ -684,7 +706,8 @@ angular.module("encounterTypeConfig", ["constants"])
             showOnVisitList: true
         };
 
-        encounterTypes[EncounterTypes.medicationDispensed.uuid] = {
+        // medicationDispensed
+        encounterTypes["8ff50dea-18a1-4609-b4c9-3f8f2d611b84"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
@@ -693,18 +716,20 @@ angular.module("encounterTypeConfig", ["constants"])
             editUrl: hfeStandardEditUrl
         };
 
-        encounterTypes[EncounterTypes.postOperativeNote.uuid] = {
+        // postOperativeNote
+        encounterTypes["c4941dee-7a9b-4c1c-aa6f-8193e9e5e4e5"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
             templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
-            primaryEncounterRoleUuid: EncounterRoles.attendingSurgeon.uuid,
+            primaryEncounterRoleUuid: "9b135b19-7ebe-4a51-aea2-69a53f9383af",  // attendingSurgeon
             icon: "fas fa-fw fa-paste",
             editUrl: hfeStandardEditUrl,
             showOnVisitList: true
         };
 
-        encounterTypes[EncounterTypes.transfer.uuid] = {
+        // transfer
+        encounterTypes["436cfe33-6b81-40ef-a455-f134a9f7e580"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/defaultHtmlFormEncounterLong.page",
@@ -712,7 +737,9 @@ angular.module("encounterTypeConfig", ["constants"])
             icon: "fas fa-fw fa-share",
             editUrl: hfeStandardEditUrl
         };
-        encounterTypes[EncounterTypes.admission.uuid] = {
+
+        // admission
+        encounterTypes["260566e1-c909-4d61-a96f-c1019291a09d"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/admissionLong.page",
@@ -720,7 +747,8 @@ angular.module("encounterTypeConfig", ["constants"])
             editUrl: hfeStandardEditUrl
         };
 
-        encounterTypes[EncounterTypes.cancelAdmission.uuid] = {
+        // cancelAdmission
+        encounterTypes["edbb857b-e736-4296-9438-462b31f97ef9"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
@@ -729,14 +757,16 @@ angular.module("encounterTypeConfig", ["constants"])
             editUrl: hfeStandardEditUrl
         };
 
-        encounterTypes[EncounterTypes.exitFromCare.uuid] = {
+        // exitFromCare
+        encounterTypes["b6631959-2105-49dd-b154-e1249e0fbcd7"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             icon: "fas fa-fw fa-sign-out-alt",
             editUrl: hfeStandardEditUrl
         };
 
-        encounterTypes[EncounterTypes.labResults.uuid] = {
+        // labResults
+        encounterTypes["4d77916a-0620-11e5-a6c0-1697f925ec7b"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
@@ -745,28 +775,32 @@ angular.module("encounterTypeConfig", ["constants"])
             editUrl: hfeSimpleEditUrl
         };
 
-        encounterTypes[EncounterTypes.radiologyOrder.uuid] = {
+        // radiologyOrder
+        encounterTypes["1b3d1e13-f0b1-4b83-86ea-b1b1e2fb4efa"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/defaultEncounterLong.page",
             icon: "fas fa-fw fa-x-ray"
         };
 
-        encounterTypes[EncounterTypes.radiologyStudy.uuid] = {
+        // radiologyStudy
+        encounterTypes["5b1b4a4e-0084-4137-87db-dba76c784439"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/defaultEncounterLong.page",
             icon: "fas fa-fw fa-x-ray"
         };
 
-        encounterTypes[EncounterTypes.radiologyReport.uuid] = {
+        // radiologyReport
+        encounterTypes["d5ca53a7-d3b5-44ac-9aa2-1491d2a4b4e9"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/defaultEncounterLong.page",
             icon: "fas fa-fw fa-x-ray"
         };
 
-        encounterTypes[EncounterTypes.deathCertificate.uuid] = {
+        // deathCertificate
+        encounterTypes["1545d7ff-60f1-485e-9c95-5740b8e6634b"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
@@ -775,9 +809,10 @@ angular.module("encounterTypeConfig", ["constants"])
             editUrl: hfeStandardEditUrl
         };
 
+        // mentalHealth
         // because of a bug, we manually append the defintionUiResource to the template and edit urls
         // see: https://tickets.pih-emr.org/browse/UHM-2524
-        encounterTypes[EncounterTypes.mentalHealth.uuid] = {
+        encounterTypes["a8584ab8-cc2a-11e5-9956-625662870761"] = {
           DEFAULT: {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
@@ -798,8 +833,9 @@ angular.module("encounterTypeConfig", ["constants"])
           }
         };
 
+        // artAdherence
         // HIV forms from MSPP and iSantePlus
-        encounterTypes[EncounterTypes.artAdherence.uuid] = {
+        encounterTypes["c45d7299-ad08-4cb5-8e5d-e0ce40532939"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
@@ -808,7 +844,9 @@ angular.module("encounterTypeConfig", ["constants"])
             editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("hiv/iSantePlus/Adherence.xml"),
             showOnVisitList: true
         };
-        encounterTypes[EncounterTypes.hivIntakeAdult.uuid] = {
+
+        // hivIntakeAdult
+        encounterTypes["17536ba6-dd7c-4f58-8014-08c7cb798ac7"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
@@ -817,7 +855,9 @@ angular.module("encounterTypeConfig", ["constants"])
             editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("hiv/iSantePlus/SaisiePremiereVisiteAdult.xml"),
             showOnVisitList: true
         };
-        encounterTypes[EncounterTypes.hivIntakePeds.uuid] = {
+
+        // hivIntakePeds
+        encounterTypes["349ae0b4-65c1-4122-aa06-480f186c8350"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
@@ -826,7 +866,9 @@ angular.module("encounterTypeConfig", ["constants"])
             editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("hiv/iSantePlus/SaisiePremiereVisitePediatrique.xml"),
             showOnVisitList: true
         };
-        encounterTypes[EncounterTypes.hivFollowupAdult.uuid] = {
+
+        // hivFollowupAdult
+        encounterTypes["204ad066-c5c2-4229-9a62-644bc5617ca2"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
@@ -835,7 +877,9 @@ angular.module("encounterTypeConfig", ["constants"])
             editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("hiv/iSantePlus/VisiteDeSuivi.xml"),
             showOnVisitList: true
         };
-        encounterTypes[EncounterTypes.hivFollowupPeds.uuid] = {
+
+        // hivFollowupPeds
+        encounterTypes["33491314-c352-42d0-bd5d-a9d0bffc9bf1"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
@@ -845,8 +889,8 @@ angular.module("encounterTypeConfig", ["constants"])
             showOnVisitList: true
         };
 
-        // CT
-        encounterTypes[EncounterTypes.vct.uuid] = {
+        // VCT
+        encounterTypes["616b66fe-f189-11e7-8c3f-9a214cf093ae"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
@@ -857,7 +901,7 @@ angular.module("encounterTypeConfig", ["constants"])
         };
 
         // Socio-economics (socioEcon)
-        encounterTypes[EncounterTypes.socioEconomics.uuid] = {
+        encounterTypes["de844e58-11e1-11e8-b642-0ed5f89f718b"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
@@ -867,8 +911,12 @@ angular.module("encounterTypeConfig", ["constants"])
             showOnVisitList: true
         };
 
-        // COVID-19 forms
-        encounterTypes[EncounterTypes.covid19Admission.uuid] = {
+        /*
+         * COVID-19 forms
+         */
+
+        // covid19Admission
+        encounterTypes["8d50b938-dcf9-4b8e-9938-e625bd2f0a81"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
@@ -878,7 +926,8 @@ angular.module("encounterTypeConfig", ["constants"])
             showOnVisitList: true
         };
 
-        encounterTypes[EncounterTypes.covid19Progress.uuid] = {
+        // covid19Progress
+        encounterTypes["ca65f5d3-6312-4143-ae4e-0237427f339e"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
@@ -888,7 +937,8 @@ angular.module("encounterTypeConfig", ["constants"])
             showOnVisitList: true
         };
 
-        encounterTypes[EncounterTypes.covid19Discharge.uuid] = {
+        // covid19Discharge
+        encounterTypes["5e82bea0-fd7b-47f9-858a-91be87521073"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
@@ -898,7 +948,12 @@ angular.module("encounterTypeConfig", ["constants"])
             showOnVisitList: true
         };
 
-        encounterTypes[EncounterTypes.primaryCareVisit.uuid] = {
+        /*
+         * Back to non-COVID encounters now
+         */
+
+        // primaryCareVisit
+        encounterTypes["1373cf95-06e8-468b-a3da-360ac1cf026d"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
@@ -907,7 +962,8 @@ angular.module("encounterTypeConfig", ["constants"])
             editUrl: hfeStandardEditUrl
         };
 
-        encounterTypes[EncounterTypes.edTriage.uuid] = {
+        // edTriage
+        encounterTypes["74cef0a6-2801-11e6-b67b-9e71128cae77"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/edTriageShort.page",
             icon: "fas fa-fw fa-ambulance",
@@ -915,29 +971,36 @@ angular.module("encounterTypeConfig", ["constants"])
             viewUrl: "edtriageapp/edtriageEditPatient.page?editable=false&patientId={{patient.uuid}}&encounterId={{encounter.uuid}}&appId=edtriageapp.app.triageQueue&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
         };
 
-        encounterTypes[EncounterTypes.testOrder.uuid] = {
+        // testOrder
+        encounterTypes["b3a0e3ad-b80c-4f3f-9626-ace1ced7e2dd"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/testOrderLong.page",
             icon: "fas fa-fw fa-vial"
         };
 
-        encounterTypes[EncounterTypes.pathologySpecimenCollection.uuid] = {
+        // pathologySpecimenCollection
+        encounterTypes["10db3139-07c0-4766-b4e5-a41b01363145"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/pathologySpecimenCollectionLong.page",
             icon: "fas fa-fw fa-microscope"
         };
 
-        encounterTypes[EncounterTypes.labSpecimenCollection.uuid] = {
+        // labSpecimenCollection
+        encounterTypes["39C09928-0CAB-4DBA-8E48-39C631FA4286"] = {
           defaultState: "short",
           shortTemplate: "templates/encounters/defaultEncounterShort.page",
           longTemplate: "templates/encounters/labsSpecimenEncounterLong.page",
           icon: "fas fa-fw fa-vial"
         };
 
-        // MCH/Prenatal
-        encounterTypes[EncounterTypes.ancIntake.uuid] = {
+        /*
+         * MCH/Prenatal
+         */
+
+        // ancIntake
+        encounterTypes["00e5e810-90ec-11e8-9eb6-529269fb1459"] = {
           DEFAULT: {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
@@ -967,7 +1030,8 @@ angular.module("encounterTypeConfig", ["constants"])
           }
         };
 
-        encounterTypes[EncounterTypes.vaccination.uuid] = {
+        // vaccination
+        encounterTypes["1e2a509c-7c9f-11e9-8f9e-2a86e4085a59"] = {
             defaultState: "long",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/vaccination/chVaccinations.page",
@@ -975,8 +1039,8 @@ angular.module("encounterTypeConfig", ["constants"])
             showOnVisitList: true
         };
 
-
-        encounterTypes[EncounterTypes.ancFollowup.uuid] = {
+        // ancFollowup
+        encounterTypes["00e5e946-90ec-11e8-9eb6-529269fb1459"] = {
           DEFAULT: {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
@@ -1006,7 +1070,8 @@ angular.module("encounterTypeConfig", ["constants"])
           }
         };
 
-        encounterTypes[EncounterTypes.delivery.uuid] = {
+        // delivery
+        encounterTypes["00e5ebb2-90ec-11e8-9eb6-529269fb1459"] = {
           DEFAULT: {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
@@ -1034,8 +1099,13 @@ angular.module("encounterTypeConfig", ["constants"])
           }
         };
 
+        /*
+         * Site-specific encounters
+         */
+
+        // mexicoConsult
         // TODO change Mexico and Sierra Leone consults to use standard outpatient encounter types now that we support multiple configs per encounter type?
-        encounterTypes[EncounterTypes.mexicoConsult.uuid] = {
+        encounterTypes["aa61d509-6e76-4036-a65d-7813c0c3b752"] = {
             defaultState: "long",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
@@ -1045,7 +1115,8 @@ angular.module("encounterTypeConfig", ["constants"])
             showOnVisitList: true
         };
 
-        encounterTypes[EncounterTypes.sierraLeoneOutpatientInitial.uuid] = {
+        // sierraLeoneOutpatientInitial
+        encounterTypes["7d5853d4-67b7-4742-8492-fcf860690ed5"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/defaultEncounterShort.page",
@@ -1062,7 +1133,8 @@ angular.module("encounterTypeConfig", ["constants"])
             ]
         };
 
-        encounterTypes[EncounterTypes.sierraLeoneOutpatientFollowup.uuid] = {
+        // sierraLeoneOutpatientFollowup
+        encounterTypes["d8a038b5-90d2-43dc-b94b-8338b76674f3"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/defaultEncounterShort.page",
@@ -1101,4 +1173,4 @@ angular.module("encounterTypeConfig", ["constants"])
               encounterType['DEFAULT'] : encounterType;
           }
         };
-    }]);
+    });
