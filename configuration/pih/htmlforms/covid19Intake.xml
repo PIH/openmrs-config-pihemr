@@ -18,6 +18,8 @@
           formEncounterType="8d50b938-dcf9-4b8e-9938-e625bd2f0a81"
           formVersion="1.0">
 
+    <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.ApplyDispositionAction"/>
+
     <style type="text/css">
 
         #who-when-where {
