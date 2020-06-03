@@ -786,7 +786,8 @@
                 <p>
                     <obs id="pain" style="radio" conceptId="CIEL:166000"
                          labelCode="pihcore.pain"
-                         answerConceptIds="CIEL:1107,CIEL:1498,CIEL:1499,CIEL:1500"/>
+                         answerConceptIds="CIEL:1107,CIEL:1498,CIEL:1499,CIEL:1500"
+                         answerCodes="pihcore.none.label,pihcore.pain.mild,pihcore.pain.moderate,pihcore.pain.intense"/>
                 </p>
             </div>
 
