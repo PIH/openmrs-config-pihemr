@@ -327,103 +327,34 @@
             <h3>
                 <uimessage code="mirebalais.dispensing.medication" />
             </h3>
+
             <p>
-                <!-- ToDo:  Remove chloroquine? -->
-                <repeat with="['Chloroquine','CIEL:73300']">
+                <repeat with="['Amoxicillin','CIEL:71160'],
+                              ['Doxycycline','CIEL:75222']">
                     <obsgroup groupingConceptId="PIH:Prescription construct">
                         <obs conceptId="PIH:1282" answerConceptId="{1}"
                              style="checkbox"/>
                     </obsgroup>
                     <br/>
                 </repeat>
+                <!-- ToDo:  Other antibiotics -->
+                <obsgroup groupingConceptId="PIH:Prescription construct">
+                    <obs conceptId="PIH:1282" answerConceptId="CIEL:5622"
+                         style="checkbox" commentFieldLabel="" />
+                </obsgroup>
+            </p>
 
-                <p>
-                    <repeat with="['Amoxicillin','CIEL:71160'],
-                                  ['Doxycycline','CIEL:75222']">
-                        <obsgroup groupingConceptId="PIH:Prescription construct">
-                            <obs conceptId="PIH:1282" answerConceptId="{1}"
-                                 style="checkbox"/>
-                        </obsgroup>
-                        <br/>
-                    </repeat>
-                    <!-- ToDo:  Other antibiotics -->
+            <p>
+                <repeat with="['Corticosteroids','CIEL:165948'],
+                          ['Antifungal agent','CIEL:79831'],
+                          ['Paracetamol','CIEL:70116']">
                     <obsgroup groupingConceptId="PIH:Prescription construct">
-                        <obs conceptId="PIH:1282" answerConceptId="CIEL:5622"
-                             style="checkbox" commentFieldLabel="" />
+                        <obs conceptId="PIH:1282" answerConceptId="{1}"
+                             answerCode="{0}"
+                             style="checkbox"/>
                     </obsgroup>
-                </p>
-
-                <p>
-                    <repeat with="['Corticosteroids','CIEL:165948'],
-                              ['Antifungal agent','CIEL:79831'],
-                              ['Paracetamol','CIEL:70116']">
-                        <obsgroup groupingConceptId="PIH:Prescription construct">
-                            <obs conceptId="PIH:1282" answerConceptId="{1}"
-                                 answerCode="{0}"
-                                 style="checkbox"/>
-                        </obsgroup>
-                        <br/>
-                    </repeat>
-                </p>
-
-                <!-- ToDo:  Not sure about this section -->
-                <!--
-                <repeat with="['1']">
-                    <span id="medication-{0}" class="medication">
-                        <obsgroup groupingConceptId="PIH:Prescription construct" showIfEmpty="false">
-                            <fieldset class="medication">
-                                <p class="field-error" style="display:none"></p>
-                                <p>
-                                    <label>
-                                        <uimessage code="pihcore.visitNote.plan.name"/>
-                                    </label>
-                                    <obs id="name{0}" class="medication-name" conceptId="PIH:MEDICATION ORDERS"
-                                         answerDrugs="true"/>
-                                </p>
-                                <p class="inline">
-                                    <label>
-                                        <uimessage code="pihcore.visitNote.plan.dose"/>
-                                    </label>
-                                    <obs id="dose{0}" class="dose doseInput" conceptId="CIEL:160856"/>
-                                    <obs id="doseUnit{0}" class="dose-unit doseInput select-arrow"
-                                         conceptId="PIH:Dosing units coded"
-                                         answerConceptIds="CIEL:161553,CIEL:161554,CIEL:162263,PIH:APPLICATION,CIEL:1608,CIEL:1513,CIEL:162356,CIEL:162366,CIEL:162370,PIH:Pump,PIH:SACHET,CIEL:162264"
-                                         answerCodes="pihcore.visitNote.plan.medication.units.mg,pihcore.visitNote.plan.medication.units.g,pihcore.visitNote.plan.medication.units.mL,pihcore.visitNote.plan.medication.units.application,pihcore.visitNote.plan.medication.units.capsule,pihcore.visitNote.plan.medication.units.tablet,pihcore.visitNote.plan.medication.units.drop,pihcore.visitNote.plan.medication.units.mcg,pihcore.visitNote.plan.medication.units.patch,pihcore.visitNote.plan.medication.units.pump,pihcore.visitNote.plan.medication.units.sachet,pihcore.visitNote.plan.medication.units.IU"/>
-                                </p>
-                                <p class="inline">
-                                    <label>
-                                        <uimessage code="pihcore.visitNote.plan.frequency"/>
-                                    </label>
-
-
-                                    <obs id="frequencyCoded{0}" class="frequency select-arrow"
-                                         conceptId="PIH:Drug frequency for HUM"
-                                         answerConceptIds=
-                                                 "PIH:OD,PIH:BID,PIH:TID,PIH:QID,PIH:5D,PIH:6D,PIH:7D,PIH:8D,PIH:9D,PIH:OM,PIH:ON,PIH:PRN,PIH:STAT,PIH:Q2H,PIH:Q3H,PIH:Q4H,PIH:Q6H,PIH:Q12H,PIH:5622"
-                                         answerCodes="OD,BID,TID,QID,5D,6D,7D,8D,9D,OM,ON,SOS,STAT,Q2H,Q3H,Q4H,Q6H,Q12H,pihcore.visitNote.plan.other"/>
-                                </p>
-
-                                <p class="inline">
-                                    <label>
-                                        <uimessage code="pihcore.visitNote.plan.duration"/>
-                                    </label>
-                                    <obs id="duration{0}" class="duration doseInput" conceptId="CIEL:159368"/>
-                                    <obs id="durationUnit{0}" class="duration-unit select-arrow" conceptId="PIH:TIME UNITS"
-                                         answerConceptIds="PIH:Days,PIH:1073,PIH:Months"/>
-                                </p>
-
-                                <p>
-                                    <label>
-                                        <uimessage code="pihcore.visitNote.plan.instructions"/>
-                                    </label>
-                                    <obs id="instructions{0}" class="medication-instructions"
-                                         conceptId="PIH:Prescription instructions non-coded"/>
-                                </p>
-                            </fieldset>
-                        </obsgroup>
-                    </span>
+                    <br/>
                 </repeat>
-                            -->
             </p>
 
             <p>
@@ -431,7 +362,7 @@
                     <uimessage code="pihcore.otherMeds" />
                 </label>
                 <obs conceptId="PIH:Medication comments (text)"
-                     style="textarea" rows="3" cols="60"/>
+                     style="textarea" rows="3" cols="40"/>
             </p>
 
 
@@ -442,21 +373,11 @@
             </p>
 
             <p>
-                <!-- ToDo: Move this into encounterDisposition -->
-                <obsgroup groupingConceptId="org.openmrs.module.emrapi:Disposition Concept Set">
-                    <obs conceptId="org.openmrs.module.emrapi:Disposition"
-                         answerConceptId="CIEL:165901" answerCode="pihcore.dischargeHomeIsolate"
-                         style="checkbox"/>
-                </obsgroup>
-            </p>
-
-            <p>
                 <label>
                     <uimessage code="mirebalais.dischargeCondition" />
                 </label>
-                <obs conceptId="CIEL:160116"
-                     answerConceptIds="CIEL:159405,CIEL:160113,CIEL:160115"
-                     answerCodes="pihcore.good,pihcore.fair,pihcore.poor"
+                <obs conceptId="CIEL:159640"
+                     answerConceptIds="CIEL:159405,CIEL:159406,CIEL:159407"
                      style="radio"/>
             </p>
 
@@ -464,14 +385,14 @@
                 <uimessage code="pihcore.followupPlan"/>
             </label>
             <p>
-                <obs conceptId="CIEL:162749" style="textarea" rows="3" cols="60"/>
+                <obs conceptId="CIEL:162749" style="textarea" rows="3" cols="40"/>
             </p>
 
             <label>
                 <uimessage code="pihcore.otherComments"/>
             </label>
             <p>
-                <obs conceptId="CIEL:161011" style="textarea" rows="3" cols="60"/>
+                <obs conceptId="CIEL:161011" style="textarea" rows="3" cols="40"/>
             </p>
         </div>
     </section>
