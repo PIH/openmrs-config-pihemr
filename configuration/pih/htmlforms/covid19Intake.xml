@@ -937,6 +937,13 @@
                                 <strong><uimessage code="pihcore.rtPCR" /> </strong><br/>
                                 <obs conceptId="CIEL:165840" style="radio" id="pcr{0}"
                                      answerConceptIds="CIEL:664,CIEL:703,CIEL:163611"/>
+
+                                <br/>
+                                <obs conceptId="PIH:10745" style="checkbox" toggle="xpert{0}"
+                                     answerConceptId="CIEL:165865" answerCode=""/>
+                                <strong><uimessage code="GeneXpert" /> </strong><br/>
+                                <obs conceptId="CIEL:165865" style="radio" id="xpert{0}"
+                                     answerConceptIds="CIEL:664,CIEL:703,CIEL:163611"/>
                             </td>
                         </tr>
                     </obsgroup>

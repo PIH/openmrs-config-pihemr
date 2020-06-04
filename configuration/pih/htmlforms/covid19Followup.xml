@@ -339,16 +339,29 @@
         </includeIf>
       </ifMode>
 
-    <section id="condition" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.healthCondition">
+    <section id="intro" sectionTag="fieldset" headerTag="legend" headerStyle="title">
         <div class="section-container">
 
             <!-- Program enrollment (if the patient hasn't already been enrolled)-->
-            <p>
-                <enrollInProgram programId="COVID-19"/>
-            </p>
+            <enrollInProgram programId="COVID-19"/>
 
+            <p>
+            <label>
+                <uimessage code="pihcore.healthCondition"/>
+            </label>
             <obs conceptId="CIEL:159640" style="radio"
                  answerConceptIds="CIEL:1498,CIEL:1499,CIEL:1500,CIEL:164830"/>
+            </p>
+
+            <p>
+                <!-- ToDo:  Need CIEL concept:  transfer from -->
+                <label>
+                    <uimessage code="pihcore.transferFrom"/>
+                </label>
+                <obs conceptId="PIH:12975" style="radio"
+                     answerConceptIds="CIEL:165994,CIEL:1589,CIEL:5622"
+                     answerCodes="pihcore.covid19Isolation,pihcore.hospitalName,pihcore.other"/>
+            </p>
         </div>
     </section>
 
@@ -722,6 +735,13 @@
                      answerConceptId="CIEL:165840" answerCode=""/>
                 <strong><uimessage code="pihcore.rtPCR" /> </strong><br/>
                 <obs conceptId="CIEL:165840" style="radio" id="pcrTest"
+                     answerConceptIds="CIEL:664,CIEL:703,CIEL:163611"/>
+
+                <br/>
+                <obs conceptId="PIH:10745" style="checkbox" toggle="xpert"
+                     answerConceptId="CIEL:165865" answerCode=""/>
+                <strong><uimessage code="GeneXpert" /> </strong><br/>
+                <obs conceptId="CIEL:165865" style="radio" id="xpert"
                      answerConceptIds="CIEL:664,CIEL:703,CIEL:163611"/>
             </obsgroup>
 
