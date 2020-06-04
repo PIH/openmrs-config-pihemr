@@ -13,6 +13,7 @@ create temporary table temp_report
     admission_encounter_id      int,
     last_progress_encounter_id  int,
     discharge_encounter_id      int,
+    latest_encounter_id         int,
     current_ward                varchar(255),
     date_of_admission           datetime,
     zlemr_id                    varchar(50),
@@ -29,9 +30,8 @@ create temporary table temp_report
     clinical_plan               varchar(1000),
     nursing_notes               varchar(1000),
     date_of_discharge           datetime,
-    disposition                 varchar(100),
-    follow_up_plan              varchar(1000),
-    other_comments              varchar(1000)
+    discharge_disposition       varchar(100),
+    discharge_comments          varchar(1000)
 );
 
 ## THIS REPORT SHOULD BE BASED OFF OF COVID-19 ADMISSION ENCOUNTERS.  START OUT WITH ROWS OF THESE ENCOUNTERS
@@ -70,10 +70,12 @@ where patient_id in
       );
 
 # DETERMINE THE DISCHARGE ENCOUNTER TO ASSOCIATE WITH THIS, IF ANY, BASED ON THE ADMISSION DATE
+
 update temp_report set discharge_encounter_id = firstEnc(patient_id, 'COVID-19 Discharge', date_of_admission);
 update temp_report set date_of_discharge = encounter_date(discharge_encounter_id);
 
-# DETERMINE THE LAST PROGRESS NOTE ENCOUNTER TO ASSOCIATE WITH THIS, BASED ON ADMISSION AND DISCHARGE DATES
+# DETERMINE THE MOST RECENT PROGRESS AND OVERALL ENCOUNTERS FOR THE VISIT, TO USE FOR PULLING LATEST OBSERVATIONS
+
 update temp_report set last_progress_encounter_id = latestEncBetweenDates(
     patient_id,
     'COVID-19 Progress',
@@ -81,12 +83,10 @@ update temp_report set last_progress_encounter_id = latestEncBetweenDates(
     date_of_discharge
 );
 
-# INITIALIZE CURRENT WARD TO ADMISSION LOCATION
-# UPDATE TO LAST PROGRESS NOT LOCATION IF AVAILABLE
-# SET TO NULL IF PATIENT HAS BEEN DISCHARGED
-update temp_report set current_ward = encounter_location_name(admission_encounter_id);
-update temp_report set current_ward = encounter_location_name(last_progress_encounter_id) where last_progress_encounter_id is not null;
-update temp_report set current_ward = null where discharge_encounter_id is not null;
+update temp_report set latest_encounter_id = coalesce(discharge_encounter_id, last_progress_encounter_id, admission_encounter_id);
+
+# If patient is not discharged, set their current ward to the location of their latest encounter during the admission
+update temp_report set current_ward = encounter_location_name(latest_encounter_id) where discharge_encounter_id is null;
 
 # Pull in patient demographics and identifiers
 update temp_report set zlemr_id = zlemr(patient_id);
@@ -94,27 +94,82 @@ update temp_report set age_at_admission = age_at_enc(patient_id, admission_encou
 update temp_report set patient_name = person_name(patient_id);
 update temp_report set gender = gender(patient_id);
 
-# ADD OBSERVATIONS FROM ADMISSION/PROGRESS/DISCHARGE ENCOUNTERS
+# Add in observations that are specific to the admission encounter
+
 update temp_report set transfer_facility_name = obs_value_text(
     admission_encounter_id,
     'CIEL',
     '161550'
 );
 
-/*
- TODO:
-    comorbidities               varchar(500),
-    symptoms                    varchar(1000),
-    covid19_diagnosis_status    varchar(100),
-    other_diagnoses             varchar(1000),
-    covid19_classification      varchar(100),
-    supporting_care             varchar(500),
-    clinical_plan               varchar(1000),
-    nursing_notes               varchar(1000),
-    disposition                 varchar(100),
-    follow_up_plan              varchar(1000),
-    other_comments              varchar(1000)
- */
+update temp_report set comorbidities = obs_value_coded_list(
+    admission_encounter_id,
+    'CIEL',
+    '162747',
+    'fr'
+);
+
+# Add in observations that are found on the admission and progress encounters
+
+update temp_report set symptoms = obs_value_coded_list(
+    coalesce(last_progress_encounter_id, admission_encounter_id),
+    'CIEL',
+    '1728',
+    'fr'
+);
+
+update temp_report set covid19_diagnosis_status = obs_value_coded_list(
+    latest_encounter_id,
+    'CIEL',
+    '165793',
+    'fr'
+);
+
+update temp_report set other_diagnoses = obs_value_coded_list(
+    latest_encounter_id,
+    'CIEL',
+    '1284',
+    'fr'
+);
+
+update temp_report set covid19_classification = obs_value_coded_list(
+    latest_encounter_id,
+    'CIEL',
+    '159640',
+    'fr'
+);
+
+update temp_report set supporting_care = obs_value_coded_list(
+    coalesce(last_progress_encounter_id, admission_encounter_id),
+    'CIEL',
+    '165995',
+    'fr'
+);
+
+update temp_report set clinical_plan = obs_value_text(
+    latest_encounter_id,
+    'CIEL',
+    '162749'
+);
+
+update temp_report set nursing_notes = obs_value_text(
+    coalesce(last_progress_encounter_id, admission_encounter_id),
+    'CIEL',
+    '162879'
+);
+
+update temp_report set discharge_disposition = obs_value_coded_list(
+    discharge_encounter_id,
+    'org.openmrs.module.emrapi',
+    'Disposition',
+    'fr'
+);
+
+update temp_report set discharge_comments = obs_value_text(
+    discharge_encounter_id,
+    'CIEL',
+    '161011'
+);
 
 # EXECUTE SELECT TO EXPORT TABLE CONTENTS
 
@@ -126,6 +181,16 @@ SELECT
     patient_name,
     gender,
     transfer_facility_name,
-    date_of_discharge
+    comorbidities,
+    symptoms,
+    covid19_diagnosis_status,
+    other_diagnoses,
+    covid19_classification,
+    supporting_care,
+    clinical_plan,
+    nursing_notes,
+    date_of_discharge,
+    discharge_disposition,
+    discharge_comments
 FROM temp_report
 ;
