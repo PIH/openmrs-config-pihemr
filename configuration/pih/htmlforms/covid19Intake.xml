@@ -619,7 +619,8 @@
              headerCode="pihcore.comorbidities.label">
         <div class="section-container">
             <p>
-                <obs id="underlying-comorbidity" style="radio" conceptId="CIEL:162747"
+                <!-- ToDo:  Replace with CIEL mapping -->
+                <obs id="underlying-comorbidity" style="radio" conceptId="PIH:12976"
                      labelCode="pihcore.comorbidities.label"
                      answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067">
                     <controls>
