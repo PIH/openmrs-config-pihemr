@@ -814,7 +814,7 @@
             </p>
 
             <strong>
-                <uimessage code="pihcore.nursingAdmitNote"/>
+                <uimessage code="pihcore.nursingNote"/>
             </strong>
             <p>
                 <obs conceptId="CIEL:162879" style="textarea" rows="3" cols="60"/>
