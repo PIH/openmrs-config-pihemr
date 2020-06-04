@@ -357,21 +357,6 @@
         <div class="section-container">
 
             <table>
-                <tr>
-                    <th>
-                       <label>
-                           <uimessage code="pihcore.symptoms" />
-                       </label>
-                    </th>
-                    <th>
-                        <label>
-                            <uimessage code="general.new" />
-                        </label>
-                    </th>
-                    <th>
-                    </th>
-                </tr>
-
                 <repeat>
                     <template>
                         <obsgroup groupingConceptId="CIEL:1727">
@@ -381,12 +366,9 @@
                                          answerConceptId="{map}" />
                                 </td>
                                 <td>
-                                    <obs conceptId="CIEL:165341" answerConceptId="CIEL:1066"
-                                         answerCode="" style="checkbox" />
-                                </td>
-                                <td>
+                                    <!-- ToDo:  Add CIEL concept: new -->
                                     <obs conceptId="CIEL:162676" style="radio"
-                                         answerConceptIds="CIEL:162677,CIEL:162679,CIEL:162678" />
+                                         answerConceptIds="PIH:6964,CIEL:162677,CIEL:162679,CIEL:162678" />
                                 </td>
                             </tr>
                         </obsgroup>
@@ -423,76 +405,50 @@
 
     <section id="vitals" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.vitalSigns">
         <div class="section-container">
-            <div class="two-columns">
-                <p>
-                    <label>
-                        <uimessage code="Temp"/>
-                    </label>
-                    <span class="small">
-                        <obs conceptId="CIEL:5088" id="temperature_c"
-                             showUnits="emr.units.degreesCelsius" unitsCssClass="append-to-value"/>
-                    </span>
-                </p>
+            <p>
+                <label>
+                    <uimessage code="Temp"/>
+                </label>
+                <span class="small">
+                    <obs conceptId="CIEL:5088" id="temperature_c"
+                         showUnits="emr.units.degreesCelsius" unitsCssClass="append-to-value"/>
+                </span>
+            </p>
 
-                <p>
-                    <label>
-                        <uimessage code="mirebalais.vitals.short.heartRate.title"/>
-                    </label>
-                    <span class="small">
-                        <obs conceptId="CIEL:5087" id="heart_rate"
-                             showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
-                    </span>
-                </p>
+            <p>
+                <label>
+                    <uimessage code="mirebalais.vitals.short.heartRate.title"/>
+                </label>
+                <span class="small">
+                    <obs conceptId="CIEL:5087" id="heart_rate"
+                         showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
+                </span>
+            </p>
 
-                <p>
-                    <label>
-                        <uimessage code="mirebalais.vitals.respiratoryRate.short.title"/>
-                    </label>
-                    <span class="small">
-                        <obs conceptId="CIEL:5242" id="respiratory_rate"
-                             showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
-                    </span>
-                </p>
+            <p>
+                <label>
+                    <uimessage code="mirebalais.vitals.respiratoryRate.short.title"/>
+                </label>
+                <span class="small">
+                    <obs conceptId="CIEL:5242" id="respiratory_rate"
+                         showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
+                </span>
+            </p>
 
-                <p>
-                    <label>
-                        <uimessage code="mirebalais.vitals.bloodPressure.short.title"/>
-                    </label>
-                    <span class="small">
-                        <obs conceptId="CIEL:5085" id="bp_systolic"/>
-                    </span>
-                    <span class="small">
-                        /
-                    </span>
-                    <span class="small">
-                        <obs conceptId="CIEL:5086" id="bp_diastolic"/>
-                    </span>
-                </p>
-
-                <p>
-                    <label>
-                        <uimessage code="pihcore.capRefillTime"/>
-                    </label>
-
-                    <span class="small">
-                        <obs conceptId="CIEL:165890"
-                             answerConceptIds="CIEL:165891,CIEL:162512"
-                             answerCodes="&lt;3 sec,&gt; 3 sec"
-                             style="radio"/>
-                    </span>
-                    <span class="small">
-                        <obs conceptId="CIEL:162513"
-                             showUnits="s" unitsCssClass="append-to-value"/>
-                    </span>
-                </p>
-
-                <p>
-                    <obs id="pain" style="radio" conceptId="CIEL:166000"
-                         labelCode="pihcore.pain"
-                         answerConceptIds="CIEL:1107,CIEL:1498,CIEL:1499,CIEL:1500"
-                         answerCodes="pihcore.none.label,pihcore.pain.mild,pihcore.pain.moderate,pihcore.pain.intense"/>
-                </p>
-            </div>
+            <p>
+                <label>
+                    <uimessage code="mirebalais.vitals.bloodPressure.short.title"/>
+                </label>
+                <span class="small">
+                    <obs conceptId="CIEL:5085" id="bp_systolic"/>
+                </span>
+                <span class="small">
+                    /
+                </span>
+                <span class="small">
+                    <obs conceptId="CIEL:5086" id="bp_diastolic"/>
+                </span>
+            </p>
 
             <p>
                 <label>
@@ -506,6 +462,30 @@
                     <!-- Room air -->
                     <obs conceptId="CIEL:162739" answerConceptId="CIEL:162735"/>
                 </span>
+            </p>
+
+            <p>
+                <label>
+                    <uimessage code="pihcore.capRefillTime"/>
+                </label>
+
+                <span class="small">
+                    <obs conceptId="CIEL:165890"
+                         answerConceptIds="CIEL:165891,CIEL:162512"
+                         answerCodes="&lt;3 sec,&gt; 3 sec"
+                         style="radio"/>
+                </span>
+                <span class="small">
+                    <obs conceptId="CIEL:162513"
+                         showUnits="s" unitsCssClass="append-to-value"/>
+                </span>
+            </p>
+
+            <p>
+                <obs id="pain" style="radio" conceptId="CIEL:166000"
+                     labelCode="pihcore.pain"
+                     answerConceptIds="CIEL:1107,CIEL:1498,CIEL:1499,CIEL:1500"
+                     answerCodes="pihcore.none.label,pihcore.pain.mild,pihcore.pain.moderate,pihcore.pain.intense"/>
             </p>
         </div>
     </section>
@@ -631,9 +611,10 @@
             <div>
                 <div class="two-columns">
                     <obs conceptId="CIEL:165995" style="checkbox"
-                         answerConceptId="CIEL:81341"/>
+                         answerConceptId="CIEL:81341" toggle="o2therapy"/>
                     <span class="small">
-                        <obs conceptId="CIEL:165986" showUnits="true"/>
+                        <obs conceptId="CIEL:165986" id="o2therapy"
+                             showUnits="true" />
                     </span>
                     <br/>
                     <br/>
@@ -717,23 +698,32 @@
              headerStyle="title" headerCode="pihcore.lab.lab_tests.title">
         <div class="section-container">
             <h3>
-                <uimessage code="SARS-CoV-2"/>
+                <uimessage code="pihcore.lab.covidTest"/>
             </h3>
 
-            <strong><uimessage code="pihcore.antibodyTest" /> </strong><br/>
-            <obs conceptId="CIEL:165853" style="radio" id="Ab{0}"
-                 answerConceptIds="CIEL:664,CIEL:165855,CIEL:165856,CIEL:165857,CIEL:163611"
-                 answerCodes="pihcore.negative,pihcore.posIgM,pihcore.posIgG,pihcore.posIgMandIgG,pihcore.invalid"/>
+            <!-- PIH concept for Specimen set -->
+            <obsgroup groupingConceptId="PIH:12973">
+                <obs conceptId="PIH:10745" style="checkbox" toggle="AbTest"
+                     answerConceptId="CIEL:165853" answerCode=""/>
+                <strong><uimessage code="pihcore.antibodyTest" /> </strong><br/>
+                <obs conceptId="CIEL:165853" style="radio" id="AbTest"
+                     answerConceptIds="CIEL:664,CIEL:165855,CIEL:165856,CIEL:165857,CIEL:163611"
+                     answerSeparator="&lt;br /&gt;"/>
 
-            <br/>
-            <strong><uimessage code="pihcore.antigenTest" /> </strong><br/>
-            <obs conceptId="CIEL:165852" style="radio" id="Ag{0}"
-                 answerConceptIds="CIEL:664,CIEL:703,CIEL:163611"/>
+                <br/>
+                <obs conceptId="PIH:10745" style="checkbox" toggle="AgTest"
+                     answerConceptId="CIEL:165852" answerCode=""/>
+                <strong><uimessage code="pihcore.antigenTest" /> </strong><br/>
+                <obs conceptId="CIEL:165852" style="radio" id="AgTest"
+                     answerConceptIds="CIEL:664,CIEL:703,CIEL:163611"/>
 
-            <br/>
-            <strong><uimessage code="pihcore.rtPCR" /> </strong><br/>
-            <obs conceptId="CIEL:165840" style="radio" id="pcr{0}"
-                 answerConceptIds="CIEL:664,CIEL:703,CIEL:163611"/>
+                <br/>
+                <obs conceptId="PIH:10745" style="checkbox" toggle="pcrTest"
+                     answerConceptId="CIEL:165840" answerCode=""/>
+                <strong><uimessage code="pihcore.rtPCR" /> </strong><br/>
+                <obs conceptId="CIEL:165840" style="radio" id="pcrTest"
+                     answerConceptIds="CIEL:664,CIEL:703,CIEL:163611"/>
+            </obsgroup>
 
             <h3>
                 <uimessage code="pihcore.lab.abg"/>

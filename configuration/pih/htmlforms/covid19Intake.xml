@@ -650,7 +650,9 @@
                     </repeat>
                 </div>
             </div>
-            <br/>
+
+            <obs conceptId="CIEL:162747" answerConceptId="CIEL:5622"
+                 commentFieldCode="zl.ifOtherSpecify" />
 
             <p>
                 <!-- Mental health condition -->
@@ -663,11 +665,6 @@
                     <uimessage code="pihcore.habits.smoking"/>
                 </label>
                 <obs conceptId="CIEL:163731" answerConceptIds="CIEL:159450,CIEL:159452,CIEL:1090" style="radio"/>
-            </p>
-
-            <p>
-                <obs conceptId="CIEL:162747" answerConceptId="CIEL:5622"
-                     commentFieldCode="zl.ifOtherSpecify" />
             </p>
         </div>
     </section>
@@ -682,22 +679,13 @@
                      answerConceptIds="CIEL:1065,CIEL:1066" style="radio"/>
             </p>
 
-            <div class="two-columns">
-                <p>
-                    <label>
-                        <uimessage code="pihcore.transferFacility"/>
-                    </label>
-                    <obs conceptId="CIEL:161550"  />
+            <p>
+                <label>
+                    <uimessage code="pihcore.transferFacility"/>
+                </label>
+                <obs conceptId="CIEL:161550"  />
 
-                </p>
-
-                <p>
-                    <label>
-                        <uimessage code="pihcore.admitDate"/>
-                    </label>
-                    <obs conceptId="CIEL:1640" allowTime="false" />
-                </p>
-            </div>
+            </p>
 
             <div>
                 <label>
@@ -720,76 +708,50 @@
 
     <section id="vitals" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.vitalSigns">
         <div class="section-container">
-            <div class="two-columns">
-                <p>
-                    <label>
-                        <uimessage code="Temp"/>
-                    </label>
-                    <span class="small">
-                        <obs conceptId="CIEL:5088" id="temperature_c"
-                             showUnits="emr.units.degreesCelsius" unitsCssClass="append-to-value"/>
-                    </span>
-                </p>
+            <p>
+                <label>
+                    <uimessage code="Temp"/>
+                </label>
+                <span class="small">
+                    <obs conceptId="CIEL:5088" id="temperature_c"
+                         showUnits="emr.units.degreesCelsius" unitsCssClass="append-to-value"/>
+                </span>
+            </p>
 
-                <p>
-                    <label>
-                        <uimessage code="mirebalais.vitals.short.heartRate.title"/>
-                    </label>
-                    <span class="small">
-                        <obs conceptId="CIEL:5087" id="heart_rate"
-                             showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
-                    </span>
-                </p>
+            <p>
+                <label>
+                    <uimessage code="mirebalais.vitals.short.heartRate.title"/>
+                </label>
+                <span class="small">
+                    <obs conceptId="CIEL:5087" id="heart_rate"
+                         showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
+                </span>
+            </p>
 
-                <p>
-                    <label>
-                        <uimessage code="mirebalais.vitals.respiratoryRate.short.title"/>
-                    </label>
-                    <span class="small">
-                        <obs conceptId="CIEL:5242" id="respiratory_rate"
-                             showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
-                    </span>
-                </p>
+            <p>
+                <label>
+                    <uimessage code="mirebalais.vitals.respiratoryRate.short.title"/>
+                </label>
+                <span class="small">
+                    <obs conceptId="CIEL:5242" id="respiratory_rate"
+                         showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
+                </span>
+            </p>
 
-                <p>
-                    <label>
-                        <uimessage code="mirebalais.vitals.bloodPressure.short.title"/>
-                    </label>
-                    <span class="small">
-                        <obs conceptId="CIEL:5085" id="bp_systolic"/>
-                    </span>
-                    <span class="small">
-                        /
-                    </span>
-                    <span class="small">
-                        <obs conceptId="CIEL:5086" id="bp_diastolic"/>
-                    </span>
-                </p>
-
-                <p>
-                    <label>
-                        <uimessage code="pihcore.capRefillTime"/>
-                    </label>
-
-                    <span class="small">
-                        <obs conceptId="CIEL:165890"
-                             answerConceptIds="CIEL:165891,CIEL:162512"
-                             answerCodes="&lt;3 sec,&gt; 3 sec"
-                             style="radio"/>
-                    </span>
-                    <span class="small">
-                        <obs conceptId="CIEL:162513"
-                             showUnits="s" unitsCssClass="append-to-value"/>
-                    </span>
-                </p>
-
-                <p>
-                    <obs id="pain" style="radio" conceptId="CIEL:166000"
-                         labelCode="pihcore.pain"
-                         answerConceptIds="CIEL:1107,CIEL:1498,CIEL:1499,CIEL:1500"
-                         answerCodes="pihcore.none.label,pihcore.pain.mild,pihcore.pain.moderate,pihcore.pain.intense"/>
-                </p>
-            </div>
+            <p>
+                <label>
+                    <uimessage code="mirebalais.vitals.bloodPressure.short.title"/>
+                </label>
+                <span class="small">
+                    <obs conceptId="CIEL:5085" id="bp_systolic"/>
+                </span>
+                <span class="small">
+                    /
+                </span>
+                <span class="small">
+                    <obs conceptId="CIEL:5086" id="bp_diastolic"/>
+                </span>
+            </p>
 
             <p>
                 <label>
@@ -803,6 +765,30 @@
                     <!-- Room air -->
                     <obs conceptId="CIEL:162739" answerConceptId="CIEL:162735"/>
                 </span>
+            </p>
+
+            <p>
+                <label>
+                    <uimessage code="pihcore.capRefillTime"/>
+                </label>
+
+                <span class="small">
+                    <obs conceptId="CIEL:165890"
+                         answerConceptIds="CIEL:165891,CIEL:162512"
+                         answerCodes="&lt;3 sec,&gt; 3 sec"
+                         style="radio"/>
+                </span>
+                <span class="small">
+                    <obs conceptId="CIEL:162513"
+                         showUnits="s" unitsCssClass="append-to-value"/>
+                </span>
+            </p>
+
+            <p>
+                <obs id="pain" style="radio" conceptId="CIEL:166000"
+                     labelCode="pihcore.pain"
+                     answerConceptIds="CIEL:1107,CIEL:1498,CIEL:1499,CIEL:1500"
+                     answerCodes="pihcore.none.label,pihcore.pain.mild,pihcore.pain.moderate,pihcore.pain.intense"/>
             </p>
         </div>
     </section>
@@ -918,7 +904,7 @@
                                 <!-- Specimen collection date -->
                                 <obs conceptId="CIEL:159951" allowTime="false"/>
                             </td>
-                            <td width="25%">
+                            <td>
                                 <obs conceptId="CIEL:159959" style="checkbox"
                                      answerConceptId="CIEL:163363" answerCode="pihcore.specimen.nasalSwab" />
                                 <br/>
@@ -937,8 +923,7 @@
                                 <strong><uimessage code="pihcore.antibodyTest" /> </strong><br/>
                                 <obs conceptId="CIEL:165853" style="radio" id="Ab{0}"
                                      answerConceptIds="CIEL:664,CIEL:165855,CIEL:165856,CIEL:165857,CIEL:163611"
-                                     answerCodes="pihcore.negative,pihcore.posIgM,pihcore.posIgG,pihcore.posIgMandIgG,pihcore.invalid"/>
-
+                                     answerSeparator="&lt;br /&gt;"/>
                                 <br/>
                                 <obs conceptId="PIH:10745" style="checkbox" toggle="Ag{0}"
                                      answerConceptId="CIEL:165852" answerCode=""/>
@@ -1085,14 +1070,16 @@
             <div>
                 <div class="two-columns">
                     <obs conceptId="CIEL:165995" style="checkbox"
-                         answerConceptId="CIEL:81341" />
+                         answerConceptId="CIEL:81341" toggle="o2therapy"/>
                     <span class="small">
-                        <obs conceptId="CIEL:165986" showUnits="true" />
+                        <obs conceptId="CIEL:165986" id="o2therapy"
+                             showUnits="true" />
                     </span>
                     <br/><br/>
                     <obs conceptId="CIEL:165995"
                          answerConceptId="CIEL:163206" answerCode="pihcore.analgesic"
-                         style="checkbox" commentFieldCode="zl.familyHistoryRelativeCheckboxes.specifyLabel" />
+                         style="checkbox"
+                         commentFieldCode="zl.familyHistoryRelativeCheckboxes.specifyLabel" />
                 </div>
 
                 <repeat with="['mechVent','CIEL:165998'],

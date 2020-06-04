@@ -337,9 +337,10 @@
                     </obsgroup>
                     <br/>
                 </repeat>
-                <!-- ToDo:  Other antibiotics -->
+                <!-- ToDo:  Replace Other (CIEL:5622) with Other antibiotics
+                            Waiting for next CIEL release.  -->
                 <obsgroup groupingConceptId="PIH:Prescription construct">
-                    <obs conceptId="PIH:1282" answerConceptId="CIEL:5622"
+                    <obs conceptId="PIH:1282" answerConceptId="PIH:12974"
                          style="checkbox" commentFieldLabel="" />
                 </obsgroup>
             </p>
@@ -367,6 +368,7 @@
 
 
             <p>
+                <!-- ToDo: Set required -->
                 <div id="disposition">
                     <encounterDisposition/>
                 </div>
@@ -376,7 +378,7 @@
                 <label>
                     <uimessage code="mirebalais.dischargeCondition" />
                 </label>
-                <obs conceptId="CIEL:159640"
+                <obs conceptId="CIEL:159640" required="true"
                      answerConceptIds="CIEL:159405,CIEL:159406,CIEL:159407"
                      style="radio"/>
             </p>
