@@ -830,14 +830,15 @@
                 <uimessage code="pihcore.consult.clinicalManagementPlan"/>
             </strong>
             <p>
-                <obs conceptId="CIEL:162749" style="textarea" rows="3" cols="60"/>
+                <obs conceptId="CIEL:162749" style="textarea" rows="3" cols="40"/>
             </p>
 
             <strong>
                 <uimessage code="pihcore.nursingNote"/>
             </strong>
             <p>
-                <obs conceptId="CIEL:162879" style="textarea" rows="3" cols="60"/>
+                <!-- ToDo: Replace with CIEL - Nursing notes -->
+                <obs conceptId="PIH:12977" style="textarea" rows="3" cols="40"/>
             </p>
 
         </div>
