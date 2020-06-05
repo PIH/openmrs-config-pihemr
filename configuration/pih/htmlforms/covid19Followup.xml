@@ -106,109 +106,6 @@
             vertical-align: top;
     </style>
 
-    <ifMode mode="VIEW" include="false">
-        <script type="text/javascript">
-
-            var $j = jQuery;
-
-            htmlForm.getBeforeValidation().push(function() {
-
-            var valid = true;
-
-            jq('fieldset.medication').each(function() {
-
-            // clear out any existing error messages
-            jq(this).find('.field-error').first().html('');
-
-            //var medication = (jq(this).find('.medication-name input').val()).trim();
-
-            // UHM-3781 we need to look for the value set by the automcomplete widget.
-            // The value should be in the format of Drug:DRUG_ID
-            var medication = jq(this).find('.medication-name input[type=hidden]').val();
-
-            var dose = jq(this).find('.dose input').val();
-            var doseUnits = jq(this).find('.dose-unit select').val();
-            var frequency = jq(this).find('.frequency select').val();
-            var duration = jq(this).find('.duration input').val();
-            var durationUnits = jq(this).find('.duration-unit select').val();
-            var instructions = jq(this).find('.medication-instructions input').val();
-
-            if (!medication &amp;&amp; (dose || doseUnits || frequency || duration || durationUnits || instructions)) {
-            valid = false;
-            jq(this).find('.field-error').first().append("<uimessage
-                code="pihcore.visitNote.plan.medications.error.noMedication"/>. ").show();
-            }
-
-            if (dose &amp;&amp; !doseUnits) {
-            valid = false;
-            jq(this).find('.field-error').first().append("<uimessage
-                code="pihcore.visitNote.plan.medications.error.noDoseUnits"/>. ").show();
-            }
-
-            if (!dose &amp;&amp; doseUnits) {
-            valid = false;
-            jq(this).find('.field-error').first().append("<uimessage
-                code="pihcore.visitNote.plan.medications.error.noDose"/>. ").show();
-            }
-
-            if (duration &amp;&amp; !durationUnits) {
-            valid = false;
-            jq(this).find('.field-error').first().append("<uimessage
-                code="pihcore.visitNote.plan.medications.error.noDurationUnits"/>. ").show();
-            }
-
-            if (!duration &amp;&amp; durationUnits) {
-            valid = false;
-            jq(this).find('.field-error').first().append("<uimessage
-                code="pihcore.visitNote.plan.medications.error.noDuration"/>. ").show();
-            }
-
-            });
-            return valid;
-
-            });
-
-            jq(function() {
-
-            var hasValue = function(element) {
-            return jq(element).find('.medication-name input').val();
-            };
-
-            var hideOtherMeds = function() {
-            jq('#medication-2').hide();
-            jq('#medication-3').hide();
-            jq('#medication-4').hide();
-            jq('#medication-5').hide();
-            jq('#medication-6').hide();
-            jq('#medication-7').hide();
-            jq('#medication-8').hide();
-            };
-
-            if (!hasValue('#medication-2') &amp;&amp; !hasValue('#medication-3') &amp;&amp; !hasValue('#medication-4')
-            &amp;&amp; !hasValue('#medication-5') &amp;&amp; !hasValue('#medication-6') &amp;&amp;
-            !hasValue('#medication-7')
-            &amp;&amp; !hasValue('#medication-8')) {
-            hideOtherMeds();
-            jq('#show-more-medications-button').show();
-            }
-
-            jq('#show-more-medications-button').click(function() {
-            jq('.medication').show();
-            jq('#show-more-medications-button').hide();
-            jq('#show-less-medications-button').show();
-            });
-
-            jq('#show-less-medications-button').click(function() {
-            hideOtherMeds();
-            jq('#show-less-medications-button').hide();
-            jq('#show-more-medications-button').show();
-            });
-
-            })
-
-        </script>
-    </ifMode>
-
     <div class="print-form-datestamps" style="display:none">
         <p><uimessage code="pih.form.created_on"/>:
             <lookup complexExpression="$form.dateCreated"/>
@@ -351,16 +248,6 @@
             </label>
             <obs conceptId="CIEL:159640" style="radio"
                  answerConceptIds="CIEL:1498,CIEL:1499,CIEL:1500,CIEL:164830"/>
-            </p>
-
-            <p>
-                <!-- ToDo:  Need CIEL concept:  transfer from -->
-                <label>
-                    <uimessage code="pihcore.transferFrom"/>
-                </label>
-                <obs conceptId="PIH:12975" style="radio"
-                     answerConceptIds="CIEL:165994,CIEL:1589,CIEL:5622"
-                     answerCodes="pihcore.covid19Isolation,pihcore.hospitalName,pihcore.other"/>
             </p>
         </div>
     </section>
