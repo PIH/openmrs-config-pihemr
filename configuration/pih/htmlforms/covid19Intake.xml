@@ -317,8 +317,15 @@
                     <label>
                         <uimessage code="zl.registration.patient.occupation.healthCareWorker.label"/>
                     </label>
-                    <obs conceptId="CIEL:5619" style="radio"
-                         answerConceptIds="CIEL:1065,CIEL:1066" />
+                    <obs conceptId="CIEL:5619" style="checkbox" toggle="worker"
+                         answerConceptId="CIEL:1065" />
+                    <!-- ToDo: Add CIEL mapping:  Type of worker (coded) -->
+                    <div id="worker">
+                    <label>
+                        <uimessage code="Type"/>
+                    </label>
+                    <obs conceptId="PIH:12981" />
+                    </div>
                 </p>
             </includeIf>
 
