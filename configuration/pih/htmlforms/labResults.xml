@@ -27,6 +27,8 @@
                 float: inherit;
                 width: inherit;
                 vertical-align: inherit;
+                background: #fff;
+                border-right: 3px solid #f9f9f9;
             }
 
             ul#formBreadcrumb li:first-child {

@@ -160,8 +160,8 @@ update temp_report set nursing_notes = obs_value_text(
 
 update temp_report set discharge_disposition = obs_value_coded_list(
     discharge_encounter_id,
-    'org.openmrs.module.emrapi',
-    'Disposition',
+    'PIH',
+    '8620',
     'fr'
 );
 
