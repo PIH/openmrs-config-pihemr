@@ -266,7 +266,7 @@
                                          answerConceptId="{map}" />
                                 </td>
                                 <td>
-                                    <!-- ToDo:  Add CIEL concept: new -->
+                                    <!-- For others:  Replace PIH:6964 with CIEL:165341 -->
                                     <obs conceptId="CIEL:162676" style="radio"
                                          answerConceptIds="PIH:6964,CIEL:162677,CIEL:162679,CIEL:162678" />
                                 </td>
@@ -724,8 +724,8 @@
                 <uimessage code="pihcore.nursingNote"/>
             </strong>
             <p>
-                <!-- ToDo: Replace with CIEL - Nursing notes -->
-                <obs conceptId="PIH:12977" style="textarea" rows="3" cols="40"/>
+                <obs conceptId="CIEL:166021" style="textarea"
+                     rows="3" cols="40"/>
             </p>
 
         </div>

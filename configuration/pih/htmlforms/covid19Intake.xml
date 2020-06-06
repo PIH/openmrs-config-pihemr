@@ -319,12 +319,12 @@
                     </label>
                     <obs conceptId="CIEL:5619" style="checkbox" toggle="worker"
                          answerConceptId="CIEL:1065" />
-                    <!-- ToDo: Add CIEL mapping:  Type of worker (coded) -->
+
                     <div id="worker">
                     <label>
                         <uimessage code="Type"/>
                     </label>
-                    <obs conceptId="PIH:12981" />
+                    <obs conceptId="CIEL:166014" />
                     </div>
                 </p>
             </includeIf>
@@ -517,15 +517,10 @@
              headerCode="pihcore.comorbidities.label">
         <div class="section-container">
             <p>
-                <!-- ToDo:  Replace with CIEL mapping -->
-                <obs id="underlying-comorbidity" style="radio" conceptId="PIH:12976"
+                <obs id="underlying-comorbidity" style="radio" conceptId="CIEL:166020"
                      labelCode="pihcore.comorbidities.label"
                      answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067">
-                    <controls>
-                        <when value="CIEL:1065" thenDisplay="#comorbidities"/>
-                    </controls>
                 </obs>
-
             </p>
 
             <div id="comorbities">
@@ -1051,8 +1046,8 @@
                 <uimessage code="pihcore.nursingNote"/>
             </strong>
             <p>
-                <!-- ToDo: Replace with CIEL - Nursing notes -->
-                <obs conceptId="PIH:12977" style="textarea" rows="3" cols="40"/>
+                <obs conceptId="CIEL:166021" style="textarea"
+                     rows="3" cols="40"/>
             </p>
 
             <p>
