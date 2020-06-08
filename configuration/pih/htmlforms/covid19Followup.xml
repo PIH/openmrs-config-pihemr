@@ -461,9 +461,6 @@
     <section id="treatment" sectionTag="fieldset" headerTag="legend"
              headerStyle="title" headerCode="pihcore.chemo.treatment">
     <div class="section-container">
-            <h3>
-                <uimessage code="mirebalais.dispensing.medication"/>
-            </h3>
             <p>
                 <strong>
                     <uimessage code="pihcore.firstLineMeds"/>
@@ -633,6 +630,10 @@
             </obsgroup>
 
             <h3>
+                <uimessage code="pihcore.lab.other" />
+            </h3>
+
+            <h3>
                 <uimessage code="pihcore.lab.abg"/>
             </h3>
             <div class="two-columns">
@@ -713,16 +714,16 @@
                 </div>
             </p>
 
-            <strong>
+            <label>
                 <uimessage code="pihcore.consult.clinicalManagementPlan"/>
-            </strong>
+            </label>
             <p>
                 <obs conceptId="CIEL:162749" style="textarea" rows="3" cols="40"/>
             </p>
 
-            <strong>
+            <label>
                 <uimessage code="pihcore.nursingNote"/>
-            </strong>
+            </label>
             <p>
                 <obs conceptId="CIEL:166021" style="textarea"
                      rows="3" cols="40"/>

@@ -755,6 +755,122 @@
         </div>
     </section>
 
+    <section id="treatment" sectionTag="fieldset" headerTag="legend"
+             headerStyle="title" headerCode="pihcore.chemo.treatment">
+        <div class="section-container">
+            <p>
+                <strong>
+                    <uimessage code="pihcore.firstLineMeds"/>
+                </strong>
+            </p>
+            <p>
+                <strong>
+                    <uimessage code="pihcore.secondLineMeds"/>
+                </strong>
+                <repeat with="['Lopinavir/Ritonavir','CIEL:794'],
+                              ['Remdesivir','CIEL:165878']">
+                    <obsgroup groupingConceptId="PIH:Prescription construct">
+                        <obs conceptId="PIH:1282" answerConceptId="{1}"
+                             style="checkbox"/>
+                    </obsgroup>
+                    <br/>
+                </repeat>
+            </p>
+            <p>
+                <strong>
+                    <uimessage code="pihcore.antibiotics"/>
+                </strong>
+
+                <repeat with="['Ceftriasone','CIEL:73041'],
+                              ['Amoxicillin','CIEL:71160'],
+                              ['Doxycycline','CIEL:75222']">
+                    <obsgroup groupingConceptId="PIH:Prescription construct">
+                        <obs conceptId="PIH:1282" answerConceptId="{1}"
+                             style="checkbox"/>
+                    </obsgroup>
+                    <br/>
+                </repeat>
+            </p>
+            <p>
+                <label>
+                    <uimessage code="pihcore.otherMeds"/>
+                </label>
+                <obs conceptId="PIH:Medication comments (text)"
+                     style="textarea" rows="3" cols="60"/>
+            </p>
+
+            <strong>
+                <uimessage code="pihcore.supportiveCare"/>
+            </strong>
+            <div>
+                <div class="two-columns">
+                    <obs conceptId="CIEL:165995" style="checkbox"
+                         answerConceptId="CIEL:81341" toggle="o2therapy"/>
+                    <span class="small">
+                        <obs conceptId="CIEL:165986" id="o2therapy"
+                             showUnits="true" />
+                    </span>
+                    <br/>
+                    <br/>
+                    <obs conceptId="CIEL:165995"
+                         answerConceptId="CIEL:163206" answerCode="pihcore.analgesic"
+                         style="checkbox" commentFieldCode="zl.familyHistoryRelativeCheckboxes.specifyLabel"/>
+                </div>
+
+                <repeat with="['mechVent','CIEL:165998'],
+                              ['mask','CIEL:165989'],
+                              ['maskNonReBreather','CIEL:165990']">
+                    <obs conceptId="CIEL:165995"
+                         answerConceptId="{1}" answerCode="pihcore.{0}"
+                         style="checkbox"/>
+                </repeat>
+                <br/>
+
+                <repeat with="['pihcore.nasalCannula','CIEL:165893'],
+                              ['CPAP','CIEL:165944'],
+                              ['BiPAP','CIEL:165988'],
+                              ['FIO2','CIEL:165927']">
+                    <obs conceptId="CIEL:165995"
+                         answerConceptId="{1}" answerCode="{0}"
+                         style="checkbox"/>
+                </repeat>
+            </div>
+
+            <div>
+                <obs conceptId="CIEL:165995" toggle="ivf"
+                     answerConceptId="CIEL:1765" answerCode="pihcore.ivf"
+                     style="checkbox"/>
+
+                <div id="ivf">
+                    <table>
+                        <repeat with="['1'],['2'],['3']">
+                            <tr>
+                                <td>{0}</td>
+
+                                <td>
+                                    <obsgroup groupingConceptId="PIH:IVF construct">
+                                        <obs conceptId="CIEL:161911" style="radio"
+                                             answerConceptIds="CIEL:78617,CIEL:80804,CIEL:161250"
+                                             answerCodes="LR,Normal saline,Dextrose 5%"/>
+
+                                        <p class="small">
+                                            <obs conceptId="CIEL:165987" showUnits="true"/>
+                                        </p>
+
+                                        <obs conceptId="CIEL:166006" style="radio"
+                                             answerConceptIds="CIEL:162625,CIEL:166004"
+                                             answerCodes="pihcore.central,pihcore.peripheral"/>
+
+                                    </obsgroup>
+                                </td>
+                            </tr>
+                        </repeat>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="diagnosis" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.diagnosis.label">
         <div class="section-container">
             <p>
@@ -922,138 +1038,25 @@
     <section id="plan" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.visitNote.plan">
         <div class="section-container">
-            <h3>
-                <uimessage code="mirebalais.dispensing.medication" />
-            </h3>
-            <p>
-                <strong>
-                    <uimessage code="pihcore.firstLineMeds" />
-                </strong>
-            </p>
-            <p>
-                <strong>
-                    <uimessage code="pihcore.secondLineMeds" />
-                </strong>
-                <repeat with="['Lopinavir/Ritonavir','CIEL:794'],
-                              ['Remdesivir','CIEL:165878']">
-                    <obsgroup groupingConceptId="PIH:Prescription construct">
-                        <obs conceptId="PIH:1282" answerConceptId="{1}"
-                             style="checkbox"/>
-                    </obsgroup>
-                    <br/>
-                </repeat>
-            </p>
-            <p>
-                <strong>
-                    <uimessage code="pihcore.antibiotics" />
-                </strong>
-                <repeat with="['Ceftriasone','CIEL:73041'],
-                              ['Amoxicillin','CIEL:71160'],
-                              ['Doxycycline','CIEL:75222']">
-                    <obsgroup groupingConceptId="PIH:Prescription construct">
-                        <obs conceptId="PIH:1282" answerConceptId="{1}"
-                             style="checkbox"/>
-                    </obsgroup>
-                    <br/>
-                </repeat>
-            </p>
-            <p>
-                <label>
-                    <uimessage code="pihcore.otherMeds" />
-                </label>
-                <obs conceptId="PIH:Medication comments (text)"
-                     style="textarea" rows="3" cols="60"/>
-            </p>
-
-            <strong>
-                <uimessage code="pihcore.supportiveCare" />
-            </strong>
-            <div>
-                <div class="two-columns">
-                    <obs conceptId="CIEL:165995" style="checkbox"
-                         answerConceptId="CIEL:81341" toggle="o2therapy"/>
-                    <span class="small">
-                        <obs conceptId="CIEL:165986" id="o2therapy"
-                             showUnits="true" />
-                    </span>
-                    <br/><br/>
-                    <obs conceptId="CIEL:165995"
-                         answerConceptId="CIEL:163206" answerCode="pihcore.analgesic"
-                         style="checkbox"
-                         commentFieldCode="zl.familyHistoryRelativeCheckboxes.specifyLabel" />
-                </div>
-
-                <repeat with="['mechVent','CIEL:165998'],
-                              ['mask','CIEL:165989'],
-                              ['maskNonReBreather','CIEL:165990']">
-                    <obs conceptId="CIEL:165995"
-                         answerConceptId="{1}" answerCode="pihcore.{0}"
-                         style="checkbox"/>
-                </repeat>
-                <br/>
-
-                <repeat with="['pihcore.nasalCannula','CIEL:165893'],
-                              ['CPAP','CIEL:165944'],
-                              ['BiPAP','CIEL:165988'],
-                              ['FIO2','CIEL:165927']">
-                    <obs conceptId="CIEL:165995"
-                         answerConceptId="{1}" answerCode="{0}"
-                         style="checkbox"/>
-                </repeat>
-            </div>
-
-            <div>
-                <obs conceptId="CIEL:165995" toggle="ivf"
-                     answerConceptId="CIEL:1765" answerCode="pihcore.ivf"
-                     style="checkbox"/>
-
-                <div id="ivf">
-                    <table>
-                        <repeat with="['1'],['2'],['3']">
-                            <tr>
-                                <td>{0}</td>
-
-                                <td>
-                                    <obsgroup groupingConceptId="PIH:IVF construct">
-                                        <obs conceptId="CIEL:161911" style="radio"
-                                             answerConceptIds="CIEL:78617,CIEL:80804,CIEL:161250"
-                                             answerCodes="LR,Normal saline,Dextrose 5%"/>
-
-                                        <p class="small">
-                                            <obs conceptId="CIEL:165987" showUnits="true"/>
-                                        </p>
-
-                                        <obs conceptId="CIEL:166006" style="radio"
-                                             answerConceptIds="CIEL:162625,CIEL:166004"
-                                             answerCodes="pihcore.central,pihcore.peripheral" />
-
-                                    </obsgroup>
-                                </td>
-                            </tr>
-                        </repeat>
-                    </table>
-                </div>
-            </div>
-
-            <strong>
-                <uimessage code="pihcore.providerClinicalPlan"/>
-            </strong>
-            <p>
-                <obs conceptId="CIEL:162749" style="textarea" rows="3" cols="40"/>
-            </p>
-
-            <strong>
-                <uimessage code="pihcore.nursingNote"/>
-            </strong>
-            <p>
-                <obs conceptId="CIEL:166021" style="textarea"
-                     rows="3" cols="40"/>
-            </p>
-
             <p>
                 <div id="disposition">
                     <encounterDisposition/>
                 </div>
+            </p>
+
+            <label>
+                <uimessage code="pihcore.providerClinicalPlan"/>
+            </label>
+            <p>
+                <obs conceptId="CIEL:162749" style="textarea" rows="3" cols="40"/>
+            </p>
+
+            <label>
+                <uimessage code="pihcore.nursingNote"/>
+            </label>
+            <p>
+                <obs conceptId="CIEL:166021" style="textarea"
+                     rows="3" cols="40"/>
             </p>
         </div>
     </section>
