@@ -451,10 +451,10 @@
 
         <fieldset class="multi-line-confirmation">
             <legend>
-                <uimessage code="SARS-CoV-2"/>
+                <uimessage code="COVID-19"/>
             </legend>
             <h3>
-                <uimessage code="SARS-CoV-2"/>
+                <uimessage code="COVID-19"/>
             </h3>
 
             <p>
@@ -464,8 +464,7 @@
                 <span>
                     <field>
                         <obs conceptId="CIEL:165853" id="covid-ab"
-                             answerConceptIds="CIEL:664,CIEL:165855,CIEL:165856,CIEL:165857,CIEL:163611"
-                             answerCodes="pihcore.negative,pihcore.posIgM,pihcore.posIgG,pihcore.posIgMandIgG,pihcore.invalid"/>
+                             answerConceptIds="CIEL:664,CIEL:165855,CIEL:165856,CIEL:165857,CIEL:163611" />
                     </field>
                 </span>
 
@@ -485,6 +484,16 @@
                 <span>
                     <field>
                         <obs conceptId="CIEL:165840" id="covid-pcr"
+                             answerConceptIds="CIEL:664,CIEL:703,CIEL:163611"/>
+                    </field>
+                </span>
+
+                <label for="covid-xpert">
+                    <uimessage code="GeneXpert"/>
+                </label>
+                <span>
+                    <field>
+                        <obs conceptId="CIEL:165865" id="covid-xpert"
                              answerConceptIds="CIEL:664,CIEL:703,CIEL:163611"/>
                     </field>
                 </span>
