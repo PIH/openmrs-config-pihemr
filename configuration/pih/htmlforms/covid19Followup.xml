@@ -632,6 +632,39 @@
             <h3>
                 <uimessage code="pihcore.lab.other" />
             </h3>
+            <div class="two-columns">
+                <repeat>
+                    <template>
+                        <label>
+                            <uimessage code="{text}"/>
+                        </label>
+                        <span class="small">
+                            <obs conceptId="{map}" showUnits="true"/>
+                        </span>
+                        <br/>
+                    </template>
+
+                    <render map="CIEL:21" text="pihcore.lab.hemoglobin" />
+                    <render map="CIEL:1015" text="pihcore.lab.hematocrit" />
+                    <render map="CIEL:678" text="pihcore.lab.white_blood_cell" />
+                    <render map="CIEL:729" text="pihcore.lab.platelets" />
+
+                    <render map="CIEL:952" text="pihcore.lab.lymphocyte" />
+                    <render map="CIEL:1330" text="pihcore.lab.neutrophil" />
+                    <!-- ToDo:  Add Serum lactate (CIEL:1012) -->
+                    <render map="CIEL:161500" text="CRP" />
+
+                    <render map="CIEL:1132" text="pihcore.lab.sodium" />
+                    <render map="CIEL:1133" text="pihcore.lab.potassium" />
+                    <render map="CIEL:857" text="pihcore.lab.urea" />
+                    <render map="CIEL:790" text="pihcore.lab.creatinine" />
+
+                    <render map="CIEL:887" text="pihcore.lab.glucose" />
+                    <render map="CIEL:655" text="pihcore.lab.bilirubin" />
+                    <render map="CIEL:654" text="AST/SGPT" />
+                    <render map="CIEL:653" text="AST/SGOT" />
+                </repeat>
+            </div>
 
             <h3>
                 <uimessage code="pihcore.lab.abg"/>
