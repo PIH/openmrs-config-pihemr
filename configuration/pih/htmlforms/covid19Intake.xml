@@ -1045,7 +1045,7 @@
             </p>
 
             <label>
-                <uimessage code="pihcore.providerClinicalPlan"/>
+                <uimessage code="pihcore.consult.clinicalManagementPlan"/>
             </label>
             <p>
                 <obs conceptId="CIEL:162749" style="textarea" rows="3" cols="40"/>
