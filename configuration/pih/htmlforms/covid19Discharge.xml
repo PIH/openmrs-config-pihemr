@@ -370,7 +370,7 @@
             <p>
                 <!-- ToDo: Set required -->
                 <div id="disposition">
-                    <encounterDisposition/>
+                    <encounterDisposition required="true"/>
                 </div>
             </p>
 
