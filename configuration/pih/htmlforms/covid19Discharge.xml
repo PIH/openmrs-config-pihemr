@@ -19,6 +19,7 @@
           formVersion="1.0">
 
     <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.ApplyDispositionAction"/>
+    <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.CloseCovidProgramAction"/>
 
     <style type="text/css">
 
