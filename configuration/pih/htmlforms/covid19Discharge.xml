@@ -369,10 +369,7 @@
 
 
             <p>
-                <!-- ToDo: Set required -->
-                <div id="disposition">
-                    <encounterDisposition required="true"/>
-                </div>
+                <encounterDisposition required="true"/>
             </p>
 
             <p>
