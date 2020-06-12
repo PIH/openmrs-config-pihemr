@@ -288,9 +288,24 @@
                     <render map="CIEL:135588" text="loss of taste" />
                     <render map="CIEL:135589" text="loss of smell" />
                     <render map="CIEL:120345" text="confusion" />
-                    <render map="CIEL:125562" text="Suicidal thoughts" />
-                    <render map="CIEL:148143" text="Attempted suicide" />
+                    <render map="CIEL:130967" text="panic attack" />
+                    <render map="CIEL:125562" text="suicidal thoughts" />
                 </repeat>
+
+                <!-- Attempted suicide -->
+                <obsgroup groupingConceptId="CIEL:1727">
+                    <tr>
+                        <td>
+                            <obs conceptId="CIEL:1728" style="checkbox"
+                                 answerConceptId="CIEL:148143" />
+                        </td>
+                        <td>
+                            <!-- Tip for other implementations:  Replace PIH:6964 with CIEL:165341 -->
+                            <obs conceptId="CIEL:162676" style="checkbox"
+                                 answerConceptId="PIH:6964" />
+                        </td>
+                    </tr>
+                </obsgroup>
 
                 <!-- Other symptoms -->
                 <tr>
@@ -760,6 +775,24 @@
             <p>
                 <obs conceptId="CIEL:166021" style="textarea"
                      rows="3" cols="40"/>
+            </p>
+
+            <p>
+                <!-- Mental Health referral-->
+                <obsgroup groupingConceptId="PIH:12837">
+                    <!-- ToDo: Change from PIH to CIEL mapping; Mental Health -->
+                    <obs conceptId="CIEL:1272" style="checkbox" toggle="mh-referral"
+                         answerConceptId="PIH:5489" answerCode="pihcore.mentalHealthReferral" />
+
+                    <div id="mh-referral">
+                        <label>
+                            <uimessage code="pihcore.mentalHealthNotes"/>
+                        </label>
+
+                        <obs conceptId="CIEL:161011" style="textarea"
+                             rows="3" cols="40"/>
+                    </div>
+                </obsgroup>
             </p>
 
         </div>
