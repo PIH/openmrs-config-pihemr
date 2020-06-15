@@ -56,7 +56,41 @@ create temporary table temp_encounter
 	heart_rate double,
 	respiratory_rate double,
 	bp_systolic double,
-	bp_diastolic double
+	bp_diastolic double,
+    SpO2 double,
+    room_air varchar(11),
+    cap_refill varchar(50),
+    cap_refill_time double,
+	pain varchar(50),
+    general_exam varchar(11),
+    general_findings text,
+    heent varchar(11),
+    heent_findings text,
+    neck varchar(11),
+    neck_findings text,
+    chest varchar(11),
+    chest_findings text,
+    cardiac varchar(11),
+    cardiac_findings text,
+    abdominal varchar(11),
+    abdominal_findings text,
+    urogenital varchar(11),
+    urogenital_findings text,
+    rectal varchar(11),
+    rectal_findings text,
+    musculoskeletal varchar(11),
+    musculoskeletal_findings text,
+    lymph varchar(11),
+    lymph_findings text,
+    skin varchar(11),
+    skin_findings text,
+    neuro varchar(11),
+    neuro_findings text,
+    avpu varchar(255),
+    other_findings text,
+    medications varchar(255),
+    medication_comments text
+
 );
 
 ## POPULATE WITH BASE DATA FROM ENCOUNTER, PATIENT, AND PERSON
@@ -152,13 +186,14 @@ and o.voided = 0
 set te.estimated_delivery_date = o.value_datetime;
 
 -- postpartum state 
-update temp_encounter te left join obs o
-on  o.concept_id = concept_from_mapping('CIEL', '162747')
-and o.person_id = te.patient_id 
-and o.encounter_id = te.encounter_id 
-and o.voided = 0 
-and o.value_coded = concept_from_mapping('CIEL', '129317')
-set te.postpartum_state = concept_name(o.value_coded, 'fr');
+
+update temp_encounter set postpartum_state = obs_single_value_coded(
+     encounter_id,
+	'CIEL', 
+	'162747',
+	'CIEL', 
+	'129317'
+); 
 
 -- outcome
 update temp_encounter set outcome = obs_value_coded_list(
@@ -315,6 +350,215 @@ update temp_encounter set bp_diastolic = obs_value_numeric(
     '5086'
 );
 
+update temp_encounter set SpO2 = obs_value_numeric(
+     encounter_id,
+    'CIEL',
+    '5092'
+);
+
+-- room air
+update temp_encounter set room_air = obs_single_value_coded(
+     encounter_id,
+    'CIEL',
+    '162739',
+    'CIEL',
+    '162735'
+);
+
+-- Cap refill and Cap refill time
+update temp_encounter set cap_refill = obs_value_coded_list(
+	encounter_id,
+    'CIEL',
+    '165890',
+    'en'
+);
+
+update temp_encounter set cap_refill_time = obs_value_numeric(
+     encounter_id,
+    'CIEL',
+    '162513'
+);
+
+-- Pain
+update temp_encounter set pain = obs_value_coded_list(
+     encounter_id,
+    'CIEL',
+    '166000',
+    'fr'
+);
+
+#### PHYSICAL EXAM
+-- General
+update temp_encounter set general_exam = obs_value_coded_list(
+	encounter_id,
+    'CIEL',
+    '1119',
+    'fr'
+);
+update temp_encounter set general_findings = obs_value_text(
+	encounter_id,
+    'CIEL',
+    '163042'
+);
+-- HEENT
+update temp_encounter set heent = obs_value_coded_list(
+	encounter_id,
+    'CIEL',
+    '1122',
+    'fr'
+);
+update temp_encounter set heent_findings = obs_value_text(
+	encounter_id,
+    'CIEL',
+    '163045'
+);
+-- Neck
+update temp_encounter set neck = obs_value_coded_list(
+	encounter_id,
+    'CIEL',
+    '163388',
+    'fr'
+);
+update temp_encounter set neck_findings = obs_value_text(
+	encounter_id,
+    'CIEL',
+    '165983'
+);
+-- chest
+update temp_encounter set chest = obs_value_coded_list(
+	encounter_id,
+    'CIEL',
+    '1123',
+    'fr'
+);
+update temp_encounter set chest_findings = obs_value_text(
+	encounter_id,
+    'CIEL',
+    '160689'
+);
+-- cardiac
+update temp_encounter set cardiac = obs_value_coded_list(
+	encounter_id,
+    'CIEL',
+    '1124',
+    'fr'
+);
+update temp_encounter set cardiac_findings = obs_value_text(
+	encounter_id,
+    'CIEL',
+    '163046'
+);
+-- abdominal
+update temp_encounter set abdominal = obs_value_coded_list(
+	encounter_id,
+    'CIEL',
+    '1125',
+    'fr'
+);
+update temp_encounter set abdominal_findings = obs_value_text(
+	encounter_id,
+    'CIEL',
+    '160947'
+);
+-- urogenital
+update temp_encounter set urogenital = obs_value_coded_list(
+	encounter_id,
+    'CIEL',
+    '1126',
+    'fr'
+);
+update temp_encounter set urogenital_findings = obs_value_text(
+	encounter_id,
+    'CIEL',
+    '163047'
+);
+-- rectal
+update temp_encounter set rectal = obs_value_coded_list(
+	encounter_id,
+    'CIEL',
+    '163746',
+    'fr'
+);
+update temp_encounter set rectal_findings = obs_value_text(
+	encounter_id,
+    'CIEL',
+    '160961'
+);
+-- musculoskeletal
+update temp_encounter set musculoskeletal = obs_value_coded_list(
+	encounter_id,
+    'CIEL',
+    '1128',
+    'fr'
+);
+update temp_encounter set musculoskeletal_findings = obs_value_text(
+	encounter_id,
+    'CIEL',
+    '163048'
+);
+-- lymph
+update temp_encounter set lymph = obs_value_coded_list(
+	encounter_id,
+    'CIEL',
+    '1121',
+    'fr'
+);
+update temp_encounter set lymph_findings = obs_value_text(
+	encounter_id,
+    'CIEL',
+    '166005'
+);
+-- skin
+update temp_encounter set skin = obs_value_coded_list(
+	encounter_id,
+    'CIEL',
+    '1120',
+    'fr'
+);
+update temp_encounter set skin_findings = obs_value_text(
+	encounter_id,
+    'CIEL',
+    '160981'
+);
+-- neuro
+update temp_encounter set neuro = obs_value_coded_list(
+	encounter_id,
+    'CIEL',
+    '1129',
+    'fr'
+);
+update temp_encounter set neuro_findings = obs_value_text(
+	encounter_id,
+    'CIEL',
+    '163109'
+);
+-- avpu
+update temp_encounter set avpu = obs_value_coded_list(
+	encounter_id,
+    'CIEL',
+    '162643',
+    'fr'
+);
+-- other
+update temp_encounter set other_findings = obs_value_text(
+	encounter_id,
+    'CIEL',
+    '163042'
+);
+
+## TREATMENT
+-- Medications
+update temp_encounter set medications = obs_value_coded_list(
+	encounter_id,
+    'PIH',
+    '1282',
+    'fr'
+);
+update temp_encounter set medication_comments = obs_value_text(
+	encounter_id,
+    'PIH',
+    'Medication comments (text)'
+);
 
 # EXECUTE SELECT TO EXPORT TABLE CONTENTS
 
@@ -355,5 +599,38 @@ SELECT e.encounter_id,
 	   e.heart_rate,
 	   e.respiratory_rate,	
 	   e.bp_systolic,
-	   e.bp_diastolic
-FROM temp_encounter e;
+	   e.bp_diastolic,
+       e.SpO2 ,
+       e.room_air,
+       e.cap_refill,
+	   e.cap_refill_time,
+       e.pain,
+       e.general_exam,
+       e.general_findings,
+	   e.heent,
+       e.heent_findings,
+	   e.neck,
+       e.neck_findings,
+	   e.chest,
+       e.chest_findings,
+	   e.cardiac,
+       e.cardiac_findings,
+       e.abdominal,
+       e.abdominal_findings,
+       e.urogenital,
+       e.urogenital_findings,
+       e.rectal,
+       e.rectal_findings,
+       e.musculoskeletal,
+       e.musculoskeletal_findings,
+       e.lymph,
+       e.lymph_findings, 
+       e.skin,
+       e.skin_findings,
+       e.neuro,
+       e.neuro_findings,
+       e.avpu,
+       e.other_findings,
+       e.medications,
+       e.medication_comments
+FROM temp_encounter e where zlemr_id like "%Y2NN%";
