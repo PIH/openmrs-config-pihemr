@@ -89,8 +89,10 @@ create temporary table temp_encounter
     avpu varchar(255),
     other_findings text,
     medications varchar(255),
-    medication_comments text
-
+    medication_comments text,
+    supportive_care varchar(255),
+	o2therapy double,
+    analgesic_specified varchar(255)
 );
 
 ## POPULATE WITH BASE DATA FROM ENCOUNTER, PATIENT, AND PERSON
@@ -560,6 +562,125 @@ update temp_encounter set medication_comments = obs_value_text(
     'Medication comments (text)'
 );
 
+-- supportive care
+update temp_encounter set supportive_care = obs_value_coded_list(
+	encounter_id,
+    'CIEL',
+    '165995',
+    'fr'
+);
+-- o2therapy value
+update temp_encounter set o2therapy = obs_value_numeric(
+	encounter_id,
+    'CIEL',
+    '165986'
+);
+-- analgesic comments/description
+update temp_encounter set analgesic_specified = obs_value_text(
+	encounter_id,
+    'CIEL',
+    '163206'
+);
+-- IV fluid details
+drop table if exists temp_stage1_ivf;
+create table temp_stage1_ivf(
+select 	person_id, 
+		encounter_id,
+		obs_id, 
+        concept_id, 
+        obs_group_id, 
+        concept_name(value_coded, 'fr') ivf_values,
+        value_numeric
+from obs where 
+		concept_id in (concept_from_mapping('CIEL', '161911'), concept_from_mapping('CIEL', '165987'), concept_from_mapping('CIEL', '166006')) 
+        and voided = 0 and encounter_id in (select encounter_id from encounter where encounter_type in (select encounter_type_id from encounter_type et where
+        et.name in ('COVID-19 Admission', 'COVID-19 Progress', 'COVID-19 Discharge'))));
+         
+drop temporary table if exists temp_stage2_ivf;
+create temporary table temp_stage2_ivf(
+select person_id, encounter_id, obs_group_id, group_concat(ivf_values separator " | ") ivf_value_coded from temp_stage_ivf
+group by obs_group_id, person_id);
+
+alter table temp_stage2_ivf
+add column ivf_value_numeric double after ivf_value_coded;
+
+drop temporary table if exists temp_stage2_ivf_numeric;
+create temporary table temp_stage2_ivf_numeric
+(select person_id, encounter_id, obs_group_id, value_numeric from temp_stage1_ivf where value_numeric is not null);
+
+update temp_stage2_ivf ts2 
+left join temp_stage2_ivf_numeric ts1 on  ts2.person_id = ts1.person_id and ts2.encounter_id = ts1.encounter_id and ts2.obs_group_id = ts1.obs_group_id
+set ivf_value_numeric = ts1.value_numeric;
+
+drop temporary table if exists temp_final1_ivf;
+create temporary table temp_final1_ivf(
+	person_id int(11), 
+	encounter_id int(11),
+    obs_group_id1 int(11),
+    obs_group_id2 int(11),
+    obs_group_id3 int(11),
+    ivf1 text,
+    ivf2 text,
+    ivf3 text
+);
+insert into temp_final1_ivf (person_id, encounter_id, obs_group_id1)
+( 
+select person_id, encounter_id, max(obs_group_id) from temp_stage2_ivf group by encounter_id
+);
+
+update temp_final1_ivf tf left join temp_stage2_ivf ts on tf.obs_group_id1 = ts.obs_group_id 
+set ivf1 = concat(if(ivf_value_coded is null, '', ivf_value_coded), " | ", if(ivf_value_numeric is null, '', ivf_value_numeric));
+
+drop temporary table if exists temp_stage_final1_ivf;
+create temporary table temp_stage_final1_ivf
+(
+	encounter_id int(11),
+	obsgid2 int(11),
+	ivf_value_coded2 text, 
+	ivf_value_numeric2 text
+); 
+
+insert into temp_stage_final1_ivf(encounter_id, obsgid2)
+(select encounter_id, max(obs_group_id) obsgid2 from temp_stage2_ivf ts where ts.obs_group_id not in (select obs_group_id1 from temp_final1_ivf) group by encounter_id);
+
+update temp_final1_ivf tf left join temp_stage_final1_ivf tsf on tf.encounter_id = tsf.encounter_id
+set obs_group_id2 = obsgid2;
+
+update temp_stage_final1_ivf tf left join temp_stage2_ivf tsf on tf.obsgid2 = tsf.obs_group_id
+set ivf_value_coded2 = ivf_value_coded;
+ 
+update temp_stage_final1_ivf tf left join temp_stage2_ivf tsf on tf.obsgid2 = tsf.obs_group_id 
+set ivf_value_numeric2 = ivf_value_numeric;
+
+update temp_final1_ivf tf left join temp_stage_final1_ivf ts on tf.obs_group_id2 = ts.obsgid2 
+set ivf2 = concat(if(ivf_value_coded2 is null, '', ivf_value_coded2), " | ", if(ivf_value_numeric2 is null, '', ivf_value_numeric2));
+
+drop temporary table if exists temp_stage_final2_ivf;
+create temporary table temp_stage_final2_ivf
+(
+	encounter_id int(11),
+	obsgid3 int(11),
+	ivf_value_coded3 text, 
+	ivf_value_numeric3 text
+); 
+
+insert into temp_stage_final2_ivf(encounter_id, obsgid3)
+(select encounter_id, obs_group_id obsgid3 from temp_stage2_ivf ts where ts.obs_group_id not in (select obs_group_id1 from temp_final1_ivf) 
+and obs_group_id not in (select obsgid2 from temp_stage_final1_ivf)
+group by encounter_id);
+
+update temp_final1_ivf tf left join temp_stage_final2_ivf tsf on tf.encounter_id = tsf.encounter_id
+set obs_group_id3 = obsgid3;
+
+update temp_stage_final2_ivf tf left join temp_stage2_ivf tsf on tf.obsgid3 = tsf.obs_group_id
+set ivf_value_coded3 = ivf_value_coded;
+    
+update temp_stage_final2_ivf tf left join temp_stage2_ivf tsf on tf.obsgid3 = tsf.obs_group_id 
+set ivf_value_numeric3 = ivf_value_numeric;
+
+update temp_final1_ivf tf left join temp_stage_final2_ivf ts on tf.obs_group_id3 = ts.obsgid3 
+set ivf3 = concat(if(ivf_value_coded3 is null, '', ivf_value_coded3), " | ", if(ivf_value_numeric3 is null, '', ivf_value_numeric3));
+
 # EXECUTE SELECT TO EXPORT TABLE CONTENTS
 
 SELECT e.encounter_id,
@@ -632,5 +753,11 @@ SELECT e.encounter_id,
        e.avpu,
        e.other_findings,
        e.medications,
-       e.medication_comments
-FROM temp_encounter e where zlemr_id like "%Y2NN%";
+       e.medication_comments,
+       e.supportive_care,
+       e.o2therapy,
+       e.analgesic_specified,
+       tf.ivf1,
+       tf.ivf2,
+       tf.ivf3
+FROM temp_encounter e left join temp_final1_ivf tf on e.encounter_id = tf.encounter_id;
