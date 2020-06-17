@@ -765,6 +765,12 @@
                 <strong>
                     <uimessage code="pihcore.firstLineMeds"/>
                 </strong>
+                <repeat with="['Dexamethasone','CIEL:74609']">
+                    <obsgroup groupingConceptId="PIH:Prescription construct">
+                        <obs conceptId="PIH:1282" answerConceptId="{1}"
+                             style="checkbox"/>
+                    </obsgroup>
+                </repeat>
             </p>
             <p>
                 <strong>
