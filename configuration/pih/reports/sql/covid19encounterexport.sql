@@ -11,6 +11,9 @@
 
 ## sql updates
 SET sql_safe_updates = 0;
+SET SESSION group_concat_max_len = 100000;
+
+## to be used on the ivf temp table
 SET @covid_admission_encounter_type = (SELECT encounter_type_id FROM encounter_type WHERE name = 'COVID-19 Admission');
 
 ## CREATE SCHEMA FOR DATA EXPORT
@@ -136,6 +139,7 @@ CREATE TEMPORARY TABLE temp_encounter
     mh_referral             VARCHAR(11),
     mh_note                 TEXT,
     transfer_out_location   VARCHAR(255),
+    overall_condition		VARCHAR(255),
     new_signs_symptoms      TEXT,
     improved_symptoms       TEXT,
     no_change               TEXT,
@@ -1030,6 +1034,14 @@ SET
     mh_note = OBS_VALUE_TEXT(encounter_id, 'CIEL', '161011');
 
 ### COVID 19 Progress FORM
+-- overall_condition
+update temp_encounter set overall_condition = obs_value_coded_list(
+	encounter_id,
+    'CIEL',
+    '159640',
+    'fr'
+);
+
 -- new symptom
 UPDATE temp_encounter te LEFT JOIN 
 (SELECT encounter_id, GROUP_CONCAT(CONCEPT_NAME(value_coded, 'en') SEPARATOR " | ") new_symptom_names FROM obs WHERE obs_group_id IN
@@ -1287,10 +1299,18 @@ SELECT
     e.radiology_other,
     e.radiology_other_comments,
     #### PROGRESS FORM
+    e.overall_condition,
     e.new_signs_symptoms,
     e.improved_symptoms,
     e.no_change,
     e.worse_symptoms,
+    e.disposition,
+    e.admission_ward,
+    e.clinical_management_plan,
+    e.nursing_note,
+    e.mh_referral,
+    e.mh_note,
+    e.transfer_out_location,
     ### Discharge
     e.oxygen_therapy,
     e.non_inv_ventilation,
@@ -1306,14 +1326,7 @@ SELECT
     e.other_discharge_meds,
     e.discharge_condition,
     e.followup_plan,
-    e.discharge_comments,
-    e.disposition,
-    e.admission_ward,
-    e.clinical_management_plan,
-    e.nursing_note,
-    e.mh_referral,
-    e.mh_note,
-    e.transfer_out_location
+    e.discharge_comments
 FROM
     temp_encounter e
         LEFT JOIN
