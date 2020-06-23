@@ -53,7 +53,7 @@ CREATE TEMPORARY TABLE temp_encounter
     available_comorbidities TEXT,
     other_comorbidities     TEXT,
     mental_health           TEXT,
-    smoker                  VARCHAR(11),
+    smoker                  VARCHAR(255),
     transfer                VARCHAR(11),
     transfer_facility       VARCHAR(255),
     covid_case_contact      VARCHAR(11),
