@@ -6,8 +6,8 @@
 ## THIS EXPECTS A startDate AND endDate PARAMETER IN ORDER TO RESTRICT BY ENCOUNTERS WITHIN A GIVEN DATE RANGE
 ## THE EVALUATOR WILL INSERT THESE AS BELOW WHEN EXECUTING.  YOU CAN UNCOMMENT THE BELOW LINES FOR MANUAL TESTING:
 
-#SET @startDate= '2020-04-01';
-#SET @endDate= '2020-06-17';
+SET @startDate= '2020-04-01';
+SET @endDate= '2020-04-02';
 
 ## sql updates
 SET sql_safe_updates = 0;
@@ -33,6 +33,7 @@ CREATE TEMPORARY TABLE temp_encounter
     encounter_datetime      DATETIME,
     encounter_provider      VARCHAR(100),
     health_care_worker      VARCHAR(11),
+    hcw_type 				VARCHAR(50), 
     pregnant                VARCHAR(11),
     last_menstruation_date  DATETIME,
     estimated_delivery_date DATETIME,
@@ -101,6 +102,24 @@ CREATE TEMPORARY TABLE temp_encounter
     analgesic_specified     VARCHAR(255),
     convid19                VARCHAR(255),
     diagnosis               TEXT,
+    specimen_date1			DATETIME,
+    specimens_type1			VARCHAR(255),
+    antibody_result1		VARCHAR(255),
+	antigen_result1			VARCHAR(255),
+	pcr_result1				VARCHAR(255),
+	genexpert_result1		VARCHAR(255),
+    specimen_date2			DATETIME,
+    specimens_type2			VARCHAR(255),
+    antibody_result2		VARCHAR(255),
+	antigen_result2			VARCHAR(255),
+	pcr_result2				VARCHAR(255),
+	genexpert_result2		VARCHAR(255),
+    specimen_date3			DATETIME,
+    specimens_type3			VARCHAR(255),
+    antibody_result3		VARCHAR(255),
+	antigen_result3			VARCHAR(255),
+	pcr_result3				VARCHAR(255),
+	genexpert_result3		VARCHAR(255),    
     hemoglobin              DOUBLE,
     hematocrit              DOUBLE,
     wbc                     DOUBLE,
@@ -148,7 +167,7 @@ CREATE TEMPORARY TABLE temp_encounter
     non_inv_ventilation     VARCHAR(11),
     vasopressors            VARCHAR(11),
     antibiotics             VARCHAR(11),
-    other_intervention      VARCHAR(11),
+    other_intervention      TEXT,
     icu                     VARCHAR(11),
     days_in_icu             INT(11),
     icu_admission_date      DATETIME,
@@ -192,6 +211,7 @@ WHERE
     e.voided = 0 AND
     et.name IN ('COVID-19 Admission', 'COVID-19 Progress', 'COVID-19 Discharge');
 
+-- Test patient
 DELETE FROM temp_encounter 
 WHERE
     patient_id IN (SELECT 
@@ -205,134 +225,75 @@ WHERE
         a.value = 'true'
         AND t.name = 'Test Patient');
 
-UPDATE temp_encounter 
-SET 
-    dossier_num = DOSID(patient_id);
-UPDATE temp_encounter 
-SET 
-    zlemr_id = ZLEMR(patient_id);
-UPDATE temp_encounter 
-SET 
-    address = PERSON_ADDRESS(patient_id);
-UPDATE temp_encounter 
-SET 
-    phone_number = PERSON_ATTRIBUTE_VALUE(patient_id, 'Telephone Number');
+-- Dossier number
+UPDATE temp_encounter SET dossier_num = DOSID(patient_id);
 
-UPDATE temp_encounter 
-SET 
-    encounter_provider = PROVIDER(encounter_id);
-UPDATE temp_encounter 
-SET 
-    encounter_location = ENCOUNTER_LOCATION_NAME(encounter_id);
+-- zlemr_id
+UPDATE temp_encounter SET zlemr_id = ZLEMR(patient_id);
 
-UPDATE temp_encounter 
-SET 
-    health_care_worker = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '5619', 'fr');
+-- person address
+UPDATE temp_encounter SET address = PERSON_ADDRESS(patient_id);
 
-UPDATE temp_encounter 
-SET 
-    pregnant = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '5272', 'fr');
+-- Phone number
+UPDATE temp_encounter SET phone_number = PERSON_ATTRIBUTE_VALUE(patient_id, 'Telephone Number');
+
+-- Provider
+UPDATE temp_encounter SET encounter_provider = PROVIDER(encounter_id);
+
+-- encounter location
+UPDATE temp_encounter SET encounter_location = ENCOUNTER_LOCATION_NAME(encounter_id);
+
+-- Health care worker
+UPDATE temp_encounter SET health_care_worker = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '5619', 'fr');
+
+-- Health care worker type
+UPDATE temp_encounter SET hcw_type = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '166014', 'fr');
+
+UPDATE temp_encounter SET pregnant = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '5272', 'fr');
 
 -- last menstruation date
-UPDATE temp_encounter te
-        LEFT JOIN
-    obs o ON o.concept_id = CONCEPT_FROM_MAPPING('CIEL', '1427')
-        AND o.person_id = te.patient_id
-        AND o.encounter_id = te.encounter_id
-        AND o.voided = 0 
-SET 
-    te.last_menstruation_date = o.value_datetime;
+UPDATE temp_encounter SET last_menstruation_date = OBS_VALUE_DATETIME(encounter_id, 'CIEL', '1427');
 
 -- estimated delivery date
-UPDATE temp_encounter te
-        LEFT JOIN
-    obs o ON o.concept_id = CONCEPT_FROM_MAPPING('CIEL', '5596')
-        AND o.person_id = te.patient_id
-        AND o.encounter_id = te.encounter_id
-        AND o.voided = 0 
-SET 
-    te.estimated_delivery_date = o.value_datetime;
+UPDATE temp_encounter SET estimated_delivery_date = OBS_VALUE_DATETIME(encounter_id, 'CIEL', '5596');
 
 -- postpartum state
-UPDATE temp_encounter 
-SET 
-    postpartum_state = OBS_SINGLE_VALUE_CODED(encounter_id,
-            'CIEL',
-            '162747',
-            'CIEL',
-            '129317');
+UPDATE temp_encounter SET postpartum_state = OBS_SINGLE_VALUE_CODED(encounter_id, 'CIEL', '162747', 'CIEL', '129317');
 
 -- outcome
-UPDATE temp_encounter 
-SET 
-    outcome = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '161033', 'fr');
+UPDATE temp_encounter SET outcome = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '161033', 'fr');
 
 -- date of delivery
-UPDATE temp_encounter te
-        LEFT JOIN
-    obs o ON o.concept_id = CONCEPT_FROM_MAPPING('CIEL', '5599')
-        AND o.person_id = te.patient_id
-        AND o.encounter_id = te.encounter_id
-        AND o.voided = 0 
-SET 
-    te.date_of_delivery = o.value_datetime;
+UPDATE temp_encounter SET date_of_delivery = OBS_VALUE_DATETIME(encounter_id, 'CIEL', '5599');
 
 -- Infant
-UPDATE temp_encounter SET gestational_outcome = OBS_VALUE_CODED_LIST(
-	encounter_id,
-    'CIEL',
-    '161033',
-    'fr'
-);
-UPDATE temp_encounter SET breast_feed = OBS_VALUE_CODED_LIST(
-	encounter_id,
-    'CIEL',
-    '5632',
-    'fr'
-);
-UPDATE temp_encounter SET vaccination_up_todate = OBS_VALUE_CODED_LIST(
-	encounter_id,
-    'CIEL',
-    '5585',
-    'fr'
-);
+UPDATE temp_encounter SET gestational_outcome = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '161033', 'fr');
+
+-- Breast feeding
+UPDATE temp_encounter SET breast_feed = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL','5632', 'fr');
+
+-- Vaccination
+UPDATE temp_encounter SET vaccination_up_todate = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '5585', 'fr');
 
 -- home medication
-UPDATE temp_encounter 
-SET 
-    home_medications = OBS_VALUE_TEXT(encounter_id, 'CIEL', '162165');
+UPDATE temp_encounter SET home_medications = OBS_VALUE_TEXT(encounter_id, 'CIEL', '162165');
 
-UPDATE temp_encounter 
-SET 
-    allergies = OBS_VALUE_TEXT(encounter_id, 'CIEL', '162141');
+UPDATE temp_encounter SET allergies = OBS_VALUE_TEXT(encounter_id, 'CIEL', '162141');
 
-UPDATE temp_encounter te
-        LEFT JOIN
-    obs o ON o.concept_id = CONCEPT_FROM_MAPPING('CIEL', '1730')
-        AND o.person_id = te.patient_id
-        AND o.encounter_id = te.encounter_id
-        AND o.voided = 0 
-SET 
-    te.symptom_start_date = o.value_datetime;
+-- Symptom start date
+UPDATE temp_encounter SET symptom_start_date = OBS_VALUE_DATETIME(encounter_id, 'CIEL', '1730');
 
--- symptoms
-UPDATE temp_encounter 
-SET 
-    symptoms = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1727', 'fr');
+-- Symptoms
+UPDATE temp_encounter SET symptoms = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1728', 'fr');
 
 -- other symptoms
-UPDATE temp_encounter 
-SET 
-    other_symptoms = OBS_VALUE_TEXT(encounter_id, 'CIEL', '165996');
+UPDATE temp_encounter SET other_symptoms = OBS_VALUE_TEXT(encounter_id, 'CIEL', '165996');
 
-UPDATE temp_encounter 
-SET 
-    comorbidities = OBS_VALUE_CODED_LIST(encounter_id, 'PIH', '12976', 'fr');
+-- Comorbidities
+UPDATE temp_encounter SET comorbidities = OBS_VALUE_CODED_LIST(encounter_id, 'PIH', '12976', 'fr');
 
--- comorbidities
-UPDATE temp_encounter 
-SET 
-    available_comorbidities = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '162747', 'fr');
+-- available comorbidities
+UPDATE temp_encounter SET available_comorbidities = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '162747', 'fr');
 
 -- other comorbidities
 UPDATE temp_encounter te
@@ -346,224 +307,115 @@ SET
     other_comorbidities = o.comments;
 
 -- mh
-UPDATE temp_encounter 
-SET 
-    mental_health = OBS_VALUE_TEXT(encounter_id, 'CIEL', '163044');
+UPDATE temp_encounter SET mental_health = OBS_VALUE_TEXT(encounter_id, 'CIEL', '163044');
 
 -- smoker
-UPDATE temp_encounter 
-SET 
-    smoker = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '163731', 'fr');
+UPDATE temp_encounter SET smoker = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '163731', 'fr');
 
 -- transfer
-UPDATE temp_encounter 
-SET 
-    transfer = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '160563', 'fr');
-
-UPDATE temp_encounter 
-SET 
-    transfer_facility = OBS_VALUE_TEXT(encounter_id, 'CIEL', '161550');
+UPDATE temp_encounter SET transfer = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '160563', 'fr');
+UPDATE temp_encounter SET transfer_facility = OBS_VALUE_TEXT(encounter_id, 'CIEL', '161550');
 
 -- covid case contact
-UPDATE temp_encounter 
-SET 
-    covid_case_contact = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '162633', 'fr');
+UPDATE temp_encounter SET covid_case_contact = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '162633', 'fr');
 
 -- case condition
-UPDATE temp_encounter 
-SET 
-    case_condition = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '159640', 'fr');
+UPDATE temp_encounter SET case_condition = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '159640', 'fr');
 
+##VITALS
 -- vitals
-UPDATE temp_encounter 
-SET 
-    temp = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '5088');
+UPDATE temp_encounter SET temp = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '5088');
 
-UPDATE temp_encounter 
-SET 
-    heart_rate = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '5087');
+UPDATE temp_encounter SET heart_rate = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '5087');
 
-UPDATE temp_encounter 
-SET 
-    respiratory_rate = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '5242');
+UPDATE temp_encounter SET respiratory_rate = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '5242');
 
-UPDATE temp_encounter 
-SET 
-    bp_systolic = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '5085');
+UPDATE temp_encounter SET bp_systolic = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '5085');
 
-UPDATE temp_encounter 
-SET 
-    bp_diastolic = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '5086');
+UPDATE temp_encounter SET bp_diastolic = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '5086');
 
-UPDATE temp_encounter 
-SET 
-    SpO2 = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '5092');
+UPDATE temp_encounter SET SpO2 = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '5092');
 
 -- room air
-UPDATE temp_encounter 
-SET 
-    room_air = OBS_SINGLE_VALUE_CODED(encounter_id,
-            'CIEL',
-            '162739',
-            'CIEL',
-            '162735');
+UPDATE temp_encounter SET room_air = OBS_SINGLE_VALUE_CODED(encounter_id, 'CIEL', '162739', 'CIEL', '162735');
 
 -- Cap refill and Cap refill time
-UPDATE temp_encounter 
-SET 
-    cap_refill = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '165890', 'en');
+UPDATE temp_encounter SET cap_refill = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '165890', 'en');
 
-UPDATE temp_encounter 
-SET 
-    cap_refill_time = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '162513');
+UPDATE temp_encounter SET cap_refill_time = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '162513');
 
 -- Pain
-UPDATE temp_encounter 
-SET 
-    pain = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '166000', 'fr');
+UPDATE temp_encounter SET pain = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '166000', 'fr');
 
 ########## Phyical Exams
-UPDATE temp_encounter 
-SET 
-    general_exam = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1119', 'fr');
-UPDATE temp_encounter 
-SET 
-    general_findings = OBS_VALUE_TEXT(encounter_id, 'CIEL', '163042');
+UPDATE temp_encounter SET general_exam = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1119', 'fr');
+UPDATE temp_encounter SET general_findings = OBS_VALUE_TEXT(encounter_id, 'CIEL', '163042');
 
 -- HEENT
-UPDATE temp_encounter 
-SET 
-    heent = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1122', 'fr');
-
-UPDATE temp_encounter
-SET 
-    heent_findings = OBS_VALUE_TEXT(encounter_id, 'CIEL', '163045');
+UPDATE temp_encounter SET heent = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1122', 'fr');
+UPDATE temp_encounter SET heent_findings = OBS_VALUE_TEXT(encounter_id, 'CIEL', '163045');
 
 -- Neck
-UPDATE temp_encounter 
-SET 
-    neck = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '163388', 'fr');
-
-UPDATE temp_encounter
-SET 
-    neck_findings = OBS_VALUE_TEXT(encounter_id, 'CIEL', '165983');
+UPDATE temp_encounter SET neck = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '163388', 'fr');
+UPDATE temp_encounter SET neck_findings = OBS_VALUE_TEXT(encounter_id, 'CIEL', '165983');
 
 -- chest
-UPDATE temp_encounter 
-SET 
-    chest = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1123', 'fr');
-
-UPDATE temp_encounter
-SET 
-    chest_findings = OBS_VALUE_TEXT(encounter_id, 'CIEL', '160689');
+UPDATE temp_encounter SET chest = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1123', 'fr');
+UPDATE temp_encounter SET chest_findings = OBS_VALUE_TEXT(encounter_id, 'CIEL', '160689');
 
 -- cardiac
-UPDATE temp_encounter 
-SET 
-    cardiac = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1124', 'fr');
-
-UPDATE temp_encounter
-SET 
-    cardiac_findings = OBS_VALUE_TEXT(encounter_id, 'CIEL', '163046');
+UPDATE temp_encounter SET cardiac = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1124', 'fr');
+UPDATE temp_encounter SET cardiac_findings = OBS_VALUE_TEXT(encounter_id, 'CIEL', '163046');
 
 -- abdominal
-UPDATE temp_encounter 
-SET 
-    abdominal = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1125', 'fr');
-
-UPDATE temp_encounter
-SET 
-    abdominal_findings = OBS_VALUE_TEXT(encounter_id, 'CIEL', '160947');
+UPDATE temp_encounter SET abdominal = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1125', 'fr');
+UPDATE temp_encounter SET abdominal_findings = OBS_VALUE_TEXT(encounter_id, 'CIEL', '160947');
 
 -- urogenital
-UPDATE temp_encounter 
-SET 
-    urogenital = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1126', 'fr');
-
-UPDATE temp_encounter
-SET 
-    urogenital_findings = OBS_VALUE_TEXT(encounter_id, 'CIEL', '163047');
+UPDATE temp_encounter SET urogenital = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1126', 'fr');
+UPDATE temp_encounter SET urogenital_findings = OBS_VALUE_TEXT(encounter_id, 'CIEL', '163047');
 
 -- rectal
-UPDATE temp_encounter 
-SET 
-    rectal = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '163746', 'fr');
-UPDATE temp_encounter 
-SET 
-    rectal_findings = OBS_VALUE_TEXT(encounter_id, 'CIEL', '160961');
+UPDATE temp_encounter SET rectal = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '163746', 'fr');
+UPDATE temp_encounter SET rectal_findings = OBS_VALUE_TEXT(encounter_id, 'CIEL', '160961');
 
 -- musculoskeletal
-UPDATE temp_encounter 
-SET 
-    musculoskeletal = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1128', 'fr');
-
-UPDATE temp_encounter
-SET 
-    musculoskeletal_findings = OBS_VALUE_TEXT(encounter_id, 'CIEL', '163048');
+UPDATE temp_encounter SET musculoskeletal = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1128', 'fr');
+UPDATE temp_encounter SET musculoskeletal_findings = OBS_VALUE_TEXT(encounter_id, 'CIEL', '163048');
 
 -- lymph
-UPDATE temp_encounter 
-SET 
-    lymph = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1121', 'fr');
-
-UPDATE temp_encounter
-SET 
-    lymph_findings = OBS_VALUE_TEXT(encounter_id, 'CIEL', '166005');
+UPDATE temp_encounter SET lymph = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1121', 'fr');
+UPDATE temp_encounter SET lymph_findings = OBS_VALUE_TEXT(encounter_id, 'CIEL', '166005');
 
 -- skin
-UPDATE temp_encounter 
-SET 
-    skin = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1120', 'fr');
-
-UPDATE temp_encounter
-SET 
-    skin_findings = OBS_VALUE_TEXT(encounter_id, 'CIEL', '160981');
+UPDATE temp_encounter SET skin = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1120', 'fr');
+UPDATE temp_encounter SET skin_findings = OBS_VALUE_TEXT(encounter_id, 'CIEL', '160981');
 
 -- neuro
-UPDATE temp_encounter 
-SET 
-    neuro = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1129', 'fr');
-
-UPDATE temp_encounter
-SET 
-    neuro_findings = OBS_VALUE_TEXT(encounter_id, 'CIEL', '163109');
+UPDATE temp_encounter SET neuro = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1129', 'fr');
+UPDATE temp_encounter SET neuro_findings = OBS_VALUE_TEXT(encounter_id, 'CIEL', '163109');
 
 -- avpu
-UPDATE temp_encounter 
-SET 
-    avpu = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '162643', 'fr');
+UPDATE temp_encounter SET avpu = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '162643', 'fr');
 
 -- other
-UPDATE temp_encounter 
-SET 
-    other_findings = OBS_VALUE_TEXT(encounter_id, 'CIEL', '163042');
+UPDATE temp_encounter SET other_findings = OBS_VALUE_TEXT(encounter_id, 'CIEL', '163042');
 
-UPDATE temp_encounter 
-SET 
-    medications = OBS_VALUE_CODED_LIST(encounter_id, 'PIH', '1282', 'fr');
-
-UPDATE temp_encounter
-SET 
-    medication_comments = OBS_VALUE_TEXT(encounter_id,
-            'PIH',
-            'Medication comments (text)');
+-- medications
+UPDATE temp_encounter SET medications = OBS_VALUE_CODED_LIST(encounter_id, 'PIH', '1282', 'fr');
+UPDATE temp_encounter SET medication_comments = OBS_VALUE_TEXT(encounter_id, 'PIH', 'Medication comments (text)');
 
 -- supportive care
-UPDATE temp_encounter 
-SET 
-    supportive_care = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '165995', 'fr');
+UPDATE temp_encounter SET supportive_care = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '165995', 'fr');
 
 -- o2therapy value
-UPDATE temp_encounter 
-SET 
-    o2therapy = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '165986');
+UPDATE temp_encounter SET o2therapy = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '165986');
 
 -- analgesic comments/description
-UPDATE temp_encounter 
-SET 
-    analgesic_specified = OBS_VALUE_TEXT(encounter_id, 'CIEL', '163206');
+UPDATE temp_encounter SET analgesic_specified = OBS_VALUE_TEXT(encounter_id, 'CIEL', '163206');
 
 ##### IVF
+-- This part returns 3 columns and in each column we have " | | "
 -- IV fluid details
 DROP TABLE IF EXISTS temp_stage1_ivf;
 CREATE TABLE temp_stage1_ivf (SELECT person_id,
@@ -615,12 +467,12 @@ DROP TEMPORARY TABLE IF EXISTS temp_final1_ivf;
 CREATE TEMPORARY TABLE temp_final1_ivf(
 	  person_id       INT(11),
 	  encounter_id    INT(11),
-    obs_group_id1   INT(11),
-    obs_group_id2   INT(11),
-    obs_group_id3   INT(11),
-    ivf1            TEXT,
-    ivf2            TEXT,
-    ivf3            TEXT
+	  obs_group_id1   INT(11),
+      obs_group_id2   INT(11),
+      obs_group_id3   INT(11),
+      ivf1            TEXT,
+      ivf2            TEXT,
+      ivf3            TEXT
 );
 INSERT INTO temp_final1_ivf (person_id, encounter_id, obs_group_id1)
 (
@@ -725,118 +577,98 @@ SET
                 '',
                 ivf_value_numeric3));
 
-UPDATE temp_encounter 
-SET 
-    convid19 = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '165793', 'fr');
+-- COVID 19
+UPDATE temp_encounter SET convid19 = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '165793', 'fr');
 
 -- diagnosis to be changed (using obs_gid_function)
-UPDATE temp_encounter 
-SET 
-    diagnosis = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1284', 'fr');
+UPDATE temp_encounter SET diagnosis = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1284', 'fr');
 
-### Labs (to be added using obs_gid_function)
+### Labs
+## Sputum collection date1
+UPDATE temp_encounter SET specimen_date1 = OBS_VALUE_DATETIME_BY_OFFSET(encounter_id, 'CIEL', '159951', 0);
 
-##### Lab Results
-UPDATE temp_encounter
-SET 
-    hemoglobin = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '21');
+## specimen types 1
+UPDATE temp_encounter SET specimens_type1 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '159959', 'en', specimen_date1);
 
-UPDATE temp_encounter
-SET 
-    hematocrit = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '1015');
+## Results 1
+UPDATE temp_encounter SET antibody_result1 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '165853', 'fr', specimen_date1);
+UPDATE temp_encounter SET antigen_result1 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '165852', 'fr', specimen_date1);
+UPDATE temp_encounter SET pcr_result1 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '165840', 'fr', specimen_date1);
+UPDATE temp_encounter SET genexpert_result1 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '165865', 'fr', specimen_date1);
 
-UPDATE temp_encounter
-SET 
-    wbc = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '678');
+## Sputum collection date2
+UPDATE temp_encounter SET specimen_date2 = OBS_VALUE_DATETIME_BY_OFFSET(encounter_id, 'CIEL', '159951', 1);
 
-UPDATE temp_encounter
-SET 
-    platelets = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '729');
+## specimen types 2
+UPDATE temp_encounter SET specimens_type2 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '159959', 'en', specimen_date2);
 
-UPDATE temp_encounter
-SET 
-    lymphocyte = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '952');
+## Results 2
+UPDATE temp_encounter SET antibody_result2 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '165853', 'fr', specimen_date2);
+UPDATE temp_encounter SET antigen_result2 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '165852', 'fr', specimen_date2);
+UPDATE temp_encounter SET pcr_result2 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '165840', 'fr', specimen_date2);
+UPDATE temp_encounter SET genexpert_result2 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '165865', 'fr', specimen_date2);
 
-UPDATE temp_encounter
-SET 
-    neutrophil = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '1330');
+## Sputum collection date3
+UPDATE temp_encounter SET specimen_date3 = OBS_VALUE_DATETIME_BY_OFFSET(encounter_id, 'CIEL', '159951', 2);
 
-UPDATE temp_encounter
-SET 
-    crp = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '161500');
+## specimen types 3
+UPDATE temp_encounter SET specimens_type3 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '159959', 'en', specimen_date3);
 
-UPDATE temp_encounter
-SET 
-    sodium = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '1132');
+## Results 3
+UPDATE temp_encounter SET antibody_result3 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '165853', 'fr', specimen_date3);
+UPDATE temp_encounter SET antigen_result3 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '165852', 'fr', specimen_date3);
+UPDATE temp_encounter SET pcr_result3 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '165840', 'fr', specimen_date3);
+UPDATE temp_encounter SET genexpert_result3 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '165865', 'fr', specimen_date3);
 
-UPDATE temp_encounter
-SET 
-    potassium = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '1133');
+##### Lab Results 
+UPDATE temp_encounter SET hemoglobin = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '21');
 
-UPDATE temp_encounter
-SET 
-    urea = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '857');
+UPDATE temp_encounter SET hematocrit = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '1015');
 
-UPDATE temp_encounter
-SET 
-    creatinine = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '790');
+UPDATE temp_encounter SET wbc = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '678');
 
-UPDATE temp_encounter
-SET 
-    glucose = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '887');
+UPDATE temp_encounter SET platelets = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '729');
 
-UPDATE temp_encounter
-SET 
-    bilirubin = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '655');
+UPDATE temp_encounter SET lymphocyte = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '952');
 
-UPDATE temp_encounter
-SET 
-    sgpt = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '654');
+UPDATE temp_encounter SET neutrophil = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '1330');
 
-UPDATE temp_encounter
-SET 
-    sgot = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '653');
+UPDATE temp_encounter SET crp = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '161500');
 
-UPDATE temp_encounter
-SET 
-    pH = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '165984');
+UPDATE temp_encounter SET sodium = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '1132');
 
-UPDATE temp_encounter
-SET 
-    pcO2 = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '163595');
+UPDATE temp_encounter SET potassium = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '1133');
 
+UPDATE temp_encounter SET urea = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '857'); 
 
-UPDATE temp_encounter
-SET 
-    pO2 = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '163598');
+UPDATE temp_encounter SET creatinine = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '790');
 
-UPDATE temp_encounter
-SET 
-    tcO2 = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '166002');
+UPDATE temp_encounter SET glucose = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '887');
 
-UPDATE temp_encounter
-SET 
-    hcO3 = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '163596');
+UPDATE temp_encounter SET bilirubin = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '655');
 
-UPDATE temp_encounter
-SET 
-    be = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '163599');
+UPDATE temp_encounter SET sgpt = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '654');
 
-UPDATE temp_encounter
-SET 
-    sO2 = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '163597');
-UPDATE temp_encounter 
-SET 
-    lactate = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '165997');
+UPDATE temp_encounter SET sgot = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '653');
+
+UPDATE temp_encounter SET pH = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '165984');
+
+UPDATE temp_encounter SET pcO2 = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '163595');
+
+UPDATE temp_encounter SET pO2 = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '163598');
+
+UPDATE temp_encounter SET tcO2 = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '166002');
+
+UPDATE temp_encounter SET hcO3 = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '163596');
+
+UPDATE temp_encounter SET be = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '163599');
+
+UPDATE temp_encounter SET sO2 = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '163597');
+
+UPDATE temp_encounter SET lactate = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '165997');
 
 #######Radiology
-UPDATE temp_encounter 
-SET 
-    chest_xray = OBS_SINGLE_VALUE_CODED(encounter_id,
-            'PIH',
-            'Radiology procedure performed',
-            'CIEL',
-            '165152');
+UPDATE temp_encounter SET chest_xray = OBS_SINGLE_VALUE_CODED(encounter_id, 'PIH', 'Radiology procedure performed', 'CIEL', '165152');
 
 UPDATE temp_encounter e
         LEFT JOIN
@@ -865,13 +697,7 @@ UPDATE temp_encounter e
 SET 
     chest_xray_findings = o1.value_text;
 
-UPDATE temp_encounter 
-SET 
-    cardioUS = OBS_SINGLE_VALUE_CODED(encounter_id,
-            'PIH',
-            'Radiology procedure performed',
-            'CIEL',
-            '163041');
+UPDATE temp_encounter SET cardioUS = OBS_SINGLE_VALUE_CODED(encounter_id, 'PIH', 'Radiology procedure performed', 'CIEL', '163041');
 
 UPDATE temp_encounter e
         LEFT JOIN
@@ -900,13 +726,9 @@ UPDATE temp_encounter e
 SET 
     cardioUS_findings = o1.value_text;
 
-UPDATE temp_encounter 
-SET 
-    abUS = OBS_SINGLE_VALUE_CODED(encounter_id,
-            'PIH',
-            'Radiology procedure performed',
-            'CIEL',
-            '845');
+-- abUS
+UPDATE temp_encounter SET abUS = OBS_SINGLE_VALUE_CODED(encounter_id, 'PIH', 'Radiology procedure performed', 'CIEL', '845');
+
 UPDATE temp_encounter e
         LEFT JOIN
     (SELECT 
@@ -989,57 +811,30 @@ UPDATE temp_encounter e
 SET 
     radiology_other_comments = o1.value_text;
 
-UPDATE temp_encounter 
-SET 
-    disposition = OBS_VALUE_CODED_LIST(encounter_id,
-            'PIH',
-            'Hum Disposition categories',
-            'fr');
-UPDATE temp_encounter 
-SET 
-    admission_ward = (SELECT 
-            name
-        FROM
-            location
-        WHERE
-            location_id = OBS_VALUE_TEXT(encounter_id,
-                    'PIH',
-                    'Admission location in hospital'));
+-- Disposition
+UPDATE temp_encounter SET disposition = OBS_VALUE_CODED_LIST(encounter_id, 'PIH', 'Hum Disposition categories', 'fr');
 
-UPDATE temp_encounter
-SET 
-    transfer_out_location = OBS_VALUE_CODED_LIST(encounter_id,
-            'PIH',
-            'Transfer out location',
-            'en');
+-- Admission ward
+UPDATE temp_encounter SET admission_ward = (SELECT name FROM location WHERE location_id = OBS_VALUE_TEXT(encounter_id, 'PIH', 'Admission location in hospital'));
 
-UPDATE temp_encounter
-SET 
-    clinical_management_plan = OBS_VALUE_TEXT(encounter_id, 'CIEL', '162749');
+-- Transfer out location
+UPDATE temp_encounter SET transfer_out_location = OBS_VALUE_CODED_LIST(encounter_id, 'PIH', 'Transfer out location', 'en');
 
-UPDATE temp_encounter
-SET 
-    nursing_note = OBS_VALUE_TEXT(encounter_id, 'CIEL', '166021');
+-- clinical management plan
+UPDATE temp_encounter SET clinical_management_plan = OBS_VALUE_TEXT(encounter_id, 'CIEL', '162749');
 
-UPDATE temp_encounter
-SET 
-    mh_referral = OBS_SINGLE_VALUE_CODED(encounter_id,
-            'CIEL',
-            '1272',
-            'PIH',
-            '5489');
+-- nursing note
+UPDATE temp_encounter SET nursing_note = OBS_VALUE_TEXT(encounter_id, 'CIEL', '166021');
 
-UPDATE temp_encounter 
-SET 
-    mh_note = OBS_VALUE_TEXT(encounter_id, 'CIEL', '161011');
+-- mh referral
+UPDATE temp_encounter SET mh_referral = OBS_SINGLE_VALUE_CODED(encounter_id, 'CIEL', '1272', 'PIH', '5489');
+
+-- mh note 
+UPDATE temp_encounter SET mh_note = OBS_VALUE_TEXT(encounter_id, 'CIEL', '161011');
 
 ### COVID 19 Progress FORM
 -- overall_condition
-update temp_encounter set overall_condition = obs_value_coded_list(
-	encounter_id,
-    'CIEL',
-    '159640',
-    'fr'
+UPDATE temp_encounter SET overall_condition = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '159640', 'fr'
 );
 
 -- new symptom
@@ -1074,81 +869,34 @@ SET worse_symptoms = o.worsen_symptom_names;
 ## Therapy
 
 -- oxygen therapy
-UPDATE temp_encounter SET oxygen_therapy = OBS_VALUE_CODED_LIST(
-	encounter_id,
-    'CIEL',
-    '165864',
-    'fr'
-);
+UPDATE temp_encounter SET oxygen_therapy = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '165864', 'fr');
 
 -- non-invasive ventilation (BiPAP, CPAP)
-UPDATE temp_encounter SET non_inv_ventilation = OBS_VALUE_CODED_LIST(
-	encounter_id,
-    'CIEL',
-    '165945',
-    'fr'
-);
+UPDATE temp_encounter SET non_inv_ventilation = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '165945', 'fr');
 
 -- vasopressors
-UPDATE temp_encounter SET vasopressors = OBS_VALUE_CODED_LIST(
-	encounter_id,
-    'CIEL',
-    '165926',
-    'fr'
-);
+UPDATE temp_encounter SET vasopressors = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '165926', 'fr');
 
 -- antibiotics
-UPDATE temp_encounter SET antibiotics = OBS_VALUE_CODED_LIST(
-	encounter_id,
-    'CIEL',
-    '165991',
-    'fr'
-);
+UPDATE temp_encounter SET antibiotics = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '165991', 'fr');
 
 -- other interventions
-UPDATE temp_encounter SET other_intervention = OBS_VALUE_TEXT(
-	encounter_id,
-    'CIEL',
-    '165264'
-);
+UPDATE temp_encounter SET other_intervention = OBS_VALUE_TEXT(encounter_id, 'CIEL', '165264');
 
 ## ICU
-UPDATE temp_encounter SET icu = OBS_SINGLE_VALUE_CODED(
-	encounter_id,
-    'CIEL',
-    '165644',
-    'CIEL',
-    '1065'
-); 
+UPDATE temp_encounter SET icu = OBS_SINGLE_VALUE_CODED(encounter_id, 'CIEL', '165644', 'CIEL', '1065'); 
 
 -- Days in ICU
-UPDATE temp_encounter SET days_in_icu = OBS_VALUE_NUMERIC(
-	encounter_id,
-    'CIEL',
-    '163204'
-);
+UPDATE temp_encounter SET days_in_icu = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '163204');
 
 -- ICU Admission date
-UPDATE temp_encounter SET icu_admission_date = OBS_VALUE_DATETIME(
-	encounter_id, 
-    'CIEL', 
-    '165992'
-);
+UPDATE temp_encounter SET icu_admission_date = OBS_VALUE_DATETIME(encounter_id, 'CIEL', '165992');
 
 -- ICU Discharge date
-UPDATE temp_encounter SET icu_discharge_date = OBS_VALUE_DATETIME(
-	encounter_id, 
-    'CIEL', 
-    '165993'
-);
+UPDATE temp_encounter SET icu_discharge_date = OBS_VALUE_DATETIME(encounter_id, 'CIEL', '165993');
 
 ### Medication
-UPDATE temp_encounter SET discharge_meds = OBS_VALUE_CODED_LIST(
-	encounter_id,
-    'PIH',
-    '1282',
-    'fr'
-);
+UPDATE temp_encounter SET discharge_meds = OBS_VALUE_CODED_LIST(encounter_id, 'PIH', '1282', 'fr');
 
 -- other antibiotic
 UPDATE temp_encounter te LEFT JOIN obs o ON
@@ -1156,32 +904,16 @@ te.encounter_id = o.encounter_id AND concept_id = CONCEPT_FROM_MAPPING('PIH', '1
 SET other_antibiotics = o.comments;
 
 -- other meds
-UPDATE temp_encounter SET other_discharge_meds = OBS_VALUE_TEXT(
-	encounter_id,
-    'PIH',
-    'Medication comments (text)'
-);
+UPDATE temp_encounter SET other_discharge_meds = OBS_VALUE_TEXT(encounter_id, 'PIH', 'Medication comments (text)');
 
 -- Discharge conditions
-UPDATE temp_encounter SET discharge_condition = OBS_VALUE_CODED_LIST(
-	encounter_id,
-    'CIEL',
-    '159640',
-    'fr'
-);
+UPDATE temp_encounter SET discharge_condition = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '159640', 'fr');
+
 -- followup plan
-UPDATE temp_encounter SET followup_plan = OBS_VALUE_TEXT(
-	encounter_id,
-    'CIEL',
-    '162749'
-);
+UPDATE temp_encounter SET followup_plan = OBS_VALUE_TEXT(encounter_id, 'CIEL', '162749');
 
 -- Discharge comments
-UPDATE temp_encounter SET discharge_comments = OBS_VALUE_TEXT(
-	encounter_id,
-    'CIEL',
-    '161011'
-);
+UPDATE temp_encounter SET discharge_comments = OBS_VALUE_TEXT(encounter_id, 'CIEL', '161011');
 
 ####### EXECUTE SELECT TO EXPORT TABLE CONTENTS
 SELECT 
@@ -1198,6 +930,7 @@ SELECT
     e.encounter_datetime,
     e.encounter_provider,
     e.health_care_worker,
+    e.hcw_type,
     e.pregnant,
     e.last_menstruation_date,
     e.estimated_delivery_date,
@@ -1267,6 +1000,24 @@ SELECT
     tf.ivf3,
     e.convid19,
     e.diagnosis,
+    e.specimen_date1,
+    e.specimens_type1,
+    e.antibody_result1,
+    e.antigen_result1,
+    e.pcr_result1,
+    e.genexpert_result1,
+    e.specimen_date2,
+    e.specimens_type2,
+    e.antibody_result2,
+    e.antigen_result2,
+    e.pcr_result2,
+    e.genexpert_result2,
+    e.specimen_date3,
+    e.specimens_type3,
+    e.antibody_result3,
+    e.antigen_result3,
+    e.pcr_result3,
+    e.genexpert_result3,
     e.hemoglobin,
     e.hematocrit,
     e.wbc,
