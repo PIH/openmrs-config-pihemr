@@ -348,7 +348,7 @@ SET
 -- mental health comment
 -- note for this, to retrieve the mental health comment, you need to find the referral construct for the encounter, ensure it is a mental health referral and then update based on that obs_group
 UPDATE temp_encounter t
-INNER JOIN obs o_c on o_c.obs_id = obs_id(t.encounter_id, 'PIH','12837') and obs_from_group_id_value_coded_list(o_c.obs_id,'CIEL','1272','en') = concept_name( concept_from_mapping('PIH','5489'),'en')
+INNER JOIN obs o_c on o_c.obs_id = obs_id(t.encounter_id, 'PIH','12837',0) and obs_from_group_id_value_coded_list(o_c.obs_id,'CIEL','1272','en') = concept_name( concept_from_mapping('PIH','5489'),'en')
 SET mental_health = obs_from_group_id_value_text(o_c.obs_id,'CIEL','161011','en')
 ;
 
