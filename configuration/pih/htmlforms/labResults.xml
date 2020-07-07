@@ -366,7 +366,7 @@
                 </label>
                 <span class="small">
                     <field>
-                        <obs id="calcium" conceptId="PIH:SERUM CALCIUM" showUnits="true"/>
+                        <obs id="calcium" conceptId="PIH:12987" showUnits="true"/>
                     </field>
                 </span>
             </p>
@@ -415,7 +415,7 @@
                 </label>
                 <span class="small">
                     <field>
-                        <obs id="total-chol" conceptId="PIH:TOTAL CHOLESTEROL" showUnits="true"/>
+                        <obs id="total-chol" conceptId="PIH:12991" showUnits="true"/>
                     </field>
                 </span>
 
@@ -424,7 +424,7 @@
                 </label>
                 <span class="small">
                     <field>
-                        <obs id="ldl" conceptId="PIH:LOW-DENSITY LIPOPROTEIN CHOLESTEROL" showUnits="true"/>
+                        <obs id="ldl" conceptId="PIH:12992" showUnits="true"/>
                     </field>
                 </span>
 
@@ -433,7 +433,7 @@
                 </label>
                 <span class="small">
                     <field>
-                        <obs id="hdl" conceptId="PIH:HIGH-DENSITY LIPOPROTEIN CHOLESTEROL" showUnits="true"/>
+                        <obs id="hdl" conceptId="PIH:12993" showUnits="true"/>
                     </field>
                 </span>
 
@@ -442,7 +442,7 @@
                 </label>
                 <span class="small">
                     <field>
-                        <obs id="trigly" conceptId="PIH:TRIGLYCERIDES" showUnits="true"/>
+                        <obs id="trigly" conceptId="PIH:12990" showUnits="true"/>
                     </field>
                 </span>
             </p>
