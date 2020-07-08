@@ -140,12 +140,14 @@ CREATE TEMPORARY TABLE temp_encounter
     be                      DOUBLE,
     sO2                     DOUBLE,
     lactate                 DOUBLE,
-    chest_xray              VARCHAR(11),
-    chest_xray_findings     TEXT,
-    cardioUS                VARCHAR(11),
-    cardioUS_findings       TEXT,
-    abUS                    VARCHAR(11),
-    abUS_findings           TEXT,
+	radiology_order1 		VARCHAR(255),
+    radiology_findings1 	TEXT,
+    radiology_order2 		VARCHAR(255),
+    radiology_findings2 	TEXT, 
+    radiology_order3 		VARCHAR(255),
+    radiology_findings3 	TEXT,
+    radiology_order4 		VARCHAR(255),
+    radiology_findings4 	TEXT,
     radiology_other         VARCHAR(255),
     radiology_other_comments TEXT,
     disposition             VARCHAR(255),
@@ -156,10 +158,7 @@ CREATE TEMPORARY TABLE temp_encounter
     mh_note                 TEXT,
     transfer_out_location   VARCHAR(255),
     overall_condition		VARCHAR(255),
-    new_signs_symptoms      TEXT,
-    improved_symptoms       TEXT,
-    no_change               TEXT,
-    worse_symptoms          TEXT,
+	symptom_names1 			TEXT,
     oxygen_therapy          VARCHAR(11),
     non_inv_ventilation     VARCHAR(11),
     vasopressors            VARCHAR(11),
@@ -293,15 +292,7 @@ UPDATE temp_encounter SET comorbidities = OBS_VALUE_CODED_LIST(encounter_id, 'PI
 UPDATE temp_encounter SET available_comorbidities = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '162747', 'fr');
 
 -- other comorbidities
-UPDATE temp_encounter te
-        LEFT JOIN
-    obs o ON o.person_id = te.patient_id
-        AND o.encounter_id = te.encounter_id
-        AND o.voided = 0
-        AND o.concept_id = CONCEPT_FROM_MAPPING('CIEL', '162747')
-        AND o.value_coded = CONCEPT_FROM_MAPPING('CIEL', '5622') 
-SET 
-    other_comorbidities = o.comments;
+UPDATE temp_encounter te SET  other_comorbidities = OBS_COMMENTS(encounter_id, 'CIEL', '162747', 'PIH', 'OTHER');
 
 -- mh
 UPDATE temp_encounter SET mental_health = OBS_VALUE_TEXT(encounter_id, 'CIEL', '163044');
@@ -582,40 +573,40 @@ UPDATE temp_encounter SET diagnosis = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL',
 
 ### Labs
 ## Sputum collection date1
-UPDATE temp_encounter SET specimen_date1 = OBS_VALUE_DATETIME_BY_OFFSET(encounter_id, 'CIEL', '159951', 0);
+UPDATE temp_encounter SET specimen_date1 = OBS_FROM_GROUP_ID_VALUE_DATETIME(OBS_ID(encounter_id, 'PIH' , '12973', 0), 'CIEL', '159951');
 
 ## specimen types 1
-UPDATE temp_encounter SET specimens_type1 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '159959', 'en', specimen_date1);
+UPDATE temp_encounter SET specimens_type1 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 0), 'CIEL', '159959', 'en');
 
 ## Results 1
-UPDATE temp_encounter SET antibody_result1 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '165853', 'fr', specimen_date1);
-UPDATE temp_encounter SET antigen_result1 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '165852', 'fr', specimen_date1);
-UPDATE temp_encounter SET pcr_result1 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '165840', 'fr', specimen_date1);
-UPDATE temp_encounter SET genexpert_result1 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '165865', 'fr', specimen_date1);
+UPDATE temp_encounter SET antibody_result1 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 0), 'CIEL', '165853', 'fr');
+UPDATE temp_encounter SET antigen_result1 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 0), 'CIEL', '165852', 'fr');
+UPDATE temp_encounter SET pcr_result1 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 0), 'CIEL', '165840', 'fr');
+UPDATE temp_encounter SET genexpert_result1 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 0), 'CIEL', '165865', 'fr');
 
 ## Sputum collection date2
-UPDATE temp_encounter SET specimen_date2 = OBS_VALUE_DATETIME_BY_OFFSET(encounter_id, 'CIEL', '159951', 1);
+UPDATE temp_encounter SET specimen_date2 = OBS_FROM_GROUP_ID_VALUE_DATETIME(OBS_ID(encounter_id, 'PIH' , '12973', 1), 'CIEL', '159951');
 
 ## specimen types 2
-UPDATE temp_encounter SET specimens_type2 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '159959', 'en', specimen_date2);
+UPDATE temp_encounter SET specimens_type2 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 1), 'CIEL', '159959', 'en');
 
 ## Results 2
-UPDATE temp_encounter SET antibody_result2 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '165853', 'fr', specimen_date2);
-UPDATE temp_encounter SET antigen_result2 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '165852', 'fr', specimen_date2);
-UPDATE temp_encounter SET pcr_result2 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '165840', 'fr', specimen_date2);
-UPDATE temp_encounter SET genexpert_result2 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '165865', 'fr', specimen_date2);
+UPDATE temp_encounter SET antibody_result2 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 1), 'CIEL', '165853', 'fr');
+UPDATE temp_encounter SET antigen_result2 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 1), 'CIEL', '165852', 'fr');
+UPDATE temp_encounter SET pcr_result2 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 1), 'CIEL', '165840', 'fr');
+UPDATE temp_encounter SET genexpert_result2 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 1), 'CIEL', '165865', 'fr');
 
 ## Sputum collection date3
-UPDATE temp_encounter SET specimen_date3 = OBS_VALUE_DATETIME_BY_OFFSET(encounter_id, 'CIEL', '159951', 2);
+UPDATE temp_encounter SET specimen_date3 = OBS_FROM_GROUP_ID_VALUE_DATETIME(OBS_ID(encounter_id, 'PIH' , '12973', 2), 'CIEL', '159951');
 
 ## specimen types 3
-UPDATE temp_encounter SET specimens_type3 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '159959', 'en', specimen_date3);
+UPDATE temp_encounter SET specimens_type3 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH','12973',2), 'CIEL', '159959', 'en');
 
 ## Results 3
-UPDATE temp_encounter SET antibody_result3 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '165853', 'fr', specimen_date3);
-UPDATE temp_encounter SET antigen_result3 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '165852', 'fr', specimen_date3);
-UPDATE temp_encounter SET pcr_result3 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '165840', 'fr', specimen_date3);
-UPDATE temp_encounter SET genexpert_result3 = OBS_VALUE_CODED_LIST_BY_VALUEDATETIME(encounter_id, 'CIEL', '165865', 'fr', specimen_date3);
+UPDATE temp_encounter SET antibody_result3 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 2), 'CIEL', '165853', 'fr');
+UPDATE temp_encounter SET antigen_result3 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 2), 'CIEL', '165852', 'fr');
+UPDATE temp_encounter SET pcr_result3 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 2), 'CIEL', '165840', 'fr');
+UPDATE temp_encounter SET genexpert_result3 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 2), 'CIEL', '165865', 'fr');
 
 ##### Lab Results 
 UPDATE temp_encounter SET hemoglobin = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '21');
@@ -665,148 +656,17 @@ UPDATE temp_encounter SET sO2 = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '163597'
 UPDATE temp_encounter SET lactate = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '165997');
 
 #######Radiology
-UPDATE temp_encounter SET chest_xray = OBS_SINGLE_VALUE_CODED(encounter_id, 'PIH', 'Radiology procedure performed', 'CIEL', '165152');
+UPDATE temp_encounter SET radiology_order1 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , 'Radiology report construct', 0), 'PIH', 'Radiology procedure performed', 'fr');
+UPDATE temp_encounter SET radiology_findings1 = OBS_FROM_GROUP_ID_VALUE_TEXT(OBS_ID(encounter_id, 'PIH', 'Radiology report construct',0), 'PIH', 'Radiology report comments');
 
-UPDATE temp_encounter e
-        LEFT JOIN
-    (SELECT 
-        encounter_id, person_id, obs_group_id, value_text
-    FROM
-        obs
-    WHERE
-        obs_group_id IN (SELECT 
-                obs_group_id
-            FROM
-                obs o
-            WHERE
-                voided = 0
-                    AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'Radiology procedure performed')
-                    AND value_coded = CONCEPT_FROM_MAPPING('CIEL', '165152')
-                    AND encounter_id IN (SELECT 
-                        encounter_id
-                    FROM
-                        encounter
-                    WHERE
-                        encounter_type = @covid_admission_encounter_type))
-            AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'Radiology report comments')
-            AND voided = 0) o1 ON e.patient_id = o1.person_id
-        AND e.encounter_id = o1.encounter_id 
-SET 
-    chest_xray_findings = o1.value_text;
+UPDATE temp_encounter SET radiology_order2 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , 'Radiology report construct', 1), 'PIH', 'Radiology procedure performed', 'fr');
+UPDATE temp_encounter SET radiology_findings2 = OBS_FROM_GROUP_ID_VALUE_TEXT(OBS_ID(encounter_id, 'PIH', 'Radiology report construct',1), 'PIH', 'Radiology report comments');
 
-UPDATE temp_encounter SET cardioUS = OBS_SINGLE_VALUE_CODED(encounter_id, 'PIH', 'Radiology procedure performed', 'CIEL', '163041');
+UPDATE temp_encounter SET radiology_order3 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , 'Radiology report construct', 2), 'PIH', 'Radiology procedure performed', 'fr');
+UPDATE temp_encounter SET radiology_findings3 = OBS_FROM_GROUP_ID_VALUE_TEXT(OBS_ID(encounter_id, 'PIH', 'Radiology report construct',2), 'PIH', 'Radiology report comments');
 
-UPDATE temp_encounter e
-        LEFT JOIN
-    (SELECT 
-        encounter_id, person_id, obs_group_id, value_text
-    FROM
-        obs
-    WHERE
-        obs_group_id IN (SELECT 
-                obs_group_id
-            FROM
-                obs o
-            WHERE
-                voided = 0
-                    AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'Radiology procedure performed')
-                    AND value_coded = CONCEPT_FROM_MAPPING('CIEL', '163041')
-                    AND encounter_id IN (SELECT 
-                        encounter_id
-                    FROM
-                        encounter
-                    WHERE
-                        encounter_type = @covid_admission_encounter_type))
-            AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'Radiology report comments')
-            AND voided = 0) o1 ON e.patient_id = o1.person_id
-        AND e.encounter_id = o1.encounter_id 
-SET 
-    cardioUS_findings = o1.value_text;
-
--- abUS
-UPDATE temp_encounter SET abUS = OBS_SINGLE_VALUE_CODED(encounter_id, 'PIH', 'Radiology procedure performed', 'CIEL', '845');
-
-UPDATE temp_encounter e
-        LEFT JOIN
-    (SELECT 
-        encounter_id, person_id, obs_group_id, value_text
-    FROM
-        obs
-    WHERE
-        obs_group_id IN (SELECT 
-                obs_group_id
-            FROM
-                obs o
-            WHERE
-                voided = 0
-                    AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'Radiology procedure performed')
-                    AND value_coded = CONCEPT_FROM_MAPPING('CIEL', '845')
-                    AND encounter_id IN (SELECT 
-                        encounter_id
-                    FROM
-                        encounter
-                    WHERE
-                        encounter_type = @covid_admission_encounter_type))
-            AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'Radiology report comments')
-            AND voided = 0) o1 ON e.patient_id = o1.person_id
-        AND e.encounter_id = o1.encounter_id 
-SET 
-    abUS_findings = o1.value_text;
-
--- Other finding
-UPDATE temp_encounter e
-        LEFT JOIN
-    (SELECT 
-        encounter_id, person_id, obs_group_id, value_coded
-    FROM
-        obs
-    WHERE
-        obs_group_id IN (SELECT 
-                obs_group_id
-            FROM
-                obs o
-            WHERE
-                voided = 0
-                    AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'Radiology procedure performed')
-                    AND value_coded NOT IN (CONCEPT_FROM_MAPPING('CIEL', '165152') , CONCEPT_FROM_MAPPING('CIEL', '163041'), CONCEPT_FROM_MAPPING('CIEL', '845'))
-                    AND encounter_id IN (SELECT 
-                        encounter_id
-                    FROM
-                        encounter
-                    WHERE
-                        encounter_type = @covid_admission_encounter_type))
-            AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'Radiology procedure performed')
-            AND voided = 0) o1 ON e.patient_id = o1.person_id
-        AND e.encounter_id = o1.encounter_id 
-SET 
-    radiology_other = CONCEPT_NAME(o1.value_coded, 'fr');
-
-UPDATE temp_encounter e
-        LEFT JOIN
-    (SELECT 
-        encounter_id, person_id, obs_group_id, value_text
-    FROM
-        obs
-    WHERE
-        obs_group_id IN (SELECT 
-                obs_group_id
-            FROM
-                obs o
-            WHERE
-                voided = 0
-                    AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'Radiology procedure performed')
-                    AND value_coded NOT IN (CONCEPT_FROM_MAPPING('CIEL', '165152') , CONCEPT_FROM_MAPPING('CIEL', '163041'), CONCEPT_FROM_MAPPING('CIEL', '845'))
-                    AND encounter_id IN (SELECT 
-                        encounter_id
-                    FROM
-                        encounter
-                    WHERE
-                        encounter_type = @covid_admission_encounter_type))
-            AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'Radiology report comments')
-            AND voided = 0) o1 ON e.patient_id = o1.person_id
-        AND e.encounter_id = o1.encounter_id 
-SET 
-    radiology_other_comments = o1.value_text;
+UPDATE temp_encounter SET radiology_order4 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , 'Radiology report construct', 3), 'PIH', 'Radiology procedure performed', 'fr');
+UPDATE temp_encounter SET radiology_findings4 = OBS_FROM_GROUP_ID_VALUE_TEXT(OBS_ID(encounter_id, 'PIH', 'Radiology report construct',3), 'PIH', 'Radiology report comments');
 
 -- Disposition
 UPDATE temp_encounter SET disposition = OBS_VALUE_CODED_LIST(encounter_id, 'PIH', 'Hum Disposition categories', 'fr');
@@ -818,7 +678,7 @@ UPDATE temp_encounter SET admission_ward = (SELECT name FROM location WHERE loca
 UPDATE temp_encounter SET transfer_out_location = OBS_VALUE_CODED_LIST(encounter_id, 'PIH', 'Transfer out location', 'en');
 
 -- clinical management plan
-UPDATE temp_encounter SET clinical_management_plan = OBS_VALUE_TEXT(encounter_id, 'CIEL', '162749');
+UPDATE temp_encounter te SET clinical_management_plan = OBS_VALUE_TEXT(encounter_id, 'CIEL', '162749');
 
 -- nursing note
 UPDATE temp_encounter SET nursing_note = OBS_VALUE_TEXT(encounter_id, 'CIEL', '166021');
@@ -826,41 +686,15 @@ UPDATE temp_encounter SET nursing_note = OBS_VALUE_TEXT(encounter_id, 'CIEL', '1
 -- mh referral
 UPDATE temp_encounter SET mh_referral = OBS_SINGLE_VALUE_CODED(encounter_id, 'CIEL', '1272', 'PIH', '5489');
 
--- mh note 
-UPDATE temp_encounter SET mh_note = OBS_VALUE_TEXT(encounter_id, 'CIEL', '161011');
+-- mh note
+UPDATE temp_encounter SET mh_note =  OBS_FROM_GROUP_ID_VALUE_TEXT(OBS_ID(encounter_id,'PIH','12837',0), 'CIEL', '161011');
 
 ### COVID 19 Progress FORM
 -- overall_condition
-UPDATE temp_encounter SET overall_condition = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '159640', 'fr'
-);
+UPDATE temp_encounter SET overall_condition = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '159640', 'fr');
 
--- new symptom
-UPDATE temp_encounter te LEFT JOIN 
-(SELECT encounter_id, GROUP_CONCAT(CONCEPT_NAME(value_coded, 'en') SEPARATOR " | ") new_symptom_names FROM obs WHERE obs_group_id IN
-(SELECT obs_group_id FROM obs WHERE concept_id = CONCEPT_FROM_MAPPING('CIEL','162676') AND value_coded = CONCEPT_FROM_MAPPING('PIH', '6964') AND voided = 0)
-AND concept_id = CONCEPT_FROM_MAPPING('CIEL','1728') AND voided = 0) o ON te.encounter_id = o.encounter_id
-SET new_signs_symptoms = o.new_symptom_names;
-
--- improved symptoms
-UPDATE temp_encounter te LEFT JOIN 
-(SELECT encounter_id, GROUP_CONCAT(CONCEPT_NAME(value_coded, 'en') SEPARATOR " | ") improved_symptom_names FROM obs WHERE obs_group_id IN
-(SELECT obs_group_id FROM obs WHERE concept_id = CONCEPT_FROM_MAPPING('CIEL','162676') AND value_coded = CONCEPT_FROM_MAPPING('CIEL', '162677') AND voided = 0)
-AND concept_id = CONCEPT_FROM_MAPPING('CIEL','1728') AND voided = 0) o ON te.encounter_id = o.encounter_id
-SET improved_symptoms = o.improved_symptom_names;
-
--- no change
-UPDATE temp_encounter te LEFT JOIN 
-(SELECT encounter_id, GROUP_CONCAT(CONCEPT_NAME(value_coded, 'en') SEPARATOR " | ") no_change_symptom_names FROM obs WHERE obs_group_id IN
-(SELECT obs_group_id FROM obs WHERE concept_id = CONCEPT_FROM_MAPPING('CIEL','162676') AND value_coded = CONCEPT_FROM_MAPPING('CIEL', '162679') AND voided = 0)
-AND concept_id = CONCEPT_FROM_MAPPING('CIEL','1728') AND voided = 0) o ON te.encounter_id = o.encounter_id
-SET no_change = o.no_change_symptom_names;
-
--- worse symptoms
-UPDATE temp_encounter te LEFT JOIN 
-(SELECT encounter_id, GROUP_CONCAT(CONCEPT_NAME(value_coded, 'en') SEPARATOR " | ") worsen_symptom_names FROM obs WHERE obs_group_id IN
-(SELECT obs_group_id FROM obs WHERE concept_id = CONCEPT_FROM_MAPPING('CIEL','162676') AND value_coded = CONCEPT_FROM_MAPPING('CIEL', '162678') AND voided = 0)
-AND concept_id = CONCEPT_FROM_MAPPING('CIEL','1728') AND voided = 0) o ON te.encounter_id = o.encounter_id
-SET worse_symptoms = o.worsen_symptom_names;
+-- Symptoms Progression and Names
+UPDATE temp_encounter te SET symptom_names1 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'CIEL' , '1727', 0), 'CIEL', '1728', 'fr');
 
 ### COVID 19 DISCHARGE
 ## Therapy
@@ -896,9 +730,7 @@ UPDATE temp_encounter SET icu_discharge_date = OBS_VALUE_DATETIME(encounter_id, 
 UPDATE temp_encounter SET discharge_meds = OBS_VALUE_CODED_LIST(encounter_id, 'PIH', '1282', 'fr');
 
 -- other antibiotic
-UPDATE temp_encounter te LEFT JOIN obs o ON
-te.encounter_id = o.encounter_id AND concept_id = CONCEPT_FROM_MAPPING('PIH', '1282') AND value_coded = CONCEPT_FROM_MAPPING('PIH','12974')
-SET other_antibiotics = o.comments;
+UPDATE temp_encounter te SET  other_comorbidities = OBS_COMMENTS(encounter_id, 'PIH', '1282', 'PIH', '12974');
 
 -- other meds
 UPDATE temp_encounter SET other_discharge_meds = OBS_VALUE_TEXT(encounter_id, 'PIH', 'Medication comments (text)');
@@ -910,7 +742,7 @@ UPDATE temp_encounter SET discharge_condition = OBS_VALUE_CODED_LIST(encounter_i
 UPDATE temp_encounter SET followup_plan = OBS_VALUE_TEXT(encounter_id, 'CIEL', '162749');
 
 -- Discharge comments
-UPDATE temp_encounter SET discharge_comments = OBS_VALUE_TEXT(encounter_id, 'CIEL', '161011');
+UPDATE temp_encounter te SET discharge_comments = OBS_VALUE_TEXT(encounter_id, 'CIEL', '161011') WHERE te.encounter_type = 'COVID-19 Discharge';
 
 ####### EXECUTE SELECT TO EXPORT TABLE CONTENTS
 SELECT 
@@ -1038,20 +870,17 @@ SELECT
     e.be,
     e.sO2,
     e.lactate,
-    e.chest_xray,
-    e.chest_xray_findings,
-    e.cardioUS,
-    e.cardioUS_findings,
-    e.abUS,
-    e.abUS_findings,
-    e.radiology_other,
-    e.radiology_other_comments,
+    e.radiology_order1,
+    e.radiology_findings1,
+    e.radiology_order2,
+    e.radiology_findings2, 
+    e.radiology_order3,
+    e.radiology_findings3,
+    e.radiology_order4,
+    e.radiology_findings4,
     #### PROGRESS FORM
     e.overall_condition,
-    e.new_signs_symptoms,
-    e.improved_symptoms,
-    e.no_change,
-    e.worse_symptoms,
+    e.symptom_names1,
     e.disposition,
     e.admission_ward,
     e.clinical_management_plan,
