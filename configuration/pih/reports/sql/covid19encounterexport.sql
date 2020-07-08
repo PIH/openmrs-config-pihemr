@@ -730,7 +730,7 @@ UPDATE temp_encounter SET icu_discharge_date = OBS_VALUE_DATETIME(encounter_id, 
 UPDATE temp_encounter SET discharge_meds = OBS_VALUE_CODED_LIST(encounter_id, 'PIH', '1282', 'fr');
 
 -- other antibiotic
-UPDATE temp_encounter te SET  other_comorbidities = OBS_COMMENTS(encounter_id, 'PIH', '1282', 'PIH', '12974');
+UPDATE temp_encounter te SET  other_antibiotics = OBS_COMMENTS(encounter_id, 'PIH', '1282', 'PIH', '12974');
 
 -- other meds
 UPDATE temp_encounter SET other_discharge_meds = OBS_VALUE_TEXT(encounter_id, 'PIH', 'Medication comments (text)');
