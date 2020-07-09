@@ -51,7 +51,7 @@ CREATE TEMPORARY TABLE temp_encounter
     available_comorbidities TEXT,
     other_comorbidities     TEXT,
     mental_health           TEXT,
-    smoker                  VARCHAR(11),
+    smoker                  VARCHAR(255),
     transfer                VARCHAR(11),
     transfer_facility       VARCHAR(255),
     covid_case_contact      VARCHAR(11),
@@ -294,8 +294,11 @@ UPDATE temp_encounter SET available_comorbidities = OBS_VALUE_CODED_LIST(encount
 -- other comorbidities
 UPDATE temp_encounter te SET  other_comorbidities = OBS_COMMENTS(encounter_id, 'CIEL', '162747', 'PIH', 'OTHER');
 
--- mh
-UPDATE temp_encounter SET mental_health = OBS_VALUE_TEXT(encounter_id, 'CIEL', '163044');
+-- mental health comment
+-- note for this, to retrieve the mental health comment, you need to find the referral construct for the encounter, ensure it is a mental health referral and then update based on that obs_group
+UPDATE temp_encounter t
+INNER JOIN obs o_c on o_c.obs_id = obs_id(t.encounter_id, 'PIH','12837',0) and obs_from_group_id_value_coded_list(o_c.obs_id,'CIEL','1272','en') = concept_name( concept_from_mapping('PIH','5489'),'en')
+SET mental_health = obs_from_group_id_value_text(o_c.obs_id,'CIEL','161011','en');
 
 -- smoker
 UPDATE temp_encounter SET smoker = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '163731', 'fr');

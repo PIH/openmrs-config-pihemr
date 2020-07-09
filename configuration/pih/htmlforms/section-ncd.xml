@@ -1086,6 +1086,17 @@
         </div>
     </section>
 
+    <!-- For both NCD encounters, the return visit date is required -->
+    <section id="plan" sectionTag="fieldset" headerTag="legend" >
+        <p class="narrow">
+            <label>
+                <lookup expression="fn.getConcept('PIH:RETURN VISIT DATE').name"/>
+            </label>
+            <obs conceptId="PIH:RETURN VISIT DATE" allowFutureDates="true" id="apptDate"
+                 required="true"/>
+        </p>
+    </section>
+
     <ifMode mode="VIEW" include="false">
         <div id="buttons">
             <button id="next" type="button" class="submitButton confirm right">

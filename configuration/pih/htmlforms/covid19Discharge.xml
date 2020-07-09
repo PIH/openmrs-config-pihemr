@@ -19,6 +19,7 @@
           formVersion="1.0">
 
     <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.ApplyDispositionAction"/>
+    <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.ExitPatientFromCovidProgramAction"/>
 
     <style type="text/css">
 
@@ -368,10 +369,7 @@
 
 
             <p>
-                <!-- ToDo: Set required -->
-                <div id="disposition">
-                    <encounterDisposition/>
-                </div>
+                <encounterDisposition required="true"/>
             </p>
 
             <p>

@@ -266,7 +266,7 @@
                                          answerConceptId="{map}" />
                                 </td>
                                 <td>
-                                    <!-- ToDo:  Add CIEL concept: new -->
+                                    <!-- For others:  Replace PIH:6964 with CIEL:165341 -->
                                     <obs conceptId="CIEL:162676" style="radio"
                                          answerConceptIds="PIH:6964,CIEL:162677,CIEL:162679,CIEL:162678" />
                                 </td>
@@ -288,9 +288,24 @@
                     <render map="CIEL:135588" text="loss of taste" />
                     <render map="CIEL:135589" text="loss of smell" />
                     <render map="CIEL:120345" text="confusion" />
-                    <render map="CIEL:125562" text="Suicidal thoughts" />
-                    <render map="CIEL:148143" text="Attempted suicide" />
+                    <render map="CIEL:130967" text="panic attack" />
+                    <render map="CIEL:125562" text="suicidal thoughts" />
                 </repeat>
+
+                <!-- Attempted suicide -->
+                <obsgroup groupingConceptId="CIEL:1727">
+                    <tr>
+                        <td>
+                            <obs conceptId="CIEL:1728" style="checkbox"
+                                 answerConceptId="CIEL:148143" />
+                        </td>
+                        <td>
+                            <!-- Tip for other implementations:  Replace PIH:6964 with CIEL:165341 -->
+                            <obs conceptId="CIEL:162676" style="checkbox"
+                                 answerConceptId="PIH:6964" />
+                        </td>
+                    </tr>
+                </obsgroup>
 
                 <!-- Other symptoms -->
                 <tr>
@@ -461,13 +476,16 @@
     <section id="treatment" sectionTag="fieldset" headerTag="legend"
              headerStyle="title" headerCode="pihcore.chemo.treatment">
     <div class="section-container">
-            <h3>
-                <uimessage code="mirebalais.dispensing.medication"/>
-            </h3>
             <p>
                 <strong>
                     <uimessage code="pihcore.firstLineMeds"/>
                 </strong>
+                <repeat with="['Dexamethasone','CIEL:74609']">
+                    <obsgroup groupingConceptId="PIH:Prescription construct">
+                        <obs conceptId="PIH:1282" answerConceptId="{1}"
+                             style="checkbox"/>
+                    </obsgroup>
+                </repeat>
             </p>
             <p>
                 <strong>
@@ -633,6 +651,43 @@
             </obsgroup>
 
             <h3>
+                <uimessage code="pihcore.lab.other" />
+            </h3>
+            <div class="two-columns">
+                <repeat>
+                    <template>
+                        <label>
+                            <uimessage code="{text}"/>
+                        </label>
+                        <span class="small">
+                            <obs conceptId="{map}" showUnits="true"/>
+                        </span>
+                        <br/>
+                    </template>
+
+                    <render map="CIEL:21" text="pihcore.lab.hemoglobin" />
+                    <render map="CIEL:1015" text="pihcore.lab.hematocrit" />
+                    <render map="CIEL:678" text="pihcore.lab.white_blood_cell" />
+                    <render map="CIEL:729" text="pihcore.lab.platelets" />
+
+                    <render map="CIEL:952" text="pihcore.lab.lymphocyte" />
+                    <render map="CIEL:1330" text="pihcore.lab.neutrophil" />
+                    <!-- ToDo:  Add Serum lactate (CIEL:1012) -->
+                    <render map="CIEL:161500" text="CRP" />
+
+                    <render map="CIEL:1132" text="pihcore.lab.sodium" />
+                    <render map="CIEL:1133" text="pihcore.lab.potassium" />
+                    <render map="CIEL:857" text="pihcore.lab.urea" />
+                    <render map="CIEL:790" text="pihcore.lab.creatinine" />
+
+                    <render map="CIEL:887" text="pihcore.lab.glucose" />
+                    <render map="CIEL:655" text="pihcore.lab.bilirubin" />
+                    <render map="CIEL:654" text="AST/SGPT" />
+                    <render map="CIEL:653" text="AST/SGOT" />
+                </repeat>
+            </div>
+
+            <h3>
                 <uimessage code="pihcore.lab.abg"/>
             </h3>
             <div class="two-columns">
@@ -713,19 +768,37 @@
                 </div>
             </p>
 
-            <strong>
+            <label>
                 <uimessage code="pihcore.consult.clinicalManagementPlan"/>
-            </strong>
+            </label>
             <p>
                 <obs conceptId="CIEL:162749" style="textarea" rows="3" cols="40"/>
             </p>
 
-            <strong>
+            <label>
                 <uimessage code="pihcore.nursingNote"/>
-            </strong>
+            </label>
             <p>
-                <!-- ToDo: Replace with CIEL - Nursing notes -->
-                <obs conceptId="PIH:12977" style="textarea" rows="3" cols="40"/>
+                <obs conceptId="CIEL:166021" style="textarea"
+                     rows="3" cols="40"/>
+            </p>
+
+            <p>
+                <!-- Mental Health referral-->
+                <obsgroup groupingConceptId="PIH:12837">
+                    <!-- ToDo: Change from PIH to CIEL mapping; Mental Health -->
+                    <obs conceptId="CIEL:1272" style="checkbox" toggle="mh-referral"
+                         answerConceptId="PIH:5489" answerCode="pihcore.mentalHealthReferral" />
+
+                    <div id="mh-referral">
+                        <label>
+                            <uimessage code="pihcore.mentalHealthNotes"/>
+                        </label>
+
+                        <obs conceptId="CIEL:161011" style="textarea"
+                             rows="3" cols="40"/>
+                    </div>
+                </obsgroup>
             </p>
 
         </div>
