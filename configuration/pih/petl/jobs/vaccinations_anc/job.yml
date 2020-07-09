@@ -1,0 +1,13 @@
+type: "sqlserver-bulk-import"
+configuration:
+  extract:
+    datasource: "mysql/openmrs.yml"
+    query:  "vaccinations_anc/source.sql"
+
+  load:
+    datasource: "sqlserver/openmrs_extractions.yml"
+    table: "vaccinations_anc"
+    schema: "vaccinations_anc/target.sql"
+
+schedule:
+  cron: "0 */1 * ? * *"
