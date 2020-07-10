@@ -9,13 +9,13 @@ DROP TEMPORARY TABLE IF EXISTS temp_covid_dispositon;
 CREATE TEMPORARY TABLE temp_covid_dispositon
 (
 	encounter_id 			        INT PRIMARY KEY,
-	encounter_type_id				INT,
-	patient_id 						INT,
-	encounter_date	 				DATE,
-	encounter_type					VARCHAR(255),
-	location						TEXT,
-	disposition						VARCHAR(255),
-	discharge_condition				VARCHAR(255)
+	encounter_type_id			INT,
+	patient_id 				INT,
+	encounter_date	 			DATE,
+	encounter_type				VARCHAR(255),
+	location				TEXT,
+	disposition				VARCHAR(255),
+	discharge_condition			VARCHAR(255)
 );
 
 -- insert into temp_covid_dispositon
