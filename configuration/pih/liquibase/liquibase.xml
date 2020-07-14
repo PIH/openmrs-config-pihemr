@@ -6,7 +6,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <changeSet id="20200713-pihcore-create-functions" author="mgoodrich" runAlways="true" runOnChange="true">
-        <sqlFile endDelimiter="#" path="create_functions.sql" relativeToChangelogFile="true" stripComments="true" />
+        <sqlFile endDelimiter="#" path="sql/create_functions.sql" relativeToChangelogFile="true" stripComments="true" />
     </changeSet>
 
 </databaseChangeLog>
