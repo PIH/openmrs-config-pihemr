@@ -1,0 +1,13 @@
+type: "sqlserver-bulk-import"
+configuration:
+  extract:
+    datasource: "mysql/openmrs.yml"
+    query:  "covid19/diagnoses/source.sql"
+
+  load:
+    datasource: "sqlserver/openmrs_extractions.yml"
+    table: "covid_diagnoses"
+    schema: "covid19/diagnoses/target.sql"
+
+schedule:
+  cron: "45 */4 * ? * *"
