@@ -1,0 +1,26 @@
+CREATE TEMPORARY TABLE covid_lab_test
+(
+  encounter_id        INT PRIMARY KEY,
+  patient_id          INT,
+  encounter_date      DATE,
+  encounter_type      VARCHAR(255),
+  location            TEXT,
+  specimen_date1      DATE,
+  specimens_type1     VARCHAR(255),
+  antibody_result1    VARCHAR(255),
+  antigen_result1     VARCHAR(255),
+  pcr_result1         VARCHAR(255),
+  genexpert_result1   VARCHAR(255),
+  specimen_date2      DATE,
+  specimens_type2	    VARCHAR(255),
+  antibody_result2    VARCHAR(255),
+  antigen_result2     VARCHAR(255),
+  pcr_result2         VARCHAR(255),
+  genexpert_result2   VARCHAR(255),
+  specimen_date3      DATE,
+  specimens_type3     VARCHAR(255),
+  antibody_result3    VARCHAR(255),
+  antigen_result3     VARCHAR(255),
+  pcr_result3         VARCHAR(255),
+  genexpert_result3   VARCHAR(255)
+);
