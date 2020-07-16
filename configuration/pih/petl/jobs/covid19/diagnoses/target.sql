@@ -8,5 +8,5 @@ CREATE TABLE covid_diagnoses
   diagnosis_order         TEXT,
   diagnosis               TEXT
   diagnosis_confirmation  TEXT,
-  covid19_diagnosis       VARCHAT(255)
+  covid19_diagnosis       VARCHAR(255)
 );
