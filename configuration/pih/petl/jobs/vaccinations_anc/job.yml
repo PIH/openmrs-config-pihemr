@@ -10,4 +10,4 @@ configuration:
     schema: "vaccinations_anc/target.sql"
 
 schedule:
-  cron: "0 0 3 ? * *"
+  cron: "0 0 5 ? * *"
