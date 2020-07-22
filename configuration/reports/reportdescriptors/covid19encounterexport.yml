@@ -1,0 +1,17 @@
+key: "covid19encounterexport"
+uuid: "df97b32b-a5d0-11ea-b958-0242ac110002"
+name: "mirebalaisreports.covid19encounterexport.name"
+description: "mirebalaisreports.covid19encounterexport.description"
+parameters:
+  - key: "startDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.startDate"
+  - key: "endDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.endDate"
+datasets:
+  - key: "covid19encounterexport"
+    type: "sql"
+    config: "sql/covid19encounterexport.sql"
+config:
+  component: "covid19"

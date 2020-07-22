@@ -1,0 +1,10 @@
+key: "covid19dailycensusexport"
+uuid: "e00f64eb-a654-11ea-b958-0242ac110002"
+name: "mirebalaisreports.covid19dailycensusexport.name"
+description: "mirebalaisreports.covid19dailycensusexport.description"
+datasets:
+  - key: "covid19dailycensusexport"
+    type: "sql"
+    config: "sql/covid19dailycensusexport.sql"
+config:
+  component: "covid19"
