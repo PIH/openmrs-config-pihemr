@@ -1,15 +1,14 @@
-#### This report returns a row per encounter
-#### for the lab tests
+#### This report returns lab tests and their results
 
 ## sql updates
 SET sql_safe_updates = 0;
 SET SESSION group_concat_max_len = 100000;
 
 -- Delete temporary covid lab table if exists
-DROP TEMPORARY TABLE IF EXISTS temp_covid_lab_test;
+DROP TEMPORARY TABLE IF EXISTS temp_covid_lab_encounters;
 
--- create temporary tale temp_covid_encounters
-CREATE TEMPORARY TABLE temp_covid_lab_test
+-- create temporary tale temp_covid_lab_encounters
+CREATE TEMPORARY TABLE temp_covid_lab_encounters
 (
 	encounter_id        INT PRIMARY KEY,
 	encounter_type_id   INT,
@@ -17,28 +16,9 @@ CREATE TEMPORARY TABLE temp_covid_lab_test
 	encounter_date      DATE,
 	encounter_type      VARCHAR(255),
 	location            TEXT,
-	specimen_date1      DATE,
-	specimens_type1     VARCHAR(255),
-	antibody_result1    VARCHAR(255),
-	antigen_result1     VARCHAR(255),
-	pcr_result1         VARCHAR(255),
-	genexpert_result1   VARCHAR(255),
-	specimen_date2      DATE,
-	specimens_type2	    VARCHAR(255),
-	antibody_result2    VARCHAR(255),
-	antigen_result2     VARCHAR(255),
-	pcr_result2         VARCHAR(255),
-	genexpert_result2   VARCHAR(255),
-	specimen_date3      DATE,
-	specimens_type3     VARCHAR(255),
-	antibody_result3    VARCHAR(255),
-	antigen_result3     VARCHAR(255),
-	pcr_result3         VARCHAR(255),
-	genexpert_result3   VARCHAR(255)
+  specimen_source     VARCHAR(255)
 );
-
--- insert into temp_covid_lab_test
-INSERT INTO temp_covid_lab_test
+INSERT INTO temp_covid_lab_encounters
 (
 	encounter_id,
 	encounter_type_id,
@@ -58,11 +38,11 @@ WHERE
 	voided = 0
 	AND encounter_type IN (ENCOUNTER_TYPE('COVID-19 Admission'), ENCOUNTER_TYPE('COVID-19 Progress'));
 
-UPDATE temp_covid_lab_test tc LEFT JOIN encounter_type et ON tc.encounter_type_id = et.encounter_type_id
+UPDATE temp_covid_lab_encounters tc LEFT JOIN encounter_type et ON tc.encounter_type_id = et.encounter_type_id
 SET encounter_type = et.name;
 
 -- Delete test patients
-DELETE FROM temp_covid_lab_test
+DELETE FROM temp_covid_lab_encounters
 WHERE
     patient_id IN (SELECT
         a.person_id
@@ -70,72 +50,196 @@ WHERE
         person_attribute a
             INNER JOIN
         person_attribute_type t ON a.person_attribute_type_id = t.person_attribute_type_id
-
-    WHERE
+         WHERE
         a.value = 'true'
         AND t.name = 'Test Patient');
 
-### Labs
-## Sputum collection date1
-UPDATE temp_covid_lab_test SET specimen_date1 = OBS_FROM_GROUP_ID_VALUE_DATETIME(OBS_ID(encounter_id, 'PIH' , '12973', 0), 'CIEL', '159951');
+### lab set(specimen set) -- parent obs
+DROP TEMPORARY TABLE IF EXISTS temp_covid_lab_specimen_set;
+CREATE TEMPORARY TABLE temp_covid_lab_specimen_set (
+select obs_id, person_id, encounter_id, obs_datetime, 
+location_id from obs where voided = 0 and concept_id = concept_from_mapping('PIH', '12973') and encounter_id in (select encounter_id from temp_covid_lab_encounters)
+);
 
-## specimen types 1
-UPDATE temp_covid_lab_test SET specimens_type1 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 0), 'CIEL', '159959', 'en');
+### specimen source
+DROP TEMPORARY TABLE IF EXISTS temp_covid_lab_specimen_source;
+CREATE TEMPORARY TABLE temp_covid_lab_specimen_source 
+(
+SELECT 
+	  person_id,
+    encounter_id, 
+    obs_id, 
+    obs_group_id, 
+    concept_id, 
+    CONCEPT_NAME(concept_id, 'en'), 
+    group_concat(value_coded),
+    group_concat(CONCEPT_NAME(value_coded, 'en') separator " | ") specimen_source
+FROM obs WHERE voided = 0 AND
+concept_id = CONCEPT_FROM_MAPPING('CIEL', '159959') AND obs_group_id IN (SELECT DISTINCT(obs_id) FROM obs) 
+group by obs_group_id
+ORDER BY person_id
+);
+ 
+## speciment collection date
+DROP TEMPORARY TABLE IF EXISTS temp_covid_lab_specimen_date;
+CREATE TEMPORARY TABLE temp_covid_lab_specimen_date 
+(
+SELECT 
+	  person_id,
+    encounter_id, 
+    obs_id, 
+    obs_group_id, 
+    concept_id, 
+    CONCEPT_NAME(concept_id, 'en'), 
+    value_datetime 
+FROM obs WHERE voided = 0 AND
+concept_id = CONCEPT_FROM_MAPPING('PIH', 'SPUTUM COLLECTION DATE') AND obs_group_id IN (SELECT DISTINCT(obs_id) FROM obs) ORDER BY person_id
+);
 
-## Results 1
-UPDATE temp_covid_lab_test SET antibody_result1 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 0), 'CIEL', '165853', 'en');
-UPDATE temp_covid_lab_test SET antigen_result1 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 0), 'CIEL', '165852', 'en');
-UPDATE temp_covid_lab_test SET pcr_result1 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 0), 'CIEL', '165840', 'en');
-UPDATE temp_covid_lab_test SET genexpert_result1 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 0), 'CIEL', '165865', 'en');
+### Antibody results
+DROP TEMPORARY TABLE IF EXISTS temp_covid_lab_antibody;
+CREATE TEMPORARY TABLE temp_covid_lab_antibody 
+(
+SELECT 
+	  person_id,
+    encounter_id, 
+    obs_id, 
+    obs_group_id, 
+    concept_id, 
+    value_coded, 
+    CONCEPT_NAME(concept_id, 'en'), 
+    CONCEPT_NAME(value_coded, 'en') 
+FROM obs 
+WHERE voided = 0 
+AND concept_id = CONCEPT_FROM_MAPPING('CIEL', '165853') AND obs_group_id IN (SELECT DISTINCT(obs_id) FROM obs) ORDER BY person_id
+);
 
-## Sputum collection date2
-UPDATE temp_covid_lab_test SET specimen_date2 = OBS_FROM_GROUP_ID_VALUE_DATETIME(OBS_ID(encounter_id, 'PIH' , '12973', 1), 'CIEL', '159951');
+### Antigen results
+DROP TEMPORARY TABLE IF EXISTS temp_covid_lab_antigen;
+CREATE TEMPORARY TABLE temp_covid_lab_antigen 
+(
+SELECT 
+	  person_id,
+    encounter_id, 
+    obs_id, 
+    obs_group_id, 
+    concept_id, 
+    value_coded, 
+    CONCEPT_NAME(concept_id, 'en'), 
+    CONCEPT_NAME(value_coded, 'en') 
+FROM obs 
+WHERE voided = 0 
+AND concept_id = CONCEPT_FROM_MAPPING('CIEL', '165852') AND obs_group_id IN (SELECT DISTINCT(obs_id) FROM obs) ORDER BY person_id
+);
 
-## specimen types 2
-UPDATE temp_covid_lab_test SET specimens_type2 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 1), 'CIEL', '159959', 'en');
+### RT PCR
+DROP TEMPORARY TABLE IF EXISTS temp_covid_lab_pcr;
+CREATE TEMPORARY TABLE temp_covid_lab_pcr
+(
+SELECT 
+	  person_id,
+    encounter_id, 
+    obs_id, 
+    obs_group_id, 
+    concept_id, 
+    value_coded, 
+    CONCEPT_NAME(concept_id, 'en'), 
+    CONCEPT_NAME(value_coded, 'en') 
+FROM obs 
+WHERE voided = 0 
+AND concept_id = CONCEPT_FROM_MAPPING('CIEL', '165840') AND obs_group_id IN (SELECT DISTINCT(obs_id) FROM obs) ORDER BY person_id
+);
 
-## Results 2
-UPDATE temp_covid_lab_test SET antibody_result2 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 1), 'CIEL', '165853', 'en');
-UPDATE temp_covid_lab_test SET antigen_result2 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 1), 'CIEL', '165852', 'en');
-UPDATE temp_covid_lab_test SET pcr_result2 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 1), 'CIEL', '165840', 'en');
-UPDATE temp_covid_lab_test SET genexpert_result2 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 1), 'CIEL', '165865', 'en');
+### RT PCR
+DROP TEMPORARY TABLE IF EXISTS temp_covid_gene_expert;
+CREATE TEMPORARY TABLE temp_covid_gene_expert
+(
+SELECT 
+	  person_id,
+    encounter_id, 
+    obs_id, 
+    obs_group_id, 
+    concept_id, 
+    value_coded, 
+    CONCEPT_NAME(concept_id, 'en'), 
+    CONCEPT_NAME(value_coded, 'en') 
+FROM obs 
+WHERE voided = 0 
+AND concept_id = CONCEPT_FROM_MAPPING('CIEL', '165865') AND obs_group_id IN (SELECT DISTINCT(obs_id) FROM obs) ORDER BY person_id
+);
 
-## Sputum collection date3
-UPDATE temp_covid_lab_test SET specimen_date3 = OBS_FROM_GROUP_ID_VALUE_DATETIME(OBS_ID(encounter_id, 'PIH' , '12973', 2), 'CIEL', '159951');
+## Lab test ordered
+DROP TEMPORARY TABLE IF EXISTS temp_covid_lab_test_ordered;
+CREATE TEMPORARY TABLE temp_covid_lab_test_ordered
+(
+SELECT 
+	  person_id,
+    encounter_id,
+    obs_id, 
+    obs_group_id, 
+    concept_id, 
+    value_coded, 
+    CONCEPT_NAME(concept_id, 'en'), 
+    CONCEPT_NAME(value_coded, 'en') 
+FROM obs 
+WHERE voided = 0 
+AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'Lab test ordered coded') 
+AND obs_group_id IN (SELECT DISTINCT(obs_id) FROM obs) ORDER BY person_id
+);
 
-## specimen types 3
-UPDATE temp_covid_lab_test SET specimens_type3 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH','12973',2), 'CIEL', '159959', 'en');
-
-## Results 3
-UPDATE temp_covid_lab_test SET antibody_result3 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 2), 'CIEL', '165853', 'en');
-UPDATE temp_covid_lab_test SET antigen_result3 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 2), 'CIEL', '165852', 'en');
-UPDATE temp_covid_lab_test SET pcr_result3 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 2), 'CIEL', '165840', 'en');
-UPDATE temp_covid_lab_test SET genexpert_result3 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH' , '12973', 2), 'CIEL', '165865', 'en');
-
-### Final Query
+### final table for the lab results
+DROP temporary table if exists temp_covid_specimen_results;
+CREATE temporary table temp_covid_specimen_results
 SELECT
-      encounter_id,
-      patient_id,
-      encounter_date,
-      encounter_type,
-      location,
-      specimen_date1,
-      specimens_type1,
-      antibody_result1,
-      antigen_result1,
-      pcr_result1,
-      genexpert_result1,
-      specimen_date2,
-      specimens_type2,
-      antibody_result2,
-      antigen_result2,
-      pcr_result2,
-      genexpert_result2,
-      specimen_date3,
-      specimens_type3,
-      antibody_result3,
-      antigen_result3,
-      pcr_result3,
-      genexpert_result3
+		lt.person_id,
+		lt.obs_group_id,
+    lt.encounter_id,
+		MAX(IF(lt.value_coded = CONCEPT_FROM_MAPPING('CIEL', '165853'), 'Yes', NULL)) antibody, 
+    concept_name(la.value_coded, 'en') antibody_results,
+		MAX(IF(lt.value_coded = CONCEPT_FROM_MAPPING('CIEL', '165852'), 'Yes', NULL)) antigen, 
+    concept_name(lan.value_coded, 'en') antigen_results,
+		MAX(IF(lt.value_coded = CONCEPT_FROM_MAPPING('CIEL', '165840'), 'Yes', NULL)) pcr,
+    concept_name(lp.value_coded, 'en') pcr_results,
+		MAX(IF(lt.value_coded = CONCEPT_FROM_MAPPING('CIEL', '165865'), 'Yes', NULL)) genexpert, 
+    concept_name(lg.value_coded, 'en') genexpert_results
 FROM
-      temp_covid_lab_test order by patient_id;
+	temp_covid_lab_test_ordered lt
+left outer join 
+	temp_covid_lab_antigen lan on lt.obs_group_id = lan.obs_group_id 
+left outer join 
+	temp_covid_lab_antibody la on lt.obs_group_id = la.obs_group_id 
+left outer join
+	temp_covid_lab_pcr lp on lt.obs_group_id = lp.obs_group_id
+ left outer join
+	 temp_covid_gene_expert lg on lt.obs_group_id = lg.obs_group_id
+ group by lt.obs_group_id;
+
+### Final query
+select  
+		ls.person_id patient_id,
+        ls.encounter_id encounter_id,
+        ls.obs_id,
+        e.encounter_date,
+        e.location,
+        e.encounter_type,
+		    DATE(lspd.value_datetime) specimen_date,
+        lss.specimen_source,
+		    lsr.antibody,
+        antibody_results,
+        antigen,
+        antigen_results,
+        pcr,
+        pcr_results,
+        genexpert,
+        genexpert_results
+from 
+	temp_covid_lab_specimen_set ls
+left outer join
+	temp_covid_lab_encounters e on e.encounter_id = ls.encounter_id
+left outer join
+	temp_covid_lab_specimen_date lspd on ls.obs_id = lspd.obs_group_id
+left outer join 
+temp_covid_specimen_results lsr on ls.obs_id = lsr.obs_group_id
+left outer join 
+temp_covid_lab_specimen_source lss on ls.obs_id = lss.obs_group_id
+order by ls.person_id, ls.encounter_id, lspd.value_datetime;

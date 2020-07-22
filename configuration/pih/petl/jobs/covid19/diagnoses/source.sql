@@ -43,6 +43,7 @@ WHERE
 UPDATE temp_covid_encounters tc LEFT JOIN encounter_type et ON tc.encounter_type_id = et.encounter_type_id
 SET encounter_type = et.name;
 
+-- Delete test patients
 DELETE FROM temp_covid_encounters
 WHERE
     patient_id IN (SELECT

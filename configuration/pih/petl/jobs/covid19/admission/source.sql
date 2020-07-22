@@ -57,6 +57,19 @@ WHERE
 	voided = 0
 	AND encounter_type in (encounter_type('COVID-19 Admission'));
 
+-- Delete test patients
+DELETE FROM temp_covid_admission_encounter
+WHERE
+    patient_id IN (SELECT
+        a.person_id
+    FROM
+        person_attribute a
+            INNER JOIN
+        person_attribute_type t ON a.person_attribute_type_id = t.person_attribute_type_id
+         WHERE
+        a.value = 'true'
+        AND t.name = 'Test Patient');
+
 -- Health Care Worker
 UPDATE temp_covid_admission_encounter SET health_care_worker = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '5619', 'en');
 

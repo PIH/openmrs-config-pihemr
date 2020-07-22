@@ -39,8 +39,22 @@ WHERE
 	voided = 0
 	AND encounter_type IN (encounter_type('COVID-19 Admission'), encounter_type('COVID-19 Progress'), encounter_type('COVID-19 Discharge'));
 
+-- encounter type
 UPDATE temp_covid_dispositon tc LEFT JOIN encounter_type et ON tc.encounter_type_id = et.encounter_type_id
 SET encounter_type = et.name;
+
+-- Delete test patients
+DELETE FROM temp_covid_dispositon
+WHERE
+patient_id IN (SELECT
+							 a.person_id
+							 FROM
+							 person_attribute a
+								 INNER JOIN
+								 person_attribute_type t ON a.person_attribute_type_id = t.person_attribute_type_id
+							 WHERE
+							 a.value = 'true'
+							 AND t.name = 'Test Patient');
 
 -- Disposition
 UPDATE temp_covid_dispositon SET disposition = OBS_VALUE_CODED_LIST(encounter_id, 'PIH', 'Hum Disposition categories', 'en');
