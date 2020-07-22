@@ -21,30 +21,30 @@
         <ifMode mode="VIEW" include="false">
 
             #data-collection {
-            display: inline-block;
-            width: 58%;
-            vertical-align: top;
+                display: inline-block;
+                width: 58%;
+                vertical-align: top;
             }
 
             #primary-care-exam input[type="checkbox"] {
-            margin: 0px 5px;  /* changed values to vertical, horizontal */
-            top:5px;          /* added to offset the checkbox position to line up */
+                margin: 0px 5px;  /* changed values to vertical, horizontal */
+                top:5px;          /* added to offset the checkbox position to line up */
             }
 
             .section-container-color {
-            background: #F2F2F2;
-            box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-            padding: 10px 5px 10px 15px;
-            line-height: 1.5em; /*add this for vertical spacing between elements*/
+                background: #F2F2F2;
+                box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+                padding: 10px 5px 10px 15px;
+                line-height: 1.5em; /*add this for vertical spacing between elements*/
             }
 
            - .section {
-        width: 100%;
-        }
+                width: 100%;
+           }
 
             .section-container input[type="checkbox"] {
-            margin: 0px 5px; /* changed values to vertical, horizontal */
-            top:5px;         /* added to offset the checkbox position to line up */
+                margin: 0px 5px; /* changed values to vertical, horizontal */
+                top:5px;         /* added to offset the checkbox position to line up */
             }
 
 
@@ -58,13 +58,13 @@
             }
 
             .section-container label { /*new definition to override labels inside section-containers*/
-            margin: 0px;
+                margin: 0px;
             }
 
             .two-columns {
-            column-count: 2;
-            -webkit-column-count: 2;
-            -moz-column-count: 2;
+                column-count: 2;
+                -webkit-column-count: 2;
+                -moz-column-count: 2;
             }
         </ifMode>
     </style>
@@ -73,51 +73,51 @@
         <ifMode mode="VIEW" include="true">
 
             #primary-care-exam-form legend {
-            display: none;
+                display: none;
             }
 
             #primary-care-exam-form fieldset {
-            margin: 0px;
-            border: 0px;
-            padding: 0px;
+                margin: 0px;
+                border: 0px;
+                padding: 0px;
             }
 
             #primary-care-exam-form fieldset h3 {
-            font-size: 1em;
-            width: 200px;
-            display: inline-block;
-            margin: 0px;
-            margin-right: 10px;
-            color: #501d3d;
-            vertical-align: top;
+                font-size: 1em;
+                width: 200px;
+                display: inline-block;
+                margin: 0px;
+                margin-right: 10px;
+                color: #501d3d;
+                vertical-align: top;
             }
 
             #primary-care-exam-form fieldset p {
-            vertical-align: top;
-            display: inline-block;
-            float: none;
+                vertical-align: top;
+                display: inline-block;
+                float: none;
             }
 
             #primary-care-exam-form fieldset .left {
-            vertical-align: top;
-            display: inline-block;
-            float: none;
+                vertical-align: top;
+                display: inline-block;
+                float: none;
             }
 
             #primary-care-exam-form .title {
-            display: none;
+                display: none;
             }
 
             #primary-care-exam-form .encounter-date {
-            display: none;
+                display: none;
             }
 
             #primary-care-exam-form .encounter-provider {
-            display: none;
+                display: none;
             }
 
             #primary-care-exam-form .encounter-location {
-            display: none;
+                display: none;
             }
 
             #primary-care-exam-form .comment-label {
@@ -194,27 +194,6 @@
                 window.htmlForm.submitHtmlForm();
             })
 
-            <!--
-            // Set up togglable fields
-            jq(html).find("[data-toggle-source]").each(function() {
-                var toggleCheckbox = jq(this).find("input:checkbox");
-                var toggleTargetId = jq(this).data("toggle-target");
-                var toggleTarget = jq("#"+toggleTargetId);
-                jq(toggleCheckbox).change(function() {
-                toggleEnabledDisabled(toggleTarget, jq(this).prop("checked"));
-                });
-                toggleEnabledDisabled(toggleTarget, jq(toggleCheckbox).prop("checked"));
-            });
-
-            var toggleEnabledDisabled = function(toggleTarget, enable) {
-                if (enable) {
-                    jq(toggleTarget).find(":input").prop("disabled", false);
-                } else {
-                    jq(toggleTarget).find(":input").prop("disabled", true).val("");
-                }
-            };
-
-            -->
             });
         </script>
     </ifMode>
@@ -254,18 +233,24 @@
                          />
                 </p>
 
-                <!-- ToDo:  UHM-3529 Add toggle for normal/abnormal symptoms
-                <div id="abnGenExam"> -->
                 <p>
-                    <obs class="abnormalObs" conceptId="PIH:GENERAL EXAM FINDINGS" answerConceptId="PIH:CACHECTIC" style="checkbox"/>
+                    <obs class="abnormalObs" conceptId="PIH:GENERAL EXAM FINDINGS"
+                         answerConceptId="PIH:CACHECTIC" style="checkbox"/>
                 </p>
                 <p>
-                    <obs class="abnormalObs" conceptId="PIH:GENERAL EXAM FINDINGS" answerConceptId="CIEL:115115" style="checkbox"/>
+                    <!-- Obesity -->
+                    <obs class="abnormalObs" conceptId="PIH:GENERAL EXAM FINDINGS"
+                         answerConceptId="CIEL:115115" style="checkbox"/>
                 </p>
                 <p>
-                    <obs class="abnormalObs" conceptId="PIH:GENERAL EXAM FINDINGS" answerConceptId="PIH:OTHER NON-CODED" style="checkbox" showCommentField="true" commentFieldLabel="" />
+                    <!-- Distress CIEL:159439  -->
+                    <obs class="abnormalObs" conceptId="PIH:GENERAL EXAM FINDINGS"
+                         answerConceptId="PIH:Distress" style="checkbox"/>
                 </p>
-                <!-- </div> -->
+                <p>
+                    <obs class="abnormalObs" conceptId="PIH:GENERAL EXAM FINDINGS"
+                         answerConceptId="PIH:OTHER NON-CODED" style="checkbox" showCommentField="true" commentFieldLabel="" />
+                </p>
 
                 <p class="comment-label">
                     <uimessage code="pihcore.exam.comment"/>
@@ -281,7 +266,7 @@
 
         <p/>
 
-        <!-- peds only questions:
+        <!-- Pediatrics only exam:
                all patients under 12 years old
                 OR Primary Care Pediatric (intake or followup) Consultation -->
         <includeIf velocityTest="$encounter.encounterType.uuid == '5b812660-0262-11e6-a837-0800200c9a66' || $encounter.encounterType.uuid == '229e5160-031b-11e6-a837-0800200c9a66' || $patient.age &lt; 12" >
@@ -574,16 +559,25 @@
 
             <div class="two-columns exam">
                 <p>
-                    <obs class="normalObs" conceptId="PIH:CHEST EXAM FINDINGS" answerConceptId="PIH:NORMAL" style="checkbox"/>
+                    <obs class="normalObs" conceptId="PIH:CHEST EXAM FINDINGS"
+                         answerConceptId="CIEL:1115" style="checkbox"/>
                 </p>
                 <p>
-                    <obs class="abnormalObs" conceptId="PIH:CHEST EXAM FINDINGS" answerConceptId="PIH:CREPITATIONS" style="checkbox"/>
+                    <obs class="abnormalObs" conceptId="PIH:CHEST EXAM FINDINGS"
+                         answerConceptId="PIH:CREPITATIONS" style="checkbox"/>
                 </p>
                 <p>
-                    <obs class="abnormalObs" conceptId="PIH:CHEST EXAM FINDINGS" answerConceptId="PIH:WHEEZE" style="checkbox"/>
+                    <obs class="abnormalObs" conceptId="PIH:CHEST EXAM FINDINGS"
+                         answerConceptId="PIH:WHEEZE" style="checkbox"/>
                 </p>
                 <p>
-                    <obs class="abnormalObs" conceptId="PIH:CHEST EXAM FINDINGS" answerConceptId="PIH:OTHER NON-CODED" style="checkbox"  showCommentField="true" commentFieldLabel="" />
+                    <!-- Noisy breathing CIEL:132975-->
+                    <obs class="abnormalObs" conceptId="PIH:CHEST EXAM FINDINGS"
+                         answerConceptId="PIH:6894" style="checkbox"/>
+                </p>
+                <p>
+                    <obs class="abnormalObs" conceptId="PIH:CHEST EXAM FINDINGS"
+                         answerConceptId="CIEL:5622" style="checkbox"  showCommentField="true" commentFieldLabel="" />
                 </p>
 
                 <p class="comment-label">
@@ -648,16 +642,26 @@
 
             <div class="two-columns exam">
                 <p>
-                    <obs class="normalObs" conceptId="PIH:UROGENITAL EXAM FINDINGS" answerConceptId="PIH:NORMAL" style="checkbox"/>
+                    <obs class="normalObs" conceptId="PIH:UROGENITAL EXAM FINDINGS"
+                         answerConceptId="CIEL:1115" style="checkbox"/>
                 </p>
                 <p>
-                    <obs class="abnormalObs" conceptId="PIH:UROGENITAL EXAM FINDINGS" answerConceptId="PIH:CANDIDIASIS" style="checkbox"/>
+                    <!-- Candidiasis -->
+                    <obs class="abnormalObs" conceptId="PIH:UROGENITAL EXAM FINDINGS"
+                         answerConceptId="CIEL:120939" style="checkbox"/>
                 </p>
                 <p>
-                    <obs class="abnormalObs" conceptId="PIH:UROGENITAL EXAM FINDINGS" answerConceptId="PIH:GENITAL DISCHARGE" style="checkbox"/>
+                    <!-- Genital ulcers -->
+                    <obs class="abnormalObs" conceptId="PIH:UROGENITAL EXAM FINDINGS"
+                         answerConceptId="CIEL:864" style="checkbox"/>
                 </p>
                 <p>
-                    <obs class="abnormalObs" conceptId="PIH:UROGENITAL EXAM FINDINGS" answerConceptId="PIH:OTHER NON-CODED" style="checkbox"  showCommentField="true" commentFieldLabel="" />
+                    <obs class="abnormalObs" conceptId="PIH:UROGENITAL EXAM FINDINGS"
+                         answerConceptId="PIH:GENITAL DISCHARGE" style="checkbox"/>
+                </p>
+                <p>
+                    <obs class="abnormalObs" conceptId="PIH:UROGENITAL EXAM FINDINGS"
+                         answerConceptId="CIEL:5622" style="checkbox"  showCommentField="true" commentFieldLabel="" />
                 </p>
 
                 <p class="comment-label">
@@ -683,7 +687,7 @@
             <div class="two-columns exam">
                 <p>
                     <obs class="normalObs" conceptId="PIH:NEUROLOGIC EXAM FINDINGS"
-                         answerConceptId="PIH:NORMAL" style="checkbox"/>
+                         answerConceptId="CIEL:1115" style="checkbox"/>
                 </p>
                 <p>
                     <!-- Weakness -->
@@ -703,7 +707,7 @@
 
                 <p>
                     <obs class="abnormalObs" conceptId="PIH:NEUROLOGIC EXAM FINDINGS"
-                         answerConceptId="PIH:OTHER NON-CODED"
+                         answerConceptId="CIEL:5622"
                          style="checkbox"  showCommentField="true" commentFieldLabel="" />
                 </p>
                 <br/>
@@ -729,20 +733,51 @@
 
             <div class="two-columns exam">
                 <p>
-                    <obs class="normalObs" conceptId="PIH:MUSCULOSKELETAL EXAM FINDINGS" answerConceptId="PIH:NORMAL" style="checkbox"/>
+                    <obs class="normalObs" conceptId="PIH:MUSCULOSKELETAL EXAM FINDINGS"
+                         answerConceptId="CIEL:1115" style="checkbox"/>
                 </p>
                 <p>
-                    <obs class="abnormalObs" conceptId="PIH:MUSCULOSKELETAL EXAM FINDINGS" answerConceptId="PIH:MUSCLE TENDERNESS" style="checkbox"/>
+                    <obs class="abnormalObs" conceptId="PIH:MUSCULOSKELETAL EXAM FINDINGS"
+                         answerConceptId="PIH:MUSCLE TENDERNESS" style="checkbox"/>
                 </p>
                 <p>
-                    <obs class="abnormalObs" conceptId="PIH:MUSCULOSKELETAL EXAM FINDINGS" answerConceptId="CIEL:118697" style="checkbox"/>
+                    <obs class="abnormalObs" conceptId="PIH:MUSCULOSKELETAL EXAM FINDINGS"
+                         answerConceptId="CIEL:118697" style="checkbox"/>
                 </p>
+                <p>
+                    <!-- Cold extremities -->
+                    <obs class="abnormalObs" conceptId="PIH:MUSCULOSKELETAL EXAM FINDINGS"
+                         answerConceptId="CIEL:162509" style="checkbox"/>
+                </p>
+
+                <p>
+                    <!-- Foot ulcer CIEL:163411-->
+                    <obs class="abnormalObs" conceptId="PIH:MUSCULOSKELETAL EXAM FINDINGS"
+                         answerConceptId="PIH:10680" style="checkbox"/>
+                </p>
+
                 <p>
                     <!-- Edema -->
-                    <obs class="abnormalObs" conceptId="PIH:MUSCULOSKELETAL EXAM FINDINGS" answerConceptId="CIEL:460" style="checkbox"/>
+                    <obs class="abnormalObs" conceptId="PIH:MUSCULOSKELETAL EXAM FINDINGS"
+                         answerConceptId="CIEL:460" style="checkbox"/>
+                </p>
+
+                <p>
+                    <!-- Lower leg edema -->
+                    <obs class="abnormalObs" conceptId="PIH:MUSCULOSKELETAL EXAM FINDINGS"
+                         answerConceptId="CIEL:118729" style="checkbox"/>
+                </p>
+
+                <p class="tanner">
+                    <!-- ToDo:  Add 3+ pitting CIEL:165600 -->
+                    Pitting:
+                    <obs class="abnormalObs" conceptId="PIH:MUSCULOSKELETAL EXAM FINDINGS"
+                         answerConceptIds="CIEL:165598,CIEL:165599"
+                         answerLabels="+1,+2" style="radio" answerSeparator="" />
                 </p>
                 <p>
-                    <obs class="abnormalObs" conceptId="PIH:MUSCULOSKELETAL EXAM FINDINGS" answerConceptId="PIH:OTHER NON-CODED" style="checkbox"  showCommentField="true" commentFieldLabel="" />
+                    <obs class="abnormalObs" conceptId="PIH:MUSCULOSKELETAL EXAM FINDINGS"
+                         answerConceptId="CIEL:5622" style="checkbox"  showCommentField="true" commentFieldLabel="" />
                 </p>
 
                 <p class="comment-label">
@@ -751,7 +786,7 @@
 
                 <p class="comment-field">
                     <p>
-                        <obs conceptId="CIEL:163048" rows="7" cols="45" />
+                        <obs conceptId="CIEL:163048" rows="12" cols="45" />
                     </p>
                 </p>
             </div>
