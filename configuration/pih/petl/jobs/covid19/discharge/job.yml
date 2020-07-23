@@ -10,4 +10,4 @@ configuration:
     schema: "covid19/discharge/target.sql"
 
 schedule:
-  cron: "0 7 * ? * *"
+  cron: "0 30 6 ? * *"
