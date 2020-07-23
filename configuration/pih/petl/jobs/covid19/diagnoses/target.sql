@@ -1,7 +1,7 @@
 CREATE TABLE covid_diagnoses
 (
-  patient_id               INT,
-  encounter_id            INT PRIMARY KEY,
+  patient_id              INT,
+  encounter_id            INT,
   encounter_type          VARCHAR(255),
   location                TEXT,
   encounter_date          DATE,
