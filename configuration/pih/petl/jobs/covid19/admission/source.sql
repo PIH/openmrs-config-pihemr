@@ -84,7 +84,7 @@ UPDATE temp_covid_admission_encounter SET symptom_start_date = OBS_VALUE_DATETIM
 
 -- Comorbidities
 -- Comorbidities(yes/no)
-UPDATE temp_encounter SET comorbidities = OBS_VALUE_CODED_LIST(encounter_id, 'PIH', '12976', 'en');
+UPDATE temp_covid_admission_encounter SET comorbidities = OBS_VALUE_CODED_LIST(encounter_id, 'PIH', '12976', 'en');
 
 -- Type 1 DM
 UPDATE temp_covid_admission_encounter SET diabetes_type1 = OBS_SINGLE_VALUE_CODED(encounter_id, 'CIEL', '162747', 'CIEL', '142474');
@@ -191,4 +191,4 @@ SELECT
 	transfer_from_other_facility,
 	transfer_facility_name,
 	contact_case_14d
-FROM temp_covid_admission_encounter;
+FROM temp_covid_admission_encounter ORDER BY patient_id;
