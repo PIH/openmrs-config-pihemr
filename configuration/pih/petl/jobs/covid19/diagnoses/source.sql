@@ -10,7 +10,7 @@ DROP TEMPORARY TABLE IF EXISTS temp_covid_encounters;
 -- create temporary tale temp_covid_encounters
 CREATE TEMPORARY TABLE temp_covid_encounters
 (
-	encounter_id 			    INT PRIMARY KEY,
+	encounter_id 			    INT,
 	encounter_type_id     INT,
 	patient_id            INT,
 	encounter_date        DATE,
