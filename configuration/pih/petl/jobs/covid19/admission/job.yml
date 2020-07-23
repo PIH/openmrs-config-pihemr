@@ -10,4 +10,4 @@ configuration:
     schema: "covid19/admission/target.sql"
 
 schedule:
-  cron: "40 7 * ? * *"
+  cron: "30 6 * ? * *"

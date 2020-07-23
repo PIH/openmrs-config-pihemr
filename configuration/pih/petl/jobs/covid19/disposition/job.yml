@@ -10,4 +10,4 @@ configuration:
     schema: "covid19/disposition/target.sql"
 
 schedule:
-  cron: "40 6 * ? * *"
+  cron: "30 6 * ? * *"

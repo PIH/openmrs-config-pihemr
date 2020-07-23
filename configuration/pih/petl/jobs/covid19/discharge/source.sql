@@ -116,7 +116,6 @@ UPDATE temp_covid_discharge SET other_medications = OBS_VALUE_TEXT(encounter_id,
 ### Final query
 SELECT
       encounter_id,
-      encounter_type_id,
       patient_id,
       encounter_date,
       encounter_type,

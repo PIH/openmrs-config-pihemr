@@ -6,7 +6,7 @@ CREATE TABLE covid_diagnoses
   location                TEXT,
   encounter_date          DATE,
   diagnosis_order         TEXT,
-  diagnosis               TEXT
+  diagnosis               TEXT,
   diagnosis_confirmation  TEXT,
   covid19_diagnosis       VARCHAR(255)
 );

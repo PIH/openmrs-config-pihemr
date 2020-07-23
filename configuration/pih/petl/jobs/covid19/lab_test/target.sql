@@ -1,4 +1,4 @@
-CREATE TEMPORARY TABLE covid_lab_test
+CREATE TABLE covid_lab_test
 (
   patient_id          INT,
   encounter_id        INT,

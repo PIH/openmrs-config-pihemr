@@ -216,7 +216,7 @@ left outer join
 
 ### Final query
 select  
-		ls.person_id patient_id,
+		    ls.person_id patient_id,
         ls.encounter_id encounter_id,
         ls.obs_id,
         e.encounter_date,
