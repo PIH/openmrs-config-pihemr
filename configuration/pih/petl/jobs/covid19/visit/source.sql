@@ -37,7 +37,7 @@ CREATE TEMPORARY TABLE temp_covid_visit
 	panic_attack                  VARCHAR(11),
 	suicidal_thoughts             VARCHAR(11),
 	attempted_suicide             VARCHAR(11),
-	other_symptom                 VARCHAR(11),
+	other_symptom                 TEXT,
   temp                          DOUBLE,
   heart_rate                    DOUBLE,
   respiratory_rate              DOUBLE,
