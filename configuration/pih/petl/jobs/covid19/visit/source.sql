@@ -76,7 +76,7 @@ CREATE TEMPORARY TABLE temp_covid_visit
   	other_findings                TEXT,
   	medications                   VARCHAR(255),
   	medication_comments           TEXT,
-  	supportive_care               VARCHAR(255),
+  	supportive_care               TEXT,
   	o2therapy                     DOUBLE,
   	analgesic_specified           VARCHAR(255),
   	awake                         VARCHAR(11),
