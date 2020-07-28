@@ -13,5 +13,11 @@ datasets:
   - key: "covid19encounterexport"
     type: "sql"
     config: "sql/covid19encounterexport.sql"
+designs:
+  - type: "csv"
+    properties:
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
 config:
   component: "covid19"
