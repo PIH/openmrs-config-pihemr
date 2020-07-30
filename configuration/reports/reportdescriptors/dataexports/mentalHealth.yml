@@ -1,0 +1,26 @@
+key: "mentalhealthexport"
+uuid: "d2e7c170-e703-11e5-a837-0800200c9a66"
+name: "mirebalaisreports.mentalhealthdataexport.name"
+description: "mirebalaisreports.mentalhealthdataexport.description"
+parameters:
+  - key: "startDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.startDate"
+  - key: "endDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.endDate"
+datasets:
+  - key: "mentalhealthexport"
+    type: "sql"
+    config: "sql/mentalHealth.sql"
+designs:
+  - type: "csv"
+    properties:
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
+config:
+  category: "dataExport"
+  components:
+    - "mentalHealth"
+    - "allDataExports"

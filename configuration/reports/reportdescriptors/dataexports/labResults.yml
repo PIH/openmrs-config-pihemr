@@ -1,0 +1,26 @@
+key: "labresultsexport"
+uuid: "9BCEEAE9-C804-499E-AA78-1F03FE937637"
+name: "mirebalaisreports.labresultsexport.name"
+description: "mirebalaisreports.labresultsexport.description"
+parameters:
+  - key: "startDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.startDate"
+  - key: "endDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.endDate"
+datasets:
+  - key: "labresultsexport"
+    type: "sql"
+    config: "sql/labResultsExport.sql"
+designs:
+  - type: "csv"
+    properties:
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
+config:
+  category: "dataExport"
+  components:
+    - "labResults"
+    - "allDataExports"
