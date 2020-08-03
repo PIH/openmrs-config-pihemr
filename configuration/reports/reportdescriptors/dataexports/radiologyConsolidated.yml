@@ -1,0 +1,26 @@
+key: "radiologyconsolidateddataexport"
+uuid: "3264db16-d5dd-46b8-ad1e-99085bca0064"
+name: "mirebalaisreports.radiologyconsolidateddataexport.name"
+description: "mirebalaisreports.radiologyconsolidateddataexport.description"
+parameters:
+  - key: "startDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.startDate"
+  - key: "endDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.endDate"
+datasets:
+  - key: "radiologyConsolidated"
+    type: "sql"
+    config: "sql/radiologyConsolidated.sql"
+designs:
+  - type: "csv"
+    properties:
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
+config:
+  category: "dataExport"
+  components:
+    - "radiology"
+    - "allDataExports"

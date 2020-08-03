@@ -1,0 +1,26 @@
+key: "oncologydataexport"
+uuid: "202e6ee0-45d6-11e5-b970-0800200c9a66"
+name: "mirebalaisreports.oncologydataexport.name"
+description: "mirebalaisreports.oncologydataexport.description"
+parameters:
+  - key: "startDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.startDate"
+  - key: "endDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.endDate"
+datasets:
+  - key: "oncologyexport"
+    type: "sql"
+    config: "sql/oncology.sql"
+designs:
+  - type: "csv"
+    properties:
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
+config:
+  category: "dataExport"
+  components:
+    - "oncology"
+    - "allDataExports"

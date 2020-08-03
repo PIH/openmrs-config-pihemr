@@ -1,7 +1,4 @@
 CALL initialize_global_metadata();
-SET @ANCInitEnc = encounter_type('00e5e810-90ec-11e8-9eb6-529269fb1459');
-SET @ANCFollowEnc = encounter_type('00e5e946-90ec-11e8-9eb6-529269fb1459');
-SET @DeliveryEnc = encounter_type('00e5ebb2-90ec-11e8-9eb6-529269fb1459');
 
 SELECT p.patient_id, zl.identifier zlemr, dos.identifier dossier_id,
     zl_loc.name loc_registered, un.value unknown_patient, pr.gender,
