@@ -7,6 +7,6 @@ CREATE TABLE covid_disposition
   encounter_date        DATE,
   disposition           VARCHAR(255),
   discharge_condition   VARCHAR(255),
-  index_asc 		    INT,
-  index_desc 		    INT
+  index_asc             INT,
+  index_desc            INT
 );

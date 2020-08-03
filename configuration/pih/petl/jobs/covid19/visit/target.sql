@@ -111,6 +111,6 @@ clinical_management_plan      TEXT,
 nursing_note                  TEXT,
 mh_referral                   VARCHAR(11),
 mh_note                       TEXT,
-index_asc 					  INT,
-index_desc 					  INT
+index_asc                     INT,
+index_desc                    INT
 );
