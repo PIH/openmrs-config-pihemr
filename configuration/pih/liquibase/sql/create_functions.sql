@@ -11,7 +11,7 @@
 How to use the fuctions
 concept_from_mapping('source', 'code')
 concept_name(concept_id, 'locale')
-encounter_type(patient_id)
+encounter_type(encounter_uuid)
 age_at_enc(person_id, encounter_id)
 zlemr(patient_id)
 unknown_patient(patient_id)
@@ -1115,7 +1115,7 @@ limit 1;
 
 RETURN ret;
 
-END 
+END
 
 #
 -- This function accepts visit_id, encounter_type (single or multiple, concatenated together) and a concept source and term
@@ -1143,7 +1143,7 @@ BEGIN
 
     RETURN enc_id_out;
 
-END 
+END
 
 #
 -- This function accepts the encounter type or uuid
@@ -1164,10 +1164,10 @@ BEGIN
   where et.retired = 0
   and (et.encounter_type_id = _type_or_uuid or et.uuid = _type_or_uuid)
   ;
-  
+
   RETURN enc_name_out;
-  
-END 
+
+END
 #
 
 -- This function accepts drug name or drug uuid
@@ -1188,10 +1188,10 @@ BEGIN
   where retired = 0
   and (name = _name_or_uuid or uuid = _name_or_uuid)
   ;
-  
+
   RETURN drug_id_out;
-  
-END 
+
+END
 
 
 #
@@ -1217,10 +1217,10 @@ BEGIN
 
     RETURN ret;
 
-END 
+END
 
 #
--- This function accepts encounter_id and drug_id 
+-- This function accepts encounter_id and drug_id
 -- It will find the obs_id of the latest observation with the drug_id as an answer
 #
 DROP FUNCTION IF EXISTS obs_id_with_drug_answer;
@@ -1242,9 +1242,9 @@ BEGIN
 
     RETURN ret_obs_id;
 
-END 
+END
 #
--- This function accepts obs_id  
+-- This function accepts obs_id
 -- It will find the obs_group_id of that observation, if there is one
 #
 DROP FUNCTION IF EXISTS obs_group_id_from_obs;
