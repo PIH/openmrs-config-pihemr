@@ -1,0 +1,26 @@
+key: "vctdataexport"
+uuid: "8189ccd0-cd86-11e8-a8d5-f2801f1b9fd1"
+name: "mirebalaisreports.vctdataexport.name"
+description: "mirebalaisreports.vctdataexport.description"
+parameters:
+  - key: "startDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.startDate"
+  - key: "endDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.endDate"
+datasets:
+  - key: "hctCounselingTest"
+    type: "sql"
+    config: "sql/hivCounselingTest.sql"
+designs:
+  - type: "csv"
+    properties:
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
+config:
+  category: "dataExport"
+  components:
+    - "vct"
+    - "allDataExports"

@@ -6,6 +6,8 @@ BEGIN
 
 	SET @dosId = (select patient_identifier_type_id from patient_identifier_type where uuid = 'e66645eb-03a8-4991-b4ce-e87318e37566');
     SET @zlId = (select patient_identifier_type_id from patient_identifier_type where uuid = 'a541af1e-105c-40bf-b345-ba1fd6a59b85');
+    SET @hivId = (select patient_identifier_type_id from patient_identifier_type where uuid = '139766e8-15f5-102d-96e4-000c29c2a5d7');
+    SET @biometricId = (select patient_identifier_type_id from patient_identifier_type where uuid = 'e26ca279-8f57-44a5-9ed8-8cc16e90e559');
 
     SET @testPt = (select person_attribute_type_id from person_attribute_type where uuid = '4f07985c-88a5-4abd-aa0c-f3ec8324d8e7');
     SET @unknownPt = (select person_attribute_type_id from person_attribute_type where uuid = '8b56eac7-5c76-4b9c-8c6f-1deab8d3fc47');
@@ -26,6 +28,9 @@ BEGIN
     SET @chemoEnc = encounter_type('828964fa-17eb-446e-aba4-e940b0f4be5b');
     SET @dispEnc = encounter_type('8ff50dea-18a1-4609-b4c9-3f8f2d611b84');
     SET @EDTriageEnc = encounter_type('74cef0a6-2801-11e6-b67b-9e71128cae77');
+    SET @vctEnc = encounter_type('616b66fe-f189-11e7-8c3f-9a214cf093ae');
+
+    SET @pathologyTestOrder = (select order_type_id from order_type where uuid='65c912c2-88cf-46c2-83ae-2b03b1f97d3a');
 
     SET @consultingClinician = (select encounter_role_id from encounter_role where uuid = '4f10ad1a-ec49-48df-98c7-1391c6ac7f05');
     SET @orderingProvider = (select encounter_role_id from encounter_role where uuid = 'c458d78e-8374-4767-ad58-9f8fe276e01c');

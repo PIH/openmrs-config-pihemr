@@ -1,0 +1,26 @@
+key: "pathologydataexport"
+uuid: "7877eef3-a3bb-4efc-a9ef-3582378053ca"
+name: "mirebalaisreports.pathologydataexport.name"
+description: "mirebalaisreports.pathologydataexport.description"
+parameters:
+  - key: "startDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.startDate"
+  - key: "endDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.endDate"
+datasets:
+  - key: "pathologyexport"
+    type: "sql"
+    config: "sql/pathology.sql"
+designs:
+  - type: "csv"
+    properties:
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
+config:
+  category: "dataExport"
+  components:
+    - "pathologyTracking"
+    - "allDataExports"
