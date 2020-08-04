@@ -12,6 +12,9 @@ BEGIN
     SET @testPt = (select person_attribute_type_id from person_attribute_type where uuid = '4f07985c-88a5-4abd-aa0c-f3ec8324d8e7');
     SET @unknownPt = (select person_attribute_type_id from person_attribute_type where uuid = '8b56eac7-5c76-4b9c-8c6f-1deab8d3fc47');
 
+    SET @regEnc = encounter_type('873f968a-73a8-4f9c-ac78-9f4778b751b6');
+    SET @chkEnc = encounter_type('55a0d3ea-a4d7-4e88-8f01-5aceb2d3c61b');
+    SET @vitEnc = encounter_type('4fb47712-34a6-40d2-8ed3-e153abbd25b7');
     SET @consEnc = encounter_type('92fd09b4-5335-4f7e-9f63-b2a663fd09a6');
     SET @admitEnc = encounter_type('260566e1-c909-4d61-a96f-c1019291a09d');
     SET @transferEnc = encounter_type('436cfe33-6b81-40ef-a455-f134a9f7e580');
@@ -36,8 +39,9 @@ BEGIN
     SET @orderingProvider = (select encounter_role_id from encounter_role where uuid = 'c458d78e-8374-4767-ad58-9f8fe276e01c');
     SET @principalResultsInterpreter = (select encounter_role_id from encounter_role where uuid = '08f73be2-9452-44b5-801b-bdf7418c2f71');
     SET @radiologyTech = (select encounter_role_id from encounter_role where uuid = '8f4d96e2-c97c-4285-9319-e56b9ba6029c');
+    SET @clerkEncRole = (select encounter_role_id from encounter_role where uuid = 'cbfe0b9d-9923-404c-941b-f048adc8cdc0');
 
-    SET @dispo = concept_from_mapping('org.openmrs.module.emrapi', 'Disposition');
+    SET @dispo = concept_from_mapping('PIH', 'HUM Disposition categories');
     SET @admitDispoConcept = concept_from_mapping('PIH', 'ADMIT TO HOSPITAL');
     SET @leftWithoutSeeingDispoConcept = concept_from_mapping('PIH', 'Left without seeing a clinician');
     SET @deathDispoConcept = concept_from_mapping('PIH', 'DEATH');
@@ -55,6 +59,18 @@ BEGIN
     SET @radiologyVascular = (select concept_id from concept where uuid='4419626d-236c-4281-968d-961cf90567fb');
     SET @radiologyAbdomenPelvis = (select concept_id from concept where uuid='da40f72e-8c3e-4b82-8295-b4bbd656afa8');
     SET @radiologyMusculoskeletal = (select concept_id from concept where uuid='2d26d7be-f7fa-400a-9e26-2fdf5e01e9ab');
+
+    SET @coded = (select concept_id from concept where uuid='226ed7ad-b776-4b99-966d-fd818d3302c2');
+    SET @nonCoded = (select concept_id from concept where uuid='970d41ce-5098-47a4-8872-4dd843c0df3f');
+    SET @transfOut = (select concept_id from concept where uuid='113a5ce0-6487-4f45-964d-2dcbd7d23b67');
+    SET @tramaOccur = (select concept_id from concept where uuid='f8134959-62d2-4f94-af6c-3580312b07a0');
+    SET @tramaType = (select concept_id from concept where uuid='7c5ef8cd-3c2b-46c1-b995-20e52c11ce94');
+    SET @rvd = (select concept_id from concept where uuid='3ce94df0-26fe-102b-80cb-0017a47871b2');
+    SET @comment = (select concept_id from concept where uuid='3cd9d956-26fe-102b-80cb-0017a47871b2');
+    SET @boardingFor = (select concept_id from concept where uuid='83a54c1d-510e-4860-8971-61755c71f0ed');
+
+    SET @paid = (select concept_id from concept where uuid='5d1bc5de-6a35-4195-8631-7322941fe528');
+    SET @reasonForVisit = (select concept_id from concept where uuid='e2964359-790a-419d-be53-602e828dcdb9');
 
 END
 #
