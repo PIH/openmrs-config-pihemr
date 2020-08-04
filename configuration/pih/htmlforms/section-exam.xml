@@ -769,11 +769,10 @@
                 </p>
 
                 <p class="tanner">
-                    <!-- ToDo:  Add 3+ pitting CIEL:165600 -->
                     Pitting:
                     <obs class="abnormalObs" conceptId="PIH:MUSCULOSKELETAL EXAM FINDINGS"
-                         answerConceptIds="CIEL:165598,CIEL:165599"
-                         answerLabels="+1,+2" style="radio" answerSeparator="" />
+                         answerConceptIds="CIEL:165598,CIEL:165599,CIEL:165600"
+                         answerLabels="+1,+2,+3" style="radio" answerSeparator="" />
                 </p>
                 <p>
                     <obs class="abnormalObs" conceptId="PIH:MUSCULOSKELETAL EXAM FINDINGS"
