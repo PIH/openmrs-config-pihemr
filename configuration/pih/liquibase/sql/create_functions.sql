@@ -1266,4 +1266,30 @@ BEGIN
 
 END
 #
+-- This function accepts visit_id, source and term for a concept, offset and locale  
+-- It will find the value coded of the obs answer with that concept, in the specified based on the offset given 
+#
+DROP FUNCTION IF EXISTS obs_from_visit_value_coded;
+#
+CREATE FUNCTION obs_from_visit_value_coded(_visitId int(11), _source varchar(50), _term varchar(255), _offset_value int, _locale varchar(50))
+    RETURNS text
+    DETERMINISTIC
 
+BEGIN
+
+    DECLARE ret text;
+
+    select      concept_name(o.value_coded, _locale) into ret
+    from        obs o
+    inner join encounter e on o.encounter_id = e.encounter_id and e.voided = 0
+    where       o.voided = 0
+      and       e.visit_id = _visitId
+      and       o.concept_id = concept_from_mapping(_source, _term)
+      order by o.obs_datetime
+      limit 1
+      offset _offset_value;
+
+    RETURN ret;
+
+END
+#
