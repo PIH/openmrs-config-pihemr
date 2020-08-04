@@ -970,5 +970,3 @@ FROM
 temp_encounter e
 LEFT JOIN
 temp_final1_ivf tf ON e.encounter_id = tf.encounter_id;
-
-SELECT * FROM temp_encounter;
