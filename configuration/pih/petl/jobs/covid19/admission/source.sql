@@ -1,6 +1,10 @@
 ### This report is a row per encounter report.
 ### Admission covid encounters
 
+## sql updates
+SET sql_safe_updates = 0;
+SET SESSION group_concat_max_len = 100000;
+
 -- Delete temporary admission encounter table if exists
 DROP TEMPORARY TABLE IF EXISTS temp_covid_admission_encounter;
 
@@ -11,6 +15,7 @@ CREATE TEMPORARY TABLE temp_covid_admission_encounter
 	patient_id				INT,
 	encounter_datetime			DATE,
 	health_care_worker			VARCHAR(11),
+	health_care_worker_type		VARCHAR(255),
 	home_medications			TEXT,
   	allergies				TEXT,
   	symptom_start_date			DATE,
@@ -72,6 +77,9 @@ WHERE
 
 -- Health Care Worker
 UPDATE temp_covid_admission_encounter SET health_care_worker = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '5619', 'en');
+
+-- Health care worker type
+UPDATE temp_covid_admission_encounter SET health_care_worker_type = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '166014', 'en');
 
 -- Home medication
 UPDATE temp_covid_admission_encounter SET home_medications = OBS_VALUE_TEXT(encounter_id, 'CIEL', '162165');
@@ -161,6 +169,7 @@ SELECT
 	patient_id,
 	encounter_datetime,
 	IF(health_care_worker like "%Yes%", 1, NULL)			health_care_worker,
+  health_care_worker_type,
 	home_medications,
 	allergies,
 	symptom_start_date,

@@ -4,6 +4,7 @@ CREATE TABLE covid_admission
   patient_id                      INT,
   encounter_datetime              DATE,
   health_care_worker              VARCHAR(11),
+  health_care_worker_type         VARCHAR(255),
   home_medications                TEXT,
   allergies                       TEXT,
   symptom_start_date              DATE,
