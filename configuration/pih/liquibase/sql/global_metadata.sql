@@ -26,7 +26,7 @@ BEGIN
     SET @radEnc = encounter_type('1b3d1e13-f0b1-4b83-86ea-b1b1e2fb4efa');
     SET @radStudyEnc = encounter_type('5b1b4a4e-0084-4137-87db-dba76c784439');
     SET @radReportEnc = encounter_type('d5ca53a7-d3b5-44ac-9aa2-1491d2a4b4e9');
-    SET @oncNoteEnc = encounter_type('035fb8da-226a-420b-8d8b-3904f3bedb');
+    SET @oncNoteEnc = encounter_type('035fb8da-226a-420b-8d8b-3904f3bedb25');
     SET @oncIntakeEnc = encounter_type('f9cfdf8b-d086-4658-9b9d-45a62896da03');
     SET @chemoEnc = encounter_type('828964fa-17eb-446e-aba4-e940b0f4be5b');
     SET @dispEnc = encounter_type('8ff50dea-18a1-4609-b4c9-3f8f2d611b84');
@@ -79,7 +79,7 @@ BEGIN
     SET @notifiable = (select concept_id from concept where uuid='ddb35fb6-e69b-49cb-9540-ba11cf40ffd7');
     SET @urgent = (select concept_id from concept where uuid='0f8dc745-5f4d-494d-805b-6f8c8b5fe258');
     SET @santeFamn = (select concept_id from concept where uuid='27b6675d-02ea-4331-a5fc-9a8224f90660');
-    SET @psycho = (select concept_id from concept where uuid='3b85c049-1e2d-4f58-bad4-bf3bc98ed09');
+    SET @psycho = (select concept_id from concept where uuid='3b85c049-1e2d-4f58-bad4-bf3bc98ed098');
     SET @peds = (select concept_id from concept where uuid='231ac3ac-2ad4-4c41-9989-7e6b85393b51');
     SET @outpatient = (select concept_id from concept where uuid='11c8b2ab-2d4a-4d3e-8733-e10e5a3f1404');
     SET @ncd = (select concept_id from concept where uuid='6581641f-ee7e-4a8a-b271-2148e6ffec77');
