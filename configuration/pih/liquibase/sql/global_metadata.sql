@@ -32,6 +32,11 @@ BEGIN
     SET @dispEnc = encounter_type('8ff50dea-18a1-4609-b4c9-3f8f2d611b84');
     SET @EDTriageEnc = encounter_type('74cef0a6-2801-11e6-b67b-9e71128cae77');
     SET @vctEnc = encounter_type('616b66fe-f189-11e7-8c3f-9a214cf093ae');
+    SET @AdultInitEnc = encounter_type('27d3a180-031b-11e6-a837-0800200c9a66');
+    SET @AdultFollowEnc = encounter_type('27d3a181-031b-11e6-a837-0800200c9a66 ');
+    SET @PedInitEnc = encounter_type('5b812660-0262-11e6-a837-0800200c9a66');
+    SET @PedFollowEnc = encounter_type('229e5160-031b-11e6-a837-0800200c9a66');
+    SET @NCDInitEnc = encounter_type('ae06d311-1866-455b-8a64-126a9bd74171');
 
     SET @pathologyTestOrder = (select order_type_id from order_type where uuid='65c912c2-88cf-46c2-83ae-2b03b1f97d3a');
 
@@ -40,6 +45,7 @@ BEGIN
     SET @principalResultsInterpreter = (select encounter_role_id from encounter_role where uuid = '08f73be2-9452-44b5-801b-bdf7418c2f71');
     SET @radiologyTech = (select encounter_role_id from encounter_role where uuid = '8f4d96e2-c97c-4285-9319-e56b9ba6029c');
     SET @clerkEncRole = (select encounter_role_id from encounter_role where uuid = 'cbfe0b9d-9923-404c-941b-f048adc8cdc0');
+    SET @nurse = (select encounter_role_id from encounter_role where uuid = '98bf2792-3f0a-4388-81bb-c78b29c0df92');
 
     SET @dispo = concept_from_mapping('PIH', 'HUM Disposition categories');
     SET @admitDispoConcept = concept_from_mapping('PIH', 'ADMIT TO HOSPITAL');
@@ -48,6 +54,8 @@ BEGIN
     SET @transferOutDispoConcept = concept_from_mapping('PIH', 'Transfer out of hospital');
     SET @leftWithoutCompletingDispoConcept = concept_from_mapping('PIH', 'Departed without medical discharge');
     SET @dischargeDispoConcept = concept_from_mapping('PIH', 'DISCHARGED');
+    SET @diagnosisOrder = concept_from_mapping('PIH', 'Diagnosis order');
+    SET @diagnosisCertainty = concept_from_mapping('PIH', 'CLINICAL IMPRESSION DIAGNOSIS CONFIRMED');
 
     SET @xrayOrderables = (select concept_id from concept where uuid = global_property_value('emr.xrayOrderablesConcept', ''));
     SET @ctOrderables = (select concept_id from concept where uuid = global_property_value('emr.ctScanOrderablesConcept', ''));
@@ -68,9 +76,21 @@ BEGIN
     SET @rvd = (select concept_id from concept where uuid='3ce94df0-26fe-102b-80cb-0017a47871b2');
     SET @comment = (select concept_id from concept where uuid='3cd9d956-26fe-102b-80cb-0017a47871b2');
     SET @boardingFor = (select concept_id from concept where uuid='83a54c1d-510e-4860-8971-61755c71f0ed');
-
+    SET @notifiable = (select concept_id from concept where uuid='ddb35fb6-e69b-49cb-9540-ba11cf40ffd7');
+    SET @urgent = (select concept_id from concept where uuid='0f8dc745-5f4d-494d-805b-6f8c8b5fe258');
+    SET @santeFamn = (select concept_id from concept where uuid='27b6675d-02ea-4331-a5fc-9a8224f90660');
+    SET @psycho = (select concept_id from concept where uuid='3b85c049-1e2d-4f58-bad4-bf3bc98ed09');
+    SET @peds = (select concept_id from concept where uuid='231ac3ac-2ad4-4c41-9989-7e6b85393b51');
+    SET @outpatient = (select concept_id from concept where uuid='11c8b2ab-2d4a-4d3e-8733-e10e5a3f1404');
+    SET @ncd = (select concept_id from concept where uuid='6581641f-ee7e-4a8a-b271-2148e6ffec77');
+    SET @notDx = (select concept_id from concept where uuid='a2d2124b-fc2e-4aa2-ac87-792d4205dd8d');
+    SET @ed = (select concept_id from concept where uuid='cfe2f068-0dd1-4522-80f5-c71a5b5f2c8b');
+    SET @ageRst = (select concept_id from concept where uuid='2231e6b8-6259-426d-a9b2-d3cb8fbbd6a3');
+    SET @oncology = (select concept_id from concept where uuid='36489682-f68a-4a82-9cf8-4d2dca2221c6');
     SET @paid = (select concept_id from concept where uuid='5d1bc5de-6a35-4195-8631-7322941fe528');
     SET @reasonForVisit = (select concept_id from concept where uuid='e2964359-790a-419d-be53-602e828dcdb9');
+
+    SET @icd10 = (select concept_source_id from concept_reference_source where uuid='3f65bd34-26fe-102b-80cb-0017a47871b2');
 
 END
 #
