@@ -2,7 +2,7 @@ CREATE TABLE covid_admission
 (
   encounter_id                    INT PRIMARY KEY,
   patient_id                      INT,
-  encounter_datetime              DATE,
+  encounter_datetime              DATETIME,
   health_care_worker              VARCHAR(11),
   health_care_worker_type         VARCHAR(255),
   home_medications                TEXT,
