@@ -270,6 +270,56 @@ in [CALF](https://github.com/PIH/openmrs-module-mirebalais/blob/master/api/src/m
 Note that this application logic often depends both on which components are enabled and which location tags are enabled
 at the active location.  Location Tags are currently still setup in code in [openmrs-module-pihcore/api/src/main/java/org/openmrs/module/pihcore/setup/LocationTagSetup.java](https://github.com/PIH/openmrs-module-pihcore/blob/master/api/src/main/java/org/openmrs/module/pihcore/setup/LocationTagSetup.java).
 
+### Reports
+
+SQL-based reports can be added to the "Reports" section of the PIH-EMR by including the SQL file in the "config-pihemr" or a country-specific config, along with a yml file that defines that report.  The YML file should be placed in the configuration/reports/reportdescriptors/dataexports directory of the appropriate config project.
+
+#### Sample YAML file format
+
+```yml
+key: "allergiesdataexport"                                              # unique key
+uuid: "3b83bbd7-f16a-4df1-9ba8-280c0e4ea977"                            # unique random uuid
+name: "mirebalaisreports.allergiesdataexport.name"                      # references message.properties code
+description: "mirebalaisreports.allergiesdataexport.description"        # references message.properties code
+parameters:                                                             # list of user parameters
+  - key: "startDate"
+    type: "java.util.Date"                          # datatype of parameter: Date and Location supported    
+    label: "reporting.parameter.startDate"          # messages.properties code for label
+  - key: "endDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.endDate"
+datasets:
+  - key: "allergiesexport"
+    type: "sql"                                     # type of report, currently only SQL supported
+    config: "sql/allergies.sql"                     # path to SQL file (relative to the yml file)
+designs:
+  - type: "csv"                                     # type of design, CSV and Excel currently supported
+    properties:                                     # any additonal properties
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
+config:
+  category: "dataExport"                      # where to display the report, currently only Data Export supported
+  order: 90                                   # determines display orders (lower sorted first)                      
+  components:                                 # display report if any of these components are enabled
+    - "allergies"
+    - "allDataExports"
+  sites:                                      # limit report to certain sites
+    - "MIREBALAIS"
+
+```
+
+There are several further examples of yml files for reports in "configuration/reports/reportdescriptors/dataexport".
+
+#### Global metadata
+
+A set of global variables can be loaded by calling the "initialize_global_metadata" procedure from the report. Look at "global_metadata.sql" to see what variables are defined.
+
+#### Future enhancements
+
+Currently, you can only add reports to the "Data Exports" section of the Reports page, but it should be very simple
+to expand to support all reports (see ticket)
+
 ### Message Properties
 
 Message properties files are used to localize the PIH EMR into different languages.  Currently we support French,
