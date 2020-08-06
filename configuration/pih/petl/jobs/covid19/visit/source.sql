@@ -451,10 +451,49 @@ UPDATE temp_covid_visit SET cardiac_ultrasound = OBS_SINGLE_VALUE_CODED(encounte
 -- Abdominal ultrasound
 UPDATE temp_covid_visit SET abdominal_ultrasound = OBS_SINGLE_VALUE_CODED(encounter_id, 'PIH', '9485', 'PIH', 'Abdomen (US)');
 
+-- index ascending
+DROP TEMPORARY TABLE IF EXISTS temp_index_asc;
+CREATE TEMPORARY TABLE temp_index_asc
+(
+			SELECT  
+            patient_id,
+			encounter_id,
+			index_asc
+FROM (SELECT  
+             @r:= IF(@u = patient_id, @r + 1,1) index_asc,
+             encounter_id,
+             patient_id,
+			 @u:= patient_id
+            FROM temp_covid_visit,
+                    (SELECT @r:= 1) AS r,
+                    (SELECT @u:= 0) AS u
+            ORDER BY patient_id, encounter_id ASC
+        ) index_ascending );
+  
+-- index descending
+DROP TEMPORARY TABLE IF EXISTS temp_index_desc;
+CREATE TEMPORARY TABLE temp_index_desc
+(
+			SELECT  
+            patient_id,
+			encounter_id,
+			index_desc 
+FROM (SELECT  
+             @r:= IF(@u = patient_id, @r + 1,1) index_desc,
+             encounter_id,
+             patient_id,
+			 @u:= patient_id
+            FROM temp_covid_visit,
+                    (SELECT @r:= 1) AS r,
+                    (SELECT @u:= 0) AS u
+            ORDER BY patient_id, encounter_id DESC
+        ) index_descending );
+        
+
 #### Final query
 SELECT
-        patient_id,
-        encounter_id,
+        tcv.patient_id patient_id,
+        tcv.encounter_id encounter_id,
         encounter_date,
         location,
         encounter_type,
@@ -564,5 +603,12 @@ SELECT
         clinical_management_plan,
         nursing_note,
         IF(mh_referral like "%Yes%", 1, NULL)               mh_referral,
-        mh_note
-FROM temp_covid_visit order by patient_id;
+        mh_note,
+        index_asc,
+        index_desc
+FROM temp_covid_visit tcv
+-- index ascending
+LEFT JOIN temp_index_asc on tcv.encounter_id = temp_index_asc.encounter_id
+-- index descending
+LEFT JOIN temp_index_desc on tcv.encounter_id = temp_index_desc.encounter_id
+order by tcv.patient_id, tcv.encounter_id ASC;

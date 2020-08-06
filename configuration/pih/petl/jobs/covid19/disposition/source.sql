@@ -62,12 +62,57 @@ UPDATE temp_covid_dispositon SET disposition = OBS_VALUE_CODED_LIST(encounter_id
 -- Discharge conditions
 UPDATE temp_covid_dispositon SET discharge_condition = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '159640', 'en');
 
+-- index ascending
+DROP TEMPORARY TABLE IF EXISTS temp_index_asc;
+CREATE TEMPORARY TABLE temp_index_asc
+(
+			SELECT  
+            patient_id,
+			encounter_id,
+			index_asc
+FROM (SELECT  
+             @r:= IF(@u = patient_id, @r + 1,1) index_asc,
+             encounter_id,
+             patient_id,
+			 @u:= patient_id
+            FROM temp_covid_dispositon,
+                    (SELECT @r:= 1) AS r,
+                    (SELECT @u:= 0) AS u
+            ORDER BY patient_id, encounter_id ASC
+        ) index_ascending );
+  
+-- index descending
+DROP TEMPORARY TABLE IF EXISTS temp_index_desc;
+CREATE TEMPORARY TABLE temp_index_desc
+(
+			SELECT  
+            patient_id,
+			encounter_id,
+			index_desc 
+FROM (SELECT  
+             @r:= IF(@u = patient_id, @r + 1,1) index_desc,
+             encounter_id,
+             patient_id,
+			 @u:= patient_id
+            FROM temp_covid_dispositon,
+                    (SELECT @r:= 1) AS r,
+                    (SELECT @u:= 0) AS u
+            ORDER BY patient_id, encounter_id DESC
+        ) index_descending );
+
 SELECT
-	patient_id,
-	encounter_id,
+	tcd.patient_id patient_id,
+	tcd.encounter_id encounter_id,
 	encounter_type,
 	location,
 	encounter_date,
 	disposition,				
-	discharge_condition			
-FROM temp_covid_dispositon ORDER BY patient_id, encounter_type, encounter_date ASC;
+	discharge_condition,
+	index_asc,
+	index_desc
+FROM temp_covid_dispositon tcd
+-- index ascending
+LEFT JOIN temp_index_asc on tcd.encounter_id = temp_index_asc.encounter_id
+-- index descending
+LEFT JOIN temp_index_desc on tcd.encounter_id = temp_index_desc.encounter_id
+ORDER BY tcd.patient_id, tcd.encounter_id, tcd.encounter_date ASC;
