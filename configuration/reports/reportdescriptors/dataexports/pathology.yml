@@ -21,6 +21,7 @@ designs:
       "dateFormat": "dd-MMM-yyyy HH:mm:ss"
 config:
   category: "dataExport"
+  order: 100
   components:
     - "pathologyTracking"
     - "allDataExports"

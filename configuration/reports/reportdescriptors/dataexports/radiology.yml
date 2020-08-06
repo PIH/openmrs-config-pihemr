@@ -30,6 +30,7 @@ designs:
       "dateFormat": "dd-MMM-yyyy HH:mm:ss"
 config:
   category: "dataExport"
+  order: 10
   components:
     - "radiology"
     - "allDataExports"
