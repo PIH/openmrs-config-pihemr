@@ -4,3 +4,4 @@ port: ${mysql.port}
 databaseName: ${mysql.databaseName}
 user: ${mysql.user}
 password: ${mysql.password}
+options: ${mysql.options}
