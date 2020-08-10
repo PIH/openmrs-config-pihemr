@@ -1,0 +1,27 @@
+key: "allergiesdataexport"
+uuid: "3b83bbd7-f16a-4df1-9ba8-280c0e4ea977"
+name: "mirebalaisreports.allergiesdataexport.name"
+description: "mirebalaisreports.allergiesdataexport.description"
+parameters:
+  - key: "startDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.startDate"
+  - key: "endDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.endDate"
+datasets:
+  - key: "allergiesexport"
+    type: "sql"
+    config: "sql/allergies.sql"
+designs:
+  - type: "csv"
+    properties:
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
+config:
+  category: "dataExport"
+  order: 90
+  components:
+    - "allergies"
+    - "allDataExports"

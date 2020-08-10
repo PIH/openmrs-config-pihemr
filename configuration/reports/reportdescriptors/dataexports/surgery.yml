@@ -1,0 +1,30 @@
+key: "surgerydataexport"
+uuid: "a3c9a17a-2aad-11e3-a840-5b9e0b589afb"
+name: "mirebalaisreports.surgerydataexport.name"
+description: "mirebalaisreports.surgerydataexport.description"
+parameters:
+  - key: "startDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.startDate"
+  - key: "endDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.endDate"
+datasets:
+  - key: "postOpNote1"
+    type: "sql"
+    config: "sql/postOpNote1.sql"
+  - key: "postOpNote2"
+    type: "sql"
+    config: "sql/postOpNote2.sql"
+designs:
+  - type: "csv"
+    properties:
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
+config:
+  category: "dataExport"
+  order: 20
+  components:
+    - "surgery"
+    - "allDataExports"

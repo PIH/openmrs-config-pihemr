@@ -1,0 +1,20 @@
+key: "mchproviderdataexport"
+uuid: "85656ac4-0faa-11e9-ab14-d663bd873d9"
+name: "mirebalaisreports.mchproviderdataexport.name"
+description: "mirebalaisreports.mchproviderdataexport.description"
+datasets:
+  - key: "mchProvider"
+    type: "sql"
+    config: "sql/mchProvider.sql"
+designs:
+  - type: "csv"
+    properties:
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
+config:
+  category: "dataExport"
+  order: 131
+  components:
+    - "chwApp"
+    - "allDataExports"

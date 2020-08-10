@@ -1,0 +1,20 @@
+key: "fingerprintsdataexport"
+uuid: "bf1fbee4-0a35-4d7c-9054-6681f3c06463"
+name: "mirebalaisreports.fingerprintsdataexport.name"
+description: "mirebalaisreports.fingerprintsdataexport.description"
+datasets:
+  - key: "patientsWithFingerprints"
+    type: "sql"
+    config: "sql/patientsWithFingerprints.sql"
+designs:
+  - type: "csv"
+    properties:
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
+config:
+  category: "dataExport"
+  order: 110
+  components:
+    - "biometricsFingerPrints"
+    - "allDataExports"

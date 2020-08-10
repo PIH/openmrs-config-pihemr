@@ -9,4 +9,8 @@
         <sqlFile endDelimiter="#" path="sql/create_functions.sql" relativeToChangelogFile="true" stripComments="true" />
     </changeSet>
 
+    <changeSet id="20200731-pihcore-global-metadata" author="mgoodrich" runAlways="true" runOnChange="true">
+        <sqlFile endDelimiter="#" path="sql/global_metadata.sql" relativeToChangelogFile="true" stripComments="true" />
+    </changeSet>
+
 </databaseChangeLog>

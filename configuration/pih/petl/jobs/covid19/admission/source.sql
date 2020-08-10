@@ -13,7 +13,7 @@ CREATE TEMPORARY TABLE temp_covid_admission_encounter
 (
 	encounter_id				INT PRIMARY KEY,
 	patient_id				INT,
-	encounter_datetime			DATE,
+	encounter_datetime			DATETIME,
 	health_care_worker			VARCHAR(11),
 	health_care_worker_type		VARCHAR(255),
 	home_medications			TEXT,
@@ -55,7 +55,7 @@ INSERT INTO temp_covid_admission_encounter
 SELECT
 	encounter_id,
 	patient_id,
-	DATE(encounter_datetime)
+	encounter_datetime
 FROM
 	encounter
 WHERE

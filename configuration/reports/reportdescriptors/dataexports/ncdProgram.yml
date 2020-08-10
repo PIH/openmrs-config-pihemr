@@ -1,0 +1,20 @@
+key: "ncdprogramexport"
+uuid: "1de224fc-82d4-40cc-be07-f2e95ed2e452"
+name: "mirebalaisreports.ncdprogramdataexport.name"
+description: "mirebalaisreports.ncdprogramdataexport.description"
+datasets:
+  - key: "ncdprogramexport"
+    type: "sql"
+    config: "sql/ncdProgram.sql"
+designs:
+  - type: "csv"
+    properties:
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
+config:
+  category: "dataExport"
+  order: 61
+  components:
+    - "ncd"
+    - "allDataExports"

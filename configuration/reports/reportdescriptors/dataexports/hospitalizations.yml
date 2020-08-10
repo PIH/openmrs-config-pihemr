@@ -1,0 +1,34 @@
+key: "hospitalizationsdataexport"
+uuid: "bfa1b522-2aad-11e3-a840-5b9e0b589afb"
+name: "mirebalaisreports.hospitalizationsdataexport.name"
+description: "mirebalaisreports.hospitalizationsdataexport.description"
+parameters:
+  - key: "startDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.startDate"
+  - key: "endDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.endDate"
+datasets:
+  - key: "hospitalizations"
+    type: "sql"
+    config: "sql/hospitalizations.sql"
+  - key: "postOpNote1"
+    type: "sql"
+    config: "sql/postOpNote1.sql"
+  - key: "postOpNote2"
+    type: "sql"
+    config: "sql/postOpNote2.sql"
+designs:
+  - type: "csv"
+    properties:
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
+config:
+  category: "dataExport"
+  order: 30
+  components:
+    - "adt"
+    - "surgery"
+    - "allDataExports"

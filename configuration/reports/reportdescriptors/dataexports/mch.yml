@@ -1,0 +1,33 @@
+key: "mchdataexport"
+uuid: "85656ac4-0faa-11e9-ab14-d663bd873d93"
+name: "mirebalaisreports.mchdataexport.name"
+description: "mirebalaisreports.mchdataexport.description"
+parameters:
+  - key: "startDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.startDate"
+  - key: "endDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.endDate"
+datasets:
+  - key: "prenatalAndDelivery"
+    type: "sql"
+    config: "sql/prenatalAndDelivery.sql"
+  - key: "vaccinationsANC"
+    type: "sql"
+    config: "sql/vaccinationsANC.sql"
+  - key: "mchCCHomeVisit"
+    type: "sql"
+    config: "sql/mchCCHomeVisitData.sql"
+designs:
+  - type: "csv"
+    properties:
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
+config:
+  category: "dataExport"
+  order: 130
+  components:
+    - "mch"
+    - "allDataExports"
