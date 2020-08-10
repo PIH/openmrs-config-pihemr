@@ -318,7 +318,7 @@ A set of global variables can be loaded by calling the "initialize_global_metada
 #### Future enhancements
 
 Currently, you can only add reports to the "Data Exports" section of the Reports page, but it should be very simple
-to expand to support all reports (see ticket)
+to expand to support all reports (see ticket https://pihemr.atlassian.net/browse/UHM-4738)
 
 ### Message Properties
 
