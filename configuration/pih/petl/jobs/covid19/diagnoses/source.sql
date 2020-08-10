@@ -205,8 +205,8 @@ ORDER BY person_id;
 
 ##### FINAL QUERY EXECUTION
 SELECT
-  d.person_id,
-  d.encounter_id,
+  ce.patient_id,
+  ce.encounter_id,
   ce.encounter_type,
   ce.location,
   ce.encounter_date,
@@ -215,12 +215,11 @@ SELECT
   dc.diagnosis_confirmation,
   ce.covid19_diagnosis
 FROM
-  temp_covid_diagnosis d
+  temp_covid_encounters ce
 LEFT JOIN
-temp_covid_diagnosis_confirmation dc
-  ON d.obs_group_id = dc.obs_group_id AND d.encounter_id = dc.encounter_id
+  temp_covid_diagnosis d ON d.encounter_id = ce.encounter_id
+LEFT JOIN
+temp_covid_diagnosis_confirmation dc ON d.obs_group_id = dc.obs_group_id AND d.encounter_id = dc.encounter_id
 LEFT JOIN
 temp_covid_diagnosis_order dor ON d.obs_group_id = dor.obs_group_id AND d.encounter_id = dor.encounter_id
-LEFT JOIN
-temp_covid_encounters ce ON d.encounter_id = ce.encounter_id
 ORDER BY d.person_id;
