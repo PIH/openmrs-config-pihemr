@@ -79,6 +79,12 @@
             width: 100%;
         }
 
+        .two-columns {
+            column-count: 2;
+            -webkit-column-count: 2;
+            -moz-column-count: 2;
+        }
+
         form input[type="checkbox"], form input[type="radio"],
         .form input[type="checkbox"], .form input[type="radio"] {
             float: none;
@@ -329,45 +335,47 @@
                 <uimessage code="mirebalais.dispensing.medication" />
             </h3>
 
-            <p>
-                <repeat with="['Amoxicillin','CIEL:71160'],
-                              ['Doxycycline','CIEL:75222']">
+            <div class="two-columns">
+                <p>
+                    <repeat with="['Amoxicillin','CIEL:71160'],
+                                  ['Doxycycline','CIEL:75222']">
+                        <obsgroup groupingConceptId="PIH:Prescription construct">
+                            <obs conceptId="PIH:1282" answerConceptId="{1}"
+                                 style="checkbox"/>
+                        </obsgroup>
+                        <br/>
+                    </repeat>
+                    <!-- ToDo:  Replace Other (CIEL:5622) with Other antibiotics
+                                Waiting for next CIEL release.  -->
                     <obsgroup groupingConceptId="PIH:Prescription construct">
-                        <obs conceptId="PIH:1282" answerConceptId="{1}"
-                             style="checkbox"/>
+                        <obs conceptId="PIH:1282" answerConceptId="PIH:12974"
+                             style="checkbox" commentFieldLabel="" />
                     </obsgroup>
-                    <br/>
-                </repeat>
-                <!-- ToDo:  Replace Other (CIEL:5622) with Other antibiotics
-                            Waiting for next CIEL release.  -->
-                <obsgroup groupingConceptId="PIH:Prescription construct">
-                    <obs conceptId="PIH:1282" answerConceptId="PIH:12974"
-                         style="checkbox" commentFieldLabel="" />
-                </obsgroup>
-            </p>
+                </p>
 
-            <p>
-                <repeat with="['Corticosteroids','CIEL:165948'],
-                          ['Antifungal agent','CIEL:79831'],
-                          ['Paracetamol','CIEL:70116']">
-                    <obsgroup groupingConceptId="PIH:Prescription construct">
-                        <obs conceptId="PIH:1282" answerConceptId="{1}"
-                             answerCode="{0}"
-                             style="checkbox"/>
-                    </obsgroup>
-                    <br/>
-                </repeat>
-            </p>
+                <p>
+                    <repeat with="['Corticosteroids','CIEL:165948'],
+                                  ['Antifungal agent','CIEL:79831'],
+                                  ['Paracetamol','CIEL:70116']">
+                        <obsgroup groupingConceptId="PIH:Prescription construct">
+                            <obs conceptId="PIH:1282" answerConceptId="{1}"
+                                 answerCode="{0}"
+                                 style="checkbox"/>
+                        </obsgroup>
+                        <br/>
+                    </repeat>
+                </p>
 
-            <p>
-                <label>
-                    <uimessage code="pihcore.otherMeds" />
-                </label>
-                <obs conceptId="PIH:Medication comments (text)"
-                     style="textarea" rows="3" cols="40"/>
-            </p>
+                <p>
+                    <label>
+                        <uimessage code="pihcore.otherMeds" />
+                    </label>
+                    <obs conceptId="PIH:Medication comments (text)"
+                         style="textarea" rows="5" cols="40"/>
+                </p>
+            </div>
 
-
+            <br/>
             <p>
                 <encounterDisposition required="true"/>
             </p>
@@ -381,19 +389,29 @@
                      style="radio"/>
             </p>
 
-            <label>
-                <uimessage code="pihcore.followupPlan"/>
-            </label>
-            <p>
-                <obs conceptId="CIEL:162749" style="textarea" rows="3" cols="40"/>
-            </p>
+            <div class="two-columns">
+                <label>
+                    <uimessage code="pihcore.followupPlan"/>
+                </label>
+                <p>
+                    <obs conceptId="CIEL:162749" style="textarea" rows="3" cols="40"/>
+                </p>
+
+                <label>
+                    <uimessage code="pihcore.otherComments"/>
+                </label>
+                <p>
+                    <obs conceptId="CIEL:161011" style="textarea" rows="3" cols="40"/>
+                </p>
+            </div>
 
             <label>
-                <uimessage code="pihcore.otherComments"/>
+                <uimessage code="pihcore.consult.returnVisitDate"/>
             </label>
-            <p>
-                <obs conceptId="CIEL:161011" style="textarea" rows="3" cols="40"/>
-            </p>
+            <span class="small">
+                <obs conceptId="CIEL:5096" />
+            </span>
+
         </div>
     </section>
 
