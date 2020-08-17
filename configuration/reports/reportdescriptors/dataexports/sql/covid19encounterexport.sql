@@ -187,7 +187,8 @@ other_antibiotics       TEXT,
 -- other_medications    TEXT,
 discharge_condition     VARCHAR(255),
 -- followup_plan           TEXT,
-discharge_comments      TEXT
+discharge_comments      TEXT,
+return_visit_date       DATETIME
 );
 
 ## POPULATE WITH BASE DATA FROM ENCOUNTER, PATIENT, AND PERSON
@@ -788,7 +789,10 @@ UPDATE temp_encounter SET discharge_condition = OBS_VALUE_CODED_LIST(encounter_i
 
 -- Discharge comments
 UPDATE temp_encounter te SET discharge_comments = OBS_VALUE_TEXT(encounter_id, 'CIEL', '161011') WHERE te.encounter_type = 'COVID-19 Discharge';
-
+                                                                                                         
+-- return visit date
+UPDATE temp_encounter te SET return_visit_date = obs_value_datetime(encounter_id, 'CIEL','5096');
+                                                                                                         
 ####### EXECUTE SELECT TO EXPORT TABLE CONTENTS
 SELECT
 e.encounter_id,
@@ -965,7 +969,8 @@ e.other_antibiotics,
 -- e.other_medications,
 e.discharge_condition,
 -- e.followup_plan,
-e.discharge_comments
+e.discharge_comments,
+e.return_visit_date
 FROM
 temp_encounter e
 LEFT JOIN
