@@ -338,7 +338,7 @@ BEGIN
 
 select name into locRegistered from location l join patient_identifier pi on pi.location_id = l.location_id and pi.voided = 0 and pi.patient_id = _patient_id
 and identifier_type = (select pid2.patient_identifier_type_id from patient_identifier_type pid2 where
- pid2.name = 'ZL EMR ID');
+ pid2.name = 'ZL EMR ID') limit 1;
 
     RETURN locRegistered;
 
@@ -360,7 +360,8 @@ BEGIN
 
 select CONCAT(given_name, ' ', family_name) into providerName
 from person_name pn join provider pv on pn.person_id = pv.person_id AND pn.voided = 0
-join encounter_provider ep on pv.provider_id = ep.provider_id and ep.voided = 0 and ep.encounter_id = _encounter_id;
+join encounter_provider ep on pv.provider_id = ep.provider_id and ep.voided = 0 and ep.encounter_id = _encounter_id
+limit 1;
 
     RETURN providerName;
 
