@@ -1294,3 +1294,32 @@ BEGIN
 
 END
 #
+
+#
+DROP FUNCTION IF EXISTS retrieveConceptMapping;
+#
+CREATE FUNCTION retrieveConceptMapping(
+    _concept_id int,
+    _mapping_source varchar(50)
+)
+	RETURNS varchar(255)
+    DETERMINISTIC
+
+BEGIN
+    DECLARE mapping varchar(255);
+
+
+    select  group_concat(distinct crt.code separator ' | ')into mapping
+    from concept_reference_term crt
+    inner join concept_reference_map crm on crm.concept_reference_term_id = crt.concept_reference_term_id
+    inner join concept_reference_source crs on crt.concept_source_id = crs.concept_source_id and crs.retired = 0
+    inner join concept_map_type cmt on cmt.concept_map_type_id = crm.concept_map_type_id
+      and cmt.uuid = '35543629-7d8c-11e1-909d-c80aa9edcf4e' -- limit mappings to 'SAME-AS'
+    where  crt.retired = 0
+    and crs.name = _mapping_source
+    and crm.concept_id = _concept_id;
+
+    RETURN mapping;
+
+END
+#
