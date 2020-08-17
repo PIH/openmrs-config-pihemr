@@ -60,6 +60,7 @@ create temporary table temp_labresults
   order_number varchar(50) ,
   orderable varchar(255),
   test varchar(255),
+  LOINC varchar(255),	
   specimen_collection_date datetime,
   results_date datetime,
   results_entry_date datetime,
@@ -146,7 +147,7 @@ set ts.results_date = res_date.value_datetime,
 
 
 -- This query loads all specimen encounter-level information from above and observations from results entered  
-insert into temp_labresults (patient_id,emr_id,loc_registered, unknown_patient, gender, age_at_enc, department, commune, section, locality, street_landmark,order_number,orderable,specimen_collection_date, results_date, results_entry_date,test_concept_id,test,result_coded_answer,result_numeric_answer,result_text_answer)
+insert into temp_labresults (patient_id,emr_id,loc_registered, unknown_patient, gender, age_at_enc, department, commune, section, locality, street_landmark,order_number,orderable,specimen_collection_date, results_date, results_entry_date,test_concept_id,test, LOINC,result_coded_answer,result_numeric_answer,result_text_answer)
 select ts.patient_id,
 ts.emr_id,
 ts.loc_registered, 
@@ -165,6 +166,7 @@ ts.results_date,
 ts.results_entry_date,
 res.concept_id, 
 ifnull(concept_name(res.concept_id, @locale),concept_name(res.concept_id,'en')), 
+retrieveConceptMapping(res.concept_id,'LOINC'),							  
 ifnull(concept_name(res.value_coded, @locale),concept_name(res.value_coded,'en')),
 res.value_numeric,
 res.value_text
@@ -199,6 +201,7 @@ SELECT t.patient_id,
        t.orderable,
        -- only return test name is test was performed:
        CASE when t.test_concept_id  <> @not_performed then t.test END as 'test',
+       t.LOINC,							   
        t.specimen_collection_date,
        t.results_date,
        t.results_entry_date,
