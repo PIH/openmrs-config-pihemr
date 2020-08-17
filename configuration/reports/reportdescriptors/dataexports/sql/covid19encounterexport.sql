@@ -94,7 +94,7 @@ medication_comments     TEXT,
 supportive_care         TEXT,
 o2therapy_value			DOUBLE,
 analgesic_specified     VARCHAR(255),
-convid19                VARCHAR(255),
+covid19                VARCHAR(255),
 diagnosis_order1		VARCHAR(255),
 diagnosis1				TEXT,
 diagnosis_certainity1 	VARCHAR(255),
@@ -583,7 +583,7 @@ IF(ivf_value_numeric3 IS NULL,
 ivf_value_numeric3));
 
 -- COVID 19
-UPDATE temp_encounter SET convid19 = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '165793', 'en');
+UPDATE temp_encounter SET covid19 = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '165793', 'en');
 
 -- Diagnosis
 UPDATE temp_encounter SET diagnosis_order1 = OBS_FROM_GROUP_ID_VALUE_CODED_LIST(OBS_ID(encounter_id, 'PIH', 'Visit Diagnoses', 0), 'CIEL', '159946', 'en');
@@ -872,7 +872,7 @@ e.analgesic_specified,
 tf.ivf1,
 tf.ivf2,
 tf.ivf3,
-e.convid19,
+e.covid19 "COVID-19_Diagnosis",
 e.diagnosis_order1,
 e.diagnosis1,
 e.diagnosis_certainity1,
@@ -970,5 +970,3 @@ FROM
 temp_encounter e
 LEFT JOIN
 temp_final1_ivf tf ON e.encounter_id = tf.encounter_id;
-
-SELECT * FROM temp_encounter;
