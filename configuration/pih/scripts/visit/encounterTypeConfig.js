@@ -898,6 +898,17 @@ angular.module("encounterTypeConfig", [])
             showOnVisitList: true
         };
 
+        // HIV dispensing
+        encounterTypes["cc1720c9-3e4c-4fa8-a7ec-40eeaad1958c"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/zl/hiv-dispensing.xml"),
+            icon: "fas fa-fw fa-ribbon",
+            editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("hiv/zl/hiv-dispensing.xml"),
+            showOnVisitList: true
+        };
+
         // Socio-economics (socioEcon)
         encounterTypes["de844e58-11e1-11e8-b642-0ed5f89f718b"] = {
             defaultState: "short",
