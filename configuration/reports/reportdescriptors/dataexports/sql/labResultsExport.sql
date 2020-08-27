@@ -24,6 +24,7 @@ drop temporary table if exists temp_laborders_spec;
 create temporary table temp_laborders_spec
 (
   order_number varchar(50),
+  lab_id varchar(255),	
   concept_id int(11),
   encounter_id int(11),
   encounter_datetime  datetime,
@@ -60,6 +61,7 @@ create temporary table temp_labresults
   order_number varchar(50) ,
   orderable varchar(255),
   test varchar(255),
+  lab_id varchar(255),	
   LOINC varchar(255),	
   specimen_collection_date datetime,
   results_date datetime,
@@ -92,10 +94,11 @@ update temp_laborders_spec t
 INNER JOIN obs sco on sco.encounter_id = t.encounter_id and sco.concept_id = @test_order and sco.voided = 0
 SET order_number = sco.value_text;
 
--- updates concept id of orderable
+-- updates concept id and lab_id of orderable
 update temp_laborders_spec t
 INNER JOIN orders o on o.order_number = t.order_number
-SET t.concept_id = o.concept_id
+SET t.concept_id = o.concept_id,
+    t.lab_id = o.accession_number
 ;
 
  -- this adds the standalone lab results encounters into the temp table 
@@ -147,7 +150,7 @@ set ts.results_date = res_date.value_datetime,
 
 
 -- This query loads all specimen encounter-level information from above and observations from results entered  
-insert into temp_labresults (patient_id,emr_id,loc_registered, unknown_patient, gender, age_at_enc, department, commune, section, locality, street_landmark,order_number,orderable,specimen_collection_date, results_date, results_entry_date,test_concept_id,test, LOINC,result_coded_answer,result_numeric_answer,result_text_answer)
+insert into temp_labresults (patient_id,emr_id,loc_registered, unknown_patient, gender, age_at_enc, department, commune, section, locality, street_landmark,order_number,orderable,specimen_collection_date, results_date, results_entry_date,test_concept_id,test, lab_id, LOINC,result_coded_answer,result_numeric_answer,result_text_answer)
 select ts.patient_id,
 ts.emr_id,
 ts.loc_registered, 
@@ -166,6 +169,7 @@ ts.results_date,
 ts.results_entry_date,
 res.concept_id, 
 ifnull(concept_name(res.concept_id, @locale),concept_name(res.concept_id,'en')), 
+ts.lab_id,							  
 retrieveConceptMapping(res.concept_id,'LOINC'),							  
 ifnull(concept_name(res.value_coded, @locale),concept_name(res.value_coded,'en')),
 res.value_numeric,
@@ -201,6 +205,7 @@ SELECT t.patient_id,
        t.orderable,
        -- only return test name is test was performed:
        CASE when t.test_concept_id  <> @not_performed then t.test END as 'test',
+       t.lab_id,							   
        t.LOINC,							   
        t.specimen_collection_date,
        t.results_date,
