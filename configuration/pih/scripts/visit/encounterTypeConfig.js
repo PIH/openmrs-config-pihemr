@@ -212,15 +212,15 @@ angular.module("encounterTypeConfig", [])
             editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-family-planning.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
         };
 
-        var hivIntakePlan = {
+        var hivPlan = {
             type: "encounter-section",
             id: "hiv-intake-plan",
             label: "pihcore.visitNote.plan",
             icon: "fas fa-fw fa-list-ul",
             shortTemplate: "templates/sections/defaultSectionShort.page",
             longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
-            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/zl/section-hiv-intake-plan.xml"),
-            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/zl/section-hiv-intake-plan.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/zl/section-hiv-plan.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/zl/section-hiv-plan.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
         };
 
         var hivState = {
@@ -648,9 +648,8 @@ angular.module("encounterTypeConfig", [])
                 hivHistory,
                 primaryCareExam,
                 pedsVaccinations,
-                // labRadOrder,
                 hivAssessment,
-                hivIntakePlan
+                hivPlan
             ]
         };
 
@@ -668,8 +667,7 @@ angular.module("encounterTypeConfig", [])
                 primaryCareExam,
                 pedsVaccinations,
                 primaryCareDx,
-                // ToDo: Modify plan for followup
-                hivIntakePlan
+                hivPlan
             ]
         };
 
@@ -897,6 +895,17 @@ angular.module("encounterTypeConfig", [])
             templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/zl/vct.xml"),
             icon: "fas fa-fw fa-ribbon",
             editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("hiv/zl/vct.xml"),
+            showOnVisitList: true
+        };
+
+        // HIV dispensing
+        encounterTypes["cc1720c9-3e4c-4fa8-a7ec-40eeaad1958c"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/zl/hiv-dispensing.xml"),
+            icon: "fas fa-fw fa-ribbon",
+            editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("hiv/zl/hiv-dispensing.xml"),
             showOnVisitList: true
         };
 

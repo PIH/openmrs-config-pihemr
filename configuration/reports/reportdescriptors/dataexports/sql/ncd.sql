@@ -691,7 +691,9 @@ select
              THEN
                  o.value_datetime
          END) 'Next_NCD_appointment'
-FROM encounter e, report_mapping rm, obs o
+FROM encounter e
+LEFT OUTER JOIN obs o on o.encounter_id = e.encounter_id AND o.voided = 0
+LEFT OUTER JOIN report_mapping rm on rm.concept_id = o.concept_id
 LEFT OUTER JOIN concept_name cn ON o.value_coded = cn.concept_id AND cn.locale = 'en' AND cn.locale_preferred = '1'  AND cn.voided = 0
 LEFT OUTER JOIN obs obs2 ON obs2.obs_id = o.obs_group_id
 LEFT OUTER JOIN report_mapping obsgrp ON obsgrp.concept_id = obs2.concept_id
@@ -706,15 +708,12 @@ e.encounter_id IN
     FROM encounter
      WHERE 1=1
      AND encounter_type IN (@NCDInitEnc, @NCDFollowEnc, @vitEnc, @labResultEnc)
+     AND DATE(encounter_datetime) >=  date(@startDate)
+     AND DATE(encounter_datetime) <=  date(@endDate)
       GROUP BY visit_id,encounter_type) maxdate
      ON maxdate.visit_id = e3.visit_id AND e3.encounter_type= maxdate.encounter_type AND e3.encounter_datetime = maxdate.enc_date
 )
-AND rm.concept_id = o.concept_id
-AND o.encounter_id = e.encounter_id
 AND e.voided = 0
-AND o.voided = 0
-AND DATE(e.encounter_datetime) >=  date(@startDate)
-AND DATE(e.encounter_datetime) <=  date(@endDate)
 GROUP BY e.visit_id
 );
 
