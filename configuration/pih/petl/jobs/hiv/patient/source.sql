@@ -1,4 +1,3 @@
--- TODO: add (and limit by) HIV program enrollment
 
 SELECT
     pat.patient_id,
