@@ -1,19 +1,21 @@
+DROP TABLE IF EXISTS temp_patient;
 
-SELECT
-    pat.patient_id,
-    pn.given_name,
-    pn.family_name,
-    per.gender,
-    per.birthdate
-FROM
-    patient pat, person per, person_name pn
-WHERE
-    pat.patient_id = pn.person_id and
-    pat.patient_id = per.person_id and
-    pat.voided = 0 and
-    per.voided = 0 and
-    pn.voided = 0 and
-    pn.preferred = 1
+CREATE TABLE temp_patient
+(
+    patient_id int(11),
+    given_name varchar(50),
+    family_name varchar(50),
+    gender varchar(50),
+    birthdate date
+);
 
+INSERT into temp_patient (patient_id)
+select patient_id from patient where voided=0;
 
+update temp_patient 
+set gender = gender(patient_id),
+    birthdate = birthdate(patient_id),
+    given_name = person_given_name(patient_id),
+    family_name = person_family_name(patient_id);
 
+select * from temp_patient;
