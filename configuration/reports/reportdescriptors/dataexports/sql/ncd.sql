@@ -1,26 +1,33 @@
+#set @startDate='2020-08-01';
+#set @endDate='2020-08-22';
+
 drop TEMPORARY TABLE IF EXISTS temp_obs_join;
 drop TEMPORARY TABLE IF EXISTS temp_ncd_section;
 
 select patient_identifier_type_id INTO @zlId FROM patient_identifier_type where name = "ZL EMR ID";
 select person_attribute_type_id INTO @unknownPt FROM person_attribute_type where name = "Unknown patient";
 select person_attribute_type_id INTO @testPt FROM person_attribute_type where name = "Test Patient";
-select encounter_type_id INTO @NCDInitEnc FROM encounter_type where name = "NCD Initial Consult";
-select encounter_type_id INTO @NCDFollowEnc FROM encounter_type where name = "NCD Followup Consult";
-select encounter_type_id INTO @vitEnc FROM encounter_type where name = "Signes vitaux";
-select encounter_type_id INTO @labResultEnc FROM encounter_type where name = "Laboratory Results";
+select encounter_type_id INTO @NCDInitEnc FROM encounter_type where uuid = 'ae06d311-1866-455b-8a64-126a9bd74171'; 
+select name INTO @NCDInitEncName FROM encounter_type where uuid = 'ae06d311-1866-455b-8a64-126a9bd74171'; 
+select encounter_type_id INTO @NCDFollowEnc FROM encounter_type where uuid = '5cbfd6a2-92d9-4ad0-b526-9d29bfe1d10c';
+select name INTO @NCDFollowEncName FROM encounter_type where uuid = '5cbfd6a2-92d9-4ad0-b526-9d29bfe1d10c';
+select name INTO @vitEncName FROM encounter_type where uuid = '4fb47712-34a6-40d2-8ed3-e153abbd25b7';
+select encounter_type_id INTO @labResultEnc FROM encounter_type where uuid = '4d77916a-0620-11e5-a6c0-1697f925ec7b';
 
 create temporary table temp_ncd_section
 (
 patient_id int,
 encounter_id int,
+encounter_datetime datetime,
 visit_id int,
 encounter_location_id int,
 encounter_type varchar(255),
-encounter_datetime datetime,
 emr_id varchar(50),
 loc_registered varchar(255),
 location_id int,
 unknown_patient varchar(50),
+visit_date datetime,
+visit_type varchar(255),
 gender varchar(50),
 age_at_enc double,
 department varchar(255),
@@ -83,11 +90,18 @@ reason_poor_compliance text,
 cardiovascular_medication text,
 respiratory_medication text,
 endocrine_medication text,
-other_medication text
+other_medication text,
+Weight_kg double,
+Height_cm double,
+Systolic_BP double,
+Diastolic_BP double,
+puffs_week_salbutamol int,
+Number_seizures_since_last_visit int,
+Next_NCD_appointment datetime
 );
 
-insert into temp_ncd_section (patient_id, encounter_id, visit_id, encounter_location_id, encounter_type, encounter_datetime)
-select patient_id, encounter_id, visit_id, location_id, group_concat(encounter_type), encounter_datetime from encounter where voided = 0 and encounter_type
+insert into temp_ncd_section (patient_id, encounter_id, visit_id, encounter_location_id, encounter_type, encounter_datetime,visit_type)
+select patient_id, encounter_id, visit_id, location_id, group_concat(encounter_type), encounter_datetime, encounterName(encounter_type)from encounter where voided = 0 and encounter_type
 in (@NCDInitEnc, @NCDFollowEnc)
 AND patient_id NOT IN (SELECT person_id FROM person_attribute WHERE value = "true" AND person_attribute_type_id = @testPt
                          AND voided = 0)
@@ -417,6 +431,12 @@ or (source = "PIH" and code = '3181'))
 group by encounter_id) other_category on other_category.encounter_id = tns.encounter_id
 left join obs o on o.encounter_id = tns.encounter_id and o.voided = 0 and o.concept_id
 = (select concept_id from report_mapping where source = "PIH" and code = "Diagnosis or problem, non-coded")
+set tns.other_disease_category = other_category.other_disease,
+    tns.other_non_coded_diagnosis = o.value_text
+;
+
+-- update medicine past 2 days
+update temp_ncd_section tns
 left join
 (
 select group_concat(name) medicine, encounter_id from concept_name cn join obs o on cn.locale="en" and
@@ -424,6 +444,10 @@ concept_name_type="FULLY_SPECIFIED" and cn.voided=0 and o.voided = 0 and
 cn.concept_id = o.value_coded and
 o.concept_id = (select concept_id from report_mapping where source = "PIH" and code = "10555")
 group by encounter_id) medicine_past_two_days on tns.encounter_id = medicine_past_two_days.encounter_id
+set tns.medicine_past_two_days = medicine_past_two_days.medicine;
+
+-- update adherence info
+update temp_ncd_section tns
 left join
 (
 select group_concat(name) adherence, encounter_id from concept_name cn join obs o on cn.locale="en" and
@@ -431,6 +455,10 @@ concept_name_type="FULLY_SPECIFIED" and cn.voided=0 and o.voided = 0 and
 cn.concept_id = o.value_coded and
 o.concept_id = (select concept_id from report_mapping where source = "PIH" and code = "3140")
 group by encounter_id) adherence_info on tns.encounter_id = adherence_info.encounter_id
+set tns.reason_poor_compliance = adherence_info.adherence;
+
+-- update cardiovascular medicine
+update temp_ncd_section tns
 left join
 (
 select group_concat(name) medicine, encounter_id from concept_name cn join obs o on cn.locale="en" and
@@ -442,6 +470,10 @@ and o.value_coded in
 ('71617', '71138', '73602', '75634', '77676', '79766', '82734', '83936'))
 or (source = "PIH" and code in ('3186', '3185', '3182', '99', '1243', '3428', '3183', '251', '250', '4061', '3190')))
 group by encounter_id)cardiovascular on cardiovascular.encounter_id = tns.encounter_id
+set tns.cardiovascular_medication = cardiovascular.medicine;
+
+-- update respiratory medicine
+update temp_ncd_section tns
 left join
 (
 select group_concat(name) medicine, encounter_id from concept_name cn join obs o on cn.locale="en" and
@@ -453,6 +485,10 @@ and o.value_coded in
 ('78200', '80092'))
 or (source = "PIH" and code in ('1240', '798')))
 group by encounter_id) respiratory on respiratory.encounter_id = tns.encounter_id
+set  tns.respiratory_medication = respiratory.medicine;
+
+-- update endocrine medication
+update temp_ncd_section tns
 left join
 (
 select group_concat(name) medicine, encounter_id from concept_name cn join obs o on cn.locale="en" and
@@ -464,6 +500,10 @@ and o.value_coded in
 ('78082', '78068', '79652'))
 or (source = "PIH" and code in ('4046', '6746', '765')))
 group by encounter_id) endocrine on endocrine.encounter_id = tns.encounter_id
+set     tns.endocrine_medication = endocrine.medicine;
+
+-- update other medicine
+update temp_ncd_section tns
 left join
 (
 select group_concat(name) medicine, encounter_id from concept_name cn join obs o on cn.locale="en" and
@@ -475,319 +515,98 @@ and o.value_coded in
 ('75018', '81730'))
 or (source = "PIH" and code in ('4034', '2293', '960', '95', '1244', '4057', '923')))
 group by encounter_id) other_meds on other_meds.encounter_id = tns.encounter_id
+set tns.other_medication = other_meds.medicine;
 
-set tns.other_disease_category = other_category.other_disease,
-    tns.other_non_coded_diagnosis = o.value_text,
-    tns.medicine_past_two_days = medicine_past_two_days.medicine,
-    tns.reason_poor_compliance = adherence_info.adherence,
-    tns.cardiovascular_medication = cardiovascular.medicine,
-    tns.respiratory_medication = respiratory.medicine,
-    tns.endocrine_medication = endocrine.medicine,
-    tns.other_medication = other_meds.medicine;
-
-
--- obs join
-create TEMPORARY table temp_obs_join
-AS
-(
-select
-     o.encounter_id,
-    (select date_started from visit where visit_id = e.visit_id) visit_date,
-    visit_id,
-    -- Encounter Type
-	GROUP_CONCAT(DISTINCT(CASE WHEN e.encounter_id = o.encounter_id THEN (SELECT name FROM encounter_type WHERE encounter_type_id = e.encounter_type) END)
-    SEPARATOR ', ') visit_type,
-    max(date(CASE
-            WHEN e.encounter_id = o.encounter_id THEN e.encounter_datetime
-        END)) 'encounter_date',
-    MAX(CASE
-        WHEN
-            rm.source = 'PIH'
-                AND rm.code = 'Type of referring service'
-        THEN
-            cn.name
-    END) 'Type_of_referring_service',
-    MAX(CASE
-        WHEN
-            rm.source = 'PIH'
-                AND rm.code = 'Known chronic disease before referral'
-        THEN
-            cn.name
-    END) 'Known_disease_before_referral',
-    MAX(CASE
-        WHEN
-            rm.source = 'PIH'
-                AND rm.code = 'Prior treatment for chronic disease'
-        THEN
-            cn.name
-    END) 'Prior_treatment',
-    MAX(CASE
-        WHEN
-            rm.source = 'PIH'
-                AND rm.code = 'Chronic disease controlled during initial visit'
-        THEN
-            cn.name
-    END) 'Disease_controlled_initial_visit',
-    GROUP_CONCAT(CASE
-            WHEN
-                rm.source = 'PIH'
-                    AND rm.code = 'NCD category'
-            THEN
-                cn.name
-        END
-        SEPARATOR ', ') 'NCD_category',
-    MAX(CASE
-        WHEN
-            rm.source = 'PIH'
-                AND rm.code = 'NCD category'
-        THEN
-            o.comments
-    END) 'Other_NCD_category',
-    MAX(CASE
-        WHEN rm.source = 'CIEL' AND rm.code = '5089' THEN o.value_numeric
-    END) 'Weight_kg',
-    MAX(CASE
-        WHEN rm.source = 'CIEL' AND rm.code = '5090' THEN o.value_numeric
-    END) 'Height_cm',
-    ROUND(MAX(CASE
-                WHEN rm.source = 'CIEL' AND rm.code = '5089' THEN o.value_numeric
-            END) / ((MAX(CASE
-                WHEN rm.source = 'CIEL' AND rm.code = '5090' THEN o.value_numeric
-            END) / 100) * (MAX(CASE
-                WHEN rm.source = 'CIEL' AND rm.code = '5090' THEN o.value_numeric
-            END) / 100)),
-            1) 'BMI',
-    MAX(CASE
-        WHEN rm.source = 'CIEL' AND rm.code = '5085' THEN o.value_numeric
-    END) 'Systolic_BP',
-    MAX(CASE
-        WHEN rm.source = 'CIEL' AND rm.code = '5086' THEN o.value_numeric
-    END) 'Diastolic_BP',
-    MAX(CASE
-        WHEN
-            rm.source = 'CIEL'
-                AND rm.code = '163080'
-        THEN
-            o.value_numeric
-    END) 'Waist_cm',
-    MAX(CASE
-        WHEN
-            rm.source = 'CIEL'
-                AND rm.code = '163081'
-        THEN
-            o.value_numeric
-    END) 'hip_cm',
-    ROUND(MAX(CASE
-                WHEN
-                    rm.source = 'CIEL'
-                        AND rm.code = '163080'
-                THEN
-                    o.value_numeric
-            END) / MAX(CASE
-                WHEN
-                    rm.source = 'CIEL'
-                        AND rm.code = '163081'
-                THEN
-                    o.value_numeric
-            END),
-            2) 'Waist_Hip_Ratio',
-    MAX(CASE
-        WHEN
-            rm.source = 'PIH'
-                AND rm.code = 'PATIENTS FLUID MANAGEMENT'
-        THEN
-            cn.name
-    END) 'Patients_Fluid_Management',
-    GROUP_CONCAT(CASE
-            WHEN
-                rm.source = 'PIH'
-                    AND rm.code = 'Type of diabetes diagnosis'
-            THEN
-                cn.name
-        END
-        SEPARATOR ', ') 'Diabetes_type',
-    MAX(CASE
-        WHEN
-            rm.source = 'PIH'
-                AND rm.code = 'Hypoglycemia symptoms'
-        THEN
-            cn.name
-    END) 'Hypoglycemia_symptoms',
-    MAX(CASE
-        WHEN
-            rm.source = 'PIH'
-                AND rm.code = 'Puffs per week of relief inhaler (coded)'
-        THEN
-            cn.name
-    END) 'puffs_week_salbutamol',
-    MAX(CASE
-        WHEN
-            rm.source = 'PIH'
-                AND rm.code = 'Asthma classification'
-        THEN
-            cn.name
-    END) 'Asthma_classification',
-    MAX(CASE
-        WHEN
-            rm.source = 'PIH'
-                AND rm.code = 'Number of seizures since last visit'
-        THEN
-            o.value_numeric
-    END) 'Number_seizures_since_last_visit',
-    MAX(CASE
-        WHEN
-            rm.source = 'PIH'
-                AND rm.code = 'Appearance at appointment time'
-        THEN
-            cn.name
-    END) 'Adherance_to_appointment',
-    MAX(CASE
-        WHEN
-            rm.source = 'PIH'
-                AND rm.code = 'Lack of meds in last 2 days'
-        THEN
-            cn.name
-    END) 'Lack_of_meds_2_days',
-    MAX(CASE
-        WHEN
-            rm.source = 'PIH'
-                AND rm.code = 'PATIENT HOSPITALIZED SINCE LAST VISIT'
-        THEN
-            cn.name
-    END) 'Patient_hospitalized_since_last_visit',
-    GROUP_CONCAT(CASE
-            WHEN
-                rm.source = 'PIH'
-                    AND rm.code = 'Medications prescribed at end of visit'
-            THEN
-                cn.name
-        END
-        SEPARATOR ',') 'Medications_Prescribed',
-    MAX(CASE
-        WHEN
-            rm.source = 'PIH'
-                AND rm.code = 'Medications prescribed at end of visit'
-        THEN
-            o.comments
-    END) 'Other_meds',
-    MAX(CASE
-        WHEN
-            rm.source = 'CIEL'
-                AND rm.code = '159644'
-        THEN
-            o.value_numeric
-    END) 'HbA1c',
-    MAX(CASE
-        WHEN
-            rm.source = 'PIH'
-                AND rm.code = 'PATIENT PLAN COMMENTS'
-        THEN
-            o.value_text
-    END) 'Patient_Plan_Comments',
-     MAX(CASE
-         WHEN
-             rm.source = 'PIH'
-             AND rm.code = 'RETURN VISIT DATE'
-             THEN
-                 o.value_datetime
-         END) 'Next_NCD_appointment'
-FROM encounter e
-LEFT OUTER JOIN obs o on o.encounter_id = e.encounter_id AND o.voided = 0
-LEFT OUTER JOIN report_mapping rm on rm.concept_id = o.concept_id
-LEFT OUTER JOIN concept_name cn ON o.value_coded = cn.concept_id AND cn.locale = 'en' AND cn.locale_preferred = '1'  AND cn.voided = 0
-LEFT OUTER JOIN obs obs2 ON obs2.obs_id = o.obs_group_id
-LEFT OUTER JOIN report_mapping obsgrp ON obsgrp.concept_id = obs2.concept_id
-WHERE 1=1
-AND
-e.encounter_id IN
-(
-   SELECT e3.encounter_id
-   FROM encounter e3
-     INNER JOIN
-    (SELECT visit_id, encounter_type, MAX(encounter_datetime) AS enc_date
-    FROM encounter
-     WHERE 1=1
-     AND encounter_type IN (@NCDInitEnc, @NCDFollowEnc, @vitEnc, @labResultEnc)
-     AND DATE(encounter_datetime) >=  date(@startDate)
-     AND DATE(encounter_datetime) <=  date(@endDate)
-      GROUP BY visit_id,encounter_type) maxdate
-     ON maxdate.visit_id = e3.visit_id AND e3.encounter_type= maxdate.encounter_type AND e3.encounter_datetime = maxdate.enc_date
-)
-AND e.voided = 0
-GROUP BY e.visit_id
-);
+-- update vitals (using latest vitals encounter)
+update temp_ncd_section tns
+set tns.Weight_kg  = obs_value_numeric(latestEnc(tns.patient_id,@vitEncName,null),'CIEL','5089'),
+    tns.Height_cm  = obs_value_numeric(latestEnc(tns.patient_id,@vitEncName,null),'CIEL','5090'),
+    tns.Systolic_BP  = obs_value_numeric(latestEnc(tns.patient_id,@vitEncName,null),'CIEL','5085'),
+    tns.Diastolic_BP  = obs_value_numeric(latestEnc(tns.patient_id,@vitEncName,null),'CIEL','5086');
+   
+   -- update remaining observations
+update temp_ncd_section tns
+set tns.puffs_week_salbutamol = obs_value_numeric(tns.encounter_id,'PIH','Puffs per week of relief inhaler (coded)'),
+    tns.Number_seizures_since_last_visit = obs_value_numeric(tns.encounter_id,'PIH','Number of seizures since last visit'),
+    tns.Next_NCD_appointment = obs_value_datetime(tns.encounter_id,'PIH','RETURN VISIT DATE')
+    ;
+    
+-- update visit date    
+update temp_ncd_section tns   
+inner join encounter e on e.encounter_id = tns.encounter_id
+inner join visit v on v.visit_id = e.visit_id
+set tns.visit_date = v.date_started;
+ 
 
 select
-    patient_id,
-    emr_id zlemr,
-    loc_registered,
-    unknown_patient,
-    encounter_date,
-    visit_date,
-    visit_type,
-    enrolled_in_program,
+  patient_id,
+  emr_id zlemr,
+  loc_registered,
+  unknown_patient,
+  encounter_datetime,
+  visit_date,
+  visit_type,
+  enrolled_in_program,
 	program_state,
 	program_outcome,
-    gender,
+  gender,
 	age_at_enc,
-    department,
-    commune,
-    section,
-    locality,
+  department,
+  commune,
+  section,
+  locality,
 	street_landmark,
-    encounter_location,
-    provider,
-    Weight_kg,
+  encounter_location,
+  provider,
+  Weight_kg,
 	Height_cm,
-	BMI,
+  ROUND(Weight_kg/((Height_cm/100)*(Height_cm/100)),1) "BMI",
 	Systolic_BP,
 	Diastolic_BP,
-	Waist_cm,
-	hip_cm,
-	Waist_Hip_Ratio,
-    disease_category,
-    comments other_disease_category,
-    hypertension_stage,
-    hypertension_comments,
-    diabetes_mellitus,
-    serum_glucose,
-    fasting_blood_glucose_test,
-    fasting_blood_glucose,
-    managing_diabetic_foot_care,
-    diabetes_comment,
-    puffs_week_salbutamol,
-    probably_asthma,
-    respiratory_diagnosis,
-    bronchiectasis,
-    copd,
-    copd_grade,
-    commorbidities,
-    inhaler_training,
-    pulmonary_comment,
-    Number_seizures_since_last_visit,
-    categories_of_heart_failure,
-    nyha_class,
-    fluid_status,
-    cardiomyopathy,
-    heart_failure_improbable,
-    heart_remarks,
-    left_ventricle_systolic_function,
-    right_ventricle_dimension,
-    mitral_valve_finding,
-    pericardium_findings,
-    inferior_vena_cava_findings,
-    quality,
-    additional_echocardiogram_comments,
-    other_disease_category ncd_other_section,
-    other_non_coded_diagnosis ncd_other_section_other,
-    medicine_past_two_days,
-    reason_poor_compliance,
-    cardiovascular_medication,
-    respiratory_medication,
-    endocrine_medication,
-    other_medication,
-    Next_NCD_appointment
+	waist_circumference,
+	hip_size,
+  ROUND(waist_circumference/hip_size,2) "Waist_Hip_Ratio",
+  disease_category,
+  comments other_disease_category,
+  hypertension_stage,
+  hypertension_comments,
+  diabetes_mellitus,
+  serum_glucose,
+  fasting_blood_glucose_test,
+  fasting_blood_glucose,
+  managing_diabetic_foot_care,
+  diabetes_comment,
+  puffs_week_salbutamol,
+  probably_asthma,
+  respiratory_diagnosis,
+  bronchiectasis,
+  copd,
+  copd_grade,
+  commorbidities,
+  inhaler_training,
+  pulmonary_comment,
+  Number_seizures_since_last_visit,
+  categories_of_heart_failure,
+  nyha_class,
+  fluid_status,
+  cardiomyopathy,
+  heart_failure_improbable,
+  heart_remarks,
+  left_ventricle_systolic_function,
+  right_ventricle_dimension,
+  mitral_valve_finding,
+  pericardium_findings,
+  inferior_vena_cava_findings,
+  quality,
+  additional_echocardiogram_comments,
+  other_disease_category ncd_other_section,
+  other_non_coded_diagnosis ncd_other_section_other,
+  medicine_past_two_days,
+  reason_poor_compliance,
+  cardiovascular_medication,
+  respiratory_medication,
+  endocrine_medication,
+  other_medication,
+  Next_NCD_appointment
 from temp_ncd_section tns
-left join temp_obs_join toj on
-toj.visit_id = tns.visit_id order by tns.patient_id;
-
+;
