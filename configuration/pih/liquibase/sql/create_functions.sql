@@ -320,7 +320,79 @@ BEGIN
 
 END
 #
+/*
+patient birthdate
+*/
+#
+DROP FUNCTION IF EXISTS birthdate;
+#
+CREATE FUNCTION birthdate(
+    _patient_id int
+)
+	RETURNS date
+    DETERMINISTIC
 
+BEGIN
+    DECLARE  patientBirthdate date;
+
+	select birthdate into patientBirthdate from person where person_id = _patient_id and voided =0;
+
+    RETURN patientBirthdate;
+
+END
+#
+/*
+ patient GIVEN name
+*/
+#
+DROP FUNCTION IF EXISTS person_given_name;
+#
+CREATE FUNCTION person_given_name(
+    _person_id int
+)
+    RETURNS TEXT
+    DETERMINISTIC
+
+BEGIN
+    DECLARE personGivenName TEXT;
+
+    select      given_name into personGivenName
+    from        person_name
+    where       voided = 0
+    and         person_id = _person_id
+    order by    preferred desc, date_created desc
+    limit       1;
+
+    RETURN personGivenName;
+
+END
+#
+/*
+ patient FAMILY name
+*/
+#
+DROP FUNCTION IF EXISTS person_family_name;
+#
+CREATE FUNCTION person_family_name(
+    _person_id int
+)
+    RETURNS TEXT
+    DETERMINISTIC
+
+BEGIN
+    DECLARE personFamilyName TEXT;
+
+    select      family_name into personFamilyName
+    from        person_name
+    where       voided = 0
+    and         person_id = _person_id
+    order by    preferred desc, date_created desc
+    limit       1;
+
+    RETURN personFamilyName;
+
+END
+#
 /*
   ZL EMR ID location
 */
