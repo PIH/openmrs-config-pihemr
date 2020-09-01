@@ -1,6 +1,8 @@
 #set @startDate='2020-08-01';
 #set @endDate='2020-08-22';
 
+set sql_safe_updates = 0;
+
 drop TEMPORARY TABLE IF EXISTS temp_obs_join;
 drop TEMPORARY TABLE IF EXISTS temp_ncd_section;
 
