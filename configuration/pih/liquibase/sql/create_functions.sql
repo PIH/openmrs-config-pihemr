@@ -335,7 +335,7 @@ CREATE FUNCTION birthdate(
 BEGIN
     DECLARE  patientBirthdate date;
 
-	select birthdate into patientBirthdate from person where person_id = _patient_id and voided =0;
+	select birthdate into patientBirthdate from person where person_id = _patient_id;
 
     RETURN patientBirthdate;
 
@@ -1339,8 +1339,8 @@ BEGIN
 
 END
 #
--- This function accepts visit_id, source and term for a concept, offset and locale  
--- It will find the value coded of the obs answer with that concept, in the specified based on the offset given 
+-- This function accepts visit_id, source and term for a concept, offset and locale
+-- It will find the value coded of the obs answer with that concept, in the specified based on the offset given
 #
 DROP FUNCTION IF EXISTS obs_from_visit_value_coded;
 #
