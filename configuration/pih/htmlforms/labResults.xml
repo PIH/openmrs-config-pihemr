@@ -223,17 +223,6 @@
                     </field>
                 </span>
 
-
-                <label for="cd4">
-                    <uimessage code="pihcore.lab.cd4"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="cd4" conceptId="PIH:CD4 COUNT"
-                             placeholder="Enter value"/>
-                    </field>
-                </span>
-
                 <label for="blood-type">
                     <uimessage code="pihcore.lab.blood_type"/>
                 </label>
@@ -291,18 +280,7 @@
                 </span>
             </p>
 
-        </fieldset>
-
-        <fieldset class="multi-line-confirmation">
-
-            <legend>
-                <uimessage code="pihcore.lab.iStat.title"/>
-            </legend>
-            <h3>
-                <uimessage code="pihcore.lab.iStat.title"/>
-            </h3>
-
-            <p>
+            <p id="iStat8">
 
                 <label for="sodium">
                     <uimessage code="pihcore.lab.sodium"/>
@@ -370,6 +348,16 @@
                     </field>
                 </span>
             </p>
+        </fieldset>
+
+        <fieldset class="multi-line-confirmation">
+
+            <legend>
+                <uimessage code="pihcore.lab.serology.title"/>
+            </legend>
+            <h3>
+                <uimessage code="pihcore.lab.serology.title"/>
+            </h3>
         </fieldset>
 
         <fieldset class="multi-line-confirmation">
@@ -451,6 +439,86 @@
 
         <fieldset class="multi-line-confirmation">
             <legend>
+                <uimessage code="pihcore.lab.hiv.title"/>/TB
+            </legend>
+            <h3>
+                <uimessage code="pihcore.lab.hiv.title"/>/TB
+            </h3>
+
+            <label for="cd4-count-test">
+                <uimessage code="pihcore.lab.cd4Count"/>
+            </label>
+            <span class="small">
+                <field>
+                    <obs id="cd4-count-test" conceptId="CIEL:5497" showUnits="true"/>
+                </field>
+            </span>
+
+            <label for="cd4-percent-test">
+                <uimessage code="pihcore.lab.cd4Percent" />
+            </label>
+            <span class="small">
+                <field>
+                    <obs id="cd4-percent-test" conceptId="CIEL:730" showUnits="true" />
+                </field>
+            </span>
+
+            <label for="hiv-test">
+                <uimessage code="pihcore.lab.hiv"/>
+            </label>
+            <span class="small">
+                <field>
+                    <!-- ToDo:  Replace mapping with CIEL:159427 -->
+                    <obs id="hiv-test" conceptId="PIH:RESULT OF HIV TEST"
+                         answerConceptIds="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE" />
+                </field>
+            </span>
+
+            <label for="viral-load">
+                <uimessage code="pihcore.lab.viral_load"/>
+            </label>
+            <span class="small">
+                <field>
+                    <obs id="viral-load" conceptId="PIH:HIV VIRAL LOAD"  showUnits="true"
+                         placeholder="Enter value"/>
+                </field>
+                <field>
+                    <obs conceptId="CIEL:1305" style="checkbox"
+                         answerConceptId="CIEL:1306" answerCode="LDL" />
+                </field>
+            </span>
+
+            <label for="tb-smear-test">
+                <uimessage code="pihcore.lab.tbSmear"/>
+            </label>
+            <span class="small">
+                <field>
+                    <obs id="tb-smear-test" conceptId="PIH:3267" />
+                </field>
+            </span>
+
+            <label for="tb-culture-test">
+                <uimessage code="pihcore.lab.tbCulture"/>
+            </label>
+            <span class="small">
+                <field>
+                    <obs id="tb-culture-test" conceptId="PIH:3046" />
+                </field>
+            </span>
+
+            <label for="tb-skin-test">
+                <uimessage code="pihcore.lab.tbSkin"/>
+            </label>
+            <span class="small">
+                <field>
+                    <obs id="tb-skin-test" conceptId="CIEL:5475" />
+                </field>
+            </span>
+
+        </fieldset>
+
+        <fieldset class="multi-line-confirmation">
+            <legend>
                 <uimessage code="COVID-19"/>
             </legend>
             <h3>
@@ -525,26 +593,6 @@
                 <span class="small">
                     <field>
                         <obs id="ldh" conceptId="PIH:LACTATE DEHYDROGENASE"  showUnits="true"
-                             placeholder="Enter value"/>
-                    </field>
-                </span>
-
-                <label for="hiv-test">
-                    <uimessage code="pihcore.lab.hiv"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="hiv-test" conceptId="PIH:RESULT OF HIV TEST"
-                             answerConceptIds="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE" />
-                    </field>
-                </span>
-
-                <label for="viral-load">
-                    <uimessage code="pihcore.lab.viral_load"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="viral-load" conceptId="PIH:HIV VIRAL LOAD"  showUnits="true"
                              placeholder="Enter value"/>
                     </field>
                 </span>
