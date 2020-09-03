@@ -49,4 +49,22 @@
         <sqlFile endDelimiter="#" path="sql/global_metadata.sql" relativeToChangelogFile="true" stripComments="true" />
     </changeSet>
 
+    <changeSet id="20200903-update-neonatal-sepsis-concept-name" author="ball">
+        <comment>
+            UHM-3052 Void Neonatal septicemia vs sepsis names (fr, ht).
+        </comment>
+
+        <sql>
+            -- Void Neonatal septicemia names from Neonatal sepsis
+            -- Void French name
+            update concept_name
+               set voided = 1, voided_by = 1, date_voided = now(), void_reason = 'Neonatal sepsis not septicemia'
+             where uuid = 'f588d040-d5db-102d-ad2a-000c29c2a5d7';
+            -- Void Kreyol name
+            update concept_name
+               set voided = 1, voided_by = 1, date_voided = now(), void_reason = 'Neonatal sepsis not septicemia'
+             where uuid = 'ccf40f4e-91d9-4b3c-81f0-306a293536f8';
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
