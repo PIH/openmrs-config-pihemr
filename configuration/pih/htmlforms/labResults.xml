@@ -296,6 +296,15 @@
             </h3>
 
             <p>
+                <label for="glucose">
+                    <uimessage code="pihcore.lab.glucose"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="glucose" conceptId="PIH:SERUM GLUCOSE" showUnits="true"/>
+                    </field>
+                </span>
+
                 <label for="glucose-prandial">
                     <uimessage code="pihcore.lab.glucose-prandial"/>
                 </label>
@@ -402,14 +411,6 @@
                     </field>
                 </span>
 
-                <label for="glucose">
-                    <uimessage code="pihcore.lab.glucose"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="glucose" conceptId="PIH:SERUM GLUCOSE" showUnits="true"/>
-                    </field>
-                </span>
                 <label for="calcium">
                     <uimessage code="pihcore.lab.calcium" showUnits="true"/>
                 </label>
@@ -420,9 +421,10 @@
                 </span>
             </p>
 
-            <h3>
+            <br/>
+            <h4>
                 <uimessage code="pihcore.lab.lipids.title"/>
-            </h3>
+            </h4>
             <p>
                 <label for="total-chol">
                     <uimessage code="pihcore.lab.total_chol"/>
@@ -503,21 +505,58 @@
                     <field>
                         <!-- ToDo:  Replace mapping with CIEL:159427 -->
                         <obs id="hiv-test" conceptId="PIH:RESULT OF HIV TEST"
-                             answerConceptIds="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE" />
+                             answerConceptIds="CIEL:703,CIEL:664,CIEL:1138" />
                     </field>
                 </span>
 
                 <label for="viral-load">
                     <uimessage code="pihcore.lab.viral_load"/>
                 </label>
-                <span>
+                <obsgroup groupingConceptId="PIH:HIV viral load construct">
+                    <span>
+                        <field>
+                            <obs id="viral-load" conceptId="CIEL:856"  showUnits="true"
+                                 placeholder="Enter value"/>
+                        </field>
+                    </span>
+                    <div class="section-container">
+                            <obs conceptId="CIEL:1305" style="checkbox"
+                                  answerConceptId="CIEL:1306" answerCode="LDL" />
+                    </div>
+                </obsgroup>
+            </p>
+
+            <br/>
+            <h4>
+                <uimessage code="pihcore.other"/>
+            </h4>
+
+            <p>
+                <label for="crag">
+                    <uimessage code="CrAg"/>
+                </label>
+                <span class="small">
                     <field>
-                        <obs id="viral-load" conceptId="PIH:HIV VIRAL LOAD"  showUnits="true"
-                             placeholder="Enter value"/>
+                        <obs id="crag" conceptId="CIEL:163613" style="text"
+                             cols="40" rows="3"/>
                     </field>
+                </span>
+
+                <label for="rpr-syphilis">
+                    <uimessage code="pihcore.lab.syphilis"/>
+                </label>
+                <span class="small">
                     <field>
-                    (<obs conceptId="CIEL:1305" style="checkbox"
-                         answerConceptId="CIEL:1306" answerCode="LDL" />)
+                        <obs id="rpr-syphilis" conceptId="CIEL:1619" />
+                    </field>
+                </span>
+
+                <label for="aso-titer">
+                    <uimessage code="ASO"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="aso-titer" conceptId="CIEL:161469" />
                     </field>
                 </span>
             </p>
@@ -608,13 +647,17 @@
                 <uimessage code="pihcore.lab.microbiology.title"/>
             </h3>
 
+            <h3>
+                TB
+            </h3>
+
             <p>
                 <label for="tb-smear-test">
                     <uimessage code="pihcore.lab.tbSmear"/>
                 </label>
                 <span class="small">
                     <field>
-                        <obs id="tb-smear-test" conceptId="PIH:3267" />
+                        <obs id="tb-smear-test" conceptId="CIEL:307" />
                     </field>
                 </span>
 
@@ -623,6 +666,7 @@
                 </label>
                 <span class="small">
                     <field>
+                        <!-- Todo: use CIEL:159982 -->
                         <obs id="tb-culture-test" conceptId="PIH:3046" />
                     </field>
                 </span>
@@ -633,6 +677,15 @@
                 <span class="small">
                     <field>
                         <obs id="tb-skin-test" conceptId="CIEL:5475" />
+                    </field>
+                </span>
+
+                <label for="tb-xpert">
+                    <uimessage code="pihcore.lab.genexpert"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="tb-xpert" conceptId="CIEL:162202" />
                     </field>
                 </span>
             </p>
