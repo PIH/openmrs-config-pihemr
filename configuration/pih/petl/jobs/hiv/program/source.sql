@@ -13,7 +13,10 @@ CREATE TABLE temp_patient_program
 );
 
 INSERT into temp_patient_program (patient_program_id, patient_id, date_enrolled, date_completed, location_id,outcome_concept_id)
-select patient_program_id, patient_id, date_enrolled, date_completed,location_id,outcome_concept_id from patient_program where voided=0;
+select patient_program_id, patient_id, date_enrolled, date_completed,location_id,outcome_concept_id
+    from patient_program
+    where voided=0
+    and program_id = (select program_id from program where uuid='b1cb1fc1-5190-4f7a-af08-48870975dafc');
 
 update temp_patient_program
 set location = location_name(location_id),
