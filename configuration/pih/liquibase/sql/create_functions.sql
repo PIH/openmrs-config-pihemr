@@ -1395,3 +1395,26 @@ BEGIN
 
 END
 #
+
+#
+/*
+  Location name
+*/
+#
+DROP FUNCTION IF EXISTS location_name;
+#
+CREATE FUNCTION location_name (
+    _location_id int
+)
+    RETURNS varchar(255)
+    DETERMINISTIC
+BEGIN
+    DECLARE locName varchar(255);
+
+    select      name into locName
+    from        location
+    where       location_id = _location_id;
+
+    RETURN locName;
+END
+#
