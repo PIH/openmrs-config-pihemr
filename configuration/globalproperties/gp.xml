@@ -115,6 +115,14 @@
             <property>emrapi.EmrApiVisitAssignmentHandler.adjustEncounterTimeOfDayIfNecessary</property>
             <value>true</value>
         </globalProperty>
+        <globalProperty>
+            <!-- HIV Drug Dispensing should create new Clinic Visit if necessary -->
+            <property>emrapi.EmrApiVisitAssignmentHandler.encounterTypeToNewVisitTypeMap</property>
+            <value>cc1720c9-3e4c-4fa8-a7ec-40eeaad1958c:f01c54cb-2225-471a-9cd5-d348552c337c</value>
+        </globalProperty>
+
+
+
 
         <!-- EMR -->
         <globalProperty>
