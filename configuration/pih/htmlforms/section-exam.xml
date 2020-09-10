@@ -203,8 +203,8 @@
         <a href="#general"><uimessage code="pihcore.exam.general_exam"/></a> |
 
         <!-- peds only questions -->
-        <includeIf velocityTest="$encounter.encounterType.uuid == '5b812660-0262-11e6-a837-0800200c9a66' || $encounter.encounterType.uuid == '229e5160-031b-11e6-a837-0800200c9a66' || $patient.age &lt; 12" >
-            <a href="#peds"><uimessage code="pihcore.exam.pedsDevelopment.title"/></a> |
+        <includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) &lt; 12">
+             <a href="#peds"><uimessage code="pihcore.exam.pedsDevelopment.title"/></a> |
         </includeIf>
 
         <a href="#mental"><uimessage code="pihcore.exam.mental_exam"/></a> |
@@ -266,20 +266,17 @@
 
         <p/>
 
-        <!-- Pediatrics only exam:
-               all patients under 12 years old
-                OR Primary Care Pediatric (intake or followup) Consultation -->
-        <includeIf velocityTest="$encounter.encounterType.uuid == '5b812660-0262-11e6-a837-0800200c9a66' || $encounter.encounterType.uuid == '229e5160-031b-11e6-a837-0800200c9a66' || $patient.age &lt; 12" >
-
+        <!-- Pediatrics only exam:  patients under 12 years old -->
+        <includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) &lt; 12">
             <div class="section-container-color">
                 <h3 id="peds">
                     <uimessage code="pihcore.exam.pedsDevelopment.title"/>
                 </h3>
 
                 <div>
-                    <h3 id="gross">
+                    <h4 id="gross">
                         <uimessage code="pihcore.exam.gross_motor_skills_exam.title"/>
-                    </h3>
+                    </h4>
 
                     <div class="two-columns exam">
                         <p>
@@ -288,24 +285,19 @@
                         <p>
                             <obs class="abnormalObs" conceptId="PIH:GROSS MOTOR SKILLS EVALUATION" answerConceptId="PIH:ABNORMAL" style="checkbox"/>
                         </p>
-
-                        <br/>
+                        <br/><br/>
                         <p class="comment-label">
                             <uimessage code="pihcore.exam.comment"/>
-                        </p>
 
-                        <p class="comment-field">
-                            <p>
-                                <obs conceptId="PIH:Gross Motor Skills Evaluation (text)" rows="2" cols="45" />
-                            </p>
+                            <obs conceptId="PIH:Gross Motor Skills Evaluation (text)" rows="2" cols="45" />
                         </p>
                     </div>
                 </div>
 
                 <div>
-                    <h3 id="fine">
+                    <h4 id="fine">
                         <uimessage code="pihcore.exam.fine_motor_skills_exam.title"/>
-                    </h3>
+                    </h4>
 
                     <div class="two-columns exam">
                         <p>
@@ -314,23 +306,18 @@
                         <p>
                             <obs class="abnormalObs" conceptId="PIH:FINE MOTOR SKILLS EVALUATION" answerConceptId="PIH:ABNORMAL" style="checkbox"/>
                         </p>
-                        <br/>
+                        <br/><br/>
                         <p class="comment-label">
                             <uimessage code="pihcore.exam.comment"/>
-                        </p>
-
-                        <p class="comment-field">
-                            <p>
-                                <obs conceptId="PIH:Fine Motor Skills Evaluation (text)" rows="2" cols="45" />
-                            </p>
+                            <obs conceptId="PIH:Fine Motor Skills Evaluation (text)" rows="2" cols="45" />
                         </p>
                     </div>
                 </div>
 
                 <div>
-                    <h3 id="lang">
+                    <h4 id="lang">
                         <uimessage code="pihcore.exam.language_development_evaluation.title"/>
-                    </h3>
+                    </h4>
 
                     <div class="two-columns exam">
                         <p>
@@ -339,23 +326,18 @@
                         <p>
                             <obs class="abnormalObs" conceptId="PIH:LANGUAGE DEVELOPMENT EVALUATION" answerConceptId="PIH:ABNORMAL" style="checkbox"/>
                         </p>
-                        <br/>
+                        <br/><br/>
                         <p class="comment-label">
                             <uimessage code="pihcore.exam.comment"/>
-                        </p>
-
-                        <p class="comment-field">
-                            <p>
-                                <obs conceptId="PIH:Language Development Evaluation (text)" rows="2" cols="45" />
-                            </p>
+                            <obs conceptId="PIH:Language Development Evaluation (text)" rows="2" cols="45" />
                         </p>
                     </div>
                 </div>
 
                 <div>
-                    <h3 id="social">
+                    <h4 id="social">
                         <uimessage code="pihcore.exam.social_skills_evaluation.title"/>
-                    </h3>
+                    </h4>
 
                     <div class="two-columns exam">
                         <p>
@@ -364,15 +346,10 @@
                         <p>
                             <obs class="abnormalObs" conceptId="PIH:SOCIAL SKILLS EVALUATION" answerConceptId="PIH:ABNORMAL" style="checkbox"/>
                         </p>
-                        <br/>
+                        <br/><br/>
                         <p class="comment-label">
                             <uimessage code="pihcore.exam.comment"/>
-                        </p>
-
-                        <p class="comment-field">
-                            <p>
-                                <obs conceptId="PIH:Social Skills Evaluation (text)" rows="2" cols="45" />
-                            </p>
+                            <obs conceptId="PIH:Social Skills Evaluation (text)" rows="2" cols="45" />
                         </p>
                     </div>
                 </div>
