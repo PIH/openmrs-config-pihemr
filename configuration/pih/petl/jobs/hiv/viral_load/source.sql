@@ -2,7 +2,7 @@
 
 SET sql_safe_updates = 0;
 
-DROP TABLE IF EXISTS temp_hiv_construct_encounters;
+DROP TEMPORARY TABLE IF EXISTS temp_hiv_construct_encounters;
 DROP TEMPORARY TABLE IF EXISTS temp_index_asc;
 DROP TEMPORARY TABLE IF EXISTS temp_index_desc;
 
@@ -40,7 +40,7 @@ UPDATE temp_hiv_construct_encounters SET vl_result_detectable =  OBS_VALUE_CODED
 -- viral load results (numeric)
 UPDATE temp_hiv_construct_encounters SET viral_load =  OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '856');
 
--- The indexes are calculated using the spcimen collection date
+-- The indexes are calculated using the specimen collection date
 ### index ascending
 CREATE TEMPORARY TABLE temp_index_asc
 (
