@@ -18,6 +18,16 @@ select patient_program_id, patient_id, date_enrolled, date_completed,location_id
     where voided=0
     and program_id = (select program_id from program where uuid='b1cb1fc1-5190-4f7a-af08-48870975dafc');
 
+## Delete test temp_hiv_patient_program
+DELETE FROM temp_patient WHERE
+patient_id IN (
+               SELECT
+                      a.person_id
+                      FROM person_attribute a
+                      INNER JOIN person_attribute_type t ON a.person_attribute_type_id = t.person_attribute_type_id
+                      AND a.value = 'true' AND t.name = 'Test Patient'
+               );
+
 update temp_hiv_patient_program
 set location = location_name(location_id),
     outcome = concept_name(outcome_concept_id, 'en');

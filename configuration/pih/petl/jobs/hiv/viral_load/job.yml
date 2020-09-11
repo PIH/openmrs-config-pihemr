@@ -1,0 +1,13 @@
+type: "sqlserver-bulk-import"
+configuration:
+  extract:
+    datasource: "mysql/openmrs.yml"
+    query:  "hiv/viral_load/source.sql"
+
+  load:
+    datasource: "sqlserver/openmrs_extractions.yml"
+    table: "hiv_viral_load"
+    schema: "hiv/viral_load/target.sql"
+
+schedule:
+  cron: "0 30 6 ? * *"
