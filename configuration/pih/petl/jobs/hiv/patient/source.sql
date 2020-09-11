@@ -12,6 +12,16 @@ CREATE TABLE temp_patient
 INSERT into temp_patient (patient_id)
 select patient_id from patient where voided=0;
 
+## Delete test patients
+DELETE FROM temp_patient WHERE
+patient_id IN (
+               SELECT
+                      a.person_id
+                      FROM person_attribute a
+                      INNER JOIN person_attribute_type t ON a.person_attribute_type_id = t.person_attribute_type_id
+                      AND a.value = 'true' AND t.name = 'Test Patient'
+               );
+
 update temp_patient 
 set gender = gender(patient_id),
     birthdate = birthdate(patient_id),

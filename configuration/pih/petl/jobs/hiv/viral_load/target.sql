@@ -8,7 +8,7 @@ CREATE TABLE hiv_viral_load(
         vl_result_detectable                VARCHAR(255),
         viral_load                          INT,
         vl_type                             VARCHAR(255),
-        days_since_last_vl                  INT,
+        days_since_vl                       INT,
         order_desc                          INT,
         order_asc                           INT
 );
