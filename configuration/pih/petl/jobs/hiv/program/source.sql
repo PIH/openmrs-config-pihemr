@@ -18,8 +18,8 @@ select patient_program_id, patient_id, date_enrolled, date_completed,location_id
     where voided=0
     and program_id = (select program_id from program where uuid='b1cb1fc1-5190-4f7a-af08-48870975dafc');
 
-## Delete test temp_hiv_patient_program
-DELETE FROM temp_patient WHERE
+## Delete test patients
+DELETE FROM temp_hiv_patient_program WHERE
 patient_id IN (
                SELECT
                       a.person_id
