@@ -498,13 +498,23 @@
                     </field>
                 </span>
 
-                <label for="hiv-test">
-                    <uimessage code="pihcore.lab.hiv"/>
+                <label for="hiv-rapid-test">
+                    <uimessage code="pihcore.lab.hivRapid"/>
                 </label>
-                <span class="small">
+                <span>
                     <field>
-                        <!-- ToDo:  Replace mapping with CIEL:159427 -->
-                        <obs id="hiv-test" conceptId="PIH:RESULT OF HIV TEST"
+                        <obs id="hiv-rapid-test" conceptId="CIEL:163722"
+                             answerConceptIds="CIEL:703,CIEL:664,CIEL:1138" />
+                    </field>
+                </span>
+
+                <!-- For children only? -->
+                <label for="hiv-pcr">
+                    <uimessage code="pihcore.lab.hivpcr"/>
+                </label>
+                <span>
+                    <field>
+                        <obs id="hiv-pcr" conceptId="CIEL:1030"
                              answerConceptIds="CIEL:703,CIEL:664,CIEL:1138" />
                     </field>
                 </span>
@@ -522,6 +532,17 @@
                     <div class="section-container">
                             <obs conceptId="CIEL:1305" style="checkbox"
                                   answerConceptId="CIEL:1306" answerCode="LDL" />
+                    </div>
+
+                    <div class="section-container">
+                        <!-- Routine or targeted -->
+                        <obs id="hiv-test" conceptId="CIEL:164126" labelCode="pihcore.reason"
+                             answerConceptIds="CIEL:166058,CIEL:166059"
+                             answerCodes="pihcore.routine,pihcore.targeted"/>
+                    </div>
+
+                    <div class="section-container">
+                        <obs conceptId="CIEL:162086" labelCode="pihcore.specimenNumber" />
                     </div>
                 </obsgroup>
             </p>
