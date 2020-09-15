@@ -219,7 +219,7 @@
 
             <!-- Program enrollment and set workflow state-->
             <p>
-                <enrollInProgram programId="NCD"/>
+                <enrollInProgram programId="NCD" locationTag="Program Location" />
 
                 <!-- ToDo: HTML-689 Use message properties for state labels for translations -->
                 <!-- ToDo: If we want to use radio buttons, we need to change the styling/css or stateSeparator tag -->

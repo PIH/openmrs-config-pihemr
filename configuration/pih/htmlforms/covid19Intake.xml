@@ -308,7 +308,7 @@
 
             <!-- Program enrollment -->
             <p>
-                <enrollInProgram programId="COVID-19"/>
+                <enrollInProgram programId="COVID-19" locationTag="Program Location"/>
             </p>
 
             <!-- Health care worker (> 16 yo) -->

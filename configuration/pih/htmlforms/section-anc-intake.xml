@@ -210,7 +210,7 @@
              headerStyle="title" headerCode="pihcore.ancIntake.title">
 
         <!-- Program enrollment -->
-        <enrollInProgram programId="MCH" />
+        <enrollInProgram programId="MCH" locationTag="Program Location" />
 
         <div class="section-container">
 

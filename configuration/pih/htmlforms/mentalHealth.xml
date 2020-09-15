@@ -392,7 +392,7 @@
              headerCode="pihcore.mentalhealth.referral">
 
         <!-- Program enrollment -->
-        <enrollInProgram programId="Mental Health" />
+        <enrollInProgram programId="Mental Health" locationTag="Program Location" />
 
         <div class="section-container">
             <div class="two-columns">
