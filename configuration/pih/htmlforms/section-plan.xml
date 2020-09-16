@@ -229,7 +229,7 @@
                 </repeat>
 
                 <!-- ANC -->
-                <includeIf velocityTest="$patient.gender == 'F' ">
+                <includeIf velocityTest="$patient.gender == 'F' &amp;&amp; $patient.age &gt; 2  ">
                     <p>
                         <label>
                             ANC
@@ -250,11 +250,15 @@
                     </repeat>
                 </includeIf>
 
-                <includeIf velocityTest="$patient.gender == 'M' ">
+                <includeIf velocityTest="$patient.gender == 'M' || $patient.age &lt; 2 ">
                     <br/>
                     <br/>
                     <br/>
                     <br/>
+                </includeIf>
+
+                <includeIf velocityTest="$patient.age &lt; 2 ">
+                    <br/><br/>
                 </includeIf>
 
                 <!-- Chemistry -->
@@ -316,11 +320,12 @@
                     <render labName="CIEL:161469" codeLabel="ASO" comment="ASO"/>
                 </repeat>
 
-                <includeIf velocityTest="$patient.gender == 'F' ">
-                    <br/>
+                <includeIf velocityTest="$patient.gender == 'F' &amp;&amp; $patient.age &gt; 2  ">
+                    <br/><br/>
                 </includeIf>
-                <includeIf velocityTest="$patient.age &lt; 2">
-                    <br/>
+
+                <includeIf velocityTest="$patient.age &lt; 2 ">
+                    <br/><br/>
                 </includeIf>
 
                 <!-- TB -->
@@ -376,11 +381,12 @@
                         </p>
                     </template>
 
-                    <render labName="CIEL:163722" codeLabel="pihcore.lab.hivRapid" comment="AFB / Smear"/>
-                    <render labName="PIH:1041" codeLabel="pihcore.lab.elisaQuant" comment="HIV ELISA (quant)"/>
+                    <render labName="CIEL:163722" codeLabel="pihcore.lab.hivRapid" comment="HIV RT"/>
+                    <render labName="CIEL:1041"   codeLabel="pihcore.lab.elisaQuant" comment="HIV ELISA (quant)"/>
                     <!-- ToDo: ELISA EID -->
-                    <render labName="PIH:HIV VIRAL LOAD" codeLabel="pihcore.lab.viralLoad" comment="HIV viral load"/>
-                    <render labName="PIH:CD4 COUNT" codeLabel="pihcore.lab.cd4" comment="CD4 count"/>
+                    <render labName="CIEL:856"  codeLabel="pihcore.lab.viralLoad" comment="HIV viral load"/>
+                    <render labName="CIEL:5497" codeLabel="pihcore.lab.cd4" comment="CD4 count"/>
+                    <render labName="CIEL:730"  codeLabel="pihcore.lab.cd4Percent" comment="CD4 %"/>
                 </repeat>
 
                 <!-- Other -->
@@ -388,7 +394,7 @@
                     <uimessage code="pihcore.other"/>
                 </label>
 
-                <includeIf velocityTest="$patient.gender == 'F' ">
+                <includeIf velocityTest="$patient.gender == 'F' &amp;&amp; $patient.age &gt; 2  ">
                     <repeat>
                         <template>
                             <p>
@@ -422,6 +428,10 @@
                          style="checkbox"
                          showCommentField="true" commentFieldLabel=""/>
                 </p>
+
+                <includeIf velocityTest="$patient.age &lt; 2 ">
+                    <br/>
+                </includeIf>
             </div>
         </div>
 
