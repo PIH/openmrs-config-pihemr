@@ -207,7 +207,7 @@
                     <render labName="CIEL:161152" comment="Coagulation"/>
                     <render labName="PIH:BLOOD TYPING" comment="Blood group"/>
                     <render labName="CIEL:161233" comment="Crossmatching"/>
-                    <render labName="CIEL:161421" comment="Hemoglobin electrophoresis"/>
+                    <render labName="CIEL:165544" comment="Hemoglobin electrophoresis"/>
                 </repeat>
 
                 <!-- Parasitology -->
