@@ -1,6 +1,6 @@
 CREATE TABLE hiv_viral_load(
         hiv_patient_id                      INT,
-        hiv_vl_encounter_id                 INT,
+        encounter_id                        INT,
         vl_sample_taken_date                DATE,
         vl_sample_taken_date_estimated      VARCHAR(255),
         vl_result_date                      DATE,
