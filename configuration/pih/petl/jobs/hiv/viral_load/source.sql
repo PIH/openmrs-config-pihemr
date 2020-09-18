@@ -15,6 +15,7 @@ CREATE TEMPORARY TABLE temp_hiv_construct_encounters
     date_created                    DATETIME,
     vl_sample_taken_date_estimated  VARCHAR(11),
     vl_result_date                  DATE,
+    specimen_number                 VARCHAR(255),
     vl_test_outcome                 VARCHAR(255),
     vl_result_detectable            VARCHAR(255),
     viral_load                      INT,
@@ -49,11 +50,17 @@ UPDATE temp_hiv_construct_encounters SET vl_sample_taken_date_estimated =  OBS_V
 -- lab result date
 UPDATE temp_hiv_construct_encounters SET vl_result_date =  OBS_VALUE_DATETIME(encounter_id, 'PIH', 'DATE OF LABORATORY TEST');
 
+-- specimen number
+UPDATE temp_hiv_construct_encounters SET specimen_number =  OBS_VALUE_TEXT(encounter_id, 'CIEL', '162086');
+
 -- viral load results (detectable)
 UPDATE temp_hiv_construct_encounters SET vl_result_detectable =  OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1305', 'en');
 
 -- viral load results (numeric)
 UPDATE temp_hiv_construct_encounters SET viral_load =  OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '856');
+
+-- viral load type
+UPDATE temp_hiv_construct_encounters SET vl_type =  OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '164126', 'en');
 
 -- The indexes are calculated using the specimen collection date
 ### index ascending
@@ -107,6 +114,7 @@ SELECT
         DATE(tvl.vl_sample_taken_date),
         vl_sample_taken_date_estimated,
         vl_result_date,
+        specimen_number,
         vl_test_outcome,
         vl_result_detectable,
         viral_load,
