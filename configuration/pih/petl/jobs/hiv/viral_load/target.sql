@@ -6,7 +6,7 @@ CREATE TABLE hiv_viral_load(
         vl_result_date                      DATE,
         specimen_number                     VARCHAR(255),
         vl_test_outcome                     VARCHAR(255),
-        vl_result_detectable                VARCHAR(255),
+        vl_result_detectable                INT,
         viral_load                          INT,
         vl_type                             VARCHAR(255),
         days_since_vl                       INT,
