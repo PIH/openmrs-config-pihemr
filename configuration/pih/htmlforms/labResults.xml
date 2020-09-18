@@ -20,6 +20,12 @@
             top: 5px; /* added to offset the checkbox position to line up */
         }
 
+        #viral-load > * {
+            display: inline !important;
+            float: none !important;
+            min-width: initial;
+        }
+
         @media (max-width: 991px) { /* Bootstrap "lg" */
 
             ul#formBreadcrumb.options {
@@ -523,28 +529,48 @@
                     <uimessage code="pihcore.lab.viral_load"/>
                 </label>
                 <obsgroup groupingConceptId="PIH:HIV viral load construct">
-                    <span>
+                    <span class="small">
                         <field>
-                            <obs id="viral-load" conceptId="CIEL:856"  showUnits="true"
+                            <obs id="viral-load" conceptId="CIEL:1305" style="radio" answerConceptIds="CIEL:1301,CIEL:1306,CIEL:1302">
+                                <controls>
+                                    <when value="CIEL:1301" thenDisplay="#viral-load-numeric"/>
+                                    <when value="CIEL:1306" thenDisplay="#detected-lower-limit"/>
+                                </controls>
+                            </obs>
+                        </field>
+                    </span>
+
+                    <span class="small" id="viral-load-numeric">
+                        <label for="viral-load-numeric">
+                            <uimessage code="pihcore.lab.viralLoad"/>
+                        </label>
+                        <field>
+                            <obs conceptId="CIEL:856"  showUnits="true"
                                  placeholder="Enter value"/>
                         </field>
                     </span>
-                    <div class="section-container">
-                            <obs conceptId="CIEL:1305" style="checkbox"
-                                  answerConceptId="CIEL:1306" answerCode="LDL" />
-                    </div>
 
-                    <div class="section-container">
-                        <!-- Routine or targeted -->
-                        <obs id="hiv-test" conceptId="CIEL:164126" labelCode="pihcore.reason"
-                             answerConceptIds="CIEL:166058,CIEL:166059"
-                             answerCodes="pihcore.routine,pihcore.targeted"/>
-                    </div>
+                    <span class="small" id="detected-lower-limit">
+                        <label for="detected-lower-limit">
+                            <uimessage code="pihcore.lab.detectedLowerLimit"/>
+                        </label>
+                        <field>
+                            <obs conceptId="PIH:11548"  showUnits="true"
+                                 placeholder="Enter value"/>
+                        </field>
+                    </span>
 
-                    <div class="section-container">
-                        <obs conceptId="CIEL:162086" labelCode="pihcore.specimenNumber" />
-                    </div>
+                    <span class="small">
+                        <label for="specimen-number">
+                            <uimessage code="pihcore.specimenNumber"/>
+                        </label>
+                        <field>
+                            <obs id="specimen-number" conceptId="CIEL:162086"/>
+                        </field>
+                    </span>
+
                 </obsgroup>
+
             </p>
 
             <br/>
