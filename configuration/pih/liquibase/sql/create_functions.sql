@@ -1588,6 +1588,170 @@ BEGIN
 
 END
 #
-																	 
-																	 
-																	 
+-- this function accepts drug_id or uuid of a drug
+-- it will return the drug name
+#
+DROP FUNCTION IF EXISTS drugName;
+#
+CREATE FUNCTION drugName(_id_or_uuid varchar(255))
+    RETURNS varchar(255)
+    DETERMINISTIC
+
+BEGIN
+
+  DECLARE drug_name_out varchar(255);
+
+  select name into drug_name_out
+  from drug
+  where retired = 0
+  and (drug_id = _id_or_uuid or uuid = _id_or_uuid)
+  ;
+
+  RETURN drug_name_out;
+
+END
+#
+-- This function accepts an Obu Group Id and source and term of a concept
+-- it will return the drug name of the value_drug that answers that question
+#
+DROP FUNCTION IF EXISTS obs_from_group_id_value_drug;
+#
+CREATE FUNCTION obs_from_group_id_value_drug(_obsGroupId int(11), _source varchar(50), _term varchar(255))
+    RETURNS text
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret text;
+
+    select      group_concat(distinct drugName(o.value_drug) separator ' | ') into ret
+    from        obs o
+    where       o.voided = 0
+      and       o.obs_group_id= _obsGroupId
+      and       o.concept_id = concept_from_mapping(_source, _term);
+
+    RETURN ret;
+
+END
+#
+-- This function accepts an encounter_id, and source and term of a coded answer
+-- it will return the obs group id of the group that contains that answer (most recent one)
+#
+DROP FUNCTION IF EXISTS obs_group_id_of_coded_answer;
+#
+CREATE FUNCTION obs_group_id_of_coded_answer(_encounterId int(11), _source varchar(50), _term varchar(255))
+
+	RETURNS int
+    DETERMINISTIC
+
+BEGIN
+   DECLARE obs_group_id_out int(11);
+   
+ select obs_group_id into obs_group_id_out
+    from obs o
+    where o.voided = 0
+    and o.encounter_id = _encounterId
+    and o.value_coded = concept_from_mapping(_source, _term)
+ order by o.obs_datetime desc
+    limit 1;
+
+    RETURN obs_group_id_out;
+
+END
+#
+-- This function accepts:
+--   encounter_id
+--   a list of encounter types
+--   begin date (can be null)
+--   end date (can be null)
+-- and returns the index ascending of the encounter in that set for the patient
+#
+DROP FUNCTION IF EXISTS encounter_index_asc;
+#
+CREATE FUNCTION encounter_index_asc(
+    _encounter_id int(11),
+    _encounterTypes varchar(255),
+    _beginDate datetime,
+    _endDate datetime
+)
+	RETURNS int
+    DETERMINISTIC
+
+BEGIN
+  
+     select count(*) into @total_count
+       from encounter e
+       inner join encounter_type et on e.encounter_type = et.encounter_type_id
+       inner join encounter enc_in on enc_in.encounter_id = _encounter_id
+       where e.voided = 0  
+       and find_in_set(et.name, _encounterTypes)
+       and e.patient_id = enc_in.patient_id
+       and (_beginDate is null or e.encounter_datetime >= _beginDate)
+       and (_endDate is null or e.encounter_datetime <= _beginDate);
+
+     select count(*) into @count_after
+       from encounter e
+       inner join encounter_type et on e.encounter_type = et.encounter_type_id
+       inner join encounter enc_in on enc_in.encounter_id = _encounter_id
+       where e.voided = 0  
+       and find_in_set(et.name, _encounterTypes)
+       and e.patient_id = enc_in.patient_id
+       and (_beginDate is null or e.encounter_datetime >= _beginDate)
+       and (_endDate is null or e.encounter_datetime <= _beginDate)
+       and if(e.encounter_datetime=enc_in.encounter_datetime, 
+            if(e.date_created=enc_in.date_created,e.encounter_id>enc_in.encounter_id,e.date_created>enc_in.date_created),
+              e.encounter_datetime>enc_in.encounter_datetime)
+       ;
+
+    RETURN @total_count - @count_after;
+
+END
+#
+-- This function accepts:
+--   encounter_id
+--   a list of encounter types
+--   begin date (can be null)
+--   end date (can be null)
+-- and returns the index descending of the encounter in that set for the patient
+#
+DROP FUNCTION IF EXISTS encounter_index_desc;
+#
+CREATE FUNCTION encounter_index_desc(
+    _encounter_id int(11),
+    _encounterTypes varchar(255),
+    _beginDate datetime,
+    _endDate datetime
+)
+	RETURNS int
+    DETERMINISTIC
+
+BEGIN
+  
+     select count(*) into @total_count
+       from encounter e
+       inner join encounter_type et on e.encounter_type = et.encounter_type_id
+       inner join encounter enc_in on enc_in.encounter_id = _encounter_id
+       where e.voided = 0  
+       and find_in_set(et.name, _encounterTypes)
+       and e.patient_id = enc_in.patient_id
+       and (_beginDate is null or e.encounter_datetime >= _beginDate)
+       and (_endDate is null or e.encounter_datetime <= _beginDate);
+
+     select count(*) into @count_after
+       from encounter e
+       inner join encounter_type et on e.encounter_type = et.encounter_type_id
+       inner join encounter enc_in on enc_in.encounter_id = _encounter_id
+       where e.voided = 0  
+       and find_in_set(et.name, _encounterTypes)
+       and e.patient_id = enc_in.patient_id
+       and (_beginDate is null or e.encounter_datetime >= _beginDate)
+       and (_endDate is null or e.encounter_datetime <= _beginDate)
+       and if(e.encounter_datetime=enc_in.encounter_datetime, 
+            if(e.date_created=enc_in.date_created,e.encounter_id<enc_in.encounter_id,e.date_created<enc_in.date_created),
+              e.encounter_datetime<enc_in.encounter_datetime)
+       ;
+
+    RETURN @total_count - @count_after;
+
+END
+#
