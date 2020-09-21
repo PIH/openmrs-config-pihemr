@@ -78,7 +78,16 @@
             jq(function() {
                 getField('specimen-collection-date-hematology.value').datepicker('option', 'maxDate', new Date());
                 getField('test-date-hematology.value').datepicker('option', 'maxDate', new Date());
+
+                // when below detectable limit is selected, set default value to 839 copies / ml since this is the standard for the Haiti national
+                getField('viral-load.value').change(function() {
+                    if (getValue('viral-load.value') === '<lookup expression="fn.getConcept('CIEL:1306').id" />') {
+                        setValue('detected-lower-limit-field.value', 839);
+                    }
+                });
             });
+
+
 
         </script>
     </ifMode>
@@ -533,7 +542,7 @@
                 <obsgroup groupingConceptId="PIH:HIV viral load construct">
                     <span class="small">
                         <field>
-                            <obs id="viral-load" conceptId="CIEL:1305" style="radio" answerConceptIds="CIEL:1301,CIEL:1306,CIEL:1302">
+                            <obs id="viral-load" conceptId="CIEL:1305" style="radio" answerConceptIds="CIEL:1301,CIEL:1306,CIEL:1302" answerCodes="pihcore.lab.detected,pihcore.lab.belowDetectableLimit,pihcore.lab.notDetected">
                                 <controls>
                                     <when value="CIEL:1301" thenDisplay="#viral-load-numeric"/>
                                     <when value="CIEL:1306" thenDisplay="#detected-lower-limit"/>
@@ -541,7 +550,7 @@
                             </obs>
                         </field>
                     </span>
-
+                    <br/>
                     <span class="small" id="viral-load-numeric">
                         <label for="viral-load-numeric">
                             <uimessage code="pihcore.lab.viralLoad"/>
@@ -557,7 +566,7 @@
                             <uimessage code="pihcore.lab.detectedLowerLimit"/>
                         </label>
                         <field>
-                            <obs conceptId="PIH:11548"  showUnits="true"
+                            <obs id="detected-lower-limit-field" conceptId="PIH:11548"  showUnits="true"
                                  placeholder="Enter value"/>
                         </field>
                     </span>
