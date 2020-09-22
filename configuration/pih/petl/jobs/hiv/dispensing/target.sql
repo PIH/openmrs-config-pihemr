@@ -1,4 +1,4 @@
-create table HIV_dispensing
+create table hiv_dispensing
 (
 patient_id int,
 encounter_id int PRIMARY KEY,
