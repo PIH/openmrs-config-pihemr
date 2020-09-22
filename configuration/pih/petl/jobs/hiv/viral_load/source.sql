@@ -17,8 +17,8 @@ CREATE TEMPORARY TABLE temp_hiv_construct_encounters
     vl_result_date                  DATE,
     specimen_number                 VARCHAR(255),
     vl_test_outcome                 VARCHAR(255),
-    vl_result_detectable            VARCHAR(255),
     viral_load                      INT,
+    detected_lower_limit            INT,
     vl_type                         VARCHAR(50)
 );
 
@@ -53,11 +53,14 @@ UPDATE temp_hiv_construct_encounters SET vl_result_date =  OBS_VALUE_DATETIME(en
 -- specimen number
 UPDATE temp_hiv_construct_encounters SET specimen_number =  OBS_VALUE_TEXT(encounter_id, 'CIEL', '162086');
 
--- viral load results (detectable)
-UPDATE temp_hiv_construct_encounters SET vl_result_detectable =  OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1305', 'en');
+-- viral load results (coded)
+UPDATE temp_hiv_construct_encounters SET vl_test_outcome =  OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1305', 'en');
 
 -- viral load results (numeric)
 UPDATE temp_hiv_construct_encounters SET viral_load =  OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '856');
+
+-- detected lower limit
+UPDATE temp_hiv_construct_encounters SET detected_lower_limit =  OBS_VALUE_NUMERIC(encounter_id, 'PIH', '11548');
 
 -- viral load type
 UPDATE temp_hiv_construct_encounters SET vl_type =  OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '164126', 'en');
@@ -116,8 +119,8 @@ SELECT
         vl_result_date,
         specimen_number,
         vl_test_outcome,
-        IF(vl_result_detectable IS NOT NULL, 1, NULL) vl_result_detectable,
         viral_load,
+        detected_lower_limit,
         vl_type,
         DATEDIFF(NOW(), tvl.vl_sample_taken_date) days_since_vl,
         index_desc,
