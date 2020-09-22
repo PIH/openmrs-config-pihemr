@@ -1,7 +1,7 @@
 create table HIV_dispensing
 (
 patient_id int,
-encounter_id int(11) PRIMARY KEY,
+encounter_id int PRIMARY KEY,
 dispense_date datetime,
 dispense_site  varchar(255),
 age_at_dispense_date int,
