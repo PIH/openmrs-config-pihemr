@@ -126,6 +126,7 @@ SELECT
         vl_result_date,
         specimen_number,
         vl_test_outcome,
+         ---  vl_test_outcome is "Detected" then vl_result_detectable = 1 (true), vl_test_outcome is "Beyond Detected Limit" or "Not Detected" then vl_result_detectable = 0 (false)
         IF(vl_test_outcome_coded = @detected_viral_load, 1, 0) vl_result_detectable,
         viral_load,
         detected_lower_limit,
