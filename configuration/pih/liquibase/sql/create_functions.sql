@@ -825,31 +825,6 @@ END
 #
 
 -- This function accepts encounter_id, mapping source, mapping code
--- It will find a single, best observation that matches this, and return the concept id
-#
-DROP FUNCTION IF EXISTS obs_value_coded_list_concept_id;
-#
-CREATE FUNCTION obs_value_coded_list_concept_id(_encounterId int(11), _source varchar(50), _term varchar(255), _locale varchar(50))
-    RETURNS int
-    DETERMINISTIC
-
-BEGIN
-
-    DECLARE ret int;
-
-    select      o.value_coded into ret
-    from        obs o
-    where       o.voided = 0
-      and       o.encounter_id = _encounterId
-      and       o.concept_id = concept_from_mapping(_source, _term);
-
-    RETURN ret;
-
-END
-
-#
-
--- This function accepts encounter_id, mapping source, mapping code
 -- It will find a single, best observation that matches this, and return the value_numeric
 #
 DROP FUNCTION IF EXISTS obs_value_numeric;

@@ -58,7 +58,9 @@ UPDATE temp_hiv_construct_encounters SET vl_result_date =  OBS_VALUE_DATETIME(en
 UPDATE temp_hiv_construct_encounters SET specimen_number =  OBS_VALUE_TEXT(encounter_id, 'CIEL', '162086');
 
 -- viral load results (coded, concept id)
-UPDATE temp_hiv_construct_encounters SET vl_test_outcome_coded =  OBS_VALUE_CODED_LIST_CONCEPT_ID(encounter_id, 'CIEL', '1305', 'en');
+UPDATE temp_hiv_construct_encounters t
+INNER JOIN obs o on o.encounter_id = t.encounter_id and o.voided =0 and o.concept_id = concept_from_mapping('CIEL','1305')
+set vl_test_outcome_coded = o.value_coded;
 
 -- viral load results (coded, concept name)
 UPDATE temp_hiv_construct_encounters SET vl_test_outcome =  OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1305', 'en');
