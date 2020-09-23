@@ -800,7 +800,7 @@ END
 #
 
 -- This function accepts encounter_id, mapping source, mapping code
--- It will find a single, best observation that matches this, and return the value_text
+-- It will find a single, best observation that matches this, and return the concept name
 #
 DROP FUNCTION IF EXISTS obs_value_coded_list;
 #
@@ -813,6 +813,31 @@ BEGIN
     DECLARE ret text;
 
     select      group_concat(distinct concept_name(o.value_coded, _locale) separator ' | ') into ret
+    from        obs o
+    where       o.voided = 0
+      and       o.encounter_id = _encounterId
+      and       o.concept_id = concept_from_mapping(_source, _term);
+
+    RETURN ret;
+
+END
+
+#
+
+-- This function accepts encounter_id, mapping source, mapping code
+-- It will find a single, best observation that matches this, and return the concept id
+#
+DROP FUNCTION IF EXISTS obs_value_coded_list_concept_id;
+#
+CREATE FUNCTION obs_value_coded_list_concept_id(_encounterId int(11), _source varchar(50), _term varchar(255), _locale varchar(50))
+    RETURNS int
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret int;
+
+    select      o.value_coded into ret
     from        obs o
     where       o.voided = 0
       and       o.encounter_id = _encounterId
@@ -1442,7 +1467,7 @@ limit 1;
 
 RETURN ret;
 
-END 
+END
 
 #
 -- This function accepts visit_id, encounter_type (single or multiple, concatenated together) and a concept source and term
@@ -1470,7 +1495,7 @@ BEGIN
 
     RETURN enc_id_out;
 
-END 
+END
 #
 -- This function accepts the encounter type or uuid
 -- it will return the encounter name of that encounter
@@ -1490,10 +1515,10 @@ BEGIN
   where et.retired = 0
   and (et.encounter_type_id = _type_or_uuid or et.uuid = _type_or_uuid)
   ;
-  
+
   RETURN enc_name_out;
-  
-END 
+
+END
 #
 -- This function accepts drug name or drug uuid
 -- It will return the drug_id of that drug
@@ -1513,10 +1538,10 @@ BEGIN
   where retired = 0
   and (name = _name_or_uuid or uuid = _name_or_uuid)
   ;
-  
+
   RETURN drug_id_out;
-  
-END 
+
+END
 #
 -- This function accepts obs_group_id, mapping source, mapping code
 -- It will find the value_numeric entry of the latest obs that matches this
@@ -1540,9 +1565,9 @@ BEGIN
 
     RETURN ret;
 
-END 
+END
 #
--- This function accepts encounter_id and drug_id 
+-- This function accepts encounter_id and drug_id
 -- It will find the obs_id of the latest observation with the drug_id as an answer
 #
 DROP FUNCTION IF EXISTS obs_id_with_drug_answer;
@@ -1564,9 +1589,9 @@ BEGIN
 
     RETURN ret_obs_id;
 
-END 
+END
 #
--- This function accepts obs_id  
+-- This function accepts obs_id
 -- It will find the obs_group_id of that observation, if there is one
 #
 DROP FUNCTION IF EXISTS obs_group_id_from_obs;
@@ -1646,7 +1671,7 @@ CREATE FUNCTION obs_group_id_of_coded_answer(_encounterId int(11), _source varch
 
 BEGIN
    DECLARE obs_group_id_out int(11);
-   
+
  select obs_group_id into obs_group_id_out
     from obs o
     where o.voided = 0
@@ -1678,12 +1703,12 @@ CREATE FUNCTION encounter_index_asc(
     DETERMINISTIC
 
 BEGIN
-  
+
      select count(*) into @total_count
        from encounter e
        inner join encounter_type et on e.encounter_type = et.encounter_type_id
        inner join encounter enc_in on enc_in.encounter_id = _encounter_id
-       where e.voided = 0  
+       where e.voided = 0
        and find_in_set(et.name, _encounterTypes)
        and e.patient_id = enc_in.patient_id
        and (_beginDate is null or e.encounter_datetime >= _beginDate)
@@ -1693,12 +1718,12 @@ BEGIN
        from encounter e
        inner join encounter_type et on e.encounter_type = et.encounter_type_id
        inner join encounter enc_in on enc_in.encounter_id = _encounter_id
-       where e.voided = 0  
+       where e.voided = 0
        and find_in_set(et.name, _encounterTypes)
        and e.patient_id = enc_in.patient_id
        and (_beginDate is null or e.encounter_datetime >= _beginDate)
        and (_endDate is null or e.encounter_datetime <= _beginDate)
-       and if(e.encounter_datetime=enc_in.encounter_datetime, 
+       and if(e.encounter_datetime=enc_in.encounter_datetime,
             if(e.date_created=enc_in.date_created,e.encounter_id>enc_in.encounter_id,e.date_created>enc_in.date_created),
               e.encounter_datetime>enc_in.encounter_datetime)
        ;
@@ -1726,12 +1751,12 @@ CREATE FUNCTION encounter_index_desc(
     DETERMINISTIC
 
 BEGIN
-  
+
      select count(*) into @total_count
        from encounter e
        inner join encounter_type et on e.encounter_type = et.encounter_type_id
        inner join encounter enc_in on enc_in.encounter_id = _encounter_id
-       where e.voided = 0  
+       where e.voided = 0
        and find_in_set(et.name, _encounterTypes)
        and e.patient_id = enc_in.patient_id
        and (_beginDate is null or e.encounter_datetime >= _beginDate)
@@ -1741,12 +1766,12 @@ BEGIN
        from encounter e
        inner join encounter_type et on e.encounter_type = et.encounter_type_id
        inner join encounter enc_in on enc_in.encounter_id = _encounter_id
-       where e.voided = 0  
+       where e.voided = 0
        and find_in_set(et.name, _encounterTypes)
        and e.patient_id = enc_in.patient_id
        and (_beginDate is null or e.encounter_datetime >= _beginDate)
        and (_endDate is null or e.encounter_datetime <= _beginDate)
-       and if(e.encounter_datetime=enc_in.encounter_datetime, 
+       and if(e.encounter_datetime=enc_in.encounter_datetime,
             if(e.date_created=enc_in.date_created,e.encounter_id<enc_in.encounter_id,e.date_created<enc_in.date_created),
               e.encounter_datetime<enc_in.encounter_datetime)
        ;

@@ -2,6 +2,8 @@
 
 SET sql_safe_updates = 0;
 
+SET @detected_viral_load = CONCEPT_FROM_MAPPING("CIEL", "1301");
+
 DROP TEMPORARY TABLE IF EXISTS temp_hiv_construct_encounters;
 DROP TEMPORARY TABLE IF EXISTS temp_vl_index_asc;
 DROP TEMPORARY TABLE IF EXISTS temp_vl_index_desc;
@@ -16,7 +18,9 @@ CREATE TEMPORARY TABLE temp_hiv_construct_encounters
     vl_sample_taken_date_estimated  VARCHAR(11),
     vl_result_date                  DATE,
     specimen_number                 VARCHAR(255),
+    vl_test_outcome_coded           INT,
     vl_test_outcome                 VARCHAR(255),
+    vl_result_detectable            INT,
     viral_load                      INT,
     detected_lower_limit            INT,
     vl_type                         VARCHAR(50)
@@ -53,7 +57,10 @@ UPDATE temp_hiv_construct_encounters SET vl_result_date =  OBS_VALUE_DATETIME(en
 -- specimen number
 UPDATE temp_hiv_construct_encounters SET specimen_number =  OBS_VALUE_TEXT(encounter_id, 'CIEL', '162086');
 
--- viral load results (coded)
+-- viral load results (coded, concept id)
+UPDATE temp_hiv_construct_encounters SET vl_test_outcome_coded =  OBS_VALUE_CODED_LIST_CONCEPT_ID(encounter_id, 'CIEL', '1305', 'en');
+
+-- viral load results (coded, concept name)
 UPDATE temp_hiv_construct_encounters SET vl_test_outcome =  OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1305', 'en');
 
 -- viral load results (numeric)
@@ -119,6 +126,7 @@ SELECT
         vl_result_date,
         specimen_number,
         vl_test_outcome,
+        IF(vl_test_outcome_coded = @detected_viral_load, 1, 0) vl_result_detectable,
         viral_load,
         detected_lower_limit,
         vl_type,
