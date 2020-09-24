@@ -26,6 +26,12 @@
             min-width: initial;
         }
 
+        #hiv-rapid-test > * {
+            display: inline !important;
+            float: none !important;
+            min-width: initial;
+        }
+
         @media (max-width: 991px) { /* Bootstrap "lg" */
 
             ul#formBreadcrumb.options {
@@ -516,13 +522,28 @@
                 <label for="hiv-rapid-test">
                     <uimessage code="pihcore.lab.hivRapid"/>
                 </label>
-                <span>
-                    <field>
-                        <obs id="hiv-rapid-test" conceptId="CIEL:163722"
-                             answerConceptIds="CIEL:703,CIEL:664,CIEL:1138" />
-                    </field>
-                </span>
+                <obsgroup groupingConceptId="PIH:13135">
+                    <span class="small">
+                        <field>
+                            <obs id="hiv-rapid-test" conceptId="CIEL:163722" style="radio"
+                                 answerConceptIds="CIEL:703,CIEL:664,CIEL:1138" />
+                        </field>
+                    </span>
+                    <span class="small">
+                        <field>
+                            <div class="section-container">
+                                <obs id="hiv-rapid-control"
+                                     conceptId="CIEL:164860" style="checkbox"
+                                     answerConceptId="CIEL:1065"
+                                     answerCode="pihcore.lab.controlTest"/>
+                            </div>
+                        </field>
+                    </span>
+                </obsgroup>
+            </p>
+            <br/>
 
+            <p>
                 <!-- For children only? -->
                 <label for="hiv-pcr">
                     <uimessage code="pihcore.lab.hivpcr"/>
