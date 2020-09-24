@@ -9,8 +9,6 @@ dispense_date datetime,
 encounter_location_id  int(11),
 dispense_site  varchar(255),
 age_at_dispense_date int,
--- entry_date datetime,
--- entered_by varchar(100),
 dac char(1),
 dispense_date_ascending int,
 dispense_date_descending int,
@@ -36,54 +34,111 @@ days_late_to_pickup int,
 regimen_match char(1)
  );
  
+ create index temp_HIV_dispensing_patient_index on temp_HIV_dispensing (patient_id);
+ create index temp_HIV_dispensing_dispense_date on temp_HIV_dispensing (dispense_date);
+ create index temp_HIV_dispensing_encounter_id on temp_HIV_dispensing (encounter_id);
+ 
  insert into temp_HIV_dispensing (patient_id, encounter_id, dispense_date, encounter_location_id)
  select patient_id, encounter_id,encounter_datetime,location_id from encounter
  where encounter_type = @HIV_dispensing and voided = 0 
  ;
  
- update temp_HIV_dispensing
- set dispense_site = encounter_location_name (encounter_id);
- 
-update temp_HIV_dispensing
-set age_at_dispense_date = age_at_enc(patient_id, encounter_id)
+update temp_HIV_dispensing t
+inner join location l on l.location_id = t.encounter_location_id
+set dispense_site = l.name;
+
+update temp_HIV_dispensing t
+inner join person p on p.person_id = t.patient_id
+set age_at_dispense_date = TIMESTAMPDIFF(YEAR, birthdate, dispense_date) ;
 ;
+  
+update temp_HIV_dispensing t
+inner join obs o on o.voided = 0 and o.encounter_id = t.encounter_id 
+and o.concept_id = concept_from_mapping('PIH', 3671)
+and o.value_coded =  concept_from_mapping('PIH', 9361)
+set t.dac = if(o.concept_id is null, 0,1);
 
--- removed from DW! 
--- update temp_HIV_dispensing
--- set entered_by = provider(encounter_id);
+-- The ascending/descending indexes are calculated ordering on the dispense date
+-- new temp tables are used to build them and then joined into the main temp table. 
+### index ascending
+drop temporary table if exists temp_dispensing_index_asc;
+CREATE TEMPORARY TABLE temp_dispensing_index_asc
+(
+    SELECT
+            patient_id,
+            dispense_date,
+            encounter_id,
+            index_asc
+FROM (SELECT
+            @r:= IF(@u = patient_id, @r + 1,1) index_asc,
+            dispense_date,
+            encounter_id,
+            patient_id,
+            @u:= patient_id
+      FROM temp_HIV_dispensing,
+                    (SELECT @r:= 1) AS r,
+                    (SELECT @u:= 0) AS u
+            ORDER BY patient_id, dispense_date ASC, encounter_id ASC
+        ) index_ascending );
 
-update temp_HIV_dispensing
-set dac = CASE when obs_single_value_coded(encounter_id, 'PIH', 3671,'PIH',9361)='Yes' then 'Y' else 'N' end;
+update temp_HIV_dispensing t
+inner join temp_dispensing_index_asc tdia on tdia.encounter_id = t.encounter_id
+set dispense_date_ascending = tdia.index_asc;
 
+drop temporary table if exists temp_dispensing_index_desc;
+CREATE TEMPORARY TABLE temp_dispensing_index_desc
+(
+    SELECT
+            patient_id,
+            dispense_date,
+            encounter_id,
+            index_desc
+FROM (SELECT
+            @r:= IF(@u = patient_id, @r + 1,1) index_desc,
+            dispense_date,
+            encounter_id,
+            patient_id,
+            @u:= patient_id
+      FROM temp_HIV_dispensing,
+                    (SELECT @r:= 1) AS r,
+                    (SELECT @u:= 0) AS u
+            ORDER BY patient_id, dispense_date DESC, encounter_id DESC
+        ) index_descending );
 
+update temp_HIV_dispensing t
+inner join temp_dispensing_index_desc tdid on tdid.encounter_id = t.encounter_id
+set dispense_date_descending = tdid.index_desc;
 
-update temp_HIV_dispensing 
-set dispense_date_ascending = encounter_index_asc(encounter_id,'HIV drug dispensing',null,null);
+update temp_HIV_dispensing t
+inner join obs o on o.encounter_id = t.encounter_id and o.voided =0 
+and o.concept_id =concept_from_mapping('PIH',12071)
+set t.dispensed_to = concept_name(o.value_coded,'en');
 
-update temp_HIV_dispensing 
-set dispense_date_descending = encounter_index_desc(encounter_id,'HIV drug dispensing',null,null);
+update temp_HIV_dispensing t
+inner join obs o on o.encounter_id = t.encounter_id and o.voided =0 
+and o.concept_id =concept_from_mapping('CIEL',164141)
+set t.dispensed_accompagnateur = concept_name(o.value_coded,'en');
 
-update temp_HIV_dispensing 
-set dispensed_to = obs_value_coded_list(encounter_id,'PIH',12071,'en');
+update temp_HIV_dispensing t
+inner join obs o on o.encounter_id = t.encounter_id and o.voided =0 
+and o.concept_id =concept_from_mapping('CIEL',164432)
+set t.current_art_treatment_line = concept_name(o.value_coded,'en');
 
-update temp_HIV_dispensing 
-set dispensed_accompagnateur = obs_value_text(encounter_id,'CIEL',164141);
+update temp_HIV_dispensing t
+inner join obs o on o.encounter_id = t.encounter_id and o.voided =0 
+and o.concept_id =concept_from_mapping('CIEL',5096)
+set t.next_dispense_date = value_datetime;
 
-update temp_HIV_dispensing 
-set current_art_treatment_line = obs_value_coded_list(encounter_id,'CIEL',164432,'en');
-
-update temp_HIV_dispensing 
-set next_dispense_date = obs_value_datetime(encounter_id,'CIEL',5096);
-
-update temp_HIV_dispensing 
-set months_dispensed = obs_value_numeric(encounter_id,'PIH',3102);
+update temp_HIV_dispensing t
+inner join obs o on o.encounter_id = t.encounter_id and o.voided =0 
+and o.concept_id =concept_from_mapping('PIH',3102)
+set t.months_dispensed = value_numeric;
 
 update temp_HIV_dispensing
 set is_current_mmd = if(months_dispensed >= 3, 'Y','N');
 
-drop temporary table if exists dup_HIV_dispensing;
-CREATE TEMPORARY TABLE dup_HIV_dispensing SELECT * FROM temp_HIV_dispensing;
-
+-- to calculate the art line start date, a new temp table is created to keep track of the start date of the line 
+-- the results are then joined in with the main temp table
 drop temporary table if exists temp_dispensing_line_start;
 CREATE TEMPORARY TABLE temp_dispensing_line_start
 SELECT
@@ -98,43 +153,72 @@ SELECT
                     (SELECT @ts:= '1900-01-01') AS ts,
                     (SELECT @u:= 0) AS u,
                     (SELECT @tl:='1900-01-01') as tl
-            ORDER BY patient_id, dispense_date ASC, encounter_id ASC;
+            ORDER BY patient_id, dispense_date ASC, encounter_id ASC; -- add indexes?
+
+create index temp_dispensing_line_start_encounter_id on temp_dispensing_line_start (encounter_id);
 
 update temp_HIV_dispensing t
 inner join temp_dispensing_line_start ts on ts.encounter_id = t.encounter_id
 set t.current_art_line_start_date = ts.treatment_start_date;
  
 -- ARV#1 med and quantity
-update temp_HIV_dispensing 
-set arv_1_med_short_name = obs_from_group_id_value_coded_list(obs_group_id_of_coded_answer(encounter_id,'PIH',3013),'CIEL','1282','en');
-
-update temp_HIV_dispensing 
-set arv_1_med = obs_from_group_id_value_drug(obs_group_id_of_coded_answer(encounter_id,'PIH',3013),'CIEL','1282');
-
-update temp_HIV_dispensing 
-set arv_1_quantity = obs_from_group_id_value_numeric(obs_group_id_of_coded_answer(encounter_id,'PIH',3013),'CIEL','1443');
+update temp_HIV_dispensing t
+inner join obs og on og.encounter_id = t.encounter_id and og.voided =0 
+  and og.value_coded =concept_from_mapping('PIH',3013)
+inner join obs o on o.voided =0 and o.obs_group_id = og.obs_group_id
+  and  o.concept_id =concept_from_mapping('CIEL',1282)
+set arv_1_med_short_name = concept_name(o.value_coded,'en'),
+    arv_1_med = drugName(o.value_drug);
+    
+update temp_HIV_dispensing t
+inner join obs og on og.encounter_id = t.encounter_id and og.voided =0 
+  and og.value_coded =concept_from_mapping('PIH',3013)
+inner join obs o on o.voided =0 and o.obs_group_id = og.obs_group_id
+  and  o.concept_id =concept_from_mapping('CIEL',1443)
+set arv_1_quantity = o.value_numeric;    
 
 -- ARV#2 med and quantity
-update temp_HIV_dispensing 
-set arv_2_med_short_name = obs_from_group_id_value_coded_list(obs_group_id_of_coded_answer(encounter_id,'PIH',2848),'CIEL','1282','en');
+update temp_HIV_dispensing t
+inner join obs og on og.encounter_id = t.encounter_id and og.voided =0 
+  and og.value_coded =concept_from_mapping('PIH',2848)
+inner join obs o on o.voided =0 and o.obs_group_id = og.obs_group_id
+  and  o.concept_id =concept_from_mapping('CIEL',1282)
+set arv_2_med_short_name = concept_name(o.value_coded,'en'),
+    arv_2_med = drugName(o.value_drug);
+    
+update temp_HIV_dispensing t
+inner join obs og on og.encounter_id = t.encounter_id and og.voided =0 
+  and og.value_coded =concept_from_mapping('PIH',2848)
+inner join obs o on o.voided =0 and o.obs_group_id = og.obs_group_id
+  and  o.concept_id =concept_from_mapping('CIEL',1443)
+set arv_2_quantity = o.value_numeric;        
 
-update temp_HIV_dispensing 
-set arv_2_med = obs_from_group_id_value_drug(obs_group_id_of_coded_answer(encounter_id,'PIH',2848),'CIEL','1282');
+-- TMS med and quantity
+update temp_HIV_dispensing t
+inner join obs og on og.encounter_id = t.encounter_id and og.voided =0 
+  and og.value_coded =concept_from_mapping('PIH',3120)
+inner join obs o on o.voided =0 and o.obs_group_id = og.obs_group_id
+  and  o.concept_id =concept_from_mapping('CIEL',1282)
+set tms_1_med_short_name = concept_name(o.value_coded,'en'),
+    tms_1_med = drugName(o.value_drug);
 
-update temp_HIV_dispensing 
-set arv_2_quantity = obs_from_group_id_value_numeric(obs_group_id_of_coded_answer(encounter_id,'PIH',2848),'CIEL','1443');
+update temp_HIV_dispensing t
+inner join obs og on og.encounter_id = t.encounter_id and og.voided =0 
+  and og.value_coded =concept_from_mapping('PIH',3120)
+inner join obs o on o.voided =0 and o.obs_group_id = og.obs_group_id
+  and  o.concept_id =concept_from_mapping('CIEL',1443)
+set tms_1_quantity = o.value_numeric; 
 
--- tms med and quantity
-update temp_HIV_dispensing 
-set tms_1_med_short_name = obs_from_group_id_value_coded_list(obs_group_id_of_coded_answer(encounter_id,'PIH',3120),'CIEL','1282','en');
-
-update temp_HIV_dispensing 
-set tms_1_med = obs_from_group_id_value_drug(obs_group_id_of_coded_answer(encounter_id,'PIH',3120),'CIEL','1282');
-
-update temp_HIV_dispensing 
-set tms_1_quantity = obs_from_group_id_value_numeric(obs_group_id_of_coded_answer(encounter_id,'PIH',3120),'CIEL','1443');
-
-
+-- to calculate the days late and regimen change (whether the current regimen changed since the first one),
+-- the temp table is duplicated since MYSQL does not allow joining in the table that is being updated.
+drop temporary table if exists dup_HIV_dispensing;
+CREATE TEMPORARY TABLE dup_HIV_dispensing SELECT * FROM temp_HIV_dispensing;
+ 
+ create index dup_HIV_dispensing_patient_index on dup_HIV_dispensing (patient_id);
+ create index dup_HIV_dispensing_dispense_date on dup_HIV_dispensing (dispense_date);
+ create index dup_HIV_dispensing_encounter_id on dup_HIV_dispensing (encounter_id);
+ 
+ 
 update temp_HIV_dispensing t
 left outer join dup_HIV_dispensing d on d.patient_id=t.patient_id and d.dispense_date_ascending = 1  
 set t.regimen_change = if(d.arv_1_med_short_name = t.arv_1_med_short_name,0,1)  -- need to change this to FULL NAME when drugs are captured?
