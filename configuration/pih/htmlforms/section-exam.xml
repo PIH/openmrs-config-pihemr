@@ -273,6 +273,14 @@
                     <uimessage code="pihcore.exam.pedsDevelopment.title"/>
                 </h3>
 
+                <p class="tanner">
+                    <label>
+                        <uimessage code="pihcore.exam.denverTest" />
+                    </label>
+                    <obs conceptId="CIEL:166081" style="radio"
+                         answerConceptIds="CIEL:1065,CIEL:1066" />
+                </p>
+
                 <div>
                     <h4 id="gross">
                         <uimessage code="pihcore.exam.gross_motor_skills_exam.title"/>
