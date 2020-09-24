@@ -2,6 +2,8 @@
 
 SET sql_safe_updates = 0;
 
+SET @detected_viral_load = CONCEPT_FROM_MAPPING("CIEL", "1301");
+
 DROP TEMPORARY TABLE IF EXISTS temp_hiv_construct_encounters;
 DROP TEMPORARY TABLE IF EXISTS temp_vl_index_asc;
 DROP TEMPORARY TABLE IF EXISTS temp_vl_index_desc;
@@ -16,9 +18,11 @@ CREATE TEMPORARY TABLE temp_hiv_construct_encounters
     vl_sample_taken_date_estimated  VARCHAR(11),
     vl_result_date                  DATE,
     specimen_number                 VARCHAR(255),
+    vl_test_outcome_coded           INT,
     vl_test_outcome                 VARCHAR(255),
-    vl_result_detectable            VARCHAR(255),
+    vl_result_detectable            INT,
     viral_load                      INT,
+    detected_lower_limit            INT,
     vl_type                         VARCHAR(50)
 );
 
@@ -53,11 +57,19 @@ UPDATE temp_hiv_construct_encounters SET vl_result_date =  OBS_VALUE_DATETIME(en
 -- specimen number
 UPDATE temp_hiv_construct_encounters SET specimen_number =  OBS_VALUE_TEXT(encounter_id, 'CIEL', '162086');
 
--- viral load results (detectable)
-UPDATE temp_hiv_construct_encounters SET vl_result_detectable =  OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1305', 'en');
+-- viral load results (coded, concept id)
+UPDATE temp_hiv_construct_encounters t
+INNER JOIN obs o on o.encounter_id = t.encounter_id and o.voided =0 and o.concept_id = concept_from_mapping('CIEL','1305')
+set vl_test_outcome_coded = o.value_coded;
+
+-- viral load results (coded, concept name)
+UPDATE temp_hiv_construct_encounters SET vl_test_outcome =  OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1305', 'en');
 
 -- viral load results (numeric)
 UPDATE temp_hiv_construct_encounters SET viral_load =  OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '856');
+
+-- detected lower limit
+UPDATE temp_hiv_construct_encounters SET detected_lower_limit =  OBS_VALUE_NUMERIC(encounter_id, 'PIH', '11548');
 
 -- viral load type
 UPDATE temp_hiv_construct_encounters SET vl_type =  OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '164126', 'en');
@@ -116,8 +128,10 @@ SELECT
         vl_result_date,
         specimen_number,
         vl_test_outcome,
-        IF(vl_result_detectable IS NOT NULL, 1, NULL) vl_result_detectable,
+         ---  vl_test_outcome is "Detected" then vl_result_detectable = 1 (true), vl_test_outcome is "Beyond Detected Limit" or "Not Detected" then vl_result_detectable = 0 (false)
+        IF(vl_test_outcome_coded = @detected_viral_load, 1, 0) vl_result_detectable,
         viral_load,
+        detected_lower_limit,
         vl_type,
         DATEDIFF(NOW(), tvl.vl_sample_taken_date) days_since_vl,
         index_desc,
