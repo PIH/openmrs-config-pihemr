@@ -590,26 +590,23 @@
                         </field>
                     </span>
 
-                    <span class="small">
-                        <!-- Routine or targeted -->
-                        <label for="hiv-test-reason">
-                            <uimessage code="pihcore.reason"/>
-                        </label>
+                    <div class="small">
                         <field>
                             <obs id="hiv-test-reason" conceptId="CIEL:164126"
-                                 answerConceptIds="CIEL:166058,CIEL:166059"
-                                 answerCodes="pihcore.routine,pihcore.targeted"/>
+                                answerConceptIds="CIEL:166058,CIEL:166059"
+                                answerCodes="pihcore.routine,pihcore.targeted"
+                                labelCode="pihcore.reason"
+                            />
                         </field>
-                    </span>
+                    </div>
 
-                    <span class="small">
-                        <label for="specimen-number">
-                            <uimessage code="pihcore.specimenNumber"/>
-                        </label>
+                    <div class="small">
                         <field>
-                            <obs id="specimen-number" conceptId="CIEL:162086"/>
+                            <obs id="specimen-number" conceptId="CIEL:162086"
+                                labelCode="pihcore.specimenNumber"
+                            />
                         </field>
-                    </span>
+                    </div>
 
                 </obsgroup>
 
