@@ -593,6 +593,18 @@
                     </span>
 
                     <span class="small">
+                        <!-- Routine or targeted -->
+                        <label for="specimen-number">
+                            <uimessage code="pihcore.reason"/>
+                        </label>
+                        <field>
+                            <obs id="hiv-test" conceptId="CIEL:164126"
+                                 answerConceptIds="CIEL:166058,CIEL:166059"
+                                 answerCodes="pihcore.routine,pihcore.targeted"/>
+                        </field>
+                    </span>
+
+                    <span class="small">
                         <label for="specimen-number">
                             <uimessage code="pihcore.specimenNumber"/>
                         </label>
