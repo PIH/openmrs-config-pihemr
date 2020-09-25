@@ -5,6 +5,7 @@ CALL initialize_global_metadata();
 
 SELECT encounter_type_id into @EDTriageEnc from encounter_type where uuid = '74cef0a6-2801-11e6-b67b-9e71128cae77';
 SELECT encounter_type_id into @consEnc from encounter_type where uuid = '92fd09b4-5335-4f7e-9f63-b2a663fd09a6';
+SELECT name into @consEncName from encounter_type where uuid = '92fd09b4-5335-4f7e-9f63-b2a663fd09a6';
 select form_id into @consForm from form where uuid = 'a3fc5c38-eb32-11e2-981f-96c0fcb18276';
 select form_id into @edNoteForm from form where uuid = '793915d6-f8d9-11e2-8ff2-fd54ab5fdb2a';
 
@@ -277,7 +278,7 @@ set t.Treatment_Administered = et.treatments
 
 -- The following statements gather information on the last consult (non-ED note) from the ED triage visit
 update temp_ED_Triage t
-set Consult_encounter_id = latestEncForminVisit(patient_id, 'Consultation',visit_id, @consForm,null);
+set Consult_encounter_id = latestEncForminVisit(patient_id, @consEncName,visit_id, @consForm,null);
 
 update temp_ED_Triage t
 set Consult_Datetime = encounter_date(Consult_encounter_id);
@@ -304,7 +305,7 @@ set t.ED_Diagnosis_noncoded = o.value_text;
 
 -- The following statements gather information on the last ED note from the ED triage visit
 update temp_ED_Triage t
-set EDNote_encounter_id = latestEncForminVisit(patient_id, 'Consultation',visit_id, @edNoteForm,null);
+set EDNote_encounter_id = latestEncForminVisit(patient_id, @consEncName,visit_id, @edNoteForm,null);
 
 update temp_ED_Triage t
 set EDNote_Datetime = encounter_date(EDNote_encounter_id);
@@ -372,5 +373,17 @@ Pregnancy_Test,
 Glucose_Value,
 Paracetamol_dose,
 Treatment_Administered,
-Wait_Minutes
+Wait_Minutes,
+EDNote_Datetime,
+EDNote_Disposition,
+ED_Diagnosis1,
+ED_Diagnosis2,
+ED_Diagnosis3,
+ED_Diagnosis_noncoded,
+Consult_Datetime,
+Consult_Disposition,
+Cons_Diagnosis1,
+Cons_Diagnosis2,
+Cons_Diagnosis3,
+Cons_Diagnosis_noncoded
 from temp_ED_Triage;
