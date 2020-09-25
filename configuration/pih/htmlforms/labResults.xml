@@ -594,11 +594,11 @@
 
                     <span class="small">
                         <!-- Routine or targeted -->
-                        <label for="specimen-number">
+                        <label for="hiv-test-reason">
                             <uimessage code="pihcore.reason"/>
                         </label>
                         <field>
-                            <obs id="hiv-test" conceptId="CIEL:164126"
+                            <obs id="hiv-test-reason" conceptId="CIEL:164126"
                                  answerConceptIds="CIEL:166058,CIEL:166059"
                                  answerCodes="pihcore.routine,pihcore.targeted"/>
                         </field>
