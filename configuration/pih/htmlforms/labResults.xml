@@ -529,16 +529,14 @@
                                  answerConceptIds="CIEL:703,CIEL:664,CIEL:1138" />
                         </field>
                     </span>
-                    <span class="small">
+                    <div class="small">
                         <field>
-                            <div class="section-container">
-                                <obs id="hiv-rapid-control"
-                                     conceptId="CIEL:164860" style="checkbox"
-                                     answerConceptId="CIEL:1065"
-                                     answerCode="pihcore.lab.controlTest"/>
-                            </div>
+                            <obs id="hiv-rapid-control"
+                                 conceptId="CIEL:164860" style="checkbox"
+                                 answerConceptId="CIEL:1065"
+                                 answerCode="pihcore.lab.controlTest"/>
                         </field>
-                    </span>
+                    </div>
                 </obsgroup>
             </p>
             <br/>
