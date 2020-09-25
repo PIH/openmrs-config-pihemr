@@ -1755,3 +1755,31 @@ BEGIN
 
 END
 #
+-- This function acceps patient id, a list of encounter types, visit id, form id and a begin date
+-- it will return the latest encounter for that patient, of one of those encounter types, in that visit of that form type since that date
+-- form id and begin date can be left null
+#
+DROP FUNCTION IF EXISTS latestEncForminVisit;
+#
+CREATE FUNCTION latestEncForminVisit(_patientId int(11), _encounterTypes varchar(255), _visitId int(11), _formId int(11), _beginDate datetime)
+    RETURNS int(11)
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE enc_id_out int(11);
+
+    select      encounter_id into enc_id_out
+    from        encounter enc inner join encounter_type et on enc.encounter_type = et.encounter_type_id
+    where       enc.voided = 0
+    and         enc.patient_id = _patientId
+    and         enc.visit_id = _visitId
+    and         enc.form_id = _formId or _formId is null
+    and         find_in_set(et.name, _encounterTypes)
+    and         (_beginDate is null or enc.encounter_datetime >= _beginDate)
+    order by    enc.encounter_datetime desc
+    limit       1;
+
+    RETURN enc_id_out;
+
+END
