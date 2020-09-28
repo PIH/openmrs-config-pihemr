@@ -116,9 +116,9 @@
             <value>true</value>
         </globalProperty>
         <globalProperty>
-            <!-- HIV Drug Dispensing should create new Clinic Visit if necessary -->
+            <!-- HIV Drug Dispensing (cc1720c9-3e4c-4fa8-a7ec-40eeaad1958c) and Lab Results (4d77916a-0620-11e5-a6c0-1697f925ec7b) should create new Clinic Visit (f01c54cb-2225-471a-9cd5-d348552c337c) if necessary -->
             <property>emrapi.EmrApiVisitAssignmentHandler.encounterTypeToNewVisitTypeMap</property>
-            <value>cc1720c9-3e4c-4fa8-a7ec-40eeaad1958c:f01c54cb-2225-471a-9cd5-d348552c337c</value>
+            <value>cc1720c9-3e4c-4fa8-a7ec-40eeaad1958c:f01c54cb-2225-471a-9cd5-d348552c337c,4d77916a-0620-11e5-a6c0-1697f925ec7b:f01c54cb-2225-471a-9cd5-d348552c337c</value>
         </globalProperty>
 
 
