@@ -136,6 +136,11 @@ set t.months_dispensed = value_numeric;
 update temp_HIV_dispensing
 set is_current_mmd = if(months_dispensed >= 3, 'Y','N');
 
+update temp_HIV_dispensing t
+inner join obs o on o.encounter_id = t.encounter_id and o.voided =0 
+and o.concept_id =concept_from_mapping('PIH',3277)
+set t.regimen_match = if(concept_name(o.value_coded,'en') = 'Yes',1,0);
+
 -- to calculate the art line start date, a new temp table is created to keep track of the start date of the line
 -- the results are then joined in with the main temp table
 drop temporary table if exists temp_dispensing_line_start;
