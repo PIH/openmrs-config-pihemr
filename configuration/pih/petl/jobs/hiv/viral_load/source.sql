@@ -18,11 +18,10 @@ CREATE TEMPORARY TABLE temp_hiv_construct_encounters
     vl_sample_taken_date_estimated  VARCHAR(11),
     vl_result_date                  DATE,
     specimen_number                 VARCHAR(255),
-    vl_test_outcome_coded           INT,
-    vl_test_outcome                 VARCHAR(255),
+    vl_coded_results                VARCHAR(255),
     vl_result_detectable            INT,
     viral_load                      INT,
-    detected_lower_limit            INT,
+    ldl_value                       INT,
     vl_type                         VARCHAR(50)
 );
 
@@ -31,7 +30,7 @@ INSERT INTO temp_hiv_construct_encounters (patient_id, encounter_id)
 SELECT person_id, encounter_id FROM obs WHERE voided = 0 AND concept_id = CONCEPT_FROM_MAPPING("PIH", "HIV viral load construct");
 
 -- specimen collection date
-UPDATE temp_hiv_construct_encounters tvl JOIN encounter e ON tvl.encounter_id = e.encounter_id
+UPDATE temp_hiv_construct_encounters tvl INNER JOIN encounter e ON tvl.encounter_id = e.encounter_id
 SET	vl_sample_taken_date = e.encounter_datetime;
 
 -- date encounter was created
@@ -49,30 +48,32 @@ patient_id IN (
                );
 
 -- is specimen collection date estimated
-UPDATE temp_hiv_construct_encounters SET vl_sample_taken_date_estimated =  OBS_VALUE_CODED_LIST(encounter_id, 'PIH', '11781', 'en');
+UPDATE temp_hiv_construct_encounters tvl INNER JOIN obs o ON o.voided = 0 AND tvl.encounter_id = o.encounter_id AND concept_id = concept_from_mapping('PIH', '11781')
+SET vl_sample_taken_date_estimated =  concept_name(o.value_coded , 'en');
 
 -- lab result date
-UPDATE temp_hiv_construct_encounters SET vl_result_date =  OBS_VALUE_DATETIME(encounter_id, 'PIH', 'DATE OF LABORATORY TEST');
+UPDATE temp_hiv_construct_encounters tvl INNER JOIN obs o ON o.voided = 0 AND tvl.encounter_id = o.encounter_id AND concept_id = concept_from_mapping('PIH', 'DATE OF LABORATORY TEST')
+SET vl_result_date =  DATE(o.value_datetime);
 
 -- specimen number
-UPDATE temp_hiv_construct_encounters SET specimen_number =  OBS_VALUE_TEXT(encounter_id, 'CIEL', '162086');
-
--- viral load results (coded, concept id)
-UPDATE temp_hiv_construct_encounters t
-INNER JOIN obs o on o.encounter_id = t.encounter_id and o.voided =0 and o.concept_id = concept_from_mapping('CIEL','1305')
-set vl_test_outcome_coded = o.value_coded;
+UPDATE temp_hiv_construct_encounters tvl INNER JOIN obs o ON o.voided = 0 AND tvl.encounter_id = o.encounter_id AND concept_id = concept_from_mapping('CIEL', '162086')
+ SET specimen_number =  o.value_text;
 
 -- viral load results (coded, concept name)
-UPDATE temp_hiv_construct_encounters SET vl_test_outcome =  OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '1305', 'en');
+UPDATE temp_hiv_construct_encounters tvl INNER JOIN obs o ON o.voided = 0 AND tvl.encounter_id = o.encounter_id AND concept_id = concept_from_mapping('CIEL', '1305')
+SET vl_coded_results =  concept_name(o.value_coded, 'en');
 
 -- viral load results (numeric)
-UPDATE temp_hiv_construct_encounters SET viral_load =  OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '856');
+UPDATE temp_hiv_construct_encounters tvl INNER JOIN obs o ON o.voided = 0 AND tvl.encounter_id = o.encounter_id AND concept_id = concept_from_mapping('CIEL', '856')
+SET viral_load =  o.value_numeric;
 
 -- detected lower limit
-UPDATE temp_hiv_construct_encounters SET detected_lower_limit =  OBS_VALUE_NUMERIC(encounter_id, 'PIH', '11548');
+UPDATE temp_hiv_construct_encounters tvl INNER JOIN obs o ON o.voided = 0 AND tvl.encounter_id = o.encounter_id AND concept_id = concept_from_mapping('PIH', '11548')
+SET ldl_value  =  o.value_numeric;
 
 -- viral load type
-UPDATE temp_hiv_construct_encounters SET vl_type =  OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '164126', 'en');
+UPDATE temp_hiv_construct_encounters tvl INNER JOIN obs o ON o.voided = 0 AND tvl.encounter_id = o.encounter_id AND concept_id = concept_from_mapping('CIEL', '164126')
+SET vl_type = concept_name(o.value_coded, 'en');
 
 -- The indexes are calculated using the specimen collection date
 ### index ascending
@@ -127,11 +128,9 @@ SELECT
         vl_sample_taken_date_estimated,
         vl_result_date,
         specimen_number,
-        vl_test_outcome,
-         ---  vl_test_outcome is "Detected" then vl_result_detectable = 1 (true), vl_test_outcome is "Beyond Detected Limit" or "Not Detected" then vl_result_detectable = 0 (false)
-        IF(vl_test_outcome_coded = @detected_viral_load, 1, 0) vl_result_detectable,
+        vl_coded_results,
         viral_load,
-        detected_lower_limit,
+        ldl_value,
         vl_type,
         DATEDIFF(NOW(), tvl.vl_sample_taken_date) days_since_vl,
         index_desc,
