@@ -84,7 +84,13 @@
             jq(function() {
                 getField('specimen-collection-date-hematology.value').datepicker('option', 'maxDate', new Date());
                 getField('test-date-hematology.value').datepicker('option', 'maxDate', new Date());
+            });
+        </script>
+    </ifMode>
 
+    <ifMode mode="ENTER">
+        <script type="text/javascript">
+            jq(function() {
                 // when below detectable limit is selected, set default value to 839 copies / ml since this is the standard for the Haiti national
                 getField('viral-load.value').change(function() {
                     if (getValue('viral-load.value') === '<lookup expression="fn.getConcept('CIEL:1306').id" />') {
@@ -92,9 +98,6 @@
                     }
                 });
             });
-
-
-
         </script>
     </ifMode>
 
@@ -571,7 +574,7 @@
                     </span>
                     <br/>
                     <span class="small" id="viral-load-numeric">
-                        <field>
+                        <field class="required">
                             <obs conceptId="CIEL:856"  showUnits="false"
                                  placeholder="Enter value"/> <uimessage code="pihcore.lab.viralLoad.units"/>
                         </field>
