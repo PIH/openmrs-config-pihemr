@@ -80,11 +80,23 @@
 
     <ifMode mode="VIEW" include="false">
         <script type="text/javascript">
-
             jq(function() {
                 getField('specimen-collection-date-hematology.value').datepicker('option', 'maxDate', new Date());
                 getField('test-date-hematology.value').datepicker('option', 'maxDate', new Date());
             });
+<!--
+
+
+            var viralLoadValidator = {
+                isValid: function (fieldValue) {
+                    return true;
+                },
+                messageIdentifier: "requiredField"
+            }
+
+            Validators['viral-load-validator'] = viralLoadValidator;
+-->
+
         </script>
     </ifMode>
 
@@ -574,7 +586,7 @@
                     </span>
                     <br/>
                     <span class="small" id="viral-load-numeric">
-                        <field class="required">
+                        <field>
                             <obs conceptId="CIEL:856"  showUnits="false"
                                  placeholder="Enter value"/> <uimessage code="pihcore.lab.viralLoad.units"/>
                         </field>
