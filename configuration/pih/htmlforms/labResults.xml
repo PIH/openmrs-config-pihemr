@@ -80,22 +80,28 @@
 
     <ifMode mode="VIEW" include="false">
         <script type="text/javascript">
+
+            var toggleViralLoadFields = function() {
+                if (getValue('viral-load.value') === '<lookup expression="fn.getConcept('CIEL:1301').id" />') {
+                    NavigatorController.getFieldById(getField('viral-load-numeric.value').attr('id')).enable();
+                    NavigatorController.getFieldById(getField('detected-lower-limit.value').attr('id')).disable();
+                }
+                else if (getValue('viral-load.value') === '<lookup expression="fn.getConcept('CIEL:1306').id" />') {
+                    NavigatorController.getFieldById(getField('viral-load-numeric.value').attr('id')).disable();
+                    NavigatorController.getFieldById(getField('detected-lower-limit.value').attr('id')).enable();
+                }
+                else {
+                    NavigatorController.getFieldById(getField('viral-load-numeric.value').attr('id')).disable();
+                    NavigatorController.getFieldById(getField('detected-lower-limit.value').attr('id')).disable();
+                }
+            }
+
             jq(function() {
                 getField('specimen-collection-date-hematology.value').datepicker('option', 'maxDate', new Date());
                 getField('test-date-hematology.value').datepicker('option', 'maxDate', new Date());
+                getField('viral-load.value').change(toggleViralLoadFields);
+                toggleViralLoadFields();
             });
-<!--
-
-
-            var viralLoadValidator = {
-                isValid: function (fieldValue) {
-                    return true;
-                },
-                messageIdentifier: "requiredField"
-            }
-
-            Validators['viral-load-validator'] = viralLoadValidator;
--->
 
         </script>
     </ifMode>
@@ -106,7 +112,7 @@
                 // when below detectable limit is selected, set default value to 839 copies / ml since this is the standard for the Haiti national
                 getField('viral-load.value').change(function() {
                     if (getValue('viral-load.value') === '<lookup expression="fn.getConcept('CIEL:1306').id" />') {
-                        setValue('detected-lower-limit-field.value', 839);
+                        setValue('detected-lower-limit.value', 839);
                     }
                 });
             });
@@ -576,44 +582,56 @@
                 <obsgroup groupingConceptId="PIH:HIV viral load construct">
                     <span class="small">
                         <field>
-                            <obs id="viral-load" conceptId="CIEL:1305" style="radio" answerConceptIds="CIEL:1301,CIEL:1306" answerCodes="pihcore.lab.detected,pihcore.lab.undetected">
-                                <controls>
-                                    <when value="CIEL:1301" thenDisplay="#viral-load-numeric"/>
-                                    <when value="CIEL:1306" thenDisplay="#detected-lower-limit"/>
-                                </controls>
-                            </obs>
+                            <obs id="viral-load" conceptId="CIEL:1305" style="radio" answerConceptIds="CIEL:1301,CIEL:1306" answerCodes="pihcore.lab.detected,pihcore.lab.undetected" />
                         </field>
                     </span>
                     <br/>
-                    <span class="small" id="viral-load-numeric">
-                        <field>
-                            <obs conceptId="CIEL:856"  showUnits="false"
-                                 placeholder="Enter value"/> <uimessage code="pihcore.lab.viralLoad.units"/>
+                    <div class="small">
+                        <label for="viral-load-numeric">
+                            <uimessage code="pihcore.lab.viral_load"/>
+                        </label>
+                        <field class="required">
+                            <obs
+                                id="viral-load-numeric"
+                                conceptId="CIEL:856"
+                                showUnits="false"
+                                placeholder="Enter value"
+                            />
                         </field>
-                    </span>
+                        <uimessage code="pihcore.lab.viralLoad.units"/>
+                    </div>
 
-                    <span class="small" id="detected-lower-limit">
+                    <div class="small" >
+                        <label for="detected-lower-limit">
+                            <uimessage code="pihcore.lab.viralLoadLowerLimitOfDetection"/>
+                        </label>
                         <field>
-                            <obs id="detected-lower-limit-field" conceptId="PIH:11548"  showUnits="false"
-                                 placeholder="Enter value"/> &lt; <uimessage code="pihcore.lab.viralLoad.units"/>
+                            <obs id="detected-lower-limit"
+                                 conceptId="PIH:11548"
+                                 showUnits="false"
+                                 placeholder="Enter value"/>
                         </field>
-                    </span>
+                        &lt; <uimessage code="pihcore.lab.viralLoad.units"/>
+                    </div>
 
                     <div class="small">
+                        <label for="hiv-test-reason">
+                            <uimessage code="pihcore.reason"/>
+                        </label>
                         <field>
                             <obs id="hiv-test-reason" conceptId="CIEL:164126"
                                 answerConceptIds="CIEL:166058,CIEL:166059"
                                 answerCodes="pihcore.routine,pihcore.targeted"
-                                labelCode="pihcore.reason"
                             />
                         </field>
                     </div>
 
                     <div class="small">
+                        <label for="specimen-number">
+                            <uimessage code="pihcore.specimenNumber"/>
+                        </label>
                         <field>
-                            <obs id="specimen-number" conceptId="CIEL:162086"
-                                labelCode="pihcore.specimenNumber"
-                            />
+                            <obs id="specimen-number" conceptId="CIEL:162086"/>
                         </field>
                     </div>
 
