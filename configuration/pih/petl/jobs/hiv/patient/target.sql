@@ -4,9 +4,9 @@ create table hiv_patient
     given_name                  VARCHAR(50),
     family_name                 VARCHAR(50),
     gender                      VARCHAR(50),
+    birthdate                   DATE,
     dead                        VARCHAR(1),
     death_date                  DATE,
-    birthdate                   DATE,
     cause_of_death              VARCHAR(255),
     cause_of_death_non_coded    VARCHAR(255)
 );
