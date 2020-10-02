@@ -9,6 +9,8 @@ CREATE TABLE temp_patient
     family_name                 VARCHAR(50),
     gender                      VARCHAR(50),
     birthdate                   DATE,
+    dead                        VARCHAR(1),
+    death_date                  DATE,
     cause_of_death              VARCHAR(255),
     cause_of_death_non_coded    VARCHAR(255)
 );
@@ -32,13 +34,21 @@ SET gender = GENDER(patient_id),
     given_name = PERSON_GIVEN_NAME(patient_id),
     family_name = PERSON_FAMILY_NAME(patient_id);
 
+# Dead
+UPDATE temp_patient tp INNER JOIN person p ON tp.patient_id = p.person_id
+SET tp.dead = IF(p.dead = 1, "Y", NULL);
+
+# Date of death
+UPDATE temp_patient tp INNER JOIN person p ON tp.patient_id = p.person_id AND p.dead = 1
+SET tp.death_date = DATE(p.death_date);
+
 # Cause of death
-UPDATE temp_patient tp INNER JOIN person p ON tp.patient_id = p.person_id and p.dead = concept_from_mapping("PIH","YES")
-SET tp.cause_of_death = concept_from_mapping(p.cause_of_death, 'en');
+UPDATE temp_patient tp INNER JOIN person p ON tp.patient_id = p.person_id and p.dead = 1
+SET tp.cause_of_death = concept_name(p.cause_of_death, 'en');
 
 # Cause of death non coded
-UPDATE temp_patient tp INNER JOIN person p ON tp.patient_id = p.person_id and p.dead = concept_from_mapping("PIH","YES")
-SET tp.cause_of_death_non_coded = concept_from_mapping(p.cause_of_death_non_coded, 'en');
+UPDATE temp_patient tp INNER JOIN person p ON tp.patient_id = p.person_id and p.dead = 1
+SET tp.cause_of_death_non_coded = p.cause_of_death_non_coded;
 
 ### Final Query
 SELECT * FROM temp_patient;
