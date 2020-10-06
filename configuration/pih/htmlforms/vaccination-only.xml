@@ -62,7 +62,15 @@
     <ifMode mode="ENTER" include="true">
         <script type="text/javascript">
             jq(function() {
-            submitHtmlForm();
+                // if for some reason there's no encounter location selected (likely because the session location isn't
+                // a valid location for this encounter) we need to show the form, otherwise just submit
+                if (!getValue("encounterLocation.value")) {
+                    jq('#next').hide();
+                    jq('.htmlform').show();
+                }
+                else {
+                    submitHtmlForm();
+                }
             });
         </script>
     </ifMode>

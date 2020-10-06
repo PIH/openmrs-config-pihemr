@@ -78,6 +78,13 @@
             <property>htmlformentry.showDateFormat</property>
             <value>false</value>
         </globalProperty>
+        <globalProperty>
+            <property>htmlformentry.restrictEncounterLocationToCurrentVisitLocation</property>
+            <value>true</value>
+        </globalProperty>
+
+
+
 
         <!-- Reporting -->
         <globalProperty>
