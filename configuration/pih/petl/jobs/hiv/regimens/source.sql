@@ -255,6 +255,7 @@ set t.end_date = ts.end_date;
 
 -- select output
 select
+obs_id,                                
 patient_id,
 encounter_id,
 drug_category,
