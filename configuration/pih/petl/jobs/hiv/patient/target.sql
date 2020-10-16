@@ -8,5 +8,10 @@ create table hiv_patient
     dead                        VARCHAR(1),
     death_date                  DATE,
     cause_of_death              VARCHAR(255),
-    cause_of_death_non_coded    VARCHAR(255)
+    cause_of_death_non_coded    VARCHAR(255),
+    patient_msm                 VARCHAR(11),
+    patient_sw                  VARCHAR(11),
+    patient_pris                VARCHAR(11),
+    patient_trans               VARCHAR(11),
+    patient_idu                 VARCHAR(11)
 );
