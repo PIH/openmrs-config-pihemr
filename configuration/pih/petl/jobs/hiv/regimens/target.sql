@@ -1,6 +1,6 @@
 create table hiv_regimens
 (
-obs_id PRIMARY KEY,
+obs_id int PRIMARY KEY,
 patient_id int,
 encounter_id int,
 drug_category varchar(255),
