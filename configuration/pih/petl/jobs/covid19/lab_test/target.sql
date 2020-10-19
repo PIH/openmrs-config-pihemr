@@ -7,6 +7,7 @@ CREATE TABLE covid_lab_test
   location            TEXT,
   encounter_type      VARCHAR(255) ,
   specimen_date       DATE,
+  date_for_reporting  DATE,
   specimen_source     VARCHAR(255),
   antibody            VARCHAR(11),
   antibody_results    VARCHAR(255),
