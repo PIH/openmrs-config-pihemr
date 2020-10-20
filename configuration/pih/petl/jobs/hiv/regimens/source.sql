@@ -36,15 +36,15 @@ create index temp_HIV_regimens_ei on temp_HIV_regimens (encounter_id);
 
 
 -- load all ART Regimen constructs into temp table 
-insert into temp_HIV_regimens (patient_id, encounter_id, encounter_datetime, obs_group_id, drug_category)
-select person_id, encounter_id, obs_datetime, obs_id, 'ART'
+insert into temp_HIV_regimens (patient_id, encounter_id, encounter_datetime, obs_group_id, obs_id, drug_category)
+select person_id, encounter_id, obs_datetime, obs_id, obs_id,'ART'
 from obs o
 where o.voided = 0
 and  concept_id =concept_from_mapping('PIH','6116');
  
 -- load prophylaxes prescription constructs from the HIV encounters into temp table 
-insert into temp_HIV_regimens (patient_id, encounter_id,encounter_datetime, obs_group_id, ptme_or_prophylaxis,drug_category)
-select o.person_id, o.encounter_id,encounter_datetime, o.obs_id, '1','Prophylaxis'
+insert into temp_HIV_regimens (patient_id, encounter_id,encounter_datetime, obs_group_id,obs_id, ptme_or_prophylaxis,drug_category)
+select o.person_id, o.encounter_id,encounter_datetime, o.obs_id,obs_id, '1','Prophylaxis'
 from obs o
 inner join encounter e on e.encounter_id = o.encounter_id and e.voided =0 
   and e.encounter_type in (@HIV_adult_intake,@HIV_adult_followup,@HIV_ped_intake,@HIV_ped_followup)
@@ -59,13 +59,17 @@ inner join encounter e on e.encounter_id = o.encounter_id and e.voided =0
   and e.encounter_type in (@HIV_adult_intake,@HIV_adult_followup,@HIV_ped_intake,@HIV_ped_followup)
 where o.voided =0
   and o.concept_id = concept_from_mapping('PIH','6150');
- 
+
+-- add drug name
+update temp_HIV_regimens t
+inner join obs o on o.voided =0 and o.obs_group_id = t.obs_group_id and o.concept_id = concept_from_mapping('PIH','1282')
+set drug_name = drugname(o.value_drug);
   
 -- add drug short name  
 update temp_HIV_regimens t
 inner join obs o on o.voided =0 and o.obs_group_id = t.obs_group_id and o.concept_id = concept_from_mapping('PIH','1282')
-set drug_short_name = concept_name(o.value_coded,'en'),
-    t.obs_id = o.obs_id;
+set drug_short_name = concept_name(o.value_coded,'en')
+;
 
 -- add art treatment line  
 update temp_HIV_regimens t
