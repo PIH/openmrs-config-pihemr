@@ -1,10 +1,17 @@
 SET sql_safe_updates = 0;
 
+select patient_identifier_type_id into @zl_emr_id from patient_identifier_type where uuid = 'a541af1e-105c-40bf-b345-ba1fd6a59b85';
+select patient_identifier_type_id into @dossier from patient_identifier_type where uuid = 'e66645eb-03a8-4991-b4ce-e87318e37566';
+select patient_identifier_type_id into @hiv_id from patient_identifier_type where uuid = '139766e8-15f5-102d-96e4-000c29c2a5d7';
+
 DROP TABLE IF EXISTS temp_patient;
 
 CREATE TABLE temp_patient
 (
     patient_id                  INT(11),
+    zl_emr_id                   VARCHAR(255),
+    hivemr_v1_id                VARCHAR(255),
+    hiv_dossier_id              VARCHAR(255),
     given_name                  VARCHAR(50),
     family_name                 VARCHAR(50),
     gender                      VARCHAR(50),
@@ -32,6 +39,40 @@ patient_id IN (
                       INNER JOIN person_attribute_type t ON a.person_attribute_type_id = t.person_attribute_type_id
                       AND a.value = 'true' AND t.name = 'Test Patient'
                );
+
+
+-- ZL EMR ID
+update temp_patient t
+inner join
+   (select patient_id, group_concat(identifier) 'ids'
+    from patient_identifier pid
+    where pid.voided = 0
+    and pid.identifier_type = @zl_emr_id
+    group by patient_id
+   ) ids on ids.patient_id = t.patient_id
+set t.zl_emr_id = ids.ids;    
+
+-- HIV EMR V1
+update temp_patient t
+inner join
+   (select patient_id, group_concat(identifier) 'ids'
+    from patient_identifier pid
+    where pid.voided = 0
+    and pid.identifier_type = @hiv_id
+    group by patient_id
+   ) ids on ids.patient_id = t.patient_id
+set t.hivemr_v1_id = ids.ids;    
+
+-- DOSSIER ID
+update temp_patient t
+inner join
+   (select patient_id, group_concat(identifier) 'ids'
+    from patient_identifier pid
+    where pid.voided = 0
+    and pid.identifier_type = @dossier
+    group by patient_id
+   ) ids on ids.patient_id = t.patient_id
+set t.hiv_dossier_id = ids.ids;    
 
 UPDATE temp_patient
 SET gender = GENDER(patient_id),
