@@ -77,27 +77,31 @@ inner join obs o on o.voided =0 and o.obs_group_id = t.obs_group_id and o.concep
 set art_treatment_line = concept_name(o.value_coded,'en'); 
 
 -- add entered start date for ART meds
+-- note this is also safeguarding against dates that are valid in oracle and mysql but not SQL Server (very high or low dates)
 update temp_HIV_regimens t
 left outer join obs o on o.voided =0 and o.encounter_id= t.encounter_id and  o.concept_id = concept_from_mapping('PIH','2516')
-set start_date_entered = o.value_datetime
+set start_date_entered = if(o.value_datetime>'1900-01-01' and o.value_datetime<'2100-01-01',o.value_datetime,null)
 where drug_category = 'ART';
 
 -- add entered start date for TB meds
+-- note this is also safeguarding against dates that are valid in oracle and mysql but not SQL Server (very high or low dates)
 update temp_HIV_regimens t
 left outer join obs o on o.voided =0 and o.encounter_id= t.encounter_id and  o.concept_id = concept_from_mapping('PIH','1113')
-set start_date_entered = o.value_datetime 
+set start_date_entered = if(o.value_datetime>'1900-01-01' and o.value_datetime<'2100-01-01',o.value_datetime,null)
 where drug_category = 'TB';
 
 -- add entered start date for Prophylaxes meds
+-- note this is also safeguarding against dates that are valid in oracle and mysql but not SQL Server (very high or low dates)
 update temp_HIV_regimens t
 left outer join obs o on o.voided =0 and o.obs_group_id= t.obs_group_id and  o.concept_id = concept_from_mapping('CIEL','163526')
-set start_date_entered = o.value_datetime
+set start_date_entered = if(o.value_datetime>'1900-01-01' and o.value_datetime<'2100-01-01',o.value_datetime,null)
 where drug_category = 'Prophylaxis';
 
 -- entered end date
+-- note this is also safeguarding against dates that are valid in oracle and mysql but not SQL Server (very high or low dates)
 update temp_HIV_regimens t
 left outer join obs o on o.voided =0 and o.obs_group_id= t.obs_group_id and  o.concept_id = concept_from_mapping('CIEL','164384')
-set end_date_entered = o.value_datetime
+set end_date_entered = if(o.value_datetime>'1900-01-01' and o.value_datetime<'2100-01-01',o.value_datetime,null)
 where drug_category = 'Prophylaxis';
 
 -- add reason stopped art 
