@@ -32,6 +32,13 @@
             min-width: initial;
         }
 
+
+        #tb-skin-test-qual > * {
+            display: inline !important;
+            float: none !important;
+            min-width: initial;
+        }
+
         @media (max-width: 991px) { /* Bootstrap "lg" */
 
             ul#formBreadcrumb.options {
@@ -779,8 +786,7 @@
                 </label>
                 <span class="small">
                     <field>
-                        <!-- Todo: use CIEL:159982 -->
-                        <obs id="tb-culture-test" conceptId="PIH:3046" />
+                        <obs id="tb-culture-test" conceptId="CIEL:159982" />
                     </field>
                 </span>
 
@@ -789,9 +795,16 @@
                 </label>
                 <span class="small">
                     <field>
-                        <obs id="tb-skin-test" conceptId="CIEL:5475" />
+                        <obs id="tb-skin-test-qual" conceptId="PIH:1435" style="radio"
+                             answerConceptIds="CIEL:703,CIEL:664,CIEL:1138" />
                     </field>
                 </span>
+                <div class="small">
+                    <field>
+                        <obs id="tb-skin-test-quant" conceptId="CIEL:5475"
+                             showUnits="true"/>
+                     </field>
+                </div>
 
                 <label for="tb-xpert">
                     <uimessage code="pihcore.lab.genexpert"/>
