@@ -104,8 +104,8 @@
             }
 
             jq(function() {
-                getField('specimen-collection-date-hematology.value').datepicker('option', 'maxDate', new Date());
-                getField('test-date-hematology.value').datepicker('option', 'maxDate', new Date());
+                getField('specimen-collection-date.value').datepicker('option', 'maxDate', new Date());
+                getField('test-date.value').datepicker('option', 'maxDate', new Date());
                 getField('viral-load.value').change(toggleViralLoadFields);
                 toggleViralLoadFields();
             });
@@ -146,11 +146,11 @@
             </field>
 
             <p>
-                <label for="specimen-collection-date-hematology">
+                <label for="specimen-collection-date">
                     <uimessage code="pihcore.lab.specimen_collection_date"/>
                 </label>
-                <field>
-                    <encounterDate id="specimen-collection-date-hematology"
+                <field class="required">
+                    <encounterDate id="specimen-collection-date"
                                    default="now" />
 
                     <div class="section-container">
@@ -162,12 +162,12 @@
 
             <br/><br/>
             <p>
-                <label for="test-date-hematology">
+                <label for="test-date">
                     <uimessage code="pihcore.lab.test_date"/>
                 </label>
                 <span class="small">
                     <field>
-                        <obs  id="test-date-hematology" conceptId="PIH:DATE OF LABORATORY TEST"
+                        <obs  id="test-date" conceptId="PIH:DATE OF LABORATORY TEST"
                               placeholder="Enter date"/>
                     </field>
                 </span>
