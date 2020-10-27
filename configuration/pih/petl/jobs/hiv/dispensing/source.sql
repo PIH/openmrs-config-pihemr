@@ -224,7 +224,7 @@ CREATE TEMPORARY TABLE dup_HIV_dispensing SELECT * FROM temp_HIV_dispensing;
 update temp_HIV_dispensing t
 left outer join dup_HIV_dispensing d on d.patient_id=t.patient_id and d.dispense_date_ascending = 1
 set t.regimen_change = if(d.arv_1_med_short_name = t.arv_1_med_short_name,0,1)  -- need to change this to FULL NAME when drugs are captured?
--- where t.dispense_date_descending = 1
+where t.dispense_date_descending = 1
 ;
 
 update temp_HIV_dispensing t
