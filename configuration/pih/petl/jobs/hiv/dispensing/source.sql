@@ -16,7 +16,6 @@ dispensed_to  varchar(100),
 dispensed_accompagnateur text,
 current_art_treatment_line  varchar(255),
 current_art_line_start_date datetime,
-max_other_line datetime,
 months_dispensed int,
 is_current_mmd char(1),
 next_dispense_date datetime,
@@ -40,8 +39,7 @@ regimen_match char(1)
 
  insert into temp_HIV_dispensing (patient_id, encounter_id, dispense_date, encounter_location_id)
  select patient_id, encounter_id,encounter_datetime,location_id from encounter
- where encounter_type = @HIV_dispensing and voided = 0
-;
+ where encounter_type = @HIV_dispensing and voided = 0;
 
 update temp_HIV_dispensing t
 inner join location l on l.location_id = t.encounter_location_id
@@ -116,11 +114,11 @@ set t.dispensed_to = concept_name(o.value_coded,'en');
 update temp_HIV_dispensing t
 inner join obs o on o.encounter_id = t.encounter_id and o.voided =0
 and o.concept_id =concept_from_mapping('CIEL',164141)
-set t.dispensed_accompagnateur = concept_name(o.value_coded,'en');
+set t.dispensed_accompagnateur = value_text;
 
 update temp_HIV_dispensing t
 inner join obs o on o.encounter_id = t.encounter_id and o.voided =0
-and o.concept_id =concept_from_mapping('CIEL',164432)
+and o.concept_id =concept_from_mapping('CIEL',166073)
 set t.current_art_treatment_line = concept_name(o.value_coded,'en');
 
 update temp_HIV_dispensing t
@@ -226,7 +224,7 @@ CREATE TEMPORARY TABLE dup_HIV_dispensing SELECT * FROM temp_HIV_dispensing;
 update temp_HIV_dispensing t
 left outer join dup_HIV_dispensing d on d.patient_id=t.patient_id and d.dispense_date_ascending = 1
 set t.regimen_change = if(d.arv_1_med_short_name = t.arv_1_med_short_name,0,1)  -- need to change this to FULL NAME when drugs are captured?
-where t.dispense_date_descending = 1
+-- where t.dispense_date_descending = 1
 ;
 
 update temp_HIV_dispensing t
