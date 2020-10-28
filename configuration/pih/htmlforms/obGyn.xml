@@ -187,14 +187,16 @@
     </ifMode>
 
     <section id="ob-gyn-consult" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="pihcore.obgynConsult">
+             headerCode="pihcore.obGynConsult.title">
 
         <div class="section-container">
-
-            <p>
+            <p class="radio">
                 <label>
-                    <uimessage code="pihcore.obgyn"/>
+                    <uimessage code="pihcore.triageLevel"/>
                 </label>
+                <obs conceptId="PIH:Triage color classification" style="radio"
+                     answerConceptIds="PIH:Triage red,PIH:Yellow,PIH:Triage green"
+                     answerSeparator="" />
             </p>
 
         </div>
