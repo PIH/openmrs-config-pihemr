@@ -15,6 +15,9 @@ fever_result varchar(3),
 weight_loss_result varchar(3),
 tb_contact_result varchar(3),
 lymph_pain_result varchar(3),
+bloody_cough_result varchar(3),
+dyspnea_result varchar(3),
+chest_pain_result varchar(3),
 tb_screening_result varchar(3),
 tb_screening_date datetime,
 index_ascending int(11),
@@ -58,9 +61,33 @@ inner join obs o on t.encounter_id = o.encounter_id and o.value_coded = concept_
 set lymph_pain_result = if(o.concept_id = @present,'yes',if(o.concept_id = @absent,'no',null))
 ;
 
+update temp_TB_screening t
+inner join obs o on t.encounter_id = o.encounter_id and o.value_coded = concept_from_mapping('PIH', '970')
+set bloody_cough_result = if(o.concept_id = @present,'yes',if(o.concept_id = @absent,'no',null))
+;
+
+update temp_TB_screening t
+inner join obs o on t.encounter_id = o.encounter_id and o.value_coded = concept_from_mapping('PIH', '5960')
+set dyspnea_result = if(o.concept_id = @present,'yes',if(o.concept_id = @absent,'no',null))
+;
+
+update temp_TB_screening t
+inner join obs o on t.encounter_id = o.encounter_id and o.value_coded = concept_from_mapping('PIH', '136')
+set chest_pain_result = if(o.concept_id = @present,'yes',if(o.concept_id = @absent,'no',null))
+;
+
 -- if any of the screening questions are yes, screening result = yes
 update temp_TB_screening t
-set tb_screening_result = if(cough_result = 'yes','yes',if(fever_result='yes','yes',if(tb_contact_result='yes','yes',if(lymph_pain_result='yes','yes',if(weight_loss_result='yes','yes', 'no')))));
+set tb_screening_result = 
+   if(cough_result = 'yes','yes',
+    if(fever_result='yes','yes',
+      if(tb_contact_result='yes','yes',
+        if(lymph_pain_result='yes','yes',
+          if(weight_loss_result='yes','yes',
+            if(bloody_cough_result='yes','yes',
+              if(dyspnea_result='yes','yes',
+                if(chest_pain_result='yes','yes',
+                  'no'))))))));
 
 -- The ascending/descending indexes are calculated ordering on the screening date
 -- new temp tables are used to build them and then joined into the main temp table. 
