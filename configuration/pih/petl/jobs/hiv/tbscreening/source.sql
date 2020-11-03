@@ -24,6 +24,10 @@ index_ascending int(11),
 index_descending int(11)
 );
 
+create index temp_TB_screening_patient_id on temp_TB_screening (patient_id);
+create index temp_TB_screening_tb_screening_date on temp_TB_screening (tb_screening_date);
+create index temp_TB_screening_encounter_id on temp_TB_screening (encounter_id);
+
 -- load temp table with all intake/followup forms with any TB screening answer given
 insert into temp_TB_screening (patient_id, encounter_id,tb_screening_date)
 select e.patient_id, e.encounter_id,e.encounter_datetime from encounter e
