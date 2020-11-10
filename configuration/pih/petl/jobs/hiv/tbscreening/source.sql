@@ -79,22 +79,7 @@ update temp_TB_screening t
 inner join obs o on t.encounter_id = o.encounter_id and o.value_coded = concept_from_mapping('PIH', '136')
 set chest_pain_result_concept =o.concept_id;
 ;
-/*
--- if any of the screening questions are yes, screening result = yes
-update temp_TB_screening t
-set tb_screening_result = 
-   if(cough_result = 'yes','yes',
-    if(fever_result='yes','yes',
-      if(tb_contact_result='yes','yes',
-        if(lymph_pain_result='yes','yes',
-          if(weight_loss_result='yes','yes',
-            if(bloody_cough_result='yes','yes',
-              if(dyspnea_result='yes','yes',
-                if(chest_pain_result='yes','yes',
-                  'no'))))))));
-
-*/
-
+                                         
 -- The ascending/descending indexes are calculated ordering on the screening date
 -- new temp tables are used to build them and then joined into the main temp table. 
 -- index ascending
