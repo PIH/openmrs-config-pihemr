@@ -98,7 +98,7 @@ Components are defined in [pihcore/.../config/Components.java](https://github.co
 - **exportPatients**: App that creates a JSON of all the patients in the system. Adds the button
   to System Administration app from the home page. `exportPatients.page`.
 - **growthChart**: Adds an action that leads to a growth chart.
-- **hiv**: Program. Needs HIVProgramBundle and Haiti HIV MDS package.
+- **hiv**: Program, forms, and dispensing app. Needs HIVProgramBundle and Haiti HIV MDS package. Location needs "HIV Consult Location" tag.
 - **hypertensionProgram**: needs HypertensionProgram bundle, used by CES.
 - **idcardPrinting**: Adds registration action to print an ID card. Adds an ID Card Printing widget
   to the pt registration summary. Requires "registerPatient" privilege. Printers must be configured.
