@@ -43,42 +43,34 @@ update temp_TB_screening t
 inner join obs o on t.encounter_id = o.encounter_id and o.value_coded = concept_from_mapping('PIH', '11565')
 -- set fever_result = if(o.concept_id = @present,'yes',if(o.concept_id = @absent,'no',null))
 set fever_result_concept =o.concept_id;
-;
 
 update temp_TB_screening t
 inner join obs o on t.encounter_id = o.encounter_id and o.value_coded = concept_from_mapping('PIH', '11566')
 set weight_loss_result_concept =o.concept_id;
-;
 
 update temp_TB_screening t
 inner join obs o on t.encounter_id = o.encounter_id and o.value_coded = concept_from_mapping('PIH', '11567')
 set cough_result_concept =o.concept_id;
-;
 
 update temp_TB_screening t
 inner join obs o on t.encounter_id = o.encounter_id and o.value_coded = concept_from_mapping('PIH', '11568')
 set tb_contact_result_concept =o.concept_id;
-;
 
 update temp_TB_screening t
 inner join obs o on t.encounter_id = o.encounter_id and o.value_coded = concept_from_mapping('PIH', '11569')
 set lymph_pain_result_concept =o.concept_id;
-;
 
 update temp_TB_screening t
 inner join obs o on t.encounter_id = o.encounter_id and o.value_coded = concept_from_mapping('PIH', '970')
 set bloody_cough_result_concept =o.concept_id;
-;
 
 update temp_TB_screening t
 inner join obs o on t.encounter_id = o.encounter_id and o.value_coded = concept_from_mapping('PIH', '5960')
 set dyspnea_result_concept =o.concept_id;
-;
 
 update temp_TB_screening t
 inner join obs o on t.encounter_id = o.encounter_id and o.value_coded = concept_from_mapping('PIH', '136')
 set chest_pain_result_concept =o.concept_id;
-;
                                          
 -- The ascending/descending indexes are calculated ordering on the screening date
 -- new temp tables are used to build them and then joined into the main temp table. 
