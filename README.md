@@ -123,6 +123,7 @@ Components are defined in [pihcore/.../config/Components.java](https://github.co
 - **ncd**: program
 - **oncology**: program
 - **orderEntry**: TODO we probably want a different name for this?  break up by drug orders and lab orders, etc?
+- **ovc**: program and forms
 - **overviewReports**: Adds "Overview" section of reports to the Reports page. Reports also must
   be configured to the right country and site.
 - **pacsIntegration**: Custom Mirebalais "Picture Archives and Communication" system. Or maybe doesn't do anything?
