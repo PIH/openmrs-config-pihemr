@@ -807,11 +807,18 @@
                 <p>
                     <obs class="abnormalObs" conceptId="CIEL:165372" answerConceptId="PIH:ABNORMAL" style="checkbox"/>
                 </p>
-                <br/><br/>
+                <p>
+                    <obs class="abnormalObs" conceptId="CIEL:165372" answerConceptId="CIEL:110136" style="checkbox"/>
+                </p>
+                <p>
+                    <obs class="abnormalObs" conceptId="CIEL:165372"
+                         answerConceptId="CIEL:5622" style="checkbox"  showCommentField="true" commentFieldLabel="" />
+                </p>
+
                 <p class="comment-label">
                     <uimessage code="pihcore.exam.vaginal_exam.title"/>
 
-                    <obs conceptId="CIEL:160969" rows="2" cols="45" />
+                    <obs conceptId="CIEL:160969" rows="4" cols="45" />
                 </p>
             </div>
         </div>
@@ -821,38 +828,41 @@
                 <uimessage code="pihcore.fundalHeight"/>
             </label>
             <obs conceptId="CIEL:1439" showUnits="true"  />
-            <br/>
+
+        </p>
+
+        <p class="tanner">
 
             <label>
                 <uimessage code="pihcore.fetalPresentation"/>
             </label>
             <obs conceptId="CIEL:160090" />
-        </p>
 
-        <p class="tanner">
             <label>
                 <uimessage code="pihcore.fetalPosition"/>
             </label>
-            <obs conceptId="CIEL:163749" style="radio" />
-        </p>
-        <p class="narrow">
-            <label>
-                <uimessage code="pihcore.fetalHeartRate"/>
-            </label>
-            <obs conceptId="CIEL:1440" showUnits="true" />
+            <obs conceptId="CIEL:163749" style="radio"
+                 answerConceptIds="CIEL:5141,CIEL:5139"/>
         </p>
 
         <div class="two-columns tanner">
             <label>
+                <uimessage code="pihcore.fetalHeartRate"/>
+            </label>
+            <obs conceptId="CIEL:1440" showUnits="true" />
+            <br/><br/>
+
+            <label>
                 <uimessage code="pihcore.uterineContractions"/>
             </label>
             <obs conceptId="CIEL:163750" style="radio" />
+            <obs conceptId="CIEL:160968" placeholder="comment" />
             <br/>
-            <obs conceptId="CIEL:160968" />
         </div>
 
-        <!-- ToDo:  Add CU -->
     </div>
+
+        <p/>
 
         <div class="section-container-color">
             <h3 id="other">
