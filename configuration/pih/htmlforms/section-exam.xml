@@ -207,7 +207,7 @@
         <a href="#general"><uimessage code="pihcore.exam.general_exam"/></a> |
 
         <!-- peds only questions -->
-        <includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) &lt; 12">
+        <includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) &lt; 15">
              <a href="#peds"><uimessage code="pihcore.exam.pedsDevelopment.title"/></a> |
         </includeIf>
 
@@ -277,19 +277,21 @@
         <p/>
 
         <!-- Pediatrics only exam:  patients under 12 years old -->
-        <includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) &lt; 12">
+        <includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) &lt; 15">
             <div class="section-container-color">
                 <h3 id="peds">
                     <uimessage code="pihcore.exam.pedsDevelopment.title"/>
                 </h3>
 
-                <p class="tanner">
-                    <label>
-                        <uimessage code="pihcore.exam.denverTest" />
-                    </label>
-                    <obs conceptId="CIEL:166081" style="radio"
-                         answerConceptIds="CIEL:1065,CIEL:1066" />
-                </p>
+                <includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) &lt; 6">
+                    <p class="tanner">
+                        <label>
+                            <uimessage code="pihcore.exam.denverTest" />
+                        </label>
+                        <obs conceptId="CIEL:166081" style="radio"
+                             answerConceptIds="CIEL:1065,CIEL:1066" />
+                    </p>
+                </includeIf>
 
                 <div>
                     <h4 id="gross">
