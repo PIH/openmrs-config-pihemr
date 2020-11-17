@@ -577,7 +577,7 @@
                 <span>
                     <field>
                         <obs id="hiv-pcr" conceptId="CIEL:1030"
-                             answerConceptIds="CIEL:703,CIEL:664,CIEL:1138" />
+                             answerConceptIds="CIEL:703,CIEL:664,CIEL:1138" showCommentField="true" commentFieldLabel="Comments:"/>
                     </field>
                 </span>
             </p>
