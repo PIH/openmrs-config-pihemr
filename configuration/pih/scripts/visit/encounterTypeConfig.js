@@ -1107,31 +1107,6 @@ angular.module("encounterTypeConfig", [])
             ]
           }
         };
-        
-        // outpatientConsult
-        encounterTypes["92fd09b4-5335-4f7e-9f63-b2a663fd09a6"] = {
-            DEFAULT: {
-                defaultState: "short",
-                shortTemplate: "templates/encounters/defaultEncounterShort.page",
-                longTemplate: "templates/encounters/defaultHtmlFormEncounterLong.page",
-                templateModelUrl: "/module/htmlformentry/encounter.json?encounter={{encounter.uuid}}",
-                showOnVisitList: false
-            },
-            'peru': {
-                defaultState: "short",
-                shortTemplate: "templates/encounters/defaultEncounterShort.page",
-                longTemplate: "templates/encounters/defaultEncounterShort.page",
-                icon: "fas fa-fw fa-gift",
-                editUrl: hfeStandardEditUrl,
-                showOnVisitList: true,
-                sections: [
-                  primaryCareHistory,
-                  primaryCareExam,
-                  primaryCareDx,
-                  primaryCarePlan
-                ]
-            }
-        }
 
         /*
          * Site-specific encounters
