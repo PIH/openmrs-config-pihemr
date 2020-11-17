@@ -5,6 +5,10 @@
     formEncounterType="651d4359-4463-4e52-8fde-e62876f90792"
     formVersion="1.0">
 
+    <div style="display: none">
+        <encounterDate default="today" />
+    </div>
+    <enrollInProgram programId="OVC" locationTag="Program Location" />
 
     <style type="text/css">
 
