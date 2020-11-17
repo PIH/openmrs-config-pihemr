@@ -1,6 +1,8 @@
 create table tb_screening
 (
 patient_id int,
+zlemr_id varchar(50),
+dossier_id varchar(50),
 encounter_id int PRIMARY KEY,
 cough_result varchar(3),
 fever_result varchar(3),

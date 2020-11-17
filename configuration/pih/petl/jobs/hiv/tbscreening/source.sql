@@ -128,6 +128,8 @@ set t.index_descending = tsid.index_desc;
 
 Select patient_id,
 encounter_id,
+zlemr(patient_id) emr_id,
+dosId(patient_id) dossier_id,
 if(cough_result_concept = @present,'yes',if(cough_result_concept = @absent,'no',null)) "cough_result",
 if(fever_result_concept = @present,'yes',if(fever_result_concept = @absent,'no',null)) "fever_result",
 if(weight_loss_result_concept = @present,'yes',if(weight_loss_result_concept = @absent,'no',null)) "weight_loss",
