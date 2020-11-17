@@ -5,10 +5,7 @@
     formEncounterType="651d4359-4463-4e52-8fde-e62876f90792"
     formVersion="1.0">
 
-    <div style="display: none">
-        <encounterDate default="today" />
-    </div>
-    <enrollInProgram programId="OVC" locationTag="Program Location" />
+    <!-- Enrolls the patient in the OVC program -->
 
     <style type="text/css">
 
@@ -157,6 +154,13 @@
             margin: 10px 0 0 24px;
         }
 
+        @media print {
+            .print-form-datestamps { display: block !important }
+            button.cancel, button.submit { display: none }
+            label { font-weight: bold }
+            label[for] { font-weight: normal } /* refers to the radio set label */
+        }
+
     </style>
 
     <div class="print-form-datestamps" style="display:none">
@@ -170,6 +174,39 @@
             <lookup complexExpression="$formGeneratedDatetime"/>
         </p>
     </div>
+
+    <includeIf velocityTest="$user.hasPrivilege('Task: emr.retroConsultNote')">
+        <div id="who-when-where">
+            <p id="who">
+                <label>
+                    <uimessage code="emr.patientDashBoard.providerRequired"/>
+                </label>
+                <span>
+                    <encounterProviderAndRole default="currentUser"
+                                              encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
+                </span>
+            </p>
+            <p id="where">
+                <label>
+                    <uimessage code="emr.locationRequired"/>
+                </label>
+                <span>
+                    <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"
+                                       tags="Consult Note Location"/>
+                </span>
+            </p>
+            <p id="when">
+                <label>
+                    <uimessage code="emr.patientDashBoard.date"/>
+                </label>
+                <span>
+                    <encounterDate id="encounterDate" default="now"/>
+                </span>
+            </p>
+        </div>
+    </includeIf>
+
+    <enrollInProgram programId="OVC" locationTag="Program Location" />
 
     <h3><uimessage code="ui.i18n.EncounterType.name.651d4359-4463-4e52-8fde-e62876f90792" /></h3>
 
