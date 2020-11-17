@@ -882,19 +882,19 @@
 
             </p>
 
-            <p class="tanner">
-
+            <div class="two-columns tanner">
                 <label>
                     <uimessage code="pihcore.fetalPresentation"/>
                 </label>
                 <obs conceptId="CIEL:160090"/>
+                <br/>
 
                 <label>
                     <uimessage code="pihcore.fetalPosition"/>
                 </label>
                 <obs conceptId="CIEL:163749" style="radio"
                      answerConceptIds="CIEL:5141,CIEL:5139"/>
-            </p>
+            </div>
 
             <div class="two-columns tanner">
                 <label>
@@ -939,7 +939,7 @@
             </p>
 
         </div>
-        
+
     </div>
 
     <br/>
