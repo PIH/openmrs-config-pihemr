@@ -1,0 +1,264 @@
+
+<htmlform
+    formUuid="5f486bc6-b017-4932-8037-6d667f8c3162"
+    formName="OVC Follow-up"
+    formEncounterType="f8d426fd-132a-4032-93da-1213c30e2b74"
+    formVersion="1.0">
+
+    <style type="text/css">
+
+        #who-when-where {
+            margin-bottom: 6px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        #who-when-where p {
+            display: inline-block;
+            padding-right: 20px;
+        }
+
+        #where > input[type=text] {
+            display: inline-block;
+        }
+
+        .field-error {
+            color: #ffc0b5;
+            font-size: 1.1em;
+            display: block;
+        }
+
+        .legalValue {
+            background-color: white !important;
+        }
+
+        .two-columns {
+            display: table;
+            height: 100%;
+            width: 100%;
+        }
+
+        .two-columns > div {
+            display: table-cell;
+            width: 50%;
+        }
+
+        .simple-form-ui input {
+            min-width: 80%
+        }
+
+        form fieldset {
+            min-width: 90%;
+            display: block;
+        }
+
+        .encounter-summary-container #calculated-ratio {
+            font-size: 1em;
+            font-weight: normal;
+        }
+
+        #encounterDate input {
+            min-width: 15%
+        }
+
+        div.inline-radio > * {
+            display: inline;
+            float: none !important;
+            min-width: initial;
+        }
+
+        .inline-obs > span {
+            display: inline-block;
+        }
+
+        .light-font {
+            font-family: "OpenSansLight",sans-serif;
+        }
+
+        .small-obs {
+            max-width: 10em;
+            display: block;
+            margin-bottom: 1em;
+        }
+
+        .small-obs input {
+            min-width: 4em;
+            display: inline;
+            margin-right: 0.5em;
+        }
+
+        .medium-obs {
+            max-width: 16em;
+            display: block;
+            margin-bottom: 1em;
+        }
+
+        .medium-obs input {
+            min-width: 8em;
+            margin-right: 0.5em;
+        }
+
+        .small-text {
+            color: #555555;
+            font-size: 90%;
+            display: block;
+        }
+
+        .section-container {
+            background: #F2F2F2;
+            box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+            padding: 10px 5px 10px 15px;
+            margin: 10px 0;
+            line-height: 1.5em; /*add this for vertical spacing between elements*/
+        }
+
+        .section-container input[type="checkbox"] {
+            margin: 0px 5px; /*changed values to vertical, horizontal*/
+            top:5px; /*added to offset the checkbox position to line up*/
+        }
+
+        .section-container label { /*new definition to override labels inside section-containers*/
+            margin: 0px;
+        }
+
+        .question-container {
+            padding: 5px 5px 10px 15px;
+            margin: 5px 0;
+            line-height: 1.5em; /*add this for vertical spacing between elements*/
+        }
+
+        .question-container label {
+            margin-top: 5px;
+        }
+
+       .section {
+         width: 95%;
+        }
+
+        legend {
+          width: auto;
+          font-size: 16px;
+        }
+
+        textarea {
+            width: 95%;
+        }
+
+        /* Grey out disabled checkboxes */
+        input[type=checkbox][disabled] {
+            filter: invert(15%);
+        }
+
+        .section-button {
+            margin: 10px 0 0 24px;
+        }
+
+        @media print {
+            .print-form-datestamps { display: block !important }
+            button.cancel, button.submit { display: none }
+            label { font-weight: bold }
+            label[for] { font-weight: normal } /* refers to the radio set label */
+        }
+
+    </style>
+
+    <div class="print-form-datestamps" style="display:none">
+        <p><uimessage code="created_on"/>:
+            <lookup complexExpression="$form.dateCreated"/>
+        </p>
+        <p><uimessage code="last_updated_on"/>:
+            <lookup complexExpression="$form.dateChanged"/>
+        </p>
+        <p><uimessage code="printed_on"/>:
+            <lookup complexExpression="$formGeneratedDatetime"/>
+        </p>
+    </div>
+
+    <includeIf velocityTest="$user.hasPrivilege('Task: emr.retroConsultNote')">
+        <div id="who-when-where">
+            <p id="who">
+                <label>
+                    <uimessage code="emr.patientDashBoard.providerRequired"/>
+                </label>
+                <span>
+                    <encounterProviderAndRole default="currentUser"
+                                              encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
+                </span>
+            </p>
+            <p id="where">
+                <label>
+                    <uimessage code="emr.locationRequired"/>
+                </label>
+                <span>
+                    <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"
+                                       tags="Consult Note Location"/>
+                </span>
+            </p>
+            <p id="when">
+                <label>
+                    <uimessage code="emr.patientDashBoard.date"/>
+                </label>
+                <span>
+                    <encounterDate id="encounterDate" default="now"/>
+                </span>
+            </p>
+        </div>
+    </includeIf>
+
+    <h3><uimessage code="ui.i18n.EncounterType.name.651d4359-4463-4e52-8fde-e62876f90792" /></h3>
+
+    <!-- HIV Status -->
+    <div class="section-container">
+        <div class="question-container">
+            <obs conceptId="PIH:HIV STATUS"
+                labelCode="pihcore.hiv.state.title"
+                answerConceptIds="PIH:POSITIVE,PIH:NEGATIVE,PIH:unknown"
+                />
+        </div>
+        <div class="question-container">
+            <obs conceptId="PIH:HIV TEST DATE"
+                labelCode="pihcore.hiv.testDate"
+                class="medium-obs" />
+        </div>
+    </div>
+
+    <div class="section-container">
+        <div class="question-container">
+            <h4><uimessage code="pihcore.serviceOrProgram" /></h4>
+            <repeat with="
+                    ['PIH:HOME VISIT'],
+                    ['PIH:HIV ASSOCIATION'],
+                    ['PIH:NUTRITIONAL AID'],
+                    ['PIH:ASSISTANCE WITH TRANSPORT'],
+                    ['PIH:SCHOOL EXPENSES'],
+                    ['PIH:FINANCIAL AID'],
+                    ['PIH:Psychosocial assessment'],
+                    ['PIH:HOUSING EXPENSES'],
+                    ['PIH:Adolescent club'],
+                    ['PIH:HIV test done'],
+                    ['PIH:PEPFAR DREAMS'],
+                    ['PIH:ZL FMP'],
+                    ['PIH:CONDOMS'],
+                    ['PIH:OTHER NON-CODED']">
+                <obs conceptId="PIH:Service or program"
+                    answerConceptId="{0}"
+                    style="checkbox"
+                    />
+            </repeat>
+            <div style="margin-top: 5px; margin-left:20px">
+                <obs conceptId="PIH:Service or program non-coded"
+                    labelCode="pihcore.serviceOrProgramOther"
+                    class="medium-obs" />
+            </div>
+        </div>
+    </div>
+
+    <ifMode mode="VIEW" include="false">
+        <div id="buttons">
+            <submit submitClass="confirm right" submitCode="mirebalais.save"/>
+            <button type="button" class="cancel">
+                <uimessage code="emr.cancel"/>
+            </button>
+        </div>
+    </ifMode>
+
+</htmlform>
