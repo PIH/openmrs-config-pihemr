@@ -3,7 +3,8 @@
     formUuid="a2f4e400-df59-4456-935f-cd0697ff28a4"
     formName="OVC Intake"
     formEncounterType="651d4359-4463-4e52-8fde-e62876f90792"
-    formVersion="1.0">
+    formVersion="1.0"
+    >
 
     <!-- Enrolls the patient in the OVC program -->
 
@@ -175,38 +176,41 @@
         </p>
     </div>
 
-    <div id="who-when-where">
-        <p id="who">
-            <label>
-                <uimessage code="emr.patientDashBoard.providerRequired"/>
-            </label>
-            <span>
-                <encounterProviderAndRole default="currentUser"
-                                            encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
-            </span>
-        </p>
-        <p id="where">
-            <label>
-                <uimessage code="emr.locationRequired"/>
-            </label>
-            <span>
-                <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"
-                                    tags="Consult Note Location"/>
-            </span>
-        </p>
-        <p id="when">
-            <label>
-                <uimessage code="emr.patientDashBoard.date"/>
-            </label>
-            <span>
-                <encounterDate id="encounterDate" default="now"/>
-            </span>
-        </p>
-    </div>
+    <ifMode mode="VIEW" include="false">
+
+        <h3><uimessage code="ui.i18n.EncounterType.name.651d4359-4463-4e52-8fde-e62876f90792" /></h3>
+
+        <div id="who-when-where">
+            <p id="who">
+                <label>
+                    <uimessage code="emr.patientDashBoard.providerRequired"/>
+                </label>
+                <span>
+                    <encounterProviderAndRole default="currentUser"
+                                                encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
+                </span>
+            </p>
+            <p id="where">
+                <label>
+                    <uimessage code="emr.locationRequired"/>
+                </label>
+                <span>
+                    <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"
+                                        tags="Consult Note Location"/>
+                </span>
+            </p>
+            <p id="when">
+                <label>
+                    <uimessage code="emr.patientDashBoard.date"/>
+                </label>
+                <span>
+                    <encounterDate id="encounterDate" default="now"/>
+                </span>
+            </p>
+        </div>
+    </ifMode>
 
     <enrollInProgram programId="OVC" locationTag="Program Location" />
-
-    <h3><uimessage code="ui.i18n.EncounterType.name.651d4359-4463-4e52-8fde-e62876f90792" /></h3>
 
     <!-- HIV Status -->
     <div class="section-container">
