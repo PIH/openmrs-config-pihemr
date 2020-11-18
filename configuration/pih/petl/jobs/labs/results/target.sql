@@ -17,4 +17,3 @@ CREATE TABLE lab_results
     index_desc                  INT,
     date_created                DATETIME
 );
-

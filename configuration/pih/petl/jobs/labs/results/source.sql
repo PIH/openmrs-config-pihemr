@@ -1,4 +1,4 @@
-### This query returm tb lab results
+### This query returns tb lab results
 ### Row per result
 ### To do add HPV results in the future
 ### note result no performed duplicates. But its rare to have result not performed
@@ -19,6 +19,8 @@ CREATE TEMPORARY TABLE temp_tb_smear_results
 (
     patient_id                  INT(11),
     encounter_id                INT(11),
+    order_id                    INT(11),
+    order_number                VARCHAR(50),
     specimen_collection_date    DATE,
     sample_taken_date_estimated VARCHAR(11),
     test_result_date            DATE,
@@ -28,7 +30,9 @@ CREATE TEMPORARY TABLE temp_tb_smear_results
     reason_test_not_perform     VARCHAR(255),
     test_result_text            VARCHAR(255),
     test_result_numeric         DOUBLE,
-    date_created                DATETIME
+    date_created                DATETIME,
+    index_asc                   INT(11),
+    index_desc                  INT(11)
 );
 
 # patient and encounter IDs
@@ -60,6 +64,8 @@ CREATE TEMPORARY TABLE temp_tb_culture_results
 (
     patient_id                  INT(11),
     encounter_id                INT(11),
+    order_id                    INT(11),
+    order_number                VARCHAR(50),
     specimen_collection_date    DATE,
     sample_taken_date_estimated VARCHAR(11),
     test_result_date            DATE,
@@ -69,7 +75,9 @@ CREATE TEMPORARY TABLE temp_tb_culture_results
     reason_test_not_perform     VARCHAR(255),
     test_result_text            VARCHAR(255),
     test_result_numeric         DOUBLE,
-    date_created                DATETIME
+    date_created                DATETIME,
+    index_asc                   INT(11),
+    index_desc                  INT(11)
 );
 
 # patient and encounter IDs
@@ -101,6 +109,8 @@ CREATE TEMPORARY TABLE temp_tb_genxpert_results
 (
     patient_id                  INT(11),
     encounter_id                INT(11),
+    order_id                    INT(11),
+    order_number                VARCHAR(50),
     specimen_collection_date    DATE,
     sample_taken_date_estimated VARCHAR(11),
     test_result_date            DATE,
@@ -110,7 +120,9 @@ CREATE TEMPORARY TABLE temp_tb_genxpert_results
     reason_test_not_perform     VARCHAR(255),
     test_result_text            VARCHAR(255),
     test_result_numeric         DOUBLE,
-    date_created                DATETIME
+    date_created                DATETIME,
+    index_asc                   INT(11),
+    index_desc                  INT(11)
 );
 
 # patient and encounter IDs
@@ -142,6 +154,8 @@ CREATE TEMPORARY TABLE temp_tb_skin_results
 (
     patient_id                  INT(11),
     encounter_id                INT(11),
+    order_id                    INT(11),
+    order_number                VARCHAR(50),
     specimen_collection_date    DATE,
     sample_taken_date_estimated VARCHAR(11),
     test_result_date            DATE,
@@ -151,7 +165,9 @@ CREATE TEMPORARY TABLE temp_tb_skin_results
     reason_test_not_perform     VARCHAR(255),
     test_result_text            VARCHAR(255),
     test_result_numeric         DOUBLE,
-    date_created                DATETIME
+    date_created                DATETIME,
+    index_asc                   INT(11),
+    index_desc                  INT(11)
 );
 
 # patient and encounter IDs
@@ -186,8 +202,10 @@ SET tbs.test_result_date = DATE(o.value_datetime);
 ### smear
 CREATE TEMPORARY TABLE temp_reason_no_smear
 (
-	patient_id                  INT(11),
+    patient_id                  INT(11),
     encounter_id                INT(11),
+    order_id                    INT(11),
+    order_number                VARCHAR(50),
     specimen_collection_date    DATE,
     sample_taken_date_estimated VARCHAR(11),
     test_result_date            DATE,
@@ -197,14 +215,14 @@ CREATE TEMPORARY TABLE temp_reason_no_smear
     reason_test_not_perform     VARCHAR(255),
     test_result_text            VARCHAR(255),
     test_result_numeric         DOUBLE,
-    date_created                DATETIME
+    date_created                DATETIME,
+    index_asc                   INT(11),
+    index_desc                  INT(11)
 );
 
-INSERT INTO temp_reason_no_smear(patient_id, encounter_id, test_related_to, test_type, test_status, reason_test_not_perform, date_created)
-SELECT person_id, encounter_id, 'tb', 'smear', 'not performed', CONCEPT_NAME(value_coded, 'en'), date_created  FROM obs WHERE voided = 0 AND concept_id = CONCEPT_FROM_MAPPING("CIEL", "165182") AND voided = 0 AND person_id IN
-(
-SELECT patient_id FROM orders WHERE fulfiller_status LIKE "%EXCEPTION%" AND concept_id = CONCEPT_FROM_MAPPING("PIH", "TUBERCULOSIS SMEAR RESULT") AND voided = 0
-);
+INSERT INTO temp_reason_no_smear(patient_id, encounter_id, order_id, order_number, test_related_to, test_type, test_status, reason_test_not_perform , date_created)
+SELECT person_id, o.encounter_id, ord.order_id, ord.order_number, 'tb', 'smear', 'not performed', CONCEPT_NAME(value_coded, 'en'), o.date_created  FROM obs o INNER JOIN orders ord on o.order_id = ord.order_id WHERE o.voided = 0 AND
+ord.voided = 0 AND o.concept_id = CONCEPT_FROM_MAPPING("CIEL", "165182") AND ord.fulfiller_status LIKE "%EXCEPTION%" AND ord.concept_id = CONCEPT_FROM_MAPPING("PIH", "TUBERCULOSIS SMEAR RESULT");
 
 UPDATE temp_reason_no_smear trs INNER JOIN encounter e ON e.voided = 0 AND trs.encounter_id = e.encounter_id
 SET specimen_collection_date = DATE(e.encounter_datetime);
@@ -215,8 +233,10 @@ SET test_result_date = DATE(o.value_datetime);
 ### culture
 CREATE TEMPORARY TABLE temp_reason_no_culture
 (
-	patient_id                  INT(11),
+    patient_id                  INT(11),
     encounter_id                INT(11),
+    order_id                    INT(11),
+    order_number                VARCHAR(50),
     specimen_collection_date    DATE,
     sample_taken_date_estimated VARCHAR(11),
     test_result_date            DATE,
@@ -226,14 +246,14 @@ CREATE TEMPORARY TABLE temp_reason_no_culture
     reason_test_not_perform     VARCHAR(255),
     test_result_text            VARCHAR(255),
     test_result_numeric         DOUBLE,
-    date_created                DATETIME
+    date_created                DATETIME,
+    index_asc                   INT(11),
+    index_desc                  INT(11)
 );
 
-INSERT INTO temp_reason_no_culture(patient_id, encounter_id, test_related_to, test_type, test_status, reason_test_not_perform , date_created)
-SELECT person_id, encounter_id, 'tb', 'culture', 'not performed', CONCEPT_NAME(value_coded, 'en'), date_created  FROM obs WHERE voided = 0 AND concept_id = CONCEPT_FROM_MAPPING("CIEL", "165182") AND voided = 0 AND person_id IN
-(
-SELECT patient_id FROM orders WHERE fulfiller_status LIKE "%EXCEPTION%" AND concept_id = CONCEPT_FROM_MAPPING("PIH", "TUBERCULOSIS CULTURE RESULT") AND voided = 0
-);
+INSERT INTO temp_reason_no_culture(patient_id, encounter_id, order_id, order_number, test_related_to, test_type, test_status, reason_test_not_perform , date_created)
+SELECT person_id, o.encounter_id, ord.order_id, ord.order_number, 'tb', 'culture', 'not performed', CONCEPT_NAME(value_coded, 'en'), o.date_created  FROM obs o INNER JOIN orders ord on o.order_id = ord.order_id WHERE o.voided = 0 AND
+ord.voided = 0 AND o.concept_id = CONCEPT_FROM_MAPPING("CIEL", "165182") AND ord.fulfiller_status LIKE "%EXCEPTION%" AND ord.concept_id = CONCEPT_FROM_MAPPING("PIH", "TUBERCULOSIS CULTURE RESULT");
 
 UPDATE temp_reason_no_culture trs INNER JOIN encounter e ON e.voided = 0 AND trs.encounter_id = e.encounter_id
 SET specimen_collection_date = DATE(e.encounter_datetime);
@@ -244,8 +264,10 @@ SET test_result_date = DATE(o.value_datetime);
 ### genxpert
 CREATE TEMPORARY TABLE temp_reason_no_genxpert
 (
-	patient_id                  INT(11),
+    patient_id                  INT(11),
     encounter_id                INT(11),
+    order_id                    INT(11),
+    order_number                VARCHAR(50),
     specimen_collection_date    DATE,
     sample_taken_date_estimated VARCHAR(11),
     test_result_date            DATE,
@@ -255,14 +277,14 @@ CREATE TEMPORARY TABLE temp_reason_no_genxpert
     reason_test_not_perform     VARCHAR(255),
     test_result_text            VARCHAR(255),
     test_result_numeric         DOUBLE,
-    date_created                DATETIME
+    date_created                DATETIME,
+    index_asc                   INT(11),
+    index_desc                  INT(11)
 );
 
-INSERT INTO temp_reason_no_genxpert(patient_id, encounter_id, test_related_to, test_type, test_status, reason_test_not_perform, date_created)
-SELECT person_id, encounter_id, 'tb', 'genxpert', 'not performed', CONCEPT_NAME(value_coded, 'en'), date_created  FROM obs WHERE voided = 0 AND concept_id = CONCEPT_FROM_MAPPING("CIEL", "165182") AND voided = 0 AND person_id IN
-(
-SELECT patient_id FROM orders WHERE fulfiller_status LIKE "%EXCEPTION%" AND concept_id = CONCEPT_FROM_MAPPING("CIEL", "162202") AND voided = 0
-);
+INSERT INTO temp_reason_no_genxpert(patient_id, encounter_id, order_id, order_number, test_related_to, test_type, test_status, reason_test_not_perform , date_created)
+SELECT person_id, o.encounter_id, ord.order_id, ord.order_number, 'tb', 'genxpert', 'not performed', CONCEPT_NAME(value_coded, 'en'), o.date_created  FROM obs o INNER JOIN orders ord on o.order_id = ord.order_id WHERE o.voided = 0 AND
+ord.voided = 0 AND o.concept_id = CONCEPT_FROM_MAPPING("CIEL", "165182") AND ord.fulfiller_status LIKE "%EXCEPTION%" AND ord.concept_id = CONCEPT_FROM_MAPPING("CIEL", "162202");
 
 UPDATE temp_reason_no_genxpert trs INNER JOIN encounter e ON e.voided = 0 AND trs.encounter_id = e.encounter_id
 SET specimen_collection_date = DATE(e.encounter_datetime);
@@ -289,6 +311,7 @@ UNION ALL
 SELECT * FROM temp_reason_no_genxpert
 ORDER BY patient_id, encounter_id;
 
+
 -- The indexes are calculated using the specimen collection date
 ### index ascending
 DROP TEMPORARY TABLE IF EXISTS temp_tb_index_asc;
@@ -300,6 +323,7 @@ CREATE TEMPORARY TABLE temp_tb_index_asc
             date_created,
             encounter_id,
             test_type,
+            order_id,
             index_asc
 FROM (SELECT
             @r:= IF(@u = patient_id, @r + 1,1) index_asc,
@@ -308,6 +332,7 @@ FROM (SELECT
             encounter_id,
             patient_id,
             test_type,
+            order_id,
             @u:= patient_id
       FROM temp_tb_final_query,
                     (SELECT @r:= 1) AS r,
@@ -325,6 +350,7 @@ CREATE TEMPORARY TABLE temp_tb_index_desc
             date_created,
             encounter_id,
             test_type,
+            order_id,
             index_desc
 FROM (SELECT
             @r:= IF(@u = patient_id, @r + 1,1) index_desc,
@@ -333,6 +359,7 @@ FROM (SELECT
             encounter_id,
             patient_id,
             test_type,
+            order_id,
             @u:= patient_id
       FROM temp_tb_final_query,
                     (SELECT @r:= 1) AS r,
@@ -340,24 +367,29 @@ FROM (SELECT
             ORDER BY patient_id DESC, encounter_id DESC, specimen_collection_date DESC, date_created DESC, test_type DESC
         ) index_descending );
 
+UPDATE temp_tb_final_query tbf INNER JOIN temp_tb_index_asc tbia ON tbf.encounter_id = tbia.encounter_id AND tbf.test_type = tbia.test_type AND tbf.date_created = tbia.date_created
+SET tbf.index_asc = tbia.index_asc;
+
+UPDATE temp_tb_final_query tbf INNER JOIN temp_tb_index_desc tbid ON tbf.encounter_id = tbid.encounter_id AND tbf.test_type = tbid.test_type AND tbf.date_created = tbid.date_created
+SET tbf.index_desc = tbid.index_desc;
+
+## Final query
 SELECT
-        tf.patient_id,
-        zlemr(tf.patient_id),
-        dosId(tf.patient_id),
-        tf.encounter_id,
-        tf.specimen_collection_date,
+        patient_id,
+        zlemr(patient_id),
+        dosId(patient_id),
+        encounter_id,
+        specimen_collection_date,
         sample_taken_date_estimated,
         test_result_date,
         test_related_to,
-        tf.test_type,
+        test_type,
         test_status,
         reason_test_not_perform,
         test_result_text,
         test_result_numeric,
-        ta.index_asc,
-        td.index_desc,
-        tf.date_created
+        index_asc,
+        index_desc,
+        date_created
 FROM temp_tb_final_query tf
-INNER JOIN temp_tb_index_asc ta ON tf.patient_id = ta.patient_id AND ta.test_type=tf.test_type AND tf.encounter_id = ta.encounter_id
-INNER JOIN temp_tb_index_desc td ON td.patient_id = tf.patient_id AND td.test_type=tf.test_type AND tf.encounter_id = td.encounter_id
-ORDER BY tf.patient_id, ta.index_asc;
+ORDER BY patient_id, index_asc;
