@@ -1165,7 +1165,7 @@ angular.module("encounterTypeConfig", [])
             var encounterType = encounterTypes[uuid];
 
             if (encounterType == null) {
-              return null;
+              return encounterTypes.DEFAULT;
             }
 
             if (encounterType.hasOwnProperty(country)) {
