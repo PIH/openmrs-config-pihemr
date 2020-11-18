@@ -175,36 +175,34 @@
         </p>
     </div>
 
-    <includeIf velocityTest="$user.hasPrivilege('Task: emr.retroConsultNote')">
-        <div id="who-when-where">
-            <p id="who">
-                <label>
-                    <uimessage code="emr.patientDashBoard.providerRequired"/>
-                </label>
-                <span>
-                    <encounterProviderAndRole default="currentUser"
-                                              encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
-                </span>
-            </p>
-            <p id="where">
-                <label>
-                    <uimessage code="emr.locationRequired"/>
-                </label>
-                <span>
-                    <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"
-                                       tags="Consult Note Location"/>
-                </span>
-            </p>
-            <p id="when">
-                <label>
-                    <uimessage code="emr.patientDashBoard.date"/>
-                </label>
-                <span>
-                    <encounterDate id="encounterDate" default="now"/>
-                </span>
-            </p>
-        </div>
-    </includeIf>
+    <div id="who-when-where">
+        <p id="who">
+            <label>
+                <uimessage code="emr.patientDashBoard.providerRequired"/>
+            </label>
+            <span>
+                <encounterProviderAndRole default="currentUser"
+                                            encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
+            </span>
+        </p>
+        <p id="where">
+            <label>
+                <uimessage code="emr.locationRequired"/>
+            </label>
+            <span>
+                <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"
+                                    tags="Consult Note Location"/>
+            </span>
+        </p>
+        <p id="when">
+            <label>
+                <uimessage code="emr.patientDashBoard.date"/>
+            </label>
+            <span>
+                <encounterDate id="encounterDate" default="now"/>
+            </span>
+        </p>
+    </div>
 
     <enrollInProgram programId="OVC" locationTag="Program Location" />
 
