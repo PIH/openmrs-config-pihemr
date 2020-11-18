@@ -169,6 +169,10 @@ AND o.encounter_id IN (SELECT encounter_id FROM obs WHERE voided = 0 AND concept
 SET tbs.sample_taken_date_estimated =  CONCEPT_NAME(o.value_coded , 'en');
 
 # test result status
+UPDATE temp_tb_skin_results tbs INNER JOIN obs o ON o.voided = 0 AND tbs.encounter_id=o.encounter_id AND o.person_id = tbs.patient_id AND concept_id = CONCEPT_FROM_MAPPING("PIH", "PPD qualitative")
+SET tbs.test_result_text = CONCEPT_NAME(o.value_coded, 'en');
+
+# test result status
 UPDATE temp_tb_skin_results tbs INNER JOIN obs o ON o.voided = 0 AND tbs.encounter_id=o.encounter_id AND o.person_id = tbs.patient_id AND concept_id = CONCEPT_FROM_MAPPING("PIH", "TUBERCULIN SKIN TEST")
 SET tbs.test_result_numeric = o.value_numeric;
 
@@ -295,6 +299,7 @@ CREATE TEMPORARY TABLE temp_tb_index_asc
             specimen_collection_date,
             date_created,
             encounter_id,
+            test_type,
             index_asc
 FROM (SELECT
             @r:= IF(@u = patient_id, @r + 1,1) index_asc,
@@ -302,11 +307,12 @@ FROM (SELECT
             date_created,
             encounter_id,
             patient_id,
+            test_type,
             @u:= patient_id
       FROM temp_tb_final_query,
                     (SELECT @r:= 1) AS r,
                     (SELECT @u:= 0) AS u
-            ORDER BY patient_id, specimen_collection_date ASC, date_created ASC
+            ORDER BY patient_id ASC, encounter_id ASC, specimen_collection_date ASC, date_created ASC, test_type ASC
         ) index_ascending );
 
 ### index descending
@@ -318,6 +324,7 @@ CREATE TEMPORARY TABLE temp_tb_index_desc
             specimen_collection_date,
             date_created,
             encounter_id,
+            test_type,
             index_desc
 FROM (SELECT
             @r:= IF(@u = patient_id, @r + 1,1) index_desc,
@@ -325,35 +332,32 @@ FROM (SELECT
             date_created,
             encounter_id,
             patient_id,
+            test_type,
             @u:= patient_id
       FROM temp_tb_final_query,
                     (SELECT @r:= 1) AS r,
                     (SELECT @u:= 0) AS u
-            ORDER BY patient_id, specimen_collection_date DESC, date_created DESC
+            ORDER BY patient_id DESC, encounter_id DESC, specimen_collection_date DESC, date_created DESC, test_type DESC
         ) index_descending );
 
-ALTER TABLE temp_tb_final_query ADD COLUMN index_desc INT;
-ALTER TABLE temp_tb_final_query ADD COLUMN index_asc INT;
-
-UPDATE temp_tb_final_query tbf INNER JOIN temp_tb_index_desc tid ON tbf.encounter_id = tid.encounter_id AND tbf.date_created = tid.date_created
-SET tbf.index_desc = tid.index_desc;
-
-UPDATE temp_tb_final_query tbf INNER JOIN temp_tb_index_asc tia ON tbf.encounter_id = tia.encounter_id AND tbf.date_created = tia.date_created
-SET tbf.index_asc = tia.index_asc;
-
 SELECT
-        patient_id,
-        encounter_id,
-        specimen_collection_date,
+        tf.patient_id,
+        zlemr(tf.patient_id),
+        dosId(tf.patient_id),
+        tf.encounter_id,
+        tf.specimen_collection_date,
         sample_taken_date_estimated,
         test_result_date,
         test_related_to,
-        test_type,
+        tf.test_type,
         test_status,
         reason_test_not_perform,
         test_result_text,
         test_result_numeric,
-        index_asc,
-        index_desc,
-        date_created
-FROM temp_tb_final_query;
+        ta.index_asc,
+        td.index_desc,
+        tf.date_created
+FROM temp_tb_final_query tf
+INNER JOIN temp_tb_index_asc ta ON tf.patient_id = ta.patient_id AND ta.test_type=tf.test_type AND tf.encounter_id = ta.encounter_id
+INNER JOIN temp_tb_index_desc td ON td.patient_id = tf.patient_id AND td.test_type=tf.test_type AND tf.encounter_id = td.encounter_id
+ORDER BY tf.patient_id, ta.index_asc;
