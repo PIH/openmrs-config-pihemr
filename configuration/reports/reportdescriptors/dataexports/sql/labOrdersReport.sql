@@ -116,7 +116,7 @@ update temp_report set emr_id = patient_identifier(patient_id, metadata_uuid('or
 update temp_report set gender = gender(patient_id);
 update temp_report set loc_registered = loc_registered(patient_id);
 update temp_report set age_at_enc = age_at_enc(patient_id,order_encounter_id );
-update temp_report set unknown_patient = unknown_patient(patient_id);
+update temp_report set unknown_patient = if(unknown_patient(patient_id) is null,null,'1'); 
 update temp_report set patient_address = person_address(patient_id);
 update temp_report set orderable = IFNULL(concept_name(order_concept_id, @locale),concept_name(order_concept_id, 'en'));
 -- status is derived by the order fulfiller status and other fields
