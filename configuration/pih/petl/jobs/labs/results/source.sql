@@ -36,13 +36,9 @@ CREATE TEMPORARY TABLE temp_tb_smear_results
 );
 
 # patient and encounter IDs
-INSERT INTO temp_tb_smear_results (patient_id, encounter_id, test_related_to, test_type, test_status, date_created)
-SELECT person_id, encounter_id, 'tb', 'smear', 'performed', date_created FROM obs WHERE voided = 0 AND
+INSERT INTO temp_tb_smear_results (patient_id, encounter_id, specimen_collection_date, test_related_to, test_type, test_status, date_created)
+SELECT person_id, encounter_id, DATE(obs_datetime), 'tb', 'smear', 'performed', date_created FROM obs WHERE voided = 0 AND
 concept_id = CONCEPT_FROM_MAPPING("PIH", "TUBERCULOSIS SMEAR RESULT");
-
-# sample taken date
-UPDATE temp_tb_smear_results tbs INNER JOIN encounter e ON e.voided = 0 AND tbs.encounter_id=e.encounter_id
-SET tbs.specimen_collection_date = DATE(e.encounter_datetime);
 
 # specimen collection date estimated
 UPDATE temp_tb_smear_results tbs INNER JOIN obs o ON o.voided = 0 AND tbs.encounter_id = o.encounter_id AND concept_id = CONCEPT_FROM_MAPPING('PIH', '11781')
@@ -81,13 +77,9 @@ CREATE TEMPORARY TABLE temp_tb_culture_results
 );
 
 # patient and encounter IDs
-INSERT INTO temp_tb_culture_results (patient_id, encounter_id, test_related_to, test_type, test_status, date_created)
-SELECT person_id, encounter_id, 'tb', 'culture', 'performed', date_created FROM obs WHERE voided = 0 AND
+INSERT INTO temp_tb_culture_results (patient_id, encounter_id, specimen_collection_date, test_related_to, test_type, test_status, date_created)
+SELECT person_id, encounter_id, DATE(obs_datetime), 'tb', 'culture', 'performed', date_created FROM obs WHERE voided = 0 AND
 concept_id = CONCEPT_FROM_MAPPING("PIH", "TUBERCULOSIS CULTURE RESULT");
-
-# sample taken date
-UPDATE temp_tb_culture_results tbs INNER JOIN encounter e ON e.voided = 0 AND tbs.encounter_id=e.encounter_id
-SET tbs.specimen_collection_date = DATE(e.encounter_datetime);
 
 # specimen collection date estimated
 UPDATE temp_tb_culture_results tbs INNER JOIN obs o ON o.voided = 0 AND tbs.encounter_id = o.encounter_id AND concept_id = CONCEPT_FROM_MAPPING('PIH', '11781')
@@ -126,8 +118,8 @@ CREATE TEMPORARY TABLE temp_tb_genxpert_results
 );
 
 # patient and encounter IDs
-INSERT INTO temp_tb_genxpert_results (patient_id, encounter_id, test_related_to, test_type, test_status, date_created)
-SELECT person_id, encounter_id, 'tb', 'genxpert', 'performed', date_created FROM obs WHERE voided = 0 AND
+INSERT INTO temp_tb_genxpert_results (patient_id, encounter_id, specimen_collection_date, test_related_to, test_type, test_status, date_created)
+SELECT person_id, encounter_id, DATE(obs_datetime), 'tb', 'genxpert', 'performed', date_created FROM obs WHERE voided = 0 AND
 concept_id = CONCEPT_FROM_MAPPING("CIEL", "162202");
 
 # sample taken date
@@ -171,13 +163,9 @@ CREATE TEMPORARY TABLE temp_tb_skin_results
 );
 
 # patient and encounter IDs
-INSERT INTO temp_tb_skin_results (patient_id, encounter_id, test_related_to, test_type, test_status, date_created)
-SELECT person_id, encounter_id, 'tb', 'skin test', 'performed', date_created FROM obs WHERE voided = 0 AND
+INSERT INTO temp_tb_skin_results (patient_id, encounter_id, specimen_collection_date, test_related_to, test_type, test_status, date_created)
+SELECT person_id, encounter_id, DATE(obs_datetime), 'tb', 'skin test', 'performed', date_created FROM obs WHERE voided = 0 AND
 concept_id = CONCEPT_FROM_MAPPING("PIH", "TUBERCULIN SKIN TEST");
-
-# sample taken date
-UPDATE temp_tb_skin_results tbs INNER JOIN encounter e ON e.voided = 0 AND tbs.encounter_id=e.encounter_id
-SET tbs.specimen_collection_date = DATE(e.encounter_datetime);
 
 # specimen collection date estimated
 UPDATE temp_tb_skin_results tbs INNER JOIN obs o ON o.voided = 0 AND tbs.encounter_id = o.encounter_id AND concept_id = CONCEPT_FROM_MAPPING('PIH', '11781')
@@ -220,12 +208,9 @@ CREATE TEMPORARY TABLE temp_reason_no_smear
     index_desc                  INT(11)
 );
 
-INSERT INTO temp_reason_no_smear(patient_id, encounter_id, order_id, order_number, test_related_to, test_type, test_status, reason_test_not_perform , date_created)
-SELECT person_id, o.encounter_id, ord.order_id, ord.order_number, 'tb', 'smear', 'not performed', CONCEPT_NAME(value_coded, 'en'), o.date_created  FROM obs o INNER JOIN orders ord on o.order_id = ord.order_id WHERE o.voided = 0 AND
+INSERT INTO temp_reason_no_smear(patient_id, encounter_id, specimen_collection_date, order_id, order_number, test_related_to, test_type, test_status, reason_test_not_perform , date_created)
+SELECT person_id, o.encounter_id, DATE(obs_datetime), ord.order_id, ord.order_number, 'tb', 'smear', 'not performed', CONCEPT_NAME(value_coded, 'en'), o.date_created  FROM obs o INNER JOIN orders ord on o.order_id = ord.order_id WHERE o.voided = 0 AND
 ord.voided = 0 AND o.concept_id = CONCEPT_FROM_MAPPING("CIEL", "165182") AND ord.fulfiller_status LIKE "%EXCEPTION%" AND ord.concept_id = CONCEPT_FROM_MAPPING("PIH", "TUBERCULOSIS SMEAR RESULT");
-
-UPDATE temp_reason_no_smear trs INNER JOIN encounter e ON e.voided = 0 AND trs.encounter_id = e.encounter_id
-SET specimen_collection_date = DATE(e.encounter_datetime);
 
 UPDATE temp_reason_no_smear trs INNER JOIN obs o ON o.voided = 0 AND trs.encounter_id = o.encounter_id AND concept_id = CONCEPT_FROM_MAPPING("PIH", "Date of test results")
 SET test_result_date = DATE(o.value_datetime);
@@ -251,12 +236,9 @@ CREATE TEMPORARY TABLE temp_reason_no_culture
     index_desc                  INT(11)
 );
 
-INSERT INTO temp_reason_no_culture(patient_id, encounter_id, order_id, order_number, test_related_to, test_type, test_status, reason_test_not_perform , date_created)
-SELECT person_id, o.encounter_id, ord.order_id, ord.order_number, 'tb', 'culture', 'not performed', CONCEPT_NAME(value_coded, 'en'), o.date_created  FROM obs o INNER JOIN orders ord on o.order_id = ord.order_id WHERE o.voided = 0 AND
+INSERT INTO temp_reason_no_culture(patient_id, encounter_id, specimen_collection_date, order_id, order_number, test_related_to, test_type, test_status, reason_test_not_perform , date_created)
+SELECT person_id, o.encounter_id, DATE(obs_datetime), ord.order_id, ord.order_number, 'tb', 'culture', 'not performed', CONCEPT_NAME(value_coded, 'en'), o.date_created  FROM obs o INNER JOIN orders ord on o.order_id = ord.order_id WHERE o.voided = 0 AND
 ord.voided = 0 AND o.concept_id = CONCEPT_FROM_MAPPING("CIEL", "165182") AND ord.fulfiller_status LIKE "%EXCEPTION%" AND ord.concept_id = CONCEPT_FROM_MAPPING("PIH", "TUBERCULOSIS CULTURE RESULT");
-
-UPDATE temp_reason_no_culture trs INNER JOIN encounter e ON e.voided = 0 AND trs.encounter_id = e.encounter_id
-SET specimen_collection_date = DATE(e.encounter_datetime);
 
 UPDATE temp_reason_no_culture trs INNER JOIN obs o ON o.voided = 0 AND trs.encounter_id = o.encounter_id AND concept_id = CONCEPT_FROM_MAPPING("PIH", "Date of test results")
 SET test_result_date = DATE(o.value_datetime);
@@ -282,8 +264,8 @@ CREATE TEMPORARY TABLE temp_reason_no_genxpert
     index_desc                  INT(11)
 );
 
-INSERT INTO temp_reason_no_genxpert(patient_id, encounter_id, order_id, order_number, test_related_to, test_type, test_status, reason_test_not_perform , date_created)
-SELECT person_id, o.encounter_id, ord.order_id, ord.order_number, 'tb', 'genxpert', 'not performed', CONCEPT_NAME(value_coded, 'en'), o.date_created  FROM obs o INNER JOIN orders ord on o.order_id = ord.order_id WHERE o.voided = 0 AND
+INSERT INTO temp_reason_no_genxpert(patient_id, encounter_id, specimen_collection_date, order_id, order_number, test_related_to, test_type, test_status, reason_test_not_perform , date_created)
+SELECT person_id, o.encounter_id, DATE(obs_datetime), ord.order_id, ord.order_number, 'tb', 'genxpert', 'not performed', CONCEPT_NAME(value_coded, 'en'), o.date_created  FROM obs o INNER JOIN orders ord on o.order_id = ord.order_id WHERE o.voided = 0 AND
 ord.voided = 0 AND o.concept_id = CONCEPT_FROM_MAPPING("CIEL", "165182") AND ord.fulfiller_status LIKE "%EXCEPTION%" AND ord.concept_id = CONCEPT_FROM_MAPPING("CIEL", "162202");
 
 UPDATE temp_reason_no_genxpert trs INNER JOIN encounter e ON e.voided = 0 AND trs.encounter_id = e.encounter_id
