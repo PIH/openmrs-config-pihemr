@@ -267,6 +267,17 @@ angular.module("encounterTypeConfig", [])
             editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-delivery.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
         }
 
+        var obgynInitial = {
+            type: "encounter-section",
+            id: "section-obgyn-initial",
+            label: "pihcore.obgynInitial.title",
+            icon: "fas fa-fw fa-female",
+            shortTemplate: "templates/sections/defaultSectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-obgyn-initial.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-obgyn-initial.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+        }
+
         var mchReferral = {
           type: "encounter-section",
           id: "section-mch-referral",
@@ -1122,6 +1133,24 @@ angular.module("encounterTypeConfig", [])
               primaryCarePlanMedication,
             ]
           }
+        };
+
+        // obgyn
+        encounterTypes["d83e98fd-dc7b-420f-aa3f-36f648b4483d"] = {
+            DEFAULT: {
+                defaultState: "short",
+                shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                longTemplate: "templates/encounters/defaultEncounterShort.page",
+                icon: "fas fa-fw fa-female",
+                editUrl: hfeStandardEditUrl,
+                showOnVisitList: true,
+                sections: [
+                    obgynInitial,
+                    ancVaccinations,
+                    primaryCareExam,
+                    primaryCareDx
+                ]
+            }
         };
 
         /*
