@@ -193,7 +193,7 @@
                 </label>
                 <span>
                     <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"
-                                        tags="Consult Note Location"/>
+                                        tags="Visit Location"/>
                 </span>
             </p>
             <p id="when">
