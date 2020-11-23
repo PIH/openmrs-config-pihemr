@@ -270,7 +270,7 @@ angular.module("encounterTypeConfig", [])
         var obgynInitial = {
             type: "encounter-section",
             id: "section-obgyn-initial",
-            label: "pihcore.obgynInitial.title",
+            label: "pihcore.obGynInitial.title",
             icon: "fas fa-fw fa-female",
             shortTemplate: "templates/sections/defaultSectionShort.page",
             longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
