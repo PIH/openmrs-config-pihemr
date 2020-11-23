@@ -266,7 +266,7 @@
                 <obs conceptId="PIH:FIRST NAME" labelCode="pihcore.given_name" class="medium-obs" />
                 <obs conceptId="PIH:LAST NAME" labelCode="pihcore.family_name" class="medium-obs" />
             </div>
-            <div class="inline-radio">
+            <div class="question-container inline-radio">
                 <obs conceptId="PIH:Gender" labelCode="pihcore.gender" style="radio" />
             </div>
             <div class="question-container">
