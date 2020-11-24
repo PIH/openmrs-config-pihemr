@@ -1,4 +1,4 @@
-#set @startDate='2020-01-01';
+#set @startDate='2020-01-20';
 #set @endDate='2020-05-20';
 #a541af1e-105c-40bf-b345-ba1fd6a59b85 ZL
 #1a2acce0-7426-11e5-a837-0800200c9a66 Wellbody
@@ -145,8 +145,10 @@ street_landmark =pa.address2
  -- results date
 update temp_laborders_spec ts
 inner join obs res_date on res_date.voided = 0 and res_date.encounter_id = ts.encounter_id and res_date.concept_id = @result_date
-set ts.results_date = res_date.value_datetime,
-    ts.results_entry_date = res_date.date_created;
+set ts.results_date = res_date.value_datetime;
+
+
+--     ts.results_entry_date = res_date.date_created;
 
 
 -- This query loads all specimen encounter-level information from above and observations from results entered  
@@ -164,9 +166,10 @@ ts.locality,
 ts.street_landmark,
 ts.order_number, 
 ifnull(concept_name(ts.concept_id,@locale),concept_name(ts.concept_id,'en')), 
-ts.encounter_datetime, 
+res.obs_datetime, 
 ts.results_date,
-ts.results_entry_date,
+-- ts.results_entry_date,
+res.obs_datetime,
 res.concept_id, 
 ifnull(concept_name(res.concept_id, @locale),concept_name(res.concept_id,'en')), 
 ts.lab_id,							  
@@ -207,8 +210,8 @@ SELECT t.patient_id,
        CASE when t.test_concept_id  <> @not_performed then t.test END as 'test',
        t.lab_id,							   
        t.LOINC,							   
-       t.specimen_collection_date,
-       t.results_date,
+       date(t.specimen_collection_date),
+       date(t.results_date),
        t.results_entry_date,
        -- only return the result if the test was performed:     
        CASE 
@@ -219,4 +222,3 @@ SELECT t.patient_id,
        t.units,
        CASE when t.test_concept_id  = @not_performed  then t.result_coded_answer else null END as 'reason_not_performed'  
 from temp_labresults t;
-
