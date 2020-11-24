@@ -204,8 +204,8 @@ SELECT t.patient_id,
        CASE when t.test_concept_id  <> @not_performed then t.test END as 'test',
        t.lab_id,							   
        t.LOINC,							   
-       date(t.specimen_collection_date),
-       date(t.results_date),
+       date(t.specimen_collection_date) "specimen_collection_date",
+       date(t.results_date) "results_date",
        t.results_entry_date,
        -- only return the result if the test was performed:     
        CASE 
