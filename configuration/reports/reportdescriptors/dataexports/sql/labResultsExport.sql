@@ -87,8 +87,6 @@ and date(e.encounter_datetime) >= date(@startDate)
 and date(e.encounter_datetime) <= date(@endDate)
 ;
 
-
-
 -- updates order number 
 update temp_laborders_spec t
 INNER JOIN obs sco on sco.encounter_id = t.encounter_id and sco.concept_id = @test_order and sco.voided = 0
@@ -146,10 +144,6 @@ street_landmark =pa.address2
 update temp_laborders_spec ts
 inner join obs res_date on res_date.voided = 0 and res_date.encounter_id = ts.encounter_id and res_date.concept_id = @result_date
 set ts.results_date = res_date.value_datetime;
-
-
---     ts.results_entry_date = res_date.date_created;
-
 
 -- This query loads all specimen encounter-level information from above and observations from results entered  
 insert into temp_labresults (patient_id,emr_id,loc_registered, unknown_patient, gender, age_at_enc, department, commune, section, locality, street_landmark,order_number,orderable,specimen_collection_date, results_date, results_entry_date,test_concept_id,test, lab_id, LOINC,result_coded_answer,result_numeric_answer,result_text_answer)
