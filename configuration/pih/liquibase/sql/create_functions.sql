@@ -440,6 +440,32 @@ limit 1;
 END
 #
 /*
+This function accepts an encounter_id
+It will return the text of provider type for that encounter
+NOTE that this will only return one provider type and should not be used if there are multiple providers on an encounter
+*/
+#
+DROP FUNCTION IF EXISTS provider_type;
+#
+CREATE FUNCTION provider_type (
+    _encounter_id int
+)
+	RETURNS varchar(255)
+    DETERMINISTIC
+BEGIN
+    DECLARE providerType varchar(255);
+
+select pr.name into providerType
+from providermanagement_provider_role pr
+join provider pv on pr.provider_role_id = pv.provider_role_id 
+join encounter_provider ep on pv.provider_id = ep.provider_id and ep.voided = 0 and ep.encounter_id = _encounter_id
+limit 1;
+
+    RETURN providerType;
+
+END
+#																	      
+/*
 Encounter Location
 */
 #
