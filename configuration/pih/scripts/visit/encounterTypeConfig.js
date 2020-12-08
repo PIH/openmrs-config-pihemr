@@ -1153,6 +1153,18 @@ angular.module("encounterTypeConfig", [])
             }
         };
 
+        // OVC Intake
+        encounterTypes["651d4359-4463-4e52-8fde-e62876f90792"] = {
+            ...encounterTypes.DEFAULT,
+            editUrl: hfeStandardEditUrl,
+        };
+
+        // OVC Followup
+        encounterTypes["f8d426fd-132a-4032-93da-1213c30e2b74"] = {
+            ...encounterTypes.DEFAULT,
+            editUrl: hfeStandardEditUrl,
+        };
+
         /*
          * Site-specific encounters
          */
