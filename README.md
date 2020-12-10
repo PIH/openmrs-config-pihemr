@@ -115,6 +115,7 @@ Components are defined in [pihcore/.../config/Components.java](https://github.co
 - **malnutritionProgram**: Needs MalnutritionProgramBundle, used by CES.
 - **managePrinters**: Adds Printer Administration page to System Administration page from home page. Printers
   must be on the LAN and one of the supported printer types.
+- **markPatientDead**: Turns on the RefApp functionality for marking a patient dead.
 - **mch**: mchForms + mchProgram
 - **mchForms**: used by ZL (via "mch")
 - **mchProgram**: needs MCHProgramBundle[ZL], used by ZL (via "mch")
