@@ -1,4 +1,4 @@
-create table tb_screening
+create table hiv_status
 (
 status_id int PRIMARY KEY,
 patient_id int,
