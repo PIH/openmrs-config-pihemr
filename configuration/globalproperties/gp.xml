@@ -348,6 +348,11 @@
             <value>${concept.yes.uuid}</value>
         </globalProperty>
         <globalProperty>
+            <property>labworkflowowa.labResultsToDisplayConceptSet</property>
+            <!-- Concept: Laboratory concept set -->
+            <value>d50d46db-3b81-4a5a-b3c6-01857aa9c520</value>
+        </globalProperty>
+        <globalProperty>
             <property>labworkflowowa.testOrderType</property>
             <value>${orderType.testOrder.uuid}</value>
         </globalProperty>
