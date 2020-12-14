@@ -1,3 +1,8 @@
+## This report is a row per encounter report.
+## if there is an ovc encounter, this this encounter is withing a program then this is will show up in the report
+## If there is an ovc encounter but no program, this won't show up in the report. This is could be caused when you fill out an ovc followup form bu not initial form
+
+
 SET @ovc_followup_encounter_type = ENCOUNTER_TYPE('OVC Follow-up');
 SET @ovc_initial_encounter_type = ENCOUNTER_TYPE('OVC Intake');
 
@@ -21,7 +26,7 @@ CREATE TABLE temp_ovc_patient_program
   state_end_date        DATE,
   outcome_concept_id    INT,
   outcome               VARCHAR(255),
-  date_created 			DATETIME
+  date_created          DATETIME
 );
 
 INSERT INTO temp_ovc_patient_program (patient_program_id, patient_id, date_enrolled, date_completed, location_id,outcome_concept_id, date_created)
@@ -118,15 +123,15 @@ ORDER BY zlemr_id, tpp.date_enrolled
 DROP TEMPORARY TABLE IF EXISTS ovc_encounters;
 CREATE TEMPORARY TABLE ovc_encounters
 (
-	person_id 			INT,
-	encounter_id 		INT,
-	encounter_date 		DATE,
-	hiv_status 			VARCHAR(255),
-    hiv_test_date		DATE,
-	services 			TEXT,
-	other_services 		VARCHAR(255),
-    index_asc_hiv_status INT,
-    index_desc_hiv_status INT
+	person_id               INT,
+	encounter_id            INT,
+	encounter_date          DATE,
+	hiv_status              VARCHAR(255),
+	hiv_test_date           DATE,
+	services                TEXT,
+	other_services          VARCHAR(255),
+	index_asc_hiv_status    INT,
+	index_desc_hiv_status   INT
 );
 
 INSERT INTO ovc_encounters (person_id, encounter_id, encounter_date)
