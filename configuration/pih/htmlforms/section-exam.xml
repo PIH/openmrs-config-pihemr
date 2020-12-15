@@ -828,7 +828,7 @@
 
         <p/>
 
-        <!-- Pediatrics only exam:  patients under 12 years old -->
+        <!-- Pediatrics only exam:  patients under 15 years old -->
         <includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) &lt; 15">
             <div class="section-container-color">
                 <h3 id="peds">

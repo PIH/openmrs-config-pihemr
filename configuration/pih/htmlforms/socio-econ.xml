@@ -178,7 +178,6 @@
     <section id="transport" sectionTag="fieldset" headerTag="legend"
              headerStyle="title" headerCode="pihcore.socioEconomic.transport">
         <div class="section-container">
-
             <div>
                 <p>
                     <label>
@@ -208,6 +207,13 @@
                     <obs conceptId="PIH:CLINIC TRAVEL TIME" style="radio"
                          answerSeparator="&amp;nbsp;"
                          answerConceptIds="PIH:1049,PIH:1050,PIH:1051,PIH:982,PIH:3669"/>
+                </p>
+
+                <p>
+                    <label>
+                        <uimessage code="pihcore.comment"/>:
+                    </label>
+                    <obs conceptId="PIH:1301" />
                 </p>
             </div>
         </div>
