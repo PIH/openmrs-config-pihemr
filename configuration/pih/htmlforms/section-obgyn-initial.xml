@@ -25,6 +25,42 @@
             label[for] { font-weight: normal } /* refers to the radio set label */
         }
 
+        .side-by-side label {
+            display: inline-block;
+        }
+
+        .family-history-item .label {
+            display: inline-block;
+            width: 250px;
+        }
+        .family-history-item .relative {
+            display: inline-block;
+            width: 120px;
+        }
+
+        .past-medical-history-item input[type=checkbox] {
+            float: none;
+            vertical-align: middle;
+        }
+
+        .past-medical-history-item input[type=text] {
+            min-width: 200px;
+            display: inline !important;
+            vertical-align: middle;
+            padding: 1px 10px;
+        }
+
+        .past-medical-history-item > span, .past-medical-history-item > label {
+            display: inline !important;
+            vertical-align: middle;
+        }
+
+        .two-columns {
+            column-count: 2;
+            -webkit-column-count: 2;
+            -moz-column-count: 2;
+        }
+
         .section-container {
             background: #F2F2F2;
             box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
@@ -41,14 +77,29 @@
             margin: 0px;
         }
 
-       - .section {
-        width: 100%;
+        - .section {
+            width: 100%;
         }
 
-        .two-columns {
-            column-count: 2;
-            -webkit-column-count: 2;
-            -moz-column-count: 2;
+        .section-header {
+            margin-top: 1.5em;
+        }
+
+        form input[type="radio"], .form input[type="radio"] {
+            float: none;
+            display: inline-block;
+        }
+
+        #vitals fieldset p {
+            vertical-align: top;
+            display: inline-block;
+            float: none;
+        }
+
+        #vitals fieldset .left {
+            vertical-align: top;
+            display: inline-block;
+            float: none;
         }
 
     </style>
@@ -89,45 +140,32 @@
             }
 
             #section-delivery .title {
-            display: none;
-            }
-
-            form input[type="radio"], .form input[type="radio"] {
-                float: none;
-                display: inline-block;
-            }
-
-            .apgar label {
-                display: inline-block;
-            }
-
-            .side-by-side label {
-                display: inline-block;
+                display: none;
             }
 
             #section-delivery .encounter-date {
-            display: none;
+                display: none;
             }
 
             #section-delivery .encounter-provider {
-            display: none;
+                display: none;
             }
 
             #section-delivery .encounter-location {
-            display: none;
+                display: none;
             }
 
             #section-delivery .comment-label {
-            display: none;
+                display: none;
             }
 
             #section-delivery .comment-field {
-            display: block;
-            margin-left: 215px;
+                display: block;
+                margin-left: 215px;
             }
 
             #section-delivery br {
-            display: none;
+                display: none;
             }
         </ifMode>
     </style>
@@ -202,20 +240,312 @@
         </script>
     </ifMode>
 
+    <!-- special formatting when in view mode -->
+    <style type="text/css">
+        <ifMode mode="VIEW" include="false">
+            #family-history br {
+            display: none;
+            }
+        </ifMode>
+    </style>
 
-    <section id="ob-gyn-consult" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="pihcore.obGynConsult.title">
+    <ifMode mode="VIEW" include="false">
+        <script type="text/javascript">
+            jq(function() {
 
+            var validateFamHistoryText = function(divElem) {
+            var parentDiv = divElem.closest('.medicalHistoryText');
+
+            if (typeof parentDiv !== "undefined" ) {
+            var fieldError = parentDiv.find('.field-error');
+            var commentsInput= parentDiv.find('input[type=text]');
+            if (typeof commentsInput !== "undefined" ) {
+            var comments = commentsInput.val();
+            if ((typeof comments !=="undefined") &amp;&amp; comments.length > 0 ) {
+            if ( parentDiv.find('input:checked').length &lt; 1 ) {
+            if (parentDiv.hasClass("famHistory")) {
+            fieldError.html("<uimessage code='pihcore.historyNote.family.indicateParent'/>").show();
+            } else if (parentDiv.hasClass("patientHistory")) {
+            fieldError.html("<uimessage code='pihcore.historyNote.pastMedicalHistory.checkWithoutComments'/>").show();
+            }
+
+            return false;
+            }
+            } else {
+            // if there are no comments make sure the adjacent Parent checkbox is not checked
+            if ( parentDiv.find('input:checked').length &gt; 0 ) {
+            fieldError.html("<uimessage code='pihcore.historyNote.family.specifyComments'/>").show();
+            return false;
+            }
+            }
+            }
+            fieldError.html(" ").hide();
+            }
+            return true;
+            }
+
+
+            jq('.medicalHistoryText').find('input[type=checkbox]').change(function() {
+            validateFamHistoryText(jq(this));
+            });
+
+            jq('.medicalHistoryText').find('input[type=text]').change(function() {
+            validateFamHistoryText(jq(this));
+            });
+
+            // handle our custom functionality for triggering going to the next section when the "Next" button is clicked
+            jq('#next').click(function() {
+            window.htmlForm.getBeforeSubmit().push(function () {
+            window.htmlForm.setReturnUrl(window.htmlForm.getReturnUrl() + "&amp;goToNextSection=pihcore-history");
+            return true;
+            });
+
+            window.htmlForm.submitHtmlForm();
+            })
+
+            jq('#submit').click(function() {
+            window.htmlForm.submitHtmlForm();
+            })
+
+
+            beforeSubmit.push(function() {
+            var numErrors = 0;
+            jq('.medicalHistoryText').find('input[type=text]').each(function() {
+            if (!validateFamHistoryText(jq(this)) ) {
+            ++numErrors;
+            }
+            });
+            return ( numErrors == 0 );
+            });
+
+            });
+        </script>
+    </ifMode>
+
+    <section id="referralIn" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.refer.title">
         <div class="section-container">
-            <label>
-                <uimessage code="pihcore.triageLevel"/>
-            </label>
+            <div class="two-columns">
+                <p>
+                    <repeat>
+                        <template>
+                            <obs conceptId="PIH:Type of referring service"
+                                 style="checkbox"
+                                 answerConceptId="{point}" answerCode="{message}"/>
+                        </template>
+
+                        <render point="CIEL:165018" message="pihcore.location.idClinic" comment="ID clinic"/>
+                        <render point="PIH:ANTENATAL CLINIC" message="pihcore.location.maternal"
+                                comment="Womens Health clinic"/>
+                        <render point="PIH:PRIMARY CARE CLINIC" message="pihcore.location.primary"
+                                comment="Primary care"/>
+                        <render point="CIEL:163558" message="pihcore.location.mentalHealth"
+                                comment="Mental health clinic"/>
+                        <render point="CIEL:160449" message="pihcore.testLocation.surgery" comment="Surgery dept"/>
+                        <render point="CIEL:160448" message="pihcore.location.intMed" comment="Internal medicine"/>
+                        <render point="CIEL:165048" message="pihcore.testLocation.pedWard" comment="Pediatrics"/>
+                        <render point="CIEL:160473" message="pihcore.location.ed" comment="Emergency"/>
+                    </repeat>
+
+                    <obs conceptId="PIH:Type of referring service" style="checkbox"
+                         answerConceptId="PIH:OTHER" commentFieldLabel=""/>
+                </p>
+
+                <p>
+                    <strong>
+                        <uimessage code="pihcore.refer.community"/>
+                    </strong>
+
+                    <obs conceptId="PIH:Type of referring service" style="checkbox"
+                         answerConceptId="CIEL:1555"/>
+                    <obs conceptId="PIH:Type of referring service" style="checkbox"
+                         answerConceptId="PIH:11965"/>
+                </p>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="vitals" sectionTag="fieldset" headerTag="legend"
+             headerStyle="title" headerCode="pihcore.vitalSigns">
+        <div class="section-container">
             <p class="side-by-side">
+                <label>
+                    <uimessage code="pihcore.triageLevel"/>
+                </label>
+
                 <obs conceptId="PIH:Triage color classification" style="radio"
                      answerConceptIds="PIH:Triage red,PIH:Yellow,PIH:Triage green"
                      answerSeparator="" />
             </p>
+        </div>
+        <br/>
 
+        <div class="section-container">
+            <div class="two-columns">
+                <p>
+                    <label>
+                        <uimessage code="mirebalais.vitals.short.heartRate.title"/>
+                    </label>
+                    <span class="small">
+                        <obs conceptId="CIEL:5087" id="heart_rate"
+                             showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
+                    </span>
+                </p>
+
+                <p>
+                    <label>
+                        <uimessage code="mirebalais.vitals.respiratoryRate.short.title"/>
+                    </label>
+                    <span class="small">
+                        <obs conceptId="CIEL:5242" id="respiratory_rate"
+                             showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
+                    </span>
+                </p>
+
+                <p>
+                    <label>
+                        <uimessage code="Temp"/>
+                    </label>
+                    <span class="small">
+                        <obs conceptId="CIEL:5088" id="temperature_c"
+                             showUnits="emr.units.degreesCelsius" unitsCssClass="append-to-value"/>
+                    </span>
+                </p>
+
+                <fieldset field-separator=" / ">
+                    <p class="left">
+                        <uimessage code="mirebalais.vitals.bloodPressure.short.title"/>
+                    </p>
+                    <p class="left">
+                        <obs conceptId="CIEL:5085" id="bp_systolic"/>
+                    </p>
+                    <p class="left">
+                        /
+                    </p>
+                    <p class="left">
+                        <obs conceptId="CIEL:5086" id="bp_diastolic"/>
+                    </p>
+                </fieldset>
+
+                <!-- ToDo:  Add weight/height -->
+                <p>
+                    <label>
+                        <uimessage code="mirebalais.vitals.o2sat.title"/>
+                    </label>
+                    <span class="small">
+                        <obs conceptId="CIEL:5092" id="o2_sat"
+                             showUnits="emr.units.percent" unitsCssClass="append-to-value"/>
+                    </span>
+                </p>
+
+                <p>
+                    <label>
+                        <uimessage code="mirebalais.vitals.muac.navigation.title"/>
+                    </label>
+                    <span class="small">
+                        <obs conceptId="CIEL:1343" id="muac"
+                             showUnits="cm" unitsCssClass="append-to-value"/>
+                    </span>
+                </p>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="habits" sectionTag="fieldset" headerTag="legend"
+             headerStyle="title" headerCode="pihcore.habits">
+        <div class="section-container">
+            <p class="side-by-side">
+                <!-- Alcohol use -->
+                <label>
+                    <uimessage code="Alcohol"/>:
+                </label>
+                <obs conceptId="CIEL:159449" answerConceptIds="CIEL:159450,CIEL:159452,CIEL:1090"
+                     style="radio"  />
+                <br/>
+
+                <!-- Tobacco -->
+                <label position="left">
+                    <uimessage code="pihcore.tobacco"/>:
+                </label>
+                <obs conceptId="CIEL:163731"
+                     answerConceptIds="CIEL:159450,CIEL:159452,CIEL:1090"
+                     style="radio"  />
+                <br/>
+
+                <!-- Drug use -->
+                <label>
+                    <uimessage code="pihcore.drugs"/>:
+                </label>
+                <obs conceptId="CIEL:162556" answerConceptIds="CIEL:159450,CIEL:159452,CIEL:1090"
+                     style="radio" />
+                <br/>
+
+                <label>
+                    <uimessage code="pihcore.habits.drugName"/>
+                </label>
+                <span class="small">
+                    <obs conceptId="PIH:6489"/>
+                </span>
+            </p>
+        </div>
+    </section>
+
+    <section id="patient-history" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="zl.consultNote.patientHistory.title">
+        <div class="section-container">
+            <!-- ANTECEDENTS PERSONNELS / HABITUDES -->
+
+            <div class="two-columns">
+                <pastMedicalHistoryCheckbox concept="CIEL:117703" name="sickle cell"/>
+                <pastMedicalHistoryCheckbox concept="PIH:HEART DISEASE" specify="true" class="medicalHistoryText patientHistory" />
+                <pastMedicalHistoryCheckbox concept="PIH:DIABETES"/>
+                <pastMedicalHistoryCheckbox concept="PIH:ASTHMA"/>
+                <pastMedicalHistoryCheckbox concept="PIH:HYPERTENSION" label="pihcore.medicalhistory.hypertension"/>
+                <pastMedicalHistoryCheckbox concept="PIH:SEXUALLY TRANSMITTED INFECTION" label="pihcore.medicalhistory.sti"
+                                            specify="true" class="medicalHistoryText patientHistory"/>
+                <pastMedicalHistoryCheckbox concept="PIH:TUBERCULOSIS"/>
+                <pastMedicalHistoryCheckbox concept="CIEL:138405" label="pihcore.lab.hiv.title"/>
+            </div>
+
+            <div class="two-columns">
+                <pastMedicalHistoryCheckbox concept="CIEL:113859" />
+                <pastMedicalHistoryCheckbox concept="PIH:47" />
+                <pastMedicalHistoryCheckbox concept="PIH:Eclampsia" />
+
+                <pastMedicalHistoryCheckbox concept="PIH:SURGERY" specify="true" class="medicalHistoryText patientHistory"/>
+                <pastMedicalHistoryCheckbox concept="PIH:Traumatic Injury" specify="true" class="medicalHistoryText patientHistory"/>
+                <pastMedicalHistoryCheckbox concept="PIH:OTHER" code="pihcore.other" specify="true" class="medicalHistoryText patientHistory"/>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="family-history" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="zl.consultNote.familyHistory.title">
+        <div class="section-container">
+            <!-- ANTECEDENTS HEREDO-COLLATERAUX -->
+            <familyHistoryRelativeCheckboxes concept="PIH:ASTHMA" relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
+            <familyHistoryRelativeCheckboxes concept="PIH:HEART DISEASE" relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
+            <familyHistoryRelativeCheckboxes concept="PIH:DIABETES" relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
+            <familyHistoryRelativeCheckboxes concept="PIH:EPILEPSY" relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
+            <familyHistoryRelativeCheckboxes concept="CIEL:117635" comment="Hémoglobinopathie"
+                                             relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
+            <familyHistoryRelativeCheckboxes concept="PIH:HYPERTENSION" label="pihcore.medicalhistory.hypertension"
+                                             relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
+            <familyHistoryRelativeCheckboxes concept="PIH:TUBERCULOSIS" relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
+            <br/>
+            <familyHistoryRelativeCheckboxes id="familyCancer" class="medicalHistoryText famHistory"
+                                             concept="CIEL:116031" label="Cancer"
+                                             relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"
+                                             specify="true"/>
+
+            <br/>
+            <familyHistoryRelativeCheckboxes id="familyOther" class="medicalHistoryText famHistory"
+                                             concept="PIH:OTHER" code="pihcore.other"
+                                             relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"
+                                             specify="true"/>
         </div>
     </section>
 
@@ -282,11 +612,11 @@
                     </p>
 
                     <!-- APGAR -->
-                    <p class="apgar">
+                    <p class="side-by-side">
                         <label>
                             <uimessage code="pihcore.mch.apgarScore"/>
                         </label>
-
+                        <br/>
                         <obs conceptId="PIH:11932" answerConceptIds="PIH:11933,PIH:11934,PIH:11935"
                              answerCodes="pihcore.mch.lessThan4,pihcore.mch.between4and8,pihcore.mch.greaterThan8"
                              style="radio" answerSeparator=""  />
