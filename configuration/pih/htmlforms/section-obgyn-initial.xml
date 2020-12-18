@@ -680,6 +680,65 @@
             </div>
         </section>
 
+    <section id="hiv" sectionTag="fieldset" headerTag="legend"
+             headerStyle="title" headerCode="pihcore.lab.hiv.title">
+        <div class="section-container">
+
+            <label>
+                <uimessage code="pihcore.dateEnrollHIV" />
+            </label>
+
+            <label>
+                <uimessage code="pihcore.hivPast3mo" />
+            </label>
+
+            <p class="side-by-side">
+                <label>
+                    <uimessage code="pihcore.hiv.whoStages"/>:
+                </label>
+                <obs conceptId="CIEL:5356"
+                     answerConceptIds="CIEL:1204,CIEL:1205,CIEL:1206,CIEL:1207,CIEL:1067"
+                     answerCodes="1,2,3,4,pihcore.unknown"
+                     answerSeparator="&amp;nbsp;" style="radio" />
+            </p>
+
+            <h4>
+                <uimessage code="CD4"/>
+            </h4>
+            <div class="two-columns">
+                <p class="radio">
+                    <label>
+                        <uimessage code="pihcore.lab.cd4Count"/>
+                    </label>
+                    <obs conceptId="CIEL:5497" /> <!-- count -->
+<br/>
+                    <label>
+                        <uimessage code="pihcore.lab.cd4Percent"/>
+                    </label>
+                    <obs conceptId="CIEL:730"/> <!-- % -->
+                </p>
+            </div>
+
+            <p class="side-by-side">
+                <label>
+                    <uimessage code="On ARV"/>
+                </label>
+                <obs conceptId="CIEL:160119" style="radio"
+                     answerConceptIds="CIEL:1066,CIEL:1065"/>
+
+            </p>
+
+            <p class="side-by-side">
+                <label>
+                    <uimessage code="pihcore.hiv.startDateARV" />
+                </label>
+                <obs conceptId="CIEL:159599" />
+            </p>
+        </div>
+    </section>
+
+
+
     <ifMode mode="VIEW" include="false">
         <div id="buttons">
             <button id="next" type="button" class="submitButton confirm right">

@@ -529,24 +529,6 @@
             </h4>
 
             <p>
-                <label for="cd4-count-test">
-                    <uimessage code="pihcore.lab.cd4Count"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="cd4-count-test" conceptId="CIEL:5497" showUnits="true"/>
-                    </field>
-                </span>
-
-                <label for="cd4-percent-test">
-                    <uimessage code="pihcore.lab.cd4Percent" />
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="cd4-percent-test" conceptId="CIEL:730" showUnits="true" />
-                    </field>
-                </span>
-
                 <label for="hiv-rapid-test">
                     <uimessage code="pihcore.lab.hivRapid"/>
                 </label>
@@ -566,6 +548,26 @@
                         </field>
                     </div>
                 </obsgroup>
+            </p>
+            
+            <p>
+                <label for="cd4-count-test">
+                    <uimessage code="pihcore.lab.cd4Count"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="cd4-count-test" conceptId="CIEL:5497" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="cd4-percent-test">
+                    <uimessage code="pihcore.lab.cd4Percent" />
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="cd4-percent-test" conceptId="CIEL:730" showUnits="true" />
+                    </field>
+                </span>
             </p>
             <br/>
 
