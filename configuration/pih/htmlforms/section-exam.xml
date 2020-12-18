@@ -325,6 +325,8 @@
                         <obs conceptId="CIEL:163042" rows="5" cols="45" id="general-exam-comments"/>
                     </p>
                 </p>
+                <br/>
+                <br/>
             </div>
         </div>
 
@@ -382,6 +384,10 @@
                          style="checkbox"/>
                 </p>
                 <p>
+                    <obs class="abnormalObs" conceptId="PIH:HEENT EXAM FINDINGS" answerConceptId="PIH:ICTERIC SCLERA"
+                         style="checkbox"/>
+                </p>
+                <p>
                     <obs class="abnormalObs" conceptId="PIH:HEENT EXAM FINDINGS" answerConceptId="PIH:GOITER"
                          style="checkbox"/>
                 </p>
@@ -399,6 +405,8 @@
                         <obs conceptId="CIEL:163045" rows="5" cols="45"/>
                     </p>
                 </p>
+                <br/>
+                <br/>
             </div>
         </div>
 
@@ -518,6 +526,8 @@
                         <obs conceptId="CIEL:160689" rows="5" cols="45"/>
                     </p>
                 </p>
+                <br/>
+                <br/>
             </div>
         </div>
 
@@ -609,7 +619,8 @@
                             <obs conceptId="CIEL:163047" rows="5" cols="45"/>
                         </p>
                     </p>
-
+                    <br/>
+                    <br/>
                 </div>
             </div>
         </includeIf>
@@ -650,7 +661,8 @@
                             <obs conceptId="PIH:13230" rows="5" cols="45"/>
                         </p>
                     </p>
-
+                    <br/>
+                    <br/>
                 </div>
             </div>
             <p/>
@@ -1005,6 +1017,8 @@
                         <obs conceptId="CIEL:163048" rows="12" cols="45"/>
                     </p>
                 </p>
+                <br/>
+                <br/>
             </div>
         </div>
 
