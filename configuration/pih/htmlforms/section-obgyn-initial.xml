@@ -61,6 +61,17 @@
             -moz-column-count: 2;
         }
 
+        .three-columns {
+            column-count: 3;
+            -webkit-column-count: 3;
+            -moz-column-count: 3;
+        }
+
+        .four-columns {
+            column-count: 4;
+            -webkit-column-count: 4;
+            -moz-column-count: 4;
+        }
         .section-container {
             background: #F2F2F2;
             box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
@@ -244,7 +255,7 @@
     <style type="text/css">
         <ifMode mode="VIEW" include="false">
             #family-history br {
-            display: none;
+                display: none;
             }
         </ifMode>
     </style>
@@ -554,38 +565,6 @@
 
         <div class="section-container">
                 <div class="two-columns">
-                    <p>
-                        <label>
-                            <uimessage code="pihcore.mch.deliveryDate"/>
-                        </label>
-                        <span class="small">
-                            <obs conceptId="CIEL:5599" allowTime="false" />
-                        </span>
-                    </p>
-
-                    <div id="calculated-edd-and-gestational" class="hidden">
-                        <p>
-                            <span id="calculated-edd-wrapper">
-                                <span id="calculated-edd-label">
-                                    <uimessage code="pihcore.calculatedEstimatedDeliveryDate"/>:&#160;
-                                </span>
-                                <span id='calculated-edd' class="value">
-                                    <lookup expression="fn.latestObs('CIEL:1427').valueDatetime"/>
-                                </span>
-                                <span class="small hidden">
-                                    <obs id="lastPeriodDate" conceptId="CIEL:1427" allowFutureDates="false"/>
-                                </span>
-                            </span>
-                        </p>
-                        <p>
-                            <span id="calculated-gestational-age-wrapper">
-                                <span id="calculated-gestational-age-label">
-                                    <uimessage code="pihcore.calculatedGestationalAge"/>:&#160;
-                                </span>
-                                <span id='calculated-gestational-age-value' class="value"></span>
-                            </span>
-                        </p>
-                    </div>
                     <!-- Mental Health -->
                     <p>
                         <label>
@@ -599,7 +578,6 @@
                         <obs conceptId="PIH:Mental health diagnosis" answerConceptId="PIH:SCHIZOPHRENIA"
                              style="checkbox"/>
                     </p>
-                    <br/><br/>
 
                     <!-- Delivery type -->
                     <p>
@@ -711,7 +689,8 @@
                         <uimessage code="pihcore.lab.cd4Count"/>
                     </label>
                     <obs conceptId="CIEL:5497" /> <!-- count -->
-<br/>
+                    <br/>
+
                     <label>
                         <uimessage code="pihcore.lab.cd4Percent"/>
                     </label>
@@ -737,7 +716,158 @@
         </div>
     </section>
 
+    <section id="family-plan-section" sectionTag="fieldset"
+             headerTag="legend" headerStyle="title"
+             headerCode="pihcore.familyPlanning.title">
 
+        <div class="section-container">
+            <div class="two-columns">
+                <obs conceptId="CIEL:163560" style="checkbox"
+                     answerConceptId="CIEL:1382" answerCode="pihcore.fpCounseling" />
+                <br/>
+                <obs conceptId="CIEL:965" style="checkbox"
+                     answerConceptId="CIEL:1065" answerCode="pihcore.currentlyUsing"/>
+            </div>
+            <br/>
+
+            <div class="three-columns">
+                <repeat>
+                    <template>
+                        <p>
+                            <obsgroup groupingConceptId="PIH:Family planning construct">
+                                <obs conceptId="CIEL:374"
+                                     answerConceptId="{fpMethod}"
+                                     answerCode="{comment}"
+                                     style="checkbox" />
+                            </obsgroup>
+                        </p>
+                    </template>
+
+                    <render fpMethod="CIEL:159783" comment="COC"/>
+                    <render fpMethod="CIEL:80784"  comment="COP"/>
+                    <render fpMethod="CIEL:907"    comment="Depo-provera"/>
+
+                    <render fpMethod="CIEL:1873" comment="Implant"/>
+                    <render fpMethod="CIEL:5275" comment="pihcore.fp.iud"/>
+                    <render fpMethod="CIEL:5277" comment="pihcore.fp.rhythm" />
+
+                    <render fpMethod="CIEL:136163" comment="pihcore.fp.breast" />
+                    <render fpMethod="CIEL:190" comment="Condoms"/>
+                    <render fpMethod="CIEL:1472" comment="pihcore.fp.tubalLig"/>
+                </repeat>
+            </div>
+
+            <div class="two-columns">
+                <label>
+                    <uimessage code="pihcore.startDate"/>:
+                </label>
+                <obs conceptId="CIEL:163757" />
+
+                <label>
+                    <uimessage code="pihcore.endDate"/>:
+                </label>
+                <obs conceptId="CIEL:163758" />
+            </div>
+
+            <p>
+                <label>
+                    <uimessage code="pihcore.dateImplant"/>:
+                </label>
+                <obs conceptId="PIH:3203" />
+            </p>
+        </div>
+    </section>
+
+
+    <section id="obgyn-section" sectionTag="fieldset"
+             headerTag="legend" headerStyle="title"
+             headerCode="OB/GYN">
+        <div class="section-container">
+
+            <div class="two-columns">
+                <!-- Last menstrual period (LMP or DDR) -->
+                <p>
+                    <label>
+                        <uimessage code="pihcore.pregnancy.lastPeriod"/>
+                    </label>
+                    <span class="small">
+                        <obs id="lastPeriodDate" conceptId="CIEL:1427" allowFutureDates="false"/>
+                    </span>
+                </p>
+
+                <!-- Due date (DPA) -->
+                <p>
+                    <label>
+                        <uimessage code="pihcore.pregnancy.dueDate"/>
+                    </label>
+                    <span class="small">
+                        <obs conceptId="CIEL:5596" allowFutureDates="true"/>
+                    </span>
+                </p>
+            </div>
+
+            <div id="calculated-edd-and-gestational" class="two-columns hidden">
+                <p>
+                    <span id="calculated-gestational-age-wrapper">
+                        <span id="calculated-gestational-age-label">
+                            <uimessage code="pihcore.calculatedGestationalAge"/>:&#160;
+                        </span>
+                        <span id='calculated-gestational-age-value' class="value"></span>
+                    </span>
+                </p>
+                <p>
+                    <span id="calculated-edd-wrapper">
+                        <span id="calculated-edd-label">
+                            <uimessage code="pihcore.calculatedEstimatedDeliveryDate"/>:&#160;
+                        </span>
+                        <span id='calculated-edd' class="value"></span>
+                    </span>
+                </p>
+            </div>
+
+            <div class="two-columns">
+                <p>
+                    <label>
+                        <uimessage code="pihcore.durationMenstCycle"/>
+                    </label>
+                    <obs conceptId="CIEL:160597" />
+                    <br/>
+
+                    <label>
+                        <uimessage code="pihcore.durationMenses"/>
+                    </label>
+                    <obs conceptId="CIEL:163732" />
+                </p>
+            </div>
+
+            <div class="four-columns">
+                <p>
+                    <label>
+                        <uimessage code="pihcore.mch.grava"/>
+                    </label>
+                    <obs conceptId="CIEL:5624" required="true" id="gravidaInput"/>
+                </p>
+                <p>
+                    <label>
+                        <uimessage code="pihcore.mch.para"/>
+                    </label>
+                    <obs conceptId="CIEL:1053" required="true"/>
+                </p>
+                <p>
+                    <label>
+                        <uimessage code="pihcore.mch.abortus"/>
+                    </label>
+                    <obs conceptId="CIEL:1823" required="true"/>
+                </p>
+                <p>
+                    <label>
+                        <uimessage code="pihcore.mch.living"/>
+                    </label>
+                    <obs conceptId="CIEL:1825" required="true"/>
+                </p>
+            </div>
+        </div>
+    </section>
 
     <ifMode mode="VIEW" include="false">
         <div id="buttons">
