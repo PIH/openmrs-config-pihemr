@@ -665,19 +665,26 @@ angular.module("encounterTypeConfig", [])
         // zlHivIntake
         // ToDo: Replace the icon and add more sections
         encounterTypes["c31d306a-40c4-11e7-a919-92ebcb67fe33"] = {
-            defaultState: "short",
-            shortTemplate: "templates/encounters/defaultEncounterShort.page",
-            longTemplate: "templates/encounters/defaultEncounterShort.page",   // no expanded view, instead there are individual sections
-            icon: "fas fa-fw fa-ribbon",
-            editUrl: hfeStandardEditUrl,
-            showOnVisitList: true,
-            sections: [
-                hivHistory,
-                primaryCareExam,
-                pedsVaccinations,
-                hivAssessment,
-                hivPlan
-            ]
+            DEFAULT: {
+                defaultState: "short",
+                shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                longTemplate: "templates/encounters/defaultEncounterShort.page",   // no expanded view, instead there are individual sections
+                icon: "fas fa-fw fa-ribbon",
+                editUrl: hfeStandardEditUrl,
+                showOnVisitList: true,
+                sections: [
+                    hivHistory,
+                    primaryCareExam,
+                    pedsVaccinations,
+                    hivAssessment,
+                    hivPlan
+                ]
+            },
+            peru: {
+                ...encounterTypes.DEFAULT,
+                icon: "fas fa-fw fa-ribbon",
+                editUrl: hfeStandardEditUrl
+            }
         };
 
         // zlHivFollowup
