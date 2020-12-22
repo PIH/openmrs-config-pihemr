@@ -524,6 +524,8 @@
                 <uimessage code="pihcore.lab.serology.title"/>
             </h3>
 
+            <!--         <includeIf velocityTest="$user.hasPrivilege('Task: emr.hivTestResults')"> -->
+
             <h4>
                 <uimessage code="pihcore.lab.hiv.title"/>
             </h4>
