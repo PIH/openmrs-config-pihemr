@@ -333,6 +333,13 @@
         </script>
     </ifMode>
 
+    <section id="consult-type" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.typeOfConsult">
+        <div class="section-container">
+            add...
+        </div>
+    </section>
+
     <section id="referralIn" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.refer.title">
         <div class="section-container">
