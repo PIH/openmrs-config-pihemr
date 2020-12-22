@@ -336,38 +336,22 @@
     <section id="referralIn" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.refer.title">
         <div class="section-container">
-            <div class="two-columns">
-                <p>
-                    <repeat>
-                        <template>
-                            <obs conceptId="PIH:Type of referring service"
-                                 style="checkbox"
-                                 answerConceptId="{point}" />
-                            <!-- answerCode="{message}"/> -->
-                        </template>
-
-                        <render point="CIEL:1589" message="pihcore.x" comment="Hospital"/>
-                        <render point="PIH:PRIMARY CARE CLINIC" message="pihcore.location.primary"
-                                comment="Primary care"/>
-                         <render point="CIEL:160473" message="pihcore.location.ed" comment="Emergency"/>
-                    </repeat>
-
-                    <obs conceptId="PIH:Type of referring service" style="checkbox"
-                         answerConceptId="PIH:OTHER" commentFieldLabel=""/>
-                </p>
-
-                <p>
-                    <strong>
-                        <uimessage code="pihcore.refer.community"/>
-                    </strong>
-
-                    <obs conceptId="PIH:Type of referring service" style="checkbox"
-                         answerConceptId="CIEL:1555"/>
-                    <obs conceptId="PIH:Type of referring service" style="checkbox"
-                         answerConceptId="PIH:11965"/>
-                </p>
-
-            </div>
+            <p>
+                <repeat>
+                    <template>
+                        <obs conceptId="PIH:Type of referring service"
+                             style="checkbox"
+                             answerConceptId="{point}" answerCode="{message}"/>
+                    </template>
+                    <render point="CIEL:1589" message="pihcore.hospitalName"/>
+                    <render point="PIH:PRIMARY CARE CLINIC" message="pihcore.location.opd"/>
+                    <render point="CIEL:159940" message="pihcore.location.vctCenter" />
+                    <render point="PIH:Community meeting" message="pihcore.program.community"/>
+                </repeat>
+            </p>
+            <obs conceptId="PIH:Type of referring service" style="checkbox"
+                 answerConceptId="PIH:OTHER"
+                 commentFieldCode="zl.pastMedicalHistory.specifyLabel"/>
         </div>
     </section>
 
