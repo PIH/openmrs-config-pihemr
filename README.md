@@ -85,7 +85,8 @@ Components are defined in [pihcore/.../config/Components.java](https://github.co
 - **cohortBuilder**: Adds cohort builder OWA. openmrs-owa-cohortbuilder
 - **conditionList**: A dashboard widget that lists "conditions".
 - **consult**: Adds outpatientConsult form to visit actions. Uses Consult Note Location tag.
-- **covid19**: Adds COVID-19 forms to visit actions along with reports.  Under construction.
+- **covid19**: Adds COVID-19 forms to visit actions. Uses COVID-19 Location tag.
+- **covid19IntakeForm**: Just the intake form for COVID-19. Uses COVID-19 Location tag.
 - **dataExports**: Enables the "data exports" section of the Reports app on the home page.
 - **deathCertificate**: Custom death certificate built for Mirabalis, not currently used.
 - **diabetesProgram**: Needs DiabetesProgram bundle, used by CES
@@ -99,6 +100,9 @@ Components are defined in [pihcore/.../config/Components.java](https://github.co
   to System Administration app from the home page. `exportPatients.page`.
 - **growthChart**: Adds an action that leads to a growth chart.
 - **hiv**: Program, forms, and dispensing app. Needs HIVProgramBundle and Haiti HIV MDS package. Location needs "HIV Consult Location" tag.
+- **hivProgram**: Just the program. Needs HIVProgramBundle and Haiti HIV MDS package.
+- **hivForms**: Just the forms and dispensing app. Needs Haiti HIV MDS package. Location needs "HIV Consult Location" tag.
+- **hivIntakeForm**: Just the intake form. Needs Haiti HIV MDS package. Location needs "HIV Consult Location" tag.
 - **hypertensionProgram**: needs HypertensionProgram bundle, used by CES.
 - **idcardPrinting**: Adds registration action to print an ID card. Adds an ID Card Printing widget
   to the pt registration summary. Requires "registerPatient" privilege. Printers must be configured.
@@ -111,6 +115,7 @@ Components are defined in [pihcore/.../config/Components.java](https://github.co
 - **malnutritionProgram**: Needs MalnutritionProgramBundle, used by CES.
 - **managePrinters**: Adds Printer Administration page to System Administration page from home page. Printers
   must be on the LAN and one of the supported printer types.
+- **markPatientDead**: Turns on the RefApp functionality for marking a patient dead.
 - **mch**: mchForms + mchProgram
 - **mchForms**: used by ZL (via "mch")
 - **mchProgram**: needs MCHProgramBundle[ZL], used by ZL (via "mch")
@@ -144,6 +149,7 @@ Components are defined in [pihcore/.../config/Components.java](https://github.co
 - **surgery**: Adds surgery htmlform visit action. Required Surgery Note location tag.
 - **systemAdministration**: Enables System Administration app from home page, and Manage Accounts,
   Merge Patient Electronic Records, and Advanced Features. Requires privilege `emr.systemAdministration`.
+- **tb**: Tuberculosis intake form.
 - **todaysVisits**: Adds the "Active Visits" app to the homepage. It lists the visits from that day.
 - **uhmVitals**: Custom vitals app used in Mirebalais. Don't worry about it.
 - **vaccination**: Adds htmlform called "vaccination-only" to visit actions. Requires Vaccination location tag.

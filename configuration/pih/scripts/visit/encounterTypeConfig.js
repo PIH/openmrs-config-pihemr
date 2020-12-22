@@ -174,8 +174,8 @@ angular.module("encounterTypeConfig", [])
             icon: "fas fa-fw fa-history",
             shortTemplate: "templates/sections/defaultSectionShort.page",
             longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
-            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/zl/section-hiv-history.xml"),
-            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/zl/section-hiv-history.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-hiv-history.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-hiv-history.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
         };
 
         var labRadOrder = {
@@ -197,8 +197,8 @@ angular.module("encounterTypeConfig", [])
             icon: "fas fa-fw fa-th-large",
             shortTemplate: "templates/sections/hivSectionShort.page",
             longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
-            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/zl/section-hiv-assessment.xml"),
-            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/zl/section-hiv-assessment.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-hiv-assessment.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-hiv-assessment.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
         };
 
         var familyPlanningHistory = {
@@ -219,8 +219,8 @@ angular.module("encounterTypeConfig", [])
             icon: "fas fa-fw fa-list-ul",
             shortTemplate: "templates/sections/defaultSectionShort.page",
             longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
-            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/zl/section-hiv-plan.xml"),
-            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/zl/section-hiv-plan.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-hiv-plan.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-hiv-plan.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
         };
 
         var hivState = {
@@ -230,8 +230,8 @@ angular.module("encounterTypeConfig", [])
             icon: "fas fa-fw fa-bolt",
             shortTemplate: "templates/sections/defaultSectionShort.page",
             longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
-            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/zl/section-hiv-state.xml"),
-            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/zl/section-hiv-state.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-hiv-state.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-hiv-state.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
         };
 
         var ancInitial = {
@@ -265,6 +265,17 @@ angular.module("encounterTypeConfig", [])
             longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
             templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-delivery.xml"),
             editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-delivery.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+        }
+
+        var obgynInitial = {
+            type: "encounter-section",
+            id: "section-obgyn-initial",
+            label: "pihcore.obGynInitial.title",
+            icon: "fas fa-fw fa-female",
+            shortTemplate: "templates/sections/defaultSectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-obgyn-initial.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-obgyn-initial.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
         }
 
         var mchReferral = {
@@ -488,14 +499,30 @@ angular.module("encounterTypeConfig", [])
             editUrl: hfeSimpleEditUrl
         };
 
-        // consultation
+        // consultation / outpatientConsult
         encounterTypes["92fd09b4-5335-4f7e-9f63-b2a663fd09a6"] = {
-            defaultState: "short",
-            shortTemplate: "templates/encounters/defaultEncounterShort.page",
-            longTemplate: "templates/encounters/clinicConsultLong.page",
-            icon: "fas fa-fw fa-stethoscope",
-            editUrl: hfeStandardEditUrl,
-            showOnVisitList: true
+            DEFAULT: {
+                defaultState: "short",
+                shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                longTemplate: "templates/encounters/clinicConsultLong.page",
+                icon: "fas fa-fw fa-stethoscope",
+                editUrl: hfeStandardEditUrl,
+                showOnVisitList: true
+            },
+            peru: {
+                defaultState: "short",
+                shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                longTemplate: "templates/encounters/defaultEncounterShort.page",
+                icon: "fas fa-fw fa-gift",
+                editUrl: hfeStandardEditUrl,
+                showOnVisitList: true,
+                sections: [
+                    primaryCareHistory,
+                    primaryCareExam,
+                    primaryCareDx,
+                    primaryCarePlan
+                ]
+            }
         };
 
         // primaryCarePedsInitialConsult
@@ -638,19 +665,26 @@ angular.module("encounterTypeConfig", [])
         // zlHivIntake
         // ToDo: Replace the icon and add more sections
         encounterTypes["c31d306a-40c4-11e7-a919-92ebcb67fe33"] = {
-            defaultState: "short",
-            shortTemplate: "templates/encounters/defaultEncounterShort.page",
-            longTemplate: "templates/encounters/defaultEncounterShort.page",   // no expanded view, instead there are individual sections
-            icon: "fas fa-fw fa-ribbon",
-            editUrl: hfeStandardEditUrl,
-            showOnVisitList: true,
-            sections: [
-                hivHistory,
-                primaryCareExam,
-                pedsVaccinations,
-                hivAssessment,
-                hivPlan
-            ]
+            DEFAULT: {
+                defaultState: "short",
+                shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                longTemplate: "templates/encounters/defaultEncounterShort.page",   // no expanded view, instead there are individual sections
+                icon: "fas fa-fw fa-ribbon",
+                editUrl: hfeStandardEditUrl,
+                showOnVisitList: true,
+                sections: [
+                    hivHistory,
+                    primaryCareExam,
+                    pedsVaccinations,
+                    hivAssessment,
+                    hivPlan
+                ]
+            },
+            peru: {
+                ...encounterTypes.DEFAULT,
+                icon: "fas fa-fw fa-ribbon",
+                editUrl: hfeStandardEditUrl
+            }
         };
 
         // zlHivFollowup
@@ -892,9 +926,9 @@ angular.module("encounterTypeConfig", [])
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
-            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/zl/vct.xml"),
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/vct.xml"),
             icon: "fas fa-fw fa-ribbon",
-            editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("hiv/zl/vct.xml"),
+            editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("hiv/vct.xml"),
             showOnVisitList: true
         };
 
@@ -903,9 +937,9 @@ angular.module("encounterTypeConfig", [])
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
-            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/zl/hiv-dispensing.xml"),
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/hiv-dispensing.xml"),
             icon: "fas fa-fw fa-ribbon",
-            editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("hiv/zl/hiv-dispensing.xml"),
+            editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("hiv/hiv-dispensing.xml"),
             showOnVisitList: true
         };
 
@@ -1132,6 +1166,35 @@ angular.module("encounterTypeConfig", [])
                 ]
             }
         }
+        // obgyn
+        encounterTypes["d83e98fd-dc7b-420f-aa3f-36f648b4483d"] = {
+            DEFAULT: {
+                defaultState: "short",
+                shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                longTemplate: "templates/encounters/defaultEncounterShort.page",
+                icon: "fas fa-fw fa-female",
+                editUrl: hfeStandardEditUrl,
+                showOnVisitList: true,
+                sections: [
+                    obgynInitial,
+                    ancVaccinations,
+                    primaryCareExam,
+                    primaryCareDx
+                ]
+            }
+        };
+
+        // OVC Intake
+        encounterTypes["651d4359-4463-4e52-8fde-e62876f90792"] = {
+            ...encounterTypes.DEFAULT,
+            editUrl: hfeStandardEditUrl,
+        };
+
+        // OVC Followup
+        encounterTypes["f8d426fd-132a-4032-93da-1213c30e2b74"] = {
+            ...encounterTypes.DEFAULT,
+            editUrl: hfeStandardEditUrl,
+        };
 
         /*
          * Site-specific encounters
@@ -1190,7 +1253,7 @@ angular.module("encounterTypeConfig", [])
             var encounterType = encounterTypes[uuid];
 
             if (encounterType == null) {
-              return null;
+              return encounterTypes.DEFAULT;
             }
 
             if (encounterType.hasOwnProperty(country)) {

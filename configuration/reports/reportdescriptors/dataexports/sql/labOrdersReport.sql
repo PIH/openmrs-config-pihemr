@@ -24,6 +24,7 @@ create temporary table temp_report
     orderable       varchar(255),
     status          varchar(255),
     orderer         varchar(255),
+    orderer_provider_type varchar(255),
     order_datetime  datetime,
     date_stopped    datetime,
     auto_expire_date datetime,
@@ -116,7 +117,7 @@ update temp_report set emr_id = patient_identifier(patient_id, metadata_uuid('or
 update temp_report set gender = gender(patient_id);
 update temp_report set loc_registered = loc_registered(patient_id);
 update temp_report set age_at_enc = age_at_enc(patient_id,order_encounter_id );
-update temp_report set unknown_patient = unknown_patient(patient_id);
+update temp_report set unknown_patient = if(unknown_patient(patient_id) is null,null,'1'); 
 update temp_report set patient_address = person_address(patient_id);
 update temp_report set orderable = IFNULL(concept_name(order_concept_id, @locale),concept_name(order_concept_id, 'en'));
 -- status is derived by the order fulfiller status and other fields
@@ -130,6 +131,7 @@ update temp_report t set status =
        ELSE 'Ordered'
     END ;
 update temp_report t set orderer = provider(t.order_encounter_id);
+update temp_report t set orderer_provider_type = provider_type(t.order_encounter_id);
 update temp_report t set ordering_location = encounter_location_name(t.order_encounter_id);
 update temp_report t set specimen_collection_datetime = encounter_date(t.order_encounter_id);
 update temp_report t set test_location = obs_value_coded_list(t.specimen_encounter_id, 'PIH','11791',@locale);
@@ -150,6 +152,7 @@ accession_number "Lab_ID",
 orderable,
 status,
 orderer,
+orderer_provider_type,
 order_datetime,
 ordering_location,
 urgency,

@@ -1,6 +1,8 @@
 CREATE TABLE lab_results
 (
     patient_id                  INT,
+    zlemr_id                    VARCHAR(50),
+    dossier_id                  VARCHAR(50),
     encounter_id                INT,
     specimen_collection_date    DATE,
     sample_taken_date_estimated VARCHAR(11),

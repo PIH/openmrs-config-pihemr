@@ -303,7 +303,7 @@
         </globalProperty>
         <globalProperty>
             <property>labworkflowowa.labResultsEncounterTypes</property>
-            <value>${encounterType.labSpecimenCollection.uuid},${encounterType.laboratoryResults.uuid}</value>
+            <value>${encounterType.labSpecimenCollection.uuid},${encounterType.laboratoryResults.uuid},${encounterType.covidIntake.uuid},${encounterType.covidFollowup.uuid}</value>
         </globalProperty>
         <globalProperty>
             <property>labworkflowowa.labResultsEncounterRole</property>
@@ -346,6 +346,11 @@
         <globalProperty>
             <property>labworkflowowa.estimatedCollectionDateAnswer</property>
             <value>${concept.yes.uuid}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>labworkflowowa.labResultsToDisplayConceptSet</property>
+            <!-- Concept: Laboratory concept set -->
+            <value>d50d46db-3b81-4a5a-b3c6-01857aa9c520</value>
         </globalProperty>
         <globalProperty>
             <property>labworkflowowa.testOrderType</property>
