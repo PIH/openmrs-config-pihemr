@@ -355,6 +355,7 @@
                          answerConceptIds="CIEL:164180,PIH:7383"
                          answerCodes="pihcore.new,pihcore.followup"/>
                 </p>
+                <br/><br/>
             </div>
         </div>
     </section>
@@ -375,10 +376,13 @@
                     <render point="PIH:Community meeting" message="pihcore.program.community"/>
                 </repeat>
             </p>
+
             <obs conceptId="PIH:Type of referring service" style="checkbox"
                  answerConceptId="PIH:OTHER"
                  commentFieldCode="zl.pastMedicalHistory.specifyLabel"/>
+
         </div>
+
     </section>
 
     <section id="vitals" sectionTag="fieldset" headerTag="legend"
