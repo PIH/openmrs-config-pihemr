@@ -336,7 +336,26 @@
     <section id="consult-type" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.typeOfConsult">
         <div class="section-container">
-            add...
+            <div class="two-columns">
+                <p>
+                    <repeat>
+                        <template>
+                            <obs conceptId="PIH:6189" style="checkbox"
+                                 answerConceptId="{map}"  answerCode="pihcore.{message}" />
+                        </template>
+                        <render map="CIEL:165013" message="gyn" />
+                        <render map="CIEL:1622" message="prenatal" />
+                        <render map="PIH:6261"  message="postnatal" />
+                        <render map="PIH:5483"  message="familyPlanning.title" />
+                    </repeat>
+
+                </p>
+                <p class="side-by-side">
+                    <obs conceptId="CIEL:164181" style="radio"
+                         answerConceptIds="CIEL:164180,PIH:7383"
+                         answerCodes="pihcore.new,pihcore.followup"/>
+                </p>
+            </div>
         </div>
     </section>
 
@@ -484,6 +503,46 @@
                 <span class="small">
                     <obs conceptId="PIH:6489"/>
                 </span>
+            </p>
+        </div>
+    </section>
+
+    <section id="complaint" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.history.presentingHistory.title">
+        <div class="section-container">
+            <p>
+                <obs conceptId="PIH:PRESENTING HISTORY" style="textarea" id="presenting-history"/>
+            </p>
+        </div>
+    </section>
+
+    <section id="current-medications" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="zl.consultNote.currentMedications.title">
+        <div class="section-container">
+            <!-- Médicaments actuels -->
+            <repeat>
+                <template>
+                    <obs conceptId="CIEL:1193" answerConceptId="{drug}" />
+                </template>
+                <render drug="CIEL:73624" message="Clotrimoazole" />
+                <render drug="CIEL:461" message="Multivitamin" />
+                <render drug="CIEL:104677" message="Folate/Iron" />
+                <!-- AMD? -->
+                <render drug="CIEL:79831" message="Miconazole"/>
+                <render drug="CIEL:71589" message="Vitamin C"/>
+                <render drug="CIEL:76613" message="Folic acid" />
+                <render drug="CIEL:70116" message="Paracetamol" />
+                <render drug="CIEL:493"   message="Calamine" /> <!-- CIEL:72621? -->
+                <render drug="CIEL:450"   message="Augmentin" />
+                <render drug="CIEL:71160" message="Amoxicillin" />
+                <render drug="CIEL:71780" message="Azithromycin" />
+                <render drug="CIEL:79782" message="Metronidazole" />
+                <render drug="CIEL:73006" message="Cefixine" />
+                <render drug="CIEL:5622"  message="Other" />
+            </repeat>
+
+            <p>
+                <obs conceptId="PIH:CURRENT MEDICATIONS" style="textarea"/>
             </p>
         </div>
     </section>
