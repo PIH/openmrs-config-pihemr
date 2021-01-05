@@ -264,70 +264,68 @@
         <script type="text/javascript">
             jq(function() {
 
-            var validateFamHistoryText = function(divElem) {
-            var parentDiv = divElem.closest('.medicalHistoryText');
+                var validateFamHistoryText = function(divElem) {
+                    var parentDiv = divElem.closest('.medicalHistoryText');
 
-            if (typeof parentDiv !== "undefined" ) {
-            var fieldError = parentDiv.find('.field-error');
-            var commentsInput= parentDiv.find('input[type=text]');
-            if (typeof commentsInput !== "undefined" ) {
-            var comments = commentsInput.val();
-            if ((typeof comments !=="undefined") &amp;&amp; comments.length > 0 ) {
-            if ( parentDiv.find('input:checked').length &lt; 1 ) {
-            if (parentDiv.hasClass("famHistory")) {
-            fieldError.html("<uimessage code='pihcore.historyNote.family.indicateParent'/>").show();
-            } else if (parentDiv.hasClass("patientHistory")) {
-            fieldError.html("<uimessage code='pihcore.historyNote.pastMedicalHistory.checkWithoutComments'/>").show();
-            }
+                    if (typeof parentDiv !== "undefined" ) {
+                        var fieldError = parentDiv.find('.field-error');
+                        var commentsInput= parentDiv.find('input[type=text]');
+                        if (typeof commentsInput !== "undefined" ) {
+                            var comments = commentsInput.val();
+                            if ((typeof comments !=="undefined") &amp;&amp; comments.length > 0 ) {
+                                if ( parentDiv.find('input:checked').length &lt; 1 ) {
+                                    if (parentDiv.hasClass("famHistory")) {
+                                        fieldError.html("<uimessage code='pihcore.historyNote.family.indicateParent'/>").show();
+                                    } else if (parentDiv.hasClass("patientHistory")) {
+                                        fieldError.html("<uimessage code='pihcore.historyNote.pastMedicalHistory.checkWithoutComments'/>").show();
+                                    }
 
-            return false;
-            }
-            } else {
-            // if there are no comments make sure the adjacent Parent checkbox is not checked
-            if ( parentDiv.find('input:checked').length &gt; 0 ) {
-            fieldError.html("<uimessage code='pihcore.historyNote.family.specifyComments'/>").show();
-            return false;
-            }
-            }
-            }
-            fieldError.html(" ").hide();
-            }
-            return true;
-            }
+                                return false;
+                                }
+                            } else {
+                                // if there are no comments make sure the adjacent Parent checkbox is not checked
+                                if ( parentDiv.find('input:checked').length &gt; 0 ) {
+                                    fieldError.html("<uimessage code='pihcore.historyNote.family.specifyComments'/>").show();
+                                    return false;
+                                }
+                            }
+                        }
+                        fieldError.html(" ").hide();
+                    }
+                    return true;
+                }
 
+                jq('.medicalHistoryText').find('input[type=checkbox]').change(function() {
+                    validateFamHistoryText(jq(this));
+                });
 
-            jq('.medicalHistoryText').find('input[type=checkbox]').change(function() {
-            validateFamHistoryText(jq(this));
-            });
+                jq('.medicalHistoryText').find('input[type=text]').change(function() {
+                    validateFamHistoryText(jq(this));
+                });
 
-            jq('.medicalHistoryText').find('input[type=text]').change(function() {
-            validateFamHistoryText(jq(this));
-            });
+                // handle our custom functionality for triggering going to the next section when the "Next" button is clicked
+                jq('#next').click(function() {
+                    window.htmlForm.getBeforeSubmit().push(function () {
+                        window.htmlForm.setReturnUrl(window.htmlForm.getReturnUrl() + "&amp;goToNextSection=pihcore-history");
+                        return true;
+                    });
 
-            // handle our custom functionality for triggering going to the next section when the "Next" button is clicked
-            jq('#next').click(function() {
-            window.htmlForm.getBeforeSubmit().push(function () {
-            window.htmlForm.setReturnUrl(window.htmlForm.getReturnUrl() + "&amp;goToNextSection=pihcore-history");
-            return true;
-            });
+                    window.htmlForm.submitHtmlForm();
+                })
 
-            window.htmlForm.submitHtmlForm();
-            })
+                jq('#submit').click(function() {
+                    window.htmlForm.submitHtmlForm();
+                })
 
-            jq('#submit').click(function() {
-            window.htmlForm.submitHtmlForm();
-            })
-
-
-            beforeSubmit.push(function() {
-            var numErrors = 0;
-            jq('.medicalHistoryText').find('input[type=text]').each(function() {
-            if (!validateFamHistoryText(jq(this)) ) {
-            ++numErrors;
-            }
-            });
-            return ( numErrors == 0 );
-            });
+                beforeSubmit.push(function() {
+                    var numErrors = 0;
+                    jq('.medicalHistoryText').find('input[type=text]').each(function() {
+                        if (!validateFamHistoryText(jq(this)) ) {
+                            ++numErrors;
+                        }
+                    });
+                    return ( numErrors == 0 );
+                });
 
             });
         </script>
@@ -472,6 +470,29 @@
         </div>
     </section>
 
+    <section id="chief-complaint" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.chiefComplaint.title">
+        <div class="section-container">
+            <p>
+                <label>
+                    <uimessage code="pihcore.reasonForConsult" />
+                </label>
+                <br/>
+                <i>Can we use the top area for prenatal+intake/followup?</i>
+                <br/>
+                <obs conceptId="PIH:REASON FOR VISIT" style="checkbox"
+                     answerConceptId="CIEL:5622" commentFieldCode="pihcore.serviceOrProgramOther" />
+            </p>
+
+            <p>
+                <label>
+                    <uimessage code="pihcore.history.presentingHistory.title" />
+                </label>
+                <obs conceptId="PIH:PRESENTING HISTORY" style="textarea" id="presenting-history"/>
+            </p>
+        </div>
+    </section>
+
     <section id="habits" sectionTag="fieldset" headerTag="legend"
              headerStyle="title" headerCode="pihcore.habits">
         <div class="section-container">
@@ -507,15 +528,6 @@
                 <span class="small">
                     <obs conceptId="PIH:6489"/>
                 </span>
-            </p>
-        </div>
-    </section>
-
-    <section id="complaint" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="pihcore.history.presentingHistory.title">
-        <div class="section-container">
-            <p>
-                <obs conceptId="PIH:PRESENTING HISTORY" style="textarea" id="presenting-history"/>
             </p>
         </div>
     </section>
@@ -611,14 +623,38 @@
     <section id="hiv" sectionTag="fieldset" headerTag="legend"
              headerStyle="title" headerCode="pihcore.lab.hiv.title">
         <div class="section-container">
+            <p class="narrow">
+                <label>
+                    <uimessage code="pihcore.dateEnrollHIV" />
+                </label>
+                <obs conceptId="CIEL:160555" />
+            </p>
 
-            <label>
-                <uimessage code="pihcore.dateEnrollHIV" />
-            </label>
+            <p class="side-by-side">
+                <label>
+                    <uimessage code="pihcore.onTreatment" />?
+                </label>
+                <obs conceptId="PIH:11449" style="radio"
+                     answerConceptIds="CIEL:1065,CIEL:1066" />
+                <br/>
+                <label>
+                    <uimessage code="pihcore.yesSpecify" />?
+                </label>
+                <obs conceptId="PIH:6575" />
 
-            <label>
-                <uimessage code="pihcore.hivTestPast3mo" />
-            </label>
+                <br/>
+                <label>
+                    <uimessage code="pihcore.hivTestPast3mo" />
+                </label>
+                <obs conceptId="PIH:13256" style="radio"
+                     answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" />
+                <br/>
+                <label>
+                    <i>
+                        <uimessage code="pihcore.ifNoUnknownVCT" />
+                    </i>
+                </label>
+            </p>
 
             <p class="side-by-side">
                 <label>
@@ -663,6 +699,21 @@
                 </label>
                 <obs conceptId="CIEL:159599" />
             </p>
+
+            <p class="side-by-side">
+                <label>
+                    <uimessage code="pihcore.expectedStartDateART" />
+                </label>
+                <obs conceptId="PIH:2535" />
+            </p>
+
+            <p class="side-by-side">
+                <label>
+                    <uimessage code="pihcore.artReceivedDrugs" />
+                </label>
+                <obs conceptId="CIEL:166086" />
+            </p>
+
         </div>
     </section>
 
