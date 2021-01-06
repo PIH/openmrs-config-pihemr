@@ -634,15 +634,42 @@
                 <label>
                     <uimessage code="pihcore.onTreatment" />?
                 </label>
-                <obs conceptId="PIH:11449" style="radio"
-                     answerConceptIds="CIEL:1065,CIEL:1066" />
-                <br/>
-                <label>
-                    <uimessage code="pihcore.yesSpecify" />?
-                </label>
-                <obs conceptId="PIH:6575" />
+                <obs id="on-treatment" conceptId="PIH:11449" style="radio"
+                     answerConceptIds="CIEL:1065,CIEL:1066" >
+                    <controls>
+                        <when value="CIEL:1065" thenDisplay="#art-treatment"/>
+                    </controls>
+                </obs>
 
-                <br/>
+                <div id="art-treatment">
+                    <label>
+                        <uimessage code="pihcore.yesSpecify" />?
+                    </label>
+                    <obs conceptId="PIH:6575" />
+                </div>
+            </p>
+
+            <p class="side-by-side">
+                <label>
+                    <uimessage code="pihcore.ifTbTreatment" />
+                </label>
+                <obs id="tb-treatment" conceptId="CIEL:5965" style="radio"
+                     answerConceptIds="CIEL:1267,CIEL:163339"
+                     answerCodes="pihcore.treatCompleted,pihcore.incomplete">
+                    <controls>
+                        <when value="CIEL:1267" thenDisplay="#tb-treatment-end-date"/>
+                    </controls>
+                </obs>
+
+                <div id="tb-treatment-end-date">
+                    <label>
+                        <uimessage code="pihcore.treatmentEndDate" />
+                    </label>
+                    <obs conceptId="CIEL:159431" />
+                </div>
+            </p>
+
+            <p class="side-by-side">
                 <label>
                     <uimessage code="pihcore.hivTestPast3mo" />
                 </label>
@@ -666,9 +693,6 @@
                      answerSeparator="&amp;nbsp;" style="radio" />
             </p>
 
-            <h4>
-                <uimessage code="CD4"/>
-            </h4>
             <div class="two-columns">
                 <p class="radio">
                     <label>
@@ -686,18 +710,20 @@
 
             <p class="side-by-side">
                 <label>
-                    <uimessage code="On ARV"/>
+                    <uimessage code="pihcore.onARV"/>
                 </label>
-                <obs conceptId="CIEL:160119" style="radio"
-                     answerConceptIds="CIEL:1066,CIEL:1065"/>
-
-            </p>
-
-            <p class="side-by-side">
-                <label>
-                    <uimessage code="pihcore.hiv.startDateARV" />
-                </label>
-                <obs conceptId="CIEL:159599" />
+                <obs id="on-arv" conceptId="CIEL:160119" style="radio"
+                     answerConceptIds="CIEL:1066,CIEL:1065">
+                    <controls>
+                        <when value="CIEL:1065" thenDisplay="#art-startdate"/>
+                    </controls>
+                </obs>
+                <div id="art-startdate">
+                    <label>
+                        <uimessage code="pihcore.hiv.startDateARV" />
+                    </label>
+                    <obs conceptId="CIEL:159599" />
+                </div>
             </p>
 
             <p class="side-by-side">
