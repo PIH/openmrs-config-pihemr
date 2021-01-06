@@ -38,8 +38,8 @@ and ps.voided = 0;
 
 
 -- load all outcomes into temp table
-insert into temp_status (patient_id, patient_program_id, status_concept_id, location_id, start_date)
-select patient_id, patient_program_id, outcome_concept_id, location_id, date_completed
+insert into temp_status (patient_id, patient_program_id, status_concept_id, location_id, start_date, end_date)
+select patient_id, patient_program_id, outcome_concept_id, location_id, date_completed, date_completed
 from patient_program
 where program_id = @hiv_program
 and date_completed is not null
