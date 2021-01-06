@@ -1,13 +1,26 @@
-CREATE TABLE ovc_program
+CREATE TABLE ovc_program_encounters
 (
-    patient_program_id  INT,
-    zlemr_id            VARCHAR(50),
-    patient_id          INT,
-    date_enrolled       DATE,
-    date_completed      DATE,
-    location            VARCHAR(255),
-    program_status      VARCHAR(255),
-    outcome             VARCHAR(255),
-    index_asc           INT,
-    index_desc          INT
+    person_id,
+	emr_id,
+	patient_program_id,
+	location,
+	encounter_id,
+	encounter_date,
+	ovc_program_enrollment_date,
+	ovc_program_completion_date,
+	program_status_start_date,
+	program_status_end_date,
+	program_status,
+	program_outcome,
+	state,
+	hiv_test_date,
+	hiv_status,
+	services,
+	other_services,
+	index_asc_hiv_status,
+	index_desc_hiv_status,
+	index_asc_program_status,
+	index_desc_program_status,
+	index_asc_enrollment,
+	index_desc_enrollment
 );

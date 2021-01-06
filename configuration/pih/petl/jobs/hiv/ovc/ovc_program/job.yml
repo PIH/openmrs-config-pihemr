@@ -6,7 +6,7 @@ configuration:
 
   load:
     datasource: "sqlserver/openmrs_extractions.yml"
-    table: "ovc_program"
+    table: "ovc_program_encounters"
     schema: "hiv/ovc/ovc_program/target.sql"
 
 schedule:
