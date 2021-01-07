@@ -12,7 +12,6 @@ CREATE TABLE ovc_program_encounters
 	program_status_end_date,
 	program_status,
 	program_outcome,
-	state,
 	hiv_test_date,
 	hiv_status,
 	services,
