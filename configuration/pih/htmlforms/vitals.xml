@@ -261,7 +261,6 @@
 
                 var mmExitHandler = {
                     handleExit: function (fieldValue) {
-                        console.log('mm');
                          if (fieldValue &amp;&amp; fieldValue.value()) {
                             jq('#muac_cm').val(convertMmToCm(fieldValue.value()));
                         }
@@ -435,10 +434,12 @@
                         <uimessage code="emr.locationRequired"/>
                     </label>
                     <span>
+                        <p class="required">
                         <field>
                             <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"
                                                tags="Vitals Location"/>
                         </field>
+                        </p>
                     </span>
 
                     <label>
