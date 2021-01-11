@@ -278,6 +278,18 @@ angular.module("encounterTypeConfig", [])
             editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-obgyn-initial.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
         }
 
+
+        var obgynPlan = {
+            type: "encounter-section",
+            id: "section-obgyn-plan",
+            label: "pihcore.visitNote.plan",
+            icon: "fas fa-fw fa-flag-checkered",
+            shortTemplate: "templates/sections/defaultSectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-obgyn-plan.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-obgyn-plan.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+        };
+
         var mchReferral = {
           type: "encounter-section",
           id: "section-mch-referral",
@@ -1155,7 +1167,8 @@ angular.module("encounterTypeConfig", [])
                     obgynInitial,
                     ancVaccinations,
                     primaryCareExam,
-                    primaryCareDx
+                    primaryCareDx,
+                    obgynPlan
                 ]
             }
         };
