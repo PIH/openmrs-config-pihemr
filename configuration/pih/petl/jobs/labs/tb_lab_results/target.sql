@@ -1,4 +1,4 @@
-CREATE TABLE lab_results
+CREATE TABLE tb_lab_results
 (
     patient_id                  INT,
     zlemr_id                    VARCHAR(50),
