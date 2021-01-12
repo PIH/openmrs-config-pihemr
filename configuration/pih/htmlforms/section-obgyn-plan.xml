@@ -11,7 +11,6 @@
         #test-orders {
         }
 
-
         #test-orders input[type=checkbox] {
             float: none;
             vertical-align: middle;
@@ -59,6 +58,15 @@
             padding: 0px 3px 0px 0px
         }
 
+        .side-by-side label {
+            display: inline-block;
+        }
+
+
+        form input[type="radio"], .form input[type="radio"] {
+            float: none;
+            display: inline-block;
+        }
     </style>
 
     <ifMode mode="VIEW" include="false">
@@ -522,6 +530,56 @@
 
     <section id="delivery-plan" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.deliveryPlan">
+        <div class="section-container-color">
+            <p class="side-by-side">
+                <label>
+                    <uimessage code="pihcore.acceptCHW" />
+                </label>
+                <obs conceptId="PIH:PATIENT HAS ACCOMPAGNATEUR" style="radio"
+                     answerConceptIds="CIEL:1065,CIEL:1066"/>
+                <br/>
+
+                <label>
+                    <uimessage code="pihcore.registerMomClub" />
+                </label>
+                <obs conceptId="PIH:13261" style="radio"
+                     answerConceptIds="CIEL:1065,CIEL:1066"/>
+                <br/>
+
+                <label>
+                    <uimessage code="pihcore.pmtctClub" />
+                </label>
+                <obs conceptId="PIH:13262" style="radio"
+                     answerConceptIds="CIEL:1065,CIEL:1066"/>
+                <br/>
+
+                <label>
+                    <uimessage code="pihcore.deliveryLocation" />
+                </label>
+                <obs id="birth-location" conceptId="CIEL:159758" style="radio"
+                     answerConceptIds="CIEL:1536,CIEL:1589">
+                    <controls>
+                        <when value="CIEL:1589" thenDisplay="#hospital-details"/>
+                    </controls>
+                </obs>
+                <!-- free text hospital location -->
+                <div id="hospital-details">
+                    <label>
+                        <uimessage code="pihcore.specifyHospital" />
+                    </label>
+                    <obs conceptId="CIEL:162724" />
+                </div>
+            </p>
+
+            <p class="side-by-side">
+                <label>
+                    <uimessage code="pihcore.planForHomeARVNewborn" />
+                </label>
+                <br/>
+                <obs conceptId="CIEL:163764" style="radio"
+                     answerConceptIds="CIEL:1065,CIEL:1066"/>
+            </p>
+        </div>
     </section>
 
     <section id="disposition-section" sectionTag="fieldset" headerTag="legend" headerStyle="title"
