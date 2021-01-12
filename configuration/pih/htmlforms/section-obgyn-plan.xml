@@ -513,13 +513,16 @@
                              answerConceptId="{answerId}" answerCode="pihcore.{code}" />
                     </p>
                 </template>
-                <render answerId="PIH:Labor and delivery visit" code="laborDelivery" />
                 <render answerId="PIH:NCD Program" code="visitNote.ncdInitial" />
                 <render answerId="CIEL:165018" code="location.idClinic" />
-                <render answerId="CIEL:5485" code="hospitalized" />
                 <render answerId="PIH:9361" code="communityHealth" />
                 <render answerId="PIH:11956" code="otherFacility" />
             </repeat>
+
+            <!-- These should be set with ADT
+               <render answerId="PIH:Labor and delivery visit" code="laborDelivery" />
+               <render answerId="CIEL:5485" code="hospitalized" />
+            -->
 
             <p>
                 <obs conceptId="CIEL:1272" style="checkbox"

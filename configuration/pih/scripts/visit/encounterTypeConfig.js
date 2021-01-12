@@ -976,7 +976,7 @@ angular.module("encounterTypeConfig", [])
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
             templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("covid19Intake.xml"),
-            icon: "fas fa-fw fa-sun",
+            icon: "fab fa-fw fa-first-order-alt",
             editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("covid19Intake.xml"),
             showOnVisitList: true
         };
@@ -987,7 +987,7 @@ angular.module("encounterTypeConfig", [])
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
             templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("covid19Followup.xml"),
-            icon: "fas fa-fw fa-sun",
+            icon: "fab fa-fw fa-first-order-alt",
             editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("covid19Followup.xml"),
             showOnVisitList: true
         };
@@ -998,7 +998,7 @@ angular.module("encounterTypeConfig", [])
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
             templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("covid19Discharge.xml"),
-            icon: "fas fa-fw fa-sun",
+            icon: "fab fa-fw fa-first-order-alt",
             editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("covid19Discharge.xml"),
             showOnVisitList: true
         };
