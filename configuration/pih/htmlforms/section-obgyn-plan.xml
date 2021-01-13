@@ -8,23 +8,6 @@
             display: block;
         }
 
-        #test-orders {
-        }
-
-        #test-orders input[type=checkbox] {
-            float: none;
-            vertical-align: middle;
-        }
-
-        #test-orders p {
-            margin-bottom: 5px
-        }
-
-        #test-orders span, #test-orders label {
-            display: inline !important;
-            vertical-align: middle;
-        }
-
         .two-columns {
             column-count: 2;
             -webkit-column-count: 2;
@@ -76,98 +59,96 @@
 
             htmlForm.getBeforeValidation().push(function() {
 
-            var valid = true;
+                var valid = true;
 
-            jq('fieldset.medication').each(function() {
+                jq('fieldset.medication').each(function() {
 
-            // clear out any existing error messages
-            jq(this).find('.field-error').first().html('');
+                    // clear out any existing error messages
+                    jq(this).find('.field-error').first().html('');
 
-            //var medication = (jq(this).find('.medication-name input').val()).trim();
+                    //var medication = (jq(this).find('.medication-name input').val()).trim();
 
-            // UHM-3781 we need to look for the value set by the automcomplete widget.
-            // The value should be in the format of Drug:DRUG_ID
-            var medication = jq(this).find('.medication-name input[type=hidden]').val();
+                    // UHM-3781 we need to look for the value set by the automcomplete widget.
+                    // The value should be in the format of Drug:DRUG_ID
+                    var medication = jq(this).find('.medication-name input[type=hidden]').val();
 
-            var dose = jq(this).find('.dose input').val();
-            var doseUnits = jq(this).find('.dose-unit select').val();
-            var frequency = jq(this).find('.frequency select').val();
-            var duration = jq(this).find('.duration input').val();
-            var durationUnits = jq(this).find('.duration-unit select').val();
-            var instructions = jq(this).find('.medication-instructions input').val();
+                    var dose = jq(this).find('.dose input').val();
+                    var doseUnits = jq(this).find('.dose-unit select').val();
+                    var frequency = jq(this).find('.frequency select').val();
+                    var duration = jq(this).find('.duration input').val();
+                    var durationUnits = jq(this).find('.duration-unit select').val();
+                    var instructions = jq(this).find('.medication-instructions input').val();
 
-            if (!medication &amp;&amp; (dose || doseUnits || frequency || duration || durationUnits || instructions)) {
-            valid = false;
-            jq(this).find('.field-error').first().append("<uimessage
-                code="pihcore.visitNote.plan.medications.error.noMedication"/>. ").show();
-            }
+                    if (!medication &amp;&amp; (dose || doseUnits || frequency || duration || durationUnits || instructions)) {
+                        valid = false;
+                        jq(this).find('.field-error').first().append("<uimessage
+                            code="pihcore.visitNote.plan.medications.error.noMedication"/>. ").show();
+                    }
 
-            if (dose &amp;&amp; !doseUnits) {
-            valid = false;
-            jq(this).find('.field-error').first().append("<uimessage
-                code="pihcore.visitNote.plan.medications.error.noDoseUnits"/>. ").show();
-            }
+                    if (dose &amp;&amp; !doseUnits) {
+                        valid = false;
+                        jq(this).find('.field-error').first().append("<uimessage
+                            code="pihcore.visitNote.plan.medications.error.noDoseUnits"/>. ").show();
+                    }
 
-            if (!dose &amp;&amp; doseUnits) {
-            valid = false;
-            jq(this).find('.field-error').first().append("<uimessage
-                code="pihcore.visitNote.plan.medications.error.noDose"/>. ").show();
-            }
+                    if (!dose &amp;&amp; doseUnits) {
+                        valid = false;
+                        jq(this).find('.field-error').first().append("<uimessage
+                            code="pihcore.visitNote.plan.medications.error.noDose"/>. ").show();
+                    }
 
-            if (duration &amp;&amp; !durationUnits) {
-            valid = false;
-            jq(this).find('.field-error').first().append("<uimessage
-                code="pihcore.visitNote.plan.medications.error.noDurationUnits"/>. ").show();
-            }
+                    if (duration &amp;&amp; !durationUnits) {
+                        valid = false;
+                        jq(this).find('.field-error').first().append("<uimessage
+                            code="pihcore.visitNote.plan.medications.error.noDurationUnits"/>. ").show();
+                    }
 
-            if (!duration &amp;&amp; durationUnits) {
-            valid = false;
-            jq(this).find('.field-error').first().append("<uimessage
-                code="pihcore.visitNote.plan.medications.error.noDuration"/>. ").show();
-            }
+                    if (!duration &amp;&amp; durationUnits) {
+                        valid = false;
+                        jq(this).find('.field-error').first().append("<uimessage
+                            code="pihcore.visitNote.plan.medications.error.noDuration"/>. ").show();
+                    }
 
-
-
-            });
-            return valid;
+                });
+                return valid;
 
             });
 
             jq(function() {
 
-            var hasValue = function(element) {
-            return jq(element).find('.medication-name input').val();
-            };
+                var hasValue = function(element) {
+                    return jq(element).find('.medication-name input').val();
+                };
 
-            var hideOtherMeds = function() {
-            jq('#medication-2').hide();
-            jq('#medication-3').hide();
-            jq('#medication-4').hide();
-            jq('#medication-5').hide();
-            jq('#medication-6').hide();
-            jq('#medication-7').hide();
-            jq('#medication-8').hide();
-            };
+                var hideOtherMeds = function() {
+                    jq('#medication-2').hide();
+                    jq('#medication-3').hide();
+                    jq('#medication-4').hide();
+                    jq('#medication-5').hide();
+                    jq('#medication-6').hide();
+                    jq('#medication-7').hide();
+                    jq('#medication-8').hide();
+                };
 
-            if (!hasValue('#medication-2') &amp;&amp; !hasValue('#medication-3') &amp;&amp; !hasValue('#medication-4')
-            &amp;&amp; !hasValue('#medication-5') &amp;&amp; !hasValue('#medication-6') &amp;&amp;
-            !hasValue('#medication-7')
-            &amp;&amp; !hasValue('#medication-8')) {
-            hideOtherMeds();
-            jq('#show-more-medications-button').show();
-            }
+                if (!hasValue('#medication-2') &amp;&amp; !hasValue('#medication-3') &amp;&amp; !hasValue('#medication-4')
+                    &amp;&amp; !hasValue('#medication-5') &amp;&amp; !hasValue('#medication-6') &amp;&amp;
+                    !hasValue('#medication-7')
+                    &amp;&amp; !hasValue('#medication-8')) {
+                    hideOtherMeds();
+                    jq('#show-more-medications-button').show();
+                }
 
-            jq('#show-more-medications-button').click(function() {
-            jq('.medication').show();
-            jq('#show-more-medications-button').hide();
-            jq('#show-less-medications-button').show();
-            });
+                jq('#show-more-medications-button').click(function() {
+                    jq('.medication').show();
+                    jq('#show-more-medications-button').hide();
+                    jq('#show-less-medications-button').show();
+                });
 
-            jq('#show-less-medications-button').click(function() {
-            hideOtherMeds();
-            jq('#show-less-medications-button').hide();
-            jq('#show-more-medications-button').show();
-            });
+                jq('#show-less-medications-button').click(function() {
+                    hideOtherMeds();
+                    jq('#show-less-medications-button').hide();
+                    jq('#show-more-medications-button').show();
+                });
 
             })
 
@@ -179,209 +160,6 @@
             <uimessage code="pihcore.visitNote.plan"/>
         </h1>
     </ifMode>
-
-    <section id="test-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="pihcore.lab.lab_tests.title">
-        <div class="section-container-color">
-            <div class="three-columns">
-                <p>
-                    <label>
-                        <uimessage code="pihcore.lab.hematology.title"/>
-                    </label>
-                </p>
-                <repeat>
-                    <template>
-                        <p>
-                            <obs conceptId="PIH:Lab test ordered coded"
-                                 answerConceptId="{labName}"
-                                 style="checkbox"/>
-                        </p>
-                    </template>
-
-                    <!-- Hematology -->
-                    <render labName="PIH:HEMOGLOBIN" comment="Hemoglobin"/>
-                    <render labName="PIH:HEMATOCRIT" comment="Hematocrit"/>
-                    <render labName="CIEL:1019" comment="Hemogram"/>
-                    <render labName="CIEL:160225" comment="Sickling"/>
-                    <render labName="CIEL:161152" comment="Coagulation"/>
-                    <render labName="PIH:BLOOD TYPING" comment="Blood group"/>
-                    <render labName="CIEL:161233" comment="Crossmatching"/>
-                    <render labName="CIEL:165544" comment="Hemoglobin electrophoresis"/>
-                </repeat>
-
-                <!-- Parasitology -->
-                <label>
-                    <uimessage code="pihcore.lab.parasitology.title"/>
-                </label>
-
-                <repeat>
-                    <template>
-                        <p>
-                            <obs conceptId="PIH:Lab test ordered coded"
-                                 answerConceptId="{labName}"
-                                 style="checkbox"/>
-                        </p>
-                    </template>
-                    <render labName="CIEL:32" comment="Malaria smear"/>
-                    <render labName="CIEL:1643" comment="Malaria RDT"/>
-                    <render labName="CIEL:304" comment="Stool"/>
-                </repeat>
-
-                <!-- ANC -->
-                <p>
-                    <label>
-                        ANC
-                    </label>
-                </p>
-                <repeat>
-                    <template>
-                        <p>
-                            <obs conceptId="PIH:Lab test ordered coded"
-                                 answerConceptId="{labName}"
-                                 answerCode="{codeLabel}"
-                                 style="checkbox"/>
-                        </p>
-                    </template>
-                    <render labName="PIH:B-HCG" codeLabel="pihcore.lab.pregnancy" comment="Pregnancy"/>
-                    <render labName="PIH:RPR" codeLabel="pihcore.lab.syphilis" comment="Syphilis (RPR)"/>
-                    <render labName="CIEL:165553" codeLabel="pihcore.lab.vaginal" comment="Vaginal discharge"/>
-                </repeat>
-
-                <!-- Chemistry -->
-                <p>
-                    <label>
-                        <uimessage code="pihcore.lab.chemistry.title"/>
-                    </label>
-                </p>
-                <repeat>
-                    <template>
-                        <p>
-                            <obs conceptId="PIH:Lab test ordered coded"
-                                 answerConceptId="{labName}"
-                                 style="checkbox"/>
-                        </p>
-                    </template>
-                    <render labName="CIEL:887" comment="Glucose"/>
-                    <render labName="CIEL:159644" comment="HbA1c"/>
-                    <render labName="CIEL:953" comment="Liver (LFT)"/>
-                    <render labName="CIEL:161488" comment="Renal (RFT)"/>
-                    <render labName="CIEL:1010" comment="Lipid panel"/>
-                    <render labName="CIEL:5473" comment="Electrolytes"/>
-                </repeat>
-
-                <p>
-                    <label>
-                        <uimessage code="pihcore.lab.serology.title"/>
-                    </label>
-                </p>
-                <repeat>
-                    <template>
-                        <p>
-                            <obs conceptId="PIH:Lab test ordered coded"
-                                 answerConceptId="{labName}"
-                                 style="checkbox"/>
-                        </p>
-                    </template>
-
-                    <!-- Serology -->
-                    <render labName="CIEL:163618" comment="Chlamydia"/>
-                    <render labName="CIEL:161475" comment="Hep B"/>
-                    <render labName="CIEL:161474" comment="Hep C"/>
-                    <render labName="CIEL:159645" comment="Spinal fluid (CSF)"/>
-                    <render labName="CIEL:161500" comment="C-reactive protein"/>
-                    <render labName="CIEL:163613" comment="CrAg"/>
-                </repeat>
-                <repeat>
-                    <template>
-                        <p>
-                            <obs conceptId="PIH:Lab test ordered coded"
-                                 answerConceptId="{labName}"
-                                 answerCode="{codeLabel}"
-                                 style="checkbox"/>
-                        </p>
-                    </template>
-
-                    <!-- Serology continued -->
-                    <render labName="CIEL:306" codeLabel="pihcore.lab.typhoid" comment="Typhoid (Widal)"/>
-                    <render labName="CIEL:161469" codeLabel="ASO" comment="ASO"/>
-                </repeat>
-
-                <!-- TB -->
-                <p>
-                    <label>
-                        <uimessage code="pihcore.lab.tb.title"/>
-                    </label>
-                </p>
-                <repeat>
-                    <template>
-                        <p>
-                            <obs conceptId="PIH:Lab test ordered coded"
-                                 answerConceptId="{labName}"
-                                 answerCode="{codeLabel}"
-                                 style="checkbox"/>
-                        </p>
-                    </template>
-
-                    <render labName="PIH:TUBERCULOSIS SMEAR RESULT" codeLabel="pihcore.lab.tbSmear"
-                            comment="AFB / Smear"/>
-                    <render labName="PIH:TUBERCULOSIS CULTURE RESULT" codeLabel="pihcore.lab.tbCulture"
-                            comment="TB culture"/>
-                    <render labName="CIEL:164945" codeLabel="pihcore.lab.tbRIF" comment="GenXpert"/>
-                </repeat>
-
-                <!-- HIV -->
-                <label>
-                    <uimessage code="pihcore.lab.hiv.title"/>
-                </label>
-
-                <repeat>
-                    <template>
-                        <p>
-                            <obs conceptId="PIH:Lab test ordered coded"
-                                 answerConceptId="{labName}"
-                                 answerCode="{codeLabel}"
-                                 style="checkbox"/>
-                        </p>
-                    </template>
-
-                    <render labName="CIEL:163722" codeLabel="pihcore.lab.hivRapid" comment="HIV RT"/>
-                    <render labName="CIEL:1041"   codeLabel="pihcore.lab.elisaQuant" comment="HIV ELISA (quant)"/>
-                    <!-- ToDo: ELISA EID -->
-                    <render labName="CIEL:856"  codeLabel="pihcore.lab.viralLoad" comment="HIV viral load"/>
-                    <render labName="CIEL:5497" codeLabel="pihcore.lab.cd4" comment="CD4 count"/>
-                    <render labName="CIEL:730"  codeLabel="pihcore.lab.cd4Percent" comment="CD4 %"/>
-                </repeat>
-
-                <!-- Other -->
-                <label>
-                    <uimessage code="pihcore.other"/>
-                </label>
-
-                <repeat>
-                    <template>
-                        <p>
-                            <obs conceptId="PIH:Lab test ordered coded"
-                                 answerConceptId="{labName}"
-                                 answerCode="{comment}"
-                                 style="checkbox"/>
-                        </p>
-                    </template>
-                    <render labName="CIEL:885" comment="PAP test"/>
-                    <render labName="CIEL:302" comment="pihcore.lab.urine"/>
-                    <render labName="CIEL:161454" comment="Gram stain"/>
-                    <render labName="CIEL:163620" comment="H pylori"/>
-                </repeat>
-                <p>
-                    <obs conceptId="PIH:Lab test ordered coded"
-                         answerConceptId="PIH:OTHER"
-                         answerCode="zl.ifOtherSpecify"
-                         style="checkbox"
-                         showCommentField="true" commentFieldLabel=""/>
-                </p>
-            </div>
-        </div>
-
-    </section>
 
     <section id="radiology-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.rad_order.title">
@@ -607,15 +385,6 @@
             </p>
         </div>
 
-    </section>
-
-    <section id="clinical-management-plan" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="pihcore.consult.clinicalManagementPlan">
-        <div class="section-container-color">
-            <p>
-                <obs conceptId="CIEL:162749" style="textarea" rows="5" id="clinical-management-plan"/>
-            </p>
-        </div>
     </section>
 
     <ifMode mode="VIEW" include="false">
