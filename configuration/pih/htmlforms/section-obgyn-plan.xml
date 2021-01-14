@@ -161,39 +161,6 @@
         </h1>
     </ifMode>
 
-    <section id="radiology-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="pihcore.rad_order.title">
-        <div class="section-container-color">
-            <includeIf velocityTest="!$config.isComponentEnabled('radiology')">
-
-                <!-- ToDo: This is different from the Radiology app which uses encounter
-                     and order.  This uses  'Radiology procedure performed'.
-                     Add interpretation and date -->
-                <p>
-                    <obs conceptId="PIH:Radiology image ordered"
-                         answerConceptId="PIH:Chest 1 view (XRay)"
-                         style="checkbox"/>
-                </p>
-                <p>
-                    <label>
-                        <uimessage code="zl.ifOtherSpecify"/>
-                    </label>
-                </p>
-                <p>
-                    <obs conceptId="PIH:Radiology image ordered"
-                         answerClasses="Radiology/Imaging Procedure"
-                         style="autocomplete"/>
-                </p>
-
-            </includeIf>
-            <includeIf velocityTest="$config.isComponentEnabled('radiology')">
-                <p>At HUM, use
-                    <uimessage code="pihcore.rad_order.title"/>
-                </p>
-            </includeIf>
-        </div>
-    </section>
-
     <section id="drug-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.visitNote.orders.medications">
 
@@ -269,43 +236,52 @@
 
     </section>
 
-    <section id="referral" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="pihcore.mch.referral">
+    <section id="other-support" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.otherSupport">
         <div class="section-container-color">
 
-            <repeat>
-                <template>
-                    <p>
-                        <obs conceptId="CIEL:1272" style="checkbox" answerConceptId="{answerId}" />
-                    </p>
-                </template>
-                <render answerId="CIEL:163558" code="psychologist" />
-                <render answerId="PIH:NUTRITION PROGRAM"  code="nutritionProgram" />
-                <render answerId="PIH:FAMILY PLANNING" code="familyPlanning" />
+            <label>
+                <uimessage code="Counseling" />
+            </label>
+            <div class="three-columns">
+                <repeat>
+                    <template>
+                        <p>
+                            <obs conceptId="CIEL:165309" style="checkbox"
+                                 answerConceptId="{answer}" />
+                        </p>
+                    </template>
+                    <render answer="CIEL:1382" name="" />
+                    <render answer="CIEL:1906" name="" />
+                    <render answer="CIEL:1380" name="" />
+                    <render answer="CIEL:161651" name="" />
+                    <render answer="CIEL:164480" name="" />
+                    <render answer="CIEL:5622" name="" />
+                </repeat>
+            </div>
+
+            <repeat with="['Chest (X-ray)','CIEL:165152','chestXRay'],
+                          ['Pelvic (U/S)', 'CIEL:161283', 'pelvicUS'],
+                          ['Abdominal (U/S)','CIEL:845','abUS']">
+                <p>
+                    <obsgroup groupingConceptId="PIH:Radiology report construct">
+                        <obs conceptId="PIH:Radiology procedure performed"
+                             answerConceptId="{1}" toggle="{2}"
+                             answerCode="pihcore.rad.{2}"
+                             style="checkbox"/>
+                        <div id="{2}" class="two-columns">
+                            <obs conceptId="PIH:Radiology report comments"
+                                 labelCode="pihcore.findings.label" />
+                            <obs conceptId="PIH:12847" labelCode="Date" />
+                        </div>
+                    </obsgroup>
+                </p>
             </repeat>
 
-            <repeat>
-                <template>
-                    <p>
-                        <obs conceptId="CIEL:1272" style="checkbox"
-                             answerConceptId="{answerId}" answerCode="pihcore.{code}" />
-                    </p>
-                </template>
-                <render answerId="PIH:NCD Program" code="visitNote.ncdInitial" />
-                <render answerId="CIEL:165018" code="location.idClinic" />
-                <render answerId="PIH:9361" code="communityHealth" />
-                <render answerId="PIH:11956" code="otherFacility" />
-            </repeat>
-
-            <!-- These should be set with ADT
-               <render answerId="PIH:Labor and delivery visit" code="laborDelivery" />
-               <render answerId="CIEL:5485" code="hospitalized" />
-            -->
-
-            <p>
-                <obs conceptId="CIEL:1272" style="checkbox"
-                     answerConceptId="CIEL:5622" commentFieldCode="zl.ifOtherSpecify" />
-            </p>
+            <label>
+                <uimessage code="pihcore.other" />
+            </label>
+            <obs conceptId="PIH:13273" style="text" rows="2" cols="40" />
         </div>
     </section>
 
@@ -359,6 +335,46 @@
                 <br/>
                 <obs conceptId="CIEL:163764" style="radio"
                      answerConceptIds="CIEL:1065,CIEL:1066"/>
+            </p>
+        </div>
+    </section>
+
+    <section id="referral" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.mch.referral">
+        <div class="section-container-color">
+
+            <repeat>
+                <template>
+                    <p>
+                        <obs conceptId="CIEL:1272" style="checkbox" answerConceptId="{answerId}" />
+                    </p>
+                </template>
+                <render answerId="CIEL:163558" code="psychologist" />
+                <render answerId="PIH:NUTRITION PROGRAM"  code="nutritionProgram" />
+                <render answerId="PIH:FAMILY PLANNING" code="familyPlanning" />
+            </repeat>
+
+            <repeat>
+                <template>
+                    <p>
+                        <obs conceptId="CIEL:1272" style="checkbox"
+                             answerConceptId="{answerId}" answerCode="pihcore.{code}" />
+                    </p>
+                </template>
+                <render answerId="PIH:NCD Program" code="NCD" />
+                <render answerId="CIEL:165018" code="location.idClinic" />
+                <render answerId="PIH:9361" code="communityHealth" />
+            </repeat>
+
+            <!-- These should be set with ADT
+               <render answerId="PIH:Labor and delivery visit" code="laborDelivery" />
+               <render answerId="CIEL:5485" code="hospitalized" />
+               <render answerId="PIH:11956" code="otherFacility" />
+            -->
+
+            <p>
+                <obs conceptId="CIEL:1272" style="checkbox"
+                     answerConceptId="CIEL:5622" commentFieldCode="zl.ifOtherSpecify" />
             </p>
         </div>
     </section>
