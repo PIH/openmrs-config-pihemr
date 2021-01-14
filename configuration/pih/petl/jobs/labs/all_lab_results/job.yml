@@ -2,12 +2,12 @@ type: "sqlserver-bulk-import"
 configuration:
   extract:
     datasource: "mysql/openmrs.yml"
-    query:  "labs/results/source.sql"
+    query:  "../../../../../reports/reportdescriptors/dataexports/sql/labResultsExport.sql"
 
   load:
     datasource: "sqlserver/openmrs_extractions.yml"
-    table: "lab_results"
-    schema: "labs/results/target.sql"
+    table: "all_lab_results"
+    schema: "labs/all_lab_results/target.sql"
 
 schedule:
   cron: "0 30 6 ? * *"
