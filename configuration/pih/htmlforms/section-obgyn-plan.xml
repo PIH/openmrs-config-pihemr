@@ -248,20 +248,23 @@
                     <template>
                         <p>
                             <obs conceptId="CIEL:165309" style="checkbox"
-                                 answerConceptId="{answer}" />
+                                 answerConceptId="{answer}"
+                                 answerCode="pihcore.{name}"/>
                         </p>
                     </template>
-                    <render answer="CIEL:1382" name="" />
-                    <render answer="CIEL:1906" name="" />
-                    <render answer="CIEL:1380" name="" />
-                    <render answer="CIEL:161651" name="" />
-                    <render answer="CIEL:164480" name="" />
-                    <render answer="CIEL:5622" name="" />
+                    <render answer="CIEL:1382" name="familyPlanning.title" />
+                    <render answer="CIEL:161651" name="mch.breastfeeding" />
+                    <render answer="CIEL:1906" name="hygiene" />
+                    <render answer="CIEL:164480" name="mch.dangerSigns" />
+                    <render answer="CIEL:1380" name="nutrition" />
+                    <render answer="CIEL:5622" name="other" />
                 </repeat>
             </div>
 
-            <repeat with="['Chest (X-ray)','CIEL:165152','chestXRay'],
-                          ['Pelvic (U/S)', 'CIEL:161283', 'pelvicUS'],
+            <label>
+                <uimessage code="pihcore.ultrasound" />
+            </label>
+            <repeat with="['Pelvic (U/S)', 'CIEL:161283', 'pelvicUS'],
                           ['Abdominal (U/S)','CIEL:845','abUS']">
                 <p>
                     <obsgroup groupingConceptId="PIH:Radiology report construct">
@@ -278,8 +281,44 @@
                 </p>
             </repeat>
 
+            <!-- ToDo:  Do we need additional entries?
+            <p>
+                <label>
+                    <uimessage code="pihcore.ultrasound_order.title" />
+                </label>
+                <obsgroup groupingConceptId="PIH:Radiology report construct">
+                    <obs conceptId="PIH:Radiology procedure performed"
+                         style="autocomplete" answerConceptSetIds="PIH:HUM Ultrasound Orderables" />
+                    <div class="two-columns">
+                        <obs conceptId="PIH:Radiology report comments"
+                             labelCode="pihcore.findings.label" />
+                        <obs conceptId="PIH:12847" labelCode="Date" />
+                    </div>
+                </obsgroup>
+            </p>
+            -->
+
+            <!-- Treatment status -->
+            <p class="side-by-side">
+                <label>
+                    <uimessage code="pihcore.oncology.programWorkflow.treatmentStatus" />
+                </label>
+                <obs conceptId="CIEL:163105" style="radio"
+                     answerConceptIds="PIH:7262,CIEL:163057"/>
+            </p>
+
+            <!-- Syphilis treatment -->
+            <p class="side-by-side">
+                <label>
+                    <uimessage code="Syphilis" />:
+                </label>
+                <obs conceptId="CIEL:165331" style="radio"
+                     answerConceptIds="PIH:13274,CIEL:1267"
+                     answerCodes="pihcore.startSyphTreat,pihcore.stopSyphTreat"/>
+            </p>
+
             <label>
-                <uimessage code="pihcore.other" />
+                <uimessage code="zl.ifOtherSpecify" />
             </label>
             <obs conceptId="PIH:13273" style="text" rows="2" cols="40" />
         </div>
@@ -361,7 +400,7 @@
                              answerConceptId="{answerId}" answerCode="pihcore.{code}" />
                     </p>
                 </template>
-                <render answerId="PIH:NCD Program" code="NCD" />
+                <render answerId="PIH:NCD Program" code="visitNote.ncdInitial" />
                 <render answerId="CIEL:165018" code="location.idClinic" />
                 <render answerId="PIH:9361" code="communityHealth" />
             </repeat>
