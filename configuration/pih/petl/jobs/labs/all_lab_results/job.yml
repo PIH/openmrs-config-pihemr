@@ -2,7 +2,7 @@ type: "sqlserver-bulk-import"
 configuration:
   extract:
     datasource: "mysql/openmrs.yml"
-    query:  "../../../../../reports/reportdescriptors/dataexports/sql/labResultsExport.sql"
+    query:  "../../../reports/reportdescriptors/dataexports/sql/labResultsExport.sql"
 
   load:
     datasource: "sqlserver/openmrs_extractions.yml"
