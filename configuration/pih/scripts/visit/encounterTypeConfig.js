@@ -1070,7 +1070,19 @@ angular.module("encounterTypeConfig", [])
               primaryCareDx,
               primaryCarePlanMedication,
             ]
-          }
+          },
+            "liberia": {
+                defaultState: "short",
+                shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+                templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("anc-initial.xml"),
+                icon: "fas fa-fw fa-user",
+                editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("anc-initial.xml"),
+                showOnVisitList: true,
+                sections: [
+                    ancVaccinations
+                ]
+            }
         };
 
         // vaccination
@@ -1110,7 +1122,19 @@ angular.module("encounterTypeConfig", [])
               primaryCareDx,
               primaryCarePlanMedication,
             ]
-          }
+          },
+            "liberia": {
+                defaultState: "short",
+                shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+                templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("anc-followup.xml"),
+                icon: "fas fa-fw fa-user",
+                editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("anc-followup.xml"),
+                showOnVisitList: true,
+                sections: [
+                    ancVaccinations
+                ]
+            }
         };
 
         // delivery
@@ -1139,7 +1163,20 @@ angular.module("encounterTypeConfig", [])
               primaryCareDx,
               primaryCarePlanMedication,
             ]
-          }
+          },
+            "liberia": {
+                defaultState: "short",
+                shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+                templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("anc-delivery.xml"),
+                icon: "fas fa-fw fa-user",
+                editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("anc-delivery.xml"),
+                showOnVisitList: true,
+                sections: [
+                    primaryCareDx,
+                    delivery
+                ]
+            }
         };
 
         // obgyn
