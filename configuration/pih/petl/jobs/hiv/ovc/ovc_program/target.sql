@@ -1,6 +1,6 @@
 CREATE TABLE ovc_program_encounters
 (
-    person_id,
+    patient_id,
 	emr_id,
 	patient_program_id,
 	location,
