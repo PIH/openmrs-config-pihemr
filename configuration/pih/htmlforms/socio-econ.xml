@@ -150,6 +150,7 @@
                         <obs conceptId="CIEL:159387" style="radio"
                              answerConceptIds="CIEL:1943,CIEL:1944,CIEL:159679,CIEL:5622"
                              answerSeparator="&amp;nbsp;" />
+                             <!-- CIEL codes: 1943=Concrete, 1944=Beaten earth, 159679=Ceramic tile, 5622=Other -->
                     </p>
 
                     <p>
