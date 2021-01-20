@@ -50,6 +50,7 @@
                 <p>
                     <obs conceptId="CIEL:1712" style="radio"
                          answerConceptIds="CIEL:1107,CIEL:1713,CIEL:1714,PIH:3396,CIEL:159785"/>
+                         <!-- CIEL codes: 1107=None, 1713=Primary school, 1714=Some secondary, 3396=Professional, 159785=University -->
                 </p>
             </div>
         </section>
