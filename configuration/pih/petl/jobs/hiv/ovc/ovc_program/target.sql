@@ -14,7 +14,7 @@ CREATE TABLE ovc_program_encounters
 	program_outcome                 VARCHAR(255),
 	hiv_test_date                   DATE,
 	hiv_status                      VARCHAR(255),
-	services                        VARCHAR(255),
+	services                        TEXT,
 	other_services                  TEXT,
 	index_asc_hiv_status            INT,
 	index_desc_hiv_status           INT,
