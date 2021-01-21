@@ -132,10 +132,10 @@
             <!-- field separator is set as a workaround for the super-hack, see below -->
 
             <legend>
-                <uimessage code="pihcore.lab.dates"/>
+                <uimessage code="pihcore.lab.overview"/>
             </legend>
             <h3>
-                <uimessage code="pihcore.lab.dates"/>
+                <uimessage code="pihcore.lab.overview"/>
             </h3>
 
             <!-- this is a super-hack to get around the fact that if the date is first field in a form, the
@@ -159,7 +159,18 @@
                     </div>
                 </field>
             </p>
-
+            <br/>
+            <p>
+                <label for="sample-id">
+                    <uimessage code="pihcore.lab.sample_id"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs  id="sample-id" conceptId="CIEL:162086"
+                              placeholder="Enter Sample ID"/>
+                    </field>
+                </span>
+            </p>
             <br/><br/>
             <p>
                 <label for="test-date">
@@ -634,15 +645,6 @@
                                 answerConceptIds="CIEL:166058,CIEL:166059"
                                 answerCodes="pihcore.routine,pihcore.targeted"
                             />
-                        </field>
-                    </div>
-
-                    <div class="small">
-                        <label for="specimen-number">
-                            <uimessage code="pihcore.specimenNumber"/>
-                        </label>
-                        <field>
-                            <obs id="specimen-number" conceptId="CIEL:162086"/>
                         </field>
                     </div>
 
