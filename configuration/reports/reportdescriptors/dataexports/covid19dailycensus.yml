@@ -17,5 +17,6 @@ config:
   order: 140
   components:
     - "covid19"
+    - "covid19IntakeForm"
     - "allDataExports"
 
