@@ -182,7 +182,6 @@
     </style>
 
     <ifMode mode="VIEW" include="false">
-
         <script type="text/javascript">
             jq(document).ready(function() {
 
@@ -231,23 +230,8 @@
               }
             } else {
               jq('#calculated-edd-and-gestational').hide();
-            }
-
-                // handle our custom functionality for triggering going to the next section when the "Next" button is clicked
-                jq('#next').click(function() {
-                    window.htmlForm.getBeforeSubmit().push(function () {
-                        window.htmlForm.setReturnUrl(window.htmlForm.getReturnUrl() + "&amp;goToNextSection=section-obgyn-initial");
-                        return true;
-                    });
-
-                    window.htmlForm.submitHtmlForm();
-                });
-
-                jq('#submit').click(function() {
-                    window.htmlForm.submitHtmlForm();
-                })
-
             });
+
         </script>
     </ifMode>
 
@@ -306,7 +290,7 @@
                 // handle our custom functionality for triggering going to the next section when the "Next" button is clicked
                 jq('#next').click(function() {
                     window.htmlForm.getBeforeSubmit().push(function () {
-                        window.htmlForm.setReturnUrl(window.htmlForm.getReturnUrl() + "&amp;goToNextSection=pihcore-history");
+                        window.htmlForm.setReturnUrl(window.htmlForm.getReturnUrl() + "&amp;goToNextSection=section-obgyn-initial");
                         return true;
                     });
 
@@ -399,6 +383,22 @@
         <br/>
 
         <div class="section-container">
+
+            <fieldset field-separator=" / ">
+                <p class="left">
+                    <uimessage code="mirebalais.vitals.bloodPressure.short.title"/>
+                </p>
+                <p class="left">
+                    <obs conceptId="CIEL:5085" id="bp_systolic"/>
+                </p>
+                <p class="left">
+                    /
+                </p>
+                <p class="left">
+                    <obs conceptId="CIEL:5086" id="bp_diastolic"/>
+                </p>
+            </fieldset>
+
             <div class="two-columns">
                 <p>
                     <label>
@@ -430,22 +430,6 @@
                     </span>
                 </p>
 
-                <fieldset field-separator=" / ">
-                    <p class="left">
-                        <uimessage code="mirebalais.vitals.bloodPressure.short.title"/>
-                    </p>
-                    <p class="left">
-                        <obs conceptId="CIEL:5085" id="bp_systolic"/>
-                    </p>
-                    <p class="left">
-                        /
-                    </p>
-                    <p class="left">
-                        <obs conceptId="CIEL:5086" id="bp_diastolic"/>
-                    </p>
-                </fieldset>
-
-                <!-- ToDo:  Add weight/height -->
                 <p>
                     <label>
                         <uimessage code="mirebalais.vitals.o2sat.title"/>
@@ -455,17 +439,6 @@
                              showUnits="emr.units.percent" unitsCssClass="append-to-value"/>
                     </span>
                 </p>
-
-                <p>
-                    <label>
-                        <uimessage code="mirebalais.vitals.muac.navigation.title"/>
-                    </label>
-                    <span class="small">
-                        <obs conceptId="CIEL:1343" id="muac"
-                             showUnits="cm" unitsCssClass="append-to-value"/>
-                    </span>
-                </p>
-
             </div>
         </div>
     </section>
@@ -473,17 +446,6 @@
     <section id="chief-complaint" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.chiefComplaint.title">
         <div class="section-container">
-            <p>
-                <label>
-                    <uimessage code="pihcore.reasonForConsult" />
-                </label>
-                <br/>
-                <i>Can we use the top area for prenatal+intake/followup?</i>
-                <br/>
-                <obs conceptId="PIH:REASON FOR VISIT" style="checkbox"
-                     answerConceptId="CIEL:5622" commentFieldCode="pihcore.serviceOrProgramOther" />
-            </p>
-
             <p>
                 <label>
                     <uimessage code="pihcore.history.presentingHistory.title" />
@@ -543,7 +505,8 @@
                 <render drug="CIEL:73624" message="Clotrimoazole" />
                 <render drug="CIEL:461" message="Multivitamin" />
                 <render drug="CIEL:104677" message="Folate/Iron" />
-                <!-- AMD? -->
+                <!-- ToDo:  Change from PIH:251 to CIEL:79723 -->
+                <render drug="PIH:251" message="AMD/Methyldopa" />
                 <render drug="CIEL:79831" message="Miconazole"/>
                 <render drug="CIEL:71589" message="Vitamin C"/>
                 <render drug="CIEL:76613" message="Folic acid" />
@@ -571,13 +534,17 @@
             <div class="two-columns">
                 <pastMedicalHistoryCheckbox concept="CIEL:117703" name="sickle cell"/>
                 <pastMedicalHistoryCheckbox concept="PIH:HEART DISEASE" specify="true" class="medicalHistoryText patientHistory" />
-                <pastMedicalHistoryCheckbox concept="PIH:DIABETES"/>
+                <pastMedicalHistoryCheckbox concept="CIEL:142474" name="type 1 DM"/>
+                <pastMedicalHistoryCheckbox concept="CIEL:142473" name="type 2 DM"/>
+                <pastMedicalHistoryCheckbox concept="CIEL:1449"   name="gestational DM"/>
                 <pastMedicalHistoryCheckbox concept="PIH:ASTHMA"/>
                 <pastMedicalHistoryCheckbox concept="PIH:HYPERTENSION" label="pihcore.medicalhistory.hypertension"/>
+                <pastMedicalHistoryCheckbox concept="CIEL:113859"   name="gestational htn"/>
                 <pastMedicalHistoryCheckbox concept="PIH:SEXUALLY TRANSMITTED INFECTION" label="pihcore.medicalhistory.sti"
                                             specify="true" class="medicalHistoryText patientHistory"/>
                 <pastMedicalHistoryCheckbox concept="PIH:TUBERCULOSIS"/>
                 <pastMedicalHistoryCheckbox concept="CIEL:138405" label="pihcore.lab.hiv.title"/>
+                <br/><br/>
             </div>
 
             <div class="two-columns">
@@ -621,7 +588,7 @@
     </section>
 
     <section id="hiv" sectionTag="fieldset" headerTag="legend"
-             headerStyle="title" headerCode="pihcore.lab.hiv.title">
+             headerStyle="title" headerCode="pihcore.hivTB">
         <div class="section-container">
             <p class="narrow">
                 <label>
@@ -651,26 +618,6 @@
 
             <p class="side-by-side">
                 <label>
-                    <uimessage code="pihcore.ifTbTreatment" />
-                </label>
-                <obs id="tb-treatment" conceptId="CIEL:5965" style="radio"
-                     answerConceptIds="CIEL:1267,CIEL:163339"
-                     answerCodes="pihcore.treatCompleted,pihcore.incomplete">
-                    <controls>
-                        <when value="CIEL:1267" thenDisplay="#tb-treatment-end-date"/>
-                    </controls>
-                </obs>
-
-                <div id="tb-treatment-end-date">
-                    <label>
-                        <uimessage code="pihcore.treatmentEndDate" />
-                    </label>
-                    <obs conceptId="CIEL:159431" />
-                </div>
-            </p>
-
-            <p class="side-by-side">
-                <label>
                     <uimessage code="pihcore.hivTestPast3mo" />
                 </label>
                 <obs conceptId="PIH:13256" style="radio"
@@ -683,30 +630,13 @@
                 </label>
             </p>
 
-            <p class="side-by-side">
+            <p class="radio">
                 <label>
-                    <uimessage code="pihcore.hiv.whoStages"/>:
+                    <uimessage code="pihcore.lab.viral_load"/>
                 </label>
-                <obs conceptId="CIEL:5356"
-                     answerConceptIds="CIEL:1204,CIEL:1205,CIEL:1206,CIEL:1207,CIEL:1067"
-                     answerCodes="1,2,3,4,pihcore.unknown"
-                     answerSeparator="&amp;nbsp;" style="radio" />
+                <!-- ToDo:  Add viral load -->
+                <br/>
             </p>
-
-            <div class="two-columns">
-                <p class="radio">
-                    <label>
-                        <uimessage code="pihcore.lab.cd4Count"/>
-                    </label>
-                    <obs conceptId="CIEL:5497" /> <!-- count -->
-                    <br/>
-
-                    <label>
-                        <uimessage code="pihcore.lab.cd4Percent"/>
-                    </label>
-                    <obs conceptId="CIEL:730"/> <!-- % -->
-                </p>
-            </div>
 
             <p class="side-by-side">
                 <label>
@@ -728,16 +658,29 @@
 
             <p class="side-by-side">
                 <label>
-                    <uimessage code="pihcore.expectedStartDateART" />
+                    <uimessage code="pihcore.artReceivedDrugs" />
                 </label>
-                <obs conceptId="PIH:2535" />
+                <obs conceptId="CIEL:166086" />
             </p>
 
             <p class="side-by-side">
                 <label>
-                    <uimessage code="pihcore.artReceivedDrugs" />
+                    <uimessage code="pihcore.ifTbTreatment" />
                 </label>
-                <obs conceptId="CIEL:166086" />
+                <obs id="tb-treatment" conceptId="CIEL:5965" style="radio"
+                     answerConceptIds="CIEL:1267,CIEL:163339"
+                     answerCodes="pihcore.treatCompleted,pihcore.incomplete">
+                    <controls>
+                        <when value="CIEL:1267" thenDisplay="#tb-treatment-end-date"/>
+                    </controls>
+                </obs>
+
+                <div id="tb-treatment-end-date">
+                    <label>
+                        <uimessage code="pihcore.treatmentEndDate" />
+                    </label>
+                    <obs conceptId="CIEL:159431" />
+                </div>
             </p>
 
         </div>
@@ -922,16 +865,19 @@
             </div>
 
             <br/>
+            <label>
+                <uimessage code="pihcore.birth-history" />
+            </label>
             <table>
                 <tr>
                     <th>
-                        <uimessage code="Birth order" />
+                        <uimessage code="pihcore.birthOrder" />
                     </th>
                     <th>
-                        <uimessage code="Type of delivery" />
+                        <uimessage code="pihcore.mch.deliveryType" />
                     </th>
                     <th>
-                        <uimessage code="Outcome" />
+                        <uimessage code="pihcore.outcome" />
                     </th>
                 </tr>
                 <repeat>
@@ -956,6 +902,10 @@
                     <render count="4" />
                     <render count="5" />
                     <render count="6" />
+                    <render count="7" />
+                    <render count="8" />
+                    <render count="9" />
+                    <render count="10" />
                 </repeat>
                 <tr>
 
@@ -1018,17 +968,9 @@
 
     <ifMode mode="VIEW" include="false">
         <div id="buttons">
-            <button id="next" type="button" class="submitButton confirm right">
-                <uimessage code="emr.next"/>
-                <i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i>
-            </button>
-            <button id="submit" class="submitButton confirm right">
-                <uimessage code="mirebalais.save"/>
-                <i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i>
-            </button>
-            <button id="cancel" type="button" class="cancel">
-                <uimessage code="emr.cancel"/>
-            </button>
+            <button id="next" type="button" class="submitButton confirm right"><uimessage code="emr.next"/><i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i></button>
+            <button id="submit" class="submitButton confirm right"><uimessage code="mirebalais.save"/><i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i></button>
+            <button id="cancel" type="button" class="cancel"><uimessage code="emr.cancel"/></button>
         </div>
     </ifMode>
 
