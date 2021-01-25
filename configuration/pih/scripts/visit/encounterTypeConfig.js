@@ -413,7 +413,7 @@ angular.module("encounterTypeConfig", [])
                 shortTemplate: "templates/encounters/defaultEncounterShort.page",
                 longTemplate: "templates/encounters/defaultHtmlFormEncounterLong.page",
                 templateModelUrl: "/module/htmlformentry/encounter.json?encounter={{encounter.uuid}}",
-                showOnVisitList: false
+                showOnVisitList: true
             }
         };
 
@@ -816,7 +816,8 @@ angular.module("encounterTypeConfig", [])
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
             templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
             icon: "fas fa-fw fa-vial",
-            editUrl: hfeSimpleEditUrl
+            editUrl: hfeSimpleEditUrl,
+            showOnVisitList: true
         };
 
         // radiologyOrder
