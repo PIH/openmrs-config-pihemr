@@ -590,29 +590,26 @@
     <section id="hiv" sectionTag="fieldset" headerTag="legend"
              headerStyle="title" headerCode="pihcore.hivTB">
         <div class="section-container">
-            <p class="narrow">
-                <label>
-                    <uimessage code="pihcore.dateEnrollHIV" />
-                </label>
-                <obs conceptId="CIEL:160555" />
-            </p>
-
             <p class="side-by-side">
                 <label>
-                    <uimessage code="pihcore.onTreatment" />?
+                    <uimessage code="pihcore.ifHIV" />, <uimessage code="pihcore.onARV"/>
                 </label>
-                <obs id="on-treatment" conceptId="PIH:11449" style="radio"
-                     answerConceptIds="CIEL:1065,CIEL:1066" >
+                <obs id="on-arv" conceptId="CIEL:160119" style="radio"
+                     answerConceptIds="CIEL:1066,CIEL:1065">
                     <controls>
-                        <when value="CIEL:1065" thenDisplay="#art-treatment"/>
+                        <when value="CIEL:1065" thenDisplay="#art-startdate"/>
                     </controls>
                 </obs>
-
-                <div id="art-treatment">
+                <div id="art-startdate" class="two-columns">
                     <label>
-                        <uimessage code="pihcore.yesSpecify" />?
+                        <uimessage code="pihcore.hiv.startDateARV" />
                     </label>
-                    <obs conceptId="PIH:6575" />
+                    <obs conceptId="CIEL:159599" />
+
+                    <label>
+                        <uimessage code="pihcore.artReceivedDrugs" />
+                    </label>
+                    <obs conceptId="CIEL:166086" />
                 </div>
             </p>
 
@@ -636,31 +633,6 @@
                 </label>
                 <!-- ToDo:  Add viral load -->
                 <br/>
-            </p>
-
-            <p class="side-by-side">
-                <label>
-                    <uimessage code="pihcore.onARV"/>
-                </label>
-                <obs id="on-arv" conceptId="CIEL:160119" style="radio"
-                     answerConceptIds="CIEL:1066,CIEL:1065">
-                    <controls>
-                        <when value="CIEL:1065" thenDisplay="#art-startdate"/>
-                    </controls>
-                </obs>
-                <div id="art-startdate">
-                    <label>
-                        <uimessage code="pihcore.hiv.startDateARV" />
-                    </label>
-                    <obs conceptId="CIEL:159599" />
-                </div>
-            </p>
-
-            <p class="side-by-side">
-                <label>
-                    <uimessage code="pihcore.artReceivedDrugs" />
-                </label>
-                <obs conceptId="CIEL:166086" />
             </p>
 
             <p class="side-by-side">
@@ -888,7 +860,8 @@
                                 <obs conceptId="CIEL:163460" defaultValue="{count}"/>
                             </td>
                             <td>
-                                <obs conceptId="PIH:11663" />
+                                <obs conceptId="PIH:11663"
+                                     answerConceptIds="CIEL:162595,CIEL:161631,CIEL:155884"/>
                             </td>
                             <td>
                                 <obs conceptId="CIEL:161033" />
