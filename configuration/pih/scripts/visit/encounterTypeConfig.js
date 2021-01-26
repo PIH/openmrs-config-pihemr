@@ -421,7 +421,8 @@ angular.module("encounterTypeConfig", [])
         encounterTypes["873f968a-73a8-4f9c-ac78-9f4778b751b6"] = {  // should never appear on dashboard?
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
-            longTemplate: "templates/encounters/defaultEncounterLong.page"
+            longTemplate: "templates/encounters/defaultEncounterLong.page",
+            showOnVisitList: false
         };
 
         // prenatalHomeAssessment
@@ -498,7 +499,8 @@ angular.module("encounterTypeConfig", [])
             longTemplate: "templates/encounters/defaultHtmlFormEncounterLong.page",
             templateModelUrl: "/module/htmlformentry/encounter.json?encounter={{encounter.uuid}}",
             icon: "fas fa-fw icon-check-in",
-            editUrl: hfeSimpleEditUrl
+            editUrl: hfeSimpleEditUrl,
+            showOnVisitList: false
         };
 
         // vitals
