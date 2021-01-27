@@ -627,12 +627,22 @@
                 </label>
             </p>
 
-            <p class="radio">
+            <p class="side-by-side">
                 <label>
                     <uimessage code="pihcore.lab.viral_load"/>
                 </label>
-                <!-- ToDo:  Add viral load -->
-                <br/>
+                <obs id="viral-load" conceptId="CIEL:1305" style="radio"
+                     answerConceptIds="CIEL:1301,CIEL:1306"
+                     answerCodes="pihcore.lab.detected,pihcore.lab.undetected" >
+                    <controls>
+                        <when value="CIEL:1301" thenDisplay="#viral-load-numeric"/>
+                    </controls>
+                </obs>
+
+                <div id="viral-load-numeric">
+                    <obs conceptId="CIEL:856" showUnits="true"
+                         placeholder="Enter value" />
+                </div>
             </p>
 
             <p class="side-by-side">
