@@ -1809,3 +1809,77 @@ BEGIN
     RETURN enc_id_out;
 
 END
+#
+-- this function accepts patient_id
+-- it will the phone number of the patient
+#												      
+DROP FUNCTION IF EXISTS phone_number;
+#
+CREATE FUNCTION phone_number(
+    _patient_id int)
+    
+    RETURNS VARCHAR(50)
+    DETERMINISTIC
+
+BEGIN
+    DECLARE  attVal VARCHAR(50);
+
+    select      a.value into attVal
+    from        person_attribute a
+    where       person_attribute_type_id =
+        (select person_attribute_type_id from person_attribute_type where uuid = '14d4f066-15f5-102d-96e4-000c29c2a5d7')
+    and         a.voided = 0
+    and         a.person_id = _patient_id
+    order by    a.date_created desc
+    limit       1;
+
+    RETURN attVal;
+
+END
+#											      
+DROP FUNCTION IF EXISTS phone_number;
+#
+CREATE FUNCTION phone_number(
+    _patient_id int)
+    
+    RETURNS VARCHAR(50)
+    DETERMINISTIC
+
+BEGIN
+    DECLARE  attVal VARCHAR(50);
+
+    select      a.value into attVal
+    from        person_attribute a
+    where       person_attribute_type_id =
+        (select person_attribute_type_id from person_attribute_type where uuid = '14d4f066-15f5-102d-96e4-000c29c2a5d7')
+    and         a.voided = 0
+    and         a.person_id = _patient_id
+    order by    a.date_created desc
+    limit       1;
+
+    RETURN attVal;
+
+END
+#
+-- this function accepts patient_program_id, program_workflow_id and a locale
+-- it will return the name of the current state in the given locale if one exists in the given worflow
+DROP FUNCTION IF EXISTS currentProgramState;
+#
+CREATE FUNCTION currentProgramState(_patient_program_id int(11), _program_workflow_id int(11), _locale varchar(50))
+    RETURNS varchar(255)
+    DETERMINISTIC
+
+BEGIN
+
+  DECLARE state_name_out varchar(255);
+
+  select concept_name(pws.concept_id, _locale) into state_name_out
+  from patient_state ps
+  inner join program_workflow_state pws on ps.state = pws.program_workflow_state_id and program_workflow_id =_program_workflow_id  
+  where ps.patient_program_id = _patient_program_id
+  and ps.end_date is null;
+
+    RETURN state_name_out;
+
+END
+#									
