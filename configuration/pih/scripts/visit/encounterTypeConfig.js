@@ -1373,7 +1373,6 @@ angular.module("encounterTypeConfig", [])
             }
 
             // resolve any version-specific configs
-            // TODO nest the encounter.form = null?
             if (encounterType.hasOwnProperty('versions')) {
               if (encounter.form != null) {
                 encounterType = encounterType['versions'].hasOwnProperty(encounter.form.version) ?
