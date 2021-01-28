@@ -23,5 +23,6 @@ config:
   category: "dataExport"
   order: 40
   components:
+    - "labs"
     - "labResults"
     - "allDataExports"
