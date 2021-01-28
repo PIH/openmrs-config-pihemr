@@ -115,72 +115,6 @@
 
     </style>
 
-    <style type="text/css">
-        <ifMode mode="VIEW" include="true">
-
-            #section-delivery legend {
-            display: none;
-            }
-
-            #section-delivery fieldset {
-            margin: 0px;
-            border: 0px;
-            padding: 0px;
-            }
-
-            #section-delivery fieldset h3 {
-            font-size: 1em;
-            width: 200px;
-            display: inline-block;
-            margin: 0px;
-            margin-right: 10px;
-            color: #501d3d;
-            vertical-align: top;
-            }
-
-            #section-delivery fieldset p {
-            vertical-align: top;
-            display: inline-block;
-            float: none;
-            }
-
-            #section-delivery fieldset .left {
-            vertical-align: top;
-            display: inline-block;
-            float: none;
-            }
-
-            #section-delivery .title {
-                display: none;
-            }
-
-            #section-delivery .encounter-date {
-                display: none;
-            }
-
-            #section-delivery .encounter-provider {
-                display: none;
-            }
-
-            #section-delivery .encounter-location {
-                display: none;
-            }
-
-            #section-delivery .comment-label {
-                display: none;
-            }
-
-            #section-delivery .comment-field {
-                display: block;
-                margin-left: 215px;
-            }
-
-            #section-delivery br {
-                display: none;
-            }
-        </ifMode>
-    </style>
-
     <ifMode mode="VIEW" include="false">
         <script type="text/javascript">
             jq(document).ready(function() {
@@ -315,7 +249,10 @@
         </script>
     </ifMode>
 
-    <section id="consult-type" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+    <!-- Program enrollment -->
+    <enrollInProgram programId="MCH" locationTag="Program Location" />
+
+    <section id="consult-type" sectionTag="fieldset" headerStyle="title"
              headerCode="pihcore.typeOfConsult">
         <div class="section-container">
             <div class="two-columns">
@@ -323,26 +260,31 @@
                     <repeat>
                         <template>
                             <obs conceptId="PIH:6189" style="checkbox"
-                                 answerConceptId="{map}"  answerCode="pihcore.{message}" />
+                                 answerConceptId="{map}"  answerCode="pihcore.{message}"
+                                 toggle="{switch}-area"/>
                         </template>
-                        <render map="CIEL:165013" message="gyn" />
-                        <render map="CIEL:1622" message="prenatal" />
-                        <render map="PIH:6261"  message="postnatal" />
-                        <render map="PIH:5483"  message="familyPlanning.title" />
+                        <render map="CIEL:165013" message="gyn" switch="gyn"/>
+                        <render map="CIEL:1622" message="prenatal" switch="prenatal"/>
+                        <render map="PIH:6261"  message="postnatal" switch="postnatal" />
+                        <render map="PIH:5483"  message="familyPlanning.title" switch="fp"/>
                     </repeat>
-
                 </p>
+
                 <p class="side-by-side">
-                    <obs conceptId="CIEL:164181" style="radio"
+                    <obs id="intake-or-followup"  conceptId="CIEL:164181" style="radio"
                          answerConceptIds="CIEL:164180,PIH:7383"
-                         answerCodes="pihcore.new,pihcore.followup"/>
+                         answerCodes="pihcore.new,pihcore.followup">
+                        <controls>
+                            <when value="CIEL:164180" thenDisplay="#intake-only"/>
+                        </controls>
+                    </obs>
                 </p>
                 <br/><br/>
             </div>
         </div>
     </section>
 
-    <section id="referralIn" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+    <section id="referralIn" sectionTag="fieldset" headerStyle="title"
              headerCode="pihcore.refer.title">
         <div class="section-container">
             <p>
@@ -367,7 +309,7 @@
 
     </section>
 
-    <section id="vitals" sectionTag="fieldset" headerTag="legend"
+    <section id="vitals" sectionTag="fieldset"
              headerStyle="title" headerCode="pihcore.vitalSigns">
         <div class="section-container">
             <p class="side-by-side">
@@ -443,7 +385,7 @@
         </div>
     </section>
 
-    <section id="chief-complaint" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+    <section id="chief-complaint" sectionTag="fieldset" headerStyle="title"
              headerCode="pihcore.chiefComplaint.title">
         <div class="section-container">
             <p>
@@ -455,7 +397,8 @@
         </div>
     </section>
 
-    <section id="habits" sectionTag="fieldset" headerTag="legend"
+    <div id="intake-only">
+    <section id="habits" sectionTag="fieldset"
              headerStyle="title" headerCode="pihcore.habits">
         <div class="section-container">
             <p class="side-by-side">
@@ -494,7 +437,7 @@
         </div>
     </section>
 
-    <section id="current-medications" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+    <section id="current-medications" sectionTag="fieldset" headerStyle="title"
              headerCode="zl.consultNote.currentMedications.title">
         <div class="section-container">
             <!-- Médicaments actuels -->
@@ -526,7 +469,7 @@
         </div>
     </section>
 
-    <section id="patient-history" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+    <section id="patient-history" sectionTag="fieldset" headerStyle="title"
              headerCode="zl.consultNote.patientHistory.title">
         <div class="section-container">
             <!-- ANTECEDENTS PERSONNELS / HABITUDES -->
@@ -560,7 +503,7 @@
         </div>
     </section>
 
-    <section id="family-history" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+    <section id="family-history" sectionTag="fieldset" headerStyle="title"
              headerCode="zl.consultNote.familyHistory.title">
         <div class="section-container">
             <!-- ANTECEDENTS HEREDO-COLLATERAUX -->
@@ -586,8 +529,9 @@
                                              specify="true"/>
         </div>
     </section>
+    </div>
 
-    <section id="hiv" sectionTag="fieldset" headerTag="legend"
+    <section id="hiv" sectionTag="fieldset"
              headerStyle="title" headerCode="pihcore.hivTB">
         <div class="section-container">
             <p class="side-by-side">
@@ -669,10 +613,9 @@
     </section>
 
     <section id="family-plan-section" sectionTag="fieldset"
-             headerTag="legend" headerStyle="title"
-             headerCode="pihcore.familyPlanning.title">
+             headerStyle="title" headerCode="pihcore.familyPlanning.title">
 
-        <div class="section-container">
+        <div id="fp-area" class="section-container">
             <div class="two-columns">
                 <obs conceptId="CIEL:163560" style="checkbox"
                      answerConceptId="CIEL:1382" answerCode="pihcore.mch.counselling.familyPlanning" />
@@ -733,8 +676,7 @@
     </section>
 
     <section id="obgyn-section" sectionTag="fieldset"
-             headerTag="legend" headerStyle="title"
-             headerCode="OB/GYN">
+             headerStyle="title" headerCode="OB/GYN">
         <div class="section-container">
 
             <div class="two-columns">
@@ -845,12 +787,14 @@
                 </label>
                 <obs conceptId="CIEL:5570" />
             </div>
-
             <br/>
-            <label>
-                <uimessage code="pihcore.birth-history" />
-            </label>
+
             <table>
+                <tr>
+                    <th colspan="3">
+                        <uimessage code="pihcore.birth-history" />
+                    </th>
+                </tr>
                 <tr>
                     <th>
                         <uimessage code="pihcore.birthOrder" />
@@ -871,7 +815,7 @@
                             </td>
                             <td>
                                 <obs conceptId="PIH:11663"
-                                     answerConceptIds="CIEL:162595,CIEL:161631,CIEL:155884"/>
+                                     answerConceptIds="CIEL:162595,CIEL:161631,CIEL:155884,CIEL:1637,CIEL:159728"/>
                             </td>
                             <td>
                                 <obs conceptId="CIEL:161033" />
@@ -897,7 +841,7 @@
         </div>
     </section>
 
-    <section id="risk-factors" sectionTag="fieldset" headerTag="legend"
+    <section id="risk-factors" sectionTag="fieldset"
               headerStyle="title" headerCode="pihcore.mch.riskFactors">
 
         <div class="section-container">
@@ -909,6 +853,11 @@
                 <obs conceptId="CIEL:160079" answerConceptId="CIEL:117399" style="checkbox"/>
                 <!-- Edema -->
                 <obs conceptId="CIEL:160079" answerConceptId="CIEL:460" style="checkbox"/>
+                <!-- Antepartum hemorrhage -->
+                <obs conceptId="CIEL:160079" answerConceptId="PIH:ANTEPARTUM HEMORRHAGE" style="checkbox"/>
+                <!-- No weight gain -->
+                <obs conceptId="CIEL:160079" answerConceptId="CIEL:140707"
+                     answerCode="pihcore.noWeightChange" style="checkbox" />
                 <!-- Diabetes -->
                 <obs conceptId="CIEL:160079" answerConceptId="CIEL:119481" style="checkbox"/>
                 <!-- C-section -->
@@ -916,7 +865,9 @@
                      answerCode="pihcore.mch.previousCSection" style="checkbox"/>
                 <!-- HIV -->
                 <obs conceptId="CIEL:160079" answerConceptId="CIEL:138405"
-                     answerCode="pihcore.lab.hiv.title" style="checkbox"/>
+                     answerCode="HIV" style="checkbox"/>
+                <!-- ToDo:  Grande parité (CIEL:163120 or 117749) -->
+                <obs conceptId="CIEL:160079" answerConceptId="CIEL:117749" style="checkbox"/>
                 <!-- Multiple gestation -->
                 <obs conceptId="CIEL:160079" answerConceptId="CIEL:115491" style="checkbox"/>
 
@@ -924,15 +875,10 @@
                 <obs conceptId="CIEL:160079" answerConceptId="CIEL:130108" style="checkbox"/>
                 <!-- Placenta previa -->
                 <obs conceptId="CIEL:160079" answerConceptId="CIEL:114127" style="checkbox"/>
-                <!-- Antepartum hemorrhage -->
-                <obs conceptId="CIEL:160079" answerConceptId="PIH:ANTEPARTUM HEMORRHAGE" style="checkbox"/>
                 <!-- Fetal death -->
                 <obs conceptId="CIEL:160079" answerConceptId="CIEL:140399" style="checkbox"/>
                 <!-- Malpresentation of fetus -->
                 <obs conceptId="CIEL:160079" answerConceptId="CIEL:115939" style="checkbox"/>
-                <!-- answerCodes="pihcore.mch.gbv" -->
-                <obs conceptId="CIEL:160079" answerConceptId="CIEL:165088"
-                     style="checkbox"/>
                 <!-- Syphilis -->
                 <obs conceptId="CIEL:160079" answerConceptId="CIEL:112493"
                      style="checkbox"/>
@@ -947,6 +893,27 @@
                      -->
             </div>
         </div>
+    </section>
+
+    <!-- Mental Health -->
+    <section id="risk-factors" sectionTag="fieldset"
+             headerStyle="title" headerCode="pihcore.mentalhealth.title">
+
+        <div class="section-container">
+            <!-- Depression -->
+            <obs conceptId="PIH:Mental health diagnosis" answerConceptId="CIEL:119537"
+                 style="checkbox"/>
+            <!-- PTSD -->
+            <obs conceptId="PIH:Mental health diagnosis" answerConceptId="CIEL:113881"
+                 style="checkbox"/>
+            <!-- SCHIZOPHRENIA -->
+            <obs conceptId="PIH:Mental health diagnosis" answerConceptId="CIEL:113155"
+                 style="checkbox"/>
+            <!-- Gender-based violence -->
+            <obs conceptId="PIH:Mental health diagnosis" answerConceptId="CIEL:165088"
+                 style="checkbox"/>
+        </div>
+
     </section>
 
     <ifMode mode="VIEW" include="false">

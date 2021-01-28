@@ -257,46 +257,15 @@
                     <render answer="CIEL:1906" name="hygiene" />
                     <render answer="CIEL:164480" name="mch.dangerSigns" />
                     <render answer="CIEL:1380" name="nutrition" />
-                    <render answer="CIEL:5622" name="other" />
+                    <render answer="CIEL:161069" name="deliveryPrep" />
                 </repeat>
             </div>
 
-            <label>
-                <uimessage code="pihcore.ultrasound" />
-            </label>
-            <repeat with="['Pelvic (U/S)', 'CIEL:161283', 'pelvicUS'],
-                          ['Abdominal (U/S)','CIEL:845','abUS']">
-                <p>
-                    <obsgroup groupingConceptId="PIH:Radiology report construct">
-                        <obs conceptId="PIH:Radiology procedure performed"
-                             answerConceptId="{1}" toggle="{2}"
-                             answerCode="pihcore.rad.{2}"
-                             style="checkbox"/>
-                        <div id="{2}" class="two-columns">
-                            <obs conceptId="PIH:Radiology report comments"
-                                 labelCode="pihcore.findings.label" />
-                            <obs conceptId="PIH:12847" labelCode="Date" />
-                        </div>
-                    </obsgroup>
-                </p>
-            </repeat>
-
-            <!-- ToDo:  Do we need additional entries?
             <p>
-                <label>
-                    <uimessage code="pihcore.ultrasound_order.title" />
-                </label>
-                <obsgroup groupingConceptId="PIH:Radiology report construct">
-                    <obs conceptId="PIH:Radiology procedure performed"
-                         style="autocomplete" answerConceptSetIds="PIH:HUM Ultrasound Orderables" />
-                    <div class="two-columns">
-                        <obs conceptId="PIH:Radiology report comments"
-                             labelCode="pihcore.findings.label" />
-                        <obs conceptId="PIH:12847" labelCode="Date" />
-                    </div>
-                </obsgroup>
+                <obs conceptId="CIEL:165309" style="checkbox"
+                     answerConceptId="CIEL:5622" answerCode="pihcore.other"
+                     commentFieldCode="zl.ifOtherSpecify" />
             </p>
-            -->
 
             <!-- Treatment status -->
             <p class="side-by-side">
