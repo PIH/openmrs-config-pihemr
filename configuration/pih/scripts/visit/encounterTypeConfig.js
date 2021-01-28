@@ -372,7 +372,7 @@ angular.module("encounterTypeConfig", [])
           templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-return-visit-date.xml"),
         };
 
-        
+
 
         /**
          * Define Encounter Types
@@ -405,6 +405,42 @@ angular.module("encounterTypeConfig", [])
          *      }
          *    }
          * }
+         *
+         * encounterTypes['some-uuid'] = {
+         *   versions: {
+         *     DEFAULT: {
+         *       // default config
+         *     },
+         *     "2.0": {
+         *       // config to use if encounter is linked to a form with version 2.0
+         *     },
+         *     "1.0": {
+         *       // config to use if encounter is linked to a form with version 2.0
+         *     }
+         *   }
+         * }
+         *
+         * (can "nest" versions within country/site)
+         * encounterTypes['some-uuid'] = {
+         *    DEFAULT: {
+         *      versions: {
+         *        DEFAULT: {
+         *          // default config
+         *        },
+         *        "2.0": {
+         *          // config to use if encounter is linked to a form with version 2.0
+         *        },
+         *        "1.0": {
+         *          // config to use if encounter is linked to a form with version 2.0
+         *        }
+         *      }
+         *    }
+         *    SPECIFIC_COUNTRY: {
+         *      // specific country config
+         *    }
+         * }
+         *
+         *
          **/
 
         var encounterTypes = {
@@ -510,7 +546,8 @@ angular.module("encounterTypeConfig", [])
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
             templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
             icon: "fas fa-fw fa-heartbeat",
-            editUrl: hfeSimpleEditUrl
+            editUrl: hfeSimpleEditUrl,
+            showOnVisitList: true
         };
 
         // consultation / outpatientConsult
@@ -680,19 +717,35 @@ angular.module("encounterTypeConfig", [])
         // ToDo: Replace the icon and add more sections
         encounterTypes["c31d306a-40c4-11e7-a919-92ebcb67fe33"] = {
             DEFAULT: {
-                defaultState: "short",
-                shortTemplate: "templates/encounters/defaultEncounterShort.page",
-                longTemplate: "templates/encounters/defaultEncounterShort.page",   // no expanded view, instead there are individual sections
-                icon: "fas fa-fw fa-ribbon",
-                editUrl: hfeStandardEditUrl,
-                showOnVisitList: true,
-                sections: [
-                    hivHistory,
-                    primaryCareExam,
-                    pedsVaccinations,
-                    hivAssessment,
-                    hivPlan
-                ]
+                versions: {
+                  DEFAULT: {
+                    defaultState: "short",
+                    shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                    longTemplate: "templates/encounters/defaultEncounterShort.page",   // no expanded view, instead there are individual sections
+                    icon: "fas fa-fw fa-ribbon",
+                    editUrl: hfeStandardEditUrl,
+                    showOnVisitList: true,
+                    sections: [
+                      hivHistory,
+                      primaryCareExam,
+                      pedsVaccinations,
+                      hivAssessment,
+                      hivPlan
+                    ]
+                  },
+                  "2.0": {
+                    defaultState: "short",
+                    shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                    longTemplate: "templates/encounters/hivNotMigratedEncounterLong.page",
+                    showOnVisitList: true,
+                  },
+                  "1.0": {
+                    defaultState: "short",
+                    shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                    longTemplate: "templates/encounters/hivNotMigratedEncounterLong.page",
+                    showOnVisitList: true,
+                  }
+                }
             },
             peru: {
                 ...encounterTypes.DEFAULT,
@@ -704,19 +757,35 @@ angular.module("encounterTypeConfig", [])
         // zlHivFollowup
         // ToDo: Replace the icon and add sections
         encounterTypes["c31d3312-40c4-11e7-a919-92ebcb67fe33"] = {
-            defaultState: "short",
-            shortTemplate: "templates/encounters/defaultEncounterShort.page",
-            longTemplate: "templates/encounters/defaultEncounterShort.page",   // no expanded view, instead there are individual sections
-            icon: "fas fa-fw fa-ribbon",
-            editUrl: hfeStandardEditUrl,
-            showOnVisitList: true,
-            sections: [
+          versions: {
+            DEFAULT: {
+              defaultState: "short",
+              shortTemplate: "templates/encounters/defaultEncounterShort.page",
+              longTemplate: "templates/encounters/defaultEncounterShort.page",   // no expanded view, instead there are individual sections
+              icon: "fas fa-fw fa-ribbon",
+              editUrl: hfeStandardEditUrl,
+              showOnVisitList: true,
+              sections: [
                 hivState,
                 primaryCareExam,
                 pedsVaccinations,
                 primaryCareDx,
                 hivPlan
-            ]
+              ]
+            },
+            "2.0": {
+              defaultState: "short",
+              shortTemplate: "templates/encounters/defaultEncounterShort.page",
+              longTemplate: "templates/encounters/hivNotMigratedEncounterLong.page",
+              showOnVisitList: true
+            },
+            "1.0": {
+              defaultState: "short",
+              shortTemplate: "templates/encounters/defaultEncounterShort.page",
+              longTemplate: "templates/encounters/hivNotMigratedEncounterLong.page",
+              showOnVisitList: true,
+            }
+          }
         };
 
         // oncologyConsult
@@ -1278,25 +1347,44 @@ angular.module("encounterTypeConfig", [])
         };
 
         return {
-          get: function(uuid, country, site) {
-            var encounterType = encounterTypes[uuid];
+          get: function(encounter, country, site) {
+
+            if (encounter == null || encounter.encounterType == null) {
+              return encounterTypes.DEFAULT;
+            }
+
+            let encounterType = encounterTypes[encounter.encounterType.uuid];
 
             if (encounterType == null) {
               return encounterTypes.DEFAULT;
             }
 
+            // resolve any country/site specific configs
             if (encounterType.hasOwnProperty(country)) {
-               if (encounterType[country].hasOwnProperty(site)) {
-                 return encounterType[country][site];
-               }
-               else {
-                 return encounterType[country].hasOwnProperty('DEFAULT') ?
-                   encounterType[country]['DEFAULT'] : encounterType[country];
-               }
+              if (encounterType[country].hasOwnProperty(site)) {
+                encounterType = encounterType[country][site];
+              } else {
+                encounterType = encounterType[country].hasOwnProperty('DEFAULT') ?
+                  encounterType[country]['DEFAULT'] : encounterType[country];
+              }
+            } else {
+              encounterType = encounterType.hasOwnProperty(['DEFAULT']) ?
+                encounterType['DEFAULT'] : encounterType;
             }
 
-            return encounterType.hasOwnProperty(['DEFAULT']) ?
-              encounterType['DEFAULT'] : encounterType;
+            // resolve any version-specific configs
+            // TODO nest the encounter.form = null?
+            if (encounterType.hasOwnProperty('versions')) {
+              if (encounter.form != null) {
+                encounterType = encounterType['versions'].hasOwnProperty(encounter.form.version) ?
+                  encounterType['versions'][encounter.form.version] : encounterType['versions']['DEFAULT']
+              }
+              else {
+                encounterType = encounterType['versions']['DEFAULT'];
+              }
+            }
+
+            return encounterType;
           }
         };
     });
