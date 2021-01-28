@@ -1368,14 +1368,10 @@ angular.module("encounterTypeConfig", [])
                   encounterType;
 
             // resolve any version-specific configs
-            if (encounterType.hasOwnProperty('versions')) {
-              if (encounter.form != null) {
-                encounterType = encounterType['versions'].hasOwnProperty(encounter.form.version) ?
-                  encounterType['versions'][encounter.form.version] : encounterType['versions']['DEFAULT']
-              }
-              else {
-                encounterType = encounterType['versions']['DEFAULT'];
-              }
+            if (encounterType.versions) {
+                encounterType = encounter.form && encounter.form.version ?
+                    encounterType['versions'][encounter.form.version] || encounterType['versions']['DEFAULT'] :
+                    encounterType['versions']['DEFAULT'];
             }
 
             return encounterType;
