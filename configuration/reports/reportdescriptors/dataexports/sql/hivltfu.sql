@@ -2,7 +2,7 @@
 
 select program_id into @hivProgram from program where uuid = 'b1cb1fc1-5190-4f7a-af08-48870975dafc';
 select encounter_type_id into @hivDispensingEncType from encounter_type where uuid = 'cc1720c9-3e4c-4fa8-a7ec-40eeaad1958c';
-select name into @hivDispensingEncName from encounter_type where encounter_type_id = @hivDispensingEncType;   
+select name into @hivDispensingEncName from encounter_type where encounter_type_id = @hivDispensingEncType;
 select person_attribute_type_id into @phoneNumber from person_attribute_type where uuid = '14d4f066-15f5-102d-96e4-000c29c2a5d7';
 select encounter_type_id into @hivAdultIntakeEncType from encounter_type where uuid = 'c31d306a-40c4-11e7-a919-92ebcb67fe33';
 select encounter_type_id into @hivAdultFollowupEncType from encounter_type where uuid = 'c31d3312-40c4-11e7-a919-92ebcb67fe33';
@@ -45,15 +45,15 @@ last_VL_result_qualitative varchar(255)
 create index temp_tracking_patient_id on temp_tracking (patient_id);
 
 
--- insert row for each patient in the HIV Program.  
+-- insert row for each patient in the HIV Program.
 -- Note that there SHOULD NOT be multiple patient program rows where date_completed is null
 -- if there are, it will grab the max patient program id
 insert into temp_tracking (patient_id,zl_site,patient_program_id)
-select distinct patient_id, max(location_name(location_id)),max(patient_program_id) from patient_program pp 
+select distinct patient_id, max(location_name(location_id)),max(patient_program_id) from patient_program pp
 where pp.program_id = @hivProgram
 and pp.date_completed is null
 group by patient_id-- limit 500
-;   
+;
 
 -- dispensing date and enrollment are updated. These are used later to determine how many days late a patient is
 update temp_tracking t
@@ -71,15 +71,15 @@ delete from temp_tracking  where date(next_dispensing_date) >= current_date;
 
 -- update program state information.  Note that treatment status, LTFU status and Reactivation status are the statuses of the HIV program in Haiti
 -- this may need to be updated for other implementation
-update temp_tracking t set treatment_status = currentProgramState(t.patient_program_id,@HIVTreatmentStatus,@locale); 
-update temp_tracking t set ltfu_status = currentProgramState(t.patient_program_id,@LTFUStatus,@locale); 
-update temp_tracking t set reactivation_status = currentProgramState(t.patient_program_id,@ReactivationStatus,@locale); 
+update temp_tracking t set treatment_status = currentProgramState(t.patient_program_id,@HIVTreatmentStatus,@locale);
+update temp_tracking t set ltfu_status = currentProgramState(t.patient_program_id,@LTFUStatus,@locale);
+update temp_tracking t set reactivation_status = currentProgramState(t.patient_program_id,@ReactivationStatus,@locale);
 
 -- update various patient demographics columns
 update temp_tracking t set patient_emr_id = zlemr(patient_id);
 update temp_tracking t set patient_name = person_name(patient_id);
-update temp_tracking t 
-  inner join person p on p.person_id = t.patient_id  
+update temp_tracking t
+  inner join person p on p.person_id = t.patient_id
   set age =  TIMESTAMPDIFF(YEAR, birthdate, current_timestamp);
 update temp_tracking t set gender  = gender(patient_id);
 update temp_tracking t set phone_number = phone_number(patient_id);
@@ -92,7 +92,7 @@ set department = person_address_state_province(t.patient_id),
 
 -- update patient accompagnateur (latest obs captured for this)
 update temp_tracking t set accompagnateur = latestObs(patient_id,concept_from_mapping('CIEL',164141),null);
-  
+
 -- update last dispensing date from the last encounter of this type
 update temp_tracking t
   inner join encounter e_disp on e_disp.encounter_id  = latestEnc(t.patient_id, @hivDispensingEncName, null)
@@ -100,22 +100,22 @@ update temp_tracking t
 
 -- calculate days late from expected dispensing date, or if the patient has none, the enrollment date
 update temp_tracking set days_late =  TIMESTAMPDIFF(DAY, ifnull(next_dispensing_date,enrollment_date),current_date);
- 
+
 -- set missed appointment if the next expected appointment (from hiv visits encounter type) is in the past
 update temp_tracking t
 inner join encounter e on e.encounter_id = latestEnc(t.patient_id, @hivVisitEncTypes, null)
 inner join obs o on o.encounter_id = e.encounter_id and o.voided = 0 and o.concept_id = concept_from_mapping('PIH','5096')
 set t.missed_appointment = if(date(o.value_datetime)<current_date,1,null);
-;
 
--- update date and Viral Load results (qualitative only) from the last time this was recorded 
+
+-- update date and Viral Load results (qualitative only) from the last time this was recorded
 update temp_tracking t
 inner join obs o on obs_id = latestObs(t.patient_id,concept_from_mapping('CIEL','1305'),null)
 set last_viral_load_date = date(o.obs_datetime),
     last_VL_result_qualitative = concept_name(o.value_coded,@locale);
 
 -- select the output
-select 
+select
 patient_id,
 patient_emr_id,
 zl_site,
