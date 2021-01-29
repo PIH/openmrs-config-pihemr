@@ -3,144 +3,147 @@ DROP TEMPORARY TABLE IF EXISTS temp_mentalhealth_visit;
 SET sql_safe_updates = 0;
 SET SESSION group_concat_max_len = 100000;
 
-set @encounter_type = encounter_type('Mental Health Consult');
-set @role_of_referring_person = concept_from_mapping('PIH','Role of referring person');
-set @other_referring_person = concept_from_mapping('PIH','OTHER');
-set @type_of_referral_role = concept_from_mapping('PIH','Type of referral role');
-set @other_referring_role_type = concept_from_mapping('PIH','OTHER');
-set @hospitalization = concept_from_mapping('CIEL','976');
-set @hospitalization_reason = concept_from_mapping('CIEL','162879');
-set @type_of_patient =  concept_from_mapping('PIH', 'TYPE OF PATIENT');
-set @inpatient_hospitalization = concept_from_mapping('PIH','INPATIENT HOSPITALIZATION');
-set @traumatic_event = concept_from_mapping('PIH','12362');
-set @yes =   concept_from_mapping('PIH', 'YES');
-set @adherence_to_appt = concept_from_mapping('PIH','Appearance at appointment time');
-set @zldsi_score = concept_from_Mapping('CIEL','163225');
-set @ces_dc = concept_from_Mapping('CIEL','163228');
-set @psc_35 = concept_from_Mapping('CIEL','165534');
-set @pcl = concept_from_Mapping('CIEL','165535');
-set @cgi_s = concept_from_Mapping('CIEL','163222');
-set @cgi_i = concept_from_Mapping('CIEL','163223');
-set @cgi_e = concept_from_Mapping('CIEL','163224');
-set @whodas = concept_from_Mapping('CIEL','163226');
-set @days_with_difficulties = concept_from_mapping('PIH','Days with difficulties in past month');
-set @days_without_usual_activity = concept_from_mapping('PIH','Days without usual activity in past month');
-set @days_with_less_activity = concept_from_mapping('PIH','Days with less activity in past month');
-set @aims = concept_from_mapping('CIEL','163227');
-set @seizure_frequency = concept_from_mapping('PIH','Number of seizures in the past month');
-set @past_suicidal_evaluation = concept_from_mapping('CIEL','1628');
-set @current_suicidal_evaluation = concept_from_mapping('PIH','Mental health diagnosis');
-set @last_suicide_attempt_date = concept_from_mapping('CIEL','165530');
-set @suicidal_screen_completed = concept_from_mapping('PIH','Suicidal evaluation');
-set @suicidal_screening_result = concept_from_mapping('PIH', 'Result of suicide risk evaluation');
-set @security_plan = concept_from_mapping('PIH','Security plan');
-set @discuss_patient_with_supervisor = concept_from_mapping('CIEL', '165532');
-set @hospitalize_due_to_suicide_risk = concept_from_mapping('CIEL', '165533');
-set @mh_diagnosis = concept_from_mapping('PIH','Mental health diagnosis');
-set @hum_diagnoses = concept_from_mapping('PIH','HUM Psychological diagnoses');
-set @mental_health_intervention = concept_from_mapping('PIH','Mental health intervention');
-set @other = concept_from_mapping('PIH','OTHER');
-set @medication = concept_from_mapping('PIH', 'Mental health medication');
-set @dose =  concept_from_mapping('CIEL', '160856 ');
-set @dosing_units =  concept_from_mapping('PIH', 'Dosing units coded');
-set @frequency =  concept_from_mapping('PIH', 'Drug frequency for HUM');
-set @duration =  concept_from_mapping('CIEL', '159368 ');
-set @duration_units =  concept_from_mapping('PIH', 'TIME UNITS');
-set @medication_comments = concept_from_mapping('PIH', 'Medication comments (text)');
-set @pregnant = concept_from_mapping('CIEL', '5272');
-set @last_menstruation_date = concept_from_mapping('PIH','DATE OF LAST MENSTRUAL PERIOD');
-set @estimated_delivery_date = concept_from_mapping('PIH','ESTIMATED DATE OF CONFINEMENT');
-set @type_of_referral_roles = concept_from_mapping('PIH','Role of referral out provider');
-set @type_of_provider = concept_from_mapping('PIH','Type of provider');
-set @disposition = concept_from_mapping('PIH','HUM Disposition categories');
-set @disposition_comment = concept_from_mapping('PIH','PATIENT PLAN COMMENTS');
-set @return_date = concept_from_mapping('PIH','RETURN VISIT DATE');
-set @routes = concept_from_mapping('PIH', '12651');
-set @oral = concept_from_mapping('CIEL', '160240');
-set @intraveneous = concept_from_mapping('CIEL', '160242');
-set @intramuscular = concept_from_mapping('CIEL', '160243');
+SET @encounter_type = ENCOUNTER_TYPE('Mental Health Consult');
+SET @role_of_referring_person = CONCEPT_FROM_MAPPING('PIH','Role of referring person');
+SET @other_referring_person = CONCEPT_FROM_MAPPING('PIH','OTHER');
+SET @type_of_referral_role = CONCEPT_FROM_MAPPING('PIH','Type of referral role');
+SET @other_referring_role_type = CONCEPT_FROM_MAPPING('PIH','OTHER');
+SET @hospitalization = CONCEPT_FROM_MAPPING('CIEL','976');
+SET @hospitalization_reason = CONCEPT_FROM_MAPPING('CIEL','162879');
+SET @type_of_patient =  CONCEPT_FROM_MAPPING('PIH', 'TYPE OF PATIENT');
+SET @inpatient_hospitalization = CONCEPT_FROM_MAPPING('PIH','INPATIENT HOSPITALIZATION');
+SET @traumatic_event = CONCEPT_FROM_MAPPING('PIH','12362');
+SET @yes =   CONCEPT_FROM_MAPPING('PIH', 'YES');
+SET @adherence_to_appt = CONCEPT_FROM_MAPPING('PIH','Appearance at appointment time');
+SET @zldsi_score = CONCEPT_FROM_MAPPING('CIEL','163225');
+SET @ces_dc = CONCEPT_FROM_MAPPING('CIEL','163228');
+SET @psc_35 = CONCEPT_FROM_MAPPING('CIEL','165534');
+SET @pcl = CONCEPT_FROM_MAPPING('CIEL','165535');
+SET @cgi_s = CONCEPT_FROM_MAPPING('CIEL','163222');
+SET @cgi_i = CONCEPT_FROM_MAPPING('CIEL','163223');
+SET @cgi_e = CONCEPT_FROM_MAPPING('CIEL','163224');
+SET @whodas = CONCEPT_FROM_MAPPING('CIEL','163226');
+SET @days_with_difficulties = CONCEPT_FROM_MAPPING('PIH','Days with difficulties in past month');
+SET @days_without_usual_activity = CONCEPT_FROM_MAPPING('PIH','Days without usual activity in past month');
+SET @days_with_less_activity = CONCEPT_FROM_MAPPING('PIH','Days with less activity in past month');
+SET @aims = CONCEPT_FROM_MAPPING('CIEL','163227');
+SET @seizure_frequency = CONCEPT_FROM_MAPPING('PIH','Number of seizures in the past month');
+SET @past_suicidal_evaluation = CONCEPT_FROM_MAPPING('CIEL','1628');
+SET @current_suicidal_evaluation = CONCEPT_FROM_MAPPING('PIH','Mental health diagnosis');
+SET @last_suicide_attempt_date = CONCEPT_FROM_MAPPING('CIEL','165530');
+SET @suicidal_screen_completed = CONCEPT_FROM_MAPPING('PIH','Suicidal evaluation');
+SET @suicidal_screening_result = CONCEPT_FROM_MAPPING('PIH', 'Result of suicide risk evaluation');
+SET @security_plan = CONCEPT_FROM_MAPPING('PIH','Security plan');
+SET @discuss_patient_with_supervisor = CONCEPT_FROM_MAPPING('CIEL', '165532');
+SET @hospitalize_due_to_suicide_risk = CONCEPT_FROM_MAPPING('CIEL', '165533');
+SET @mh_diagnosis = CONCEPT_FROM_MAPPING('PIH','Mental health diagnosis');
+SET @hum_diagnoses = CONCEPT_FROM_MAPPING('PIH','HUM Psychological diagnoses');
+SET @mental_health_intervention = CONCEPT_FROM_MAPPING('PIH','Mental health intervention');
+SET @other = CONCEPT_FROM_MAPPING('PIH','OTHER');
+SET @medication = CONCEPT_FROM_MAPPING('PIH', 'Mental health medication');
+SET @dose =  CONCEPT_FROM_MAPPING('CIEL', '160856 ');
+SET @dosing_units =  CONCEPT_FROM_MAPPING('PIH', 'Dosing units coded');
+SET @frequency =  CONCEPT_FROM_MAPPING('PIH', 'Drug frequency for HUM');
+SET @duration =  CONCEPT_FROM_MAPPING('CIEL', '159368 ');
+SET @duration_units =  CONCEPT_FROM_MAPPING('PIH', 'TIME UNITS');
+SET @medication_comments = CONCEPT_FROM_MAPPING('PIH', 'Medication comments (text)');
+SET @pregnant = CONCEPT_FROM_MAPPING('CIEL', '5272');
+SET @last_menstruation_date = CONCEPT_FROM_MAPPING('PIH','DATE OF LAST MENSTRUAL PERIOD');
+SET @estimated_delivery_date = CONCEPT_FROM_MAPPING('PIH','ESTIMATED DATE OF CONFINEMENT');
+SET @type_of_referral_roles = CONCEPT_FROM_MAPPING('PIH','Role of referral out provider');
+SET @type_of_provider = CONCEPT_FROM_MAPPING('PIH','Type of provider');
+SET @disposition = CONCEPT_FROM_MAPPING('PIH','HUM Disposition categories');
+SET @disposition_comment = CONCEPT_FROM_MAPPING('PIH','PATIENT PLAN COMMENTS');
+SET @return_date = CONCEPT_FROM_MAPPING('PIH','RETURN VISIT DATE');
+SET @routes = CONCEPT_FROM_MAPPING('PIH', '12651');
+SET @oral = CONCEPT_FROM_MAPPING('CIEL', '160240');
+SET @intraveneous = CONCEPT_FROM_MAPPING('CIEL', '160242');
+SET @intramuscular = CONCEPT_FROM_MAPPING('CIEL', '160243');
 
 
-create temporary table temp_mentalhealth_visit
+CREATE TEMPORARY TABLE temp_mentalhealth_visit
 (
-patient_id int,
-zl_emr_id varchar(255),
-gender varchar(50),
-unknown_patient text,
-patient_address text,
-provider varchar(255),
-loc_registered varchar(255),
-location_id int,
-enc_location varchar(255),
-encounter_id int,
-encounter_date datetime,
-age_at_enc double,
-visit_date date,
-visit_id int,
-referred_from_community_by varchar(255),
-other_referring_person varchar(255),
-type_of_referral_role varchar(255),
-other_referring_role_type varchar(255),
-hospitalized_since_last_visit varchar(50),
-hospitalization_reason text,
-hospitalized_at_time_of_visit varchar(50),
-traumatic_event varchar(50),
-adherence_to_appt varchar(225),
-zldsi_score double,
-ces_dc double,
-psc_35 double,
-pcl double,
-cgi_s double,
-cgi_i double,
-cgi_e double,
-whodas double,
-days_with_difficulties double,
-days_without_usual_activity double,
-days_with_less_activity double,
-aims varchar(255),
-seizure_frequency double,
-past_suicidal_evaluation varchar(255),
-current_suicidal_evaluation varchar(255),
-last_suicide_attempt_date date,
-suicidal_screen_completed varchar(50),
-suicidal_screening_result varchar(255),
-high_result_for_suicidal_screening text,
-diagnosis text,
-psychological_intervention text,
-other_psychological_intervention text,
-medication_1 text,
-quantity_1 double,
-dosing_units_1 text,
-frequency_1 text,
-duration_1 double,
-duration_units_1 text,
-route_1 text,
-medication_2 text,
-quantity_2 double,
-dosing_units_2 text,
-frequency_2 text,
-duration_2 double,
-duration_units_2 text,
-route_2 text,
-medication_3 text,
-quantity_3 double,
-dosing_units_3 text,
-frequency_3 text,
-duration_3 double,
-duration_units_3 text,
-route_3 text,
-medication_comments text,
-pregnant varchar(50),
-last_menstruation_date date,
-estimated_delivery_date date,
-type_of_provider text,
-type_of_referral_roles text,
-disposition varchar(255),
-disposition_comment text,
-return_date date
+patient_id INT,
+zl_emr_id VARCHAR(255),
+gender VARCHAR(50),
+unknown_patient TEXT,
+patient_address TEXT,
+provider VARCHAR(255),
+loc_registered VARCHAR(255),
+location_id INT,
+enc_location VARCHAR(255),
+encounter_id INT,
+encounter_date DATETIME,
+age_at_enc DOUBLE,
+visit_date DATE,
+visit_id INT,
+referred_from_community_by VARCHAR(255),
+other_referring_person VARCHAR(255),
+type_of_referral_role VARCHAR(255),
+other_referring_role_type VARCHAR(255),
+hospitalized_since_last_visit VARCHAR(50),
+hospitalization_reason TEXT,
+hospitalized_at_time_of_visit VARCHAR(50),
+traumatic_event VARCHAR(50),
+adherence_to_appt VARCHAR(225),
+zldsi_score DOUBLE,
+ces_dc DOUBLE,
+psc_35 DOUBLE,
+pcl DOUBLE,
+cgi_s DOUBLE,
+cgi_i DOUBLE,
+cgi_e DOUBLE,
+whodas DOUBLE,
+days_with_difficulties DOUBLE,
+days_without_usual_activity DOUBLE,
+days_with_less_activity DOUBLE,
+aims VARCHAR(255),
+seizure_frequency DOUBLE,
+past_suicidal_evaluation VARCHAR(255),
+current_suicidal_evaluation VARCHAR(255),
+last_suicide_attempt_date DATE,
+suicidal_screen_completed VARCHAR(50),
+suicidal_screening_result VARCHAR(255),
+high_result_for_suicidal_screening TEXT,
+diagnosis TEXT,
+psychological_intervention TEXT,
+other_psychological_intervention TEXT,
+obs_group_id_med1 INT,
+medication_1 TEXT,
+quantity_1 DOUBLE,
+dosing_units_1 TEXT,
+frequency_1 TEXT,
+duration_1 DOUBLE,
+duration_units_1 TEXT,
+route_1 TEXT,
+obs_group_id_med2 INT,
+medication_2 TEXT,
+quantity_2 DOUBLE,
+dosing_units_2 TEXT,
+frequency_2 TEXT,
+duration_2 DOUBLE,
+duration_units_2 TEXT,
+route_2 TEXT,
+obs_group_id_med3 INT,
+medication_3 TEXT,
+quantity_3 DOUBLE,
+dosing_units_3 TEXT,
+frequency_3 TEXT,
+duration_3 DOUBLE,
+duration_units_3 TEXT,
+route_3 TEXT,
+medication_comments TEXT,
+pregnant VARCHAR(50),
+last_menstruation_date DATE,
+estimated_delivery_date DATE,
+type_of_provider TEXT,
+type_of_referral_roles TEXT,
+disposition VARCHAR(255),
+disposition_comment TEXT,
+return_date DATE
 );
 
-insert into temp_mentalhealth_visit (   patient_id,
+INSERT INTO temp_mentalhealth_visit (   patient_id,
 										zl_emr_id, gender,
                                         encounter_id,
                                         encounter_date,
@@ -152,351 +155,353 @@ insert into temp_mentalhealth_visit (   patient_id,
                                         -- visit_date,
                                         visit_id
                                         )
-select patient_id,
-	   zlemr(patient_id),
-       gender(patient_id),
+SELECT patient_id,
+	   ZLEMR(patient_id),
+       GENDER(patient_id),
        encounter_id,
        encounter_datetime,
-       age_at_enc(patient_id, encounter_id),
-       provider(encounter_id),
-       person_address(patient_id),
+       AGE_AT_ENC(patient_id, encounter_id),
+       PROVIDER(encounter_id),
+       PERSON_ADDRESS(patient_id),
        -- loc_registered(patient_id),
        location_id,
        -- visit_date(patient_id),
        visit_id
- from encounter where voided = 0 and encounter_type = @encounter_type
+ FROM encounter WHERE voided = 0 AND encounter_type = @encounter_type
 -- filter by date
- AND date(encounter_datetime) >=  date(@startDate)
- AND date(encounter_datetime) <=  date(@endDate)
+ AND DATE(encounter_datetime) >=  date(@startDate)
+ AND DATE(encounter_datetime) <=  date(@endDate)
 ;
 
 -- exclude test patients
-delete from temp_mentalhealth_visit where
-patient_id IN (SELECT person_id FROM person_attribute WHERE value = 'true' AND person_attribute_type_id = (select
-person_attribute_type_id from person_attribute_type where name = "Test Patient")
+DELETE FROM temp_mentalhealth_visit WHERE
+patient_id IN (SELECT person_id FROM person_attribute WHERE value = 'true' AND person_attribute_type_id = (SELECT
+person_attribute_type_id FROM person_attribute_type WHERE name = "Test Patient")
                          AND voided = 0)
 ;
 
 -- unknown patient
-update temp_mentalhealth_visit tmhv
-set tmhv.unknown_patient = IF(tmhv.patient_id = unknown_patient(tmhv.patient_id), 'true', NULL);
+UPDATE temp_mentalhealth_visit tmhv
+SET tmhv.unknown_patient = IF(tmhv.patient_id = UNKNOWN_PATIENT(tmhv.patient_id), 'true', NULL);
 -- location
-update temp_mentalhealth_visit tmhv
-left join location l on tmhv.location_id = l.location_id
-set tmhv.enc_location = l.name;
+UPDATE temp_mentalhealth_visit tmhv
+LEFT JOIN location l ON tmhv.location_id = l.location_id
+SET tmhv.enc_location = l.name;
 
 -- Role of referring person
-update temp_mentalhealth_visit tmhv
-left join
+UPDATE temp_mentalhealth_visit tmhv
+LEFT JOIN
 (
-select encounter_id,  group_concat(name separator ' | ') names  from obs o join concept_name cn on cn.concept_id = o.value_coded and cn.voided = 0
-and o.voided = 0 and o.concept_id = @role_of_referring_person and cn.locale = "fr" and concept_name_type = "FULLY_SPECIFIED"
-group by encounter_id
-) o on o.encounter_id = tmhv.encounter_id
-set tmhv.referred_from_community_by = o.names;
+SELECT encounter_id,  GROUP_CONCAT(name SEPARATOR ' | ') names  FROM obs o JOIN concept_name cn ON cn.concept_id = o.value_coded AND cn.voided = 0
+AND o.voided = 0 AND o.concept_id = @role_of_referring_person AND cn.locale = "fr" AND concept_name_type = "FULLY_SPECIFIED"
+GROUP BY encounter_id
+) o ON o.encounter_id = tmhv.encounter_id
+SET tmhv.referred_from_community_by = o.names;
 
-update temp_mentalhealth_visit tmhv
-set tmhv.other_referring_person = (select comments from obs where voided = 0 and encounter_id = tmhv.encounter_id and value_coded = @other_referring_person
-and concept_id = @role_of_referring_person);
+UPDATE temp_mentalhealth_visit tmhv
+SET tmhv.other_referring_person = (SELECT comments FROM obs WHERE voided = 0 AND encounter_id = tmhv.encounter_id AND value_coded = @other_referring_person
+AND concept_id = @role_of_referring_person);
 
-update temp_mentalhealth_visit tmhv
-left join
+UPDATE temp_mentalhealth_visit tmhv
+LEFT JOIN
 (
-select encounter_id, group_concat(name separator ' | ') names from obs o join concept_name cn on cn.concept_id = o.value_coded and cn.voided = 0
-and o.voided = 0 and o.concept_id = @type_of_referral_role and cn.locale = "fr" and concept_name_type = "FULLY_SPECIFIED"
-group by encounter_id
-) o on o.encounter_id = tmhv.encounter_id
-set tmhv.type_of_referral_role = o.names;
+SELECT encounter_id, GROUP_CONCAT(name SEPARATOR ' | ') names FROM obs o JOIN concept_name cn ON cn.concept_id = o.value_coded AND cn.voided = 0
+AND o.voided = 0 AND o.concept_id = @type_of_referral_role AND cn.locale = "fr" AND concept_name_type = "FULLY_SPECIFIED"
+GROUP BY encounter_id
+) o ON o.encounter_id = tmhv.encounter_id
+SET tmhv.type_of_referral_role = o.names;
 
-update temp_mentalhealth_visit tmhv
-set tmhv.other_referring_role_type = (select comments from obs where voided = 0 and encounter_id = tmhv.encounter_id and value_coded = @other_referring_role_type
-and concept_id = @type_of_referral_role);
+UPDATE temp_mentalhealth_visit tmhv
+SET tmhv.other_referring_role_type = (SELECT comments FROM obs WHERE voided = 0 AND encounter_id = tmhv.encounter_id AND value_coded = @other_referring_role_type
+AND concept_id = @type_of_referral_role);
 
 -- hospitalization
-update temp_mentalhealth_visit tmhv
-set tmhv.hospitalized_since_last_visit = (select concept_name(value_coded, 'fr') from obs where voided = 0 and concept_id = @hospitalization and tmhv.encounter_id = encounter_id);
+UPDATE temp_mentalhealth_visit tmhv
+SET tmhv.hospitalized_since_last_visit = (SELECT CONCEPT_NAME(value_coded, 'fr') FROM obs WHERE voided = 0 AND concept_id = @hospitalization AND tmhv.encounter_id = encounter_id);
 
-update temp_mentalhealth_visit tmhv
-set tmhv.hospitalization_reason = (select value_text from obs where voided = 0 and concept_id = @hospitalization_reason and tmhv.encounter_id = encounter_id);
+UPDATE temp_mentalhealth_visit tmhv
+SET tmhv.hospitalization_reason = (SELECT value_text FROM obs WHERE voided = 0 AND concept_id = @hospitalization_reason AND tmhv.encounter_id = encounter_id);
 
-update temp_mentalhealth_visit tmhv
-set tmhv.hospitalization_reason = (select value_text from obs where voided = 0 and concept_id = @hospitalization_reason and tmhv.encounter_id = encounter_id);
+UPDATE temp_mentalhealth_visit tmhv
+SET tmhv.hospitalization_reason = (SELECT value_text FROM obs WHERE voided = 0 AND concept_id = @hospitalization_reason AND tmhv.encounter_id = encounter_id);
 
-update temp_mentalhealth_visit tmhv
-set tmhv.hospitalized_at_time_of_visit = IF(@inpatient_hospitalization=(select value_coded from obs where voided = 0 and concept_id = @type_of_patient
-and tmhv.encounter_id = encounter_id), 'Oui', Null);
+UPDATE temp_mentalhealth_visit tmhv
+SET tmhv.hospitalized_at_time_of_visit = IF(@inpatient_hospitalization=(SELECT value_coded FROM obs WHERE voided = 0 AND concept_id = @type_of_patient
+AND tmhv.encounter_id = encounter_id), 'Oui', NULL);
 
 -- traumatic event
-update temp_mentalhealth_visit tmhv
-set tmhv.traumatic_event = IF(@yes=(select value_coded from obs where voided = 0 and concept_id = @traumatic_event
-and tmhv.encounter_id = encounter_id), 'Oui', Null);
+UPDATE temp_mentalhealth_visit tmhv
+SET tmhv.traumatic_event = IF(@yes=(SELECT value_coded FROM obs WHERE voided = 0 AND concept_id = @traumatic_event
+AND tmhv.encounter_id = encounter_id), 'Oui', NULL);
 
 -- Adherence to appointment day
-update temp_mentalhealth_visit tmhv
-set tmhv.adherence_to_appt = (select concept_name(value_coded, 'fr') from obs where voided = 0 and concept_id = @adherence_to_appt
-and tmhv.encounter_id = encounter_id);
+UPDATE temp_mentalhealth_visit tmhv
+SET tmhv.adherence_to_appt = (SELECT CONCEPT_NAME(value_coded, 'fr') FROM obs WHERE voided = 0 AND concept_id = @adherence_to_appt
+AND tmhv.encounter_id = encounter_id);
 
 -- scores
-update temp_mentalhealth_visit tmhv
-set tmhv.zldsi_score = (select value_numeric from obs where voided = 0 and encounter_id = tmhv.encounter_id and concept_id = @zldsi_score);
+UPDATE temp_mentalhealth_visit tmhv
+SET tmhv.zldsi_score = (SELECT value_numeric FROM obs WHERE voided = 0 AND encounter_id = tmhv.encounter_id AND concept_id = @zldsi_score);
 
-update temp_mentalhealth_visit tmhv
-set tmhv.ces_dc = (select value_numeric from obs where voided = 0 and encounter_id = tmhv.encounter_id and concept_id = @ces_dc);
+UPDATE temp_mentalhealth_visit tmhv
+SET tmhv.ces_dc = (SELECT value_numeric FROM obs WHERE voided = 0 AND encounter_id = tmhv.encounter_id AND concept_id = @ces_dc);
 
-update temp_mentalhealth_visit tmhv
-set tmhv.psc_35 = (select value_numeric from obs where voided = 0 and encounter_id = tmhv.encounter_id and concept_id = @psc_35);
+UPDATE temp_mentalhealth_visit tmhv
+SET tmhv.psc_35 = (SELECT value_numeric FROM obs WHERE voided = 0 AND encounter_id = tmhv.encounter_id AND concept_id = @psc_35);
 
-update temp_mentalhealth_visit tmhv
-set tmhv.pcl = (select value_numeric from obs where voided = 0 and encounter_id = tmhv.encounter_id and concept_id = @pcl);
+UPDATE temp_mentalhealth_visit tmhv
+SET tmhv.pcl = (SELECT value_numeric FROM obs WHERE voided = 0 AND encounter_id = tmhv.encounter_id AND concept_id = @pcl);
 
-update temp_mentalhealth_visit tmhv
-set tmhv.cgi_s = (select value_numeric from obs where voided = 0 and encounter_id = tmhv.encounter_id and concept_id = @cgi_s);
+UPDATE temp_mentalhealth_visit tmhv
+SET tmhv.cgi_s = (SELECT value_numeric FROM obs WHERE voided = 0 AND encounter_id = tmhv.encounter_id AND concept_id = @cgi_s);
 
-update temp_mentalhealth_visit tmhv
-set tmhv.cgi_i = (select value_numeric from obs where voided = 0 and encounter_id = tmhv.encounter_id and concept_id = @cgi_i);
+UPDATE temp_mentalhealth_visit tmhv
+SET tmhv.cgi_i = (SELECT value_numeric FROM obs WHERE voided = 0 AND encounter_id = tmhv.encounter_id AND concept_id = @cgi_i);
 
-update temp_mentalhealth_visit tmhv
-set tmhv.cgi_e = (select value_numeric from obs where voided = 0 and encounter_id = tmhv.encounter_id and concept_id = @cgi_e);
+UPDATE temp_mentalhealth_visit tmhv
+SET tmhv.cgi_e = (SELECT value_numeric FROM obs WHERE voided = 0 AND encounter_id = tmhv.encounter_id AND concept_id = @cgi_e);
 
-update temp_mentalhealth_visit tmhv
-set tmhv.whodas = (select value_numeric from obs where voided = 0 and encounter_id = tmhv.encounter_id and concept_id = @whodas);
+UPDATE temp_mentalhealth_visit tmhv
+SET tmhv.whodas = (SELECT value_numeric FROM obs WHERE voided = 0 AND encounter_id = tmhv.encounter_id AND concept_id = @whodas);
 
-update temp_mentalhealth_visit tmhv
-set tmhv.days_with_difficulties = (select value_numeric from obs where voided = 0 and encounter_id = tmhv.encounter_id and concept_id = @days_with_difficulties);
+UPDATE temp_mentalhealth_visit tmhv
+SET tmhv.days_with_difficulties = (SELECT value_numeric FROM obs WHERE voided = 0 AND encounter_id = tmhv.encounter_id AND concept_id = @days_with_difficulties);
 
-update temp_mentalhealth_visit tmhv
-set tmhv.days_without_usual_activity = (select value_numeric from obs where voided = 0 and encounter_id = tmhv.encounter_id and concept_id = @days_without_usual_activity);
+UPDATE temp_mentalhealth_visit tmhv
+SET tmhv.days_without_usual_activity = (SELECT value_numeric FROM obs WHERE voided = 0 AND encounter_id = tmhv.encounter_id AND concept_id = @days_without_usual_activity);
 
-update temp_mentalhealth_visit tmhv
-set tmhv.days_with_less_activity = (select value_numeric from obs where voided = 0 and encounter_id = tmhv.encounter_id and concept_id = @days_with_less_activity);
+UPDATE temp_mentalhealth_visit tmhv
+SET tmhv.days_with_less_activity = (SELECT value_numeric FROM obs WHERE voided = 0 AND encounter_id = tmhv.encounter_id AND concept_id = @days_with_less_activity);
 
-update temp_mentalhealth_visit tmhv
-set tmhv.aims = (select concept_name(value_coded, 'fr') from obs where voided = 0 and concept_id = @aims and tmhv.encounter_id = encounter_id);
+UPDATE temp_mentalhealth_visit tmhv
+SET tmhv.aims = (SELECT CONCEPT_NAME(value_coded, 'fr') FROM obs WHERE voided = 0 AND concept_id = @aims AND tmhv.encounter_id = encounter_id);
 
-update temp_mentalhealth_visit tmhv
-set tmhv.seizure_frequency = (select value_numeric from obs where voided = 0 and encounter_id = tmhv.encounter_id and concept_id = @seizure_frequency);
+UPDATE temp_mentalhealth_visit tmhv
+SET tmhv.seizure_frequency = (SELECT value_numeric FROM obs WHERE voided = 0 AND encounter_id = tmhv.encounter_id AND concept_id = @seizure_frequency);
 
-update temp_mentalhealth_visit tmhv
-left join
+UPDATE temp_mentalhealth_visit tmhv
+LEFT JOIN
 (
-select group_concat(cn.name separator ' | ') names, encounter_id from concept_name cn join obs o on o.voided = 0 and cn.voided = 0 and
-value_coded = cn.concept_id and locale='fr' and concept_name_type = "FULLY_SPECIFIED" and o.concept_id = @past_suicidal_evaluation group by encounter_id) o
-on tmhv.encounter_id = o.encounter_id
-set tmhv.past_suicidal_evaluation  = o.names;
+SELECT GROUP_CONCAT(cn.name SEPARATOR ' | ') names, encounter_id FROM concept_name cn JOIN obs o ON o.voided = 0 AND cn.voided = 0 AND
+value_coded = cn.concept_id AND locale='fr' AND concept_name_type = "FULLY_SPECIFIED" AND o.concept_id = @past_suicidal_evaluation GROUP BY encounter_id) o
+ON tmhv.encounter_id = o.encounter_id
+SET tmhv.past_suicidal_evaluation  = o.names;
 
-update temp_mentalhealth_visit tmhv
-left join
+UPDATE temp_mentalhealth_visit tmhv
+LEFT JOIN
 (
-select group_concat(cn.name separator ' | ') names, encounter_id from concept_name cn join obs o on o.voided = 0 and cn.voided = 0 and
-value_coded = cn.concept_id and locale='fr' and concept_name_type = "FULLY_SPECIFIED" and o.concept_id = @current_suicidal_evaluation group by encounter_id) o
-on tmhv.encounter_id = o.encounter_id
-set tmhv.current_suicidal_evaluation  = o.names;
+SELECT GROUP_CONCAT(cn.name SEPARATOR ' | ') names, encounter_id FROM concept_name cn JOIN obs o ON o.voided = 0 AND cn.voided = 0 AND
+value_coded = cn.concept_id AND locale='fr' AND concept_name_type = "FULLY_SPECIFIED" AND o.concept_id = @current_suicidal_evaluation GROUP BY encounter_id) o
+ON tmhv.encounter_id = o.encounter_id
+SET tmhv.current_suicidal_evaluation  = o.names;
 
-update temp_mentalhealth_visit tmhv
-set tmhv.last_suicide_attempt_date = (select date(value_datetime) from obs where concept_id = @last_suicide_attempt_date and voided = 0 and tmhv.encounter_id = obs.encounter_id);
+UPDATE temp_mentalhealth_visit tmhv
+SET tmhv.last_suicide_attempt_date = (SELECT DATE(value_datetime) FROM obs WHERE concept_id = @last_suicide_attempt_date AND voided = 0 AND tmhv.encounter_id = obs.encounter_id);
 
-update temp_mentalhealth_visit tmhv
-set tmhv.suicidal_screen_completed = IF(1=(select value_coded from obs where concept_id = @suicidal_screen_completed and voided = 0 and tmhv.encounter_id = obs.encounter_id),'Oui', Null);
+UPDATE temp_mentalhealth_visit tmhv
+SET tmhv.suicidal_screen_completed = IF(1=(SELECT value_coded FROM obs WHERE concept_id = @suicidal_screen_completed AND voided = 0 AND tmhv.encounter_id = obs.encounter_id),'Oui', NULL);
 
-update temp_mentalhealth_visit tmhv
-set tmhv.suicidal_screening_result = (select concept_name(value_coded, 'fr') from obs where voided = 0 and concept_id = @suicidal_screening_result and tmhv.encounter_id = obs.encounter_id);
+UPDATE temp_mentalhealth_visit tmhv
+SET tmhv.suicidal_screening_result = (SELECT CONCEPT_NAME(value_coded, 'fr') FROM obs WHERE voided = 0 AND concept_id = @suicidal_screening_result AND tmhv.encounter_id = obs.encounter_id);
 
-update temp_mentalhealth_visit tmhv
-left join
+UPDATE temp_mentalhealth_visit tmhv
+LEFT JOIN
 (
-select group_concat(cn.name separator ' | ') names, encounter_id from concept_name cn join obs o on o.voided = 0 and cn.voided = 0 and
-value_coded = cn.concept_id and locale='fr' and concept_name_type = "FULLY_SPECIFIED" and o.concept_id = @current_suicidal_evaluation group by encounter_id) o
-on tmhv.encounter_id = o.encounter_id
-set tmhv.current_suicidal_evaluation  = o.names;
+SELECT GROUP_CONCAT(cn.name SEPARATOR ' | ') names, encounter_id FROM concept_name cn JOIN obs o ON o.voided = 0 AND cn.voided = 0 AND
+value_coded = cn.concept_id AND locale='fr' AND concept_name_type = "FULLY_SPECIFIED" AND o.concept_id = @current_suicidal_evaluation GROUP BY encounter_id) o
+ON tmhv.encounter_id = o.encounter_id
+SET tmhv.current_suicidal_evaluation  = o.names;
 
-update temp_mentalhealth_visit tmhv
-left join
+UPDATE temp_mentalhealth_visit tmhv
+LEFT JOIN
 (
-select group_concat(cn.name separator ' | ') names, encounter_id from concept_name cn join obs o on o.voided = 0 and cn.voided = 0 and
-value_coded = cn.concept_id and locale='fr' and concept_name_type = "FULLY_SPECIFIED" and o.value_coded in (@security_plan, @discuss_patient_with_supervisor, @hospitalize_due_to_suicide_risk) group by encounter_id
-) o on tmhv.encounter_id = o.encounter_id
-set tmhv.high_result_for_suicidal_screening = o.names;
+SELECT GROUP_CONCAT(cn.name SEPARATOR ' | ') names, encounter_id FROM concept_name cn JOIN obs o ON o.voided = 0 AND cn.voided = 0 AND
+value_coded = cn.concept_id AND locale='fr' AND concept_name_type = "FULLY_SPECIFIED" AND o.value_coded IN (@security_plan, @discuss_patient_with_supervisor, @hospitalize_due_to_suicide_risk) GROUP BY encounter_id
+) o ON tmhv.encounter_id = o.encounter_id
+SET tmhv.high_result_for_suicidal_screening = o.names;
 
-update temp_mentalhealth_visit tmhv
-left join
+UPDATE temp_mentalhealth_visit tmhv
+LEFT JOIN
 (
-select group_concat(cn.name separator ' | ') names, encounter_id from concept_name cn join obs o on o.voided = 0 and cn.voided = 0 and
-value_coded = cn.concept_id and locale='fr' and concept_name_type = "FULLY_SPECIFIED" and o.concept_id = @mh_diagnosis
+SELECT GROUP_CONCAT(cn.name SEPARATOR ' | ') names, encounter_id FROM concept_name cn JOIN obs o ON o.voided = 0 AND cn.voided = 0 AND
+value_coded = cn.concept_id AND locale='fr' AND concept_name_type = "FULLY_SPECIFIED" AND o.concept_id = @mh_diagnosis
 -- and value_coded in (select concept_id from concept_set where concept_set = @hum_diagnoses)
-group by encounter_id
-) o on tmhv.encounter_id = o.encounter_id
-set tmhv.diagnosis = o.names;
+GROUP BY encounter_id
+) o ON tmhv.encounter_id = o.encounter_id
+SET tmhv.diagnosis = o.names;
 
-update temp_mentalhealth_visit tmhv
-left join
+UPDATE temp_mentalhealth_visit tmhv
+LEFT JOIN
 (
-select group_concat(cn.name separator ' | ') names, encounter_id from concept_name cn join obs o on o.voided = 0 and cn.voided = 0 and
-value_coded = cn.concept_id and locale='fr' and concept_name_type = "FULLY_SPECIFIED" and o.concept_id = @mental_health_intervention
-group by encounter_id
-) o on tmhv.encounter_id = o.encounter_id
-set tmhv.psychological_intervention = o.names,
-	tmhv.other_psychological_intervention = (select comments from obs where voided = 0 and concept_id = @mental_health_intervention and value_coded = @other and tmhv.encounter_id = obs.encounter_id);
+SELECT GROUP_CONCAT(cn.name SEPARATOR ' | ') names, encounter_id FROM concept_name cn JOIN obs o ON o.voided = 0 AND cn.voided = 0 AND
+value_coded = cn.concept_id AND locale='fr' AND concept_name_type = "FULLY_SPECIFIED" AND o.concept_id = @mental_health_intervention
+GROUP BY encounter_id
+) o ON tmhv.encounter_id = o.encounter_id
+SET tmhv.psychological_intervention = o.names,
+	tmhv.other_psychological_intervention = (SELECT comments FROM obs WHERE voided = 0 AND concept_id = @mental_health_intervention AND value_coded = @other AND tmhv.encounter_id = obs.encounter_id);
 
-update temp_mentalhealth_visit tmhv
-left join
+##### medications
+DROP TEMPORARY TABLE IF EXISTS temp_medications_construct;
+CREATE TEMPORARY TABLE temp_medications_construct
 (
-select e.encounter_id,
-medication_1,
-quantity_1,
-dosing_units_1,
-frequency_1,
-duration_1,
-duration_units_1,
-route_1,
-medication_2,
-quantity_2,
-dosing_units_2,
-frequency_2,
-duration_2,
-duration_units_2,
-route_2,
-medication_3,
-quantity_3,
-dosing_units_3,
-frequency_3,
-duration_3,
-duration_units_3,
-route_3
-from encounter e
-inner join obs pres_con1 on pres_con1.obs_id =
-   (select opc1.obs_id from obs opc1 where  opc1.encounter_id = e.encounter_id and opc1.concept_id = 3101 limit 1)
-left outer join
-  (select o1.obs_group_id,
-  MAX(CASE WHEN o1.concept_id = @medication THEN cn1.name END) "medication_1",
-  MAX(CASE WHEN o1.concept_id = @dose THEN o1.value_numeric END) "quantity_1",
-  MAX(CASE WHEN o1.concept_id = @dosing_units THEN cn1.name END) "dosing_units_1",
-  MAX(CASE WHEN o1.concept_id = @frequency THEN cn1.name END) "frequency_1",
-  MAX(CASE WHEN o1.concept_id = @duration THEN o1.value_numeric END) "duration_1",
-  MAX(CASE WHEN o1.concept_id = @duration_units THEN cn1.name END) "duration_units_1",
-  MAX(CASE WHEN o1.concept_id = @routes THEN cn1.name END) "route_1"
-  from obs o1
-  LEFT OUTER JOIN concept_name cn1 on cn1.concept_name_id =
-     (select concept_name_id from concept_name cn11
-     where cn11.concept_id = o1.value_coded
-     and cn11.voided  = 0
-     and cn11.locale in ('en', 'fr')
-     order by field(cn11.locale,'fr','en') asc, cn11.locale_preferred desc
-    limit 1)
-group by o1.obs_group_id) m1 on m1.obs_group_id = pres_con1.obs_id
--- ------------
-left outer join obs pres_con2 on pres_con2.obs_id =
-   (select opc2.obs_id from obs opc2 where  opc2.encounter_id = e.encounter_id and opc2.concept_id = 3101 and opc2.obs_id <> pres_con1.obs_id limit 1)
-left outer join
-  (select o2.obs_group_id,
-  MAX(CASE WHEN o2.concept_id = @medication THEN cn2.name END) "medication_2",
-  MAX(CASE WHEN o2.concept_id = @dose THEN o2.value_numeric END) "quantity_2",
-  MAX(CASE WHEN o2.concept_id = @dosing_units THEN cn2.name END) "dosing_units_2",
-  MAX(CASE WHEN o2.concept_id = @frequency THEN cn2.name END) "frequency_2",
-  MAX(CASE WHEN o2.concept_id = @duration THEN o2.value_numeric END) "duration_2",
-  MAX(CASE WHEN o2.concept_id = @duration_units THEN cn2.name END) "duration_units_2",
-  MAX(CASE WHEN o2.concept_id = @routes THEN cn2.name END) "route_2"
-  from obs o2
-   LEFT OUTER JOIN concept_name cn2 on cn2.concept_name_id =
-     (select concept_name_id from concept_name cn21
-     where cn21.concept_id = o2.value_coded
-     and cn21.voided  = 0
-     and cn21.locale in ('en', 'fr')
-     order by field(cn21.locale,'fr','en') asc, cn21.locale_preferred desc
-    limit 1)
-  group by o2.obs_group_id) m2 on m2.obs_group_id =pres_con2.obs_id
--- ------------
-left outer join obs pres_con3 on pres_con3.obs_id =
-   (select opc3.obs_id from obs opc3 where  opc3.encounter_id = e.encounter_id and opc3.concept_id = 3101 and opc3.obs_id not in (pres_con1.obs_id,pres_con2.obs_id)  limit 1)
-left outer join
-  (select o3.obs_group_id,
-  MAX(CASE WHEN o3.concept_id = @medication THEN cn3.name END) "medication_3",
-  MAX(CASE WHEN o3.concept_id = @dose THEN o3.value_numeric END) "quantity_3",
-  MAX(CASE WHEN o3.concept_id = @dosing_units THEN cn3.name END) "dosing_units_3",
-  MAX(CASE WHEN o3.concept_id = @frequency THEN cn3.name END) "frequency_3",
-  MAX(CASE WHEN o3.concept_id = @duration THEN o3.value_numeric END) "duration_3",
-  MAX(CASE WHEN o3.concept_id = @duration_units THEN cn3.name END) "duration_units_3",
-  MAX(CASE WHEN o3.concept_id = @routes THEN cn3.name END) "route_3"
-  from obs o3
-  LEFT OUTER JOIN concept_name cn3 on cn3.concept_name_id =
-     (select concept_name_id from concept_name cn31
-     where cn31.concept_id = o3.value_coded
-     and cn31.voided  = 0
-     and cn31.locale in ('en', 'fr')
-     order by field(cn31.locale,'fr','en') asc, cn31.locale_preferred desc
-    limit 1)
-  group by o3.obs_group_id) m3 on m3.obs_group_id =pres_con3.obs_id
-  ) o on tmhv.encounter_id = o.encounter_id
-  set tmhv.medication_1 = o.medication_1,
-  tmhv.quantity_1 = o.quantity_1,
-tmhv.dosing_units_1 = o.dosing_units_1,
-tmhv.frequency_1 = o.frequency_1,
-tmhv.duration_1 = o.duration_1,
-tmhv.duration_units_1 = o.duration_units_1,
-tmhv.route_1 = o.route_1,
-tmhv.medication_2 = o.medication_2,
-tmhv.quantity_2 = o.quantity_2,
-tmhv.dosing_units_2 = o.dosing_units_2,
-tmhv.frequency_2 = o.frequency_2,
-tmhv.duration_2 = o.duration_2,
-tmhv.duration_units_2 = o.duration_units_2,
-tmhv.route_2 = o.route_2,
-tmhv.medication_3 = o.medication_3,
-tmhv.quantity_3 = o.quantity_3,
-tmhv.dosing_units_3 = o.dosing_units_3,
-tmhv.frequency_3 = o.frequency_3,
-tmhv.duration_3 = o.duration_3,
-tmhv.duration_units_3 = o.duration_units_3,
-tmhv.route_3 = o.route_3,
-tmhv.medication_comments = (select value_text from obs where voided = 0 and tmhv.encounter_id = obs.encounter_id and concept_id = @medication_comments);
+person_id INT, 
+encounter_id INT, 
+obs_group_id INT, 
+obs_id INT, 
+concept_id INT, 
+value_coded INT,
+value_numeric INT,
+date_created DATETIME
+);
+
+INSERT INTO temp_medications_construct (person_id, encounter_id, obs_group_id, obs_id, concept_id, value_coded, value_numeric, date_created)
+SELECT person_id, encounter_id, obs_group_id, obs_id, concept_id, value_coded, value_numeric, date_created FROM obs WHERE obs_group_id IN (
+SELECT obs_id FROM obs WHERE concept_id = CONCEPT_FROM_MAPPING('PIH', 'Prescription construct') AND voided = 0);
+
+
+DROP TEMPORARY TABLE IF EXISTS temp_med_order;
+CREATE TEMPORARY TABLE temp_med_order
+SELECT 
+	person_id, 
+	encounter_id,  
+    obs_group_id, 
+    obs_id, 
+    concept_id, 
+    value_coded, 
+    drug_order
+FROM (SELECT
+		@r:= IF(@u = encounter_id, @r + 1,1) AS drug_order, person_id, encounter_id,  obs_group_id, obs_id, concept_id, value_coded, @u:= encounter_id
+FROM temp_medications_construct,
+	(SELECT @rownum := 0) AS r,
+	(SELECT @u:= 0) AS u
+WHERE concept_id = CONCEPT_FROM_MAPPING('PIH', 'Mental health medication')
+ORDER BY person_id, encounter_id, obs_group_id DESC) meds;
+
+-- meds
+UPDATE temp_mentalhealth_visit tmhv LEFT JOIN temp_med_order tmo ON patient_id = person_id AND tmhv.encounter_id = tmo.encounter_id AND tmo.drug_order = 1
+SET obs_group_id_med1 = tmo.obs_group_id,
+	medication_1 = CONCEPT_NAME(tmo.value_coded, 'en');
+
+UPDATE temp_mentalhealth_visit tmhv LEFT JOIN temp_med_order tmo ON patient_id = person_id AND tmhv.encounter_id = tmo.encounter_id AND tmo.drug_order = 2
+SET obs_group_id_med2 = tmo.obs_group_id,
+	medication_2 = CONCEPT_NAME(tmo.value_coded, 'en');
+
+UPDATE temp_mentalhealth_visit tmhv LEFT JOIN temp_med_order tmo ON patient_id = person_id AND tmhv.encounter_id = tmo.encounter_id AND tmo.drug_order = 3
+SET obs_group_id_med3 = tmo.obs_group_id,
+	medication_3 = CONCEPT_NAME(tmo.value_coded, 'en');
+
+-- quantity
+UPDATE temp_mentalhealth_visit LEFT JOIN temp_medications_construct tmc ON obs_group_id_med1 = obs_group_id AND tmc.concept_id = CONCEPT_FROM_MAPPING('CIEL', '160856')
+SET quantity_1 = value_numeric;
+
+UPDATE temp_mentalhealth_visit LEFT JOIN temp_medications_construct tmc ON obs_group_id_med2 = obs_group_id AND tmc.concept_id = CONCEPT_FROM_MAPPING('CIEL', '160856')
+SET quantity_2 = value_numeric;
+
+UPDATE temp_mentalhealth_visit LEFT JOIN temp_medications_construct tmc ON obs_group_id_med3 = obs_group_id AND tmc.concept_id = CONCEPT_FROM_MAPPING('CIEL', '160856')
+SET quantity_3 = value_numeric;
+
+-- dosing units
+UPDATE temp_mentalhealth_visit LEFT JOIN temp_medications_construct tmc ON obs_group_id_med1 = obs_group_id AND tmc.concept_id =  @dosing_units
+SET dosing_units_1 = CONCEPT_NAME(tmc.value_coded, 'en');
+
+UPDATE temp_mentalhealth_visit LEFT JOIN temp_medications_construct tmc ON obs_group_id_med2 = obs_group_id AND tmc.concept_id = @dosing_units 
+SET dosing_units_2 = CONCEPT_NAME(tmc.value_coded, 'en');
+
+UPDATE temp_mentalhealth_visit LEFT JOIN temp_medications_construct tmc ON obs_group_id_med3 = obs_group_id AND tmc.concept_id = @dosing_units
+SET dosing_units_3 = CONCEPT_NAME(tmc.value_coded, 'en');
+
+-- duration units
+UPDATE temp_mentalhealth_visit LEFT JOIN temp_medications_construct tmc ON obs_group_id_med1 = obs_group_id AND tmc.concept_id =  @duration_units 
+SET duration_units_1 = CONCEPT_NAME(tmc.value_coded, 'en');
+
+UPDATE temp_mentalhealth_visit LEFT JOIN temp_medications_construct tmc ON obs_group_id_med2 = obs_group_id AND tmc.concept_id = @duration_units
+SET duration_units_2 = CONCEPT_NAME(tmc.value_coded, 'en');
+
+UPDATE temp_mentalhealth_visit LEFT JOIN temp_medications_construct tmc ON obs_group_id_med3 = obs_group_id AND tmc.concept_id = @duration_units 
+SET duration_units_3 = CONCEPT_NAME(tmc.value_coded, 'en');
+
+-- frequency
+UPDATE temp_mentalhealth_visit LEFT JOIN temp_medications_construct tmc ON obs_group_id_med1 = obs_group_id AND tmc.concept_id =  @frequency
+SET frequency_1 = CONCEPT_NAME(tmc.value_coded, 'en');
+
+UPDATE temp_mentalhealth_visit LEFT JOIN temp_medications_construct tmc ON obs_group_id_med2 = obs_group_id AND tmc.concept_id = @frequency
+SET frequency_2 = CONCEPT_NAME(tmc.value_coded, 'en');
+
+UPDATE temp_mentalhealth_visit LEFT JOIN temp_medications_construct tmc ON obs_group_id_med3 = obs_group_id AND tmc.concept_id = @frequency
+SET frequency_3 = CONCEPT_NAME(tmc.value_coded, 'en');
+
+-- route
+UPDATE temp_mentalhealth_visit LEFT JOIN temp_medications_construct tmc ON obs_group_id_med1 = obs_group_id AND tmc.concept_id =  @routes
+SET route_1 = CONCEPT_NAME(tmc.value_coded, 'en');
+
+UPDATE temp_mentalhealth_visit LEFT JOIN temp_medications_construct tmc ON obs_group_id_med2 = obs_group_id AND tmc.concept_id = @routes
+SET route_2 = CONCEPT_NAME(tmc.value_coded, 'en');
+
+UPDATE temp_mentalhealth_visit LEFT JOIN temp_medications_construct tmc ON obs_group_id_med3 = obs_group_id AND tmc.concept_id = @routes
+SET route_3 = CONCEPT_NAME(tmc.value_coded, 'en');
+
+-- duration
+UPDATE temp_mentalhealth_visit LEFT JOIN temp_medications_construct tmc ON obs_group_id_med1 = obs_group_id AND tmc.concept_id =  @duration
+SET duration_1 = value_numeric;
+
+UPDATE temp_mentalhealth_visit LEFT JOIN temp_medications_construct tmc ON obs_group_id_med2 = obs_group_id AND tmc.concept_id = @duration
+SET duration_2 = value_numeric;
+
+UPDATE temp_mentalhealth_visit LEFT JOIN temp_medications_construct tmc ON obs_group_id_med3 = obs_group_id AND tmc.concept_id = @duration
+SET duration_3 = value_numeric;
+
+-- medication comments
+UPDATE temp_mentalhealth_visit tmhv
+SET tmhv.medication_comments = (SELECT value_text FROM obs WHERE voided = 0 AND tmhv.encounter_id = obs.encounter_id AND concept_id = @medication_comments);
 
 -- pregnancy questions
-update temp_mentalhealth_visit tmhv
-left join obs preg on preg.encounter_id = tmhv.encounter_id and preg.concept_id = @pregnant and preg.voided = 0
-set tmhv.pregnant = concept_name(preg.value_coded, 'fr');
+UPDATE temp_mentalhealth_visit tmhv
+LEFT JOIN obs preg ON preg.encounter_id = tmhv.encounter_id AND preg.concept_id = @pregnant AND preg.voided = 0
+SET tmhv.pregnant = CONCEPT_NAME(preg.value_coded, 'fr');
 
-update temp_mentalhealth_visit tmhv
-left join obs lmd on lmd.encounter_id = tmhv.encounter_id and lmd.concept_id = @last_menstruation_date and lmd.voided = 0
-set tmhv.last_menstruation_date = lmd.value_datetime
+UPDATE temp_mentalhealth_visit tmhv
+LEFT JOIN obs lmd ON lmd.encounter_id = tmhv.encounter_id AND lmd.concept_id = @last_menstruation_date AND lmd.voided = 0
+SET tmhv.last_menstruation_date = lmd.value_datetime
 ;
 
-update temp_mentalhealth_visit tmhv
-left join obs edd on edd.encounter_id = tmhv.encounter_id and edd.concept_id = @estimated_delivery_date and edd.voided = 0
-set tmhv.estimated_delivery_date = edd.value_datetime
+UPDATE temp_mentalhealth_visit tmhv
+LEFT JOIN obs edd ON edd.encounter_id = tmhv.encounter_id AND edd.concept_id = @estimated_delivery_date AND edd.voided = 0
+SET tmhv.estimated_delivery_date = edd.value_datetime
 ;
 
-update temp_mentalhealth_visit tmhv
-left join
+UPDATE temp_mentalhealth_visit tmhv
+LEFT JOIN
 (
-select group_concat(cn.name separator ' | ') names, encounter_id from concept_name cn join obs o on o.voided = 0 and cn.voided = 0 and
-value_coded = cn.concept_id and locale='fr' and concept_name_type = "FULLY_SPECIFIED" and o.concept_id = @type_of_provider group by encounter_id
-) o on tmhv.encounter_id = o.encounter_id
-set tmhv.type_of_provider = o.names;
+SELECT GROUP_CONCAT(cn.name SEPARATOR ' | ') names, encounter_id FROM concept_name cn JOIN obs o ON o.voided = 0 AND cn.voided = 0 AND
+value_coded = cn.concept_id AND locale='fr' AND concept_name_type = "FULLY_SPECIFIED" AND o.concept_id = @type_of_provider GROUP BY encounter_id
+) o ON tmhv.encounter_id = o.encounter_id
+SET tmhv.type_of_provider = o.names;
 
-update temp_mentalhealth_visit tmhv
-left join
+UPDATE temp_mentalhealth_visit tmhv
+LEFT JOIN
 (
-select group_concat(cn.name separator ' | ') names, encounter_id from concept_name cn join obs o on o.voided = 0 and cn.voided = 0 and
-value_coded = cn.concept_id and locale='fr' and concept_name_type = "FULLY_SPECIFIED" and o.concept_id = @type_of_referral_roles group by encounter_id
-) o on tmhv.encounter_id = o.encounter_id
-set tmhv.type_of_referral_roles = o.names;
+SELECT GROUP_CONCAT(cn.name SEPARATOR ' | ') names, encounter_id FROM concept_name cn JOIN obs o ON o.voided = 0 AND cn.voided = 0 AND
+value_coded = cn.concept_id AND locale='fr' AND concept_name_type = "FULLY_SPECIFIED" AND o.concept_id = @type_of_referral_roles GROUP BY encounter_id
+) o ON tmhv.encounter_id = o.encounter_id
+SET tmhv.type_of_referral_roles = o.names;
 
-update temp_mentalhealth_visit tmhv
-set tmhv.disposition = (select concept_name(value_coded, 'fr') from obs where concept_id = @disposition and voided = 0 and tmhv.encounter_id = obs.encounter_id),
-	tmhv.disposition_comment = (select value_text from obs where concept_id = @disposition_comment and voided = 0 and tmhv.encounter_id = obs.encounter_id),
-    tmhv.return_date = (select date(value_datetime) from obs where concept_id = @return_date and voided = 0 and tmhv.encounter_id = obs.encounter_id);
+UPDATE temp_mentalhealth_visit tmhv
+SET tmhv.disposition = (SELECT CONCEPT_NAME(value_coded, 'fr') FROM obs WHERE concept_id = @disposition AND voided = 0 AND tmhv.encounter_id = obs.encounter_id),
+	tmhv.disposition_comment = (SELECT value_text FROM obs WHERE concept_id = @disposition_comment AND voided = 0 AND tmhv.encounter_id = obs.encounter_id),
+    tmhv.return_date = (SELECT DATE(value_datetime) FROM obs WHERE concept_id = @return_date AND voided = 0 AND tmhv.encounter_id = obs.encounter_id);
 
 
-select
+SELECT
 encounter_id,
 patient_id,
 zl_emr_id,
 gender,
 unknown_patient,
-person_address_state_province(patient_id) 'province',
-person_address_city_village(patient_id) 'city_village',
-person_address_three(patient_id) 'address3',
-person_address_one(patient_id) 'address1',
-person_address_two(patient_id) 'address2',
+PERSON_ADDRESS_STATE_PROVINCE(patient_id) 'province',
+PERSON_ADDRESS_CITY_VILLAGE(patient_id) 'city_village',
+PERSON_ADDRESS_THREE(patient_id) 'address3',
+PERSON_ADDRESS_ONE(patient_id) 'address1',
+PERSON_ADDRESS_TWO(patient_id) 'address2',
 provider,
 visit_id,
 enc_location,
@@ -562,5 +567,5 @@ type_of_referral_roles "referred_to",
 disposition,
 disposition_comment,
 return_date
-from temp_mentalhealth_visit
+FROM temp_mentalhealth_visit
 ;
