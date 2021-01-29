@@ -1363,9 +1363,10 @@ angular.module("encounterTypeConfig", [])
             if (encounterType.hasOwnProperty(country)) {
               encounterType = encounterType[country][site] ||
                 encounterType[country]['DEFAULT'] ||
-                encounterType[country] ||
-                encounterType['DEFAULT'] ||
-                encounterType;
+                encounterType[country]
+            }
+            else {
+              encounterType = encounterType['DEFAULT'] || encounterType;
             }
 
             // resolve any version-specific configs
