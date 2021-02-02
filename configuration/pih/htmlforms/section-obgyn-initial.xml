@@ -321,6 +321,22 @@
                      answerConceptIds="PIH:Triage red,PIH:Yellow,PIH:Triage green"
                      answerSeparator="" />
             </p>
+
+            <table>
+                <tr>
+                    <td>
+                        <label>
+                            <uimessage code="mirebalais.mostRecentVitals.label" />
+                        </label>
+                        <label>
+                            <uimessage code="mirebalais.vitals.respiratoryRate.short.title" />:
+                            <lookup expression="fn.latestObs('CIEL:5242')"/>
+                            <br/>
+
+                        </label>
+                    </td>
+                </tr>
+            </table>
         </div>
         <br/>
 
