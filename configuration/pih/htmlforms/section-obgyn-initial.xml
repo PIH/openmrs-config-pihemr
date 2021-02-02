@@ -322,6 +322,7 @@
                      answerSeparator="" />
             </p>
 
+            <!-- Todo:  UHM-5191 Add previous vital signs
             <table>
                 <tr>
                     <td>
@@ -337,6 +338,7 @@
                     </td>
                 </tr>
             </table>
+            -->
         </div>
         <br/>
 
