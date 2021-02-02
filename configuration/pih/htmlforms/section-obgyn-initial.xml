@@ -115,57 +115,55 @@
 
     </style>
 
-    <ifMode mode="VIEW" include="false">
+    <ifMode mode="VIEW" include="false" >
         <script type="text/javascript">
-            jq(document).ready(function() {
 
-            // get timestamp of obs.valueDateTime
-            var lastLMP = '<lookup expression="fn.latestObs('CIEL:1427').getValueDatetime().getTime()"/>';
-            // console.log("lastLMP: " + lastLMP);
+            jq(function() {
+
+            var updateEdd = function() {
+
+            var lastPeriodDate = htmlForm.getValueIfLegal('lastPeriodDate.value');
+            if (typeof lastPeriodDate !== "undefined" &amp;&amp; lastPeriodDate !== null &amp;&amp; (lastPeriodDate.length > 0)) {
+
+            var today = new Date();
             var currentEncounterDate = '<lookup expression="encounter.getEncounterDatetime().getTime()"/>';
-            if (typeof lastLMP !== "undefined" &amp;&amp; lastLMP !== null &amp;&amp; (lastLMP.length > 0)) {
+            if (typeof currentEncounterDate !== "undefined" &amp;&amp; currentEncounterDate !== null &amp;&amp; (currentEncounterDate.length > 0)) {
+            // calculate the gestational age at the time of the encounter
+            today = new Date(+currentEncounterDate);
+            }
 
-                var lastLMPDate = new Date(+lastLMP);
+            var dateObj = getField('lastPeriodDate.value').datepicker('getDate');
+            var newDate = new Date(dateObj);
+            // time difference
+            var timeDiff = Math.abs(today.getTime() - newDate.getTime());
+            // weeks difference = gestational age
+            var diffWeeks = Math.ceil(timeDiff / (1000 * 3600 * 24 * 7));
 
-                if ( (Object.prototype.toString.call(lastLMPDate) === "[object Date]") &amp;&amp; !isNaN(lastLMPDate.getTime())) {
-                    var today = new Date();
-                    if (typeof currentEncounterDate !== "undefined" &amp;&amp; currentEncounterDate !== null &amp;&amp; (currentEncounterDate.length > 0)) {
-                        // calculate the gestational age at the time of the encounter
-                        today = new Date(+currentEncounterDate);
-                    }
+            // Estimated Delivery Date = (LMP - 3 months) + 12 months + 7 days
+            newDate.setMonth(newDate.getMonth() - 3);
+            newDate.setFullYear(newDate.getFullYear() + 1);
+            newDate.setDate(newDate.getDate() + 7);
 
-                    var years = today.getFullYear() - lastLMPDate.getFullYear();  // Start with difference in calendar year
-                    var months = today.getMonth() - lastLMPDate.getMonth(); // Add or subtract the months apart
-                    var dayDiff = today.getDate() - lastLMPDate.getDate(); // Subtract a month if the day of the month is earlier
-                    var monthsBetween = years*12 + months - (dayDiff >= 0 ? 0 : 1);
+            var widgetDate = getField('lastPeriodDate.value').datepicker('setDate', newDate).val();
+            getField('lastPeriodDate.value').datepicker('setDate', dateObj);
 
-                    if (monthsBetween >= 1 &amp;&amp;  monthsBetween &lt;= 9) {
-                        // patient is pregnant
+            jq('#calculated-edd-and-gestational').show();
+            jq('#calculated-edd').text(widgetDate);
+            jq('#calculated-gestational-age-value').text(diffWeeks + " " + '<uimessage code="pihcore.weeks"/>');
 
-                        // time difference
-                        var timeDiff = Math.abs(today.getTime() - lastLMPDate.getTime());
-                        // weeks difference = gestational age
-                        var diffWeeks = Math.ceil(timeDiff / (1000 * 3600 * 24 * 7));
-
-                        var estimatedDeliveryDate = new Date(+lastLMP);
-                        // Estimated Delivery Date = (LMP - 3 months) + 12 months + 7 days
-                        estimatedDeliveryDate.setMonth(estimatedDeliveryDate.getMonth() - 3);
-                        estimatedDeliveryDate.setFullYear(estimatedDeliveryDate.getFullYear() + 1);
-                        estimatedDeliveryDate.setDate(estimatedDeliveryDate.getDate() + 7);
-
-                        var widgetDate = getField('lastPeriodDate.value').datepicker('setDate', estimatedDeliveryDate).val();
-                        getField('lastPeriodDate.value').datepicker('setDate', null);
-
-                        jq('#calculated-edd-and-gestational').show();
-                        jq('#calculated-edd').text(widgetDate);
-                        jq('#calculated-gestational-age-value').text(diffWeeks + " " + '<uimessage code="pihcore.weeks"/>');
-                    }
-
-              }
             } else {
-              jq('#calculated-edd-and-gestational').hide();
+            jq('#calculated-edd-and-gestational').hide();
+            }
+            };
+
+            jq('#calculated-edd-and-gestational').hide();
+
+            jq("#lastPeriodDate input[type='hidden']").change(function() {
+            updateEdd();
             });
 
+            updateEdd();
+            });
         </script>
     </ifMode>
 
