@@ -2,6 +2,7 @@
           formUuid="fd19a3d0-4aa4-415c-a25a-dc1159098796"
           formName="OB-GYN initial section"
           formVersion="1.0">
+    <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.CleanDiagnosisConstructAction"/>
 
     <style type="text/css">
 
@@ -914,22 +915,21 @@
     <!-- Mental Health -->
     <section id="risk-factors" sectionTag="fieldset"
              headerStyle="title" headerCode="pihcore.mentalhealth.title">
-
         <div class="section-container">
-            <!-- Depression -->
-            <obs conceptId="PIH:Mental health diagnosis" answerConceptId="CIEL:119537"
-                 style="checkbox"/>
-            <!-- PTSD -->
-            <obs conceptId="PIH:Mental health diagnosis" answerConceptId="CIEL:113881"
-                 style="checkbox"/>
-            <!-- SCHIZOPHRENIA -->
-            <obs conceptId="PIH:Mental health diagnosis" answerConceptId="CIEL:113155"
-                 style="checkbox"/>
-            <!-- Gender-based violence -->
-            <obs conceptId="PIH:Mental health diagnosis" answerConceptId="CIEL:165088"
-                 style="checkbox"/>
-        </div>
 
+            <repeat>
+                <template>
+                    <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
+                        <obs conceptId="PIH:DIAGNOSIS" style="checkbox" answerConceptId="{mh-answer}" />
+                    </obsgroup>
+                </template>
+                <render name="Depression"    mh-answer="CIEL:119537" />
+                <render name="Schizophrenia" mh-answer="CIEL:113155" />
+                <render name="PTSD"          mh-answer="CIEL:113881" />
+                <render name="Gender-based violence" mh-answer="CIEL:165088" />
+            </repeat>
+
+        </div>
     </section>
 
     <ifMode mode="VIEW" include="false">
