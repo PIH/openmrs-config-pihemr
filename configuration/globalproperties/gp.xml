@@ -63,6 +63,11 @@
             <!-- Concept: Dispensing units, CIEL:162402 -->
             <value>162402AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</value>
         </globalProperty>
+        <globalProperty>
+            <property>drugOrder.requireOutpatientQuantity</property>
+            <!-- This allows entering drug orders without having to specify the amount to dispense at the time of order -->
+            <value>false</value>
+        </globalProperty>
 
 
         <!-- HTML Form Entry -->
