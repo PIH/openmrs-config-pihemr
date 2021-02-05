@@ -34,6 +34,7 @@ accompagnateur varchar(255),
 next_dispensing_date date,
 last_dispensing_date date,
 days_late int(11),
+next_appointment_date date,
 missed_appointment int(1),
 treatment_status varchar(255),
 ltfu_status varchar(255),
@@ -44,7 +45,6 @@ last_VL_result_qualitative varchar(255)
 
 create index temp_tracking_patient_id on temp_tracking (patient_id);
 
-
 -- insert row for each patient in the HIV Program.
 -- Note that there SHOULD NOT be multiple patient program rows where date_completed is null
 -- if there are, it will grab the max patient program id
@@ -52,7 +52,7 @@ insert into temp_tracking (patient_id,zl_site,patient_program_id)
 select distinct patient_id, max(location_name(location_id)),max(patient_program_id) from patient_program pp
 where pp.program_id = @hivProgram
 and pp.date_completed is null
-group by patient_id-- limit 500
+group by patient_id 
 ;
 
 -- dispensing date and enrollment are updated. These are used later to determine how many days late a patient is
@@ -91,22 +91,27 @@ set department = person_address_state_province(t.patient_id),
     address = person_address_two(t.patient_id);
 
 -- update patient accompagnateur (latest obs captured for this)
-update temp_tracking t set accompagnateur = latestObs(patient_id,concept_from_mapping('CIEL',164141),null);
+update temp_tracking t 
+inner join obs o on obs_id = latestObs(patient_id,concept_from_mapping('CIEL',164141),null)
+set accompagnateur = o.value_text;
 
 -- update last dispensing date from the last encounter of this type
 update temp_tracking t
   inner join encounter e_disp on e_disp.encounter_id  = latestEnc(t.patient_id, @hivDispensingEncName, null)
   set t.last_dispensing_date = date(e_disp.encounter_datetime);
 
--- calculate days late from expected dispensing date, or if the patient has none, the enrollment date
-update temp_tracking set days_late =  TIMESTAMPDIFF(DAY, ifnull(next_dispensing_date,enrollment_date),current_date);
+-- calculate days late from expected dispensing date, or if the patient has none, use last dispensing date or then the enrollment date
+update temp_tracking set days_late =  TIMESTAMPDIFF(DAY, ifnull(next_dispensing_date,ifnull(last_dispensing_date,enrollment_date)),current_date);
 
--- set missed appointment if the next expected appointment (from hiv visits encounter type) is in the past
+-- next expected appointment date
 update temp_tracking t
 inner join encounter e on e.encounter_id = latestEnc(t.patient_id, @hivVisitEncTypes, null)
 inner join obs o on o.encounter_id = e.encounter_id and o.voided = 0 and o.concept_id = concept_from_mapping('PIH','5096')
-set t.missed_appointment = if(date(o.value_datetime)<current_date,1,null);
+set t.next_appointment_date = date(o.value_datetime);
 
+-- set missed appointment if the next expected appointment (from hiv visits encounter type) is in the past or not set
+update temp_tracking t
+set t.missed_appointment = if( ifnull(date(t.next_appointment_date),'1900-01-01') <current_date,1,null);
 
 -- update date and Viral Load results (qualitative only) from the last time this was recorded
 update temp_tracking t
