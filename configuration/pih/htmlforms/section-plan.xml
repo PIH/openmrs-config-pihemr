@@ -77,7 +77,7 @@
 
                     //var medication = (jq(this).find('.medication-name input').val()).trim();
 
-                    // UHM-3781 we need to look for the value set by the automcomplete widget.
+                    // UHM-3781 we need to look for the value set by the autocomplete widget.
                     // The value should be in the format of Drug:DRUG_ID
                     var medication = jq(this).find('.medication-name input[type=hidden]').val();
 
