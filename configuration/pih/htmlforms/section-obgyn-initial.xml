@@ -354,7 +354,10 @@
                     /
                 </p>
                 <p class="left">
-                    <obs conceptId="CIEL:5086" id="bp_diastolic"/>
+                    <obs conceptId="CIEL:5086" id="bp_diastolic" />
+                </p>
+                <p class="left">
+                    mm/Hg
                 </p>
             </fieldset>
 
@@ -391,7 +394,7 @@
 
                 <p>
                     <label>
-                        <uimessage code="mirebalais.vitals.o2sat.title"/>
+                        SpO<sub>2</sub>
                     </label>
                     <span class="small">
                         <obs conceptId="CIEL:5092" id="o2_sat"
