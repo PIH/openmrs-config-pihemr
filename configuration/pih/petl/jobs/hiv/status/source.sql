@@ -199,8 +199,7 @@ and t.status_concept_id = concept_from_mapping('PIH', 'PATIENT TRANSFERRED OUT')
 set t.transfer_status = concept_name(th.value_coded, 'en');
 
 create index temp_patient_index_asc_patient_id on temp_patient_index_asc (patient_id);
-create index temp_patient_index_asc_index on temp_patient_index_asc (index_patient_ascending);
-create index temp_patient_index_asc_patient_id on temp_patient_index_asc (patient_id);
+create index temp_patient_index_asc_index on temp_patient_index_asc (index_asc);
 
 ## return to care
 -- on any rows that are not outcomes, if any of the previous rows are LTFU, then set to 1
