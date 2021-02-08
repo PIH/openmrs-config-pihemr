@@ -8,6 +8,10 @@ transfer_status varchar(255),
 status_outcome varchar(255),
 start_date date,
 end_date date,
-index_ascending int,
-index_descending int
+return_to_care int,
+late_for_pickup int,
+index_program_ascending int,
+index_program_descending int,
+index_patient_ascending int,
+index_patient_descending int
  );
