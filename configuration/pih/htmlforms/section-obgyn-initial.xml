@@ -556,10 +556,10 @@
         <div class="section-container">
             <p class="side-by-side">
                 <label>
-                    <uimessage code="pihcore.ifHIV" />, <uimessage code="pihcore.onARV"/>
+                    <uimessage code="pihcore.ifHIVpatient" />, <uimessage code="pihcore.onARV"/>
                 </label>
                 <obs id="on-arv" conceptId="CIEL:160119" style="radio"
-                     answerConceptIds="CIEL:1066,CIEL:1065">
+                     answerConceptIds="CIEL:1065,CIEL:1066">
                     <controls>
                         <when value="CIEL:1065" thenDisplay="#art-startdate"/>
                     </controls>
@@ -571,7 +571,7 @@
                     <obs conceptId="CIEL:159599" />
 
                     <label>
-                        <uimessage code="pihcore.artReceivedDrugs" />
+                        <uimessage code="pihcore.regimen" />
                     </label>
                     <obs conceptId="CIEL:166086" />
                 </div>
@@ -579,7 +579,7 @@
 
             <p class="side-by-side">
                 <label>
-                    <uimessage code="pihcore.hivTestPast3mo" />
+                    <uimessage code="pihcore.hivTestPast3mo" />?
                 </label>
                 <obs conceptId="PIH:13256" style="radio"
                      answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" />
@@ -786,9 +786,15 @@
                 <label>
                     <uimessage code="Menstruation" />
                 </label>
-                <obs conceptId="CIEL:166080" style="radio"
-                     answerConceptIds="CIEL:1115,CIEL:116616,CIEL:127"
-                     answerCodes="pihcore.regular,pihcore.irregular,pihcore.dysmenorrhea" />
+                <obs conceptId="CIEL:160600" style="radio"
+                     answerConceptIds="CIEL:1065,CIEL:1066"
+                     answerCodes="pihcore.regular,pihcore.irregular" />
+
+                <br/>
+                <!-- Dysmenorrhea -->
+                <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
+                    <obs conceptId="PIH:DIAGNOSIS" style="checkbox" answerConceptId="CIEL:127" />
+                </obsgroup>
             </p>
 
             <div class="three-columns">
@@ -916,7 +922,7 @@
     </section>
 
     <!-- Mental Health -->
-    <section id="risk-factors" sectionTag="fieldset"
+    <section id="mental-health" sectionTag="fieldset"
              headerStyle="title" headerCode="pihcore.mentalhealth.title">
         <div class="section-container">
 
