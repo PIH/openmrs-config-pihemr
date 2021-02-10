@@ -71,8 +71,8 @@ BEGIN
     SET @coded = (select concept_id from concept where uuid='226ed7ad-b776-4b99-966d-fd818d3302c2');
     SET @nonCoded = (select concept_id from concept where uuid='970d41ce-5098-47a4-8872-4dd843c0df3f');
     SET @transfOut = (select concept_id from concept where uuid='113a5ce0-6487-4f45-964d-2dcbd7d23b67');
-    SET @tramaOccur = (select concept_id from concept where uuid='f8134959-62d2-4f94-af6c-3580312b07a0');
-    SET @tramaType = (select concept_id from concept where uuid='7c5ef8cd-3c2b-46c1-b995-20e52c11ce94');
+    SET @traumaOccur = (select concept_id from concept where uuid='f8134959-62d2-4f94-af6c-3580312b07a0');
+    SET @traumaType = (select concept_id from concept where uuid='7c5ef8cd-3c2b-46c1-b995-20e52c11ce94');
     SET @rvd = (select concept_id from concept where uuid='3ce94df0-26fe-102b-80cb-0017a47871b2');
     SET @comment = (select concept_id from concept where uuid='3cd9d956-26fe-102b-80cb-0017a47871b2');
     SET @boardingFor = (select concept_id from concept where uuid='83a54c1d-510e-4860-8971-61755c71f0ed');
