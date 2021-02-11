@@ -4,6 +4,14 @@
           formVersion="1.0">
     <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.CleanDiagnosisConstructAction"/>
 
+    <translations defaultLocale="en">
+        <code name="o2Sat">
+            <variant locale="en" value="O&lt;sub&gt;2&lt;/sub&gt; Sat"/>
+            <variant locale="fr" value="SpO&lt;sub&gt;2&lt;/sub&gt;"/>
+            <variant locale="es" value="SatO&lt;sub&gt;2&lt;/sub&gt;"/>
+        </code>
+    </translations>
+
     <style type="text/css">
 
         form fieldset {
@@ -394,7 +402,7 @@
 
                 <p>
                     <label>
-                        SpO<sub>2</sub>
+                        <uimessage code="o2Sat"/>
                     </label>
                     <span class="small">
                         <obs conceptId="CIEL:5092" id="o2_sat"
@@ -469,8 +477,9 @@
                 <render drug="CIEL:461" message="Multivitamin" />
                 <render drug="CIEL:104677" message="Folate/Iron" />
                 <!-- ToDo:  Change from PIH:251 to CIEL:79723 -->
-                <render drug="PIH:251" message="AMD/Methyldopa" />
+                <render drug="CIEL:79723" message="AMD/Methyldopa" />
                 <render drug="CIEL:79831" message="Miconazole"/>
+                <render drug="CIEL:86339" message="Vitamin A" />
                 <render drug="CIEL:71589" message="Vitamin C"/>
                 <render drug="CIEL:76613" message="Folic acid" />
                 <render drug="CIEL:70116" message="Paracetamol" />
@@ -500,18 +509,18 @@
                 <pastMedicalHistoryCheckbox concept="CIEL:142474" name="type 1 DM"/>
                 <pastMedicalHistoryCheckbox concept="CIEL:142473" name="type 2 DM"/>
                 <pastMedicalHistoryCheckbox concept="CIEL:1449"   name="gestational DM"/>
-                <pastMedicalHistoryCheckbox concept="PIH:ASTHMA"/>
                 <pastMedicalHistoryCheckbox concept="PIH:HYPERTENSION" label="pihcore.medicalhistory.hypertension"/>
-                <pastMedicalHistoryCheckbox concept="CIEL:113859"   name="gestational htn"/>
+                <pastMedicalHistoryCheckbox concept="PIH:ASTHMA"/>
                 <pastMedicalHistoryCheckbox concept="PIH:SEXUALLY TRANSMITTED INFECTION" label="pihcore.medicalhistory.sti"
                                             specify="true" class="medicalHistoryText patientHistory"/>
                 <pastMedicalHistoryCheckbox concept="PIH:TUBERCULOSIS"/>
                 <pastMedicalHistoryCheckbox concept="CIEL:138405" label="pihcore.lab.hiv.title"/>
+                <pastMedicalHistoryCheckbox concept="CIEL:116128" name="malaria" />
                 <br/><br/>
             </div>
 
             <div class="two-columns">
-                <pastMedicalHistoryCheckbox concept="CIEL:113859" />
+                <pastMedicalHistoryCheckbox concept="CIEL:113859"   name="gestational htn"/>
                 <pastMedicalHistoryCheckbox concept="PIH:47" />
                 <pastMedicalHistoryCheckbox concept="PIH:Eclampsia" />
 
@@ -740,6 +749,19 @@
                 </p>
             </div>
 
+            <p class="side-by-side">
+                <label>
+                    <uimessage code="pihcore.mch.trimesterAtEnrollment" />
+                </label>
+
+                <obs conceptId="PIH:11661" style="radio"
+                     answerConceptIds="CIEL:1721,CIEL:1722,CIEL:1723" />
+                <!-- ToDo: Ask team if they want the time range for trimester
+                     answerCodes="pihcore.mch.firstTri,pihcore.mch.secondTri,pihcore.mch.thirdTri"
+                -->
+
+            </p>
+
             <div class="two-columns">
                 <p>
                     <label>
@@ -782,20 +804,22 @@
                 </p>
             </div>
 
-            <p class="side-by-side">
-                <label>
-                    <uimessage code="Menstruation" />
-                </label>
-                <obs conceptId="CIEL:160600" style="radio"
-                     answerConceptIds="CIEL:1065,CIEL:1066"
-                     answerCodes="pihcore.regular,pihcore.irregular" />
+            <div class="two-columns">
+                <p class="side-by-side">
+                    <label>
+                        <uimessage code="Menstruation" />
+                    </label>
+                    <obs conceptId="CIEL:160600" style="radio"
+                         answerConceptIds="CIEL:1065,CIEL:1066"
+                         answerCodes="pihcore.regular,pihcore.irregular" />
 
-                <br/>
-                <!-- Dysmenorrhea -->
-                <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
-                    <obs conceptId="PIH:DIAGNOSIS" style="checkbox" answerConceptId="CIEL:127" />
-                </obsgroup>
-            </p>
+                    <br/><br/>
+                    <!-- Dysmenorrhea -->
+                    <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
+                        <obs conceptId="PIH:DIAGNOSIS" style="checkbox" answerConceptId="CIEL:127" />
+                    </obsgroup>
+                </p>
+            </div>
 
             <div class="three-columns">
                 <label>

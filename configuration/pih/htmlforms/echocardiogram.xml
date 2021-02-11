@@ -189,7 +189,7 @@
                 </p>
                 <p id="where">
                     <label>
-                        <uimessage code="emr.locationRequired"/>
+                        <uimessage code="pihcore.locationRequired"/>
                     </label>
                     <span>
                         <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"

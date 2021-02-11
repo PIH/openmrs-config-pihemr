@@ -794,6 +794,11 @@
                     <obs class="abnormalObs" conceptId="PIH:NEUROLOGIC EXAM FINDINGS"
                          answerConceptId="CIEL:117655" style="checkbox"/>
                 </p>
+                <p>
+                    <!-- Paraplegia -->
+                    <obs class="abnormalObs" conceptId="PIH:NEUROLOGIC EXAM FINDINGS"
+                         answerConceptId="CIEL:130843" style="checkbox"/>
+                </p>
 
                 <p>
                     <obs class="abnormalObs" conceptId="PIH:NEUROLOGIC EXAM FINDINGS"
@@ -1067,7 +1072,9 @@
                     <label>
                         <uimessage code="pihcore.uterineContractions"/>
                     </label>
-                    <obs conceptId="CIEL:163750" style="radio"/>
+                    <obs conceptId="CIEL:163750" style="radio"
+                         answerConceptIds="CIEL:163747,CIEL:163748"
+                         answerCodes="pihcore.absent.plural,pihcore.present.plural" />
                     <obs conceptId="CIEL:160968" placeholder="comment"/>
                     <br/>
                 </div>

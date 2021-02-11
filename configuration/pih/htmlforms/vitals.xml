@@ -16,6 +16,14 @@
           formName="Vitals" formEncounterType="4fb47712-34a6-40d2-8ed3-e153abbd25b7"
           formVersion="2.2">
 
+    <translations defaultLocale="en">
+        <code name="o2Sat">
+            <variant locale="en" value="O&lt;sub&gt;2&lt;/sub&gt; Sat"/>
+            <variant locale="fr" value="SpO&lt;sub&gt;2&lt;/sub&gt;"/>
+            <variant locale="es" value="SatO&lt;sub&gt;2&lt;/sub&gt;"/>
+        </code>
+    </translations>
+
     <ifMode mode="VIEW" include="true">
         <!-- a template to display the "view" version of an html form provided by the htmlfromentryui getAsHtml method
       specifically designed to reformat our "one-question-per-screen" forms to should line-by-line obs -->
@@ -586,11 +594,12 @@
         </fieldset>
 
         <fieldset>
-            <legend><uimessage code="mirebalais.vitals.o2sat.title"/></legend>
-            <h3><uimessage code="mirebalais.vitals.o2sat.title"/></h3>
+            <legend><uimessage code="o2Sat"/></legend>
+            <h3><uimessage code="o2Sat"/></h3>
 
             <p>
-                <obs conceptId="PIH:BLOOD OXYGEN SATURATION" id="o2_sat" showUnits="emr.units.percent" unitsCssClass="append-to-value"/>
+                <obs conceptId="PIH:BLOOD OXYGEN SATURATION" id="o2_sat"
+                     showUnits="emr.units.percent" unitsCssClass="append-to-value"/>
             </p>
         </fieldset>
 
