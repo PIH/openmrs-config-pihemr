@@ -72,7 +72,9 @@ BEGIN
 	WHERE voided = 0
 	  AND concept_id = _conceptID
 	  AND locale = _locale
-	  AND concept_name_type = 'FULLY_SPECIFIED';
+ 	order by locale_preferred desc, ISNULL(concept_name_type) asc, 
+	field(concept_name_type,'FULLY_SPECIFIED','SHORT')
+	limit 1;
 
     RETURN conceptName;
 END
