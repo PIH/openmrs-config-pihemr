@@ -1,6 +1,6 @@
 <htmlform id="section-obgyn-initial"
           formUuid="fd19a3d0-4aa4-415c-a25a-dc1159098796"
-          formName="OB-GYN initial section"
+          formName="OB/GYN Overview"
           formVersion="1.0">
     <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.CleanDiagnosisConstructAction"/>
 
