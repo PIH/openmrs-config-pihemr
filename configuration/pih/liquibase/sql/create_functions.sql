@@ -71,7 +71,6 @@ BEGIN
 	FROM concept_name
 	WHERE voided = 0
 	  AND concept_id = _conceptID
-	  AND locale = _locale
 	order by if(_locale = locale, 0, 1), if(locale = 'en', 0, 1),
 	  locale_preferred desc, ISNULL(concept_name_type) asc, 
 	  field(concept_name_type,'FULLY_SPECIFIED','SHORT')
