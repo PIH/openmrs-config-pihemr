@@ -67,4 +67,83 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20210216-restore-value-drug" author="ball">
+        <comment>
+            UHM-5226 Restore obs.value_drug for meds
+        </comment>
+        <sql>
+            -- Create temp table
+            drop table if exists temp_value_drug;
+            create table temp_value_drug (
+                id INT not null auto_increment primary key,
+                obs_id int(11) default NULL,
+                value_coded int(11) default NULL,
+                value_drug int(11) default NULL
+            );
+
+            -- Add obs_id to temporary table
+            --   when the value_drug is null
+            insert into temp_value_drug (obs_id)
+            select o.obs_id
+              from obs o, encounter e
+             where o.concept_id = (select concept_id from concept
+                    where uuid = '3cd9491e-26fe-102b-80cb-0017a47871b2')
+               and o.encounter_id = e.encounter_id
+               and e.encounter_type IN
+                    (select encounter_type_id from encounter_type
+                      where uuid IN ('8ff50dea-18a1-4609-b4c9-3f8f2d611b84', -- dispensing
+                                     '5b812660-0262-11e6-a837-0800200c9a66', -- outPedsIntake
+                                     '229e5160-031b-11e6-a837-0800200c9a66', -- outPedsFU
+                                     '27d3a180-031b-11e6-a837-0800200c9a66', -- outAdIntake
+                                     '27d3a181-031b-11e6-a837-0800200c9a66', -- outAdFU
+                                     'ae06d311-1866-455b-8a64-126a9bd74171', -- ncdIntake zl lib
+                                     '5cbfd6a2-92d9-4ad0-b526-9d29bfe1d10c', -- ncdFU zl lib
+                                     '00e5e810-90ec-11e8-9eb6-529269fb1459', -- ancIntake sl
+                                     '00e5e946-90ec-11e8-9eb6-529269fb1459', -- ancFollowup sl
+                                     '00e5ebb2-90ec-11e8-9eb6-529269fb1459', -- delivery sl
+                                     '7d5853d4-67b7-4742-8492-fcf860690ed5', -- outIntake sl
+                                     'd8a038b5-90d2-43dc-b94b-8338b76674f3', -- outFU sl
+                                     'aa61d509-6e76-4036-a65d-7813c0c3b752' -- consult ces
+                                    ))
+               and o.value_drug is null
+               and o.value_coded is not null
+               and o.voided = 0
+               and e.voided = 0;
+
+            -- Add value_drug to the temporary table
+            update temp_value_drug, obs
+               set temp_value_drug.value_drug = obs.value_coded
+             where temp_value_drug.obs_id = obs.obs_id;
+
+            -- Add value_coded to the temporary table
+            update temp_value_drug, drug
+               set temp_value_drug.value_coded = drug.concept_id
+             where temp_value_drug.value_drug = drug.drug_id;
+
+            -- Insert new obs
+            insert into obs
+                (person_id, concept_id,
+                 value_coded, value_drug,
+                 encounter_id, obs_datetime, location_id,
+                 obs_group_id, comments, creator,
+                 date_created, uuid)
+            select o1.person_id, o1.concept_id,
+                   tvd.value_coded, tvd.value_drug,
+                   o1.encounter_id, o1.obs_datetime, o1.location_id,
+                   o1.obs_group_id, 'fixed value_drug', o1.creator,
+                   now(), uuid()
+              from temp_value_drug tvd, obs o1
+             where tvd.obs_id = o1.obs_id;
+
+            -- Void old obs
+            update obs, temp_value_drug
+               set voided = 1,
+                   voided_by = 1, date_voided = now(),
+                   void_reason = 'value_drug is null'
+             where obs.obs_id = temp_value_drug.obs_id;
+
+            drop table if exists temp_value_drug;
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
