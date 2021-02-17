@@ -272,7 +272,7 @@
                         </template>
                         <render map="CIEL:165013" message="gyn" switch="gyn"/>
                         <render map="CIEL:1622" message="prenatal" switch="prenatal"/>
-                        <render map="PIH:6261"  message="postnatal" switch="postnatal" />
+                        <render map="PIH:6261"  message="postnatal" switch="postpartum" />
                         <render map="PIH:5483"  message="familyPlanning.title" switch="fp"/>
                     </repeat>
                 </p>
@@ -842,12 +842,12 @@
             <table>
                 <tr>
                     <th colspan="3">
-                        <uimessage code="pihcore.birth-history" />
+                        <uimessage code="pihcore.mch.pregnancyHistory" />
                     </th>
                 </tr>
                 <tr>
                     <th>
-                        <uimessage code="pihcore.birthOrder" />
+                        <uimessage code="pihcore.pregOrder" />
                     </th>
                     <th>
                         <uimessage code="pihcore.mch.deliveryType" />
@@ -888,6 +888,19 @@
 
                 </tr>
             </table>
+        </div>
+    </section>
+
+    <section id="postpartum-section" sectionTag="fieldset"
+             headerStyle="title" headerCode="pihcore.postnatal">
+
+        <div id="postpartum-area" class="section-container">
+            <p>
+                <label>
+                    <uimessage code="pihcore.numPostpartumVisits" />
+                </label>
+                <obs conceptId="CIEL:159893"  />
+            </p>
         </div>
     </section>
 

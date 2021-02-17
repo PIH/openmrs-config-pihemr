@@ -162,6 +162,26 @@
         </h1>
     </ifMode>
 
+
+    <section id="procedures" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.procedure.small">
+
+        <div class="section-container-color">
+
+            <obs conceptId="PIH:Outpatient procedure" answerConceptSetIds="PIH:WH procedures"
+                 style="autocomplete"/>
+            <obs conceptId="PIH:Surgical procedure" answerConceptSetIds="PIH:WH procedures"
+                 style="autocomplete"/>
+
+            <p>
+                <label>
+                    <uimessage code="zl.ifOtherSpecify"/>
+                </label>
+                <obs conceptId="CIEL:165264" />
+            </p>
+        </div>
+    </section>
+
     <section id="drug-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.visitNote.orders.medications">
 
