@@ -36,7 +36,7 @@ status_concept_id int(11),
 start_date datetime,
 end_date datetime,
 return_to_care int(1),
-late_for_pickup int(1),
+currently_late_for_pickup int(1),
 index_program_ascending int(11),
 index_program_descending int(11),
 index_patient_ascending int(11),
@@ -150,7 +150,7 @@ FROM (SELECT
       FROM temp_status,
                     (SELECT @r:= 1) AS r,
                     (SELECT @u:= 0) AS u
-            ORDER BY patient_id asc, start_date asc, status_id asc
+            ORDER BY patient_id asc, start_date asc, patient_program_id asc,  status_id asc
         ) index_program_ascending );
 
 update temp_status t
@@ -174,7 +174,7 @@ FROM (SELECT
       FROM temp_status,
                     (SELECT @r:= 1) AS r,
                     (SELECT @u:= 0) AS u
-            ORDER BY patient_id asc, start_date desc, status_id desc
+            ORDER BY patient_id asc, start_date desc, patient_program_id desc, status_id desc
         ) index_program_descending );
 
 update temp_status t
@@ -220,7 +220,7 @@ and t.outcome is null
 update temp_status t
 left outer join encounter e on e.encounter_id = latestEnc(t.patient_id, @hivDispensingEncName, null)
 left outer join obs o on o.encounter_id = e.encounter_id and o.voided = 0 and o.concept_id = concept_from_mapping('PIH','5096')
-set t.late_for_pickup = if(TIMESTAMPDIFF(DAY,ifnull(date(o.value_datetime),'1900-01-01'),current_date)>=29,1,null)
+set t.currently_late_for_pickup = if(TIMESTAMPDIFF(DAY,ifnull(date(o.value_datetime),'1900-01-01'),current_date)>=29,1,null)
 ; 
 
 ### Final query
@@ -233,8 +233,8 @@ transfer_status,
 concept_name(status_concept_id, 'en') "status_outcome",
 date(start_date),
 date(end_date),
-return_to_care,
-late_for_pickup,
+ifnull(return_to_care,0) "return_to_care",
+ifnull(currently_late_for_pickup,0) "currently_late_for_pickup",
 index_program_ascending,
 index_program_descending,
 index_patient_ascending,
