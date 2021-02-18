@@ -37,8 +37,6 @@ days_late int(11),
 next_appointment_date date,
 missed_appointment int(1),
 treatment_status varchar(255),
-ltfu_status varchar(255),
-reactivation_status varchar(255),
 last_viral_load_date date,
 last_VL_result_qualitative varchar(255)
 );
@@ -64,7 +62,7 @@ set t.next_dispensing_date = date(o.value_datetime)
 
 update temp_tracking t
 inner join patient_program pp on pp.patient_program_id = t.patient_program_id
-set t.enrollment_date = pp.date_enrolled;
+set t.enrollment_date = date(pp.date_enrolled);
 
 -- delete rows from temp table in cases where next dispensing date is in the future (i.e. NOT late for pickups)
 delete from temp_tracking  where date(next_dispensing_date) >= current_date;
@@ -72,8 +70,6 @@ delete from temp_tracking  where date(next_dispensing_date) >= current_date;
 -- update program state information.  Note that treatment status, LTFU status and Reactivation status are the statuses of the HIV program in Haiti
 -- this may need to be updated for other implementation
 update temp_tracking t set treatment_status = currentProgramState(t.patient_program_id,@HIVTreatmentStatus,@locale);
-update temp_tracking t set ltfu_status = currentProgramState(t.patient_program_id,@LTFUStatus,@locale);
-update temp_tracking t set reactivation_status = currentProgramState(t.patient_program_id,@ReactivationStatus,@locale);
 
 -- update various patient demographics columns
 update temp_tracking t set patient_emr_id = zlemr(patient_id);
@@ -140,8 +136,6 @@ last_dispensing_date,
 days_late,
 missed_appointment,
 treatment_status,
-ltfu_status,
-reactivation_status,
 last_viral_load_date,
 last_VL_result_qualitative
 from temp_tracking;
