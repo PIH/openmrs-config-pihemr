@@ -167,11 +167,15 @@
              headerCode="pihcore.procedure.small">
 
         <div class="section-container-color">
-
-            <obs conceptId="PIH:Outpatient procedure" answerConceptSetIds="PIH:WH procedures"
-                 style="autocomplete"/>
-            <obs conceptId="PIH:Surgical procedure" answerConceptSetIds="PIH:WH procedures"
-                 style="autocomplete"/>
+            <repeat with="['1'],['2'],['3'],['4'],['5']">
+                <obsgroup groupingConceptId="CIEL:1938">
+                    <span class="small hidden">
+                        <obs conceptId="CIEL:1937" defaultValue="{0}"></obs>
+                    </span>
+                    <obs conceptId="CIEL:1651" answerConceptSetIds="PIH:WH procedures"
+                         style="autocomplete"/>
+                </obsgroup>
+            </repeat>
 
             <p>
                 <label>
