@@ -653,48 +653,96 @@
                      answerConceptId="CIEL:1065" answerCode="pihcore.currentlyUsing"/>
             </div>
 
-            <strong>
-                <uimessage code="pihcore.fpMethod" />
-            </strong>
-            <div class="three-columns">
-                <repeat>
-                    <template>
-                        <p>
-                            <obsgroup groupingConceptId="PIH:Family planning construct">
+            <table>
+            <tr>
+                <td>
+                    <label>
+                        <uimessage code="pihcore.familyPlanningHistory.title"/>
+                    </label>
+                </td>
+                <td>
+                    <label>
+                        <uimessage code="pihcore.startDate"/>
+                    </label>
+                </td>
+                <td>
+                    <label>
+                        <uimessage code="pihcore.endDate"/>
+                    </label>
+                </td>
+            </tr>
+
+            <repeat>
+                <template>
+                    <obsgroup groupingConceptId="PIH:Family planning history construct">
+                        <tr>
+                            <td id="{tag}-fp">
                                 <obs conceptId="CIEL:374"
                                      answerConceptId="{fpMethod}"
                                      answerCode="{comment}"
-                                     style="checkbox" />
-                            </obsgroup>
-                        </p>
-                    </template>
+                                     style="checkbox"
+                                     toggle="{id: '{tag}-date', style: 'dim'}"
+                                />
+                            </td>
+                            <td class="{tag}-date">
+                                <obs conceptId="CIEL:163757"/>
+                            </td>
+                            <td class="{tag}-date">
+                                <obs conceptId="CIEL:163758" allowFutureDates="true"/>
+                            </td>
+                        </tr>
+                    </obsgroup>
+                </template>
+                <render fpMethod="CIEL:159783" comment="COC" tag="COC"/>
+                <render fpMethod="CIEL:80784"  comment="COP" tag="COP"/>
+                <render fpMethod="CIEL:907"    comment="Depo-provera" tag="depo"/>
+                <render fpMethod="CIEL:1873"   comment="Implant" tag="implant"/>
+                <render fpMethod="CIEL:5275"   comment="pihcore.fp.iud" tag="iud"/>
+                <render fpMethod="CIEL:5277"   comment="pihcore.fp.rhythm" tag="rhythm"/>
+                <render fpMethod="CIEL:136163" comment="pihcore.fp.breast" tag="mama"/>
+                <render fpMethod="CIEL:190"    comment="Condoms" tag="rubber"/>
+                <render fpMethod="CIEL:1472"   comment="pihcore.fp.tubalLig" tag="tubal"/>
+            </repeat>
+            </table>
 
-                    <render fpMethod="CIEL:159783" comment="COC"/>
-                    <render fpMethod="CIEL:80784"  comment="COP"/>
-                    <render fpMethod="CIEL:907"    comment="Depo-provera"/>
+            <h3>
+                <uimessage code="pihcore.fpMethod" />
+            </h3>
 
-                    <render fpMethod="CIEL:1873" comment="Implant"/>
-                    <render fpMethod="CIEL:5275" comment="pihcore.fp.iud"/>
-                    <render fpMethod="CIEL:5277" comment="pihcore.fp.rhythm" />
+            <p class="side-by-side">
+                <obsgroup groupingConceptId="PIH:Family planning construct">
+                    <obs conceptId="CIEL:374"
+                         answerConceptIds="CIEL:159783,CIEL:80784,CIEL:907,CIEL:1873,CIEL:5275,CIEL:5277,CIEL:136163,CIEL:190,CIEL:1472"
+                         answerCodes="COC,COP,Depo-provera,Implant,pihcore.fp.iud,pihcore.fp.rhythm,pihcore.fp.breast,Condoms,pihcore.fp.tubalLig"
+                         style="radio" />
+                    <div class="two-columns">
+                        <label>
+                            <uimessage code="pihcore.startDate"/>:
+                        </label>
+                        <obs conceptId="CIEL:163757" />
 
-                    <render fpMethod="CIEL:136163" comment="pihcore.fp.breast" />
-                    <render fpMethod="CIEL:190" comment="Condoms"/>
-                    <render fpMethod="CIEL:1472" comment="pihcore.fp.tubalLig"/>
-                </repeat>
-            </div>
+                        <label>
+                            <uimessage code="pihcore.endDate"/>:
+                        </label>
+                        <obs conceptId="CIEL:163758" />
+                    </div>
+                </obsgroup>
+            </p>
 
-            <div class="two-columns">
-                <label>
-                    <uimessage code="pihcore.startDate"/>:
-                </label>
-                <obs conceptId="CIEL:163757" />
+<!--
 
-                <label>
-                    <uimessage code="pihcore.endDate"/>:
-                </label>
-                <obs conceptId="CIEL:163758" />
-            </div>
+            <render fpMethod="CIEL:159783" comment="COC"/>
+            <render fpMethod="CIEL:80784"  comment="COP"/>
+            <render fpMethod="CIEL:907"    comment="Depo-provera"/>
 
+            <render fpMethod="CIEL:1873" comment="Implant"/>
+            <render fpMethod="CIEL:5275" comment="pihcore.fp.iud"/>
+            <render fpMethod="CIEL:5277" comment="pihcore.fp.rhythm" />
+
+            <render fpMethod="CIEL:136163" comment="pihcore.fp.breast" />
+            <render fpMethod="CIEL:190" comment="Condoms"/>
+            <render fpMethod="CIEL:1472" comment="pihcore.fp.tubalLig"/>
+-->
             <p>
                 <label>
                     <uimessage code="pihcore.dateImplant"/>:
