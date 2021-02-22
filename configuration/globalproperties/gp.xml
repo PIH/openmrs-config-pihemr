@@ -117,6 +117,14 @@
             <property>uiframework.formatter.dateAndTimeFormat</property>
             <value>${javaDateTimeFormat}</value>
         </globalProperty>
+        <globalProperty>
+            <property>uiframework.formatter.JSdateFormat</property>
+            <value>${javaScriptDateFormat}</value>
+        </globalProperty>
+        <globalProperty>
+            <property>uiframework.formatter.JSdateAndTimeFormat</property>
+            <value>${javaScriptDateTimeFormat}</value>
+        </globalProperty>
 
         <!-- EMR API -->
         <globalProperty>

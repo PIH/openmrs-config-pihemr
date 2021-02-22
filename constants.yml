@@ -2,6 +2,7 @@
 javaDateFormat: "dd MMM yyyy"
 javaTimeFormat: "h:mm aa"
 javaDateTimeFormat: "dd MMM yyyy h:mm aa"
+javaScriptDateFormat: "DD MMM YYYY"
 javaScriptDateTimeFormat: "DD-MMM-YYYY HH:mm"
 
 # references the uuids of frequently-used concepts
