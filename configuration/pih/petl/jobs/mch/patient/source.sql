@@ -32,6 +32,8 @@ INSERT INTO temp_mch_patient (patient_id, patient_program_id, enrollment_locatio
 SELECT patient_id, patient_program_id, LOCATION_NAME(location_id), DATE(date_enrolled), DATE(date_completed), CONCEPT_NAME(outcome_concept_id, 'en')
 FROM patient_program WHERE voided=0 AND program_id = @mch_patient_program_id;
 
+CREATE INDEX mch_patient_id ON temp_mch_patient(patient_id);
+
 ## Delete test patients
 DELETE FROM temp_mch_patient WHERE
 patient_id IN (
@@ -79,6 +81,8 @@ FROM (SELECT
       ORDER BY patient_id, start_date ASC, patient_program_id ASC
         ) index_ascending );
 
+CREATE INDEX mch_index_asc ON temp_mch_program_index_asc(patient_id, index_asc, patient_program_id);
+
 ## descending
 DROP TEMPORARY TABLE IF EXISTS temp_mch_program_index_desc;
 CREATE TEMPORARY TABLE temp_mch_program_index_desc
@@ -100,6 +104,8 @@ FROM (SELECT
       ORDER BY patient_id, start_date DESC, patient_program_id DESC
         ) index_descending );
 
+CREATE INDEX mch_index_desc ON temp_mch_program_index_desc(patient_id, index_desc, patient_program_id);
+
 ## adding the above indexes into the ovc_encounters table
 UPDATE temp_mch_patient o JOIN temp_mch_program_index_asc top ON o.patient_program_id = top.patient_program_id
 SET o.index_asc = top.index_asc;
@@ -116,6 +122,8 @@ patient_id      INT(11)
 );
 INSERT INTO temp_mch_all_encounters(encounter_id, patient_id)
 SELECT encounter_id, patient_id FROM encounter WHERE voided = 0 AND encounter_type = @obgyn_encounter;
+
+CREATE INDEX temp_mch_indexes ON temp_mch_all_encounters(encounter_id, patient_id);
 
 -- latest mch encounters
 DROP TEMPORARY TABLE IF EXISTS temp_mch_encounters;
@@ -139,6 +147,8 @@ CREATE TEMPORARY TABLE temp_mch_encounters
 
 INSERT INTO temp_mch_encounters(encounter_id, patient_id)
 SELECT MAX(encounter_id), patient_id FROM temp_mch_all_encounters GROUP BY patient_id;
+
+CREATE INDEX tmp_mch_indexes ON temp_mch_encounters(encounter_id, patient_id);
 
 -- encounter_date
 UPDATE temp_mch_encounters te JOIN encounter e ON te.encounter_id = e.encounter_id
