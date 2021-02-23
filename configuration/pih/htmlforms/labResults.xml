@@ -245,6 +245,15 @@
             </h3>
 
             <p>
+                <label for="white-blood-cell">
+                    <uimessage code="pihcore.lab.white_blood_cell"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="white-blood-cell" conceptId="PIH:WHITE BLOOD CELLS" showUnits="true"/>
+                    </field>
+                </span>
+
                 <label for="hemoglobin">
                     <uimessage code="pihcore.lab.hemoglobin"/>
                 </label>
@@ -272,24 +281,12 @@
                     </field>
                 </span>
 
-                <label for="white-blood-cell">
-                    <uimessage code="pihcore.lab.white_blood_cell"/>
+                <label for="platelets">
+                    <uimessage code="pihcore.lab.platelets"/>
                 </label>
                 <span class="small">
                     <field>
-                        <obs id="white-blood-cell" conceptId="PIH:WHITE BLOOD CELLS" showUnits="true"/>
-                    </field>
-                </span>
-
-                <label for="neutrophil">
-                    <uimessage code="pihcore.lab.neutrophil"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="neutrophil" conceptId="PIH:Absolute Neutrophil Count" showUnits="true"/>
-                    </field>
-                    <field>
-                        (<obs conceptId="PIH:NEUTROPHILS" showUnits="true"/>)
+                        <obs id="platelets" conceptId="PIH:PLATELETS" showUnits="true"/>
                     </field>
                 </span>
 
@@ -305,12 +302,15 @@
                     </field>
                 </span>
 
-                <label for="platelets">
-                    <uimessage code="pihcore.lab.platelets"/>
+                <label for="neutrophil">
+                    <uimessage code="pihcore.lab.neutrophil"/>
                 </label>
                 <span class="small">
                     <field>
-                        <obs id="platelets" conceptId="PIH:PLATELETS" showUnits="true"/>
+                        <obs id="neutrophil" conceptId="PIH:Absolute Neutrophil Count" showUnits="true"/>
+                    </field>
+                    <field>
+                        (<obs conceptId="PIH:NEUTROPHILS" showUnits="true"/>)
                     </field>
                 </span>
 
@@ -384,6 +384,9 @@
                 </span>
             </p>
 
+            <h4>
+                <uimessage code="pihcore.lab.liver.panel"/>
+            </h4>
             <p>
                 <label for="serum-glutamic-oxaloacetic-transaminase">SGOT</label>
                 <span class="small">
@@ -406,7 +409,23 @@
                 </label>
                 <span class="small">
                     <field>
-                        <obs id="bilirubin" conceptId="PIH:TOTAL BILIRUBIN" showUnits="true"/>
+                        <obs id="bilirubin" conceptId="CIEL:655" showUnits="true"/>
+                    </field>
+                </span>
+                <label for="dbilirubin">
+                    <uimessage code="pihcore.lab.dBbili"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="dbilirubin" conceptId="CIEL:1297" showUnits="true"/>
+                    </field>
+                </span>
+                <label for="ibilirubin">
+                    <uimessage code="pihcore.lab.iBili"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="ibilirubin" conceptId="CIEL:163001" showUnits="true"/>
                     </field>
                 </span>
 
@@ -420,8 +439,52 @@
                 </span>
             </p>
 
-            <p id="iStat8">
+            <br/>
+            <h4>
+                <uimessage code="pihcore.lab.lipids.title"/>
+            </h4>
+            <p>
+                <label for="total-chol">
+                    <uimessage code="pihcore.lab.total_chol"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="total-chol" conceptId="PIH:12991" showUnits="true"/>
+                    </field>
+                </span>
 
+                <label for="hdl">
+                    <uimessage code="pihcore.lab.hdl"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="hdl" conceptId="PIH:12993" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="ldl">
+                    <uimessage code="pihcore.lab.ldl"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="ldl" conceptId="PIH:12992" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="trigly">
+                    <uimessage code="pihcore.lab.trigly"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="trigly" conceptId="PIH:12990" showUnits="true"/>
+                    </field>
+                </span>
+            </p>
+
+            <p id="iStat8">
+                <h4>
+                    <uimessage code="pihcore.lab.electrolyte.title"/>
+                </h4>
                 <label for="sodium">
                     <uimessage code="pihcore.lab.sodium"/>
                 </label>
@@ -446,30 +509,6 @@
                         <obs id="serum-chloride" conceptId="PIH:SERUM CHLORIDE" showUnits="true"/>
                     </field>
                 </span>
-                <label for="co2">
-                    <uimessage code="pihcore.lab.co2"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs for="co2" conceptId="PIH:SERUM CARBON DIOXIDE" showUnits="true"/>
-                    </field>
-                </span>
-                <label for="urea">
-                    <uimessage code="pihcore.lab.urea"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="urea" conceptId="PIH:BLOOD UREA NITROGEN" showUnits="true"/>
-                    </field>
-                </span>
-                <label for="creatinine-i-stat">
-                    <uimessage code="pihcore.lab.creatinine"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="creatinine-i-stat" conceptId="PIH:Creatinine mg per dL" showUnits="true"/>
-                    </field>
-                </span>
 
                 <label for="calcium">
                     <uimessage code="pihcore.lab.calcium" showUnits="true"/>
@@ -479,46 +518,31 @@
                         <obs id="calcium" conceptId="PIH:12987" showUnits="true"/>
                     </field>
                 </span>
-            </p>
 
-            <br/>
-            <h4>
-                <uimessage code="pihcore.lab.lipids.title"/>
-            </h4>
-            <p>
-                <label for="total-chol">
-                    <uimessage code="pihcore.lab.total_chol"/>
+                <label for="co2">
+                    <uimessage code="pihcore.lab.co2"/>
                 </label>
                 <span class="small">
                     <field>
-                        <obs id="total-chol" conceptId="PIH:12991" showUnits="true"/>
+                        <obs for="co2" conceptId="PIH:SERUM CARBON DIOXIDE" showUnits="true"/>
                     </field>
                 </span>
 
-                <label for="ldl">
-                    <uimessage code="pihcore.lab.ldl"/>
+                <label for="urea">
+                    <uimessage code="pihcore.lab.urea"/>
                 </label>
                 <span class="small">
                     <field>
-                        <obs id="ldl" conceptId="PIH:12992" showUnits="true"/>
+                        <obs id="urea" conceptId="PIH:BLOOD UREA NITROGEN" showUnits="true"/>
                     </field>
                 </span>
-
-                <label for="hdl">
-                    <uimessage code="pihcore.lab.hdl"/>
+                
+                <label for="creatinine-i-stat">
+                    <uimessage code="pihcore.lab.creatinine"/>
                 </label>
                 <span class="small">
                     <field>
-                        <obs id="hdl" conceptId="PIH:12993" showUnits="true"/>
-                    </field>
-                </span>
-
-                <label for="trigly">
-                    <uimessage code="pihcore.lab.trigly"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="trigly" conceptId="PIH:12990" showUnits="true"/>
+                        <obs id="creatinine-i-stat" conceptId="PIH:Creatinine mg per dL" showUnits="true"/>
                     </field>
                 </span>
             </p>
