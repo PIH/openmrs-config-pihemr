@@ -97,7 +97,7 @@ FROM encounter e
 INNER JOIN obs o
 	ON e.voided = 0
 	AND o.voided = 0
-	AND encounter_type = ENCOUNTER_TYPE('ZL VIH Données de Base')
+	AND encounter_type = ENCOUNTER_TYPE('HIV Intake')
     AND o.concept_id IN (concept_from_mapping("CIEL", "160578"), concept_from_mapping("CIEL","160579"), concept_from_mapping("CIEL","156761"), concept_from_mapping("PIH","11561"), concept_from_mapping("CIEL","105"))
 	AND e.encounter_id = o.encounter_id;
 
