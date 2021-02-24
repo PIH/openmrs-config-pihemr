@@ -107,9 +107,8 @@ e.patient_id,
 PATIENT_IDENTIFIER(e.patient_id, METADATA_UUID('org.openmrs.module.emrapi', 'emr.primaryIdentifierType'))
 FROM encounter e
 WHERE e.encounter_type = @labResultEnc AND e.voided = 0
-AND DATE(e.encounter_datetime) >= DATE(@startDate)
-AND DATE(e.encounter_datetime) <= DATE(@endDate)
-;
+AND (@startDate IS NULL OR DATE(e.encounter_datetime) >= DATE(@startDate))
+AND (@endDate IS NULL OR DATE(e.encounter_datetime) <= DATE(@endDate));
 
 -- emr id location 
 UPDATE temp_laborders_spec ts 
