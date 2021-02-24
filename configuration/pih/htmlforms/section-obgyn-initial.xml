@@ -124,54 +124,122 @@
 
     </style>
 
+<script type="text/javascript">
+
+  jq(document).ready(function() {
+
+    const vitalsSignsEncounterType = '4fb47712-34a6-40d2-8ed3-e153abbd25b7';
+    const systolicBPConceptUuid = '3ce934fa-26fe-102b-80cb-0017a47871b2';
+    const diastolicBPConceptUuid = '3ce93694-26fe-102b-80cb-0017a47871b2';
+    const hrConceptUuid = '3ce93824-26fe-102b-80cb-0017a47871b2';
+    const temperatureConceptUuid = '3ce939d2-26fe-102b-80cb-0017a47871b2';
+    const respiratoryRateConceptUuid = '3ceb11f8-26fe-102b-80cb-0017a47871b2';
+    const o2SatConceptUuid = '3ce9401c-26fe-102b-80cb-0017a47871b2';
+
+    const contextPath = window.location.href.split('/')[3];
+    const apiBaseUrl =  "/" + contextPath + "/ws/rest/v1";
+    const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+    const monthOption = { month: 'short'};
+
+    const visitUuid = '<lookup expression="encounter.getVisit().getUuid()"/>';    
+
+    jq.getJSON(apiBaseUrl + "/visit/" + visitUuid, {        
+        v: 'custom:(uuid,id,startDatetime,encounters:(uuid,display,encounterDatetime,encounterType:(uuid,name),obs:(uuid,display,concept:(uuid,display),obsDatetime,value)))'
+    },
+    function( data ){
+        if (data.encounters &amp;&amp; data.encounters.length &gt; 0) {
+              for (let index=0; index &lt; data.encounters.length; ++index) {
+                let encounter = data.encounters[index];
+                if (encounter.encounterType.uuid === vitalsSignsEncounterType) {
+                  // we found a VitalsSigns encounter on this visit  
+                  let encounterDate = new Date(encounter.encounterDatetime);  
+                  let month = new Intl.DateTimeFormat(undefined, monthOption).format(encounterDate);                   
+                  jq("#lastVitalsEncounterDate").text(encounterDate.getDate() + "-" + month + "-" + encounterDate.getFullYear()); 
+                  jq("#lastVitalsEncounterTime").text(encounterDate.toLocaleTimeString()); 
+
+                  jq('#lastVitals').show();
+                  if (encounter.obs &amp;&amp; encounter.obs.length &gt; 0) {
+                    for (let j=0; j &lt; encounter.obs.length; ++j) {                      
+                      let obs = encounter.obs[j];
+                      if (obs.concept.uuid === systolicBPConceptUuid) {
+                        jq("#last_bp_systolic").text(obs.value);
+                        jq("#last_bp_systolic").removeClass("emptyValue").addClass("value");
+                      } else if (obs.concept.uuid === diastolicBPConceptUuid) {
+                        jq("#last_bp_diastolic").text(obs.value);
+                        jq("#last_bp_diastolic").removeClass("emptyValue").addClass("value");
+                      } else if (obs.concept.uuid === hrConceptUuid) {
+                        jq("#last_heart_rate").text(obs.value);
+                        jq("#last_heart_rate").removeClass("emptyValue").addClass("value");
+                      } else if (obs.concept.uuid === temperatureConceptUuid) {
+                        jq("#last_temperature_c").text(obs.value);
+                        jq("#last_temperature_c").removeClass("emptyValue").addClass("value");
+                      } else if (obs.concept.uuid === respiratoryRateConceptUuid) {
+                        jq("#last_respiratory_rate").text(obs.value);
+                        jq("#last_respiratory_rate").removeClass("emptyValue").addClass("value");
+                      } else if (obs.concept.uuid === o2SatConceptUuid) {
+                        jq("#last_o2_sat").text(obs.value);
+                        jq("#last_o2_sat").removeClass("emptyValue").addClass("value");
+                      }
+                    }
+                  }
+
+                  break;
+                }
+              }
+        }
+    });
+  });
+</script>
+
     <ifMode mode="VIEW" include="false" >
         <script type="text/javascript">
 
             jq(function() {
 
-            var updateEdd = function() {
+                var updateEdd = function() {
 
-            var lastPeriodDate = htmlForm.getValueIfLegal('lastPeriodDate.value');
-            if (typeof lastPeriodDate !== "undefined" &amp;&amp; lastPeriodDate !== null &amp;&amp; (lastPeriodDate.length > 0)) {
+                    var lastPeriodDate = htmlForm.getValueIfLegal('lastPeriodDate.value');
+                    if (typeof lastPeriodDate !== "undefined" &amp;&amp; lastPeriodDate !== null &amp;&amp; 
+                        (lastPeriodDate.length > 0)) {
 
-            var today = new Date();
-            var currentEncounterDate = '<lookup expression="encounter.getEncounterDatetime().getTime()"/>';
-            if (typeof currentEncounterDate !== "undefined" &amp;&amp; currentEncounterDate !== null &amp;&amp; (currentEncounterDate.length > 0)) {
-            // calculate the gestational age at the time of the encounter
-            today = new Date(+currentEncounterDate);
-            }
+                        var today = new Date();
+                        var currentEncounterDate = '<lookup expression="encounter.getEncounterDatetime().getTime()"/>';
+                        if (typeof currentEncounterDate !== "undefined" &amp;&amp; currentEncounterDate !== null &amp;&amp;     (currentEncounterDate.length > 0)) {
+                            // calculate the gestational age at the time of the encounter
+                            today = new Date(+currentEncounterDate);
+                        }
 
-            var dateObj = getField('lastPeriodDate.value').datepicker('getDate');
-            var newDate = new Date(dateObj);
-            // time difference
-            var timeDiff = Math.abs(today.getTime() - newDate.getTime());
-            // weeks difference = gestational age
-            var diffWeeks = Math.ceil(timeDiff / (1000 * 3600 * 24 * 7));
+                        var dateObj = getField('lastPeriodDate.value').datepicker('getDate');
+                        var newDate = new Date(dateObj);
+                        // time difference
+                        var timeDiff = Math.abs(today.getTime() - newDate.getTime());
+                        // weeks difference = gestational age
+                        var diffWeeks = Math.ceil(timeDiff / (1000 * 3600 * 24 * 7));
 
-            // Estimated Delivery Date = (LMP - 3 months) + 12 months + 7 days
-            newDate.setMonth(newDate.getMonth() - 3);
-            newDate.setFullYear(newDate.getFullYear() + 1);
-            newDate.setDate(newDate.getDate() + 7);
+                        // Estimated Delivery Date = (LMP - 3 months) + 12 months + 7 days
+                        newDate.setMonth(newDate.getMonth() - 3);
+                        newDate.setFullYear(newDate.getFullYear() + 1);
+                        newDate.setDate(newDate.getDate() + 7);
 
-            var widgetDate = getField('lastPeriodDate.value').datepicker('setDate', newDate).val();
-            getField('lastPeriodDate.value').datepicker('setDate', dateObj);
+                        var widgetDate = getField('lastPeriodDate.value').datepicker('setDate', newDate).val();
+                        getField('lastPeriodDate.value').datepicker('setDate', dateObj);
 
-            jq('#calculated-edd-and-gestational').show();
-            jq('#calculated-edd').text(widgetDate);
-            jq('#calculated-gestational-age-value').text(diffWeeks + " " + '<uimessage code="pihcore.weeks"/>');
+                        jq('#calculated-edd-and-gestational').show();
+                        jq('#calculated-edd').text(widgetDate);
+                        jq('#calculated-gestational-age-value').text(diffWeeks + " " + '<uimessage code="pihcore.weeks"/>');
 
-            } else {
-            jq('#calculated-edd-and-gestational').hide();
-            }
-            };
+                    } else {
+                        jq('#calculated-edd-and-gestational').hide();
+                    }
+                };
 
-            jq('#calculated-edd-and-gestational').hide();
+                jq('#calculated-edd-and-gestational').hide();
 
-            jq("#lastPeriodDate input[type='hidden']").change(function() {
-            updateEdd();
-            });
+                jq("#lastPeriodDate input[type='hidden']").change(function() {
+                    updateEdd();
+                });
 
-            updateEdd();
+                updateEdd();
             });
         </script>
     </ifMode>
@@ -316,6 +384,91 @@
 
     </section>
 
+    <fieldset id="lastVitals" class="section hidden">
+        <span class="title"><uimessage code="mirebalais.mostRecentVitals.label"/>
+            <span class="date-span ng-binding">
+                <i class="icon-calendar"></i><span id="lastVitalsEncounterDate"></span> 
+            </span>
+            <span class="time-span ng-binding">
+                <i class="icon-time"></i><span id="lastVitalsEncounterTime"></span> 
+            </span>
+        </span>
+        <div class="section-container">
+            <fieldset field-separator=" / ">
+                <p class="left">
+                    <uimessage code="mirebalais.vitals.bloodPressure.short.title"/>&amp;nbsp;
+                </p>
+                <p class="left">
+                    <span class="obs-field">
+                        <span  id="last_bp_systolic" class="emptyValue">____</span>
+                    </span>
+                </p>
+                <p class="left">
+                    /
+                </p>
+                <p class="left">
+                    <span class="obs-field">
+                        <span id="last_bp_diastolic" class="emptyValue">____</span>
+                    </span>
+                </p>
+                <p class="left">
+                    &amp;nbsp;mm/Hg
+                </p>
+            </fieldset>
+
+            <div class="two-columns">
+                <p>
+                    <label>
+                        <uimessage code="mirebalais.vitals.short.heartRate.title"/>
+                    </label>
+                    <span class="small">
+                        <span id="last_heart_rate" class="obs-field">
+                            <span class="emptyValue">____</span>
+                            <span class="append-to-value">/min</span>
+                        </span>
+                    </span>
+                </p>
+
+                <p>
+                    <label>
+                        <uimessage code="mirebalais.vitals.respiratoryRate.short.title"/>
+                    </label>
+                    <span class="small">
+                        <span id="last_respiratory_rate" class="obs-field">
+                            <span class="emptyValue">____</span>
+                            <span class="append-to-value">/min</span>
+                        </span>
+                    </span>
+                </p>
+
+                <p>
+                    <label>
+                        <uimessage code="Temp"/>
+                    </label>
+                    <span class="small">
+                        <span id="last_temperature_c" class="obs-field">
+                            <span class="emptyValue">____</span>
+                            <span class="append-to-value">°C</span>
+                        </span>
+                    </span>
+                </p>
+
+                <p>
+                    <label>
+                        <uimessage code="o2Sat"/>
+                    </label>
+                    <span class="small">
+                        <span id="last_o2_sat" class="obs-field">
+                            <span class="emptyValue">____</span>
+                            <span class="append-to-value">%</span>
+                        </span>
+                    </span>
+                </p>
+            </div>
+        </div>
+
+    </fieldset>
+
     <section id="vitals" sectionTag="fieldset"
              headerStyle="title" headerCode="pihcore.vitalSigns">
         <div class="section-container">
@@ -328,24 +481,6 @@
                      answerConceptIds="PIH:Triage red,PIH:Yellow,PIH:Triage green"
                      answerSeparator="" />
             </p>
-
-            <!-- Todo:  UHM-5191 Add previous vital signs
-            <table>
-                <tr>
-                    <td>
-                        <label>
-                            <uimessage code="mirebalais.mostRecentVitals.label" />
-                        </label>
-                        <label>
-                            <uimessage code="mirebalais.vitals.respiratoryRate.short.title" />:
-                            <lookup expression="fn.latestObs('CIEL:5242')"/>
-                            <br/>
-
-                        </label>
-                    </td>
-                </tr>
-            </table>
-            -->
         </div>
         <br/>
 
