@@ -157,8 +157,8 @@
                   jq("#lastVitalsEncounterDate").text(encounterDate.getDate() + "-" + month + "-" + encounterDate.getFullYear()); 
                   jq("#lastVitalsEncounterTime").text(encounterDate.toLocaleTimeString()); 
 
-                  jq('#lastVitals').show();
                   if (encounter.obs &amp;&amp; encounter.obs.length &gt; 0) {
+                    jq('#lastVitals').show();
                     for (let j=0; j &lt; encounter.obs.length; ++j) {                      
                       let obs = encounter.obs[j];
                       if (obs.concept.uuid === systolicBPConceptUuid) {
@@ -181,9 +181,8 @@
                         jq("#last_o2_sat").removeClass("emptyValue").addClass("value");
                       }
                     }
+                    break;
                   }
-
-                  break;
                 }
               }
         }
