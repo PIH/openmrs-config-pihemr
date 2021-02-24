@@ -253,6 +253,14 @@
                         <obs id="white-blood-cell" conceptId="PIH:WHITE BLOOD CELLS" showUnits="true"/>
                     </field>
                 </span>
+                <label for="red-blood-cell">
+                    <uimessage code="pihcore.lab.red_blood_cell"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="red-blood-cell" conceptId="CIEL:679" showUnits="true"/>
+                    </field>
+                </span>
 
                 <label for="hemoglobin">
                     <uimessage code="pihcore.lab.hemoglobin"/>
@@ -278,6 +286,31 @@
                 <span class="small">
                     <field>
                         <obs id="hematocrit" conceptId="PIH:HEMATOCRIT" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="mcv">
+                    <uimessage code="pihcore.lab.mcv"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="mcv" conceptId="CIEL:851" showUnits="true"/>
+                    </field>
+                </span>
+                <label for="mch">
+                    <uimessage code="pihcore.lab.mch"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="mch" conceptId="CIEL:1018" showUnits="true"/>
+                    </field>
+                </span>
+                <label for="mchc">
+                    <uimessage code="pihcore.lab.mchc"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="mchc" conceptId="CIEL:1017" showUnits="true"/>
                     </field>
                 </span>
 
@@ -311,6 +344,31 @@
                     </field>
                     <field>
                         (<obs conceptId="PIH:NEUTROPHILS" showUnits="true"/>)
+                    </field>
+                </span>
+
+                <label for="mxd">
+                    <uimessage code="pihcore.lab.mxd"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="mxd" conceptId="CIEL:165578" showUnits="true"/>
+                    </field>
+                </span>
+                <label for="rdw-sd">
+                    <uimessage code="pihcore.lab.rdwSd"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="rdw-sd" conceptId="CIEL:165580" showUnits="true"/>
+                    </field>
+                </span>
+                <label for="rdw-cv">
+                    <uimessage code="pihcore.lab.rdwCv"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="rdw-cv" conceptId="CIEL:165579" showUnits="true"/>
                     </field>
                 </span>
 
@@ -441,6 +499,48 @@
 
             <br/>
             <h4>
+                <uimessage code="pihcore.lab.renal.panel"/>
+            </h4>
+            <p>
+                <label for="urea">
+                    <uimessage code="pihcore.lab.urea"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="urea" conceptId="PIH:BLOOD UREA NITROGEN" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="urea-m">
+                    <uimessage code="pihcore.lab.ureaMeasured"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="urea-m" conceptId="PIH:12653" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="creatinine-i-stat">
+                    <uimessage code="pihcore.lab.creatinine"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="creatinine-i-stat" conceptId="PIH:Creatinine mg per dL" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="uric-acid">
+                    <uimessage code="pihcore.lab.uricAcid"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="uric-acid" conceptId="CIEL:159825" showUnits="true"/>
+                    </field>
+                </span>
+            </p>
+
+            <br/>
+            <h4>
                 <uimessage code="pihcore.lab.lipids.title"/>
             </h4>
             <p>
@@ -525,24 +625,6 @@
                 <span class="small">
                     <field>
                         <obs for="co2" conceptId="PIH:SERUM CARBON DIOXIDE" showUnits="true"/>
-                    </field>
-                </span>
-
-                <label for="urea">
-                    <uimessage code="pihcore.lab.urea"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="urea" conceptId="PIH:BLOOD UREA NITROGEN" showUnits="true"/>
-                    </field>
-                </span>
-                
-                <label for="creatinine-i-stat">
-                    <uimessage code="pihcore.lab.creatinine"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="creatinine-i-stat" conceptId="PIH:Creatinine mg per dL" showUnits="true"/>
                     </field>
                 </span>
             </p>
@@ -688,7 +770,7 @@
                 <span class="small">
                     <field>
                         <obs id="crag" conceptId="CIEL:163613" style="text"
-                             cols="40" rows="3"/>
+                             cols="40" rows="1"/>
                     </field>
                 </span>
 
@@ -698,6 +780,51 @@
                 <span class="small">
                     <field>
                         <obs id="rpr-syphilis" conceptId="CIEL:1619" />
+                    </field>
+                </span>
+
+                <label for="hep-b">
+                    <uimessage code="pihcore.lab.hepB"/> (qual)
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="hep-b" conceptId="CIEL:1322" />
+                    </field>
+                </span>
+
+                <label for="hep-b-ag">
+                    <uimessage code="pihcore.lab.hepBSurface"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="hep-b-ag" conceptId="CIEL:159430" />
+                    </field>
+                </span>
+
+                <label for="hep-b-ag-spot">
+                    <uimessage code="pihcore.lab.hepBSurfaceSpot"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="hep-b-ag-spot" conceptId="CIEL:161472" />
+                    </field>
+                </span>
+
+                <label for="hep-c">
+                    <uimessage code="pihcore.lab.hepC"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="hep-c" conceptId="CIEL:1325" />
+                    </field>
+                </span>
+
+                <label for="widal">
+                    <uimessage code="pihcore.lab.typhoid"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="widal" conceptId="CIEL:306" />
                     </field>
                 </span>
 
