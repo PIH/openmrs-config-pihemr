@@ -81,6 +81,7 @@
             -webkit-column-count: 4;
             -moz-column-count: 4;
         }
+
         .section-container {
             background: #F2F2F2;
             box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
@@ -383,91 +384,6 @@
 
     </section>
 
-    <fieldset id="lastVitals" class="section hidden">
-        <span class="title"><uimessage code="mirebalais.mostRecentVitals.label"/>
-            <span class="date-span ng-binding">
-                <i class="icon-calendar"></i><span id="lastVitalsEncounterDate"></span> 
-            </span>
-            <span class="time-span ng-binding">
-                <i class="icon-time"></i><span id="lastVitalsEncounterTime"></span> 
-            </span>
-        </span>
-        <div class="section-container">
-            <fieldset field-separator=" / ">
-                <p class="left">
-                    <uimessage code="mirebalais.vitals.bloodPressure.short.title"/>&amp;nbsp;
-                </p>
-                <p class="left">
-                    <span class="obs-field">
-                        <span  id="last_bp_systolic" class="emptyValue">____</span>
-                    </span>
-                </p>
-                <p class="left">
-                    /
-                </p>
-                <p class="left">
-                    <span class="obs-field">
-                        <span id="last_bp_diastolic" class="emptyValue">____</span>
-                    </span>
-                </p>
-                <p class="left">
-                    &amp;nbsp;mm/Hg
-                </p>
-            </fieldset>
-
-            <div class="two-columns">
-                <p>
-                    <label>
-                        <uimessage code="mirebalais.vitals.short.heartRate.title"/>
-                    </label>
-                    <span class="small">
-                        <span id="last_heart_rate" class="obs-field">
-                            <span class="emptyValue">____</span>
-                            <span class="append-to-value">/min</span>
-                        </span>
-                    </span>
-                </p>
-
-                <p>
-                    <label>
-                        <uimessage code="mirebalais.vitals.respiratoryRate.short.title"/>
-                    </label>
-                    <span class="small">
-                        <span id="last_respiratory_rate" class="obs-field">
-                            <span class="emptyValue">____</span>
-                            <span class="append-to-value">/min</span>
-                        </span>
-                    </span>
-                </p>
-
-                <p>
-                    <label>
-                        <uimessage code="Temp"/>
-                    </label>
-                    <span class="small">
-                        <span id="last_temperature_c" class="obs-field">
-                            <span class="emptyValue">____</span>
-                            <span class="append-to-value">°C</span>
-                        </span>
-                    </span>
-                </p>
-
-                <p>
-                    <label>
-                        <uimessage code="o2Sat"/>
-                    </label>
-                    <span class="small">
-                        <span id="last_o2_sat" class="obs-field">
-                            <span class="emptyValue">____</span>
-                            <span class="append-to-value">%</span>
-                        </span>
-                    </span>
-                </p>
-            </div>
-        </div>
-
-    </fieldset>
-
     <section id="vitals" sectionTag="fieldset"
              headerStyle="title" headerCode="pihcore.vitalSigns">
         <div class="section-container">
@@ -482,6 +398,104 @@
             </p>
         </div>
         <br/>
+
+        <div id="lastVitals" class="hidden section-container">
+            <table style="color:grey">
+                <tr>
+                    <td>
+                        <label>
+                            <uimessage code="mirebalais.mostRecentVitals.label"/>
+                            <span class="date-span ng-binding">
+                                <i class="icon-calendar"></i><span id="lastVitalsEncounterDate"></span>
+                            </span>
+                            <span class="time-span ng-binding">
+                                <i class="icon-time"></i><span id="lastVitalsEncounterTime"></span>
+                            </span>
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+
+                <fieldset field-separator=" / ">
+                    <p class="left">
+                        <uimessage code="mirebalais.vitals.bloodPressure.short.title"/>&amp;nbsp;
+                    </p>
+                    <p class="left">
+                        <span class="obs-field">
+                            <span  id="last_bp_systolic" class="emptyValue">____</span>
+                        </span>
+                    </p>
+                    <p class="left">
+                        /
+                    </p>
+                    <p class="left">
+                        <span class="obs-field">
+                            <span id="last_bp_diastolic" class="emptyValue">____</span>
+                        </span>
+                    </p>
+                    <p class="left small">
+                        &amp;nbsp;mm/Hg
+                    </p>
+                </fieldset>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+
+                <div class="four-columns">
+                    <p>
+                        <label>
+                            <uimessage code="mirebalais.vitals.short.heartRate.title"/>
+                        </label>
+                        <span class="small">
+                            <span id="last_heart_rate" class="obs-field">
+                                <span class="emptyValue">____</span>
+                            </span>
+                            <span class="append-to-value">/min</span>
+                        </span>
+                    </p>
+
+                    <p>
+                        <label>
+                            <uimessage code="mirebalais.vitals.respiratoryRate.short.title"/>
+                        </label>
+                        <span class="small">
+                            <span id="last_respiratory_rate" class="obs-field">
+                                <span class="emptyValue">____</span>
+                            </span>
+                            <span class="append-to-value">/min</span>
+                        </span>
+                    </p>
+
+                    <p>
+                        <label>
+                            <uimessage code="Temp"/>
+                        </label>
+                        <span class="small">
+                            <span id="last_temperature_c" class="obs-field">
+                                <span class="emptyValue">____</span>
+                            </span>
+                            <span class="append-to-value">°C</span>
+                        </span>
+                    </p>
+
+                    <p>
+                        <label>
+                            <uimessage code="o2Sat"/>
+                        </label>
+                        <span class="small">
+                            <span id="last_o2_sat" class="obs-field">
+                                <span class="emptyValue">____</span>
+                            </span>
+                            <span class="append-to-value">%</span>
+                        </span>
+                    </p>
+                </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
 
         <div class="section-container">
 
@@ -503,7 +517,7 @@
                 </p>
             </fieldset>
 
-            <div class="two-columns">
+            <div class="four-columns">
                 <p>
                     <label>
                         <uimessage code="mirebalais.vitals.short.heartRate.title"/>
@@ -692,7 +706,106 @@
                                              specify="true"/>
         </div>
     </section>
+
+        <section id="fp-history" sectionTag="fieldset"
+                 headerStyle="title" headerCode="pihcore.familyPlanningHistory.title">
+            <div class="section-container">
+                <table>
+                    <tr>
+                        <td>
+                        </td>
+                        <th>
+                            <label>
+                                <uimessage code="pihcore.startDate"/>
+                            </label>
+                        </th>
+                        <th>
+                            <label>
+                                <uimessage code="pihcore.endDate"/>
+                            </label>
+                        </th>
+                    </tr>
+
+                    <repeat>
+                        <template>
+                            <obsgroup groupingConceptId="PIH:Family planning history construct">
+                                <tr>
+                                    <td id="{tag}-fp">
+                                        <obs conceptId="CIEL:374"
+                                             answerConceptId="{fpMethod}"
+                                             answerCode="{comment}"
+                                             style="checkbox"
+                                             toggle="{id: '{tag}-date', style: 'dim'}"
+                                        />
+                                    </td>
+                                    <td class="{tag}-date">
+                                        <obs conceptId="CIEL:163757"/>
+                                    </td>
+                                    <td class="{tag}-date">
+                                        <obs conceptId="CIEL:163758" allowFutureDates="true"/>
+                                    </td>
+                                </tr>
+                            </obsgroup>
+                        </template>
+                        <render fpMethod="CIEL:159783" comment="COC" tag="COC"/>
+                        <render fpMethod="CIEL:80784"  comment="COP" tag="COP"/>
+                        <render fpMethod="CIEL:907"    comment="Depo-provera" tag="depo"/>
+                        <render fpMethod="CIEL:1873"   comment="Implant" tag="implant"/>
+                        <render fpMethod="CIEL:5275"   comment="pihcore.fp.iud" tag="iud"/>
+                        <render fpMethod="CIEL:5277"   comment="pihcore.fp.rhythm" tag="rhythm"/>
+                        <render fpMethod="CIEL:136163" comment="pihcore.fp.breast" tag="mama"/>
+                        <render fpMethod="CIEL:190"    comment="Condoms" tag="rubber"/>
+                        <render fpMethod="CIEL:1472"   comment="pihcore.fp.tubalLig" tag="tubal"/>
+                    </repeat>
+                </table>
+            </div>
+        </section>
     </div>
+
+    <section id="family-plan-section" sectionTag="fieldset"
+             headerStyle="title" headerCode="pihcore.familyPlanning.title">
+
+        <div id="fp-area" class="section-container">
+            <div class="two-columns">
+                <obs conceptId="CIEL:163560" style="checkbox"
+                     answerConceptId="CIEL:1382" answerCode="pihcore.mch.counselling.familyPlanning" />
+                <br/>
+                <obs conceptId="CIEL:965" style="checkbox"
+                     answerConceptId="CIEL:1065" answerCode="pihcore.currentlyUsing"/>
+            </div>
+
+            <h3>
+                <uimessage code="pihcore.fpMethod" />
+            </h3>
+
+            <p class="side-by-side">
+                <obsgroup groupingConceptId="PIH:Family planning construct">
+                    <obs conceptId="CIEL:374"
+                         answerConceptIds="CIEL:159783,CIEL:80784,CIEL:907,CIEL:1873,CIEL:5275,CIEL:5277,CIEL:136163,CIEL:190,CIEL:1472"
+                         answerCodes="COC,COP,Depo-provera,Implant,pihcore.fp.iud,pihcore.fp.rhythm,pihcore.fp.breast,Condoms,pihcore.fp.tubalLig"
+                         style="radio" />
+                    <div class="two-columns">
+                        <label>
+                            <uimessage code="pihcore.startDate"/>:
+                        </label>
+                        <obs conceptId="CIEL:163757" />
+
+                        <label>
+                            <uimessage code="pihcore.endDate"/>:
+                        </label>
+                        <obs conceptId="CIEL:163758" />
+                    </div>
+                </obsgroup>
+            </p>
+
+            <p>
+                <label>
+                    <uimessage code="pihcore.dateImplant"/>:
+                </label>
+                <obs conceptId="PIH:3203" />
+            </p>
+        </div>
+    </section>
 
     <section id="hiv" sectionTag="fieldset"
              headerStyle="title" headerCode="pihcore.hivTB">
@@ -772,103 +885,6 @@
                 </div>
             </p>
 
-        </div>
-    </section>
-
-    <section id="family-plan-section" sectionTag="fieldset"
-             headerStyle="title" headerCode="pihcore.familyPlanning.title">
-
-        <div id="fp-area" class="section-container">
-            <div class="two-columns">
-                <obs conceptId="CIEL:163560" style="checkbox"
-                     answerConceptId="CIEL:1382" answerCode="pihcore.mch.counselling.familyPlanning" />
-                <br/>
-                <obs conceptId="CIEL:965" style="checkbox"
-                     answerConceptId="CIEL:1065" answerCode="pihcore.currentlyUsing"/>
-            </div>
-
-            <table>
-            <tr>
-                <td>
-                    <label>
-                        <uimessage code="pihcore.familyPlanningHistory.title"/>
-                    </label>
-                </td>
-                <td>
-                    <label>
-                        <uimessage code="pihcore.startDate"/>
-                    </label>
-                </td>
-                <td>
-                    <label>
-                        <uimessage code="pihcore.endDate"/>
-                    </label>
-                </td>
-            </tr>
-
-            <repeat>
-                <template>
-                    <obsgroup groupingConceptId="PIH:Family planning history construct">
-                        <tr>
-                            <td id="{tag}-fp">
-                                <obs conceptId="CIEL:374"
-                                     answerConceptId="{fpMethod}"
-                                     answerCode="{comment}"
-                                     style="checkbox"
-                                     toggle="{id: '{tag}-date', style: 'dim'}"
-                                />
-                            </td>
-                            <td class="{tag}-date">
-                                <obs conceptId="CIEL:163757"/>
-                            </td>
-                            <td class="{tag}-date">
-                                <obs conceptId="CIEL:163758" allowFutureDates="true"/>
-                            </td>
-                        </tr>
-                    </obsgroup>
-                </template>
-                <render fpMethod="CIEL:159783" comment="COC" tag="COC"/>
-                <render fpMethod="CIEL:80784"  comment="COP" tag="COP"/>
-                <render fpMethod="CIEL:907"    comment="Depo-provera" tag="depo"/>
-                <render fpMethod="CIEL:1873"   comment="Implant" tag="implant"/>
-                <render fpMethod="CIEL:5275"   comment="pihcore.fp.iud" tag="iud"/>
-                <render fpMethod="CIEL:5277"   comment="pihcore.fp.rhythm" tag="rhythm"/>
-                <render fpMethod="CIEL:136163" comment="pihcore.fp.breast" tag="mama"/>
-                <render fpMethod="CIEL:190"    comment="Condoms" tag="rubber"/>
-                <render fpMethod="CIEL:1472"   comment="pihcore.fp.tubalLig" tag="tubal"/>
-            </repeat>
-            </table>
-
-            <h3>
-                <uimessage code="pihcore.fpMethod" />
-            </h3>
-
-            <p class="side-by-side">
-                <obsgroup groupingConceptId="PIH:Family planning construct">
-                    <obs conceptId="CIEL:374"
-                         answerConceptIds="CIEL:159783,CIEL:80784,CIEL:907,CIEL:1873,CIEL:5275,CIEL:5277,CIEL:136163,CIEL:190,CIEL:1472"
-                         answerCodes="COC,COP,Depo-provera,Implant,pihcore.fp.iud,pihcore.fp.rhythm,pihcore.fp.breast,Condoms,pihcore.fp.tubalLig"
-                         style="radio" />
-                    <div class="two-columns">
-                        <label>
-                            <uimessage code="pihcore.startDate"/>:
-                        </label>
-                        <obs conceptId="CIEL:163757" />
-
-                        <label>
-                            <uimessage code="pihcore.endDate"/>:
-                        </label>
-                        <obs conceptId="CIEL:163758" />
-                    </div>
-                </obsgroup>
-            </p>
-
-            <p>
-                <label>
-                    <uimessage code="pihcore.dateImplant"/>:
-                </label>
-                <obs conceptId="PIH:3203" />
-            </p>
         </div>
     </section>
 
