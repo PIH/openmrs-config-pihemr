@@ -414,32 +414,27 @@
                         </label>
                     </td>
                 </tr>
+
                 <tr>
                     <td>
-
-                <fieldset field-separator=" / ">
-                    <p class="left">
-                        <uimessage code="mirebalais.vitals.bloodPressure.short.title"/>&amp;nbsp;
-                    </p>
-                    <p class="left">
-                        <span class="obs-field">
-                            <span  id="last_bp_systolic" class="emptyValue">____</span>
-                        </span>
-                    </p>
-                    <p class="left">
-                        /
-                    </p>
-                    <p class="left">
-                        <span class="obs-field">
-                            <span id="last_bp_diastolic" class="emptyValue">____</span>
-                        </span>
-                    </p>
-                    <p class="left small">
-                        &amp;nbsp;mm/Hg
-                    </p>
-                </fieldset>
+                        <p>
+                            <label>
+                                <uimessage code="mirebalais.vitals.bloodPressure.short.title"/>&amp;nbsp;
+                            </label>
+                            <span class="small">
+                                <span id="last_bp_systolic" class="obs-field">
+                                    <span class="emptyValue">____</span>
+                                </span>
+                                <span class="append-to-value">/</span>
+                                <span id="last_bp_diastolic" class="obs-field">
+                                    <span class="emptyValue">____</span>
+                                </span>
+                                <span class="append-to-value">mm/Hg</span>
+                            </span>
+                        </p>
                     </td>
                 </tr>
+
                 <tr>
                     <td>
 
