@@ -266,6 +266,7 @@ select
 obs_id,                                
 patient_id,
 encounter_id,
+encounter_location_name(encounter_id) "encounter_location",
 drug_category,
 art_treatment_line,
 drug_id,
