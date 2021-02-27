@@ -124,6 +124,7 @@ FROM (SELECT
 SELECT
         tvl.patient_id,
         tvl.encounter_id,
+        encounter_location_name(tvl.encounter_id) "visit_location",
         DATE(tvl.vl_sample_taken_date) vl_sample_taken_date,
         vl_sample_taken_date_estimated,
         vl_result_date,
