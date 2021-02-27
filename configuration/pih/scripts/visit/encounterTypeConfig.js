@@ -1294,6 +1294,12 @@ angular.module("encounterTypeConfig", [])
             editUrl: hfeStandardEditUrl,
         };
 
+        // Tuberculosis Intake
+        encounterTypes["aa42cc6c-b9ee-4850-926c-dda4bb14d890"] = {
+            ...encounterTypes.DEFAULT,
+            editUrl: hfeStandardEditUrl,
+        };
+
         /*
          * Site-specific encounters
          */
