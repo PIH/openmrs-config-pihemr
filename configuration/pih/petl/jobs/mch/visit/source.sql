@@ -6,7 +6,7 @@ CREATE TEMPORARY TABLE temp_obgyn_visit
 (
     patient_id      INT,
     encounter_id    INT,
-    emr_id          VARCHAR(255),
+    emr_id          VARCHAR(25),
     visit_date      DATE,
     visit_site      VARCHAR(100),
     age_at_visit    DOUBLE,
