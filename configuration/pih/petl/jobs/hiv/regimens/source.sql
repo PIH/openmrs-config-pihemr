@@ -8,6 +8,7 @@ create temporary table temp_HIV_regimens
 (
 patient_id int(11),
 encounter_id int(11),
+visit_location varchar(255),
 encounter_datetime datetime,
 obs_id int(11),
 obs_group_id int(11),
@@ -59,6 +60,12 @@ inner join encounter e on e.encounter_id = o.encounter_id and e.voided =0
   and e.encounter_type in (@HIV_adult_intake,@HIV_adult_followup,@HIV_ped_intake,@HIV_ped_followup)
 where o.voided =0
   and o.concept_id = concept_from_mapping('PIH','6150');
+
+-- 
+update temp_HIV_regimens t
+inner join encounter e on e.encounter_id = t.encounter_id
+inner join visit v on v.visit_id = e.visit_id 
+set t.visit_location = location_name(v.location_id);
 
 -- add drug name
 update temp_HIV_regimens t
@@ -266,7 +273,7 @@ select
 obs_id,                                
 patient_id,
 encounter_id,
-encounter_location_name(encounter_id) "encounter_location",
+visit_location,
 drug_category,
 art_treatment_line,
 drug_id,
