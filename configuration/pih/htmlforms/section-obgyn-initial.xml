@@ -493,63 +493,72 @@
         </div>
 
         <div class="section-container">
-            <p>
-                <label>
-                    <uimessage code="mirebalais.vitals.bloodPressure.short.title"/>
-                </label>
-                <span class="small">
-                    <span class="append-to-value left">
-                        <obs conceptId="CIEL:5085" id="bp_systolic"/>
-                    </span>
-                    <span class="append-to-value left">/</span>
-                    <span class="append-to-value left">
-                        <obs conceptId="CIEL:5086" id="bp_diastolic" />
-                    </span>
-                    <span class="append-to-value">mm/Hg</span>
-                </span>
-            </p>
+            <table>
+                <tr>
+                    <td>
+                    <p>
+                        <label class="left">
+                            <uimessage code="mirebalais.vitals.bloodPressure.short.title"/>
+                        </label>
+                        <span class="small">
+                            <span class="append-to-value left">
+                                <obs conceptId="CIEL:5085" id="bp_systolic"/>
+                            </span>
+                            <span class="append-to-value left">/</span>
+                            <span class="append-to-value left">
+                                <obs conceptId="CIEL:5086" id="bp_diastolic" />
+                            </span>
+                            <span class="append-to-value">mm/Hg</span>
+                        </span>
+                    </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    <div class="four-columns">
+                        <p>
+                            <label>
+                                <uimessage code="mirebalais.vitals.short.heartRate.title"/>
+                            </label>
+                            <span class="small">
+                                <obs conceptId="CIEL:5087" id="heart_rate"
+                                     showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
+                            </span>
+                        </p>
 
-            <div class="four-columns">
-                <p>
-                    <label>
-                        <uimessage code="mirebalais.vitals.short.heartRate.title"/>
-                    </label>
-                    <span class="small">
-                        <obs conceptId="CIEL:5087" id="heart_rate"
-                             showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
-                    </span>
-                </p>
+                        <p>
+                            <label>
+                                <uimessage code="mirebalais.vitals.respiratoryRate.short.title"/>
+                            </label>
+                            <span class="small">
+                                <obs conceptId="CIEL:5242" id="respiratory_rate"
+                                     showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
+                            </span>
+                        </p>
 
-                <p>
-                    <label>
-                        <uimessage code="mirebalais.vitals.respiratoryRate.short.title"/>
-                    </label>
-                    <span class="small">
-                        <obs conceptId="CIEL:5242" id="respiratory_rate"
-                             showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
-                    </span>
-                </p>
+                        <p>
+                            <label>
+                                <uimessage code="Temp"/>
+                            </label>
+                            <span class="small">
+                                <obs conceptId="CIEL:5088" id="temperature_c"
+                                     showUnits="emr.units.degreesCelsius" unitsCssClass="append-to-value"/>
+                            </span>
+                        </p>
 
-                <p>
-                    <label>
-                        <uimessage code="Temp"/>
-                    </label>
-                    <span class="small">
-                        <obs conceptId="CIEL:5088" id="temperature_c"
-                             showUnits="emr.units.degreesCelsius" unitsCssClass="append-to-value"/>
-                    </span>
-                </p>
-
-                <p>
-                    <label>
-                        <uimessage code="o2Sat"/>
-                    </label>
-                    <span class="small">
-                        <obs conceptId="CIEL:5092" id="o2_sat"
-                             showUnits="emr.units.percent" unitsCssClass="append-to-value"/>
-                    </span>
-                </p>
-            </div>
+                        <p>
+                            <label>
+                                <uimessage code="o2Sat"/>
+                            </label>
+                            <span class="small">
+                                <obs conceptId="CIEL:5092" id="o2_sat"
+                                     showUnits="emr.units.percent" unitsCssClass="append-to-value"/>
+                            </span>
+                        </p>
+                    </div>
+                    </td>
+                </tr>
+            </table>
         </div>
     </section>
 
