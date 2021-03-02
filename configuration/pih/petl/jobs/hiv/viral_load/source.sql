@@ -13,6 +13,8 @@ CREATE TEMPORARY TABLE temp_hiv_construct_encounters
 (
     patient_id                      INT,
     encounter_id                    INT,
+    visit_id                        INT,
+    visit_location                  VARCHAR(255),
     vl_sample_taken_date            DATETIME,
     date_created                    DATETIME,
     vl_sample_taken_date_estimated  VARCHAR(11),
@@ -29,9 +31,10 @@ CREATE TEMPORARY TABLE temp_hiv_construct_encounters
 INSERT INTO temp_hiv_construct_encounters (patient_id, encounter_id)
 SELECT person_id, encounter_id FROM obs WHERE voided = 0 AND concept_id = CONCEPT_FROM_MAPPING("PIH", "HIV viral load construct");
 
--- specimen collection date
+-- specimen collection date, visit id
 UPDATE temp_hiv_construct_encounters tvl INNER JOIN encounter e ON tvl.encounter_id = e.encounter_id
-SET	vl_sample_taken_date = e.encounter_datetime;
+SET	vl_sample_taken_date = e.encounter_datetime,
+    tvl.visit_id = e.visit_id;
 
 -- date encounter was created
 UPDATE temp_hiv_construct_encounters tvl JOIN encounter e ON tvl.encounter_id = e.encounter_id
@@ -46,6 +49,11 @@ patient_id IN (
                       INNER JOIN person_attribute_type t ON a.person_attribute_type_id = t.person_attribute_type_id
                       AND a.value = 'true' AND t.name = 'Test Patient'
                );
+
+-- visit location
+update temp_hiv_construct_encounters tvl
+inner join visit v on v.visit_id = tvl.visit_id
+set tvl.visit_location = location_name(v.location_id);
 
 -- is specimen collection date estimated
 UPDATE temp_hiv_construct_encounters tvl INNER JOIN obs o ON o.voided = 0 AND tvl.encounter_id = o.encounter_id AND concept_id = concept_from_mapping('PIH', '11781')
@@ -124,7 +132,7 @@ FROM (SELECT
 SELECT
         tvl.patient_id,
         tvl.encounter_id,
-        encounter_location_name(tvl.encounter_id) "encounter_location",
+        tvl.visit_location,
         DATE(tvl.vl_sample_taken_date) vl_sample_taken_date,
         vl_sample_taken_date_estimated,
         vl_result_date,
