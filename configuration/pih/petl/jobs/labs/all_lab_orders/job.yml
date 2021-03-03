@@ -9,7 +9,5 @@ configuration:
     table: "all_lab_orders"
     schema: "labs/all_lab_orders/target.sql"
 
-  conditional: "SELECT 0"
-
 schedule:
   cron: "0 30 6 ? * *"
