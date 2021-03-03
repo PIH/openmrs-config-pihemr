@@ -131,10 +131,25 @@ UPDATE temp_report t SET status =
 UPDATE temp_report t SET orderer = PROVIDER(t.order_encounter_id);
 UPDATE temp_report t SET orderer_provider_type = PROVIDER_TYPE(t.order_encounter_id);
 UPDATE temp_report t SET ordering_location = ENCOUNTER_LOCATION_NAME(t.order_encounter_id);
-UPDATE temp_report t SET specimen_collection_datetime = ENCOUNTER_DATE(t.order_encounter_id);
-UPDATE temp_report t SET test_location = OBS_VALUE_CODED_LIST(t.specimen_encounter_id, 'PIH','11791',@locale);
-UPDATE temp_report t SET result_date = OBS_VALUE_DATETIME(t.specimen_encounter_id,'PIH','Date of test results'); 
-UPDATE temp_report t SET collection_date_estimated = OBS_VALUE_CODED_LIST(t.specimen_encounter_id, 'PIH','11781',@locale);
+
+update temp_report t
+  inner join encounter e on e.encounter_id = t.specimen_encounter_id
+set t.specimen_collection_datetime = e.encounter_datetime;
+
+update temp_report t 
+  inner join obs o on o.encounter_id = t.specimen_encounter_id and o.voided  = 0 
+    and o.concept_id = concept_from_mapping('PIH','11791')
+set test_location = concept_name(o.value_coded, @locale);
+ 
+update temp_report t 
+  inner join obs o on o.encounter_id = t.specimen_encounter_id and o.voided  = 0 
+    and o.concept_id = concept_from_mapping('PIH','Date of test results')
+set result_date = o.value_datetime;
+
+update temp_report t 
+  inner join obs o on o.encounter_id = t.specimen_encounter_id and o.voided  = 0 
+    and o.concept_id = concept_from_mapping('PIH','11781')
+set collection_date_estimated = concept_name(o.value_coded, @locale);
 
 -- final output
 SELECT 
