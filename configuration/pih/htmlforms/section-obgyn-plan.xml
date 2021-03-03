@@ -229,10 +229,10 @@
             <drugOrder format="select" selectLabel="pihcore.drugOrder.addAnotherDrug">
                 <orderTemplate>
                     <orderProperty name="action" label="pihcore.action">
-                        <option value="NEW" label="pihcore.newOrder"/>
-                        <option value="REVISE" label="pihcore.reviseOrder"/>
-                        <option value="RENEW" label="pihcore.renewOrder"/>
-                        <option value="DISCONTINUE" label="pihcore.discontinueOrder"/>
+                        <option value="NEW" label="pihcore.new"/>
+                        <option value="REVISE" label="pihcore.revise"/>
+                        <option value="RENEW" label="pihcore.renew"/>
+                        <option value="DISCONTINUE" label="pihcore.discontinue"/>
                     </orderProperty>
 
                     <div style="padding:0px;">
