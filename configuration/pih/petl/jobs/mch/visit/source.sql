@@ -138,17 +138,17 @@ SET referral_type_other = o.comments;
 #implant_inserted
 UPDATE temp_obgyn_visit te JOIN obs o ON te.encounter_id = o.encounter_id AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'METHOD OF FAMILY PLANNING')
 AND value_coded = CONCEPT_FROM_MAPPING('CIEL', '1873') AND o.voided = 0
-SET implant_inserted = '1'; -- yes
+SET implant_inserted = 1; -- yes
 
 #IUD_inserted
 UPDATE temp_obgyn_visit te JOIN obs o ON te.encounter_id = o.encounter_id AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'METHOD OF FAMILY PLANNING')
 AND value_coded = CONCEPT_FROM_MAPPING('PIH', 'INTRAUTERINE DEVICE') AND o.voided = 0
-SET IUD_inserted = '1'; -- yes
+SET IUD_inserted = 1; -- yes
 
 #tubal_ligation_completed
 UPDATE temp_obgyn_visit te JOIN obs o ON te.encounter_id = o.encounter_id AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'METHOD OF FAMILY PLANNING')
 AND value_coded = CONCEPT_FROM_MAPPING('PIH', 'TUBAL LIGATION') AND o.voided = 0
-SET tubal_ligation_completed = '1'; -- yes
+SET tubal_ligation_completed = 1; -- yes
 
 #abortion_completed
 
@@ -306,7 +306,7 @@ SET e.tetanus_booster_2 = v.vaccine_date;
 ## gyno exam
 UPDATE temp_obgyn_visit e JOIN obs o ON e.encounter_id = o.encounter_id AND
 o.concept_id = CONCEPT_FROM_MAPPING('PIH', '13229') AND o.voided  = 0
-SET gyno_exam = '1';
+SET gyno_exam = 1;
 
 # wh_exam
 UPDATE temp_obgyn_visit e JOIN obs o ON e.encounter_id = o.encounter_id AND
@@ -325,7 +325,7 @@ CONCEPT_FROM_MAPPING('CIEL', '163750'),
 # Cervical exam
 CONCEPT_FROM_MAPPING('CIEL', '160968')
 ) AND o.concept_id IS NOT NULL AND o.voided = 0
-SET wh_exam = '1';
+SET wh_exam = 1;
 
 # risk factors
 UPDATE temp_obgyn_visit t SET risk_factors = (SELECT GROUP_CONCAT(CONCEPT_NAME(value_coded,'en') SEPARATOR " | ") FROM obs o
@@ -416,6 +416,7 @@ SELECT
     next_visit_date,
     triage_level,
     referral_type,
+    referral_type_other,
     implant_inserted,
     IUD_inserted,
     tubal_ligation_completed,
