@@ -82,6 +82,17 @@
             -moz-column-count: 4;
         }
 
+        .five-columns {
+            display: table;
+            height: 100%;
+            width: 100%;
+        }
+
+        .five-columns > div {
+            display: table-cell;
+            width: 20%;
+        }
+
         .section-container {
             background: #F2F2F2;
             box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
@@ -418,28 +429,23 @@
 
                 <tr>
                     <td>
-                        <p>
-                            <label>
-                                <uimessage code="mirebalais.vitals.bloodPressure.short.title"/>&amp;nbsp;
-                            </label>
-                            <span class="small">
-                                <span id="last_bp_systolic" class="obs-field">
-                                    <span class="emptyValue">____</span>
+                        <div class="five-columns">
+                            <div>
+                                <label>
+                                    <uimessage code="mirebalais.vitals.bloodPressure.short.title"/>&amp;nbsp;
+                                </label>
+                                <span class="small">
+                                    <span id="last_bp_systolic" class="obs-field">
+                                        <span class="emptyValue">____</span>
+                                    </span>
+                                    <span class="append-to-value">/</span>
+                                    <span id="last_bp_diastolic" class="obs-field">
+                                        <span class="emptyValue">____</span>
+                                    </span>
+                                    <span class="append-to-value">mm/Hg</span>
                                 </span>
-                                <span class="append-to-value">/</span>
-                                <span id="last_bp_diastolic" class="obs-field">
-                                    <span class="emptyValue">____</span>
-                                </span>
-                                <span class="append-to-value">mm/Hg</span>
-                            </span>
-                        </p>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        <div class="four-columns">
-                            <p>
+                            </div>
+                            <div>
                                 <label>
                                     <uimessage code="mirebalais.vitals.short.heartRate.title"/>
                                 </label>
@@ -449,9 +455,9 @@
                                     </span>
                                     <span class="append-to-value">/min</span>
                                 </span>
-                            </p>
+                            </div>
 
-                            <p>
+                            <div>
                                 <label>
                                     <uimessage code="mirebalais.vitals.respiratoryRate.short.title"/>
                                 </label>
@@ -461,9 +467,9 @@
                                     </span>
                                     <span class="append-to-value">/min</span>
                                 </span>
-                            </p>
+                            </div>
 
-                            <p>
+                            <div>
                                 <label>
                                     <uimessage code="Temp"/>
                                 </label>
@@ -473,7 +479,7 @@
                                     </span>
                                     <span class="append-to-value">°C</span>
                                 </span>
-                            </p>
+                            </div>
 
                             <p>
                                 <label>
@@ -496,27 +502,24 @@
             <table>
                 <tr>
                     <td>
-                    <p>
-                        <label class="left">
-                            <uimessage code="mirebalais.vitals.bloodPressure.short.title"/>
-                        </label>
-                        <span class="small">
-                            <span class="append-to-value left">
-                                <obs conceptId="CIEL:5085" id="bp_systolic"/>
+                    <div class="five-columns">
+                        <div>
+                            <label>
+                                <uimessage code="mirebalais.vitals.bloodPressure.short.title"/>
+                            </label>
+                            <span class="small">
+                                <span class="append-to-value left">
+                                    <obs conceptId="CIEL:5085" id="bp_systolic"/>
+                                </span>
+                                <span class="append-to-value left">/</span>
+                                <span class="append-to-value left">
+                                    <obs conceptId="CIEL:5086" id="bp_diastolic" />
+                                </span>
+                                <span class="append-to-value">mm/Hg</span>
                             </span>
-                            <span class="append-to-value left">/</span>
-                            <span class="append-to-value left">
-                                <obs conceptId="CIEL:5086" id="bp_diastolic" />
-                            </span>
-                            <span class="append-to-value">mm/Hg</span>
-                        </span>
-                    </p>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                    <div class="four-columns">
-                        <p>
+                        </div>
+
+                        <div>
                             <label>
                                 <uimessage code="mirebalais.vitals.short.heartRate.title"/>
                             </label>
@@ -524,9 +527,9 @@
                                 <obs conceptId="CIEL:5087" id="heart_rate"
                                      showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
                             </span>
-                        </p>
+                        </div>
 
-                        <p>
+                        <div>
                             <label>
                                 <uimessage code="mirebalais.vitals.respiratoryRate.short.title"/>
                             </label>
@@ -534,9 +537,9 @@
                                 <obs conceptId="CIEL:5242" id="respiratory_rate"
                                      showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
                             </span>
-                        </p>
+                        </div>
 
-                        <p>
+                        <div>
                             <label>
                                 <uimessage code="Temp"/>
                             </label>
@@ -544,9 +547,9 @@
                                 <obs conceptId="CIEL:5088" id="temperature_c"
                                      showUnits="emr.units.degreesCelsius" unitsCssClass="append-to-value"/>
                             </span>
-                        </p>
+                        </div>
 
-                        <p>
+                        <div>
                             <label>
                                 <uimessage code="o2Sat"/>
                             </label>
@@ -554,7 +557,7 @@
                                 <obs conceptId="CIEL:5092" id="o2_sat"
                                      showUnits="emr.units.percent" unitsCssClass="append-to-value"/>
                             </span>
-                        </p>
+                        </div>
                     </div>
                     </td>
                 </tr>
