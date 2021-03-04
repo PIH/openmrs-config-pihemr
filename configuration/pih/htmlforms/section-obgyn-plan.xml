@@ -235,11 +235,11 @@
                         <option value="DISCONTINUE" label="pihcore.discontinue"/>
                     </orderProperty>
 
-                    <div style="padding:0px;">
+                    <div style="padding:0px;font-weight:bold;">
                         <orderProperty name="drug" label="pihcore.visitNote.plan.medication" style="autocomplete"/>
                     </div>
 
-                    <div style="padding:0px;">
+                    <div style="padding:0px;font-weight:bold;">
                         <orderProperty name="dose" label="pihcore.visitNote.plan.dose"/>
                         <orderProperty name="doseUnits" value="1513AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label=" "/>
                         <orderProperty name="frequency" label=" "/>

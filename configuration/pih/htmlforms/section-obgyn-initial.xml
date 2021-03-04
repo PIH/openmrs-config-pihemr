@@ -1127,17 +1127,25 @@
                     <render concept="CIEL:139081" name="severe headache"/>
                     <render concept="CIEL:113054" name="seizure"/>
                     <render concept="CIEL:118938" name="vision problem"/>
+                    <render concept="CIEL:111525" name="vertigo" />
+                    <render concept="CIEL:135592" name="loss of consciousness" />
+                    <render concept="CIEL:112721" name="stiffness of neck" />
+                    <render concept="CIEL:136443" name="jaundice" />
                     <render concept="CIEL:122983" name="vomiting"/>
                     <render concept="CIEL:142412" name="diarrhea"/>
                     <render concept="CIEL:118771" name="painful urination"/>
                     <render concept="CIEL:122496" name="shortness of breathe"/>
+                    <render concept="CIEL:127639" name="respiratory distress" />
                     <render concept="CIEL:151"    name="abdominal pain"/>
                     <render concept="CIEL:153316" name="contractions"/>
+                    <render concept="CIEL:150802" name="abnormal vaginal bleeding" />
                     <render concept="CIEL:148968" name="amniotic fluid leaking"/>
                     <render concept="CIEL:113377" name="decreased fetal movement"/>
                 </repeat>
             </div>
-
+            <obs conceptId="CIEL:1880" style="checkbox"
+                 answerConceptId="CIEL:1065" answerCode="pihcore.other"
+                 commentFieldCode="zl.pastMedicalHistory.specifyLabel" /> <!-- get -->
         </div>
     </section>
 
