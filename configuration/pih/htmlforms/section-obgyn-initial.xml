@@ -2,6 +2,7 @@
           formUuid="fd19a3d0-4aa4-415c-a25a-dc1159098796"
           formName="OB/GYN Overview"
           formVersion="1.0">
+
     <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.CleanDiagnosisConstructAction"/>
 
     <translations defaultLocale="en">
@@ -578,6 +579,16 @@
     </section>
 
     <div id="intake-only">
+        <section id="j9" sectionTag="fieldset"
+                 headerStyle="title" headerCode="J9">
+            <div class="section-container">
+                <label>
+                    <uimessage code="pihcore.mch.mothersGroupID" />&amp;nbsp;(ie. A03, B12, etc)
+                </label>
+                <obs conceptId="PIH:11665"  />
+            </div>
+        </section>
+
     <section id="habits" sectionTag="fieldset"
              headerStyle="title" headerCode="pihcore.habits">
         <div class="section-container">
@@ -814,6 +825,15 @@
     <section id="hiv" sectionTag="fieldset"
              headerStyle="title" headerCode="pihcore.hivTB">
         <div class="section-container">
+            <!-- HIV test -->
+            <p>
+                <label>
+                    <uimessage code="pihcore.mch.hivTest"/>
+                </label>
+
+                <obs conceptId="CIEL:164401" answerConceptId="CIEL:1065"
+                     style="checkbox" />
+            </p>
             <p class="side-by-side">
                 <label>
                     <uimessage code="pihcore.ifHIVpatient" />, <uimessage code="pihcore.onARV"/>
@@ -1092,9 +1112,37 @@
         </div>
     </section>
 
+    <section id="prenatal-section" sectionTag="fieldset"
+             headerStyle="title" headerCode="pihcore.mch.dangerSigns">
+        <div id="prenatal-area" class="section-container">
+            <div class="two-columns">
+                <repeat>
+                    <template>
+                        <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
+                            <obs conceptId="PIH:DIAGNOSIS" answerConceptId="{concept}" style="checkbox" />
+                        </obsgroup>
+                    </template>
+                    <render concept="CIEL:165193" name="edema of hands or face"/>
+                    <render concept="CIEL:140238" name="fever"/>
+                    <render concept="CIEL:139081" name="severe headache"/>
+                    <render concept="CIEL:113054" name="seizure"/>
+                    <render concept="CIEL:118938" name="vision problem"/>
+                    <render concept="CIEL:122983" name="vomiting"/>
+                    <render concept="CIEL:142412" name="diarrhea"/>
+                    <render concept="CIEL:118771" name="painful urination"/>
+                    <render concept="CIEL:122496" name="shortness of breathe"/>
+                    <render concept="CIEL:151"    name="abdominal pain"/>
+                    <render concept="CIEL:153316" name="contractions"/>
+                    <render concept="CIEL:148968" name="amniotic fluid leaking"/>
+                    <render concept="CIEL:113377" name="decreased fetal movement"/>
+                </repeat>
+            </div>
+
+        </div>
+    </section>
+
     <section id="risk-factors" sectionTag="fieldset"
               headerStyle="title" headerCode="pihcore.mch.riskFactors">
-
         <div class="section-container">
             <div class="two-columns">
                 <!-- Risk factors for mother -->
@@ -1102,6 +1150,7 @@
                 <obs conceptId="CIEL:160079" answerConceptId="CIEL:121629" style="checkbox"/>
                 <!-- Hypertension -->
                 <obs conceptId="CIEL:160079" answerConceptId="CIEL:117399" style="checkbox"/>
+                <obs conceptId="CIEL:160079" answerConceptId="PIH:HEART DISEASE" style="checkbox"/>
                 <!-- Edema -->
                 <obs conceptId="CIEL:160079" answerConceptId="CIEL:460" style="checkbox"/>
                 <!-- Antepartum hemorrhage -->
@@ -1117,7 +1166,7 @@
                 <!-- HIV -->
                 <obs conceptId="CIEL:160079" answerConceptId="CIEL:138405"
                      answerCode="HIV" style="checkbox"/>
-                <!-- ToDo:  Grande parité (CIEL:163120 or 117749) -->
+                <!-- Grand multiparity -->
                 <obs conceptId="CIEL:160079" answerConceptId="CIEL:117749" style="checkbox"/>
                 <!-- Multiple gestation -->
                 <obs conceptId="CIEL:160079" answerConceptId="CIEL:115491" style="checkbox"/>
@@ -1130,18 +1179,14 @@
                 <obs conceptId="CIEL:160079" answerConceptId="CIEL:140399" style="checkbox"/>
                 <!-- Malpresentation of fetus -->
                 <obs conceptId="CIEL:160079" answerConceptId="CIEL:115939" style="checkbox"/>
+                <!-- GBV -->
+                <obs conceptId="CIEL:160079" answerConceptId="CIEL:165088"
+                     style="checkbox"/>
                 <!-- Syphilis -->
                 <obs conceptId="CIEL:160079" answerConceptId="CIEL:112493"
                      style="checkbox"/>
-
                 <obs conceptId="CIEL:160079" answerConceptId="PIH:OTHER"
                      commentFieldLabel="  " style="checkbox"/>
-
-                <!-- ToDo: Change to mapping PIH:11930 -->
-                <!-- ToDo: Specify other high risk factor, but doesn't work with text that doesn't match
-                <obs conceptId="CIEL:160079" answerConceptSetIds="1da49fd7-b1fe-4053-8309-061c37ea56be"
-                     style="autocomplete" />
-                     -->
             </div>
         </div>
     </section>
@@ -1150,19 +1195,15 @@
     <section id="mental-health" sectionTag="fieldset"
              headerStyle="title" headerCode="pihcore.mentalhealth.title">
         <div class="section-container">
-
             <repeat>
                 <template>
-                    <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
-                        <obs conceptId="PIH:DIAGNOSIS" style="checkbox" answerConceptId="{mh-answer}" />
-                    </obsgroup>
+                    <obs conceptId="PIH:Mental health diagnosis" style="checkbox"
+                         answerConceptId="{mh-answer}" />
                 </template>
                 <render name="Depression"    mh-answer="CIEL:119537" />
                 <render name="Schizophrenia" mh-answer="CIEL:113155" />
                 <render name="PTSD"          mh-answer="CIEL:113881" />
-                <render name="Gender-based violence" mh-answer="CIEL:165088" />
             </repeat>
-
         </div>
     </section>
 
