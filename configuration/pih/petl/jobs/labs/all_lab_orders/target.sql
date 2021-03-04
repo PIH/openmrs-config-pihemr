@@ -9,7 +9,7 @@ CREATE TABLE all_lab_orders
         patient_address                     TEXT,
         order_number                        VARCHAR(50),
         Lab_ID                              VARCHAR(50),
-        orderable                           VARCHAR(50),
+        orderable                           VARCHAR(255),
         status                              VARCHAR(50),
         orderer                             VARCHAR(255),
         orderer_provider_type               VARCHAR(50),
