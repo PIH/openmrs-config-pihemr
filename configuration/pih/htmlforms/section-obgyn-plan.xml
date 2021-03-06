@@ -187,39 +187,38 @@
     </section>
 
     <style type="text/css">
-        .drugorders-drug-section {
-        padding: 10px;
-        border: 1px dotted black;
+
+        <!-- Hide the label for the drug field in view mode -->
+        .orderwidget-history-section .order-field-label.order-drug {
+            display:none;
         }
-        .drugorders-drug-details {
-        font-weight:bold;
-        padding-top: 5px; padding-bottom: 5px;
+        <!-- Add a colon after the Dose label in view mode -->
+        .orderwidget-history-section .order-field-label.order-dose:after {
+            content: ": ";
+            white-space: pre;
         }
+
         .order-field {
-        display: inline-block;
-        padding: 0px;
+            display: inline-block;
+            padding: 0px;
         }
         .order-field.action {
-        display: block;
+            display: block;
         }
         .order-field.dateActivated {
-        padding-right: 20px;
+            padding-right: 20px;
         }
         .order-field-label {
-        display: inline-block;
-        padding-right: 5px;
-        vertical-align: middle;
+            display: inline-block;
+            padding-right: 5px;
+            vertical-align: middle;
         }
         .order-field-label:after {
-        content: "";
-        white-space: pre;
+            content: "";
+            white-space: pre;
         }
         .order-field-widget {
-        display: inline-block;
-        }
-        .order-view-section {
-        display: block;
-        padding-left: 0px;
+            display: inline-block;
         }
     </style>
 
