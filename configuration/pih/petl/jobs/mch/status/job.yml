@@ -2,12 +2,12 @@ type: "sqlserver-bulk-import"
 configuration:
   extract:
     datasource: "mysql/openmrs.yml"
-    query:  "mch/patient/source.sql"
+    query:  "mch/status/source.sql"
 
   load:
     datasource: "sqlserver/openmrs_extractions.yml"
-    table: "mch_patient"
-    schema: "mch/patient/target.sql"
+    table: "mch_status"
+    schema: "mch/status/target.sql"
 
 schedule:
   cron: "0 30 6 ? * *"
