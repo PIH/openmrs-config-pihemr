@@ -507,14 +507,26 @@
                                 <uimessage code="mirebalais.vitals.bloodPressure.short.title"/>
                             </label>
                             <span class="small">
-                                <span class="append-to-value left">
-                                    <obs conceptId="CIEL:5085" id="bp_systolic"/>
-                                </span>
-                                <span class="append-to-value left">/</span>
-                                <span class="append-to-value left">
-                                    <obs conceptId="CIEL:5086" id="bp_diastolic" />
-                                </span>
-                                <span class="append-to-value">mm/Hg</span>
+                                <ifMode mode="VIEW" include="true">
+                                    <span class="append-to-value">
+                                        <obs conceptId="CIEL:5085" id="bp_systolic"/>
+                                    </span>
+                                    <span class="append-to-value">/</span>
+                                    <span class="append-to-value">
+                                        <obs conceptId="CIEL:5086" id="bp_diastolic" />
+                                    </span>
+                                    <span class="append-to-value">mm/Hg</span>
+                                </ifMode>
+                                <ifMode mode="VIEW" include="false">
+                                    <span class="append-to-value left">
+                                        <obs conceptId="CIEL:5085" id="bp_systolic"/>
+                                    </span>
+                                    <span class="append-to-value left">/</span>
+                                    <span class="append-to-value left">
+                                        <obs conceptId="CIEL:5086" id="bp_diastolic" />
+                                    </span>
+                                    <span class="append-to-value">mm/Hg</span>
+                                </ifMode>
                             </span>
                         </div>
 
