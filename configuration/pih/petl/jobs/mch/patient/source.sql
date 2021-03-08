@@ -5,8 +5,8 @@ SET @mch_patient_program_id = (SELECT program_id FROM program WHERE uuid = '41a2
 SET @obgyn_encounter = (SELECT encounter_type_id FROM encounter_type WHERE uuid = 'd83e98fd-dc7b-420f-aa3f-36f648b4483d');
 
 ## patient
-DROP TABLE IF EXISTS temp_mch_patient;
-CREATE TABLE temp_mch_patient
+DROP TABLE IF EXISTS temp_mch_status;
+CREATE TABLE temp_mch_status
 (
     patient_id                  INT(11),
     patient_program_id          INT(11),
@@ -28,14 +28,14 @@ CREATE TABLE temp_mch_patient
     index_desc                  INT(11)
 );
 
-INSERT INTO temp_mch_patient (patient_id, patient_program_id, enrollment_location, start_date, end_date, outcome)
+INSERT INTO temp_mch_status (patient_id, patient_program_id, enrollment_location, start_date, end_date, outcome)
 SELECT patient_id, patient_program_id, LOCATION_NAME(location_id), DATE(date_enrolled), DATE(date_completed), CONCEPT_NAME(outcome_concept_id, 'en')
 FROM patient_program WHERE voided=0 AND program_id = @mch_patient_program_id;
 
-CREATE INDEX mch_patient_id ON temp_mch_patient(patient_id);
+CREATE INDEX mch_patient_id ON temp_mch_status(patient_id);
 
 ## Delete test patients
-DELETE FROM temp_mch_patient WHERE
+DELETE FROM temp_mch_status WHERE
 patient_id IN (
                SELECT
                       a.person_id
@@ -45,7 +45,7 @@ patient_id IN (
                );
 
 -- ZL EMR ID
-UPDATE temp_mch_patient t
+UPDATE temp_mch_status t
 INNER JOIN
    (SELECT patient_id, GROUP_CONCAT(identifier) 'ids'
     FROM patient_identifier pid
@@ -57,7 +57,7 @@ SET t.mch_emr_id = ids.ids;
 
 ######### index count
 ########## indexes
-# program indexes (note this is done on the temp_mch_patient_program table since its a 1 row per patient program id)
+# program indexes (note this is done on the temp_mch_status_program table since its a 1 row per patient program id)
 ### ascending
 DROP TEMPORARY TABLE IF EXISTS temp_mch_program_index_asc;
 CREATE TEMPORARY TABLE temp_mch_program_index_asc
@@ -75,7 +75,7 @@ FROM (SELECT
             end_date,
             patient_id,
             @u:= patient_id
-      FROM temp_mch_patient,
+      FROM temp_mch_status,
         (SELECT @r:= 1) AS r,
         (SELECT @u:= 0) AS u
       ORDER BY patient_id, start_date ASC, patient_program_id ASC
@@ -98,7 +98,7 @@ FROM (SELECT
             start_date,
             patient_id,
             @u:= patient_id
-      FROM temp_mch_patient,
+      FROM temp_mch_status,
             (SELECT @r:= 1) AS r,
             (SELECT @u:= 0) AS u
       ORDER BY patient_id, start_date DESC, patient_program_id DESC
@@ -107,10 +107,10 @@ FROM (SELECT
 CREATE INDEX mch_index_desc ON temp_mch_program_index_desc(patient_id, index_desc, patient_program_id);
 
 ## adding the above indexes into the ovc_encounters table
-UPDATE temp_mch_patient o JOIN temp_mch_program_index_asc top ON o.patient_program_id = top.patient_program_id
+UPDATE temp_mch_status o JOIN temp_mch_program_index_asc top ON o.patient_program_id = top.patient_program_id
 SET o.index_asc = top.index_asc;
 
-UPDATE temp_mch_patient o JOIN temp_mch_program_index_desc top ON o.patient_program_id = top.patient_program_id
+UPDATE temp_mch_status o JOIN temp_mch_program_index_desc top ON o.patient_program_id = top.patient_program_id
 SET o.index_desc = top.index_desc;
 
 ## all mch encounters
@@ -204,7 +204,7 @@ AND o.voided = 0
 SET transfer_within_location = LOCATION_NAME(value_text);
 
 ####
-UPDATE temp_mch_patient tmp JOIN temp_mch_encounters tme ON tmp.patient_id = tme.patient_id AND tmp.index_desc = 1
+UPDATE temp_mch_status tmp JOIN temp_mch_encounters tme ON tmp.patient_id = tme.patient_id AND tmp.index_desc = 1
 SET tmp.encounter_location_name	= tme.encounter_location_name,
     tmp.antenatal_visit = tme.antenatal_visit,
     tmp.estimated_delivery_date = tme.estimated_delivery_date,
@@ -232,4 +232,4 @@ SELECT
     transfer,
     index_asc,
     index_desc
-FROM temp_mch_patient order by patient_id;
+FROM temp_mch_status order by patient_id;

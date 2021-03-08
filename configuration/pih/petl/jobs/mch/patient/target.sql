@@ -1,4 +1,4 @@
-CREATE TABLE mch_patient
+CREATE TABLE mch_status
 (
     patient_id                  INT,
     mch_emr_id                  VARCHAR(25),
