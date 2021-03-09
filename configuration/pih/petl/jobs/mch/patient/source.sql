@@ -125,7 +125,6 @@ SELECT
     locality,
     marital_status,
     age_cat_1,
-    -- age_cat_2,
     antenatal_visit,
     estimated_delivery_date,
     pregnant
