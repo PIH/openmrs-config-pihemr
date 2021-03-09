@@ -8,7 +8,7 @@ CREATE TABLE mch_patient
     gender                          CHAR(1),
     age_unknown                     BIT,
     DOB                             DATE,
-    age                             DOUBLE,
+    age                             FLOAT,
     current_reporting_health_center VARCHAR(30),
     initital_health_center          VARCHAR(30),
     locality                        VARCHAR(30),
