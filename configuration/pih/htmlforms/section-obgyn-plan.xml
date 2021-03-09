@@ -220,6 +220,37 @@
         .order-field-widget {
             display: inline-block;
         }
+
+        .order-action-buttons {
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .order-action-buttons .order-action-button {
+            position: relative;
+            float: left;
+        }
+        .order-action-buttons > .orderwidget-selected-action {
+            background: #d8d8d8;
+            border-color: #d0d0d0;
+        }
+        .order-action-button {
+            background: -webkit-linear-gradient(top, #ffffff, #dddddd);
+            border: #dddddd 1px solid;
+            padding: 8px 20px;
+            display: inline-block;
+            line-height: 1.2em;
+            color: #003f5e;
+            cursor: pointer;
+            min-width: 0;
+            max-width: 300px;
+            text-decoration: none;
+            margin: 0px;
+        }
+        .order-action-button:hover {
+            background: #e2e2e2;
+            border-color: #d0d0d0;
+        }
     </style>
 
     <section id="drug-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
