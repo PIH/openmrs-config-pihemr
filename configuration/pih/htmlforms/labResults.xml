@@ -355,6 +355,36 @@
                         <obs id="mxd" conceptId="CIEL:165578" showUnits="true"/>
                     </field>
                 </span>
+
+                <label for="eos-pcent">
+                    <uimessage code="pihcore.lab.eosinophil"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="eos-pcent" conceptId="CIEL:1024" showUnits="true"/>
+                    </field>
+                </span>
+
+
+                <label for="bas-pcent">
+                    <uimessage code="pihcore.lab.basophil"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="bas-pcent" conceptId="CIEL:1025" showUnits="true"/>
+                    </field>
+                </span>
+
+
+                <label for="mono-pcent">
+                    <uimessage code="pihcore.lab.monocyte"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="mono-pcent" conceptId="CIEL:1023" showUnits="true"/>
+                    </field>
+                </span>
+
                 <label for="rdw-sd">
                     <uimessage code="pihcore.lab.rdwSd"/>
                 </label>
@@ -381,6 +411,15 @@
                     </field>
                 </span>
 
+                <label for="pt">
+                    <uimessage code="pihcore.lab.pt"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="pt" conceptId="CIEL:161481" showUnits="true"/>
+                    </field>
+                </span>
+
                 <label for="inr">
                     <uimessage code="pihcore.lab.inr"/>
                 </label>
@@ -391,12 +430,66 @@
                     </field>
                 </span>
 
+                <label for="ptt">
+                    <uimessage code="pihcore.lab.ptt"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="ptt" conceptId="CIEL:161153" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="coag">
+                    <uimessage code="pihcore.lab.coagTime"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="coag" conceptId="CIEL:161435" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="bleed-t">
+                    <uimessage code="pihcore.lab.bleedTime"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="bleed-t" conceptId="CIEL:161433" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="reticul">
+                    <uimessage code="pihcore.lab.reticul"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="reticul" conceptId="CIEL:1327" showUnits="true"/>
+                    </field>
+                </span>
+
                 <label for="blood-type">
                     <uimessage code="pihcore.lab.blood_type"/>
                 </label>
                 <span class="small">
                     <field>
                         <obs id="blood-type" conceptId="PIH:BLOOD TYPING" />
+                    </field>
+                </span>
+
+                <label for="sickle-screen">
+                    <uimessage code="pihcore.lab.sickleScreen"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="sickle-screen" conceptId="CIEL:160225" />
+                    </field>
+                </span>
+
+                <label for="sickle-hg-elec">
+                    <uimessage code="pihcore.lab.hgElectro"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="sickle-hg-elec" conceptId="CIEL:165544" />
                     </field>
                 </span>
 
@@ -471,7 +564,7 @@
                     </field>
                 </span>
                 <label for="dbilirubin">
-                    <uimessage code="pihcore.lab.dBbili"/>
+                    <uimessage code="pihcore.lab.dBili"/>
                 </label>
                 <span class="small">
                     <field>
@@ -583,7 +676,7 @@
 
             <p id="iStat8">
                 <h4>
-                    <uimessage code="pihcore.lab.electrolyte.title"/>
+                    <uimessage code="pihcore.lab.electrolyte.panel"/>
                 </h4>
                 <label for="sodium">
                     <uimessage code="pihcore.lab.sodium"/>
@@ -840,7 +933,6 @@
         </fieldset>
 
         <fieldset class="multi-line-confirmation">
-
             <legend>
                 <uimessage code="pihcore.lab.parasitology.title"/>
             </legend>
@@ -848,12 +940,22 @@
                 <uimessage code="pihcore.lab.parasitology.title"/>
             </h3>
             <p>
+                <label for="malarial-rdt">
+                    <uimessage code="pihcore.lab.malariaRDT"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="malarial-rdt" conceptId="CIEL:1643"
+                             placeholder="Enter value"/>
+                    </field>
+                </span>
+
                 <label for="malarial-smear">
                     <uimessage code="pihcore.lab.malarial_smear"/>
                 </label>
                 <span class="small">
                     <field>
-                        <obs id="malarial-smear" conceptId="PIH:MALARIAL SMEAR"
+                        <obs id="malarial-smear" conceptId="CIEL:32"
                              placeholder="Enter value"/>
                     </field>
                 </span>
@@ -904,15 +1006,80 @@
                              answerConceptIds="CIEL:164931,CIEL:164932,CIEL:164933,PIH:NEGATIVE" />
                     </field>
                 </span>
+
+                <label for="filaria">
+                    <uimessage code="pihcore.lab.filaria"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="filaria" conceptId="CIEL:165539" />
+                    </field>
+                </span>
             </p>
 
-            <p>
-                <!-- ToDo: Add other lab tests or free-text
-                <strong><uimessage code="pihcore.other"/></strong>
-                  -->
-            </p>
+            <h4>
+                <uimessage code="pihcore.lab.stool.exam"/>
+            </h4>
+            <repeat>
+                <template>
+                    <p>
+                        <label for="stool-{message}">
+                            <uimessage code="pihcore.lab.stool.{message}"/>
+                        </label>
+                        <span class="small">
+                            <field>
+                                <obs id="stool-{message}" conceptId="CIEL:{concept}" />
+                            </field>
+                        </span>
+                    </p>
+                </template>
+                <render concept="304"    message="exam" />
+                <render concept="163641" message="color" />
+                <render concept="163640" message="appear" />
+                <render concept="159362" message="occult" />
+            </repeat>
+        </fieldset>
 
+        <fieldset class="multi-line-confirmation">
+            <legend>
+                <uimessage code="pihcore.lab.urine"/>
+            </legend>
+            <h3>
+                <uimessage code="pihcore.lab.urine"/>
+            </h3>
 
+            <repeat>
+                <template>
+                    <p>
+                        <label for="urine-{message}">
+                            <uimessage code="pihcore.lab.urine.{message}"/>
+                        </label>
+                        <span class="small">
+                            <field>
+                                <obs id="urine-{message}" conceptId="CIEL:{concept}" />
+                            </field>
+                        </span>
+                    </p>
+                </template>
+                <render concept="163684" message="leuko" />
+                <render concept="163683" message="eryth" />
+                <render concept="163685" message="epi" />
+                <render concept="160735" message="bact" />
+                <render concept="163686" message="yeast" />
+                <render concept="163688" message="spore" />
+                <render concept="163689" message="tricho" />
+                <render concept="163695" message="crystal" />
+                <render concept="162106" message="color" />
+                <render concept="162101" message="aspect" />
+                <render concept="161439" message="density" />
+                <render concept="161440" message="nitrite" />
+                <render concept="161438" message="pH" />
+                <render concept="1875"   message="protein" />
+                <render concept="159733" message="glucose" />
+                <render concept="163682" message="urobili" />
+                <render concept="163680" message="bili" />
+                <render concept="162096" message="blood" />
+            </repeat>
         </fieldset>
 
         <fieldset class="multi-line-confirmation">
