@@ -78,7 +78,7 @@ CREATE TEMPORARY TABLE IF NOT EXISTS temp_mch_pregnacy
 (
     encounter_id            INT,
     patient_id              INT,
-    antenatal_visit         VARCHAR(20),
+    antenatal_visit         BIT,
     estimated_delivery_date DATE,
     encounter_location_name VARCHAR(255)
 );
@@ -89,7 +89,7 @@ encounter WHERE encounter_type = @mch_encounter) GROUP BY person_id;
 
 UPDATE temp_mch_pregnacy te JOIN obs o ON te.encounter_id = o.encounter_id AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'REASON FOR VISIT')
 AND value_coded = CONCEPT_FROM_MAPPING('PIH', 'ANC VISIT') AND o.voided = 0
-SET antenatal_visit = 'Yes'; -- yes
+SET antenatal_visit = 1; -- yes
 
 -- estimated_delivery_date
 UPDATE temp_mch_pregnacy te JOIN obs o ON te.encounter_id = o.encounter_id AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'ESTIMATED DATE OF CONFINEMENT') AND o.voided = 0
