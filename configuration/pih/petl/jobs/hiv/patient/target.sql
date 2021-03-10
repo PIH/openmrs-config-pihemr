@@ -16,5 +16,8 @@ create table hiv_patient
     patient_sw                  VARCHAR(11),
     patient_pris                VARCHAR(11),
     patient_trans               VARCHAR(11),
-    patient_idu                 VARCHAR(11)
+    patient_idu                 VARCHAR(11),
+    ovc_parent_firstname        VARCHAR(255),
+    ovc_parent_lastname         VARCHAR(255),
+    ovc_parent_relationship     VARCHAR(50)
 );

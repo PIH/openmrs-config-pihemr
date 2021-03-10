@@ -1,8 +1,9 @@
 SET sql_safe_updates = 0;
 
-select patient_identifier_type_id into @zl_emr_id from patient_identifier_type where uuid = 'a541af1e-105c-40bf-b345-ba1fd6a59b85';
-select patient_identifier_type_id into @dossier from patient_identifier_type where uuid = 'e66645eb-03a8-4991-b4ce-e87318e37566';
-select patient_identifier_type_id into @hiv_id from patient_identifier_type where uuid = '139766e8-15f5-102d-96e4-000c29c2a5d7';
+SELECT patient_identifier_type_id INTO @zl_emr_id FROM patient_identifier_type WHERE uuid = 'a541af1e-105c-40bf-b345-ba1fd6a59b85';
+SELECT patient_identifier_type_id INTO @dossier FROM patient_identifier_type WHERE uuid = 'e66645eb-03a8-4991-b4ce-e87318e37566';
+SELECT patient_identifier_type_id INTO @hiv_id FROM patient_identifier_type WHERE uuid = '139766e8-15f5-102d-96e4-000c29c2a5d7';
+SET @ovc_baseline_encounter_type = ENCOUNTER_TYPE('OVC Intake');
 
 DROP TABLE IF EXISTS temp_patient;
 
@@ -24,7 +25,10 @@ CREATE TABLE temp_patient
     patient_sw                  VARCHAR(11),
     patient_pris                VARCHAR(11),
     patient_trans               VARCHAR(11),
-    patient_idu                 VARCHAR(11)
+    patient_idu                 VARCHAR(11),
+    parent_firstname            VARCHAR(255),
+    parent_lastname             VARCHAR(255),
+    parent_relationship         VARCHAR(50)
 );
 
 INSERT INTO temp_patient (patient_id)
@@ -42,37 +46,37 @@ patient_id IN (
 
 
 -- ZL EMR ID
-update temp_patient t
-inner join
-   (select patient_id, group_concat(identifier) 'ids'
-    from patient_identifier pid
-    where pid.voided = 0
-    and pid.identifier_type = @zl_emr_id
-    group by patient_id
-   ) ids on ids.patient_id = t.patient_id
-set t.zl_emr_id = ids.ids;    
+UPDATE temp_patient t
+INNER JOIN
+   (SELECT patient_id, GROUP_CONCAT(identifier) 'ids'
+    FROM patient_identifier pid
+    WHERE pid.voided = 0
+    AND pid.identifier_type = @zl_emr_id
+    GROUP BY patient_id
+   ) ids ON ids.patient_id = t.patient_id
+SET t.zl_emr_id = ids.ids;    
 
 -- HIV EMR V1
-update temp_patient t
-inner join
-   (select patient_id, group_concat(identifier) 'ids'
-    from patient_identifier pid
-    where pid.voided = 0
-    and pid.identifier_type = @hiv_id
-    group by patient_id
-   ) ids on ids.patient_id = t.patient_id
-set t.hivemr_v1_id = ids.ids;    
+UPDATE temp_patient t
+INNER JOIN
+   (SELECT patient_id, GROUP_CONCAT(identifier) 'ids'
+    FROM patient_identifier pid
+    WHERE pid.voided = 0
+    AND pid.identifier_type = @hiv_id
+    GROUP BY patient_id
+   ) ids ON ids.patient_id = t.patient_id
+SET t.hivemr_v1_id = ids.ids;    
 
 -- DOSSIER ID
-update temp_patient t
-inner join
-   (select patient_id, group_concat(identifier) 'ids'
-    from patient_identifier pid
-    where pid.voided = 0
-    and pid.identifier_type = @dossier
-    group by patient_id
-   ) ids on ids.patient_id = t.patient_id
-set t.hiv_dossier_id = ids.ids;    
+UPDATE temp_patient t
+INNER JOIN
+   (SELECT patient_id, GROUP_CONCAT(identifier) 'ids'
+    FROM patient_identifier pid
+    WHERE pid.voided = 0
+    AND pid.identifier_type = @dossier
+    GROUP BY patient_id
+   ) ids ON ids.patient_id = t.patient_id
+SET t.hiv_dossier_id = ids.ids;    
 
 UPDATE temp_patient
 SET gender = GENDER(patient_id),
@@ -98,7 +102,7 @@ INNER JOIN obs o
 	ON e.voided = 0
 	AND o.voided = 0
 	AND encounter_type = ENCOUNTER_TYPE('HIV Intake')
-    AND o.concept_id IN (concept_from_mapping("CIEL", "160578"), concept_from_mapping("CIEL","160579"), concept_from_mapping("CIEL","156761"), concept_from_mapping("PIH","11561"), concept_from_mapping("CIEL","105"))
+    AND o.concept_id IN (CONCEPT_FROM_MAPPING("CIEL", "160578"), CONCEPT_FROM_MAPPING("CIEL","160579"), CONCEPT_FROM_MAPPING("CIEL","156761"), CONCEPT_FROM_MAPPING("PIH","11561"), CONCEPT_FROM_MAPPING("CIEL","105"))
 	AND e.encounter_id = o.encounter_id;
 
 ## create a staging table to hold the maximum encounter_dates per patient
@@ -113,10 +117,10 @@ patient_msm     VARCHAR(11)
 );
 
 INSERT INTO temp_stage_key_popn_msm(patient_id, encounter_date, concept_id)
-SELECT patient_id, MAX(encounter_date), concept_id from temp_key_popn_encounter WHERE concept_id = concept_from_mapping("CIEL", "160578") group by patient_id;
+SELECT patient_id, MAX(encounter_date), concept_id FROM temp_key_popn_encounter WHERE concept_id = CONCEPT_FROM_MAPPING("CIEL", "160578") GROUP BY patient_id;
 
-UPDATE temp_stage_key_popn_msm msm INNER JOIN temp_key_popn_encounter tkpe ON msm.patient_id = tkpe.patient_id AND msm.encounter_date = tkpe.encounter_date AND tkpe.concept_id = concept_from_mapping("CIEL", "160578")
-SET patient_msm = concept_name(value_coded, 'en');
+UPDATE temp_stage_key_popn_msm msm INNER JOIN temp_key_popn_encounter tkpe ON msm.patient_id = tkpe.patient_id AND msm.encounter_date = tkpe.encounter_date AND tkpe.concept_id = CONCEPT_FROM_MAPPING("CIEL", "160578")
+SET patient_msm = CONCEPT_NAME(value_coded, 'en');
 
 ##
 DROP TEMPORARY TABLE IF EXISTS temp_stage_key_popn_sw;
@@ -129,10 +133,10 @@ patient_sw      VARCHAR(11)
 );
 
 INSERT INTO temp_stage_key_popn_sw(patient_id, encounter_date, concept_id)
-SELECT patient_id, MAX(encounter_date), concept_id from temp_key_popn_encounter WHERE concept_id = concept_from_mapping("CIEL","160579") group by patient_id;
+SELECT patient_id, MAX(encounter_date), concept_id FROM temp_key_popn_encounter WHERE concept_id = CONCEPT_FROM_MAPPING("CIEL","160579") GROUP BY patient_id;
 
-UPDATE temp_stage_key_popn_sw sw INNER JOIN temp_key_popn_encounter tkpe ON sw.patient_id = tkpe.patient_id AND sw.encounter_date = tkpe.encounter_date AND tkpe.concept_id = concept_from_mapping("CIEL","160579")
-SET patient_sw = concept_name(value_coded, 'en');
+UPDATE temp_stage_key_popn_sw sw INNER JOIN temp_key_popn_encounter tkpe ON sw.patient_id = tkpe.patient_id AND sw.encounter_date = tkpe.encounter_date AND tkpe.concept_id = CONCEPT_FROM_MAPPING("CIEL","160579")
+SET patient_sw = CONCEPT_NAME(value_coded, 'en');
 
 ##
 DROP TEMPORARY TABLE IF EXISTS temp_stage_key_popn_pris;
@@ -145,10 +149,10 @@ patient_pris    VARCHAR(11)
 );
 
 INSERT INTO temp_stage_key_popn_pris(patient_id, encounter_date, concept_id)
-SELECT patient_id, MAX(encounter_date), concept_id from temp_key_popn_encounter WHERE concept_id = concept_from_mapping("CIEL","156761") group by patient_id;
+SELECT patient_id, MAX(encounter_date), concept_id FROM temp_key_popn_encounter WHERE concept_id = CONCEPT_FROM_MAPPING("CIEL","156761") GROUP BY patient_id;
 
-UPDATE temp_stage_key_popn_pris pris INNER JOIN temp_key_popn_encounter tkpe ON pris.patient_id = tkpe.patient_id AND pris.encounter_date = tkpe.encounter_date AND tkpe.concept_id = concept_from_mapping("CIEL","156761")
-SET patient_pris = concept_name(value_coded, 'en');
+UPDATE temp_stage_key_popn_pris pris INNER JOIN temp_key_popn_encounter tkpe ON pris.patient_id = tkpe.patient_id AND pris.encounter_date = tkpe.encounter_date AND tkpe.concept_id = CONCEPT_FROM_MAPPING("CIEL","156761")
+SET patient_pris = CONCEPT_NAME(value_coded, 'en');
 
 ####
 DROP TEMPORARY TABLE IF EXISTS temp_stage_key_popn_trans;
@@ -161,10 +165,10 @@ patient_trans   VARCHAR(11)
 );
 
 INSERT INTO temp_stage_key_popn_trans(patient_id, encounter_date, concept_id)
-SELECT patient_id, MAX(encounter_date), concept_id from temp_key_popn_encounter WHERE concept_id = concept_from_mapping("PIH","11561") group by patient_id;
+SELECT patient_id, MAX(encounter_date), concept_id FROM temp_key_popn_encounter WHERE concept_id = CONCEPT_FROM_MAPPING("PIH","11561") GROUP BY patient_id;
 
-UPDATE temp_stage_key_popn_trans trans INNER JOIN temp_key_popn_encounter tkpe ON trans.patient_id = tkpe.patient_id AND trans.encounter_date = tkpe.encounter_date AND tkpe.concept_id = concept_from_mapping("PIH","11561")
-SET patient_trans = concept_name(value_coded, 'en');
+UPDATE temp_stage_key_popn_trans trans INNER JOIN temp_key_popn_encounter tkpe ON trans.patient_id = tkpe.patient_id AND trans.encounter_date = tkpe.encounter_date AND tkpe.concept_id = CONCEPT_FROM_MAPPING("PIH","11561")
+SET patient_trans = CONCEPT_NAME(value_coded, 'en');
 
 ###
 DROP TEMPORARY TABLE IF EXISTS temp_stage_key_popn_iv;
@@ -177,10 +181,10 @@ patient_idu     VARCHAR(11)
 );
 
 INSERT INTO temp_stage_key_popn_iv(patient_id, encounter_date, concept_id)
-SELECT patient_id, MAX(encounter_date), concept_id from temp_key_popn_encounter WHERE concept_id = concept_from_mapping("CIEL", "105") group by patient_id;
+SELECT patient_id, MAX(encounter_date), concept_id FROM temp_key_popn_encounter WHERE concept_id = CONCEPT_FROM_MAPPING("CIEL", "105") GROUP BY patient_id;
 
-UPDATE temp_stage_key_popn_iv iv INNER JOIN temp_key_popn_encounter tkpe ON iv.patient_id = tkpe.patient_id AND iv.encounter_date = tkpe.encounter_date AND tkpe.concept_id = concept_from_mapping("CIEL", "105")
-SET patient_idu = concept_name(value_coded, 'en');
+UPDATE temp_stage_key_popn_iv iv INNER JOIN temp_key_popn_encounter tkpe ON iv.patient_id = tkpe.patient_id AND iv.encounter_date = tkpe.encounter_date AND tkpe.concept_id = CONCEPT_FROM_MAPPING("CIEL", "105")
+SET patient_idu = CONCEPT_NAME(value_coded, 'en');
 
 ## key population final table with the latest data
 DROP TEMPORARY TABLE IF EXISTS temp_key_popn;
@@ -218,12 +222,50 @@ UPDATE temp_patient tp INNER JOIN person p ON tp.patient_id = p.person_id AND p.
 SET tp.death_date = DATE(p.death_date);
 
 # Cause of death
-UPDATE temp_patient tp INNER JOIN person p ON tp.patient_id = p.person_id and p.dead = 1
-SET tp.cause_of_death = concept_name(p.cause_of_death, 'en');
+UPDATE temp_patient tp INNER JOIN person p ON tp.patient_id = p.person_id AND p.dead = 1
+SET tp.cause_of_death = CONCEPT_NAME(p.cause_of_death, 'en');
 
 # Cause of death non coded
-UPDATE temp_patient tp INNER JOIN person p ON tp.patient_id = p.person_id and p.dead = 1
+UPDATE temp_patient tp INNER JOIN person p ON tp.patient_id = p.person_id AND p.dead = 1
 SET tp.cause_of_death_non_coded = p.cause_of_death_non_coded;
+
+### ovc parent
+DROP TEMPORARY TABLE IF EXISTS temp_ovc_parent;
+CREATE TEMPORARY TABLE temp_ovc_parent(
+    patient_id                  INT,
+    encounter_id                INT,
+    contact_construct_obs_id    INT,
+    parent_firstname            VARCHAR(255),
+    parent_lastname             VARCHAR(255),
+    parent_relationship         VARCHAR(50)
+);
+
+INSERT INTO temp_ovc_parent(patient_id, contact_construct_obs_id) 
+SELECT person_id, MAX(obs_id) FROM obs WHERE voided = 0
+AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'Contact construct') 
+AND encounter_id IN (SELECT encounter_id FROM encounter WHERE voided = 0 AND encounter_type = @ovc_baseline_encounter_type)
+GROUP BY person_id;
+
+UPDATE temp_ovc_parent tp JOIN obs o ON obs_id = contact_construct_obs_id
+SET tp.encounter_id = o.encounter_id;
+
+UPDATE temp_ovc_parent ovc JOIN obs o ON ovc.encounter_id = o.encounter_id AND o.obs_group_id IN (contact_construct_obs_id) 
+AND o.concept_id = CONCEPT_FROM_MAPPING('PIH', 'FIRST NAME')
+SET parent_firstname = value_text;
+
+UPDATE temp_ovc_parent ovc JOIN obs o ON ovc.encounter_id = o.encounter_id AND o.obs_group_id IN (contact_construct_obs_id) 
+AND o.concept_id = CONCEPT_FROM_MAPPING('PIH', 'LAST NAME')
+SET parent_lastname = value_text;
+
+UPDATE temp_ovc_parent ovc JOIN obs o ON ovc.encounter_id = o.encounter_id AND o.obs_group_id IN (contact_construct_obs_id)
+AND o.concept_id = CONCEPT_FROM_MAPPING('PIH', 'RELATIONSHIP OF RELATIVE TO PATIENT')
+SET parent_relationship = CONCEPT_NAME(value_coded, 'en');
+
+UPDATE temp_patient tp JOIN temp_ovc_parent o ON tp.patient_id = o.patient_id
+SET
+    tp.parent_firstname = o.parent_firstname,
+    tp.parent_lastname = o.parent_lastname,
+    tp.parent_relationship = o.parent_relationship;
 
 ### Final Query
 SELECT * FROM temp_patient;
