@@ -32,6 +32,9 @@ CREATE TABLE temp_ovc_patient_program
     program_status_start_date       DATE,
     program_status_end_date         DATE,
     program_date_created            DATETIME,
+    parent_firstname                VARCHAR(255),
+    parent_lastname                 VARCHAR(255),
+    parent_relationship             VARCHAR(50),
     index_asc_hiv_status            INT,
     index_desc_hiv_status           INT,
     index_asc_program_status        INT,
@@ -78,6 +81,9 @@ CREATE TEMPORARY TABLE ovc_encounters
     program_status_start_date       DATE,
     program_status_end_date         DATE,
     program_date_created            DATETIME,
+    parent_firstname                VARCHAR(255),
+    parent_lastname                 VARCHAR(255),
+    parent_relationship             VARCHAR(50),
     index_asc_hiv_status            INT,
     index_desc_hiv_status           INT,
     index_asc_program_status        INT,
@@ -111,6 +117,22 @@ SET hiv_status = CONCEPT_NAME(value_coded, 'en');
 UPDATE ovc_encounters ovc JOIN obs o ON ovc.encounter_id = o.encounter_id AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'HIV TEST DATE')
 AND o.voided = 0
 SET hiv_test_date = DATE(value_datetime);
+
+# parent
+UPDATE ovc_encounters ovc JOIN obs o ON ovc.encounter_id = o.encounter_id AND o.obs_group_id IN (SELECT
+obs_id FROM obs WHERE voided = 0 AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'Contact construct')) 
+AND o.voided = 0 AND o.concept_id = CONCEPT_FROM_MAPPING('PIH', 'FIRST NAME')
+SET parent_firstname = value_text;
+
+UPDATE ovc_encounters ovc JOIN obs o ON ovc.encounter_id = o.encounter_id AND o.obs_group_id IN (SELECT
+obs_id FROM obs WHERE voided = 0 AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'Contact construct')) 
+AND o.voided = 0 AND o.concept_id = CONCEPT_FROM_MAPPING('PIH', 'LAST NAME')
+SET parent_lastname = value_text;
+
+UPDATE ovc_encounters ovc JOIN obs o ON ovc.encounter_id = o.encounter_id AND o.obs_group_id IN (SELECT
+obs_id FROM obs WHERE voided = 0 AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'Contact construct')) 
+AND o.voided = 0 AND o.concept_id = CONCEPT_FROM_MAPPING('PIH', 'RELATIONSHIP OF RELATIVE TO PATIENT')
+SET parent_relationship = CONCEPT_NAME(value_coded, 'en');
 
 # join encounters and completed ovc programs
 UPDATE ovc_encounters e INNER JOIN temp_ovc_patient_program tp ON person_id = patient_id AND e.encounter_date BETWEEN tp.date_enrolled AND tp.date_completed
@@ -149,6 +171,9 @@ CREATE TEMPORARY TABLE temp_ovc_program_status
     program_status_start_date       DATE,
     program_status_end_date         DATE,
     program_date_created            DATETIME,
+    parent_firstname                VARCHAR(255),
+    parent_lastname                 VARCHAR(255),
+    parent_relationship             VARCHAR(50),
     index_asc_hiv_status            INT,
     index_desc_hiv_status           INT,
     index_asc_program_status        INT,
@@ -173,9 +198,9 @@ UPDATE temp_ovc_program_status o INNER JOIN temp_ovc_patient_program tp ON o.pat
 SET o.location_id = tp.location_id;
 
 ###### programs with no program statuses
-drop temporary table if exists temp_program_no_statuses;
-create temporary table temp_program_no_statuses
-select
+DROP TEMPORARY TABLE IF EXISTS temp_program_no_statuses;
+CREATE TEMPORARY TABLE temp_program_no_statuses
+SELECT
 	patient_id,
     patient_program_id,
     encounter_id,
@@ -195,19 +220,22 @@ select
     program_status_start_date,
     program_status_end_date,
     program_date_created,
+    parent_firstname,
+    parent_lastname,
+    parent_relationship,
     index_asc_hiv_status,
     index_desc_hiv_status,
     index_asc_program_status,
     index_desc_program_status,
     index_asc_enrollment,
     index_desc_enrollment
-from temp_ovc_patient_program where patient_program_id not in (select patient_program_id from temp_ovc_program_status);
+FROM temp_ovc_patient_program WHERE patient_program_id NOT IN (SELECT patient_program_id FROM temp_ovc_program_status);
 
-drop temporary table if exists stage_temp_program_no_statuses;
-create temporary table stage_temp_program_no_statuses
+DROP TEMPORARY TABLE IF EXISTS stage_temp_program_no_statuses;
+CREATE TEMPORARY TABLE stage_temp_program_no_statuses
 SELECT patient_program_id FROM temp_program_no_statuses WHERE patient_program_id  IN (
 SELECT a.a_ppid FROM (
-SELECT tp.patient_program_id a_ppid from ovc_encounters tp
+SELECT tp.patient_program_id a_ppid FROM ovc_encounters tp
 ) a );
 
 ########## indexes
@@ -457,9 +485,9 @@ SET o.index_desc_enrollment = top.index_desc;
 
 ######
 # remove duplicates
-drop temporary table if exists temp_program_no_statuses_encounters;
-create temporary table temp_program_no_statuses_encounters
-select
+DROP TEMPORARY TABLE IF EXISTS temp_program_no_statuses_encounters;
+CREATE TEMPORARY TABLE temp_program_no_statuses_encounters
+SELECT
 	o.patient_id,
     o.patient_program_id,
     o.encounter_id,
@@ -479,23 +507,26 @@ select
     o.program_status_start_date,
     o.program_status_end_date,
     o.program_date_created,
+    parent_firstname,
+    parent_lastname,
+    parent_relationship,
     o.index_asc_hiv_status,
-    o.index_desc_hiv_status,
+	o.index_desc_hiv_status,
     o.index_asc_program_status,
     o.index_desc_program_status,
     o.index_asc_enrollment,
     o.index_desc_enrollment
-from temp_program_no_statuses o where patient_program_id not in (select patient_program_id from stage_temp_program_no_statuses);
+FROM temp_program_no_statuses o WHERE patient_program_id NOT IN (SELECT patient_program_id FROM stage_temp_program_no_statuses);
 
 ### final table
 ### Join encounters and program statuses and programs with no encounters or statuses
-drop temporary table if exists temp_ovc_program_status_encounters;
-create temporary table temp_ovc_program_status_encounters
-select * from ovc_encounters
-union all
-select * from temp_ovc_program_status
-union all
-select * from temp_program_no_statuses_encounters;
+DROP TEMPORARY TABLE IF EXISTS temp_ovc_program_status_encounters;
+CREATE TEMPORARY TABLE temp_ovc_program_status_encounters
+SELECT * FROM ovc_encounters
+UNION ALL
+SELECT * FROM temp_ovc_program_status
+UNION ALL
+SELECT * FROM temp_program_no_statuses_encounters;
 
 ###### Final query #######
 SELECT
@@ -511,6 +542,9 @@ SELECT
 	program_status_end_date,
 	program_status,
 	program_outcome,
+	parent_firstname,
+	parent_lastname,
+	parent_relationship,
 	hiv_test_date,
 	hiv_status,
 	services,
