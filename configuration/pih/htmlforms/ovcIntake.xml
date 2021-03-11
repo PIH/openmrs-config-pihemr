@@ -1,4 +1,3 @@
-
 <htmlform
     formUuid="a2f4e400-df59-4456-935f-cd0697ff28a4"
     formName="OVC Intake"
@@ -213,9 +212,9 @@
     <enrollInProgram programId="OVC" locationTag="Program Location" />
 
     <!-- HIV Status -->
-    <div class="section-container">
-        <div class="question-container">
-            <obs conceptId="PIH:HIV STATUS"
+    <div class="section-container two-columns">
+        <div class="inline-radio">
+            <obs conceptId="CIEL:1169" style="radio"
                 labelCode="pihcore.hiv.state.title"
                 answerConceptIds="PIH:POSITIVE,PIH:NEGATIVE,PIH:unknown"
                 />
@@ -254,7 +253,7 @@
             </repeat>
             <div style="margin-top: 5px; margin-left:20px">
                 <obs conceptId="PIH:Service or program non-coded"
-                    labelCode="pihcore.serviceOrProgramOther"
+                    labelCode="zl.ifOtherSpecify"
                     class="medium-obs" />
             </div>
         </div>

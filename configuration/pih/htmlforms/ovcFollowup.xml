@@ -1,4 +1,3 @@
-
 <htmlform
     formUuid="5f486bc6-b017-4932-8037-6d667f8c3162"
     formName="OVC Follow-up"
@@ -208,9 +207,9 @@
     </ifMode>
 
     <!-- HIV Status -->
-    <div class="section-container">
-        <div class="question-container">
-            <obs conceptId="PIH:HIV STATUS"
+    <div class="section-container two-columns">
+        <div class="inline-radio">
+            <obs conceptId="CIEL:1169" style="radio"
                 labelCode="pihcore.hiv.state.title"
                 answerConceptIds="PIH:POSITIVE,PIH:NEGATIVE,PIH:unknown"
                 />
@@ -249,7 +248,7 @@
             </repeat>
             <div style="margin-top: 5px; margin-left:20px">
                 <obs conceptId="PIH:Service or program non-coded"
-                    labelCode="pihcore.serviceOrProgramOther"
+                    labelCode="zl.ifOtherSpecify"
                     class="medium-obs" />
             </div>
         </div>
