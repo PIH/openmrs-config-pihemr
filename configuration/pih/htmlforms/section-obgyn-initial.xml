@@ -340,25 +340,32 @@
              headerCode="pihcore.typeOfConsult">
         <div class="section-container">
             <div class="two-columns">
+
                 <div>
-                    <repeat>
-                        <template>
-                            <obs conceptId="PIH:6189" style="checkbox"
-                                 answerConceptId="{map}"  answerCode="pihcore.{message}"
-                                 toggle="{switch}-area"/>
-                        </template>
-                        <render map="CIEL:165013" message="gyn" switch="gyn"/>
-                        <render map="CIEL:1622" message="prenatal" switch="prenatal"/>
-                        <render map="PIH:6261"  message="postnatal" switch="postpartum" />
-                        <render map="PIH:5483"  message="familyPlanning.title" switch="fp"/>
-                    </repeat>
+                    <p class="side-by-side">
+                        <obs id="visit-reason" conceptId="PIH:8879" style="radio"
+                             answerConceptIds="CIEL:165013,CIEL:1622,PIH:6261"
+                             answerCodes="pihcore.gyn,pihcore.prenatal,pihcore.postnatal"
+                             required="true" >
+                            <controls>
+                                <when value="CIEL:1622" thenDisplay="#prenatal-area" />
+                                <when value="PIH:6261" thenDisplay="#postpartum-area" />
+                            </controls>
+                        </obs>
+                        <br/>
+                        <obs conceptId="PIH:6189" style="checkbox"
+                             answerConceptId="PIH:5483" answerCode="pihcore.familyPlanning.title"
+                             toggle="fp-area"/>
+                    </p>
+
                 </div>
 
                 <div>
                     <p class="side-by-side">
                         <obs id="intake-or-followup"  conceptId="CIEL:164181" style="radio"
                              answerConceptIds="CIEL:164180,PIH:7383"
-                             answerCodes="pihcore.new,pihcore.followup">
+                             answerCodes="pihcore.new,pihcore.followup"
+                             required="true">
                             <controls>
                                 <when value="CIEL:164180" thenDisplay="#intake-only"/>
                             </controls>
