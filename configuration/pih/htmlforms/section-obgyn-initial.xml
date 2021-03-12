@@ -1133,6 +1133,21 @@
         </div>
     </section>
 
+    <section id="cancer-section" sectionTag="fieldset"
+             headerStyle="title" headerCode="Cancer">
+        <div class="section-container">
+            <!-- Screening for cervical cancer -->
+            <obs conceptId="CIEL:163560" style="checkbox"
+                 answerConceptId="CIEL:151185" toggle="cerv-cancer-date"/>
+            <div id="cerv-cancer-date">
+                <label>
+                    <uimessage code="pihcore.screeningDate"/>
+                </label>
+                <obs conceptId="CIEL:165429"/>
+            </div>
+        </div>
+    </section>
+
     <section id="postpartum-section" sectionTag="fieldset"
              headerStyle="title" headerCode="pihcore.postnatal">
 
