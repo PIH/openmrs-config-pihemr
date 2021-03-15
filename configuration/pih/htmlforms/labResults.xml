@@ -678,48 +678,25 @@
                 <h4>
                     <uimessage code="pihcore.lab.electrolyte.panel"/>
                 </h4>
-                <label for="sodium">
-                    <uimessage code="pihcore.lab.sodium"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="sodium" conceptId="PIH:SERUM SODIUM" showUnits="true"/>
-                    </field>
-                </span>
-                <label for="potassium">
-                    <uimessage code="pihcore.lab.potassium"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="potassium" conceptId="PIH:SERUM POTASSIUM" showUnits="true"/>
-                    </field>
-                </span>
-                <label for="serum-chloride">
-                    <uimessage code="pihcore.lab.chloride"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="serum-chloride" conceptId="PIH:SERUM CHLORIDE" showUnits="true"/>
-                    </field>
-                </span>
 
-                <label for="calcium">
-                    <uimessage code="pihcore.lab.calcium" showUnits="true"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="calcium" conceptId="PIH:12987" showUnits="true"/>
-                    </field>
-                </span>
-
-                <label for="co2">
-                    <uimessage code="pihcore.lab.co2"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs for="co2" conceptId="PIH:SERUM CARBON DIOXIDE" showUnits="true"/>
-                    </field>
-                </span>
+                <repeat>
+                    <template>
+                        <label for="{tag}">
+                            <uimessage code="{message}"/>
+                        </label>
+                        <span class="small">
+                            <field>
+                                <obs id="{tag}" conceptId="{concept}" showUnits="true" />
+                            </field>
+                        </span>
+                    </template>
+                    <render concept="CIEL:1132" message="pihcore.lab.sodium" tag="sodium" />
+                    <render concept="CIEL:1133" message="pihcore.lab.potassium" tag="potassium" />
+                    <render concept="CIEL:1134" message="pihcore.lab.chloride" tag="chloride" />
+                    <render concept="CIEL:166038" message="pihcore.lab.calcium" tag="calcium" />
+                    <render concept="CIEL:1135" message="pihcore.lab.co2" tag="co2" />
+                    <render concept="CIEL:1013" message="Lipase" tag="lipase" />
+                </repeat>
             </p>
 
         </fieldset>
@@ -867,68 +844,28 @@
                     </field>
                 </span>
 
-                <label for="rpr-syphilis">
-                    <uimessage code="pihcore.lab.syphilis"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="rpr-syphilis" conceptId="CIEL:1619" />
-                    </field>
-                </span>
-
-                <label for="hep-b">
-                    <uimessage code="pihcore.lab.hepB"/> (qual)
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="hep-b" conceptId="CIEL:1322" />
-                    </field>
-                </span>
-
-                <label for="hep-b-ag">
-                    <uimessage code="pihcore.lab.hepBSurface"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="hep-b-ag" conceptId="CIEL:159430" />
-                    </field>
-                </span>
-
-                <label for="hep-b-ag-spot">
-                    <uimessage code="pihcore.lab.hepBSurfaceSpot"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="hep-b-ag-spot" conceptId="CIEL:161472" />
-                    </field>
-                </span>
-
-                <label for="hep-c">
-                    <uimessage code="pihcore.lab.hepC"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="hep-c" conceptId="CIEL:1325" />
-                    </field>
-                </span>
-
-                <label for="widal">
-                    <uimessage code="pihcore.lab.typhoid"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="widal" conceptId="CIEL:306" />
-                    </field>
-                </span>
-
-                <label for="aso-titer">
-                    <uimessage code="ASO"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="aso-titer" conceptId="CIEL:161469" />
-                    </field>
-                </span>
+                <repeat>
+                    <template>
+                        <label for="{tag}">
+                            <uimessage code="{message}"/>
+                        </label>
+                        <span class="small">
+                            <field>
+                                <obs id="{tag}" conceptId="{concept}" />
+                            </field>
+                        </span>
+                    </template>
+                    <render concept="CIEL:1945"   message="pihcore.lab.pregnancy" tag="b-hcg"/>
+                    <render concept="CIEL:1619"   message="pihcore.lab.syphilis" tag="rpr-syphilis"/>
+                    <render concept="CIEL:1322"   message="pihcore.lab.hepB" tag="hep-b"/>
+                    <render concept="CIEL:159430" message="pihcore.lab.hepBSurface" tag="hep-b-ag"/>
+                    <render concept="CIEL:161472" message="pihcore.lab.hepBSurfaceSpot" tag="hep-b-ag-spot"/>
+                    <render concept="CIEL:1325"   message="pihcore.lab.hepC" tag="hep-c"/>
+                    <render concept="CIEL:306"    message="pihcore.lab.typhoid" tag="widal"/>
+                    <render concept="CIEL:163620" message="H. Pylori" tag="h-pylori"/>
+                    <render concept="CIEL:161469" message="ASO" tag="aso-titer"/>
+                    <render concept="CIEL:160913" message="pihcore.lab.psaQuant" tag="psa-quant"/>
+                </repeat>
             </p>
         </fieldset>
 
@@ -1079,6 +1016,7 @@
                 <render concept="163682" message="urobili" />
                 <render concept="163680" message="bili" />
                 <render concept="162096" message="blood" />
+                <render concept="45"     message="pregnancy" />
             </repeat>
         </fieldset>
 
