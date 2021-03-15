@@ -2,30 +2,7 @@ select program_id into @hiv_program from program where uuid = 'b1cb1fc1-5190-4f7
 select name into @hivDispensingEncName from encounter_type where uuid = 'cc1720c9-3e4c-4fa8-a7ec-40eeaad1958c';
 
 SET sql_safe_updates = 0;
-SET @hiv_followup_encounter_type = ENCOUNTER_TYPE('HIV Followup');
 SET @hiv_initial_encounter_type = ENCOUNTER_TYPE('HIV Intake');
-
-## as stated on ticket UHM-5105 transfer_status should come from the intake form only
-drop temporary table if exists temp_hiv_transfer_encounters;
-create temporary table temp_hiv_transfer_encounters
-(
-		person_id int,
-        obs_id int,
-        encounter_id int,
-        encounter_date date,
-        concept_id int,
-		transfer_site varchar(255),
-        transfer_site_name varchar(255)
-);
-insert into temp_hiv_transfer_encounters (person_id, obs_id, encounter_id, encounter_date, concept_id)
-select  person_id,
-        obs_id,
-        max(e.encounter_id),
-        date(e.encounter_datetime),
-        concept_id
-from obs o join encounter e on e.encounter_id = o.encounter_id and e.voided = 0 and o.voided = 0
-and encounter_type = @hiv_initial_encounter_type and e.voided = 0
-and concept_id = concept_from_mapping('PIH', '13169') group by o.person_id;
 
 drop temporary table if exists temp_status;
 create temporary table temp_status
@@ -46,6 +23,7 @@ index_patient_ascending int(11),
 index_patient_descending int(11),
 transfer_site varchar(255),
 transfer_site_name varchar(255),
+latest_encounter_id int,
 PRIMARY KEY (status_id)
 );
 
@@ -221,20 +199,12 @@ left outer join obs o on o.encounter_id = e.encounter_id and o.voided = 0 and o.
 set t.currently_late_for_pickup = if(TIMESTAMPDIFF(DAY,ifnull(date(o.value_datetime),'1900-01-01'),current_date)>=29,1,null); 
 
 ## transfer status
-update temp_hiv_transfer_encounters t join obs th on t.person_id = th.person_id and th.voided = 0 and
-th.concept_id = concept_from_mapping('PIH', 'REFERRED FROM ANOTHER SITE') and th.obs_group_id = t.obs_id
-## Transfer in  and t.index_program_ascending = 1
-set t.transfer_site = concept_name(th.value_coded, 'en');
+## as stated on ticket UHM-5105 transfer_status should come from the intake form only
+update temp_status t set latest_encounter_id = latestenc(patient_id ,'HIV intake', date(start_date)) where t.index_program_ascending = 1;
 
-update temp_hiv_transfer_encounters t join obs th on t.person_id = th.person_id and th.voided = 0 and
-th.concept_id = concept_from_mapping('PIH', 'Name of external transfer location') and th.obs_group_id = t.obs_id
-## Transfer in  and t.index_program_ascending = 1
-set t.transfer_site_name = th.value_text;
+update temp_status set transfer_site = obs_value_coded_list(latest_encounter_id, 'PIH', 'REFERRED FROM ANOTHER SITE', 'en');
 
-
-update temp_status t join temp_hiv_transfer_encounters th on patient_id = person_id and t.index_program_ascending = 1
-set t.transfer_site = th.transfer_site,
-	t.transfer_site_name = th.transfer_site_name;
+update temp_status set transfer_site_name = obs_value_text(latest_encounter_id, 'PIH', 'Name of external transfer location');
 
 ### Final query
 select 
