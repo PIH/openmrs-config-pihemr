@@ -2,27 +2,30 @@ select program_id into @hiv_program from program where uuid = 'b1cb1fc1-5190-4f7
 select name into @hivDispensingEncName from encounter_type where uuid = 'cc1720c9-3e4c-4fa8-a7ec-40eeaad1958c';
 
 SET sql_safe_updates = 0;
-SET @hiv_followup_encounter_type = ENCOUNTER_TYPE('HIV Followup Form');
-SET @hiv_initial_encounter_type = ENCOUNTER_TYPE('HIV Intake Form');
+SET @hiv_followup_encounter_type = ENCOUNTER_TYPE('HIV Followup');
+SET @hiv_initial_encounter_type = ENCOUNTER_TYPE('HIV Intake');
 
+## as stated on ticket UHM-5105 transfer_status should come from the intake form only
 drop temporary table if exists temp_hiv_transfer_encounters;
 create temporary table temp_hiv_transfer_encounters
-AS
+(
+		person_id int,
+        obs_id int,
+        encounter_id int,
+        encounter_date date,
+        concept_id int,
+		transfer_site varchar(255),
+        transfer_site_name varchar(255)
+);
+insert into temp_hiv_transfer_encounters (person_id, obs_id, encounter_id, encounter_date, concept_id)
 select  person_id,
-        obs_group_id,
         obs_id,
-        e.encounter_id,
-        date(encounter_datetime) encounter_date,
-        obs_datetime,
-        concept_id,
-        value_coded,
-        concept_name(concept_id, 'en'),
-        concept_name(value_coded, 'en'),
-        o.location_id,
-        value_text
+        max(e.encounter_id),
+        date(e.encounter_datetime),
+        concept_id
 from obs o join encounter e on e.encounter_id = o.encounter_id and e.voided = 0 and o.voided = 0
-and encounter_type in (@hiv_initial_encounter_type, @hiv_followup_encounter_type)
-and obs_group_id in (select obs_id from obs where concept_id = concept_from_mapping('PIH', '13170') and voided = 0);
+and encounter_type = @hiv_initial_encounter_type and e.voided = 0
+and concept_id = concept_from_mapping('PIH', '13169') group by o.person_id;
 
 drop temporary table if exists temp_status;
 create temporary table temp_status
@@ -41,7 +44,8 @@ index_program_ascending int(11),
 index_program_descending int(11),
 index_patient_ascending int(11),
 index_patient_descending int(11),
-transfer_status varchar(255),
+transfer_site varchar(255),
+transfer_site_name varchar(255),
 PRIMARY KEY (status_id)
 );
 
@@ -65,7 +69,6 @@ from patient_state ps
 inner join patient_program pp on pp.patient_program_id = ps.patient_program_id and pp.program_id = @hiv_program
 inner join program_workflow_state pws where pws.program_workflow_state_id = ps.state
 and ps.voided = 0;
-
 
 -- load all outcomes into temp table
 insert into temp_status (patient_id, patient_program_id, status_concept_id, location_id, start_date, end_date, outcome)
@@ -193,11 +196,6 @@ left outer join dup_status d on d.patient_program_id = t.patient_program_id and 
 set t.end_date = d.start_date
 where t.index_program_descending <> 1;
 
-## transfer status
-update temp_status t left join temp_hiv_transfer_encounters th on t.patient_id = th.person_id and th.concept_id = concept_from_mapping('PIH', 'Transfer out location')
-and t.status_concept_id = concept_from_mapping('PIH', 'PATIENT TRANSFERRED OUT') and th.encounter_date between date(start_date) and date(end_date)
-set t.transfer_status = concept_name(th.value_coded, 'en');
-
 create index temp_patient_index_asc_patient_id on temp_patient_index_asc (patient_id);
 create index temp_patient_index_asc_index on temp_patient_index_asc (index_asc);
 
@@ -220,8 +218,23 @@ and t.outcome is null
 update temp_status t
 left outer join encounter e on e.encounter_id = latestEnc(t.patient_id, @hivDispensingEncName, null)
 left outer join obs o on o.encounter_id = e.encounter_id and o.voided = 0 and o.concept_id = concept_from_mapping('PIH','5096')
-set t.currently_late_for_pickup = if(TIMESTAMPDIFF(DAY,ifnull(date(o.value_datetime),'1900-01-01'),current_date)>=29,1,null)
-; 
+set t.currently_late_for_pickup = if(TIMESTAMPDIFF(DAY,ifnull(date(o.value_datetime),'1900-01-01'),current_date)>=29,1,null); 
+
+## transfer status
+update temp_hiv_transfer_encounters t join obs th on t.person_id = th.person_id and th.voided = 0 and
+th.concept_id = concept_from_mapping('PIH', 'REFERRED FROM ANOTHER SITE') and th.obs_group_id = t.obs_id
+## Transfer in  and t.index_program_ascending = 1
+set t.transfer_site = concept_name(th.value_coded, 'en');
+
+update temp_hiv_transfer_encounters t join obs th on t.person_id = th.person_id and th.voided = 0 and
+th.concept_id = concept_from_mapping('PIH', 'Name of external transfer location') and th.obs_group_id = t.obs_id
+## Transfer in  and t.index_program_ascending = 1
+set t.transfer_site_name = th.value_text;
+
+
+update temp_status t join temp_hiv_transfer_encounters th on patient_id = person_id and t.index_program_ascending = 1
+set t.transfer_site = th.transfer_site,
+	t.transfer_site_name = th.transfer_site_name;
 
 ### Final query
 select 
@@ -229,7 +242,8 @@ status_id,
 patient_id,
 zlemr(patient_id) "zl_emr_id",
 location_name(location_id) "patient_location",
-transfer_status,
+transfer_site,
+transfer_site_name,
 concept_name(status_concept_id, 'en') "status_outcome",
 date(start_date),
 date(end_date),
