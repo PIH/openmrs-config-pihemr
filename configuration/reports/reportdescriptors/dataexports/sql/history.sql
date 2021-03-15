@@ -50,7 +50,7 @@ CREATE TEMPORARY TABLE temp_history
     Patient_sti  varchar(3),
     Patient_sti_comment  varchar(255),
     Patient_congenital_malformation  varchar(3),
-    Patient_con_malform_comment  varchar(3),
+    Patient_con_malform_comment  varchar(255),
     Patient_malnutrition  varchar(3),
     Patient_measles  varchar(3),
     Patient_tuberculosis  varchar(3),
