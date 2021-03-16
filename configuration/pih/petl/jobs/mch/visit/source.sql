@@ -99,7 +99,7 @@ estimated_delivery_date DATE
 INSERT INTO temp_obgyn_pregnacy(encounter_id, patient_id)
 SELECT encounter_id, patient_id FROM temp_obgyn_visit;
 
-UPDATE temp_obgyn_pregnacy te JOIN obs o ON te.encounter_id = o.encounter_id AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'REASON FOR VISIT')
+UPDATE temp_obgyn_pregnacy te JOIN obs o ON te.encounter_id = o.encounter_id AND concept_id = CONCEPT_FROM_MAPPING('PIH', '8879')
 AND value_coded = CONCEPT_FROM_MAPPING('PIH', 'ANC VISIT') AND o.voided = 0
 SET antenatal_visit = 'Yes'; -- yes
 
@@ -347,7 +347,7 @@ AND value_coded = CONCEPT_FROM_MAPPING('PIH', 'OTHER')
 SET risk_factors_other = o.comments;
 
 # visit type
-UPDATE temp_obgyn_visit te JOIN obs o ON te.encounter_id = o.encounter_id AND o.voided = 0 AND o.concept_id = CONCEPT_FROM_MAPPING('PIH', '8879')
+UPDATE temp_obgyn_visit te JOIN obs o ON te.encounter_id = o.encounter_id AND o.voided = 0 AND o.concept_id = CONCEPT_FROM_MAPPING('CIEL', '164181')
 SET visit_type = CONCEPT_NAME(value_coded, 'en');
 
 # age at visit
