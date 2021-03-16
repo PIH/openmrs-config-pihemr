@@ -52,6 +52,8 @@ CREATE TEMPORARY TABLE temp_obgyn_visit
     gyno_exam          BIT,
     wh_exam            BIT,
     previous_history   TEXT,
+    cervical_cancer_screening_date DATE,
+    cervical_cancer_screening_result BIT,
     risk_factors       TEXT,
     risk_factors_other TEXT,
     examining_doctor   VARCHAR(100),
@@ -327,6 +329,15 @@ CONCEPT_FROM_MAPPING('CIEL', '160968')
 ) AND o.concept_id IS NOT NULL AND o.voided = 0
 SET wh_exam = 1;
 
+## cervical_cancer_screening_date
+UPDATE temp_obgyn_visit te JOIN obs o ON te.encounter_id = o.encounter_id AND o.voided = 0 AND o.concept_id = CONCEPT_FROM_MAPPING('CIEL', '165429')
+SET cervical_cancer_screening_date = DATE(o.value_datetime);
+
+## cervical_cancer_screening_result
+UPDATE temp_obgyn_visit te JOIN obs o ON te.encounter_id = o.encounter_id AND concept_id = CONCEPT_FROM_MAPPING('CIEL', '163560')
+                                         AND value_coded = CONCEPT_FROM_MAPPING('CIEL', '151185') AND o.voided = 0
+SET cervical_cancer_screening_result = 1;
+
 # risk factors
 UPDATE temp_obgyn_visit t SET risk_factors = (SELECT GROUP_CONCAT(CONCEPT_NAME(value_coded,'en') SEPARATOR " | ") FROM obs o
 WHERE o.voided = 0 AND t.encounter_id = o.encounter_id AND o.concept_id = CONCEPT_FROM_MAPPING("CIEL", '160079') );
@@ -443,6 +454,8 @@ SELECT
     gyno_exam,
     wh_exam,
     previous_history,
+    cervical_cancer_screening_date,
+    cervical_cancer_screening_result,
     risk_factors,
     index_asc,
     index_desc

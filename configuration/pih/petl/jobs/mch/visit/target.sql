@@ -44,6 +44,8 @@ CREATE TABLE mch_visit
     gyno_exam           BIT,
     wh_exam             BIT,
     previous_history    TEXT,
+    cervical_cancer_screening_date DATE,
+    cervical_cancer_screening_result BIT,
     risk_factors        TEXT,
     index_asc           INT,
     index_desc          INT
