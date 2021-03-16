@@ -347,7 +347,7 @@ AND value_coded = CONCEPT_FROM_MAPPING('PIH', 'OTHER')
 SET risk_factors_other = o.comments;
 
 # visit type
-UPDATE temp_obgyn_visit te JOIN obs o ON te.encounter_id = o.encounter_id AND o.voided = 0 AND o.concept_id = CONCEPT_FROM_MAPPING('CIEL', '164181')
+UPDATE temp_obgyn_visit te JOIN obs o ON te.encounter_id = o.encounter_id AND o.voided = 0 AND o.concept_id = CONCEPT_FROM_MAPPING('PIH', '8879')
 SET visit_type = CONCEPT_NAME(value_coded, 'en');
 
 # age at visit
