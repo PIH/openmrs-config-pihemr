@@ -464,6 +464,9 @@
                     <field>
                         <obs id="reticul" conceptId="CIEL:1327" showUnits="true"/>
                     </field>
+                    <field>
+                        (<obs id="arc" conceptId="CIEL:166395" showUnits="true"/>)
+                    </field>
                 </span>
 
                 <label for="blood-type">
@@ -695,6 +698,8 @@
                     <render concept="CIEL:1134" message="pihcore.lab.chloride" tag="chloride" />
                     <render concept="CIEL:166038" message="pihcore.lab.calcium" tag="calcium" />
                     <render concept="CIEL:1135" message="pihcore.lab.co2" tag="co2" />
+                    <render concept="CIEL:166396" message="Fe" tag="iron" />
+                    <render concept="CIEL:166397" message="Mg" tag="magnes" />
                     <render concept="CIEL:1013" message="Lipase" tag="lipase" />
                 </repeat>
             </p>
@@ -974,6 +979,7 @@
                 <render concept="163641" message="color" />
                 <render concept="163640" message="appear" />
                 <render concept="159362" message="occult" />
+                <render concept="163634" message="leukocytes" />
             </repeat>
         </fieldset>
 
@@ -1006,10 +1012,21 @@
                 <render concept="163688" message="spore" />
                 <render concept="163689" message="tricho" />
                 <render concept="163695" message="crystal" />
+
+                <render concept="165540" message="hyalineCasts" />
+                <render concept="163690" message="granularCasts" />
+                <render concept="163693" message="leukocyteCasts" />
+                <render concept="165541" message="erythrocyteCasts" />
+                <render concept="165542" message="renalEpiCasts" />
+                <render concept="163692" message="epiCasts" />
+                <render concept="163691" message="fattyCasts" />
+                <render concept="163694" message="waxyCasts" />
+
                 <render concept="162106" message="color" />
                 <render concept="162101" message="aspect" />
                 <render concept="161439" message="density" />
                 <render concept="161440" message="nitrite" />
+                <render concept="163681" message="ascorbic" />
                 <render concept="161438" message="pH" />
                 <render concept="1875"   message="protein" />
                 <render concept="159733" message="glucose" />
@@ -1029,9 +1046,9 @@
                 <uimessage code="pihcore.lab.microbiology.title"/>
             </h3>
 
-            <h3>
+            <h4>
                 TB
-            </h3>
+            </h4>
 
             <p>
                 <label for="tb-smear-test">
@@ -1076,6 +1093,31 @@
                         <obs id="tb-xpert" conceptId="CIEL:162202" />
                     </field>
                 </span>
+            </p>
+
+            <h4>Wet mount</h4>
+            <p>
+                <repeat>
+                    <template>
+                        <p>
+                            <label for="micro-{message}">
+                                <uimessage code="pihcore.lab.{message}"/>
+                            </label>
+                            <span class="small">
+                                <field>
+                                    <obs id="micro-{message}" conceptId="CIEL:{concept}" />
+                                </field>
+                            </span>
+                        </p>
+                    </template>
+                    <render concept="163648" message="urine.tricho" />
+                    <render concept="163650" message="urine.epi" />
+                    <render concept="163605" message="urine.leuko" />
+                    <render concept="163646" message="urine.yeast" />
+                    <render concept="163649" message="hyphae" />
+                    <render concept="163645" message="urine.bact" />
+                    <render concept="161454" message="gramStain" />
+                </repeat>
             </p>
 
         </fieldset>
