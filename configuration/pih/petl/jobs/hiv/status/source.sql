@@ -22,7 +22,8 @@ index_program_descending int(11),
 index_patient_ascending int(11),
 index_patient_descending int(11),
 transfer_site varchar(255),
-transfer_site_name varchar(255),
+transfer_external_sitename varchar(255),
+transfer_internal_sitename varchar(255),
 latest_encounter_id int,
 PRIMARY KEY (status_id)
 );
@@ -204,7 +205,9 @@ update temp_status t set latest_encounter_id = latestenc(patient_id ,'HIV intake
 
 update temp_status set transfer_site = obs_value_coded_list(latest_encounter_id, 'PIH', 'REFERRED FROM ANOTHER SITE', 'en');
 
-update temp_status set transfer_site_name = obs_value_text(latest_encounter_id, 'PIH', 'Name of external transfer location');
+update temp_status set transfer_external_sitename = obs_value_text(latest_encounter_id, 'PIH', 'Name of external transfer location');
+
+update temp_status set transfer_internal_sitename = obs_value_text(latest_encounter_id, 'PIH', 'Arrival location within hospital');
 
 ### Final query
 select 
@@ -213,7 +216,7 @@ patient_id,
 zlemr(patient_id) "zl_emr_id",
 location_name(location_id) "patient_location",
 transfer_site,
-transfer_site_name,
+coalesce(transfer_external_sitename, location_name(transfer_internal_sitename)),
 concept_name(status_concept_id, 'en') "status_outcome",
 date(start_date),
 date(end_date),
