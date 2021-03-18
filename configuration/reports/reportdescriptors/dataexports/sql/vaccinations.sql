@@ -1,84 +1,333 @@
+-- set @startDate = '2001-03-15';
+-- set @endDate = '2021-03-19';
+
 CALL initialize_global_metadata();
+ 
+DROP TEMPORARY TABLE IF EXISTS temp_vaccinations;
+CREATE TEMPORARY TABLE temp_vaccinations
+(
+    patient_id            int(11),
+    dossierId             varchar(50),
+    zlemrid               varchar(50),
+    loc_registered        varchar(255), 
+    encounter_datetime    datetime,
+    encounter_location    varchar(255), 
+    encounter_type        varchar(255),                
+    provider              varchar(255), 
+    encounter_id          int(11),
+    BCG_dose_1            datetime,
+    Polio_dose_0          datetime,
+    Polio_dose_1          datetime,
+    Polio_dose_2          datetime,
+  Polio_dose_3            datetime,
+    Polio_Booster_1       datetime,
+    Polio_Booster_2       datetime,
+    Pentavalent_dose_1    datetime,
+    Pentavalent_dose_2    datetime,
+    Pentavalent_dose_3    datetime,
+    Rotavirus_dose_1      datetime,
+    Rotavirus_dose_2      datetime,
+    Measles_Rubella_dose_1 datetime,
+    DT_dose_0             datetime,
+    DT_dose_1             datetime,
+    DT_dose_2             datetime,
+    DT_dose_3             datetime,
+    DT_Booster_1          datetime,
+    DT_Booster_2          datetime
+);
 
-SELECT p.patient_id, dos.identifier dossierId, zl.identifier zlemr, zl_loc.name loc_registered, e.encounter_datetime, el.name encounter_location, et.name,
-CONCAT(pn.given_name, ' ',pn.family_name) provider, obsjoins.*
-FROM patient p
-
-INNER JOIN encounter e ON p.patient_id = e.patient_id and e.voided = 0
- AND e.encounter_type in (@AdultInitEnc, @AdultFollowEnc, @PedInitEnc, @PedFollowEnc, @ANCInitEnc, @ANCFollowEnc)
-
- -- Most recent Dossier ID
-INNER JOIN (SELECT patient_id, identifier, location_id FROM patient_identifier WHERE identifier_type =@dosId
-            AND voided = 0 ORDER BY date_created DESC) dos ON p.patient_id = dos.patient_id
--- Most recent ZL EMR ID
-INNER JOIN (SELECT patient_id, identifier, location_id FROM patient_identifier WHERE identifier_type =@zlId
-            AND voided = 0 AND preferred = 1 ORDER BY date_created DESC) zl ON p.patient_id = zl.patient_id
--- ZL EMR ID location
-INNER JOIN location zl_loc ON zl.location_id = zl_loc.location_id
-INNER JOIN location el ON e.location_id = el.location_id
--- Encounter Type
-INNER JOIN encounter_type et on et.encounter_type_id = e.encounter_type
--- Provider Name
-INNER JOIN encounter_provider ep ON ep.encounter_id = e.encounter_id and ep.voided = 0
-INNER JOIN provider pv ON pv.provider_id = ep.provider_id
-INNER JOIN person_name pn ON pn.person_id = pv.person_id and pn.voided = 0
-INNER JOIN
- (select
-e.encounter_id,
-max(CASE when crs_answer.name = 'PIH' and crt_answer.code = 'BACILLE CAMILE-GUERIN VACCINATION'
-         and obsseq.value_numeric = 1 then date(obsdate.value_datetime) end) 'BCG dose 1',
-max(CASE when crs_answer.name = 'PIH' and crt_answer.code = 'ORAL POLIO VACCINATION'
-         and obsseq.value_numeric = 0 then date(obsdate.value_datetime) end) 'Polio dose 0',
-max(CASE when crs_answer.name = 'PIH' and crt_answer.code = 'ORAL POLIO VACCINATION'
-         and obsseq.value_numeric = 1 then date(obsdate.value_datetime) end) 'Polio dose 1',
-max(CASE when crs_answer.name = 'PIH' and crt_answer.code = 'ORAL POLIO VACCINATION'
-         and obsseq.value_numeric = 2 then date(obsdate.value_datetime) end) 'Polio dose 2',
-max(CASE when crs_answer.name = 'PIH' and crt_answer.code = 'ORAL POLIO VACCINATION'
-         and obsseq.value_numeric = 3 then date(obsdate.value_datetime) end) 'Polio dose 3',
-max(CASE when crs_answer.name = 'PIH' and crt_answer.code = 'ORAL POLIO VACCINATION'
-         and obsseq.value_numeric = 11 then date(obsdate.value_datetime) end) 'Polio Booster 1',
-max(CASE when crs_answer.name = 'PIH' and crt_answer.code = 'ORAL POLIO VACCINATION'
-         and obsseq.value_numeric = 12 then date(obsdate.value_datetime) end) 'Polio Booster 2',
-max(CASE when crs_answer.name = 'CIEL' and crt_answer.code = '1423'
-         and obsseq.value_numeric = 1 then date(obsdate.value_datetime) end) 'Pentavalent dose 1',
-max(CASE when crs_answer.name = 'CIEL' and crt_answer.code = '1423'
-         and obsseq.value_numeric = 2 then date(obsdate.value_datetime) end) 'Pentavalent dose 2',
-max(CASE when crs_answer.name = 'CIEL' and crt_answer.code = '1423'
-         and obsseq.value_numeric = 3 then date(obsdate.value_datetime) end) 'Pentavalent dose 3',
-max(CASE when crs_answer.name = 'CIEL' and crt_answer.code = '83531'
-         and obsseq.value_numeric = 1 then date(obsdate.value_datetime) end) 'Rotavirus dose 1',
-max(CASE when crs_answer.name = 'CIEL' and crt_answer.code = '83531'
-         and obsseq.value_numeric = 2 then date(obsdate.value_datetime) end) 'Rotavirus dose 2',
-max(CASE when crs_answer.name = 'CIEL' and crt_answer.code = '162586'
-         and obsseq.value_numeric = 1 then date(obsdate.value_datetime) end) 'Measles/Rubella dose 1',
-max(CASE when crs_answer.name = 'PIH' and crt_answer.code = 'DIPTHERIA TETANUS BOOSTER'
-         and obsseq.value_numeric = 0 then date(obsdate.value_datetime) end) 'DT dose 0',
-max(CASE when crs_answer.name = 'PIH' and crt_answer.code = 'DIPTHERIA TETANUS BOOSTER'
-         and obsseq.value_numeric = 1 then date(obsdate.value_datetime) end) 'DT dose 1',
-max(CASE when crs_answer.name = 'PIH' and crt_answer.code = 'DIPTHERIA TETANUS BOOSTER'
-         and obsseq.value_numeric = 2 then date(obsdate.value_datetime) end) 'DT dose 2',
-max(CASE when crs_answer.name = 'PIH' and crt_answer.code = 'DIPTHERIA TETANUS BOOSTER'
-         and obsseq.value_numeric = 3 then date(obsdate.value_datetime) end) 'DT dose 3',
-max(CASE when crs_answer.name = 'PIH' and crt_answer.code = 'DIPTHERIA TETANUS BOOSTER'
-         and obsseq.value_numeric = 11 then date(obsdate.value_datetime) end) 'DT Booster 1',
-max(CASE when crs_answer.name = 'PIH' and crt_answer.code = 'DIPTHERIA TETANUS BOOSTER'
-         and obsseq.value_numeric = 12 then date(obsdate.value_datetime) end) 'DT Booster 2'
+insert into temp_vaccinations (
+  patient_id,
+  encounter_id,
+  encounter_datetime,
+  encounter_type)
+select
+  patient_id,
+  encounter_id,
+  encounter_datetime,
+  et.name
 from encounter e
-INNER JOIN obs o on o.encounter_id = e.encounter_id and o.voided = 0
--- join in mapping of obs answer
-LEFT OUTER JOIN concept_reference_map crm_answer on crm_answer.concept_id = o.value_coded
-LEFT OUTER JOIN concept_reference_term crt_answer on crt_answer.concept_reference_term_id = crm_answer.concept_reference_term_id
-LEFT OUTER JOIN concept_reference_source crs_answer on crs_answer.concept_source_id = crt_answer.concept_source_id
- -- include sequence number joined by obsgroupid
-LEFT OUTER JOIN (select obs_group_id, value_numeric from obs where voided=0) obsseq on obsseq.obs_group_id = o.obs_group_id and obsseq.value_numeric is not null
- -- include vaccination date joined by obsgroupid
-LEFT OUTER JOIN (select obs_group_id,  value_datetime from obs  where voided=0) obsdate on obsdate.obs_group_id = o.obs_group_id and obsdate.value_datetime is not null
-where e.voided = 0
- group by encounter_id) obsjoins on obsjoins.encounter_id = e.encounter_id
-WHERE p.voided = 0
--- exclude test patients
-AND p.patient_id NOT IN (SELECT person_id FROM person_attribute WHERE value = 'true' AND person_attribute_type_id = @testPt
-                         AND voided = 0)
-AND date(e.encounter_datetime) >=@startDate
-AND date(e.encounter_datetime) <=@endDate
-GROUP BY e.encounter_id;
+inner join encounter_type et on et.encounter_type_id = e.encounter_type
+where e.encounter_type in (@AdultInitEnc, @AdultFollowEnc, @PedInitEnc, @PedFollowEnc, @ANCInitEnc, @ANCFollowEnc)
+ AND date(e.encounter_datetime) >=@startDate
+ AND date(e.encounter_datetime) <=@endDate
+and voided = 0
+;
+
+update temp_vaccinations set zlemrid = zlemr(patient_id);
+update temp_vaccinations set dossierid = dosid(patient_id);
+update temp_vaccinations set loc_registered = loc_registered(patient_id);
+update temp_vaccinations set encounter_location = encounter_location_name(encounter_id);
+update temp_vaccinations set provider = provider(encounter_id);
+
+set @immunization = concept_from_mapping('CIEL','984');
+set @sequence = concept_from_mapping('CIEL','1418');
+
+update temp_vaccinations t
+inner join obs o on o.encounter_id = t.encounter_id  and o.voided = 0 and o.concept_id = concept_from_mapping('CIEL','1410')
+  and o.obs_group_id in
+    (select obs_group_id from obs o1
+    where o1.voided = 0
+    and o1.concept_id = @immunization
+    and o1.value_coded = concept_from_mapping('PIH','BACILLE CAMILE-GUERIN VACCINATION'))
+  and o.obs_group_id in 
+    (select obs_group_id from obs o2 
+    where o2.encounter_id = t.encounter_id and o2.voided = 0
+    and o2.concept_id = @sequence
+    and o2.value_numeric = 1)
+ set t.BCG_dose_1 = o.value_datetime;
+
+update temp_vaccinations t
+inner join obs o on o.encounter_id = t.encounter_id  and o.voided = 0 and o.concept_id = concept_from_mapping('CIEL','1410')
+  and o.obs_group_id in
+    (select obs_group_id from obs o1
+    where o1.voided = 0
+    and o1.concept_id = @immunization
+    and o1.value_coded = concept_from_mapping('PIH','ORAL POLIO VACCINATION'))
+  and o.obs_group_id in 
+    (select obs_group_id from obs o2 
+    where o2.encounter_id = t.encounter_id and o2.voided = 0
+    and o2.concept_id = @sequence
+    and o2.value_numeric = 0)
+ set t.Polio_dose_0 = o.value_datetime;
+
+update temp_vaccinations t
+inner join obs o on o.encounter_id = t.encounter_id  and o.voided = 0 and o.concept_id = concept_from_mapping('CIEL','1410')
+  and o.obs_group_id in
+    (select obs_group_id from obs o1
+    where o1.voided = 0
+    and o1.concept_id = @immunization
+    and o1.value_coded = concept_from_mapping('PIH','ORAL POLIO VACCINATION'))
+  and o.obs_group_id in 
+    (select obs_group_id from obs o2 
+    where o2.encounter_id = t.encounter_id and o2.voided = 0
+    and o2.concept_id = @sequence
+    and o2.value_numeric = 1)
+ set t.Polio_dose_1 = o.value_datetime;
+ 
+update temp_vaccinations t
+inner join obs o on o.encounter_id = t.encounter_id  and o.voided = 0 and o.concept_id = concept_from_mapping('CIEL','1410')
+  and o.obs_group_id in
+    (select obs_group_id from obs o1
+    where o1.voided = 0
+    and o1.concept_id = @immunization
+    and o1.value_coded = concept_from_mapping('PIH','ORAL POLIO VACCINATION'))
+  and o.obs_group_id in 
+    (select obs_group_id from obs o2 
+    where o2.encounter_id = t.encounter_id
+    and o2.concept_id = @sequence
+    and o2.value_numeric = 2)
+ set t.Polio_dose_2 = o.value_datetime;
+ 
+update temp_vaccinations t
+inner join obs o on o.encounter_id = t.encounter_id  and o.voided = 0 and o.concept_id = concept_from_mapping('CIEL','1410')
+  and o.obs_group_id in
+    (select obs_group_id from obs o1
+    where o1.voided = 0
+    and o1.concept_id = @immunization
+    and o1.value_coded = concept_from_mapping('PIH','ORAL POLIO VACCINATION'))
+  and o.obs_group_id in 
+    (select obs_group_id from obs o2 
+    where o2.encounter_id = t.encounter_id and o2.voided = 0
+    and o2.concept_id = @sequence
+    and o2.value_numeric = 3)
+ set t.Polio_dose_3 = o.value_datetime;
+ 
+update temp_vaccinations t
+inner join obs o on o.encounter_id = t.encounter_id  and o.voided = 0 and o.concept_id = concept_from_mapping('CIEL','1410')
+  and o.obs_group_id in
+    (select obs_group_id from obs o1
+    where o1.voided = 0
+    and o1.concept_id = @immunization
+    and o1.value_coded = concept_from_mapping('PIH','ORAL POLIO VACCINATION'))
+  and o.obs_group_id in 
+    (select obs_group_id from obs o2 
+    where o2.encounter_id = t.encounter_id and o2.voided = 0
+    and o2.concept_id = @sequence
+    and o2.value_numeric = 11)
+ set t.Polio_Booster_1 = o.value_datetime;
+ 
+update temp_vaccinations t
+inner join obs o on o.encounter_id = t.encounter_id  and o.voided = 0 and o.concept_id = concept_from_mapping('CIEL','1410')
+  and o.obs_group_id in
+    (select obs_group_id from obs o1
+    where o1.voided = 0
+    and o1.concept_id = @immunization
+    and o1.value_coded = concept_from_mapping('PIH','ORAL POLIO VACCINATION'))
+  and o.obs_group_id in 
+    (select obs_group_id from obs o2 
+    where o2.encounter_id = t.encounter_id and o2.voided = 0
+    and o2.concept_id = @sequence
+    and o2.value_numeric = 12)
+ set t.Polio_Booster_2 = o.value_datetime;
+ 
+update temp_vaccinations t
+inner join obs o on o.encounter_id = t.encounter_id  and o.voided = 0 and o.concept_id = concept_from_mapping('CIEL','1410')
+  and o.obs_group_id in
+    (select obs_group_id from obs o1
+    where o1.voided = 0
+    and o1.concept_id = @immunization
+    and o1.value_coded = concept_from_mapping('CIEL','1423'))
+  and o.obs_group_id in 
+    (select obs_group_id from obs o2 
+    where o2.encounter_id = t.encounter_id and o2.voided = 0
+    and o2.concept_id = @sequence
+    and o2.value_numeric = 1)
+ set t.Pentavalent_dose_1 = o.value_datetime;
+  
+update temp_vaccinations t
+inner join obs o on o.encounter_id = t.encounter_id  and o.voided = 0 and o.concept_id = concept_from_mapping('CIEL','1410')
+  and o.obs_group_id in
+    (select obs_group_id from obs o1
+    where o1.voided = 0
+    and o1.concept_id = @immunization
+    and o1.value_coded = concept_from_mapping('CIEL','1423'))
+  and o.obs_group_id in 
+    (select obs_group_id from obs o2 
+    where o2.encounter_id = t.encounter_id and o2.voided = 0
+    and o2.concept_id = @sequence
+    and o2.value_numeric = 2)
+ set t.Pentavalent_dose_2 = o.value_datetime;
+  
+update temp_vaccinations t
+inner join obs o on o.encounter_id = t.encounter_id  and o.voided = 0 and o.concept_id = concept_from_mapping('CIEL','1410')
+  and o.obs_group_id in
+    (select obs_group_id from obs o1
+    where o1.voided = 0
+    and o1.concept_id = @immunization
+    and o1.value_coded = concept_from_mapping('CIEL','1423'))
+  and o.obs_group_id in 
+    (select obs_group_id from obs o2 
+    where o2.encounter_id = t.encounter_id and o2.voided = 0
+    and o2.concept_id = @sequence
+    and o2.value_numeric = 3)
+ set t.Pentavalent_dose_3 = o.value_datetime;
+ 
+update temp_vaccinations t
+inner join obs o on o.encounter_id = t.encounter_id  and o.voided = 0 and o.concept_id = concept_from_mapping('CIEL','1410')
+  and o.obs_group_id in
+    (select obs_group_id from obs o1
+    where o1.voided = 0
+    and o1.concept_id = @immunization
+    and o1.value_coded = concept_from_mapping('CIEL','83531'))
+  and o.obs_group_id in 
+    (select obs_group_id from obs o2 
+    where o2.encounter_id = t.encounter_id and o2.voided = 0
+    and o2.concept_id = @sequence
+    and o2.value_numeric = 1)
+ set t.Rotavirus_dose_1 = o.value_datetime;
+ 
+update temp_vaccinations t
+inner join obs o on o.encounter_id = t.encounter_id  and o.voided = 0 and o.concept_id = concept_from_mapping('CIEL','1410')
+  and o.obs_group_id in
+    (select obs_group_id from obs o1
+    where o1.voided = 0
+    and o1.concept_id = @immunization
+    and o1.value_coded = concept_from_mapping('CIEL','83531'))
+  and o.obs_group_id in 
+    (select obs_group_id from obs o2 
+    where o2.encounter_id = t.encounter_id and o2.voided = 0
+    and o2.concept_id = @sequence
+    and o2.value_numeric = 2)
+ set t.Rotavirus_dose_2 = o.value_datetime;
+ 
+update temp_vaccinations t
+inner join obs o on o.encounter_id = t.encounter_id  and o.voided = 0 and o.concept_id = concept_from_mapping('CIEL','1410')
+  and o.obs_group_id in
+    (select obs_group_id from obs o1
+    where o1.voided = 0
+    and o1.concept_id = @immunization
+    and o1.value_coded = concept_from_mapping('CIEL','162586'))
+  and o.obs_group_id in 
+    (select obs_group_id from obs o2 
+    where o2.encounter_id = t.encounter_id and o2.voided = 0
+    and o2.concept_id = @sequence
+    and o2.value_numeric = 1)
+ set t.Measles_Rubella_dose_1 = o.value_datetime;
+
+update temp_vaccinations t
+inner join obs o on o.encounter_id = t.encounter_id  and o.voided = 0 and o.concept_id = concept_from_mapping('CIEL','1410')
+  and o.obs_group_id in
+    (select obs_group_id from obs o1
+    where o1.voided = 0
+    and o1.concept_id = @immunization
+    and o1.value_coded = concept_from_mapping('PIH','DIPTHERIA TETANUS BOOSTER'))
+  and o.obs_group_id in 
+    (select obs_group_id from obs o2 
+    where o2.encounter_id = t.encounter_id and o2.voided = 0
+    and o2.concept_id = @sequence
+    and o2.value_numeric = 0)
+ set t.DT_dose_0 = o.value_datetime;
+
+update temp_vaccinations t
+inner join obs o on o.encounter_id = t.encounter_id  and o.voided = 0 and o.concept_id = concept_from_mapping('CIEL','1410')
+  and o.obs_group_id in
+    (select obs_group_id from obs o1
+    where o1.voided = 0
+    and o1.concept_id = @immunization
+    and o1.value_coded = concept_from_mapping('PIH','DIPTHERIA TETANUS BOOSTER'))
+  and o.obs_group_id in 
+    (select obs_group_id from obs o2 
+    where o2.encounter_id = t.encounter_id and o2.voided = 0
+    and o2.concept_id = @sequence
+    and o2.value_numeric = 1)
+ set t.DT_dose_1 = o.value_datetime;
+
+update temp_vaccinations t
+inner join obs o on o.encounter_id = t.encounter_id  and o.voided = 0 and o.concept_id = concept_from_mapping('CIEL','1410')
+  and o.obs_group_id in
+    (select obs_group_id from obs o1
+    where o1.voided = 0
+    and o1.concept_id = @immunization
+    and o1.value_coded = concept_from_mapping('PIH','DIPTHERIA TETANUS BOOSTER'))
+  and o.obs_group_id in 
+    (select obs_group_id from obs o2 
+    where o2.encounter_id = t.encounter_id and o2.voided = 0
+    and o2.concept_id = @sequence
+    and o2.value_numeric = 2)
+ set t.DT_dose_2 = o.value_datetime;
+
+update temp_vaccinations t
+inner join obs o on o.encounter_id = t.encounter_id  and o.voided = 0 and o.concept_id = concept_from_mapping('CIEL','1410')
+  and o.obs_group_id in
+    (select obs_group_id from obs o1
+    where o1.voided = 0
+    and o1.concept_id = @immunization
+    and o1.value_coded = concept_from_mapping('PIH','DIPTHERIA TETANUS BOOSTER'))
+  and o.obs_group_id in 
+    (select obs_group_id from obs o2 
+    where o2.encounter_id = t.encounter_id and o2.voided = 0
+    and o2.concept_id = @sequence
+    and o2.value_numeric = 3)
+ set t.DT_dose_3 = o.value_datetime;
+
+update temp_vaccinations t
+inner join obs o on o.encounter_id = t.encounter_id  and o.voided = 0 and o.concept_id = concept_from_mapping('CIEL','1410')
+  and o.obs_group_id in
+    (select obs_group_id from obs o1
+    where o1.voided = 0
+    and o1.concept_id = @immunization
+    and o1.value_coded = concept_from_mapping('PIH','DIPTHERIA TETANUS BOOSTER'))
+  and o.obs_group_id in 
+    (select obs_group_id from obs o2 
+    where o2.encounter_id = t.encounter_id and o2.voided = 0
+    and o2.concept_id = @sequence
+    and o2.value_numeric = 11)
+ set t.DT_Booster_1 = o.value_datetime;
+
+update temp_vaccinations t
+inner join obs o on o.encounter_id = t.encounter_id  and o.voided = 0 and o.concept_id = concept_from_mapping('CIEL','1410')
+  and o.obs_group_id in
+    (select obs_group_id from obs o1
+    where o1.voided = 0
+    and o1.concept_id = @immunization
+    and o1.value_coded = concept_from_mapping('PIH','DIPTHERIA TETANUS BOOSTER'))
+  and o.obs_group_id in 
+    (select obs_group_id from obs o2 
+    where o2.encounter_id = t.encounter_id and o2.voided = 0
+    and o2.concept_id = @sequence
+    and o2.value_numeric = 12)
+ set t.DT_Booster_2 = o.value_datetime;
+
+ -- select final output
+select * from temp_vaccinations;
