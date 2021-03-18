@@ -1,38 +1,48 @@
-CALL initialize_global_metadata();
+-- set @startDate = '2021-03-01';
+-- set @endDate = '2021-03-19';
 
-SELECT p.patient_id, zl.identifier zlemr, zl_loc.name loc_registered, e.encounter_datetime, el.name encounter_location, et.name,
-CONCAT(pn.given_name, ' ',pn.family_name) provider, obsjoins.*
-FROM patient p
-INNER JOIN encounter e ON p.patient_id = e.patient_id and e.voided = 0 AND e.encounter_type in (@AdultInitEnc, @AdultFollowEnc, @PedInitEnc, @PedFollowEnc)
--- Most recent ZL EMR ID
-INNER JOIN (SELECT patient_id, identifier, location_id FROM patient_identifier WHERE identifier_type = @zlId
-            AND voided = 0 AND preferred = 1 ORDER BY date_created DESC) zl ON p.patient_id = zl.patient_id
--- ZL EMR ID location
-INNER JOIN location zl_loc ON zl.location_id = zl_loc.location_id
-INNER JOIN location el ON e.location_id = el.location_id
--- Encounter Type
-INNER JOIN encounter_type et on et.encounter_type_id = e.encounter_type
--- Provider Name
-INNER JOIN encounter_provider ep ON ep.encounter_id = e.encounter_id and ep.voided = 0
-INNER JOIN provider pv ON pv.provider_id = ep.provider_id
-INNER JOIN person_name pn ON pn.person_id = pv.person_id and pn.voided = 0
-INNER JOIN
- (select
-e.encounter_id,
-max(CASE when  crs.name = 'CIEL' and crt.code = '160531' then o.value_text end) "Chief_Complaint"
+CALL initialize_global_metadata();
+ 
+DROP TEMPORARY TABLE IF EXISTS temp_cc;
+CREATE TEMPORARY TABLE temp_cc
+(
+    patient_id            int(11),
+    dossierId             varchar(50),
+    zlemrid               varchar(50),
+    loc_registered        varchar(255), 
+    encounter_datetime    datetime,
+    encounter_location    varchar(255), 
+    encounter_type        varchar(255),                
+    provider              varchar(255), 
+    encounter_id          int(11),
+    chief_complaint       varchar(255)
+);
+
+insert into temp_cc (
+  patient_id,
+  encounter_id,
+  encounter_datetime,
+  encounter_type)
+select
+  patient_id,
+  encounter_id,
+  encounter_datetime,
+  et.name
 from encounter e
-INNER JOIN obs o on o.encounter_id = e.encounter_id and o.voided = 0
--- join in mapping of obs question (not needed if this is a standalone export)
-INNER JOIN concept_reference_map crm on crm.concept_id = o.concept_id
-INNER JOIN concept_reference_term crt on crt.concept_reference_term_id = crm.concept_reference_term_id
-INNER JOIN concept_reference_source crs on crs.concept_source_id = crt.concept_source_id
- where e.voided = 0
- group by encounter_id) obsjoins on obsjoins.encounter_id = e.encounter_id
-WHERE p.voided = 0
--- exclude test patients
-AND p.patient_id NOT IN (SELECT person_id FROM person_attribute WHERE value = 'true' AND person_attribute_type_id = @testPt
-                         AND voided = 0)
-AND date(e.encounter_datetime) >= @startDate
-AND date(e.encounter_datetime) <= @endDate
-GROUP BY e.encounter_id
+inner join encounter_type et on et.encounter_type_id = e.encounter_type
+where e.encounter_type in (@AdultInitEnc, @AdultFollowEnc, @PedInitEnc, @PedFollowEnc)
+ AND date(e.encounter_datetime) >=@startDate
+ AND date(e.encounter_datetime) <=@endDate
+and voided = 0
 ;
+
+update temp_cc set zlemrid = zlemr(patient_id);
+update temp_cc set dossierid = dosid(patient_id);
+update temp_cc set loc_registered = loc_registered(patient_id);
+update temp_cc set encounter_location = encounter_location_name(encounter_id);
+update temp_cc set provider = provider(encounter_id);
+
+update temp_cc set chief_complaint = obs_value_text(encounter_id, 'CIEL','160531');
+
+ -- select final output
+select * from temp_cc;
