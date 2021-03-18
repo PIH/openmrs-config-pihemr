@@ -44,9 +44,19 @@ CREATE TABLE mch_visit
     gyno_exam           BIT,
     wh_exam             BIT,
     previous_history    TEXT,
+    hiv_test_admin      BIT,
     cervical_cancer_screening_date DATE,
     cervical_cancer_screening_result BIT,
-    risk_factors        TEXT,
-    index_asc           INT,
-    index_desc          INT
+    primary_diagnosis       TEXT,
+    secondary_diagnosis     TEXT,
+    diagnosis_non_coded     TEXT,
+    procedures              TEXT,
+    procedures_other        TEXT,
+    medication_order        TEXT,
+    family_planning_use     BIT,
+    family_planning_method  VARCHAR(255),
+    fp_counseling_received  BIT,
+    risk_factors            TEXT,
+    index_asc               INT,
+    index_desc              INT
 );
