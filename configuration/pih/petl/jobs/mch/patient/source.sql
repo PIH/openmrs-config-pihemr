@@ -130,7 +130,7 @@ SELECT
     marital_status,
     age_cat_1,
     latest_encounter_date,
-    antenatal_visit,
+    IF(antenatal_visit IS NULL, 0, 1),
     estimated_delivery_date,
     pregnant
 FROM temp_mch_patient;
