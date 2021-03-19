@@ -160,7 +160,7 @@ SET te.encounter_location_name = ENCOUNTER_LOCATION_NAME(e.encounter_id);
 
 -- pregnancy_status
 -- if antenatal visit is checked
-UPDATE temp_mch_encounters te JOIN obs o ON te.encounter_id = o.encounter_id AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'REASON FOR VISIT')
+UPDATE temp_mch_encounters te JOIN obs o ON te.encounter_id = o.encounter_id AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'Type of HUM visit')
 AND value_coded = CONCEPT_FROM_MAPPING('PIH', 'ANC VISIT') AND o.voided = 0
 SET antenatal_visit = 'Yes'; -- yes
 

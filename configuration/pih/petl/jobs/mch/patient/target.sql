@@ -14,6 +14,7 @@ CREATE TABLE mch_patient
     locality                        VARCHAR(30),
     marital_status                  VARCHAR(20),
     age_cat_1                       VARCHAR(10),
+    latest_encounter_date           DATE,
     antenatal_visit                 BIT,
     estimated_delivery_date         DATE,
     patient_pregnant                BIT
