@@ -1,5 +1,5 @@
--- set @startDate = '2021-03-01';
--- set @endDate = '2021-03-08';
+-- set @startDate = '2021-03-18';
+-- set @endDate = '2021-03-20';
 
 CALL initialize_global_metadata();
 SET @locale = GLOBAL_PROPERTY_VALUE('default_locale', 'en');
@@ -40,9 +40,18 @@ CREATE TEMPORARY TABLE temp_exam
     Urogenital_Exam       varchar(255),
     Urogenital_Exam_Other varchar(255),
     Urogenital_Exam_Comments varchar(1000),
+    Gynecology_exam       varchar(255),
+    Gynecology_exam_Other varchar(255),
+    Gynecology_exam_Comments varchar(255),    
     Musculoskeletal_Exam  varchar(255),
     Musculoskeletal_Exam_Other varchar(255),
     Musculoskeletal_Exam_Comments varchar(1000),
+    Fundal_height         double,
+    Fetal_presentation    varchar(255),
+    Fetal_position        varchar(255),
+    Fetal_heart_rate      double,
+    Uterine_Contraction   varchar(255),
+    UC_Comment            varchar(255),
     Gross_Motor_Exam      varchar(255),
     Gross_Motor_Comments  varchar(255),
     Fine_Motor_Exam       varchar(255),
@@ -106,13 +115,24 @@ update temp_exam set abdominal_exam = obs_value_coded_list(encounter_id,'PIH','A
 update temp_exam set abdominal_exam_other = obs_comments(encounter_id,'PIH','ABDOMINAL EXAM FINDINGS','PIH','OTHER');
 update temp_exam set abdominal_exam_comments = obs_value_text(encounter_id,'CIEL','160947');
 
-update temp_exam set urogenital_exam = obs_value_coded_list(encounter_id,'PIH','UROGENITAL EXAM FINDINGS',@locale);
-update temp_exam set urogenital_exam_other = obs_comments(encounter_id,'PIH','UROGENITAL EXAM FINDINGS','PIH','OTHER');
-update temp_exam set urogenital_exam_comments = obs_value_text(encounter_id,'CIEL','163047');
+update temp_exam set urogenital_exam = obs_value_coded_list(encounter_id,'PIH','13228',@locale);
+update temp_exam set urogenital_exam_other = obs_comments(encounter_id,'PIH','13228','PIH','OTHER');
+update temp_exam set urogenital_exam_comments = obs_value_text(encounter_id,'CIEL','166363');
+
+update temp_exam set Gynecology_exam  = obs_value_coded_list(encounter_id,'PIH','13229',@locale);
+update temp_exam set Gynecology_exam_other = obs_comments(encounter_id,'PIH','13229','PIH','OTHER');
+update temp_exam set Gynecology_exam_comments = obs_value_text(encounter_id,'CIEL','166364');
 
 update temp_exam set Musculoskeletal_Exam = obs_value_coded_list(encounter_id,'PIH','MUSCULOSKELETAL EXAM FINDINGS',@locale);
 update temp_exam set Musculoskeletal_Exam_other = obs_comments(encounter_id,'PIH','MUSCULOSKELETAL EXAM FINDINGS','PIH','OTHER');
 update temp_exam set Musculoskeletal_Exam_comments = obs_value_text(encounter_id,'CIEL','163048');
+
+update temp_exam set Fundal_height = obs_value_numeric(encounter_id,'CIEL','1439');
+update temp_exam set Fetal_presentation = obs_value_coded_list(encounter_id,'CIEL','160090',@locale);
+update temp_exam set Fetal_position = obs_value_coded_list(encounter_id,'CIEL','163749',@locale);
+update temp_exam set Fetal_heart_rate = obs_value_numeric(encounter_id,'CIEL','1440');
+update temp_exam set Uterine_Contraction = obs_value_coded_list(encounter_id,'CIEL','163750',@locale);
+update temp_exam set UC_Comment = obs_value_text(encounter_id,'CIEL','160968');
 
 update temp_exam set gross_motor_exam = obs_value_coded_list(encounter_id,'PIH','GROSS MOTOR SKILLS EVALUATION',@locale);
 update temp_exam set gross_motor_comments = obs_value_text(encounter_id,'PIH','Gross Motor Skills Evaluation (text)');
