@@ -1,0 +1,27 @@
+key: "ObGynNote" 
+uuid: "cfa73f53-dc73-4390-9ea5-0d26525b63ae" 
+name: "mirebalaisreports.ObGynNote.name"
+description: "mirebalaisreports.ObGynNote.description"
+parameters:
+  - key: "startDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.startDate"
+  - key: "endDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.endDate"
+datasets:
+  - key: "ObGynOverview"
+    type: "sql"
+    config: "sql/obgynOverview.sql"
+designs:
+  - type: "csv"
+    properties:
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
+config:
+  category: "dataExport"
+  order: 75
+  components:
+    - "mch"
+    - "allDataExports"
