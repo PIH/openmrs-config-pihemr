@@ -13,6 +13,9 @@ datasets:
   - key: "ObGynOverview"
     type: "sql"
     config: "sql/obgynOverview.sql"
+  - key: "ObGynExam"
+    type: "sql"
+    config: "sql/obgynExam.sql"    
 designs:
   - type: "csv"
     properties:
