@@ -153,6 +153,7 @@ create temporary table temp_obgyn
     number_postpartum_visits int,
     high_risk_factors varchar(1000),
     other_specific_high_risk_factor varchar(255),
+    other_specific_danger_signs varchar(255),
     mental_health_dx_1 varchar(255),
     mental_health_dx_2 varchar(255),
     mental_health_dx_3 varchar(255),
@@ -478,7 +479,10 @@ update temp_obgyn t set number_postpartum_visits = obs_value_numeric(t.encounter
 
 -- high risk factors
 update temp_obgyn t set high_risk_factors = obs_value_coded_list(t.encounter_id,'CIEL','160079',@locale);
-update temp_obgyn t set other_specific_high_risk_factor = obs_comments(t.encounter_id,'CIEL','1880','CIEL','1065');
+update temp_obgyn t set other_specific_high_risk_factor = obs_comments(t.encounter_id,'CIEL','160079','CIEL','5622');
+
+-- danger signs
+update temp_obgyn t set other_specific_danger_signs = obs_comments(t.encounter_id,'CIEL','1880','CIEL','1065');
 
 -- Mental Health Assessment
 update temp_obgyn t 
@@ -649,6 +653,7 @@ pregnancy_10_outcome,
 cervical_cancer_screening,
 cervical_cancer_screening_date,
 number_postpartum_visits,
+other_specific_danger_signs,
 high_risk_factors,
 other_specific_high_risk_factor,
 mental_health_dx_1,
