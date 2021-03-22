@@ -1097,7 +1097,7 @@ BEGIN
 
 DECLARE ret varchar(11);
 
-select      IFNULL(NULL, concept_name(concept_from_mapping('PIH','YES'),@locale)) into ret FROM
+select      IFNULL(NULL, concept_name(concept_from_mapping('PIH','YES'), global_property_value('default_locale', 'en'))) into ret FROM
 (
 select      obs_id
 from        obs o
