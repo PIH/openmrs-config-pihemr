@@ -1,0 +1,13 @@
+type: "sqlserver-bulk-import"
+configuration:
+  extract:
+    datasource: "mysql/openmrs.yml"
+    query:  "mch/pregnancy/source.sql"
+
+  load:
+    datasource: "sqlserver/openmrs_extractions.yml"
+    table: "mch_pregnancy"
+    schema: "mch/pregnancy/target.sql"
+
+schedule:
+  cron: "0 30 6 ? * *"
