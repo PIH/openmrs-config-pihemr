@@ -1,5 +1,5 @@
--- set @startDate='2021-03-18';
--- set @endDate='2021-03-18';
+-- set @startDate='2021-03-21';
+-- set @endDate='2021-03-21';
 
 set @locale = global_property_value('default_locale', 'en');
 select encounter_type_id into @obgyn from encounter_type where uuid = 'd83e98fd-dc7b-420f-aa3f-36f648b4483d';
@@ -17,7 +17,7 @@ create temporary table temp_obgyn
     visit_id int,
     encounter_datetime datetime,
     provider varchar(255),
-    reason_for_visit varchar(255),
+    reason_for_visit varchar(50),
     visit_type varchar(50),
     referring_service varchar(255),
     other_service varchar(255),
@@ -25,10 +25,10 @@ create temporary table temp_obgyn
     systolic int(4),
     diastolic int(4),
     pulse int(4),
-    respiratory_rate int(4),
-    temperature int(4),												
-    oxygen_saturation int(4),
-    presenting_history varchar(255),
+ 	  respiratory_rate int(4),
+		temperature int(4),												
+		oxygen_saturation int(4),
+		presenting_history varchar(255),
     latest_vitals_encounter_id int,
     latest_vitals_datetime datetime,
     latest_vitals_height decimal,
@@ -74,10 +74,37 @@ create temporary table temp_obgyn
     TB_treatment_status varchar(50),
     TB_treatment_end_date datetime,
     currently_using_birth_control varchar(50),
+    COC_FP_method varchar(50),
+    COC_FP_Start_Date datetime,
+    COC_FP_End_Date datetime,
+    COP_FP_method varchar(50),
+    COP_FP_Start_Date datetime,
+    COP_FP_End_Date datetime,
+    Depo_Provera_FP_method varchar(50),
+    Depo_Provera_FP_Start_Date datetime,
+    Depo_Provera_FP_End_Date datetime,
+    Implant_FP_method varchar(50),
+    Implant_FP_Start_Date datetime,
+    Implant_FP_End_Date datetime,
+    IUD_FP_method varchar(50),
+    IUD_FP_Start_Date datetime,
+    IUD_FP_End_Date datetime,
+    Rhythm_FP_method varchar(50),
+    Rhythm_FP_Start_Date datetime,
+    Rhythm_FP_End_Date datetime,
+    Exclusive_BF_FP_method varchar(50),
+    Exclusive_BF_Start_Date datetime,
+    Exclusive_BF_End_Date datetime,
+    Condoms_FP_method varchar(50),
+    Condoms_FP_Start_Date datetime,
+    Condoms_FP_End_Date datetime,
+    Tubal_Ligation_FP_method varchar(50),
+    Tubal_Ligation_FP_Start_Date datetime,
+    Tubal_Ligation_FP_End_Date datetime,    
     received_FP_counseling varchar(50),
-    family_planning_method varchar(255),
-    FP_start_date datetime,
-    FP_end_date datetime,
+    current_family_planning_method varchar(255),
+    current_FP_start_date datetime,
+    current_FP_end_date datetime,
     date_implant_placement datetime,
     last_mentruation_date datetime,
     estimated_delivery_date datetime,
@@ -217,6 +244,7 @@ update temp_obgyn t set latest_vitals_chief_complaint = obs_value_text(t.latest_
 
 -- chief complaint
 update temp_obgyn t set presenting_history = obs_value_text(t.encounter_id,'PIH','974');
+;
 
 -- J9
 update temp_obgyn t set J9_mothers_group = obs_value_text(t.encounter_id,'PIH','Mothers group (text)');
@@ -342,14 +370,55 @@ update temp_obgyn t set viral_load_quantitative = obs_value_numeric(t.encounter_
 update temp_obgyn t set TB_treatment_status = obs_value_coded_list(t.encounter_id,'CIEL','5965',@locale);
 update temp_obgyn t set TB_treatment_end_date = obs_value_datetime(t.encounter_id,'PIH','2597');
 
+-- Family Planning History
+
+update temp_obgyn t set COC_FP_method = obs_single_value_coded(encounter_id, 'PIH','METHOD OF FAMILY PLANNING', 'CIEL','159783');
+update temp_obgyn t set COC_FP_Start_Date = obs_from_group_id_value_datetime(obs_group_id_of_value_coded(encounter_id, 'PIH','METHOD OF FAMILY PLANNING', 'CIEL','159783'),'CIEL','163757');
+update temp_obgyn t set COC_FP_End_Date = obs_from_group_id_value_datetime(obs_group_id_of_value_coded(encounter_id, 'PIH','METHOD OF FAMILY PLANNING', 'CIEL','159783'),'CIEL','163758');
+
+update temp_obgyn t set COP_FP_method = obs_single_value_coded(encounter_id, 'PIH','METHOD OF FAMILY PLANNING', 'CIEL','80784');
+update temp_obgyn t set COP_FP_Start_Date = obs_from_group_id_value_datetime(obs_group_id_of_value_coded(encounter_id, 'PIH','METHOD OF FAMILY PLANNING', 'CIEL','80784'),'CIEL','163757');
+update temp_obgyn t set COP_FP_End_Date = obs_from_group_id_value_datetime(obs_group_id_of_value_coded(encounter_id, 'PIH','METHOD OF FAMILY PLANNING', 'CIEL','80784'),'CIEL','163758');
+
+update temp_obgyn t set Depo_Provera_FP_method = obs_single_value_coded(encounter_id, 'PIH','METHOD OF FAMILY PLANNING', 'CIEL','907');
+update temp_obgyn t set Depo_Provera_FP_Start_Date = obs_from_group_id_value_datetime(obs_group_id_of_value_coded(encounter_id, 'PIH','METHOD OF FAMILY PLANNING', 'CIEL','907'),'CIEL','163757');
+update temp_obgyn t set Depo_Provera_FP_End_Date = obs_from_group_id_value_datetime(obs_group_id_of_value_coded(encounter_id, 'PIH','METHOD OF FAMILY PLANNING', 'CIEL','907'),'CIEL','163758');
+
+update temp_obgyn t set Implant_FP_method = obs_single_value_coded(encounter_id, 'PIH','METHOD OF FAMILY PLANNING', 'CIEL','1873');
+update temp_obgyn t set Implant_FP_Start_Date = obs_from_group_id_value_datetime(obs_group_id_of_value_coded(encounter_id, 'PIH','METHOD OF FAMILY PLANNING', 'CIEL','1873'),'CIEL','163757');
+update temp_obgyn t set Implant_FP_End_Date = obs_from_group_id_value_datetime(obs_group_id_of_value_coded(encounter_id, 'PIH','METHOD OF FAMILY PLANNING', 'CIEL','1873'),'CIEL','163758');
+
+update temp_obgyn t set IUD_FP_method = obs_single_value_coded(encounter_id, 'PIH','METHOD OF FAMILY PLANNING', 'CIEL','5275');
+update temp_obgyn t set IUD_FP_Start_Date = obs_from_group_id_value_datetime(obs_group_id_of_value_coded(encounter_id, 'PIH','METHOD OF FAMILY PLANNING', 'CIEL','5275'),'CIEL','163757');
+update temp_obgyn t set IUD_FP_End_Date = obs_from_group_id_value_datetime(obs_group_id_of_value_coded(encounter_id, 'PIH','METHOD OF FAMILY PLANNING', 'CIEL','5275'),'CIEL','163758');
+
+update temp_obgyn t set Rhythm_FP_method = obs_single_value_coded(encounter_id, 'PIH','METHOD OF FAMILY PLANNING', 'CIEL','5277');
+update temp_obgyn t set Rhythm_FP_Start_Date = obs_from_group_id_value_datetime(obs_group_id_of_value_coded(encounter_id, 'PIH','METHOD OF FAMILY PLANNING', 'CIEL','5277'),'CIEL','163757');
+update temp_obgyn t set Rhythm_FP_End_Date = obs_from_group_id_value_datetime(obs_group_id_of_value_coded(encounter_id, 'PIH','METHOD OF FAMILY PLANNING', 'CIEL','5277'),'CIEL','163758');
+
+update temp_obgyn t set Exclusive_BF_FP_method = obs_single_value_coded(encounter_id, 'PIH','METHOD OF FAMILY PLANNING', 'CIEL','136163');
+update temp_obgyn t set Exclusive_BF_Start_Date = obs_from_group_id_value_datetime(obs_group_id_of_value_coded(encounter_id, 'PIH','METHOD OF FAMILY PLANNING', 'CIEL','136163'),'CIEL','163757');
+update temp_obgyn t set Exclusive_BF_End_Date = obs_from_group_id_value_datetime(obs_group_id_of_value_coded(encounter_id, 'PIH','METHOD OF FAMILY PLANNING', 'CIEL','136163'),'CIEL','163758');
+
+update temp_obgyn t set Condoms_FP_method = obs_single_value_coded(encounter_id, 'PIH','METHOD OF FAMILY PLANNING', 'CIEL','190');
+update temp_obgyn t set Condoms_FP_Start_Date = obs_from_group_id_value_datetime(obs_group_id_of_value_coded(encounter_id, 'PIH','METHOD OF FAMILY PLANNING', 'CIEL','190'),'CIEL','163757');
+update temp_obgyn t set Condoms_FP_End_Date = obs_from_group_id_value_datetime(obs_group_id_of_value_coded(encounter_id, 'PIH','METHOD OF FAMILY PLANNING', 'CIEL','190'),'CIEL','163758');
+
+update temp_obgyn t set Tubal_Ligation_FP_method = obs_single_value_coded(encounter_id, 'PIH','METHOD OF FAMILY PLANNING', 'CIEL','1472');
+update temp_obgyn t set Tubal_Ligation_FP_Start_Date = obs_from_group_id_value_datetime(obs_group_id_of_value_coded(encounter_id, 'PIH','METHOD OF FAMILY PLANNING', 'CIEL','1472'),'CIEL','163757');
+update temp_obgyn t set Tubal_Ligation_FP_End_Date = obs_from_group_id_value_datetime(obs_group_id_of_value_coded(encounter_id, 'PIH','METHOD OF FAMILY PLANNING', 'CIEL','1472'),'CIEL','163758');
+
 -- Family Planning
 
 update temp_obgyn t set currently_using_birth_control = obs_value_coded_list(t.encounter_id,'CIEL','965',@locale);
-update temp_obgyn t set received_FP_counseling = ifnull(obs_single_value_coded(t.encounter_id,'CIEL','163560','CIEL','1382'),concept_name(concept_from_mapping('PIH','YES'),@locale));
-update temp_obgyn t set family_planning_method =obs_value_coded_list(t.encounter_id,'PIH','374',@locale);
-update temp_obgyn t set FP_start_date =obs_value_datetime(t.encounter_id,'CIEL','163757');
-update temp_obgyn t set FP_end_date =obs_value_datetime(t.encounter_id,'CIEL','163758');
+update temp_obgyn t set received_FP_counseling =obs_single_value_coded(t.encounter_id,'CIEL','163560','CIEL','1382');
+
+update temp_obgyn t set current_family_planning_method =obs_from_group_id_value_coded_list(obs_id(encounter_id, 'PIH', 'Family planning construct', 0),'PIH','374',@locale);
+update temp_obgyn t set current_FP_start_date =obs_from_group_id_value_datetime(obs_id(encounter_id, 'PIH', 'Family planning construct', 0),'CIEL','163757');
+update temp_obgyn t set current_FP_end_date =obs_from_group_id_value_datetime(obs_id(encounter_id, 'PIH', 'Family planning construct', 0),'CIEL','163758');
+
 update temp_obgyn t set date_implant_placement =obs_value_datetime(t.encounter_id,'PIH','3203');
+
     
 -- OB/GYN
 update temp_obgyn t set last_mentruation_date =obs_value_datetime(t.encounter_id,'PIH','968');
@@ -497,11 +566,38 @@ viral_load_qualitative,
 viral_load_quantitative,
 TB_treatment_status,
 TB_treatment_end_date,
+COC_FP_method,
+COC_FP_Start_Date,
+COC_FP_End_Date,
+COP_FP_method,
+COP_FP_Start_Date,
+COP_FP_End_Date,
+Depo_Provera_FP_method,
+Depo_Provera_FP_Start_Date,
+Depo_Provera_FP_End_Date,
+Implant_FP_method,
+Implant_FP_Start_Date,
+Implant_FP_End_Date,
+IUD_FP_method,
+IUD_FP_Start_Date,
+IUD_FP_End_Date,
+Rhythm_FP_method,
+Rhythm_FP_Start_Date,
+Rhythm_FP_End_Date,
+Exclusive_BF_FP_method,
+Exclusive_BF_Start_Date,
+Exclusive_BF_End_Date,
+Condoms_FP_method,
+Condoms_FP_Start_Date,
+Condoms_FP_End_Date,
+Tubal_Ligation_FP_method,
+Tubal_Ligation_FP_Start_Date,
+Tubal_Ligation_FP_End_Date,
 currently_using_birth_control,
 received_FP_counseling,
-family_planning_method,
-FP_start_date,
-FP_end_date,
+current_family_planning_method,
+current_FP_start_date,
+current_FP_end_date,
 date_implant_placement,
 last_mentruation_date,
 estimated_delivery_date,
