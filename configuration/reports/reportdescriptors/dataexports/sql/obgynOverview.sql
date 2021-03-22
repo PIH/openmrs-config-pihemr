@@ -247,7 +247,6 @@ update temp_obgyn t set latest_vitals_chief_complaint = obs_value_text(t.latest_
 
 -- chief complaint
 update temp_obgyn t set presenting_history = obs_value_text(t.encounter_id,'PIH','974');
-;
 
 -- J9
 update temp_obgyn t set J9_mothers_group = obs_value_text(t.encounter_id,'PIH','Mothers group (text)');
