@@ -1083,7 +1083,7 @@ END
 #
 
 -- This function accepts encounter_id, mapping source, mapping code (for both the concept_id and value_coded) and returns
--- true if the obs_id exists and
+-- "yes" (in the default locale of the implementation) if the obs_id exists and
 -- null if the obs_id does not exisit
 -- This function is used on questions that also act as answers (i.e you either check it as true or your don't)
 #
@@ -1097,7 +1097,7 @@ BEGIN
 
 DECLARE ret varchar(11);
 
-select      IFNULL(NULL, "Yes") into ret FROM
+select      IFNULL(NULL, concept_name(concept_from_mapping('PIH','YES'),@locale)) into ret FROM
 (
 select      obs_id
 from        obs o
