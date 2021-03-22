@@ -106,6 +106,8 @@ create temporary table temp_obgyn
     current_FP_start_date datetime,
     current_FP_end_date datetime,
     date_implant_placement datetime,
+    cervical_cancer_screening varchar(50),
+    cervical_cancer_screening_date datetime,
     last_mentruation_date datetime,
     estimated_delivery_date datetime,
     enrollment_trimester varchar(255),
@@ -149,7 +151,7 @@ create temporary table temp_obgyn
     pregnancy_10_delivery_type varchar(255),
     pregnancy_10_outcome varchar(255),      
     number_postpartum_visits int,
-    high_risk_factors varchar(255),
+    high_risk_factors varchar(1000),
     other_specific_high_risk_factor varchar(255),
     mental_health_dx_1 varchar(255),
     mental_health_dx_2 varchar(255),
@@ -419,7 +421,11 @@ update temp_obgyn t set current_FP_end_date =obs_from_group_id_value_datetime(ob
 
 update temp_obgyn t set date_implant_placement =obs_value_datetime(t.encounter_id,'PIH','3203');
 
-    
+-- cervical cancer screening
+
+update temp_obgyn t set cervical_cancer_screening = obs_single_value_coded(t.encounter_id,'CIEL','163560','CIEL','151185'); 
+update temp_obgyn t set cervical_cancer_screening_date = obs_value_datetime(t.encounter_id,'CIEL','165429'); 
+
 -- OB/GYN
 update temp_obgyn t set last_mentruation_date =obs_value_datetime(t.encounter_id,'PIH','968');
 update temp_obgyn t set estimated_delivery_date =obs_value_datetime(t.encounter_id,'PIH','5596');
@@ -469,7 +475,6 @@ update temp_obgyn t set pregnancy_10_outcome =obs_from_group_id_value_coded_list
 
 -- postpartum
 update temp_obgyn t set number_postpartum_visits = obs_value_numeric(t.encounter_id,'CIEL','159893');
-
 
 -- high risk factors
 update temp_obgyn t set high_risk_factors = obs_value_coded_list(t.encounter_id,'CIEL','160079',@locale);
@@ -641,6 +646,8 @@ pregnancy_9_outcome,
 pregnancy_10_birth_order,
 pregnancy_10_delivery_type,
 pregnancy_10_outcome,
+cervical_cancer_screening,
+cervical_cancer_screening_date,
 number_postpartum_visits,
 high_risk_factors,
 other_specific_high_risk_factor,
