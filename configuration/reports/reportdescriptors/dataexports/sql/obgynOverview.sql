@@ -17,7 +17,7 @@ create temporary table temp_obgyn
     visit_id int,
     encounter_datetime datetime,
     provider varchar(255),
-    reason_for_visit varchar(50),
+    reason_for_visit varchar(1000),
     visit_type varchar(50),
     referring_service varchar(255),
     other_service varchar(255),
