@@ -103,7 +103,7 @@ AND o.voided = 0
 SET other_services = o.value_text;
 
 # HIV STATUS
-UPDATE ovc_encounters ovc JOIN obs o ON ovc.encounter_id = o.encounter_id AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'HIV STATUS')
+UPDATE ovc_encounters ovc JOIN obs o ON ovc.encounter_id = o.encounter_id AND concept_id = CONCEPT_FROM_MAPPING('CIEL', '1169')
 AND o.voided = 0
 SET hiv_status = CONCEPT_NAME(value_coded, 'en');
 
