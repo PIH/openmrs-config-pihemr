@@ -6,6 +6,8 @@ CREATE TABLE mch_visit
     visit_date          DATE,
     visit_site          VARCHAR(100),
     visit_type          VARCHAR(100),
+    consultation_type  	 VARCHAR (30), 
+    consultation_type_fp VARCHAR(30),
     age_at_visit        FLOAT,
     entry_date          DATE,
     entered_by          VARCHAR(100),

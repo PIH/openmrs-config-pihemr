@@ -13,6 +13,8 @@ CREATE TEMPORARY TABLE temp_obgyn_visit
     entry_date      DATETIME,
     entered_by_id   INT,
     entered_by      VARCHAR(100),
+    consultation_type  	 VARCHAR (30), 
+    consultation_type_fp VARCHAR(30),
     pregnant        BIT,
     breastfeeding   VARCHAR(5),
     pregnant_lmp    DATE,
@@ -116,6 +118,13 @@ SET
                     obs
                 WHERE
                     concept_id = CONCEPT_FROM_MAPPING('CIEL', '1633')));
+
+UPDATE temp_obgyn_visit t join obs o ON o.encounter_id = t.encounter_id and o.voided = 0 AND o.concept_id = CONCEPT_FROM_MAPPING('PIH','Type of HUM visit')
+SET consultation_type = concept_name(value_coded, 'en');
+
+UPDATE temp_obgyn_visit t join obs o ON o.encounter_id = t.encounter_id and o.voided = 0 AND o.concept_id = CONCEPT_FROM_MAPPING('PIH','REASON FOR VISIT')
+SET consultation_type_fp = concept_name(value_coded, 'en');
+
 
 # pregnancy
 DROP TEMPORARY TABLE IF EXISTS temp_obgyn_pregnacy;
@@ -710,6 +719,8 @@ SELECT
     visit_date,
     visit_site,
     visit_type,
+    consultation_type,
+    consultation_type_fp,
     age_at_visit,
     entry_date,
     entered_by,
