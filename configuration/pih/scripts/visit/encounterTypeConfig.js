@@ -1285,18 +1285,24 @@ angular.module("encounterTypeConfig", [])
         // OVC Intake
         encounterTypes["651d4359-4463-4e52-8fde-e62876f90792"] = {
             ...encounterTypes.DEFAULT,
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
             editUrl: hfeStandardEditUrl,
         };
 
         // OVC Followup
         encounterTypes["f8d426fd-132a-4032-93da-1213c30e2b74"] = {
             ...encounterTypes.DEFAULT,
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
             editUrl: hfeStandardEditUrl,
         };
 
         // Tuberculosis Intake
         encounterTypes["aa42cc6c-b9ee-4850-926c-dda4bb14d890"] = {
             ...encounterTypes.DEFAULT,
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
             editUrl: hfeStandardEditUrl,
         };
 
