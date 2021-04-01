@@ -870,6 +870,7 @@
                     <render concept="CIEL:163620" message="H. Pylori" tag="h-pylori"/>
                     <render concept="CIEL:161469" message="ASO" tag="aso-titer"/>
                     <render concept="CIEL:160913" message="pihcore.lab.psaQuant" tag="psa-quant"/>
+                    <render concept="PIH:13448"   message="pihcore.lab.psaQual" tag="psa-qual"/>
                 </repeat>
             </p>
         </fieldset>
