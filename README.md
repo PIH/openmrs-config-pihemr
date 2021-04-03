@@ -257,25 +257,31 @@ be found "/configuration/pih/htmlforms" directory of this project.  Country-spec
 same directory in the site-specific repositories.  If a form with the same name is found in both this repository
 and the country-specific repository, the country-specific format "wins".
 
-The xml files that  represent forms are parsed by the HTML FormEntry Module. Check out the
+The XML files that  represent forms are parsed by the HTML FormEntry Module. Check out the
 [HTML Form Entry Reference](https://wiki.openmrs.org/display/docs/HTML+Form+Entry+Module+Reference).
-
-
 
 Note that these forms are also "hot reloadable".  On an existing server, if you install or update a 
 version of a form, the next time someone opens a new instance of that form, the latest version of the 
-form will be loaded. (Note that due to particularities of the form loading process, when an existing
-form instance is loaded in "edit" mode, the new version is not "hot reloaded").
+form will be loaded. (Note that there may be some cases where the form path does not appear in the URL.
+In these cases, the form will not be hot-reloaded.)
 
-Also note that although we do not yet use this feature, variable substitution is available within forms.  You
-can define a variable within the constants.yml in the top-level project and then use it within multiple forms.
-(Will provide pointers to some examples once we start to do this.)
+Also note that although we do not yet use this feature, variable substitution is available within forms. You
+can define a variable in `constants.yml` in the top-level directory and then use it within multiple forms.
 
-(The application logic that specifies when to display forms, and which form files to use, is still in code and found 
-in [CALF](https://github.com/PIH/openmrs-module-mirebalais/blob/master/api/src/main/java/org/openmrs/module/mirebalais/apploader/CustomAppLoaderFactory.java)) 
+The application logic that specifies when to display forms, and which form files to use, is still in code and found 
+in [CALF](https://github.com/PIH/openmrs-module-mirebalais/blob/master/api/src/main/java/org/openmrs/module/mirebalais/apploader/CustomAppLoaderFactory.java).
 
 Note that this application logic often depends both on which components are enabled and which location tags are enabled
-at the active location.  Location Tags are currently still setup in code in [openmrs-module-pihcore/api/src/main/java/org/openmrs/module/pihcore/setup/LocationTagSetup.java](https://github.com/PIH/openmrs-module-pihcore/blob/master/api/src/main/java/org/openmrs/module/pihcore/setup/LocationTagSetup.java).
+at the active location.  Location Tags are currently set up in the PIH config; see for example
+[pih-config-haiti-hiv.json](https://github.com/PIH/openmrs-config-zl/blob/a7dd3dcfb34462e9088c03dc7ea7823a2868d48a/configuration/pih/pih-config-haiti-hiv.json#L64).
+
+A form must refer to an encounter type. Encounter types are currently managed in code; see
+[pihcore/EncounterTypes.java](https://github.com/PIH/openmrs-module-pihcore/blob/master/api/src/main/java/org/openmrs/module/pihcore/metadata/core/EncounterTypes.java)
+and [pihcore/EncounterTypeBundle.java](https://github.com/PIH/openmrs-module-pihcore/blob/master/api/src/main/java/org/openmrs/module/pihcore/deploy/bundle/core/EncounterTypeBundle.java).
+
+All forms are associated with components, which are declared in
+[pihcore/Components.java](https://github.com/PIH/openmrs-module-pihcore/blob/master/api/src/main/java/org/openmrs/module/pihcore/config/Components.java)
+and then used in the CALF.
 
 ### Reports
 
