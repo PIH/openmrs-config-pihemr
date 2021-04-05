@@ -125,8 +125,7 @@
 
             -- Ignore for Liberia NCD encounters when value_coded is NULL
             delete from temp_value_drug
-             where value_coded is NULL
-               and 'Liberia' IN (select name from address_hierarchy_entry where parent_id is NULL)
+             where 'Liberia' IN (select name from address_hierarchy_entry where parent_id is NULL)
                and encounter_name like 'NCD%Consult';
 
             -- Insert new obs
