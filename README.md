@@ -22,6 +22,8 @@ build a site-specific deployment configuration can be found at the above link.
 
 As part of our build, the latest configuration artifacts for each country are deployed to [sonatype](https://oss.sonatype.org/#nexus-search;quick~org.pih.openmrs).
 
+Release instructions can be found 
+[in Confluence](https://pihemr.atlassian.net/wiki/spaces/PIHEMR/pages/482705471/Release+instructions+for+PIH+EMR+Distro).
 
 ## Configurable elements
 
