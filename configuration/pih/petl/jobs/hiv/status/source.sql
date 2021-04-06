@@ -1,67 +1,67 @@
-select program_id into @hiv_program from program where uuid = 'b1cb1fc1-5190-4f7a-af08-48870975dafc';
-select name into @hivDispensingEncName from encounter_type where uuid = 'cc1720c9-3e4c-4fa8-a7ec-40eeaad1958c';
+SELECT program_id INTO @hiv_program FROM program WHERE uuid = 'b1cb1fc1-5190-4f7a-af08-48870975dafc';
+SELECT name INTO @hivDispensingEncName FROM encounter_type WHERE uuid = 'cc1720c9-3e4c-4fa8-a7ec-40eeaad1958c';
 
 SET sql_safe_updates = 0;
 SET @hiv_initial_encounter_type = ENCOUNTER_TYPE('HIV Intake');
 
-drop temporary table if exists temp_status;
-create temporary table temp_status
+DROP TEMPORARY TABLE IF EXISTS temp_status;
+CREATE TEMPORARY TABLE temp_status
 (
-status_id int(11) AUTO_INCREMENT,
-patient_id int(11),
-patient_program_id int(11),
-location_id int(11),
-outcome int(1),
-status_concept_id int(11),
-start_date datetime,
-end_date datetime,
-return_to_care int(1),
-currently_late_for_pickup int(1),
-index_program_ascending int(11),
-index_program_descending int(11),
-index_patient_ascending int(11),
-index_patient_descending int(11),
-transfer_site varchar(255),
-transfer_external_sitename varchar(255),
-transfer_internal_sitename varchar(255),
-latest_encounter_id int,
+status_id INT(11) AUTO_INCREMENT,
+patient_id INT(11),
+patient_program_id INT(11),
+location_id INT(11),
+outcome INT(1),
+status_concept_id INT(11),
+start_date DATETIME,
+end_date DATETIME,
+return_to_care INT(1),
+currently_late_for_pickup INT(1),
+index_program_ascending INT(11),
+index_program_descending INT(11),
+index_patient_ascending INT(11),
+index_patient_descending INT(11),
+transfer_site VARCHAR(255),
+transfer_external_sitename VARCHAR(255),
+transfer_internal_sitename VARCHAR(255),
+latest_encounter_id INT,
 PRIMARY KEY (status_id)
 );
 
- create index temp_status_patient_id on temp_status (patient_id);
- create index temp_status_start_date on temp_status (start_date);
- create index temp_status_index_program_ascending on temp_status (index_program_ascending);
+ CREATE INDEX temp_status_patient_id ON temp_status (patient_id);
+ CREATE INDEX temp_status_start_date ON temp_status (start_date);
+ CREATE INDEX temp_status_index_program_ascending ON temp_status (index_program_ascending);
 
 
 -- load all enrollments into temp table
-insert into temp_status (patient_id, patient_program_id, location_id, start_date)
-select patient_id, patient_program_id, location_id, date_enrolled
-from patient_program
-where program_id = @hiv_program
-and voided = 0;
+INSERT INTO temp_status (patient_id, patient_program_id, location_id, start_date)
+SELECT patient_id, patient_program_id, location_id, date_enrolled
+FROM patient_program
+WHERE program_id = @hiv_program
+AND voided = 0;
 
 
 -- load all status changes into temp table
-insert into temp_status (patient_id, patient_program_id, status_concept_id, location_id, start_date)
-select pp.patient_id, ps.patient_program_id, pws.concept_id, pp.location_id,ps.start_date
-from patient_state ps
-inner join patient_program pp on pp.patient_program_id = ps.patient_program_id and pp.program_id = @hiv_program
-inner join program_workflow_state pws where pws.program_workflow_state_id = ps.state
-and ps.voided = 0;
+INSERT INTO temp_status (patient_id, patient_program_id, status_concept_id, location_id, start_date)
+SELECT pp.patient_id, ps.patient_program_id, pws.concept_id, pp.location_id,ps.start_date
+FROM patient_state ps
+INNER JOIN patient_program pp ON pp.patient_program_id = ps.patient_program_id AND pp.program_id = @hiv_program
+INNER JOIN program_workflow_state pws WHERE pws.program_workflow_state_id = ps.state
+AND ps.voided = 0;
 
 -- load all outcomes into temp table
-insert into temp_status (patient_id, patient_program_id, status_concept_id, location_id, start_date, end_date, outcome)
-select patient_id, patient_program_id, outcome_concept_id, location_id, date_completed, date_completed,1
-from patient_program
-where program_id = @hiv_program
-and date_completed is not null
-and voided = 0;
+INSERT INTO temp_status (patient_id, patient_program_id, status_concept_id, location_id, start_date, end_date, outcome)
+SELECT patient_id, patient_program_id, outcome_concept_id, location_id, date_completed, date_completed,1
+FROM patient_program
+WHERE program_id = @hiv_program
+AND date_completed IS NOT NULL
+AND voided = 0;
 
 ### program index ascending
 -- The ascending/descending indexes are calculated ordering on the dispense date
 -- new temp tables are used to build them and then joined into the main temp table.
 -- index resets at each new patient program
-drop temporary table if exists temp_status_index_asc;
+DROP TEMPORARY TABLE IF EXISTS temp_status_index_asc;
 CREATE TEMPORARY TABLE temp_status_index_asc
 (
     SELECT
@@ -78,14 +78,14 @@ FROM (SELECT
       FROM temp_status,
                     (SELECT @r:= 1) AS r,
                     (SELECT @u:= 0) AS u
-            ORDER BY patient_program_id asc, start_date asc, status_id asc
+            ORDER BY patient_program_id ASC, start_date ASC, status_id ASC
         ) index_program_ascending );
 
-update temp_status t
-inner join temp_status_index_asc tsia on tsia.status_id = t.status_id
-set index_program_ascending = tsia.index_asc;
+UPDATE temp_status t
+INNER JOIN temp_status_index_asc tsia ON tsia.status_id = t.status_id
+SET index_program_ascending = tsia.index_asc;
 
-drop temporary table if exists temp_status_index_desc;
+DROP TEMPORARY TABLE IF EXISTS temp_status_index_desc;
 CREATE TEMPORARY TABLE temp_status_index_desc
 (
     SELECT
@@ -102,18 +102,18 @@ FROM (SELECT
       FROM temp_status,
                     (SELECT @r:= 1) AS r,
                     (SELECT @u:= 0) AS u
-            ORDER BY patient_program_id desc, start_date desc, status_id desc
+            ORDER BY patient_program_id DESC, start_date DESC, status_id DESC
         ) index_program_descending );
 
-update temp_status t
-inner join temp_status_index_desc tsid on tsid.status_id = t.status_id
-set index_program_descending = tsid.index_desc;
+UPDATE temp_status t
+INNER JOIN temp_status_index_desc tsid ON tsid.status_id = t.status_id
+SET index_program_descending = tsid.index_desc;
 
 ### patient index ascending
 -- The ascending/descending indexes are calculated ordering on the dispense date
 -- new temp tables are used to build them and then joined into the main temp table.
 -- index resets at each new patient
-drop temporary table if exists temp_patient_index_asc;
+DROP TEMPORARY TABLE IF EXISTS temp_patient_index_asc;
 CREATE TEMPORARY TABLE temp_patient_index_asc
 (
     SELECT
@@ -132,14 +132,14 @@ FROM (SELECT
       FROM temp_status,
                     (SELECT @r:= 1) AS r,
                     (SELECT @u:= 0) AS u
-            ORDER BY patient_id asc, start_date asc, patient_program_id asc,  status_id asc
+            ORDER BY patient_id ASC, start_date ASC, patient_program_id ASC,  status_id ASC
         ) index_program_ascending );
 
-update temp_status t
-inner join temp_patient_index_asc tpia on tpia.status_id = t.status_id
-set index_patient_ascending = tpia.index_asc;
+UPDATE temp_status t
+INNER JOIN temp_patient_index_asc tpia ON tpia.status_id = t.status_id
+SET index_patient_ascending = tpia.index_asc;
 
-drop temporary table if exists temp_patient_index_desc;
+DROP TEMPORARY TABLE IF EXISTS temp_patient_index_desc;
 CREATE TEMPORARY TABLE temp_patient_index_desc
 (
     SELECT
@@ -156,75 +156,136 @@ FROM (SELECT
       FROM temp_status,
                     (SELECT @r:= 1) AS r,
                     (SELECT @u:= 0) AS u
-            ORDER BY patient_id asc, start_date desc, patient_program_id desc, status_id desc
+            ORDER BY patient_id ASC, start_date DESC, patient_program_id DESC, status_id DESC
         ) index_program_descending );
 
-update temp_status t
-inner join temp_patient_index_desc tpid on tpid.status_id = t.status_id
-set index_patient_descending = tpid.index_desc;
+UPDATE temp_status t
+INNER JOIN temp_patient_index_desc tpid ON tpid.status_id = t.status_id
+SET index_patient_descending = tpid.index_desc;
 
 ## end date
-drop temporary table if exists dup_status;
+DROP TEMPORARY TABLE IF EXISTS dup_status;
 CREATE TEMPORARY TABLE dup_status SELECT * FROM temp_status;
 
-create index dup_status_patient_program_id on dup_status (patient_program_id);
-create index dup_status_index_program_ascending on dup_status (index_program_ascending);
+CREATE INDEX dup_status_patient_program_id ON dup_status (patient_program_id);
+CREATE INDEX dup_status_index_program_ascending ON dup_status (index_program_ascending);
 
-update temp_status t
-left outer join dup_status d on d.patient_program_id = t.patient_program_id and d.index_program_ascending = t.index_program_ascending + 1
-set t.end_date = d.start_date
-where t.index_program_descending <> 1;
+UPDATE temp_status t
+LEFT OUTER JOIN dup_status d ON d.patient_program_id = t.patient_program_id AND d.index_program_ascending = t.index_program_ascending + 1
+SET t.end_date = d.start_date
+WHERE t.index_program_descending <> 1;
 
-create index temp_patient_index_asc_patient_id on temp_patient_index_asc (patient_id);
-create index temp_patient_index_asc_index on temp_patient_index_asc (index_asc);
+CREATE INDEX temp_patient_index_asc_patient_id ON temp_patient_index_asc (patient_id);
+CREATE INDEX temp_patient_index_asc_index ON temp_patient_index_asc (index_asc);
 
 ## return to care
 -- on any rows that are not outcomes, if any of the previous rows are LTFU, then set to 1
-update temp_status t
-set t.return_to_care = 1
-where exists 
-   (select 1 from temp_patient_index_asc t2
-   where t2.patient_id=t.patient_id
-   and t2.index_asc < t.index_patient_ascending
-   and t2.status_concept_id = concept_from_mapping('PIH','LOST TO FOLLOWUP'))
-and t.outcome is null  
+UPDATE temp_status t
+SET t.return_to_care = 1
+WHERE EXISTS 
+   (SELECT 1 FROM temp_patient_index_asc t2
+   WHERE t2.patient_id=t.patient_id
+   AND t2.index_asc < t.index_patient_ascending
+   AND t2.status_concept_id = CONCEPT_FROM_MAPPING('PIH','LOST TO FOLLOWUP'))
+AND t.outcome IS NULL  
 ;
 
 ## late for pickup.  
 -- If the next dispensing date (next appointment from latest dispensing encounter)
 -- is >= 29 days late then set to 1
 -- if there is no next dispensing date, set to 1 
-update temp_status t
-left outer join encounter e on e.encounter_id = latestEnc(t.patient_id, @hivDispensingEncName, null)
-left outer join obs o on o.encounter_id = e.encounter_id and o.voided = 0 and o.concept_id = concept_from_mapping('PIH','5096')
-set t.currently_late_for_pickup = if(TIMESTAMPDIFF(DAY,ifnull(date(o.value_datetime),'1900-01-01'),current_date)>=29,1,null); 
+UPDATE temp_status t
+LEFT OUTER JOIN encounter e ON e.encounter_id = LATESTENC(t.patient_id, @hivDispensingEncName, NULL)
+LEFT OUTER JOIN obs o ON o.encounter_id = e.encounter_id AND o.voided = 0 AND o.concept_id = CONCEPT_FROM_MAPPING('PIH','5096')
+SET t.currently_late_for_pickup = IF(TIMESTAMPDIFF(DAY,IFNULL(DATE(o.value_datetime),'1900-01-01'),CURRENT_DATE)>=29,1,NULL); 
 
 ## transfer status
 ## as stated on ticket UHM-5105 transfer_status should come from the intake form only
-update temp_status t set latest_encounter_id = latestenc(patient_id ,'HIV intake', date(start_date)) where t.index_program_ascending = 1;
+## changing this to use the program
+/*
+On new enrollments, IF there is a previous enrollment with an outcome of “Transfer to another ZL site”,
+use the location from THAT enrollment to populate transfer_in_site.  Only use the latest one if there are multiple.
+*/
+DROP TEMPORARY TABLE IF EXISTS temp_hiv_latest_transfer;
+CREATE TEMPORARY TABLE temp_hiv_latest_transfer
+AS
+SELECT status_id, patient_id, patient_program_id, location_id, outcome, status_concept_id, start_date, end_date, index_program_ascending, index_program_descending,
+index_patient_ascending, index_patient_descending
+FROM temp_status WHERE status_concept_id = 
+(SELECT concept_id FROM concept_name WHERE voided = 0 AND name = "Transfer to another ZL site" AND concept_name_type = "FULLY_SPECIFIED" AND locale = "en") ORDER BY patient_id;
 
-update temp_status set transfer_site = obs_value_coded_list(latest_encounter_id, 'PIH', 'REFERRED FROM ANOTHER SITE', 'en');
+DROP TEMPORARY TABLE IF EXISTS temp_hiv_latest_transfer_dup;
+CREATE TEMPORARY TABLE temp_hiv_latest_transfer_dup LIKE temp_hiv_latest_transfer; 
+INSERT temp_hiv_latest_transfer_dup SELECT * FROM temp_hiv_latest_transfer;
 
-update temp_status set transfer_external_sitename = obs_value_text(latest_encounter_id, 'PIH', 'Name of external transfer location');
+DROP TEMPORARY TABLE IF EXISTS temp_hiv_latest_transfer_final;
+CREATE TEMPORARY TABLE temp_hiv_latest_transfer_final 
+(
+    status_id INT(11),
+    patient_id INT(11),
+    patient_program_id INT(11),
+    location_id INT(11),
+    status_concept_id INT(11),
+    start_date DATE,
+    end_date DATE,
+    index_program_ascending INT(11),
+    index_program_descending INT(11),
+    index_patient_ascending INT(11),
+    index_patient_descending INT(11),
+    index_patient_count INT(11)
+);
+INSERT INTO temp_hiv_latest_transfer_final
+(
+        status_id,
+        patient_id,
+        patient_program_id,
+        location_id,
+        status_concept_id,
+        start_date,
+        end_date,
+        index_program_ascending,
+        index_program_descending,
+        index_patient_ascending,
+        index_patient_descending
+)
+SELECT 
+        status_id,
+        patient_id,
+        patient_program_id,
+        location_id,
+        status_concept_id,
+        start_date,
+        end_date,
+        index_program_ascending,
+        index_program_descending,
+        index_patient_ascending,
+        index_patient_descending
+FROM temp_hiv_latest_transfer WHERE status_id IN (SELECT MAX(status_id) FROM temp_hiv_latest_transfer_dup GROUP BY patient_id);
 
-update temp_status set transfer_internal_sitename = obs_value_text(latest_encounter_id, 'PIH', 'Arrival location within hospital');
+/** Note that this puts into account that this is a new enrollment and this enrollment is right
+after the latest status outcome of transfer from another zl site
+**/
+
+UPDATE temp_hiv_latest_transfer_final SET index_patient_count = index_patient_ascending + 1;
+
+UPDATE temp_status t JOIN temp_hiv_latest_transfer_final th ON th.patient_id = t.patient_id AND t.index_patient_ascending = th.index_patient_count AND t.end_date IS NULL
+SET transfer_internal_sitename = LOCATION_NAME(th.location_id);
 
 ### Final query
-select 
-status_id,
-patient_id,
-zlemr(patient_id) "zl_emr_id",
-location_name(location_id) "patient_location",
-transfer_site,
-coalesce(transfer_external_sitename, location_name(transfer_internal_sitename)),
-concept_name(status_concept_id, 'en') "status_outcome",
-date(start_date),
-date(end_date),
-ifnull(return_to_care,0) "return_to_care",
-ifnull(currently_late_for_pickup,0) "currently_late_for_pickup",
-index_program_ascending,
-index_program_descending,
-index_patient_ascending,
-index_patient_descending
-from temp_status
-order by patient_id,index_patient_ascending;
+SELECT 
+    status_id,
+    patient_id,
+    ZLEMR(patient_id) "zl_emr_id",
+    LOCATION_NAME(location_id) "patient_location",
+    transfer_internal_sitename,
+    CONCEPT_NAME(status_concept_id, 'en') "status_outcome",
+    DATE(start_date),
+    DATE(end_date),
+    IFNULL(return_to_care,0) "return_to_care",
+    IFNULL(currently_late_for_pickup,0) "currently_late_for_pickup",
+    index_program_ascending,
+    index_program_descending,
+    index_patient_ascending,
+    index_patient_descending
+FROM temp_status
+ORDER BY patient_id,index_patient_ascending;
