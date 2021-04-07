@@ -248,6 +248,13 @@
             </a>
             |
         </includeIf>
+        <!-- Females only -->
+        <includeIf velocityTest="$patient.gender == 'F' ">
+            <a href="#women">
+                <uimessage code="pihcore.exam.obstetrical_exam"/>
+            </a>
+            |
+        </includeIf>
         <a href="#mental">
             <uimessage code="pihcore.exam.mental_exam"/>
         </a>
@@ -268,14 +275,6 @@
             <uimessage code="pihcore.exam.musculoskeletal_exam"/>
         </a>
         |
-
-        <!-- Women's Health only -->
-        <includeIf velocityTest="$patient.gender == 'F' ">
-            <a href="#women">
-                <uimessage code="pihcore.womensHealth"/>
-            </a>
-            |
-        </includeIf>
 
         <a href="#other">
             <uimessage code="pihcore.exam.other_exam"/>
@@ -727,7 +726,61 @@
                     <br/>
                 </div>
             </div>
+        </includeIf>
+        <p/>
 
+        <!-- Women's Health only -->
+        <includeIf velocityTest="$patient.gender == 'F' ">
+            <div class="section-container-color">
+                <h3 id="women">
+                    <uimessage code="pihcore.exam.obstetrical_exam.title"/>
+                </h3>
+
+                <p class="tanner narrow">
+                    <label>
+                        <uimessage code="pihcore.fundalHeight"/>
+                    </label>
+                    <obs conceptId="CIEL:1439" showUnits="true"/>
+
+                </p>
+
+                <div class="two-columns tanner">
+                    <label>
+                        <uimessage code="pihcore.fetalPresentation"/>
+                    </label>
+                    <obs conceptId="CIEL:160090"
+                         answerConceptIds="CIEL:160091,CIEL:164148,PIH:13224,CIEL:146922,CIEL:139814,
+                         CIEL:118388,CIEL:164149,CIEL:164150,CIEL:115808,CIEL:112259,CIEL:144433,CIEL:113617,
+                         CIEL:5622"/>
+                    <br/>
+
+                    <label>
+                        <uimessage code="pihcore.fetalPosition"/>
+                    </label>
+                    <obs conceptId="CIEL:163749" style="radio"
+                         answerConceptIds="CIEL:5141,CIEL:5139"/>
+                </div>
+
+                <div class="two-columns tanner">
+                    <label>
+                        <uimessage code="pihcore.fetalHeartRate"/>
+                    </label>
+                    <obs conceptId="CIEL:1440" showUnits="true"/>
+                    <br/>
+                    <br/>
+
+                    <label>
+                        <uimessage code="pihcore.uterineContractions"/>
+                    </label>
+                    <obs conceptId="CIEL:163750" style="radio"
+                         answerConceptIds="CIEL:163747,CIEL:163748"
+                         answerCodes="pihcore.absent.plural,pihcore.present.plural" />
+                    <obs conceptId="CIEL:160968" placeholder="comment"/>
+                    <br/>
+                </div>
+
+            </div>
+            <p/>
         </includeIf>
 
         <p/>
@@ -1028,60 +1081,6 @@
         </div>
 
         <p/>
-
-        <!-- Women's Health only -->
-        <includeIf velocityTest="$patient.gender == 'F' ">
-            <div class="section-container-color">
-                <h3 id="women">
-                    <uimessage code="pihcore.exam.womens_health_exam.title"/>
-                </h3>
-
-                <p class="tanner narrow">
-                    <label>
-                        <uimessage code="pihcore.fundalHeight"/>
-                    </label>
-                    <obs conceptId="CIEL:1439" showUnits="true"/>
-
-                </p>
-
-                <div class="two-columns tanner">
-                    <label>
-                        <uimessage code="pihcore.fetalPresentation"/>
-                    </label>
-                    <obs conceptId="CIEL:160090"
-                         answerConceptIds="CIEL:160091,CIEL:164148,PIH:13224,CIEL:146922,CIEL:139814,
-                         CIEL:118388,CIEL:164149,CIEL:164150,CIEL:115808,CIEL:112259,CIEL:144433,CIEL:113617,
-                         CIEL:5622"/>
-                    <br/>
-
-                    <label>
-                        <uimessage code="pihcore.fetalPosition"/>
-                    </label>
-                    <obs conceptId="CIEL:163749" style="radio"
-                         answerConceptIds="CIEL:5141,CIEL:5139"/>
-                </div>
-
-                <div class="two-columns tanner">
-                    <label>
-                        <uimessage code="pihcore.fetalHeartRate"/>
-                    </label>
-                    <obs conceptId="CIEL:1440" showUnits="true"/>
-                    <br/>
-                    <br/>
-
-                    <label>
-                        <uimessage code="pihcore.uterineContractions"/>
-                    </label>
-                    <obs conceptId="CIEL:163750" style="radio"
-                         answerConceptIds="CIEL:163747,CIEL:163748"
-                         answerCodes="pihcore.absent.plural,pihcore.present.plural" />
-                    <obs conceptId="CIEL:160968" placeholder="comment"/>
-                    <br/>
-                </div>
-
-             </div>
-            <p/>
-        </includeIf>
 
         <div class="section-container-color">
             <h3 id="other">
