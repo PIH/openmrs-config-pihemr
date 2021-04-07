@@ -49,7 +49,7 @@
     </div>
   </ifMode>
 
-  <obs conceptId="PIH:CLINICAL IMPRESSION COMMENTS" labelCode="emr.consult.freeTextComments" style="textarea" rows="5"/>
+  <obs conceptId="PIH:CLINICAL IMPRESSION COMMENTS" labelCode="pihcore.comment" style="textarea" rows="5"/>
 
   <ifMode mode="VIEW" include="false">
     <div id="buttons">
