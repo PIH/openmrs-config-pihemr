@@ -1306,6 +1306,14 @@ angular.module("encounterTypeConfig", [])
             editUrl: hfeStandardEditUrl,
         };
 
+        // Comment
+        encounterTypes["c30d6e06-0f00-460a-8f81-3c39a1853b56"] = {
+            ...encounterTypes.DEFAULT,
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
+            editUrl: hfeStandardEditUrl,
+        }
+
         /*
          * Site-specific encounters
          */
