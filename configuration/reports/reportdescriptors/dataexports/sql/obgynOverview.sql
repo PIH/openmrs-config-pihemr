@@ -230,7 +230,7 @@ update temp_obgyn t
      where e2.voided = 0 
      and e2.encounter_type = @vital_signs 
      and e2.patient_id = t.patient_id
-     and e2.encounter_datetime <= t.encounter_datetime
+     and date(e2.encounter_datetime) <= date(t.encounter_datetime)
      order by e2.encounter_datetime desc limit 1)
  set t.latest_vitals_encounter_id = e.encounter_id,
      t.latest_vitals_datetime = e.encounter_datetime;
