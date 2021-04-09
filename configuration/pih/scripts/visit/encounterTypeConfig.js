@@ -1311,7 +1311,9 @@ angular.module("encounterTypeConfig", [])
             ...encounterTypes.DEFAULT,
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
             templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
+            icon: "fas fa-fw fa-pencil-alt",
             editUrl: hfeStandardEditUrl,
+            showOnVisitList: true
         }
 
         /*
