@@ -47,7 +47,19 @@
         width: 100%;
         }
 
-        .two-columns {
+        .five-columns, .four-columns, .three-columns, .two-columns {
+            display: table;
+            height: 100%;
+            width: 100%;
+        }
+
+        .two-columns > div {
+            display: table-cell;
+            width: 50%;
+        }
+
+
+        .two-columns-autosplit {
             column-count: 2;
             -webkit-column-count: 2;
             -moz-column-count: 2;
@@ -204,63 +216,98 @@
              headerStyle="title" headerCode="pihcore.delivery.title">
 
         <div class="section-container">
+            <div class="two-columns">
+                <div>
+                    <label>
+                        <uimessage code="pihcore.mch.deliveryDate"/>
+                    </label>
+                    <span class="small">
+                        <obs conceptId="CIEL:5599" allowTime="false"/>
+                    </span>
+                </div>
+                <div></div>
+            </div>
+
+            <div id="calculated-edd-and-gestational" class="hidden">
                 <div class="two-columns">
-                    <p>
-                        <label>
-                            <uimessage code="pihcore.mch.deliveryDate"/>
-                        </label>
-                        <span class="small">
-                            <obs conceptId="CIEL:5599" allowTime="false" />
+                    <div>
+                        <span id="calculated-edd-wrapper">
+                            <span id="calculated-edd-label">
+                                <uimessage code="pihcore.calculatedEstimatedDeliveryDate"/>:&#160;
+                            </span>
+                            <span id='calculated-edd' class="value">
+                                <lookup expression="fn.latestObs('CIEL:1427').valueDatetime"/>
+                            </span>
+                            <span class="small hidden">
+                                <obs id="lastPeriodDate" conceptId="CIEL:1427" allowFutureDates="false"/>
+                            </span>
                         </span>
-                    </p>
-
-                    <div id="calculated-edd-and-gestational" class="hidden">
-                        <p>
-                            <span id="calculated-edd-wrapper">
-                                <span id="calculated-edd-label">
-                                    <uimessage code="pihcore.calculatedEstimatedDeliveryDate"/>:&#160;
-                                </span>
-                                <span id='calculated-edd' class="value">
-                                    <lookup expression="fn.latestObs('CIEL:1427').valueDatetime"/>
-                                </span>
-                                <span class="small hidden">
-                                    <obs id="lastPeriodDate" conceptId="CIEL:1427" allowFutureDates="false"/>
-                                </span>
-                            </span>
-                        </p>
-                        <p>
-                            <span id="calculated-gestational-age-wrapper">
-                                <span id="calculated-gestational-age-label">
-                                    <uimessage code="pihcore.calculatedGestationalAge"/>:&#160;
-                                </span>
-                                <span id='calculated-gestational-age-value' class="value"></span>
-                            </span>
-                        </p>
                     </div>
-                    <!-- Mental Health -->
-                    <p>
-                        <label>
-                            <uimessage code="pihcore.mentalhealth.title"/>
-                        </label>
+                    <div>
+                        <span id="calculated-gestational-age-wrapper">
+                            <span id="calculated-gestational-age-label">
+                                <uimessage code="pihcore.calculatedGestationalAge"/>:&#160;
+                            </span>
+                            <span id='calculated-gestational-age-value' class="value"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <br/>
 
-                        <obs conceptId="PIH:Mental health diagnosis" answerConceptId="PIH:DEPRESSION"
-                             style="checkbox"/>
-                        <obs conceptId="PIH:Mental health diagnosis" answerConceptId="PIH:Post traumatic stress disorder"
-                             style="checkbox"/>
-                        <obs conceptId="PIH:Mental health diagnosis" answerConceptId="PIH:SCHIZOPHRENIA"
-                             style="checkbox"/>
-                    </p>
-                    <br/><br/>
-
+            <div class="two-columns">
+                <div>
                     <!-- Delivery type -->
-                    <p>
+                    <label>
+                        <uimessage code="pihcore.mch.deliveryType"/>
+                    </label>
+                    <obs conceptId="PIH:11663" answerConceptId="CIEL:162595" style="checkbox" />
+                    <obs conceptId="PIH:11663" answerConceptId="CIEL:161631" style="checkbox" />
+                    <obs id="toggle-csection"
+                         conceptId="PIH:11663" answerConceptId="CIEL:155884" style="checkbox" >
+                        <!-- ToDo: Fix this behavior/toggle -->
+                        <controls>
+                            <when value="CIEL:155884" thenDisplay="#c-section-reason" />
+                        </controls>
+                    </obs>
+
+                    <p id="c-section-reason">
+                        <br/>
                         <label>
-                            <uimessage code="pihcore.mch.deliveryType"/>
+                            <uimessage code="pihcore.reasonCSection" />
                         </label>
-                        <obs conceptId="PIH:11663" answerConceptId="CIEL:162595" style="checkbox"  />
-                        <obs conceptId="PIH:11663" answerConceptId="CIEL:161631" style="checkbox"  />
-                        <obs conceptId="PIH:11663" answerConceptId="CIEL:155884" style="checkbox"  />
+                        <repeat>
+                            <template>
+                                <obs conceptId="PIH:13527" answerConceptId="{concept}" style="checkbox" />
+                            </template>
+                            <render concept="CIEL:113602" name="prolonged labor"/>
+                            <render concept="CIEL:115939" name="malpresentation of fetus"/>
+                            <render concept="CIEL:113814" name="previous c-section" />
+                            <render concept="CIEL:118256" name="fetal distress" />
+                            <render concept="CIEL:145439" name="chronic disease" />
+                            <render concept="CIEL:113617" name="prolapsed cord" />
+                            <render concept="CIEL:145935" name="cephalopelvic disproportion" />
+                            <render concept="CIEL:130109" name="placental abnormality" />
+                            <render concept="CIEL:115491" name="multiple babies" />
+                        </repeat>
+                        <obs conceptId="PIH:13527" answerConceptId="CIEL:5622" style="checkbox"
+                             commentFieldLabel=""/>
                     </p>
+                </div>
+
+                <!-- Mental Health -->
+                <div>
+                    <label>
+                        <uimessage code="pihcore.mentalhealth.title"/>
+                    </label>
+
+                    <obs conceptId="PIH:Mental health diagnosis" answerConceptId="PIH:DEPRESSION"
+                         style="checkbox"/>
+                    <obs conceptId="PIH:Mental health diagnosis" answerConceptId="PIH:Post traumatic stress disorder"
+                         style="checkbox"/>
+                    <obs conceptId="PIH:Mental health diagnosis" answerConceptId="PIH:SCHIZOPHRENIA"
+                         style="checkbox"/>
+                    <br/>
 
                     <!-- APGAR -->
                     <p class="apgar">
@@ -273,63 +320,61 @@
                              style="radio" answerSeparator=""  />
                     </p>
                 </div>
-
-                <hr/>
-                <p>
-                    <label>
-                        <uimessage code="pihcore.findings.label"/>
-                    </label>
-                </p>
-
-                <div class="two-columns">
-                    <!-- Findings during delivery -->
-                    <p>
-                        <repeat>
-                            <template>
-                                <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
-                                    <obs conceptId="PIH:DIAGNOSIS" answerConceptId="{concept}" style="checkbox" />
-                                </obsgroup>
-                            </template>
-
-                            <!-- Baby -->
-                            <render concept="CIEL:130109" name="abnormal placenta"/>
-                            <render concept="CIEL:115939" name="abnormal presentation"/>
-                            <render concept="CIEL:145935" name="cephalopelvic distortion"/>
-                            <render concept="CIEL:162239" name="low birth weight"/>
-                            <render concept="CIEL:111523" name="Premature less than 28 weeks"/>
-                            <render concept="PIH:11789" name="Premature (28-32)"/>
-                            <render concept="PIH:11790" name="Premature (32-36)"/>
-                            <render concept="CIEL:127639" name="Respiratory distress" />
-                            <render concept="PIH:Birth Asphyxia" name="birth asphyxia"/>
-                            <render concept="PIH:Fetal distress" name="Fetal distress" />
-                            <render concept="CIEL:116642" name="Fetal demise"/>
-                            <render concept="CIEL:118245" name="fetal retardation"/>
-                            <render concept="CIEL:143849" name="Congenital malformation" />
-                            <render concept="CIEL:145548" name="Chorioamnionitis" />
-                            <render concept="CIEL:129211" name="rupture membrane"/>
-                            <render concept="CIEL:115866" name="aspiration meconium"/>
-
-                            <!-- Momma -->
-                            <render concept="CIEL:165088" name="gbv"/>
-                            <render concept="CIEL:113006" name="severe pre-eclampsia"/>
-                            <render concept="PIH:Eclampsia" name="eclampsia"/>
-                            <render concept="PIH:POSTPARTUM HEMORRHAGE" name="postpartum hemorrhage"/>
-                            <render concept="CIEL:121856" name="Acute pulmonary edema" />
-                            <render concept="CIEL:130" name="Puerperal sepsis" />
-                            <render concept="CIEL:138706" name="herpes"/>
-                            <render concept="CIEL:112493" name="syphilis"/>
-                        </repeat>
-
-                            <obs conceptId="PIH:6644" answerConceptId="PIH:174"
-                                 answerCode="pihcore.mch.otherSTI" style="checkbox"/>
-
-                            <obs conceptId="PIH:6644" answerConceptId="PIH:OTHER"
-                                 showCommentField="true" commentFieldLabel="" style="checkbox" />
-                        <br/>
-                    </p>
-                </div>
             </div>
-        </section>
+            
+            <label>
+                <uimessage code="pihcore.findings.label"/>
+            </label>
+
+            <div class="two-columns-autosplit">
+                <!-- Findings during delivery -->
+                <p>
+                    <repeat>
+                        <template>
+                            <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
+                                <obs conceptId="PIH:DIAGNOSIS" answerConceptId="{concept}" style="checkbox" />
+                            </obsgroup>
+                        </template>
+
+                        <!-- Baby -->
+                        <render concept="CIEL:130109" name="abnormal placenta"/>
+                        <render concept="CIEL:115939" name="abnormal presentation"/>
+                        <render concept="CIEL:145935" name="cephalopelvic distortion"/>
+                        <render concept="CIEL:162239" name="low birth weight"/>
+                        <render concept="CIEL:111523" name="Premature less than 28 weeks"/>
+                        <render concept="PIH:11789" name="Premature (28-32)"/>
+                        <render concept="PIH:11790" name="Premature (32-36)"/>
+                        <render concept="CIEL:127639" name="Respiratory distress" />
+                        <render concept="PIH:Birth Asphyxia" name="birth asphyxia"/>
+                        <render concept="PIH:Fetal distress" name="Fetal distress" />
+                        <render concept="CIEL:116642" name="Fetal demise"/>
+                        <render concept="CIEL:118245" name="fetal retardation"/>
+                        <render concept="CIEL:143849" name="Congenital malformation" />
+                        <render concept="CIEL:145548" name="Chorioamnionitis" />
+                        <render concept="CIEL:129211" name="rupture membrane"/>
+                        <render concept="CIEL:115866" name="aspiration meconium"/>
+
+                        <!-- Momma -->
+                        <render concept="CIEL:165088" name="gbv"/>
+                        <render concept="CIEL:113006" name="severe pre-eclampsia"/>
+                        <render concept="PIH:Eclampsia" name="eclampsia"/>
+                        <render concept="PIH:POSTPARTUM HEMORRHAGE" name="postpartum hemorrhage"/>
+                        <render concept="CIEL:121856" name="Acute pulmonary edema" />
+                        <render concept="CIEL:130" name="Puerperal sepsis" />
+                        <render concept="CIEL:138706" name="herpes"/>
+                        <render concept="CIEL:112493" name="syphilis"/>
+                    </repeat>
+
+                    <obs conceptId="PIH:6644" answerConceptId="PIH:174"
+                         answerCode="pihcore.mch.otherSTI" style="checkbox"/>
+
+                    <obs conceptId="PIH:6644" answerConceptId="PIH:OTHER"
+                         showCommentField="true" commentFieldLabel="" style="checkbox" />
+                    <br/>
+                </p>
+            </div>
+        </div>
+    </section>
 
     <ifMode mode="VIEW" include="false">
         <div id="buttons">
