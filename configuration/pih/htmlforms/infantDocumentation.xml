@@ -1,0 +1,213 @@
+<htmlform
+        formUuid="529A6347-47F0-4F2B-ACD3-4D8E85D4A76E"
+        formName="HIV Infant Documentation"
+        formEncounterType="00DA14B9-7066-45A7-8FEC-0CAD60D1EBD1"
+        formVersion="1.0"
+>
+
+    <!-- Enrolls the patient in the OVC program -->
+
+    <style type="text/css">
+
+        #who-when-where {
+        margin-bottom: 6px;
+        border-bottom: 1px solid #ccc;
+        }
+
+        #who-when-where p {
+        display: inline-block;
+        padding-right: 20px;
+        }
+
+        #where > input[type=text] {
+        display: inline-block;
+        }
+
+        .field-error {
+        color: #ffc0b5;
+        font-size: 1.1em;
+        display: block;
+        }
+
+        .legalValue {
+        background-color: white !important;
+        }
+
+        .two-columns {
+        display: table;
+        height: 100%;
+        width: 100%;
+        }
+
+        .two-columns > div {
+        display: table-cell;
+        width: 50%;
+        }
+
+        .simple-form-ui input {
+        min-width: 80%
+        }
+
+        form fieldset {
+        min-width: 90%;
+        display: block;
+        }
+
+        .encounter-summary-container #calculated-ratio {
+        font-size: 1em;
+        font-weight: normal;
+        }
+
+        #encounterDate input {
+        min-width: 15%
+        }
+
+        div.inline-radio > * {
+        display: inline;
+        float: none !important;
+        min-width: initial;
+        }
+
+        .inline-obs > span {
+        display: inline-block;
+        }
+
+        .light-font {
+        font-family: "OpenSansLight",sans-serif;
+        }
+
+        .small-obs {
+        max-width: 10em;
+        display: block;
+        margin-bottom: 1em;
+        }
+
+        .small-obs input {
+        min-width: 4em;
+        display: inline;
+        margin-right: 0.5em;
+        }
+
+        .medium-obs {
+        max-width: 16em;
+        display: block;
+        margin-bottom: 1em;
+        }
+
+        .medium-obs input {
+        min-width: 8em;
+        margin-right: 0.5em;
+        }
+
+        .small-text {
+        color: #555555;
+        font-size: 90%;
+        display: block;
+        }
+
+        .section-container {
+        background: #F2F2F2;
+        box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+        padding: 10px 5px 10px 15px;
+        margin: 10px 0;
+        line-height: 1.5em; /*add this for vertical spacing between elements*/
+        }
+
+        .section-container input[type="checkbox"] {
+        margin: 0px 5px; /*changed values to vertical, horizontal*/
+        top:5px; /*added to offset the checkbox position to line up*/
+        }
+
+        .section-container label { /*new definition to override labels inside section-containers*/
+        margin: 0px;
+        }
+
+        .question-container {
+        padding: 5px 5px 10px 15px;
+        margin: 5px 0;
+        line-height: 1.5em; /*add this for vertical spacing between elements*/
+        }
+
+        .question-container label {
+        margin-top: 5px;
+        }
+
+        .section {
+        width: 95%;
+        }
+
+        legend {
+        width: auto;
+        font-size: 16px;
+        }
+
+        textarea {
+        width: 95%;
+        }
+
+        /* Grey out disabled checkboxes */
+        input[type=checkbox][disabled] {
+        filter: invert(15%);
+        }
+
+        .section-button {
+        margin: 10px 0 0 24px;
+        }
+
+        @media print {
+        .print-form-datestamps { display: block !important }
+        button.cancel, button.submit { display: none }
+        label { font-weight: bold }
+        label[for] { font-weight: normal } /* refers to the radio set label */
+        }
+
+    </style>
+
+    <div class="print-form-datestamps" style="display:none">
+        <p><uimessage code="created_on"/>:
+            <lookup complexExpression="$form.dateCreated"/>
+        </p>
+        <p><uimessage code="last_updated_on"/>:
+            <lookup complexExpression="$form.dateChanged"/>
+        </p>
+        <p><uimessage code="printed_on"/>:
+            <lookup complexExpression="$formGeneratedDatetime"/>
+        </p>
+    </div>
+
+
+    <!-- HIV Status -->
+    <div class="section-container two-columns">
+        <div class="inline-radio">
+            <obs conceptId="CIEL:1169" style="radio"
+                 labelCode="pihcore.hiv.state.title"
+                 answerConceptIds="PIH:POSITIVE,PIH:NEGATIVE,PIH:unknown"
+            />
+        </div>
+        <div class="question-container">
+            <obs conceptId="PIH:HIV TEST DATE"
+                 labelCode="pihcore.hiv.testDate"
+                 class="medium-obs" />
+        </div>
+    </div>
+
+
+    <!-- Contacts -->
+    <div class="section-container">
+        <h4><uimessage code="pihcore.parentOrCaregiver" /></h4>
+        <obsgroup groupingConceptId="PIH:Contact construct" >
+            <div class="question-container inline-obs">
+                <obs conceptId="PIH:FIRST NAME" labelCode="pihcore.given_name" class="medium-obs" />
+                <obs conceptId="PIH:LAST NAME" labelCode="pihcore.family_name" class="medium-obs" />
+            </div>
+            <div class="inline-radio">
+                <obs conceptId="PIH:Gender" labelCode="pihcore.gender" style="radio" />
+            </div>
+            <div class="question-container">
+                <obs conceptId="PIH:RELATIONSHIP OF RELATIVE TO PATIENT"
+                     labelCode="pihcore.relationshipToPatient" />
+            </div>
+        </obsgroup>
+    </div>
+
+</htmlform>
