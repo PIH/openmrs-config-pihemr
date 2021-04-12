@@ -171,7 +171,7 @@ CREATE INDEX dup_status_patient_program_id ON dup_status (patient_program_id);
 CREATE INDEX dup_status_index_program_ascending ON dup_status (index_program_ascending);
 
 UPDATE temp_status t
-LEFT OUTER JOIN dup_status d ON d.patient_program_id = t.patient_program_id AND d.index_program_ascending = t.index_program_ascending + 2
+LEFT OUTER JOIN dup_status d ON d.patient_program_id = t.patient_program_id AND d.index_program_ascending = t.index_program_ascending + 1
 SET t.end_date = d.start_date
 WHERE t.index_program_descending <> 1;
 
