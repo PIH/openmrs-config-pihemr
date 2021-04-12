@@ -208,67 +208,38 @@ use the location from THAT enrollment to populate transfer_in_site.  Only use th
 */
 DROP TEMPORARY TABLE IF EXISTS temp_hiv_latest_transfer;
 CREATE TEMPORARY TABLE temp_hiv_latest_transfer
-AS
-SELECT status_id, patient_id, patient_program_id, location_id, outcome, status_concept_id, start_date, end_date, index_program_ascending, index_program_descending,
-index_patient_ascending, index_patient_descending
-FROM temp_status WHERE status_concept_id = 
-(SELECT concept_id FROM concept_name WHERE voided = 0 AND name = "Transfer to another ZL site" AND concept_name_type = "FULLY_SPECIFIED" AND locale = "en") ORDER BY patient_id;
-
-DROP TEMPORARY TABLE IF EXISTS temp_hiv_latest_transfer_dup;
-CREATE TEMPORARY TABLE temp_hiv_latest_transfer_dup LIKE temp_hiv_latest_transfer; 
-INSERT temp_hiv_latest_transfer_dup SELECT * FROM temp_hiv_latest_transfer;
-
-DROP TEMPORARY TABLE IF EXISTS temp_hiv_latest_transfer_final;
-CREATE TEMPORARY TABLE temp_hiv_latest_transfer_final 
 (
-    status_id INT(11),
     patient_id INT(11),
     patient_program_id INT(11),
     location_id INT(11),
     status_concept_id INT(11),
     start_date DATE,
     end_date DATE,
-    index_program_ascending INT(11),
-    index_program_descending INT(11),
     index_patient_ascending INT(11),
-    index_patient_descending INT(11),
     index_patient_count INT(11)
 );
-INSERT INTO temp_hiv_latest_transfer_final
+
+INSERT INTO temp_hiv_latest_transfer
 (
-        status_id,
         patient_id,
         patient_program_id,
         location_id,
         status_concept_id,
         start_date,
         end_date,
-        index_program_ascending,
-        index_program_descending,
-        index_patient_ascending,
-        index_patient_descending
+        index_patient_ascending
 )
-SELECT 
-        status_id,
-        patient_id,
-        patient_program_id,
-        location_id,
-        status_concept_id,
-        start_date,
-        end_date,
-        index_program_ascending,
-        index_program_descending,
-        index_patient_ascending,
-        index_patient_descending
-FROM temp_hiv_latest_transfer WHERE status_id IN (SELECT MAX(status_id) FROM temp_hiv_latest_transfer_dup GROUP BY patient_id);
+SELECT patient_id, patient_program_id, location_id, status_concept_id, start_date, end_date, index_patient_ascending
+FROM temp_status WHERE status_concept_id = 
+(SELECT concept_id FROM concept_name WHERE voided = 0 AND name = "Transfer to another ZL site" AND concept_name_type = "FULLY_SPECIFIED" AND locale = "en") ORDER BY patient_id;
 
 /** Note that this puts into account that this is a new enrollment and this enrollment is right
 after the latest status outcome of transfer from another zl site
 **/
 
-UPDATE temp_hiv_latest_transfer_final SET index_patient_count = index_patient_ascending + 1;
+UPDATE temp_hiv_latest_transfer SET index_patient_count = index_patient_ascending + 1;
 
-UPDATE temp_status t JOIN temp_hiv_latest_transfer_final th ON th.patient_id = t.patient_id AND t.index_patient_ascending = th.index_patient_count AND t.end_date IS NULL
+UPDATE temp_status t JOIN temp_hiv_latest_transfer th ON th.patient_id = t.patient_id AND t.index_patient_ascending = th.index_patient_count
 SET transfer_internal_sitename = LOCATION_NAME(th.location_id);
 
 ### Final query
