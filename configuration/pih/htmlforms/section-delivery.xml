@@ -216,16 +216,11 @@
              headerStyle="title" headerCode="pihcore.delivery.title">
 
         <div class="section-container">
-            <div class="two-columns">
-                <div>
-                    <label>
-                        <uimessage code="pihcore.mch.deliveryDate"/>
-                    </label>
-                    <span class="small">
-                        <obs conceptId="CIEL:5599" allowTime="false"/>
-                    </span>
-                </div>
-                <div></div>
+            <div>
+                <label>
+                    <uimessage code="pihcore.mch.deliveryDate"/>
+                </label>
+                <obs conceptId="CIEL:5599" allowTime="false"/>
             </div>
 
             <div id="calculated-edd-and-gestational" class="hidden">
@@ -264,14 +259,10 @@
                     <obs conceptId="PIH:11663" answerConceptId="CIEL:162595" style="checkbox" />
                     <obs conceptId="PIH:11663" answerConceptId="CIEL:161631" style="checkbox" />
                     <obs id="toggle-csection"
-                         conceptId="PIH:11663" answerConceptId="CIEL:155884" style="checkbox" >
-                        <!-- ToDo: Fix this behavior/toggle -->
-                        <controls>
-                            <when value="CIEL:155884" thenDisplay="#c-section-reason" />
-                        </controls>
-                    </obs>
+                         conceptId="PIH:11663" answerConceptId="CIEL:155884" style="checkbox"
+                         toggle="c-section-reason" />
 
-                    <p id="c-section-reason">
+                    <div id="c-section-reason">
                         <br/>
                         <label>
                             <uimessage code="pihcore.reasonCSection" />
@@ -292,7 +283,7 @@
                         </repeat>
                         <obs conceptId="PIH:13527" answerConceptId="CIEL:5622" style="checkbox"
                              commentFieldLabel=""/>
-                    </p>
+                    </div>
                 </div>
 
                 <!-- Mental Health -->
@@ -321,7 +312,7 @@
                     </p>
                 </div>
             </div>
-            
+
             <label>
                 <uimessage code="pihcore.findings.label"/>
             </label>
