@@ -1298,6 +1298,14 @@ angular.module("encounterTypeConfig", [])
             editUrl: hfeStandardEditUrl,
         };
 
+        // HIV Infant documentation
+        encounterTypes["00DA14B9-7066-45A7-8FEC-0CAD60D1EBD1"] = {
+          ...encounterTypes.DEFAULT,
+          longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+          templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
+          editUrl: hfeStandardEditUrl,
+        };
+
         // Tuberculosis Intake
         encounterTypes["aa42cc6c-b9ee-4850-926c-dda4bb14d890"] = {
             ...encounterTypes.DEFAULT,
