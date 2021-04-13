@@ -385,6 +385,10 @@
             <property>labworkflowowa.ordersBatchSize</property>
             <value>3000</value>
         </globalProperty>
+        <globalProperty>
+            <property>registrationapp.paperRecordIdentifierDefinition</property>
+            <value></value>
+        </globalProperty>
 
         <!-- SPA -->
         <globalProperty>
