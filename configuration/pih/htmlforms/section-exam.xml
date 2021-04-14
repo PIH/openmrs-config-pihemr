@@ -47,7 +47,6 @@
                 top:5px;         /* added to offset the checkbox position to line up */
             }
 
-
             form input[type="radio"], .form input[type="radio"] {
                 float: none;
                 display: inline-block;
