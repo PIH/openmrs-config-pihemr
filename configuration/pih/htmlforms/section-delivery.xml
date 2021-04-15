@@ -348,7 +348,6 @@
                         </template>
 
                         <!-- Baby -->
-                        <render concept="CIEL:130109" name="abnormal placenta"/>
                         <render concept="CIEL:115939" name="abnormal presentation"/>
                         <render concept="CIEL:145935" name="cephalopelvic distortion"/>
                         <render concept="CIEL:162239" name="low birth weight"/>
@@ -361,8 +360,6 @@
                         <render concept="CIEL:116642" name="Fetal demise"/>
                         <render concept="CIEL:118245" name="fetal retardation"/>
                         <render concept="CIEL:143849" name="Congenital malformation" />
-                        <render concept="CIEL:145548" name="Chorioamnionitis" />
-                        <render concept="CIEL:129211" name="rupture membrane"/>
                         <render concept="CIEL:115866" name="aspiration meconium"/>
                     </repeat>
                 </div>
@@ -380,6 +377,9 @@
                         </template>
 
                         <!-- Momma -->
+                        <render concept="CIEL:129211" name="rupture membrane"/>
+                        <render concept="CIEL:145548" name="Chorioamnionitis" />
+                        <render concept="CIEL:130109" name="abnormal placenta"/>
                         <render concept="CIEL:117399" name="hypertension"/>
                         <render concept="CIEL:113006" name="severe pre-eclampsia"/>
                         <render concept="PIH:Eclampsia" name="eclampsia"/>
@@ -435,7 +435,6 @@
                         </template>
                         <render concept="CIEL:161848" name="cesarean hysterectomy" />
                         <render concept="CIEL:161890" name="c-section + tubal ligation" />
-                        <render concept="CIEL:1472" name="tubal ligation" />
                         <render concept="CIEL:5577" name="episiotomy" />
                         <render concept="CIEL:164157" name="suture perineum" />
                     </repeat>
@@ -456,6 +455,14 @@
                     </div>
                 </div>
             </div>
+
+            <p class="side-by-side">
+                <label>
+                    <uimessage code="pihcore.mch.counselling.babyNutrition" />
+                </label>
+                <obs conceptId="CIEL:161651" style="radio"
+                     answerConceptIds="CIEL:1065,CIEL:1066" />
+            </p>
         </div>
     </section>
 
