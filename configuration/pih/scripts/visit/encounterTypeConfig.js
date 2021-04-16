@@ -290,6 +290,17 @@ angular.module("encounterTypeConfig", [])
             editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-obgyn-plan.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
         };
 
+        var medOrder = {
+            type: "encounter-section",
+            id: "section-obgyn-plan",
+            label: "pihcore.visitNote.medication",
+            icon: "fas fa-fw fa-pills",
+            shortTemplate: "templates/sections/obgynPlanSectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("med-order.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("med-order.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+        };
+
         var mchReferral = {
           type: "encounter-section",
           id: "section-mch-referral",
@@ -1164,7 +1175,8 @@ angular.module("encounterTypeConfig", [])
                 editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("anc-initial.xml"),
                 showOnVisitList: true,
                 sections: [
-                    ancVaccinations
+                    ancVaccinations,
+                    medOrder
                 ]
             }
         };
@@ -1216,7 +1228,8 @@ angular.module("encounterTypeConfig", [])
                 editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("anc-followup.xml"),
                 showOnVisitList: true,
                 sections: [
-                    ancVaccinations
+                    ancVaccinations,
+                    medOrder
                 ]
             }
         };
@@ -1257,8 +1270,7 @@ angular.module("encounterTypeConfig", [])
                 editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("anc-delivery.xml"),
                 showOnVisitList: true,
                 sections: [
-                    primaryCareDx,
-                    delivery
+                    medOrder
                 ]
             }
         };
