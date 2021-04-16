@@ -75,6 +75,30 @@
             display: inline-block;
         }
 
+        <ifMode mode="VIEW" include="false">
+            .date-one-line {                
+                display:flex;
+                flex-direction: row;                
+            }
+
+            #deliveryTime input {
+                display: block;
+                margin: 0px 10px 0px 0px;
+            }
+
+            .hasDatepicker {
+                min-width: 120px;
+            }
+
+            .hfe-hours, .hfe-minutes, .hfe-seconds {
+                width: 70px;
+                min-width: 70px;
+                margin: 0px 10px 0px 10px;
+            }
+                        
+            
+        </ifMode>
+
     </style>
 
     <style type="text/css">
@@ -221,9 +245,9 @@
                 <label>
                     <uimessage code="pihcore.mch.deliveryDate"/>
                 </label>
-                <!-- ToDo:  UHM-5417 Show delivery time also -->
-                <obs conceptId="CIEL:5599" allowTime="false"/>
 
+                <!-- ToDo:  UHM-5417 Show delivery time also -->
+                <obs id="deliveryTime" conceptId="CIEL:5599" allowTime="true" defaultDatetime="today" class="date-one-line"/>
             </div>
 
             <!-- ToDo: uncomment after screenshot -->
