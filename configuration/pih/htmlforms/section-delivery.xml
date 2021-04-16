@@ -386,8 +386,9 @@
                         </template>
                         <render concept="CIEL:163450" answers="CIEL:1065,CIEL:1066"
                                 name="lateCordClamping" codes="emr.yes,emr.no" />
-                        <!-- <render conceptId="PIH:13550" answers="CIEL:1115,CIEL:1116" ToDo:FIX artificial
-                                name="placentaDelivery" codes="pihcore.natural,pihcore.artificial" /> -->
+                        <!-- ToDo: Replace artificial/manual concept -->
+                        <render concept="PIH:13550" answers="CIEL:1115,CIEL:1116"
+                                name="placentaDelivery" codes="pihcore.natural,pihcore.artificial" />
                         <render concept="CIEL:163452" answers="CIEL:1065,CIEL:1066"
                                 name="AMTCL" codes="emr.yes,emr.no" />
                         <render concept="CIEL:163454" answers="CIEL:163455,CIEL:163456"
