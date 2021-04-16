@@ -1297,20 +1297,44 @@ angular.module("encounterTypeConfig", [])
         // OVC Intake
         encounterTypes["651d4359-4463-4e52-8fde-e62876f90792"] = {
             ...encounterTypes.DEFAULT,
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
             editUrl: hfeStandardEditUrl,
         };
 
         // OVC Followup
         encounterTypes["f8d426fd-132a-4032-93da-1213c30e2b74"] = {
             ...encounterTypes.DEFAULT,
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
             editUrl: hfeStandardEditUrl,
+        };
+
+        // HIV Infant documentation
+        encounterTypes["00DA14B9-7066-45A7-8FEC-0CAD60D1EBD1"] = {
+          ...encounterTypes.DEFAULT,
+          longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+          templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
+          editUrl: hfeStandardEditUrl,
         };
 
         // Tuberculosis Intake
         encounterTypes["aa42cc6c-b9ee-4850-926c-dda4bb14d890"] = {
             ...encounterTypes.DEFAULT,
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
             editUrl: hfeStandardEditUrl,
         };
+
+        // Comment
+        encounterTypes["c30d6e06-0f00-460a-8f81-3c39a1853b56"] = {
+            ...encounterTypes.DEFAULT,
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
+            icon: "fas fa-fw fa-pencil-alt",
+            editUrl: hfeStandardEditUrl,
+            showOnVisitList: true
+        }
 
         /*
          * Site-specific encounters

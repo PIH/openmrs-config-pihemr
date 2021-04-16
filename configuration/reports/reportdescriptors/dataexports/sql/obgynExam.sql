@@ -3,6 +3,7 @@
 
 CALL initialize_global_metadata();
 SET @locale = GLOBAL_PROPERTY_VALUE('default_locale', 'en');
+select encounter_type_id into @obgynnote from encounter_type where uuid = 'd83e98fd-dc7b-420f-aa3f-36f648b4483d'; 
 
 DROP TEMPORARY TABLE IF EXISTS temp_exam;
 CREATE TEMPORARY TABLE temp_exam
@@ -75,7 +76,7 @@ select
   et.name
 from encounter e
 inner join encounter_type et on et.encounter_type_id = e.encounter_type
-where e.encounter_type in (@AdultInitEnc, @AdultFollowEnc, @PedInitEnc, @PedFollowEnc)
+where e.encounter_type in (@obgynnote)
 AND date(e.encounter_datetime) >=@startDate
 AND date(e.encounter_datetime) <=@endDate
 and voided = 0

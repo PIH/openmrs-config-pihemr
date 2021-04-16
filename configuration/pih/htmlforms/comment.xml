@@ -1,0 +1,64 @@
+<htmlform
+  formUuid="9f1e1614-6b7f-423d-a28a-f174042524e2"
+  formName="Comment"
+  formEncounterType="c30d6e06-0f00-460a-8f81-3c39a1853b56"
+  formVersion="1.0">
+
+  <style type="text/css">
+    #who-when-where {
+        margin-bottom: 6px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    #who-when-where p {
+        display: inline-block;
+        padding-right: 20px;
+    }
+
+    #where > input[type=text] {
+        display: inline-block;
+    }
+  </style>
+
+  <ifMode mode="VIEW" include="false">
+    <div id="who-when-where">
+      <p id="who">
+        <label>
+          <uimessage code="emr.patientDashBoard.providerRequired"/>
+        </label>
+        <span>
+          <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
+        </span>
+      </p>
+      <p id="where">
+        <label>
+          <uimessage code="emr.locationRequired"/>
+        </label>
+        <span>
+          <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Consult Note Location"/>
+        </span>
+      </p>
+      <p id="when">
+        <label>
+          <uimessage code="emr.patientDashBoard.date"/>
+        </label>
+        <span>
+          <encounterDate id="encounterDate" default="now"/>
+        </span>
+      </p>
+    </div>
+  </ifMode>
+
+  <obs conceptId="PIH:CLINICAL IMPRESSION COMMENTS" labelCode="pihcore.comment" style="textarea" rows="5"/>
+
+  <ifMode mode="VIEW" include="false">
+    <div id="buttons">
+      <submit submitClass="confirm right" submitCode="mirebalais.save"/>
+      <button type="button" class="cancel">
+        <uimessage code="emr.cancel"/>
+      </button>
+    </div>
+  </ifMode>
+
+</htmlform>
+

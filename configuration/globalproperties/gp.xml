@@ -316,7 +316,7 @@
         </globalProperty>
         <globalProperty>
             <property>labworkflowowa.labResultsEncounterTypes</property>
-            <value>${encounterType.labSpecimenCollection.uuid},${encounterType.laboratoryResults.uuid},${encounterType.covidIntake.uuid},${encounterType.covidFollowup.uuid}</value>
+            <value>${encounterType.labSpecimenCollection.uuid},${encounterType.laboratoryResults.uuid},${encounterType.covidIntake.uuid},${encounterType.covidFollowup.uuid},${encounterType.hivIntake.uuid},${encounterType.hivFollowup.uuid}</value>
         </globalProperty>
         <globalProperty>
             <property>labworkflowowa.labResultsEncounterRole</property>
@@ -384,6 +384,10 @@
         <globalProperty>
             <property>labworkflowowa.ordersBatchSize</property>
             <value>3000</value>
+        </globalProperty>
+        <globalProperty>
+            <property>registrationapp.paperRecordIdentifierDefinition</property>
+            <value></value>
         </globalProperty>
 
         <!-- SPA -->

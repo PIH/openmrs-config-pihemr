@@ -67,7 +67,8 @@
         </sql>
     </changeSet>
 
-    <changeSet id="20210216-restore-value-drug" author="ball">
+    <changeSet id="20210405-restore-value-drug" author="ball">
+        <validCheckSum>3:4912bdee60ad40b50e9f2c76560756e1</validCheckSum>
         <comment>
             UHM-5226 Restore obs.value_drug for meds
         </comment>
@@ -78,14 +79,15 @@
                 id INT not null auto_increment primary key,
                 obs_id int(11) default NULL,
                 value_coded int(11) default NULL,
-                value_drug int(11) default NULL
+                value_drug int(11) default NULL,
+                encounter_name varchar(50) default NULL
             );
 
             -- Add obs_id to temporary table
             --   when the value_drug is null
-            insert into temp_value_drug (obs_id)
-            select o.obs_id
-              from obs o, encounter e
+            insert into temp_value_drug (obs_id,encounter_name)
+            select o.obs_id, et.name
+              from obs o, encounter e, encounter_type et
              where o.concept_id = (select concept_id from concept
                     where uuid = '3cd9491e-26fe-102b-80cb-0017a47871b2')
                and o.encounter_id = e.encounter_id
@@ -96,8 +98,8 @@
                                      '229e5160-031b-11e6-a837-0800200c9a66', -- outPedsFU
                                      '27d3a180-031b-11e6-a837-0800200c9a66', -- outAdIntake
                                      '27d3a181-031b-11e6-a837-0800200c9a66', -- outAdFU
-                                     'ae06d311-1866-455b-8a64-126a9bd74171', -- ncdIntake zl lib
-                                     '5cbfd6a2-92d9-4ad0-b526-9d29bfe1d10c', -- ncdFU zl lib
+                                     'ae06d311-1866-455b-8a64-126a9bd74171', -- ncdIntake zl
+                                     '5cbfd6a2-92d9-4ad0-b526-9d29bfe1d10c', -- ncdFU zl
                                      '00e5e810-90ec-11e8-9eb6-529269fb1459', -- ancIntake sl
                                      '00e5e946-90ec-11e8-9eb6-529269fb1459', -- ancFollowup sl
                                      '00e5ebb2-90ec-11e8-9eb6-529269fb1459', -- delivery sl
@@ -107,6 +109,7 @@
                                     ))
                and o.value_drug is null
                and o.value_coded is not null
+               and e.encounter_type = et.encounter_type_id
                and o.voided = 0
                and e.voided = 0;
 
@@ -119,6 +122,11 @@
             update temp_value_drug, drug
                set temp_value_drug.value_coded = drug.concept_id
              where temp_value_drug.value_drug = drug.drug_id;
+
+            -- Ignore for Liberia NCD encounters when value_coded is NULL
+            delete from temp_value_drug
+             where 'Liberia' IN (select name from address_hierarchy_entry where parent_id is NULL)
+               and encounter_name like 'NCD%Consult';
 
             -- Insert new obs
             insert into obs

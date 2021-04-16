@@ -1,0 +1,37 @@
+UUID,Void/Retire,Name,Description
+71c99f93-bc0c-4a44-b573-a7ac096ff636,,Medical Record Location,Notes that this location is a valid identifier location for an identifier that references a paper medical record
+fa2c2030-65fb-11e4-9803-0800200c9a66,,Archives Location,A location that serves as an archives for storing medical records
+4f8bb500-58bc-11e5-a837-0800200c9a66,,Identifier Assignment Location,A location that that can be associated with a patient identifier
+b8bbf83e-645f-451f-8efe-a0db56f09676,,Login Location,"When a user logs in and chooses a session location, they may only choose one with this tag"
+0967d73d-f3c9-492b-abed-356478610a94,,Visit Location,Visits are only allowed to happen at locations tagged with this location tag or at locations that descend from a location tagged with this tag.
+f5b9737b-14d5-402b-8475-dd558808e172,,Admission Location,Patients may only be admitted to inpatient care in a location with this tag
+9783aba6-df7b-4969-be6e-1e03e7a08965,,Transfer Location,Patients may only be transfer to inpatient care in a location with this tag
+dea8febf-0bbe-4111-8152-a9cf7df622b6,,Consult Note Location,A location where a consult note can be written
+8ce9abcb-b0d9-4897-bc65-d8d2d3362b67,,Surgery Note Location,A location where a surgery note can be written
+fe742fba-840a-4155-bfc4-a5b35ac1bb03,,ED Note Location,A location where an ED note can be written
+a0cc8ad0-e53e-11e4-b571-0800200c9a66,,Admission Note Location,A location where an Admission note can be written
+c42b7bc3-b34d-4b8f-9796-09208f9dfd72,,Dispensing Location,A location where a pharmacist or pharmacist aide can dispensed medication.
+2b5c7110-d571-4f5f-b84e-500070b40ef8,,Appointment Location,Signifies a Location where appointments can be scheduled
+d9865139-dfb4-11e4-bccc-56847afe9799,,Vitals Location,Signifies a Location where the vitals app and note should be available
+5e824f3a-dfb8-11e4-bccc-56847afe9799,,Inpatients App Location,Signifies a Location where the inpatients app should be available
+24ffeea6-dfbb-11e4-bccc-56847afe9799,,Check-In Location,Signifies a Location where the check-in app and form should be available
+8fa112e0-e506-11e4-b571-0800200c9a66,,Registration Location,Signifies a Location where the registration app should be available
+a6f68610-e53c-11e4-b571-0800200c9a66,,Registration and Check-In Location,Signifies a Location where the combined registration/check-in app should be available
+0ba7b0d0-e1ef-11e4-b571-0800200c9a66,,Order Radiology Study Location,Signifies a Location where a radiology study can be ordered
+993af5d0-57ea-11e5-a837-0800200c9a66,,Oncology Consult Location,Signifies a Location where oncology consult and intake forms can be filled out
+a2487710-57ea-11e5-a837-0800200c9a66,,Chemotherapy Location,"Signifies a Location where chemotherapy is performed, and therefore a chemotherapy treament note can be filled out"
+d3bb01c0-00f3-11e6-a837-0800200c9a66,,NCD Consult Location,Signifies a Location where NCD consult form can be filled out
+d31ced52-9103-4b01-81ae-69f1bb216a6a,,HIV Consult Location,Signifies a Location where HIV consult form can be filled out
+fe895df1-f228-45db-9f14-d27b72f91319,,Primary Care Consult Location,Signifies a Location where primary care consult form can be filled out
+5a1a98d0-0805-11e6-a837-0800200c9a66,,Lab Results Location,Signifies a Location where a Lab Results form can be filled out
+641ed690-3fb2-11e6-bdf4-0800200c9a66,,ED Triage Location,Signifies a Location where an ED Triage form can be filled out
+87037934-91a6-11e8-9eb6-529269fb1459,,Maternal and Child Location,Signifies Locations where Maternal and Child health is provided
+1e2a51e6-7c9f-11e9-8f9e-2a86e4085a59,,Vaccination Location,"Signifies Locations where Vaccinations are provided (beyond MCH, NCD, Primary care)"
+a44acd7c-2e5d-11e9-b210-d663bd873d93,,Mental Health Location,Signifies Locations where Mental Health is provided
+728f5f07-f748-4efa-9abe-b6df64e84c92,,Order Pathology Location,
+035d8463-04a6-429c-8589-779d662f40d2,,COVID-19 Location,"Signifies Locations for COVID-19 triage, care, and treatment"
+3040eab2-fda0-11e8-8eb2-f2801f1b9fd1,,Provider Management Location,
+71ae847e-e784-4170-84ea-a32111dea57b,,Tablet Entry Location,Location where entry is done via tablet; used to enable the 'simple' registration flow
+84864264-5fda-4626-b22f-4b690b7279f3,,Outpatient Transfer Location,
+160a6e45-9274-4dd8-abf7-e46af8cbb41a,,Inpatient Transfer Location,
+C4BCB2BC-94E8-40DC-BB53-7384EAC6F1BF,,Program Location,Patient programs options are limited to the locations tagged with this tag.
