@@ -81,13 +81,18 @@
                 flex-direction: row;                
             }
 
-            #deliveryTime input {
+            #deliveryTime label {
+                align-self: center;
+                margin-right: 10px;
+            }
+            #deliveryTime p input {
                 display: block;
                 margin: 0px 10px 0px 0px;
             }
 
             .hasDatepicker {
                 min-width: 120px;
+                margin-top: 0px;
             }
 
             .hfe-hours, .hfe-minutes, .hfe-seconds {
@@ -242,12 +247,14 @@
         <div class="section-container">
 
             <div>
+                <p id="deliveryTime" class="date-one-line">
                 <label>
                     <uimessage code="pihcore.mch.deliveryDate"/>
                 </label>
 
                 <!-- ToDo:  UHM-5417 Show delivery time also -->
-                <obs id="deliveryTime" conceptId="CIEL:5599" allowTime="true" defaultDatetime="today" class="date-one-line"/>
+                <obs conceptId="CIEL:5599" allowTime="true" defaultDatetime="today"/>
+                </p>
             </div>
 
             <!-- ToDo: uncomment after screenshot -->
