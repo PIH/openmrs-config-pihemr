@@ -594,6 +594,7 @@
                         <label>
                             <uimessage code="pihcore.mch.counselling.babyNutrition" />
                         </label>
+                        <br/>
                         <obs conceptId="CIEL:161651" style="radio"
                              answerConceptIds="CIEL:1065,CIEL:1066" />
                     </p>
