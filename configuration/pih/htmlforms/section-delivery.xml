@@ -362,48 +362,7 @@
                     </p>
                 </div>
 
-                <!-- Delivery -->
                 <div>
-                    <!-- Delivery type -->
-                    <label>
-                        <uimessage code="pihcore.mch.deliveryType"/>
-                    </label>
-                    <obs conceptId="PIH:11663" answerConceptId="CIEL:162595" style="checkbox" />
-                    <obs conceptId="PIH:11663" answerConceptId="CIEL:161631" style="checkbox" />
-                    <obs conceptId="PIH:11663" answerConceptId="CIEL:159902" style="checkbox" /> <!-- Vacuum -->
-                    <obs id="toggle-csection"
-                         conceptId="PIH:11663" answerConceptId="CIEL:155884" style="checkbox"
-                         toggle="c-section-reason" />
-
-                    <div id="c-section-reason">
-                        <br/>
-                        <label>
-                            <uimessage code="pihcore.reasonCSection" />
-                        </label>
-                        <repeat>
-                            <template>
-                                <obs conceptId="PIH:13527" answerConceptId="{concept}" style="checkbox" />
-                            </template>
-                            <render concept="CIEL:113617" name="prolapsed cord" />
-                            <render concept="CIEL:114127" name="placenta previa" />
-                            <render concept="CIEL:113602" name="prolonged labor"/>
-                            <render concept="CIEL:115939" name="malpresentation of fetus"/>
-                            <render concept="CIEL:113814" name="previous c-section" />
-                            <render concept="CIEL:143849" name="Congenital malformation" />
-                            <render concept="CIEL:118256" name="acute fetal distress" />
-                            <render concept="CIEL:145439" name="chronic disease" /> <!-- severe cardiomyopathy, sever asthma, severe sickle -->
-                            <render concept="CIEL:113918" name="peripartum cardiomyopathy" />
-                            <render concept="CIEL:117703" name="sickle-cell anemia" />
-                            <render concept="CIEL:115491" name="multiple babies" /> <!-- with abnormal -->
-                            <render concept="CIEL:145935" name="cephalopelvic disproportion" />
-                            <render concept="CIEL:113006" name="severe pre-eclampsia"/>
-                            <render concept="CIEL:118744" name="eclampsia"/>
-                        </repeat>
-                        <obs conceptId="PIH:13527" answerConceptId="CIEL:5622" style="checkbox"
-                             commentFieldLabel=""/>
-                    </div>
-                    <br/>
-
                     <repeat>
                         <template>
                             <p class="side-by-side">
@@ -432,7 +391,76 @@
                                 name="perinealLac" codes="emr.yes,emr.no" />
                     </repeat>
 
+                    <label>
+                        <uimessage code="pihcore.consult.procedure" />
+                    </label>
+                    <repeat>
+                        <template>
+                            <obs conceptId="CIEL:1651" answerConceptId="{concept}" />
+                        </template>
+                        <render concept="CIEL:164157" name="suture perineum" />
+                        <render concept="CIEL:5577"   name="episiotomy" />
+                    </repeat>
+                </div>
+            </div>
+            <br/>
 
+            <!-- Delivery -->
+            <!-- Delivery type -->
+            <h4>
+                <uimessage code="pihcore.mch.deliveryType"/>
+            </h4>
+            <div class="two-columns">
+                <div>
+                    <obs conceptId="PIH:11663" answerConceptId="CIEL:162595" style="checkbox"/>
+                    <obs conceptId="PIH:11663" answerConceptId="CIEL:161631" style="checkbox"/>
+                    <obs conceptId="PIH:11663" answerConceptId="CIEL:159902" style="checkbox"/> <!-- Vacuum -->
+                    <obs id="toggle-csection"
+                         conceptId="PIH:11663" answerConceptId="CIEL:155884" style="checkbox"
+                         toggle="c-section-reason"/>
+                </div>
+
+                <div>
+                    <div id="c-section-reason">
+                        <label>
+                            <uimessage code="pihcore.reasonCSection"/>
+                        </label>
+                        <repeat>
+                            <template>
+                                <obs conceptId="PIH:13527" answerConceptId="{concept}" style="checkbox"/>
+                            </template>
+                            <render concept="CIEL:113617" name="prolapsed cord"/>
+                            <render concept="CIEL:114127" name="placenta previa"/>
+                            <render concept="CIEL:113602" name="prolonged labor"/>
+                            <render concept="CIEL:115939" name="malpresentation of fetus"/>
+                            <render concept="CIEL:113814" name="previous c-section"/>
+                            <render concept="CIEL:143849" name="Congenital malformation"/>
+                            <render concept="CIEL:118256" name="acute fetal distress"/>
+                            <render concept="CIEL:145439"
+                                    name="chronic disease"/> <!-- severe cardiomyopathy, sever asthma, severe sickle -->
+                            <render concept="CIEL:113918" name="peripartum cardiomyopathy"/>
+                            <render concept="CIEL:117703" name="sickle-cell anemia"/>
+                            <render concept="CIEL:115491" name="multiple babies"/> <!-- with abnormal -->
+                            <render concept="CIEL:145935" name="cephalopelvic disproportion"/>
+                            <render concept="CIEL:113006" name="severe pre-eclampsia"/>
+                            <render concept="CIEL:118744" name="eclampsia"/>
+                        </repeat>
+                        <obs conceptId="PIH:13527" answerConceptId="CIEL:5622" style="checkbox"
+                             commentFieldLabel=""/>
+
+                        <br/>
+                        <label>
+                            <uimessage code="pihcore.consult.procedure"/>
+                        </label>
+                        <repeat>
+                            <template>
+                                <obs conceptId="CIEL:1651" answerConceptId="{concept}"/>
+                            </template>
+                            <render concept="CIEL:161848" name="cesarean hysterectomy"/>
+                            <render concept="CIEL:161890" name="c-section + tubal ligation"/>
+                        </repeat>
+
+                    </div>
                 </div>
             </div>
             <br/>
@@ -561,19 +589,6 @@
                 </div>
 
                 <div>
-                    <h4>
-                        <uimessage code="pihcore.consult.procedure" />
-                    </h4>
-                    <repeat>
-                        <template>
-                            <obs conceptId="CIEL:1651" answerConceptId="{concept}" />
-                        </template>
-                        <render concept="CIEL:164157" name="suture perineum" />
-                        <render concept="CIEL:5577"   name="episiotomy" />
-                        <render concept="CIEL:161848" name="cesarean hysterectomy" />
-                        <render concept="CIEL:161890" name="c-section + tubal ligation" />
-                    </repeat>
-
                     <p class="side-by-side">
                         <br/>
                         <label>
