@@ -360,6 +360,8 @@
                                         <obs conceptId="PIH:DIAGNOSIS" answerConceptId="{concept}" style="checkbox"/>
                                     </obsgroup>
                                 </template>
+                                <render concept="CIEL:230"    name="intrapartum hemorrhage"/>
+                                <render concept="CIEL:136601" name="postpartum hemorrhage"/>
                                 <render concept="CIEL:130108" name="placental abruption"/>
                                 <render concept="CIEL:114127" name="placenta praevia"/>
                                 <render concept="CIEL:127259" name="uterus rupture"/> <!-- PIH:7566/CIEL:127259 -->
@@ -370,23 +372,26 @@
                                      answerConceptId="CIEL:150802" answerCode="pihcore.other"
                                      showCommentField="true" commentFieldLabel="" />
                             </obsgroup>
+
+                            <p class="side-by-side">
+                                <br/>
+                                <label>
+                                    <uimessage code="pihcore.estBloodLossPPH"/>
+                                </label>
+                                <br/>
+                                <obs conceptId="CIEL:162092" style="radio"
+                                     answerConceptIds="CIEL:1499,CIEL:1500"
+                                     answerCodes="pihcore.modBloodLoss,pihcore.sevBloodLoss"/>
+                                <br/><br/>
+
+                                <!-- Transfusion -->
+                                <label>
+                                    <uimessage code="pihcore.transfusion"/>
+                                </label>
+                                <obs conceptId="CIEL:1063" style="radio" answerSeparator=""
+                                     answerConceptIds="CIEL:1065,CIEL:1066"/>
+                            </p>
                         </div>
-                    </p>
-
-                    <p>
-                        <label>
-                            <uimessage code="pihcore.estBloodLoss"/>
-                        </label>
-                        <obs conceptId="PIH:12555" showUnits="true"/>
-                    </p>
-
-                    <!-- Transfusion -->
-                    <p class="side-by-side">
-                        <label>
-                            <uimessage code="pihcore.transfusion"/>
-                        </label>
-                        <obs conceptId="CIEL:1063" style="radio" answerSeparator=""
-                             answerConceptIds="CIEL:1065,CIEL:1066"/>
                     </p>
                 </div>
 
@@ -408,7 +413,7 @@
                         <render concept="PIH:13550" answers="CIEL:1115,CIEL:1116"
                                 name="placentaDelivery" codes="pihcore.natural,pihcore.artificial" />
                         <render concept="CIEL:163452" answers="CIEL:1065,CIEL:1066"
-                                name="AMTCL" codes="emr.yes,emr.no" />
+                                name="fullAMTSL" codes="emr.yes,emr.no" />
                         <render concept="CIEL:163454" answers="CIEL:163455,CIEL:163456"
                                 name="placenta" codes="pihcore.complete,pihcore.incomplete" />
                         <render concept="CIEL:164900" answers="CIEL:164899,CIEL:127244"
@@ -666,10 +671,10 @@
                         <br/><br/>
 
                         <label>
-                            <uimessage code="pihcore.mch.counselling.familyPlanning" />
+                            <uimessage code="pihcore.mch.adoptModFP" />
                         </label>
                         <br/>
-                        <obs conceptId="CIEL:1382" style="radio"
+                        <obs conceptId="PIH:13564" style="radio"
                              answerConceptIds="CIEL:1065,CIEL:1066" />
                     </p>
                 </div>
