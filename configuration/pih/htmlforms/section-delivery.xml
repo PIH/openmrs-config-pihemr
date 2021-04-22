@@ -277,7 +277,7 @@
             <div>
                 <p id="deliveryTime" class="date-one-line">
                 <label>
-                    <uimessage code="pihcore.mch.deliveryDate"/>
+                    <uimessage code="pihcore.mch.deliveryDateTime"/>
                 </label>
 
                 <!-- ToDo:  UHM-5417 Show delivery time also -->
@@ -382,16 +382,17 @@
                                 <obs conceptId="CIEL:162092" style="radio"
                                      answerConceptIds="CIEL:1499,CIEL:1500"
                                      answerCodes="pihcore.modBloodLoss,pihcore.sevBloodLoss"/>
-                                <br/><br/>
-
-                                <!-- Transfusion -->
-                                <label>
-                                    <uimessage code="pihcore.transfusion"/>
-                                </label>
-                                <obs conceptId="CIEL:1063" style="radio" answerSeparator=""
-                                     answerConceptIds="CIEL:1065,CIEL:1066"/>
-                            </p>
+                             </p>
                         </div>
+                    </p>
+
+                    <p class="side-by-side">
+                        <!-- Transfusion -->
+                        <label>
+                            <uimessage code="pihcore.transfusion"/>
+                        </label>
+                        <obs conceptId="CIEL:1063" style="radio" answerSeparator=""
+                             answerConceptIds="CIEL:1065,CIEL:1066"/>
                     </p>
                 </div>
 
@@ -658,6 +659,25 @@
                             <uimessage code="pihcore.numPrenatalVisits" />
                         </label>
                         <obs conceptId="CIEL:1590" />
+                    </p>
+
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.refer.referBy" />
+                        </label>
+                        <repeat>
+                            <template>
+                                <obs conceptId="PIH:Type of referral role"
+                                     style="checkbox"
+                                     answerConceptId="{point}" />
+                            </template>
+                            <render point="CIEL:1575" message="TBA / Matrone"/>
+                            <render point="CIEL:1555" message="CHW / ASCP"/>
+                        </repeat>
+
+                    <obs conceptId="PIH:Type of referral role" style="checkbox"
+                         answerConceptId="PIH:OTHER"
+                         commentFieldCode=""/>
                     </p>
                 </div>
                 <div>
