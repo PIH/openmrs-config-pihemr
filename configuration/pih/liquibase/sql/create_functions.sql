@@ -677,7 +677,32 @@ BEGIN
 
 END
 #
+-- This function accepts patient_id
+-- it returns the cdc_id of the patient's address
+#
+DROP FUNCTION IF EXISTS cdc_id;
+#
+CREATE FUNCTION cdc_id(_patient_id int(11))
 
+  RETURNS varchar(11)
+    DETERMINISTIC
+
+BEGIN
+    DECLARE cdc_id varchar(11);
+
+select ahe_section.user_generated_id into cdc_id from
+person_address pa 
+LEFT OUTER JOIN address_hierarchy_entry ahe_country on ahe_country.name = pa.country
+LEFT OUTER JOIN address_hierarchy_entry ahe_dept on ahe_dept.level_id = ahe_country.level_id + 1 and ahe_dept.parent_id = ahe_country.address_hierarchy_entry_id and ahe_dept.name = pa.state_province
+LEFT OUTER JOIN address_hierarchy_entry ahe_commune on ahe_commune.level_id = ahe_dept.level_id + 1 and ahe_commune.parent_id = ahe_dept.address_hierarchy_entry_id and ahe_commune.name = pa.city_village
+LEFT OUTER JOIN address_hierarchy_entry ahe_section on ahe_section.level_id = ahe_commune.level_id + 1 and ahe_section.parent_id = ahe_commune.address_hierarchy_entry_id and ahe_section.name = pa.address3
+where pa.person_id = _patient_id
+;
+    RETURN cdc_id;
+
+END
+#				       
+				       
 -- This function accepts a patient_id, concept_id and beginDate
 -- It will return the obs_id of the most recent observation for that patient and concept_id SINCE the beginDate
 -- if null is passed in as the beginDate, it will be disregarded
