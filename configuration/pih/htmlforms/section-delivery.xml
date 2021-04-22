@@ -447,14 +447,20 @@
             <div class="two-columns">
                 <div>
                     <obs conceptId="PIH:11663" answerConceptId="CIEL:162595" style="checkbox"/>
-                    <obs conceptId="PIH:11663" answerConceptId="CIEL:161631" style="checkbox"/>
-                    <obs conceptId="PIH:11663" answerConceptId="CIEL:159902" style="checkbox"/> <!-- Vacuum -->
+                    <obs id="instrument" toggle="vacuum"
+                         conceptId="PIH:11663" answerConceptId="CIEL:161631" style="checkbox" />
                     <obs id="toggle-csection"
                          conceptId="PIH:11663" answerConceptId="CIEL:155884" style="checkbox"
                          toggle="c-section-reason"/>
                 </div>
 
                 <div>
+                    <div id="vacuum">
+                        <!-- Vacuum -->
+                        <obs conceptId="PIH:11663" style="checkbox"
+                             answerConceptId="CIEL:159902"  />
+                        <br/>
+                    </div>
                     <div id="c-section-reason">
                         <label>
                             <uimessage code="pihcore.reasonCSection"/>
