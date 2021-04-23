@@ -16,6 +16,7 @@ previous_order_id int(11),
 encounter_id int(11),
 order_action varchar(50),
 encounter_datetime datetime,
+visit_location varchar(255),
 obs_group_id int(11),
 art_treatment_line varchar(255),
 drug_id int(11),
@@ -94,6 +95,9 @@ update temp_HIV_regimens t
 inner join orders o on o.voided = 0 and o.previous_order_id = t.order_id and o.order_action = 'REVISE'
 set t.end_reasons = 'Revised order'
 where t.end_date is not null;
+
+-- visit location
+update temp_HIV_regimens t set visit_location = encounter_location_name(encounter_id);
 
 -- drug category
 update temp_HIV_regimens 
@@ -255,6 +259,7 @@ patient_id,
 order_action,
 encounter_id,
 encounter_datetime,
+visit_location,
 drug_category,
 art_treatment_line,
 drug_id,
