@@ -1,6 +1,6 @@
-UUID,Void/Retire,Entity name,Name,Description,Datatype classname,Datatype config
-64f01c78-191d-4947-a201-7e0a7f0caf21,,Location,Location Code,Unique identifier assigned to the location.  (Currently used as a key when exchanging information with McKesson PACS via the PACS Integration module.),org.openmrs.customdatatype.datatype.FreeTextDatatype,
-bd6c1c10-38d3-11e2-81c1-0800200c9a66,,Location,Default Label Printer,The default label printer for this location,org.openmrs.module.printer.PrinterDatatype,LABEL
-b48ef9a0-38d3-11e2-81c1-0800200c9a66,,Location,Default ID card Printer,The default id card printer for this location,org.openmrs.module.printer.PrinterDatatype,ID_CARD
-7f73ad30-0b89-11e4-9191-0800200c9a66,,Location,Default Wristband Printer,The default wristband printer for this location,org.openmrs.module.printer.PrinterDatatype,WRISTBAND
-a5fb5770-409a-11e2-a25f-0800200c9a66,,Location,Name to print on ID card,The name to use when printing a location on an id card,org.openmrs.customdatatype.datatype.FreeTextDatatype,
+UUID,Entity name,Name,Description,Datatype classname,Datatype config,Min occurs,Max occurs
+64f01c78-191d-4947-a201-7e0a7f0caf21,Location,Location Code,Unique identifier assigned to the location.  (Currently used as a key when exchanging information with McKesson PACS via the PACS Integration module.),org.openmrs.customdatatype.datatype.FreeTextDatatype,,0,1
+bd6c1c10-38d3-11e2-81c1-0800200c9a66,Location,Default Label Printer,The default label printer for this location,org.openmrs.module.printer.PrinterDatatype,LABEL,0,1
+b48ef9a0-38d3-11e2-81c1-0800200c9a66,Location,Default ID card Printer,The default id card printer for this location,org.openmrs.module.printer.PrinterDatatype,ID_CARD,0,1
+7f73ad30-0b89-11e4-9191-0800200c9a66,Location,Default Wristband Printer,The default wristband printer for this location,org.openmrs.module.printer.PrinterDatatype,WRISTBAND,0,1
+a5fb5770-409a-11e2-a25f-0800200c9a66,Location,Name to print on ID card,The name to use when printing a location on an id card,org.openmrs.customdatatype.datatype.FreeTextDatatype,,0,1
