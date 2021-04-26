@@ -165,12 +165,6 @@
             Fixes Cange's invalid UUID.
         </comment>
         <sql>
-            -- If a fixed Cange has been added but the old one still exists, delete the new one.
-            delete l1 from location l1
-            join location l2
-            where l1.location_id > l2.location_id and l1.name = l2.name and l1.uuid = '328f68e4-0370-102d-b0e3-001ec94a0cc1';
-            
-            -- Update the existing Cange with the bad UUID.
             update location
             set uuid = '328f68e4-0370-102d-b0e3-001ec94a0cc1'
             where uuid = '328f68e4-0370-102d-b0e3-001ec94a0cc';
