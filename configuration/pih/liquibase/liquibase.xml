@@ -154,4 +154,28 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20210426-fix-cange-uuid" author="bistenes">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">
+                select count(*) from location where uuid = '328f68e4-0370-102d-b0e3-001ec94a0cc';
+            </sqlCheck>
+        </preConditions>
+        <comment>
+            Part of UHM-4354, moving locations out of PIH Core and into config repos.
+            Fixes Cange's invalid UUID.
+        </comment>
+        <sql>
+            -- If a fixed Cange has been added but the old one still exists, delete the new one.
+            delete l1 from location l1
+            join location l2
+            where l1.id > l2.id and l1.name = l2.name and l1.uuid = '328f68e4-0370-102d-b0e3-001ec94a0cc1';
+            
+            -- Update the existing Cange with the bad UUID.
+            update location
+            set uuid = '328f68e4-0370-102d-b0e3-001ec94a0cc1'
+            where uuid = '328f68e4-0370-102d-b0e3-001ec94a0cc';
+        </sql>
+
+    </changeSet>
+
 </databaseChangeLog>
