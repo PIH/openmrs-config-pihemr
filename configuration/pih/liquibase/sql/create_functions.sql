@@ -697,6 +697,7 @@ LEFT OUTER JOIN address_hierarchy_entry ahe_dept on ahe_dept.level_id = ahe_coun
 LEFT OUTER JOIN address_hierarchy_entry ahe_commune on ahe_commune.level_id = ahe_dept.level_id + 1 and ahe_commune.parent_id = ahe_dept.address_hierarchy_entry_id and ahe_commune.name = pa.city_village
 LEFT OUTER JOIN address_hierarchy_entry ahe_section on ahe_section.level_id = ahe_commune.level_id + 1 and ahe_section.parent_id = ahe_commune.address_hierarchy_entry_id and ahe_section.name = pa.address3
 where pa.person_id = _patient_id
+order by pa.preferred desc limit 1
 ;
     RETURN cdc_id;
 
