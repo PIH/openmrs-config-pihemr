@@ -155,6 +155,7 @@
     </changeSet>
 
     <changeSet id="20210426-fix-cange-uuid" author="bistenes">
+        <validCheckSum>3:765ecd3f27c31924a2d28b3586098de9</validCheckSum>
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">
                 select count(*) from location where uuid = '328f68e4-0370-102d-b0e3-001ec94a0cc';
