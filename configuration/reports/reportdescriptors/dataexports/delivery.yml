@@ -1,0 +1,27 @@
+key: "deliveryexport"
+uuid: "15b26623-3a8f-492c-92fa-d6362b012671"
+name: "mirebalaisreports.deliverydataexport.name"
+description: "mirebalaisreports.deliverydataexport.description"
+parameters:
+  - key: "startDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.startDate"
+  - key: "endDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.endDate"
+datasets:
+  - key: "deliverydataexport"
+    type: "sql"
+    config: "sql/delivery.sql"
+designs:
+  - type: "csv"
+    properties:
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
+config:
+  category: "dataExport"
+  order: 50
+  components:
+    - "mch"
+    - "allDataExports"
