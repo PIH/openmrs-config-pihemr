@@ -463,7 +463,7 @@
                     </div>
                     <div id="c-section-reason">
                         <label>
-                            <uimessage code="pihcore.reasonCSection"/>
+                            <u><uimessage code="pihcore.reasonCSection"/></u>
                         </label>
                         <label>
                             <uimessage code="pihcore.maternal" />
@@ -473,18 +473,20 @@
                                 <obs conceptId="PIH:13527" answerConceptId="{concept}" style="checkbox"/>
                             </template>
                             <render concept="CIEL:113017" name="severe asthma"/>
-                            <render concept="CIEL:113858" name="hypertension"/>
+                            <render concept="CIEL:113858" name="hypertension complications"/>
                             <render concept="CIEL:117703" name="sickle-cell anemia"/>
                             <!-- Remove these? -->
                             <render concept="CIEL:113918" name="peripartum cardiomyopathy"/>
                             <render concept="CIEL:113006" name="severe pre-eclampsia"/>
                             <render concept="CIEL:118744" name="eclampsia"/>
-                            <!-- Add these?
                             <render concept="CIEL:111491" name="maternal viral disease"/>
                             <render concept="CIEL:162185" name="HIV infection with high VL"/>
                             <render concept="CIEL:158060" name="Obstruct/pelvic abnormality"/>
-                            <render concept="CIEL:120222" name="other complications for mom"/> -->
                         </repeat>
+
+                        <!-- other maternal problem -->
+                        <obs conceptId="PIH:13527" answerConceptId="PIH:13571" style="checkbox"
+                             commentFieldLabel=""/>
 
                         <label>
                             <uimessage code="pihcore.fetal" />
@@ -497,9 +499,12 @@
                             <render concept="CIEL:115939" name="malpresentation of fetus"/>
                             <render concept="CIEL:143849" name="Congenital malformation"/>
                             <render concept="CIEL:118256" name="acute fetal distress"/>
-                            <render concept="CIEL:115491" name="multiple babies"/> 
-                            <!-- Add other CIEL:114599 -->
+                            <render concept="CIEL:115491" name="multiple babies"/>
                         </repeat>
+
+                        <!-- other fetal problem -->
+                        <obs conceptId="PIH:13527" answerConceptId="PIH:13572" style="checkbox"
+                             commentFieldLabel=""/>
 
                         <label>
                             <uimessage code="pihcore.exam.obstetrical_exam" />
@@ -516,7 +521,8 @@
                             <render concept="CIEL:113602" name="prolonged labor"/>
                         </repeat>
 
-                        <obs conceptId="PIH:13527" answerConceptId="CIEL:5622" style="checkbox"
+                        <!-- other obstetrical problem -->
+                        <obs conceptId="PIH:13527" answerConceptId="PIH:13573" style="checkbox"
                              commentFieldLabel=""/>
 
                         <br/>
