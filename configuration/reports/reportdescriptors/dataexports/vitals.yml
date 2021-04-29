@@ -1,0 +1,26 @@
+key: "vitalsdataexport"
+uuid: "deb84368-d46c-4e30-9693-13cc80b040a0"
+name: "mirebalaisreports.vitalsdataexport.name"
+description: "mirebalaisreports.vitalsdataexport.description"
+parameters:
+  - key: "startDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.startDate"
+  - key: "endDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.endDate"
+datasets:
+  - key: "vitalsdataexport"
+    type: "sql"
+    config: "sql/vitals.sql"
+designs:
+  - type: "csv"
+    properties:
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
+config:
+  category: "dataExport"
+  order: 11
+  components:
+    - "allDataExports"
