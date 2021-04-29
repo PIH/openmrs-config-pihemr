@@ -24,4 +24,5 @@ config:
   order: 11
   components:
     - "vitals"
+    - "uhmVitals"
     - "allDataExports"
