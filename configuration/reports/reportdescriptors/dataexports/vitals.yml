@@ -23,4 +23,5 @@ config:
   category: "dataExport"
   order: 11
   components:
+    - "vitals"
     - "allDataExports"
