@@ -89,6 +89,36 @@ CREATE TEMPORARY TABLE temp_delivery
     referred_by_other_details varchar(255),
     nutrition_newborn_counseling varchar(255),
     family_planning_after_delivery varchar(255),
+    diagnosis_1             varchar(255),
+    diagnosis_1_certainty   varchar(255),
+    diagnosis_1_order       varchar(255),
+    diagnosis_2             varchar(255),
+    diagnosis_2_certainty   varchar(255),
+    diagnosis_2_order       varchar(255),
+    diagnosis_3             varchar(255),
+    diagnosis_3_certainty   varchar(255),
+    diagnosis_3_order       varchar(255),
+    diagnosis_4             varchar(255),
+    diagnosis_4_certainty   varchar(255),
+    diagnosis_4_order       varchar(255),
+    diagnosis_5             varchar(255),
+    diagnosis_5_certainty   varchar(255),
+    diagnosis_5_order       varchar(255),
+    diagnosis_6             varchar(255),
+    diagnosis_6_certainty   varchar(255),
+    diagnosis_6_order       varchar(255),
+    diagnosis_7             varchar(255),
+    diagnosis_7_certainty   varchar(255),
+    diagnosis_7_order       varchar(255),
+    diagnosis_8             varchar(255),
+    diagnosis_8_certainty   varchar(255),
+    diagnosis_8_order       varchar(255),
+    diagnosis_9             varchar(255),
+    diagnosis_9_certainty   varchar(255),
+    diagnosis_9_order       varchar(255),
+    diagnosis_10            varchar(255),
+    diagnosis_10_certainty  varchar(255),
+    diagnosis_10_order      varchar(255),
     disposition             varchar(255),
     disposition_comment     varchar(255),
     return_visit_date       datetime
@@ -212,6 +242,47 @@ update temp_delivery set referred_by = obs_value_coded_list(encounter_id,'PIH','
 update temp_delivery set referred_by_other_details = obs_comments(encounter_id, 'PIH','10635','CIEL','5622');
 update temp_delivery set nutrition_newborn_counseling = obs_value_coded_list(encounter_id,'CIEL','161651',@locale);
 update temp_delivery set family_planning_after_delivery = obs_value_coded_list(encounter_id,'PIH','13564',@locale);
+
+-- diagnoses
+update temp_delivery t set diagnosis_1 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',0),'PIH','3064',@locale);
+update temp_delivery t set diagnosis_1_certainty =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',0),'PIH','1379',@locale);
+update temp_delivery t set diagnosis_1_order =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',0),'PIH','7537',@locale);
+
+update temp_delivery t set diagnosis_2 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',1),'PIH','3064',@locale);
+update temp_delivery t set diagnosis_2_certainty =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',1),'PIH','1379',@locale);
+update temp_delivery t set diagnosis_2_order =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',1),'PIH','7537',@locale);
+
+update temp_delivery t set diagnosis_3 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',2),'PIH','3064',@locale);
+update temp_delivery t set diagnosis_3_certainty =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',2),'PIH','1379',@locale);
+update temp_delivery t set diagnosis_3_order =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',2),'PIH','7537',@locale);
+
+update temp_delivery t set diagnosis_4 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',3),'PIH','3064',@locale);
+update temp_delivery t set diagnosis_4_certainty =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',3),'PIH','1379',@locale);
+update temp_delivery t set diagnosis_4_order =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',3),'PIH','7537',@locale);
+
+update temp_delivery t set diagnosis_5 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',4),'PIH','3064',@locale);
+update temp_delivery t set diagnosis_5_certainty =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',4),'PIH','1379',@locale);
+update temp_delivery t set diagnosis_5_order =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',4),'PIH','7537',@locale);
+
+update temp_delivery t set diagnosis_6 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',5),'PIH','3064',@locale);
+update temp_delivery t set diagnosis_6_certainty =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',5),'PIH','1379',@locale);
+update temp_delivery t set diagnosis_6_order =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',5),'PIH','7537',@locale);
+
+update temp_delivery t set diagnosis_7 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',6),'PIH','3064',@locale);
+update temp_delivery t set diagnosis_7_certainty =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',6),'PIH','1379',@locale);
+update temp_delivery t set diagnosis_7_order =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',6),'PIH','7537',@locale);
+
+update temp_delivery t set diagnosis_8 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',7),'PIH','3064',@locale);
+update temp_delivery t set diagnosis_8_certainty =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',7),'PIH','1379',@locale);
+update temp_delivery t set diagnosis_8_order =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',7),'PIH','7537',@locale);
+
+update temp_delivery t set diagnosis_9 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',8),'PIH','3064',@locale);
+update temp_delivery t set diagnosis_9_certainty =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',8),'PIH','1379',@locale);
+update temp_delivery t set diagnosis_9_order =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',8),'PIH','7537',@locale);
+
+update temp_delivery t set diagnosis_10 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',9),'PIH','3064',@locale);
+update temp_delivery t set diagnosis_10_certainty =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',9),'PIH','1379',@locale);
+update temp_delivery t set diagnosis_10_order =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',9),'PIH','7537',@locale);
 
 -- disposition info
 update temp_delivery set disposition = obs_value_coded_list(encounter_id,'PIH','8620',@locale);
