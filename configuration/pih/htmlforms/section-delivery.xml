@@ -465,26 +465,57 @@
                         <label>
                             <uimessage code="pihcore.reasonCSection"/>
                         </label>
+                        <label>
+                            <uimessage code="pihcore.maternal" />
+                        </label>
                         <repeat>
                             <template>
                                 <obs conceptId="PIH:13527" answerConceptId="{concept}" style="checkbox"/>
                             </template>
-                            <render concept="CIEL:113617" name="prolapsed cord"/>
-                            <render concept="CIEL:114127" name="placenta previa"/>
-                            <render concept="CIEL:113602" name="prolonged labor"/>
-                            <render concept="CIEL:115939" name="malpresentation of fetus"/>
-                            <render concept="CIEL:113814" name="previous c-section"/>
-                            <render concept="CIEL:143849" name="Congenital malformation"/>
-                            <render concept="CIEL:118256" name="acute fetal distress"/>
-                            <render concept="CIEL:145439"
-                                    name="chronic disease"/> <!-- severe cardiomyopathy, sever asthma, severe sickle -->
-                            <render concept="CIEL:113918" name="peripartum cardiomyopathy"/>
+                            <render concept="CIEL:113017" name="severe asthma"/>
+                            <render concept="CIEL:113858" name="hypertension"/>
                             <render concept="CIEL:117703" name="sickle-cell anemia"/>
-                            <render concept="CIEL:115491" name="multiple babies"/> <!-- with abnormal -->
-                            <render concept="CIEL:145935" name="cephalopelvic disproportion"/>
+                            <!-- Remove these? -->
+                            <render concept="CIEL:113918" name="peripartum cardiomyopathy"/>
                             <render concept="CIEL:113006" name="severe pre-eclampsia"/>
                             <render concept="CIEL:118744" name="eclampsia"/>
+                            <!-- Add these?
+                            <render concept="CIEL:111491" name="maternal viral disease"/>
+                            <render concept="CIEL:162185" name="HIV infection with high VL"/>
+                            <render concept="CIEL:158060" name="Obstruct/pelvic abnormality"/>
+                            <render concept="CIEL:120222" name="other complications for mom"/> -->
                         </repeat>
+
+                        <label>
+                            <uimessage code="pihcore.fetal" />
+                        </label>
+
+                        <repeat>
+                            <template>
+                                <obs conceptId="PIH:13527" answerConceptId="{concept}" style="checkbox"/>
+                            </template>
+                            <render concept="CIEL:115939" name="malpresentation of fetus"/>
+                            <render concept="CIEL:143849" name="Congenital malformation"/>
+                            <render concept="CIEL:118256" name="acute fetal distress"/>
+                            <render concept="CIEL:115491" name="multiple babies"/> <!-- with abnormal -->
+                            <!-- Add other CIEL:114599 -->
+                        </repeat>
+
+                        <label>
+                            <uimessage code="pihcore.exam.obstetrical_exam" />
+                        </label>
+                        <repeat>
+                            <template>
+                                <obs conceptId="PIH:13527" answerConceptId="{concept}" style="checkbox"/>
+                            </template>
+                            <render concept="CIEL:130109" name="placental abnormality"/>
+                            <render concept="CIEL:113617" name="prolapsed cord"/>
+                            <render concept="CIEL:114127" name="placenta previa"/>
+                            <render concept="CIEL:113814" name="previous c-section"/>
+                            <render concept="CIEL:145935" name="cephalopelvic disproportion"/>
+                            <render concept="CIEL:113602" name="prolonged labor"/>
+                        </repeat>
+
                         <obs conceptId="PIH:13527" answerConceptId="CIEL:5622" style="checkbox"
                              commentFieldLabel=""/>
 
