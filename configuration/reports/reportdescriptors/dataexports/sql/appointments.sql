@@ -56,6 +56,7 @@ inner join	appointmentscheduling_appointment_block b on ts.appointment_block_id 
 inner join	appointmentscheduling_appointment_type t on a.appointment_type_id = t.appointment_type_id
 where		date(ts.start_date) <= date(@endDate)
 and		    date(ts.end_date) >= date(@startDate)
+and         a.voided = 0
 ;
 
 update temp_appointments set family_name = person_family_name(patient_id);
