@@ -497,7 +497,7 @@
                             <render concept="CIEL:115939" name="malpresentation of fetus"/>
                             <render concept="CIEL:143849" name="Congenital malformation"/>
                             <render concept="CIEL:118256" name="acute fetal distress"/>
-                            <render concept="CIEL:115491" name="multiple babies"/> <!-- with abnormal -->
+                            <render concept="CIEL:115491" name="multiple babies"/> 
                             <!-- Add other CIEL:114599 -->
                         </repeat>
 
