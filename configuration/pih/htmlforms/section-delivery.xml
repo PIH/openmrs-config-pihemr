@@ -58,6 +58,11 @@
             width: 50%;
         }
 
+        .three-columns > div {
+            display: table-cell;
+            width: 33%;
+        }
+
         form input[type="radio"], .form input[type="radio"] {
             float: none;
             display: inline-block;
@@ -285,7 +290,6 @@
                 </p>
             </div>
 
-            <!-- ToDo: uncomment after screenshot -->
             <div id="calculated-edd-and-gestational" class="hidden">
                 <div class="two-columns">
                     <div>
@@ -310,7 +314,7 @@
                         </span>
                     </div>
                 </div>
-            </div> <!-- -->
+            </div>
             <br/>
 
             <h4>
@@ -439,7 +443,6 @@
             </div>
             <br/>
 
-            <!-- Delivery -->
             <!-- Delivery type -->
             <h4>
                 <uimessage code="pihcore.mch.deliveryType"/>
@@ -461,12 +464,19 @@
                              answerConceptId="CIEL:159902"  />
                         <br/>
                     </div>
-                    <div id="c-section-reason">
+                </div>
+            </div>
+
+            <div id="c-section-reason">
+                <label>
+                    <h5>
+                        <uimessage code="pihcore.reasonCSection"/>
+                    </h5>
+                </label>
+                <div class="three-columns small">
+                    <div>
                         <label>
-                            <u><uimessage code="pihcore.reasonCSection"/></u>
-                        </label>
-                        <label>
-                            <uimessage code="pihcore.maternal" />
+                            <uimessage code="pihcore.maternal"/>
                         </label>
                         <repeat>
                             <template>
@@ -487,9 +497,10 @@
                         <!-- other maternal problem -->
                         <obs conceptId="PIH:13527" answerConceptId="PIH:13571" style="checkbox"
                              commentFieldLabel=""/>
-
+                    </div>
+                    <div>
                         <label>
-                            <uimessage code="pihcore.fetal" />
+                            <uimessage code="pihcore.fetal"/>
                         </label>
 
                         <repeat>
@@ -505,9 +516,11 @@
                         <!-- other fetal problem -->
                         <obs conceptId="PIH:13527" answerConceptId="PIH:13572" style="checkbox"
                              commentFieldLabel=""/>
+                    </div>
+                    <div>
 
                         <label>
-                            <uimessage code="pihcore.exam.obstetrical_exam" />
+                            <uimessage code="pihcore.exam.obstetrical_exam"/>
                         </label>
                         <repeat>
                             <template>
@@ -524,21 +537,19 @@
                         <!-- other obstetrical problem -->
                         <obs conceptId="PIH:13527" answerConceptId="PIH:13573" style="checkbox"
                              commentFieldLabel=""/>
-
-                        <br/>
-                        <label>
-                            <uimessage code="pihcore.consult.procedure"/>
-                        </label>
-                        <repeat>
-                            <template>
-                                <obs conceptId="CIEL:1651" answerConceptId="{concept}"/>
-                            </template>
-                            <render concept="CIEL:161848" name="cesarean hysterectomy"/>
-                            <render concept="CIEL:161890" name="c-section + tubal ligation"/>
-                        </repeat>
-
                     </div>
                 </div>
+                <br/>
+                <label>
+                    <uimessage code="pihcore.consult.procedure"/>
+                </label>
+                <repeat>
+                    <template>
+                        <obs conceptId="CIEL:1651" answerConceptId="{concept}"/>
+                    </template>
+                    <render concept="CIEL:161848" name="cesarean hysterectomy"/>
+                    <render concept="CIEL:161890" name="c-section + tubal ligation"/>
+                </repeat>
             </div>
             <br/>
 
