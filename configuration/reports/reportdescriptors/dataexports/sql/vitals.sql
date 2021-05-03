@@ -4,6 +4,8 @@
 
 CALL initialize_global_metadata();
 SET @locale = GLOBAL_PROPERTY_VALUE('default_locale', 'en');
+SET @locale_yes = concept_name(concept_from_mapping('PIH','YES'),@locale);
+SET @locale_no = concept_name(concept_from_mapping('PIH','NO'),@locale);
 
 DROP TEMPORARY TABLE IF EXISTS temp_vitals;
 CREATE TEMPORARY TABLE temp_vitals
@@ -44,6 +46,10 @@ CREATE TEMPORARY TABLE temp_vitals
 	confused					VARCHAR(11),
 	level_of_consciousness 		TEXT, 
 	TB_symptoms					TEXT,
+    cough_lasting_2weeks		VARCHAR(11),
+    fever						VARCHAR(11),
+    night_sweats  				VARCHAR(11),
+    weight_loss					VARCHAR(11),
     chief_complaint				TEXT
 );
 
@@ -65,12 +71,10 @@ FROM openmrs.encounter e
 WHERE voided = 0
 AND encounter_type = (SELECT encounter_type_id 
 			FROM encounter_type
-			WHERE uuid = '4fb47712-34a6-40d2-8ed3-e153abbd25b7' #Vital Signs
-)
+			WHERE uuid = '4fb47712-34a6-40d2-8ed3-e153abbd25b7') #Vital Signs
 AND DATE(encounter_datetime) >=@startDate
 AND DATE(encounter_datetime) <=@endDate
 ;
-
 
 UPDATE temp_vitals SET department = PERSON_ADDRESS_STATE_PROVINCE(patient_id);
 UPDATE temp_vitals SET commune = PERSON_ADDRESS_CITY_VILLAGE(patient_id);
@@ -80,14 +84,12 @@ UPDATE temp_vitals SET street_landmark = PERSON_ADDRESS_TWO(patient_id);
 
 UPDATE temp_vitals tv
         INNER JOIN
-    (SELECT *
+    (SELECT person_id, birthdate_estimated
     FROM person
     WHERE voided = 0
-    ORDER BY date_created DESC
-    LIMIT 1) p 
+    ORDER BY date_created DESC) p 
 	ON tv.patient_id = p.person_id 
-SET tv.birthdate_estimated = p.birthdate_estimated
-;
+SET tv.birthdate_estimated = p.birthdate_estimated;
 
 UPDATE temp_vitals SET zlemr = ZLEMR(patient_id);
 UPDATE temp_vitals SET loc_registered = LOC_REGISTERED(patient_id);
@@ -110,19 +112,46 @@ UPDATE temp_vitals SET dia_bp = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '5086');
 UPDATE temp_vitals SET o2_sat = OBS_VALUE_NUMERIC(encounter_id, 'CIEL', '5092');	
 UPDATE temp_vitals SET level_of_mobility = OBS_VALUE_CODED_LIST(encounter_id, 'CIEL', '162753', @locale);
 
-UPDATE temp_vitals 
-SET confused = CASE 
-				  WHEN OBS_SINGLE_VALUE_CODED(encounter_id,'PIH','1293','PIH','6006') = 'Yes' THEN 'Yes'
-				  WHEN OBS_SINGLE_VALUE_CODED(encounter_id,'PIH','1734','PIH','6006') = 'Yes' THEN 'No'
-				  ELSE NULL
-			   END;
-
+UPDATE temp_vitals SET confused = 
+CASE 
+	WHEN OBS_SINGLE_VALUE_CODED(encounter_id,'PIH','1293','PIH','6006') = @locale_yes THEN @locale_yes
+	WHEN OBS_SINGLE_VALUE_CODED(encounter_id,'PIH','1734','PIH','6006') = @locale_yes THEN @locale_no
+	ELSE NULL
+END;
+               
 UPDATE temp_vitals SET level_of_consciousness = OBS_VALUE_CODED_LIST(encounter_id, 'PIH', '10674', @locale);
  
 UPDATE temp_vitals SET TB_symptoms = OBS_VALUE_CODED_LIST(encounter_id, 'PIH', '11563', @locale);
 
-UPDATE temp_vitals SET chief_complaint = obs_value_text(encounter_id, 'CIEL', '160531');
+UPDATE temp_vitals SET  cough_lasting_2weeks = 
+CASE 
+	WHEN OBS_SINGLE_VALUE_CODED(encounter_id,'PIH','11563','PIH','11567') = @locale_yes THEN @locale_yes
+	WHEN OBS_SINGLE_VALUE_CODED(encounter_id,'PIH','11564','PIH','11567') = @locale_yes THEN @locale_no
+	ELSE NULL
+END;
 
+UPDATE temp_vitals SET  fever = 
+CASE 
+	WHEN OBS_SINGLE_VALUE_CODED(encounter_id,'PIH','11563','PIH','5945') = @locale_yes THEN @locale_yes
+	WHEN OBS_SINGLE_VALUE_CODED(encounter_id,'PIH','11564','PIH','5945') = @locale_yes THEN @locale_no
+	ELSE NULL
+END;
+
+UPDATE temp_vitals SET  night_sweats = 
+CASE 
+      WHEN OBS_SINGLE_VALUE_CODED(encounter_id,'PIH','11563','PIH','6029') = @locale_yes THEN @locale_yes
+      WHEN OBS_SINGLE_VALUE_CODED(encounter_id,'PIH','11564','PIH','6029') = @locale_yes THEN @locale_no
+      ELSE NULL
+END;
+
+UPDATE temp_vitals SET  weight_loss = 
+CASE 
+	WHEN OBS_SINGLE_VALUE_CODED(encounter_id,'PIH','11563','PIH','6477') = @locale_yes THEN @locale_yes
+	WHEN OBS_SINGLE_VALUE_CODED(encounter_id,'PIH','11564','PIH','6477') = @locale_yes THEN @locale_no
+	ELSE NULL
+END;
+
+UPDATE temp_vitals SET chief_complaint = obs_value_text(encounter_id, 'CIEL', '160531');
 
 SELECT 
     patient_id,
@@ -153,18 +182,19 @@ SELECT
     o2_sat,
     date_created,
     IF(TIME_TO_SEC(date_created) - TIME_TO_SEC(encounter_datetime) > 1800,
-        'Yes',
-        'No') AS retrospective,
+        @locale_yes,
+        @locale_no) AS retrospective,
     visit_id,
     birthdate,
-    IF( birthdate_estimated=1,
-        'Yes',
-        ' ') AS birthdate_estimated,
+    IF(birthdate_estimated=1,@locale_yes,@locale_no) AS birthdate_estimated,
     section_communale_CDC_ID,
     level_of_mobility,
     confused,
     level_of_consciousness,
-    TB_symptoms,
+    cough_lasting_2weeks,
+    fever,
+    night_sweats,
+    weight_loss,
     chief_complaint
 FROM
     temp_vitals
