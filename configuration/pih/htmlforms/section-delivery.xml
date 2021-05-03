@@ -251,9 +251,10 @@
                 var hideOtherBabies = function() {
                     jq('#baby-2').hide();
                     jq('#baby-3').hide();
+                    jq('#baby-4').hide();
                 };
 
-                if (!hasValue('#baby-2') &amp;&amp; !hasValue('#baby-3')) {
+                if (!hasValue('#baby-2') &amp;&amp; !hasValue('#baby-3') &amp;&amp; !hasValue('#baby-4')) {
                     hideOtherBabies();
                     jq('#show-more-babies-button').show();
                 }
@@ -639,7 +640,7 @@
                 <h4>
                     <uimessage code="pihcore.mch.birth"/>
                 </h4>
-                <repeat with="['1'],['2'],['3']">
+                <repeat with="['1'],['2'],['3'],['4']">
                     <span id="baby-{0}" class="baby">
                         <obsgroup groupingConceptId="CIEL:1585">
                             <h5>#{0}</h5>
