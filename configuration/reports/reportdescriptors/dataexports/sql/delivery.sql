@@ -87,7 +87,11 @@ CREATE TEMPORARY TABLE temp_delivery
     Birth_3_weight                  double,
     Birth_3_APGAR                   int,
     Birth_3_neonatal_resuscitation  varchar(255),
-    Birth_3_macerated_fetus         varchar(255)  ,
+    Birth_3_macerated_fetus         varchar(255),
+    Birth_4_weight                  double,
+    Birth_4_APGAR                   int,
+    Birth_4_neonatal_resuscitation  varchar(255),
+    Birth_4_macerated_fetus         varchar(255),
     number_prenatal_visits          int,
     referred_by                     varchar(1000),
     referred_by_other_details       varchar(255),
@@ -279,6 +283,11 @@ update temp_delivery set Birth_3_APGAR = obs_from_group_id_value_numeric(obs_id(
 update temp_delivery set Birth_3_neonatal_resuscitation = obs_from_group_id_value_coded_list(obs_id(encounter_id,'CIEL','1585', 2),'CIEL','162131',@locale);
 update temp_delivery set Birth_3_macerated_fetus = obs_from_group_id_value_coded_list(obs_id(encounter_id,'CIEL','1585', 2),'CIEL','135437',@locale);
 
+update temp_delivery set Birth_4_outcome = obs_from_group_id_value_coded_list(obs_id(encounter_id,'CIEL','1585', 3),'CIEL','161033',@locale);
+update temp_delivery set Birth_4_weight = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 3),'CIEL','5916');
+update temp_delivery set Birth_4_APGAR = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 3),'CIEL','1504');
+update temp_delivery set Birth_4_neonatal_resuscitation = obs_from_group_id_value_coded_list(obs_id(encounter_id,'CIEL','1585', 3),'CIEL','162131',@locale);
+update temp_delivery set Birth_4_macerated_fetus = obs_from_group_id_value_coded_list(obs_id(encounter_id,'CIEL','1585', 3),'CIEL','135437',@locale);
 
 update temp_delivery set number_prenatal_visits = obs_value_numeric(encounter_id,'CIEL','1590');
 update temp_delivery set referred_by = obs_value_coded_list(encounter_id,'PIH','10635',@locale);
