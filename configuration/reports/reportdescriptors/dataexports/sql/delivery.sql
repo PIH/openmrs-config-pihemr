@@ -187,7 +187,7 @@ update temp_delivery set Type_of_delivery = obs_value_coded_list(encounter_id,'P
 
 ---- c - section
 -- maternal
-update temp_delivery t set c_section_maternal_reasons = (select group_concat(concept_name(value_coded, 'en') separator " | ")
+update temp_delivery t set c_section_maternal_reasons = (select group_concat(concept_name(value_coded, @locale) separator " | ")
 from obs o where t.encounter_id = o.encounter_id and concept_id = concept_from_mapping("PIH", "13527") and voided = 0 and value_coded in
 (
 concept_from_mapping("CIEL", "113017"),
@@ -203,7 +203,7 @@ concept_from_mapping("CIEL", "158060")
 update temp_delivery t set other_c_section_maternal_reasons = obs_comments(encounter_id, "PIH", "13527" , "PIH", "13571");
 
 -- fetal
-update temp_delivery t set c_section_fetal_reasons = (select group_concat(concept_name(value_coded, 'en') separator " | ")
+update temp_delivery t set c_section_fetal_reasons = (select group_concat(concept_name(value_coded, @locale) separator " | ")
 from obs o where t.encounter_id = o.encounter_id and concept_id = concept_from_mapping("PIH", "13527") and voided = 0 and value_coded in
 (
 concept_from_mapping("CIEL", "115939"),
@@ -214,7 +214,7 @@ concept_from_mapping("CIEL", "115491")
 update temp_delivery t set other_c_section_fetal_reason = obs_comments(encounter_id, "PIH", "13527" , "PIH", "13572");
 
 -- obsterical
-update temp_delivery t set c_section_obstetrical_reasons   = (select group_concat(concept_name(value_coded, 'en') separator " | ")
+update temp_delivery t set c_section_obstetrical_reasons   = (select group_concat(concept_name(value_coded, @locale) separator " | ")
 from obs o where t.encounter_id = o.encounter_id and concept_id = concept_from_mapping("PIH", "13527") and voided = 0 and value_coded in
 (
 concept_from_mapping("CIEL", "130109"),
