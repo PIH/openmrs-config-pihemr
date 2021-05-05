@@ -20,6 +20,10 @@
         <url>http://pih.org</url>
     </organization>
 
+    <modules>
+        <module>api-generation</module>
+    </modules>
+
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
