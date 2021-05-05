@@ -481,7 +481,7 @@
                         </label>
                         <repeat>
                             <template>
-                                <obs conceptId="PIH:13527" answerConceptId="{concept}" style="checkbox"/>
+                                <obs conceptId="PIH:13571" answerConceptId="{concept}" style="checkbox"/>
                             </template>
                             <render concept="CIEL:113017" name="severe asthma"/>
                             <render concept="CIEL:113858" name="hypertension complications"/>
@@ -496,7 +496,7 @@
                         </repeat>
 
                         <!-- other maternal problem -->
-                        <obs conceptId="PIH:13527" answerConceptId="PIH:13571" style="checkbox"
+                        <obs conceptId="PIH:13571" answerConceptId="CIEL:5622" style="checkbox"
                              commentFieldLabel=""/>
                     </div>
                     <div>
@@ -506,7 +506,7 @@
 
                         <repeat>
                             <template>
-                                <obs conceptId="PIH:13527" answerConceptId="{concept}" style="checkbox"/>
+                                <obs conceptId="PIH:13572" answerConceptId="{concept}" style="checkbox"/>
                             </template>
                             <render concept="CIEL:115939" name="malpresentation of fetus"/>
                             <render concept="CIEL:143849" name="Congenital malformation"/>
@@ -515,7 +515,7 @@
                         </repeat>
 
                         <!-- other fetal problem -->
-                        <obs conceptId="PIH:13527" answerConceptId="PIH:13572" style="checkbox"
+                        <obs conceptId="PIH:13572" answerConceptId="CIEL:5622" style="checkbox"
                              commentFieldLabel=""/>
                     </div>
                     <div>
@@ -525,7 +525,7 @@
                         </label>
                         <repeat>
                             <template>
-                                <obs conceptId="PIH:13527" answerConceptId="{concept}" style="checkbox"/>
+                                <obs conceptId="PIH:13573" answerConceptId="{concept}" style="checkbox"/>
                             </template>
                             <render concept="CIEL:130109" name="placental abnormality"/>
                             <render concept="CIEL:113617" name="prolapsed cord"/>
@@ -536,7 +536,7 @@
                         </repeat>
 
                         <!-- other obstetrical problem -->
-                        <obs conceptId="PIH:13527" answerConceptId="PIH:13573" style="checkbox"
+                        <obs conceptId="PIH:13573" answerConceptId="CIEL:5622" style="checkbox"
                              commentFieldLabel=""/>
                     </div>
                 </div>
