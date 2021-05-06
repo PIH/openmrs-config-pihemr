@@ -1,0 +1,27 @@
+key: "appointmentsdataexport"
+uuid: "7fd11020-e5d1-11e3-ac10-0800200c9a66"
+name: "mirebalaisreports.appointments.name"
+description: "mirebalaisreports.appointments.description"
+parameters:
+  - key: "startDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.startDate"
+  - key: "endDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.endDate"
+datasets:
+  - key: "appointments"
+    type: "sql"
+    config: "sql/appointments.sql"
+designs:
+  - type: "csv"
+    properties:
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
+config:
+  category: "dataExport"
+  order: 150
+  components:
+    - "appointmentScheduling"
+    - "allDataExports"

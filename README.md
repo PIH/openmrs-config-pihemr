@@ -31,6 +31,28 @@ We are in the process of moving all of our configuration out of code (generally 
 Mirebalais modules) into these new config projects.  Below is a list of what is currently configured here, but we
 expect this to continue to grow in the near future.
 
+### Initializer Domains
+
+The preferred method of managing metadata generally is using
+[Initializer](https://github.com/mekomsolutions/openmrs-module-initializer), aka "Iniz."
+All subdirectories of
+[`configuration/`](https://github.com/PIH/openmrs-config-pihemr/tree/master/configuration)
+other than `pih/` and `reports/` are processed by Initializer. At present, this includes
+- attribute types
+- global properties
+- locations
+- location tags
+- message properties
+- privileges
+- roles
+and in the site-specific config repos,
+- addresshierarchy
+- drugs
+
+Please consult the relevant
+[Initializer documentation](https://github.com/mekomsolutions/openmrs-module-initializer#supported-domains-and-default-loading-order)
+for information about each one.
+
 ### PIH Config
 
 PIH Config json files (which determine what components are turned on for each server, among other things) are
