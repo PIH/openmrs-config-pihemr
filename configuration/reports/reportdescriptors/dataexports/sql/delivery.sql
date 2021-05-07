@@ -146,8 +146,8 @@ select
 from encounter e
 inner join encounter_type et on et.encounter_type_id = e.encounter_type
 where e.encounter_type in (@delivery_note)
-AND date(e.encounter_datetime) >=@startDate
-AND date(e.encounter_datetime) <=@endDate
+AND ((date(e.encounter_datetime) >=@startDate) or @startDate is null)
+AND ((date(e.encounter_datetime) <=@endDate)  or @endDate is null)
 and voided = 0
 ;
 -- encounter and demo info
