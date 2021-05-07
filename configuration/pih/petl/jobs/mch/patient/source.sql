@@ -1,10 +1,53 @@
 SET sql_safe_updates = 0;
 SET @mch_patient_program_id = (SELECT program_id FROM program WHERE uuid = '41a2715e-8a14-11e8-9a94-a6cf71072f73');
 SET @mch_encounter = (SELECT encounter_type_id FROM encounter_type WHERE uuid = 'd83e98fd-dc7b-420f-aa3f-36f648b4483d');
+SET @delivery = (SELECT encounter_type_id FROM encounter_type WHERE uuid = '00e5ebb2-90ec-11e8-9eb6-529269fb1459');
+
+
+DROP TEMPORARY TABLE IF EXISTS temp_od_encounters;
+CREATE TEMPORARY TABLE temp_od_encounters
+(
+patient_id              INT(11),
+patient_program_id      INT(11),
+mch_emr_id              VARCHAR(15),
+enrollment_location     VARCHAR(15)
+);
+
+INSERT INTO temp_od_encounters(patient_id, enrollment_location)
+SELECT DISTINCT(patient_id), LOCATION_NAME(location_id)
+FROM encounter WHERE voided = 0 AND encounter_type IN (@mch_encounter, @delivery);
+
+update temp_od_encounters set mch_emr_id = ZLEMR(patient_id);
+#update temp_od_encounters set enrollment_location = LOCATION_NAME(location_id);
+
+DROP TEMPORARY TABLE IF EXISTS temp_mch_prg;
+CREATE TEMPORARY TABLE temp_mch_prg
+(
+patient_id              INT(11),
+patient_program_id      INT(11),
+mch_emr_id              VARCHAR(15),
+enrollment_location     VARCHAR(15)
+);
+
+# patient in the mch program who may not have obgyn filled
+INSERT INTO temp_mch_prg(patient_id, enrollment_location)
+SELECT DISTINCT(patient_id), LOCATION_NAME(location_id) from patient_program where program_id =  @mch_patient_program_id and patient_id not in (
+select patient_id from temp_od_encounters);
+
+update temp_mch_prg set mch_emr_id = ZLEMR(patient_id);
+#update temp_mch_prg set enrollment_location = LOCATION_NAME(location_id);
+
+# combine the above 2 temp tables
+DROP TEMPORARY TABLE IF EXISTS temp_final_mch;
+CREATE TEMPORARY TABLE temp_final_mch
+AS
+select * from temp_mch_prg
+UNION ALL
+Select * from temp_od_encounters;
 
 ## patient
-DROP TABLE IF EXISTS temp_mch_patient;
-CREATE TABLE temp_mch_patient
+DROP TEMPORARY TABLE IF EXISTS temp_mch_patient;
+CREATE TEMPORARY TABLE IF NOT EXISTS temp_mch_patient
 (
     patient_id              INT(11),
     patient_program_id      INT(11),
@@ -28,9 +71,8 @@ CREATE TABLE temp_mch_patient
     latest_encounter_date 	DATE
 );
 
-INSERT INTO temp_mch_patient (patient_id, patient_program_id, mch_emr_id,  enrollment_location)
-SELECT patient_id, patient_program_id, ZLEMR(patient_id),  LOCATION_NAME(location_id)
-FROM patient_program WHERE voided = 0 AND program_id = @mch_patient_program_id GROUP BY patient_id;
+INSERT INTO temp_mch_patient(patient_id, mch_emr_id, enrollment_location)
+SELECT patient_id, mch_emr_id, enrollment_location from temp_final_mch;
 
 ## Delete test patients
 DELETE FROM temp_mch_patient WHERE
