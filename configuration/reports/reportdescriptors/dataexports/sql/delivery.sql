@@ -88,7 +88,6 @@ CREATE TEMPORARY TABLE temp_delivery
     Birth_3_APGAR                   int,
     Birth_3_neonatal_resuscitation  varchar(255),
     Birth_3_macerated_fetus         varchar(255),
-    Birth_4_outcome                 varchar(255),
     Birth_4_weight                  double,
     Birth_4_APGAR                   int,
     Birth_4_neonatal_resuscitation  varchar(255),
