@@ -17,7 +17,7 @@ INSERT INTO temp_od_encounters(patient_id, enrollment_location)
 SELECT DISTINCT(patient_id), LOCATION_NAME(location_id)
 FROM encounter WHERE voided = 0 AND encounter_type IN (@mch_encounter, @delivery);
 
-update temp_od_encounters set mch_emr_id = ZLEMR(patient_id);
+UPDATE temp_od_encounters SET mch_emr_id = ZLEMR(patient_id);
 #update temp_od_encounters set enrollment_location = LOCATION_NAME(location_id);
 
 DROP TEMPORARY TABLE IF EXISTS temp_mch_prg;
@@ -31,19 +31,19 @@ enrollment_location     VARCHAR(15)
 
 # patient in the mch program who may not have obgyn filled
 INSERT INTO temp_mch_prg(patient_id, enrollment_location)
-SELECT DISTINCT(patient_id), LOCATION_NAME(location_id) from patient_program where program_id =  @mch_patient_program_id and patient_id not in (
-select patient_id from temp_od_encounters);
+SELECT DISTINCT(patient_id), LOCATION_NAME(location_id) FROM patient_program WHERE program_id =  @mch_patient_program_id AND patient_id NOT IN (
+SELECT patient_id FROM temp_od_encounters);
 
-update temp_mch_prg set mch_emr_id = ZLEMR(patient_id);
+UPDATE temp_mch_prg SET mch_emr_id = ZLEMR(patient_id);
 #update temp_mch_prg set enrollment_location = LOCATION_NAME(location_id);
 
 # combine the above 2 temp tables
 DROP TEMPORARY TABLE IF EXISTS temp_final_mch;
 CREATE TEMPORARY TABLE temp_final_mch
 AS
-select * from temp_mch_prg
+SELECT * FROM temp_mch_prg
 UNION ALL
-Select * from temp_od_encounters;
+SELECT * FROM temp_od_encounters;
 
 ## patient
 DROP TEMPORARY TABLE IF EXISTS temp_mch_patient;
@@ -72,7 +72,7 @@ CREATE TEMPORARY TABLE IF NOT EXISTS temp_mch_patient
 );
 
 INSERT INTO temp_mch_patient(patient_id, mch_emr_id, enrollment_location)
-SELECT patient_id, mch_emr_id, enrollment_location from temp_final_mch;
+SELECT patient_id, mch_emr_id, enrollment_location FROM temp_final_mch;
 
 ## Delete test patients
 DELETE FROM temp_mch_patient WHERE
