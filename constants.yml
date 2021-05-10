@@ -45,3 +45,35 @@ encounterType:
 orderType:
   testOrder:
     uuid: "52a447d3-a64a-11e3-9aeb-50e549534c5e"
+
+program:
+  anc:
+    uuid: "d830a5c1-30a2-4943-93a0-f918772496ec"
+  asthma:
+    uuid: "2639449c-8764-4003-be5f-dba522b4b680"
+  covid19:
+    uuid: "dc227c44-d68e-431b-a20d-a60bb3496543"
+  diabetes:
+    uuid: "3f038507-f4bc-4877-ade0-96ce170fc8eb"
+  epilepsy:
+    uuid: "69e6a46d-674e-4281-99a0-4004f293ee57"
+  hypertension:
+    uuid: "6959057e-9a5c-40ba-a878-292ba4fc35bc"
+  hiv:
+    uuid: "b1cb1fc1-5190-4f7a-af08-48870975dafc"
+  malnutrition:
+    uuid: "61e38de2-44f2-470e-99da-3e97e93d388f"
+  mentalHealth:
+    uuid: "0e69c3ab-1ccb-430b-b0db-b9760319230f"
+  mch:
+    uuid: "41a2715e-8a14-11e8-9a94-a6cf71072f73"
+  ncd:
+    uuid: "515796ec-bf3a-11e7-abc4-cec278b6b50a"
+  ovc:
+    uuid: "e1b2f0b5-6d56-4500-8523-0ba71e75d897"
+  oncology:
+    uuid: "5bdbf9f6-690c-11e8-adc0-fa7ae01bbebc"
+  tb:
+    uuid: "5682f919-a43b-4d4a-bcc3-ef0426162e23"
+  zika:
+    uuid: "3bea593a-9afd-4642-96a6-210b60f5aff2"
