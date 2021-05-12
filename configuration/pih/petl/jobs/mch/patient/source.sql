@@ -10,7 +10,7 @@ CREATE TEMPORARY TABLE temp_od_encounters
 patient_id              INT(11),
 patient_program_id      INT(11),
 mch_emr_id              VARCHAR(15),
-enrollment_location     VARCHAR(15)
+enrollment_location     VARCHAR(255)
 );
 
 INSERT INTO temp_od_encounters(patient_id, enrollment_location)
@@ -26,7 +26,7 @@ CREATE TEMPORARY TABLE temp_mch_prg
 patient_id              INT(11),
 patient_program_id      INT(11),
 mch_emr_id              VARCHAR(15),
-enrollment_location     VARCHAR(15)
+enrollment_location     VARCHAR(255)
 );
 
 # patient in the mch program who may not have obgyn filled
@@ -66,7 +66,7 @@ CREATE TEMPORARY TABLE IF NOT EXISTS temp_mch_patient
     antenatal_visit         BIT,
     estimated_delivery_date DATE,
     pregnant                BIT,
-    enrollment_location     VARCHAR(15),
+    enrollment_location     VARCHAR(255),
     encounter_location_name VARCHAR(255),
     latest_encounter_date 	DATE
 );
