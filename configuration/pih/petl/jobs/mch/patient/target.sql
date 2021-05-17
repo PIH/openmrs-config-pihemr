@@ -10,7 +10,7 @@ CREATE TABLE mch_patient
     DOB                             DATE,
     age                             FLOAT,
     current_reporting_health_center VARCHAR(100),
-    initital_health_center          VARCHAR(100),
+    initital_health_center          VARCHAR(255),
     locality                        VARCHAR(100),
     marital_status                  VARCHAR(100),
     age_cat_1                       VARCHAR(10),

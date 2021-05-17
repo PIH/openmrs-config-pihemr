@@ -14,6 +14,7 @@ CREATE TABLE temp_mch_status
     enrollment_location         VARCHAR(15),
     start_date                  DATE,
     end_date                    DATE,
+    treatment_status            varchar(255),    
     outcome_concept_id          INT(11),
     outcome                     VARCHAR(255),
     encounter_location_name     VARCHAR(255),
@@ -203,6 +204,15 @@ UPDATE temp_mch_encounters te JOIN obs o ON te.encounter_id = o.encounter_id AND
 AND o.voided = 0
 SET transfer_within_location = LOCATION_NAME(value_text);
 
+-- latest treatment status
+UPDATE temp_mch_status te 
+inner join patient_state ps on ps.patient_state_id =
+   (select patient_state_id from patient_state ps2
+    where ps2.patient_program_id = te.patient_program_id
+    order by ps2.start_date desc limit 1)
+inner join program_workflow_state pws on pws.program_workflow_state_id = ps.state    
+set te.treatment_status = concept_name(pws.concept_id, 'en');    
+
 ####
 UPDATE temp_mch_status tmp JOIN temp_mch_encounters tme ON tmp.patient_id = tme.patient_id AND tmp.index_desc = 1
 SET tmp.encounter_location_name	= tme.encounter_location_name,
@@ -222,6 +232,7 @@ SELECT
     encounter_location_name,
     start_date,
     end_date,
+    treatment_status,    
     outcome,
     antenatal_visit,
     estimated_delivery_date,
