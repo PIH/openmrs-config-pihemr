@@ -415,8 +415,7 @@
                         </template>
                         <render concept="CIEL:163450" answers="CIEL:1065,CIEL:1066"
                                 name="lateCordClamping" codes="emr.yes,emr.no" />
-                        <!-- ToDo: Replace artificial/manual concept -->
-                        <render concept="PIH:13550" answers="CIEL:1115,CIEL:1116"
+                        <render concept="PIH:13550" answers="CIEL:1115,CIEL:166425"
                                 name="placentaDelivery" codes="pihcore.natural,pihcore.artificial" />
                         <render concept="CIEL:163452" answers="CIEL:1065,CIEL:1066"
                                 name="fullAMTSL" codes="emr.yes,emr.no" />
