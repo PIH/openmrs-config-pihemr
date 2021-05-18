@@ -312,11 +312,11 @@
         <!-- labworkflowowa.locationOfLaboratory set in country-specific GP packages -->
         <globalProperty>
             <property>labworkflowowa.labResultsEntryEncounterType</property>
-            <value>${encounterType.labSpecimenCollection.uuid}</value>
+            <value>${encounterType.LAB_SPECIMEN_COLLECTION.uuid}</value>
         </globalProperty>
         <globalProperty>
             <property>labworkflowowa.labResultsEncounterTypes</property>
-            <value>${encounterType.labSpecimenCollection.uuid},${encounterType.laboratoryResults.uuid},${encounterType.covidIntake.uuid},${encounterType.covidFollowup.uuid},${encounterType.hivIntake.uuid},${encounterType.hivFollowup.uuid}</value>
+            <value>${encounterType.LAB_SPECIMEN_COLLECTION.uuid},${encounterType.LAB_RESULTS.uuid},${encounterType.COVID19_INTAKE.uuid},${encounterType.COVID19_FOLLOWUP.uuid},${encounterType.HIV_INTAKE.uuid},${encounterType.HIV_FOLLOWUP.uuid}</value>
         </globalProperty>
         <globalProperty>
             <property>labworkflowowa.labResultsEncounterRole</property>
