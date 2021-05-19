@@ -1,4 +1,4 @@
-create table delivery
+create table mch_delivery
 (
     patient_id                      int,
     dossierId                       varchar(50),
