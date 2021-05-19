@@ -189,7 +189,7 @@
                                 <uimessage code="emr.locationRequired"/>
                             </label>
                             <span>
-                                <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="ED Note Location"/
+                                <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="ED Note Location"/>
                             </span>
                         </td>
                         <td>
