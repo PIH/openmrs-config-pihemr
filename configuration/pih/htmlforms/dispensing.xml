@@ -129,7 +129,7 @@
                     </td>
                     <td>
                         <label><uimessage code="emr.location"/></label>
-                        <span><lookup complexExpression="$ui.format($sessionContext.sessionLocation)"/></span>
+                        <span> <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Dispensing Location"/></span>
                     </td>
                 </ifMode>
 

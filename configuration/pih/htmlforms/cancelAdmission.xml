@@ -92,15 +92,17 @@
                 <encounterProviderAndRole default="currentUser" encounterRole="cbfe0b9d-9923-404c-941b-f048adc8cdc0" required="true"/>
             </fieldset>
 
-            <fieldset>
-                <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"/>
-            </fieldset>
         </div>
     </ifMode>
 
     <span style="display:none">
         <obs conceptId="org.openmrs.module.emrapi:Admission Decision" valueCoded="org.openmrs.module.emrapi:Deny Admission" defaultValue="org.openmrs.module.emrapi:Deny Admission"></obs>
     </span>
+
+    <p>
+        <label><uimessage code="emr.locationRequired"/>:</label>
+        <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"/>
+    </p>
 
     <p>
         <label><uimessage code="mirebalais.cancelAdmissionNote.reason"/>:</label>

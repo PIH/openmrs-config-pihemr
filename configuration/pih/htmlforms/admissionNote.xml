@@ -239,27 +239,42 @@
         </div>
 
     </includeIf>
-    <!-- all users that don't have retroConsultNote privilege can only edit location when active visit -->
-    <includeIf velocityTest="(!$user.hasPrivilege('Task: emr.retroConsultNote')) and ($visit.open)">
+    <!-- all users that don't have either retro privilege, or those with retro-this-provider-only but with an active visit, can only edit location -->
+    <includeIf velocityTest="(!$user.hasPrivilege('Task: emr.retroConsultNoteThisProviderOnly') and !$user.hasPrivilege('Task: emr.retroConsultNote')) or ($user.hasPrivilege('Task: emr.retroConsultNoteThisProviderOnly') and !$user.hasPrivilege('Task: emr.retroConsultNote') and $visit.open)">
         <div style="display:none">
-            <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
+            <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05"
+                                      required="true"/>
+            <encounterDate id="encounterDate" default="now"/>
         </div>
         <div id="who-when-where">
-            <p id="who">
-                <label><uimessage code="mirebalais.admissionNote.admittingClinician.label"/></label>
-                <span><lookup complexExpression="#if($encounter) $ui.format($encounter.provider) #else $ui.format($user.person) #end"/></span>
-            </p>
-            <p id="where">
-                <label><uimessage code="mirebalais.admissionNote.admittedTo.label"/></label>
-                <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"  tags="Admission Location"/>
-            </p>
-            <p id="when">
-                <label><uimessage code="mirebalais.admissionNote.admissionDate.label"/></label>
-                <span><lookup complexExpression="#if($encounter) $ui.format($fn.startOfDay($encounter.encounterDatetime)) #else $ui.format($fn.startOfDay($formGeneratedDatetime)) #end"/></span>
-            </p>
-        </div>
-        <div style="display:none">
-            <encounterDate id="encounterDate" default="now" />
+            <table id="who-where-when-view">
+                <tr>
+                    <td>
+                        <label>
+                            <uimessage code="emr.patientDashBoard.provider"/>
+                        </label>
+                        <span>
+                            <lookup complexExpression="#if($encounter) $ui.format($encounter.provider) #else $ui.format($user.person) #end"/>
+                        </span>
+                    </td>
+                    <td>
+                        <label>
+                            <uimessage code="emr.locationRequired"/>
+                        </label>
+                        <span>
+                            <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"  tags="Admission Location"/>
+                        </span>
+                    </td>
+                    <td>
+                        <label>
+                            <uimessage code="emr.patientDashBoard.date"/>
+                        </label>
+                        <span>
+                            <lookup complexExpression="#if($encounter) $ui.format($fn.startOfDay($encounter.encounterDatetime)) #else $ui.format($fn.startOfDay($formGeneratedDatetime)) #end"/>
+                        </span>
+                    </td>
+                </tr>
+            </table>
         </div>
     </includeIf>
 
