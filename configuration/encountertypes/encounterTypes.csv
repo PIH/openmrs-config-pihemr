@@ -1,0 +1,59 @@
+Uuid,Void/Retire,Name,Description
+${encounterType.PATIENT_REGISTRATION.uuid},,Enregistrement de patient,Patient registration -- normally a new patient
+${encounterType.CHECK_IN.uuid},,Inscription,"Check-in encounter, formerly known as Primary care reception"
+${encounterType.PAYMENT.uuid},,Rencontre de paiement,Encounter used to capture patient payments
+${encounterType.VITALS.uuid},,Signes vitaux,"Encounter where vital signs were captured, and triage may have been done, possibly for triage purposes, but a complete exam was not done."
+${encounterType.PRIMARY_CARE_VISIT.uuid},,Consultation soins de base,"Primary care visit (In Kreyol, it&apos;s &apos;vizit swen primè&apos;)"
+${encounterType.CONSULTATION.uuid},,Consultation,"Encounter where a full or abbreviated examination is done, leading to a presumptive or confirmed diagnosis"
+${encounterType.ONCOLOGY_CONSULT.uuid},,Oncology Consultation,Consultation for Oncology
+${encounterType.ONCOLOGY_INITIAL_VISIT.uuid},,Oncology Initial Visit,Intake for oncology patient
+${encounterType.CHEMOTHERAPY_SESSION.uuid},,Chemotheraphy treatment session,Chemotheraphy treatment session for HUM and other places.
+${encounterType.NCD_INITIAL_CONSULT.uuid},,NCD Initial Consult,Non-communicable disease initial consult
+${encounterType.NCD_FOLLOWUP_CONSULT.uuid},,NCD Followup Consult,Non-communicable disease followup consult
+${encounterType.MEDICATION_DISPENSED.uuid},,Médicaments administrés,When someone gets medicine from the pharmacy
+${encounterType.POST_OPERATIVE_NOTE.uuid},,Note de chirurgie,The surgeons&apos; notes after performing surgery
+${encounterType.TRANSFER.uuid},,Transfert,Indicates that a patient is being transferred into a different department within the hospital. (Transfers out of the hospital should not use this encounter type.)
+${encounterType.ADMISSION.uuid},,Admission aux soins hospitaliers,"Indicates that the patient has been admitted for inpatient care, and is not expected to leave the hospital unless discharged."
+${encounterType.CANCEL_ADMISSION.uuid},,Annuler l'admission,An encounter that notes that a request to admit a patient (via giving them a dispositon of &quot;admit&quot; on another form) is being overridden
+${encounterType.EXIT_FROM_CARE.uuid},,Sortie de soins hospitaliers,"Indicates that a patient&apos;s inpatient care at the hospital is ending, and they are expected to leave soon"
+${encounterType.LAB_RESULTS.uuid},,Laboratory Results,Laboratory Results
+${encounterType.DEATH_CERTIFICATE.uuid},,Death Certificate,"The official record of a patient's death. A patient may be dead without having one of these encounters, but no living patient should have an encounter with this type"
+${encounterType.MENTAL_HEALTH_ASSESSMENT.uuid},,Mental Health Consult,Mental health visit and assessment
+${encounterType.PRIMARY_CARE_PEDS_INITIAL_CONSULT.uuid},,Primary Care Pediatric Initial Consult,Primary Care Pediatric Initial Consult
+${encounterType.PRIMARY_CARE_PEDS_FOLLOWUP_CONSULT.uuid},,Primary Care Pediatric Followup Consult,Primary Care Pediatric Followup Consult
+${encounterType.PRIMARY_CARE_ADULT_INITIAL_CONSULT.uuid},,Primary Care Adult Initial Consult,Primary Care Adult Initial Consult
+${encounterType.PRIMARY_CARE_ADULT_FOLLOWUP_CONSULT.uuid},,Primary Care Adult Followup Consult,Primary Care Adult Followup Consult
+${encounterType.EMERGENCY_TRIAGE.uuid},,Emergency Triage,Emergency Department patient triage
+${encounterType.TEST_ORDER.uuid},,Test Order,"Test Order - the order of test (labs, biopsy, etc)"
+${encounterType.PATHOLOGY_SPECIMEN_COLLECTION.uuid},,Pathology Specimen Collection,"Pathology Specimen Collection - the collection of a pathology specimen for a test (blood draw, biopsy, etc)"
+${encounterType.LAB_SPECIMEN_COLLECTION.uuid},,Lab Specimen Collection,"Lab Specimen Collection - the collection of a lab specimen for a test (blood draw, biopsy, etc)"
+${encounterType.HIV_INTAKE.uuid},,HIV Intake,HIV Intake
+${encounterType.HIV_FOLLOWUP.uuid},,HIV Followup,HIV Followup
+${encounterType.VCT.uuid},,Voluntary counselling and testing,Voluntary counselling and testing (VCT) for HIV
+${encounterType.HIV_DISPENSING.uuid},,HIV drug dispensing,Dispensing for HIV medications
+${encounterType.DRUG_ORDER_DOCUMENTATION.uuid},,Drug Order Documentation,"Documentation of drug orders for a patient, often dated retrospectively"
+${encounterType.SOCIO_ECONOMICS.uuid},,Socio-economics,Education and housing information on the patient
+${encounterType.ANC_INTAKE.uuid},,ANC Intake,Initial prenatal (aka ANC) visit for pregnant mother
+${encounterType.ANC_FOLLOWUP.uuid},,ANC Followup,Followup prenatal (aka ANC) visits for pregnant mother
+${encounterType.MCH_DELIVERY.uuid},,MCH Delivery,Mother's visit for delivery of baby
+${encounterType.OB_GYN.uuid},,OB/GYN,Obstetrics and gynecology encounter for woman
+${encounterType.VACCINATION.uuid},,Vaccination,Vaccination form only (not within another encounter)
+${encounterType.ECHOCARDIOGRAM.uuid},,Echocardiogram,Echocardiogram consultation
+${encounterType.PRENATAL_HOME_ASSESSMENT.uuid},,Prenatal Home Assessment,Prenatal home assessment
+${encounterType.PEDIATRIC_HOME_ASSESSMENT.uuid},,Pediatric Home Assessment,Pediatric home assessment
+${encounterType.MATERNAL_POST_PARTUM_HOME_ASSESSMENT.uuid},,Maternal Post-partum Home Assessment,Maternal post-partum home assessment
+${encounterType.MATERNAL_FOLLOWUP_HOME_ASSESSMENT.uuid},,Maternal Follow-up Home Assessment,Maternal follow-up home assessment
+${encounterType.COVID19_INTAKE.uuid},,COVID-19 Admission,COVID-19 admission note at health facility
+${encounterType.COVID19_FOLLOWUP.uuid},,COVID-19 Progress,COVID-19 follow-up/daily progress at health facility
+${encounterType.COVID19_DISCHARGE.uuid},,COVID-19 Discharge,COVID-19 Discharge note at health facility
+${encounterType.OVC_INTAKE.uuid},,OVC Intake,USAID Orphans and Vulnerable Children (OVC) program intake
+${encounterType.OVC_FOLLOWUP.uuid},,OVC Follow-up,USAID Orphans and Vulnerable Children (OVC) program follow-up
+${encounterType.TB_INTAKE.uuid},,Tuberculosis Intake,Tuberculosis (TB) intake form
+${encounterType.COMMENT.uuid},,Comment,Free-text clinical impression comments
+${encounterType.HIV_INFANT_DOCUMENTATION.uuid},,HIV Infant Documentation,HIV Infant Documentation encounter type
+${encounterType.PMTCT_INTAKE.uuid},,PMTCT Intake,Pregnant mother to child transmission (PMTCT) Intake
+${encounterType.PMTCT_FOLLOWUP.uuid},,PMTCT Followup,Pregnant mother to child transmission (PMTCT) Followup
+${encounterType.RADIOLOGY_ORDER.uuid},,Commande de radio,Radiology Order  - the ordering of a radiology exam
+${encounterType.RADIOLOGY_REPORT.uuid},,Rapport de radiologie,Radiology Report - represents a report on a radiology study performed by a radiologist
+${encounterType.RADIOLOGY_STUDY.uuid},,Examen de radiologie,Radiology Study - represents performance of a radiology study on a patient by a radiology technician
+${encounterType.ATTACHMENT_UPLOAD.uuid},TRUE,Attachment Upload,Encounters used to record uploads of attachments.

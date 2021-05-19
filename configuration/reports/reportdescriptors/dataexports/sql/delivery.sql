@@ -1,7 +1,7 @@
 -- set @startDate = '2020-04-27';
 -- set @endDate = '2021-04-27';
 
-SET @locale = GLOBAL_PROPERTY_VALUE('default_locale', 'en');
+SET @locale =   if(@startDate is null, 'en', GLOBAL_PROPERTY_VALUE('default_locale', 'en'));
 
 select encounter_type_id into @delivery_note from encounter_type where uuid = '00e5ebb2-90ec-11e8-9eb6-529269fb1459'; 
 
@@ -47,31 +47,31 @@ CREATE TEMPORARY TABLE temp_delivery
     other_c_section_obstetrical_reason  text,
     Caesarean_hysterectomy          varchar(10),
     C_section_with_tubal_ligation   varchar(10),
-    Malpresentation_of_fetus        varchar(10),
-    Cephalopelvic_disproportion     varchar(10),
-    Extreme_premature               varchar(10),
-    Very_premature                  varchar(10),
-    Moderate_to_late_preterm        varchar(10),
-    Respiratory_distress            varchar(10),
-    Birth_asphyxia                  varchar(10),
-    Acute_fetal_distress            varchar(10),
-    Intrauterine_growth_retardation varchar(10),
-    Congenital_malformation         varchar(10),
-    Meconium_aspiration             varchar(10),
-    Premature_rupture_of_membranes  varchar(10),
-    Chorioamnionitis                varchar(10),
-    Placental_abnormality           varchar(10),
-    Hypertension                    varchar(10),
-    Severe_pre_eclampsia            varchar(10),
-    Eclampsia                       varchar(10),
-    Acute_pulmonary_edema           varchar(10),
-    Puerperal_infection             varchar(10),
-    Victim_of_GBV                   varchar(10),
-    Herpes_simplex                  varchar(10),
-    Syphilis                        varchar(10),
-    Other_STI                       varchar(10),
-    Other_mother_finding            varchar(10),
-    Other_mother_finding_details    varchar(255),
+    baby_Malpresentation_of_fetus        varchar(10),
+    baby_Cephalopelvic_disproportion     varchar(10),
+    baby_Extreme_premature               varchar(10),
+    baby_Very_premature                  varchar(10),
+    baby_Moderate_to_late_preterm        varchar(10),
+    baby_Respiratory_distress            varchar(10),
+    baby_Birth_asphyxia                  varchar(10),
+    baby_Acute_fetal_distress            varchar(10),
+    baby_Intrauterine_growth_retardation varchar(10),
+    baby_Congenital_malformation         varchar(10),
+    baby_Meconium_aspiration             varchar(10),
+    mom_Premature_rupture_of_membranes  varchar(10),
+    mom_Chorioamnionitis                varchar(10),
+    mom_Placental_abnormality           varchar(10),
+    mom_Hypertension                    varchar(10),
+    mom_Severe_pre_eclampsia            varchar(10),
+    mom_Eclampsia                       varchar(10),
+    mom_Acute_pulmonary_edema           varchar(10),
+    mom_Puerperal_infection             varchar(10),
+    mom_Victim_of_GBV                   varchar(10),
+    mom_Herpes_simplex                  varchar(10),
+    mom_Syphilis                        varchar(10),
+    mom_Other_STI                       varchar(10),
+    mom_Other_finding            varchar(10),
+    mom_Other_finding_details    varchar(255),
     Mental_health_assessment        varchar(1000),
     Birth_1_outcome                 varchar(255),
     Birth_1_weight                  double,
@@ -99,35 +99,35 @@ CREATE TEMPORARY TABLE temp_delivery
     nutrition_newborn_counseling    varchar(255),
     family_planning_after_delivery  varchar(255),
     diagnosis_1                     varchar(255),
-    diagnosis_1_certainty           varchar(255),
-    diagnosis_1_order               varchar(255),
+    diagnosis_1_confirmed           varchar(255),
+    diagnosis_1_primary             varchar(255),
     diagnosis_2                     varchar(255),
-    diagnosis_2_certainty           varchar(255),
-    diagnosis_2_order               varchar(255),
+    diagnosis_2_confirmed           varchar(255),
+    diagnosis_2_primary             varchar(255),    
     diagnosis_3                     varchar(255),
-    diagnosis_3_certainty           varchar(255),
-    diagnosis_3_order               varchar(255),
+    diagnosis_3_confirmed           varchar(255),
+    diagnosis_3_primary             varchar(255),
     diagnosis_4                     varchar(255),
-    diagnosis_4_certainty           varchar(255),
-    diagnosis_4_order               varchar(255),
+    diagnosis_4_confirmed           varchar(255),
+    diagnosis_4_primary             varchar(255),
     diagnosis_5                     varchar(255),
-    diagnosis_5_certainty           varchar(255),
-    diagnosis_5_order               varchar(255),
+    diagnosis_5_confirmed           varchar(255),
+    diagnosis_5_primary            varchar(255),
     diagnosis_6                     varchar(255),
-    diagnosis_6_certainty           varchar(255),
-    diagnosis_6_order               varchar(255),
+    diagnosis_6_confirmed           varchar(255),
+    diagnosis_6_primary            varchar(255),
     diagnosis_7                     varchar(255),
-    diagnosis_7_certainty           varchar(255),
-    diagnosis_7_order               varchar(255),
+    diagnosis_7_confirmed           varchar(255),
+    diagnosis_7_primary            varchar(255),
     diagnosis_8                     varchar(255),
-    diagnosis_8_certainty           varchar(255),
-    diagnosis_8_order               varchar(255),
+    diagnosis_8_confirmed           varchar(255),
+    diagnosis_8_primary            varchar(255),
     diagnosis_9                     varchar(255),
-    diagnosis_9_certainty           varchar(255),
-    diagnosis_9_order               varchar(255),
+    diagnosis_9_confirmed           varchar(255),
+    diagnosis_9_primary            varchar(255),
     diagnosis_10                    varchar(255),
-    diagnosis_10_certainty          varchar(255),
-    diagnosis_10_order              varchar(255),
+    diagnosis_10_confirmed          varchar(255),
+    diagnosis_10_primary           varchar(255),
     disposition                     varchar(255),
     disposition_comment             varchar(255),
     return_visit_date               datetime
@@ -190,7 +190,7 @@ update temp_delivery set Transfusion = obs_value_coded_list(encounter_id,'CIEL',
 
 update temp_delivery set Type_of_delivery = obs_value_coded_list(encounter_id,'PIH','11663',@locale);
 
----- c - section
+-- - c - section
 -- maternal
 update temp_delivery t set c_section_maternal_reasons = (select group_concat(concept_name(value_coded, @locale) separator " | ")
 from obs o where t.encounter_id = o.encounter_id and concept_id = concept_from_mapping("PIH", "13527") and voided = 0 and value_coded in
@@ -205,6 +205,7 @@ concept_from_mapping("CIEL", "111491"),
 concept_from_mapping("CIEL", "162185"),
 concept_from_mapping("CIEL", "158060")
 ));
+
 update temp_delivery t set other_c_section_maternal_reasons = obs_comments(encounter_id, "PIH", "13527" , "PIH", "13571");
 
 -- fetal
@@ -235,33 +236,33 @@ update temp_delivery set Caesarean_hysterectomy = obs_single_value_coded(encount
 update temp_delivery set C_section_with_tubal_ligation = obs_single_value_coded(encounter_id, 'CIEL','1651','CIEL','161890');
 
 -- findings for baby
-update temp_delivery set Malpresentation_of_fetus = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','115939');  
-update temp_delivery set Cephalopelvic_disproportion = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','145935');  
-update temp_delivery set Extreme_premature = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','111523');  
-update temp_delivery set Very_premature = obs_single_value_coded(encounter_id, 'CIEL','1284','PIH','11789');  
-update temp_delivery set Moderate_to_late_preterm = obs_single_value_coded(encounter_id, 'CIEL','1284','PIH','11790');  
-update temp_delivery set Respiratory_distress = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','127639');  
-update temp_delivery set Birth_asphyxia = obs_single_value_coded(encounter_id, 'CIEL','1284','PIH','7557');  
-update temp_delivery set Acute_fetal_distress = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','118256');  
-update temp_delivery set Intrauterine_growth_retardation = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','118245');  
-update temp_delivery set Congenital_malformation = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','143849');  
-update temp_delivery set Meconium_aspiration = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','115866');  
+update temp_delivery set baby_Malpresentation_of_fetus = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','115939');  
+update temp_delivery set baby_Cephalopelvic_disproportion = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','145935');  
+update temp_delivery set baby_Extreme_premature = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','111523');  
+update temp_delivery set baby_Very_premature = obs_single_value_coded(encounter_id, 'CIEL','1284','PIH','11789');  
+update temp_delivery set baby_Moderate_to_late_preterm = obs_single_value_coded(encounter_id, 'CIEL','1284','PIH','11790');  
+update temp_delivery set baby_Respiratory_distress = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','127639');  
+update temp_delivery set baby_Birth_asphyxia = obs_single_value_coded(encounter_id, 'CIEL','1284','PIH','7557');  
+update temp_delivery set baby_Acute_fetal_distress = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','118256');  
+update temp_delivery set baby_Intrauterine_growth_retardation = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','118245');  
+update temp_delivery set baby_Congenital_malformation = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','143849');  
+update temp_delivery set baby_Meconium_aspiration = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','115866');  
 
 -- findings for mother
-update temp_delivery set Premature_rupture_of_membranes = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','129211');  
-update temp_delivery set Chorioamnionitis = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','145548');  
-update temp_delivery set Placental_abnormality = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','130109');  
-update temp_delivery set Hypertension = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','117399');  
-update temp_delivery set Severe_pre_eclampsia = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','113006');  
-update temp_delivery set Eclampsia = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','118744');  
-update temp_delivery set Acute_pulmonary_edema = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','121856');  
-update temp_delivery set Puerperal_infection = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','130');  
-update temp_delivery set Victim_of_GBV = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','165088');  
-update temp_delivery set Herpes_simplex = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','138706');  
-update temp_delivery set Syphilis = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','112493');  
-update temp_delivery set Other_STI = obs_single_value_coded(encounter_id, 'PIH','6644','CIEL','112992');  
-update temp_delivery set Other_mother_finding = obs_single_value_coded(encounter_id, 'PIH','6644','CIEL','5622');  
-update temp_delivery set Other_mother_finding_details = obs_comments(encounter_id, 'PIH','6644','CIEL','5622');  
+update temp_delivery set mom_Premature_rupture_of_membranes = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','129211');  
+update temp_delivery set mom_Chorioamnionitis = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','145548');  
+update temp_delivery set mom_Placental_abnormality = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','130109');  
+update temp_delivery set mom_Hypertension = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','117399');  
+update temp_delivery set mom_Severe_pre_eclampsia = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','113006');  
+update temp_delivery set mom_Eclampsia = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','118744');  
+update temp_delivery set mom_Acute_pulmonary_edema = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','121856');  
+update temp_delivery set mom_Puerperal_infection = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','130');  
+update temp_delivery set mom_Victim_of_GBV = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','165088');  
+update temp_delivery set mom_Herpes_simplex = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','138706');  
+update temp_delivery set mom_Syphilis = obs_single_value_coded(encounter_id, 'CIEL','1284','CIEL','112493');  
+update temp_delivery set mom_Other_STI = obs_single_value_coded(encounter_id, 'PIH','6644','CIEL','112992');  
+update temp_delivery set mom_Other_finding = obs_single_value_coded(encounter_id, 'PIH','6644','CIEL','5622');  
+update temp_delivery set mom_Other_finding_details = obs_comments(encounter_id, 'PIH','6644','CIEL','5622');  
 
 update temp_delivery set Mental_health_assessment = obs_value_coded_list(encounter_id,'PIH','10594',@locale);
 
@@ -298,45 +299,66 @@ update temp_delivery set family_planning_after_delivery = obs_value_coded_list(e
 
 -- diagnoses
 update temp_delivery t set diagnosis_1 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',0),'PIH','3064',@locale);
-update temp_delivery t set diagnosis_1_certainty =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',0),'PIH','1379',@locale);
-update temp_delivery t set diagnosis_1_order =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',0),'PIH','7537',@locale);
+update temp_delivery t set diagnosis_1_confirmed =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',0),'PIH','1379',@locale);
+update temp_delivery t
+inner join obs o on  o.obs_group_id =  obs_id(t.encounter_id,'PIH','7539',0) and concept_id = concept_from_mapping('PIH','7537') and o.voided = 0
+set diagnosis_1_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),'@locale'), concept_name(concept_from_mapping('PIH','NO'),'@locale'))
+;
 
 update temp_delivery t set diagnosis_2 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',1),'PIH','3064',@locale);
-update temp_delivery t set diagnosis_2_certainty =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',1),'PIH','1379',@locale);
-update temp_delivery t set diagnosis_2_order =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',1),'PIH','7537',@locale);
-
+update temp_delivery t set diagnosis_2_confirmed =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',1),'PIH','1379',@locale);
+update temp_delivery t
+inner join obs o on  o.obs_group_id =  obs_id(t.encounter_id,'PIH','7539',1) and concept_id = concept_from_mapping('PIH','7537') and o.voided = 0
+set diagnosis_2_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),'@locale'), concept_name(concept_from_mapping('PIH','NO'),'@locale'))
+;
 update temp_delivery t set diagnosis_3 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',2),'PIH','3064',@locale);
-update temp_delivery t set diagnosis_3_certainty =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',2),'PIH','1379',@locale);
-update temp_delivery t set diagnosis_3_order =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',2),'PIH','7537',@locale);
-
+update temp_delivery t set diagnosis_3_confirmed =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',2),'PIH','1379',@locale);
+update temp_delivery t
+inner join obs o on  o.obs_group_id =  obs_id(t.encounter_id,'PIH','7539',2) and concept_id = concept_from_mapping('PIH','7537') and o.voided = 0
+set diagnosis_3_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),'@locale'), concept_name(concept_from_mapping('PIH','NO'),'@locale'))
+;
 update temp_delivery t set diagnosis_4 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',3),'PIH','3064',@locale);
-update temp_delivery t set diagnosis_4_certainty =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',3),'PIH','1379',@locale);
-update temp_delivery t set diagnosis_4_order =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',3),'PIH','7537',@locale);
-
+update temp_delivery t set diagnosis_4_confirmed =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',3),'PIH','1379',@locale);
+update temp_delivery t
+inner join obs o on  o.obs_group_id =  obs_id(t.encounter_id,'PIH','7539',3) and concept_id = concept_from_mapping('PIH','7537') and o.voided = 0
+set diagnosis_4_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),'@locale'), concept_name(concept_from_mapping('PIH','NO'),'@locale'))
+;
 update temp_delivery t set diagnosis_5 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',4),'PIH','3064',@locale);
-update temp_delivery t set diagnosis_5_certainty =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',4),'PIH','1379',@locale);
-update temp_delivery t set diagnosis_5_order =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',4),'PIH','7537',@locale);
-
+update temp_delivery t set diagnosis_5_confirmed =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',4),'PIH','1379',@locale);
+update temp_delivery t
+inner join obs o on  o.obs_group_id =  obs_id(t.encounter_id,'PIH','7539',4) and concept_id = concept_from_mapping('PIH','7537') and o.voided = 0
+set diagnosis_5_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),'@locale'), concept_name(concept_from_mapping('PIH','NO'),'@locale'))
+;
 update temp_delivery t set diagnosis_6 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',5),'PIH','3064',@locale);
-update temp_delivery t set diagnosis_6_certainty =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',5),'PIH','1379',@locale);
-update temp_delivery t set diagnosis_6_order =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',5),'PIH','7537',@locale);
-
+update temp_delivery t set diagnosis_6_confirmed =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',5),'PIH','1379',@locale);
+update temp_delivery t
+inner join obs o on  o.obs_group_id =  obs_id(t.encounter_id,'PIH','7539',5) and concept_id = concept_from_mapping('PIH','7537') and o.voided = 0
+set diagnosis_6_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),'@locale'), concept_name(concept_from_mapping('PIH','NO'),'@locale'))
+;
 update temp_delivery t set diagnosis_7 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',6),'PIH','3064',@locale);
-update temp_delivery t set diagnosis_7_certainty =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',6),'PIH','1379',@locale);
-update temp_delivery t set diagnosis_7_order =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',6),'PIH','7537',@locale);
-
+update temp_delivery t set diagnosis_7_confirmed =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',6),'PIH','1379',@locale);
+update temp_delivery t
+inner join obs o on  o.obs_group_id =  obs_id(t.encounter_id,'PIH','7539',6) and concept_id = concept_from_mapping('PIH','7537') and o.voided = 0
+set diagnosis_7_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),'@locale'), concept_name(concept_from_mapping('PIH','NO'),'@locale'))
+;
 update temp_delivery t set diagnosis_8 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',7),'PIH','3064',@locale);
-update temp_delivery t set diagnosis_8_certainty =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',7),'PIH','1379',@locale);
-update temp_delivery t set diagnosis_8_order =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',7),'PIH','7537',@locale);
-
+update temp_delivery t set diagnosis_8_confirmed =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',7),'PIH','1379',@locale);
+update temp_delivery t
+inner join obs o on  o.obs_group_id =  obs_id(t.encounter_id,'PIH','7539',7) and concept_id = concept_from_mapping('PIH','7537') and o.voided = 0
+set diagnosis_8_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),'@locale'), concept_name(concept_from_mapping('PIH','NO'),'@locale'))
+;
 update temp_delivery t set diagnosis_9 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',8),'PIH','3064',@locale);
-update temp_delivery t set diagnosis_9_certainty =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',8),'PIH','1379',@locale);
-update temp_delivery t set diagnosis_9_order =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',8),'PIH','7537',@locale);
-
+update temp_delivery t set diagnosis_9_confirmed =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',8),'PIH','1379',@locale);
+update temp_delivery t
+inner join obs o on  o.obs_group_id =  obs_id(t.encounter_id,'PIH','7539',8) and concept_id = concept_from_mapping('PIH','7537') and o.voided = 0
+set diagnosis_9_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),'@locale'), concept_name(concept_from_mapping('PIH','NO'),'@locale'))
+;
 update temp_delivery t set diagnosis_10 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',9),'PIH','3064',@locale);
-update temp_delivery t set diagnosis_10_certainty =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',9),'PIH','1379',@locale);
-update temp_delivery t set diagnosis_10_order =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',9),'PIH','7537',@locale);
-
+update temp_delivery t set diagnosis_10_confirmed =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',9),'PIH','1379',@locale);
+update temp_delivery t
+inner join obs o on  o.obs_group_id =  obs_id(t.encounter_id,'PIH','7539',9) and concept_id = concept_from_mapping('PIH','7537') and o.voided = 0
+set diagnosis_10_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),'@locale'), concept_name(concept_from_mapping('PIH','NO'),'@locale'))
+;
 -- disposition info
 update temp_delivery set disposition = obs_value_coded_list(encounter_id,'PIH','8620',@locale);
 update temp_delivery set disposition_comment = obs_value_text(encounter_id,'PIH','DISPOSITION COMMENTS');
