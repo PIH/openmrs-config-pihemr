@@ -19,6 +19,17 @@ concept:
   yes:
     uuid: "3cd6f600-26fe-102b-80cb-0017a47871b2"
 
+personAttributeType:
+  TELEPHONE_NUMBER:
+    uuid: "14d4f066-15f5-102d-96e4-000c29c2a5d7"
+  TEST_PATIENT:
+    uuid: "4f07985c-88a5-4abd-aa0c-f3ec8324d8e7"
+  UNKNOWN_PATIENT:
+    uuid: "8b56eac7-5c76-4b9c-8c6f-1deab8d3fc47"
+  PROVIDER_IDENTIFIER:
+    uuid: "6de6c415-97a2-4cca-817a-9501cd9ef382"
+  MOTHERS_FIRST_NAME:
+    uuid: "8d871d18-c2cc-11de-8d13-0010c6dffd0f"
 
 # for easy lookup, keys should be the name of the encounter role in the DB
 encounterRole:
