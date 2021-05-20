@@ -799,6 +799,40 @@ angular.module("encounterTypeConfig", [])
           }
         };
 
+        // pmtct intake
+        encounterTypes["584124b9-1f10-4757-ba09-91fc9075af92"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/defaultEncounterShort.page",   // no expanded view, instead there are individual sections
+            icon: "fas fa-fw fa-ribbon",
+            editUrl: hfeStandardEditUrl,
+            showOnVisitList: true,
+            sections: [
+                hivHistory,
+                primaryCareExam,
+                pedsVaccinations,
+                hivAssessment,
+                hivPlan
+            ]
+        };
+
+        // pmtct followup
+        encounterTypes["95e03e7d-9aeb-4a99-bd7a-94e8591ec2c5"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/defaultEncounterShort.page",   // no expanded view, instead there are individual sections
+            icon: "fas fa-fw fa-ribbon",
+            editUrl: hfeStandardEditUrl,
+            showOnVisitList: true,
+            sections: [
+                hivState,
+                primaryCareExam,
+                pedsVaccinations,
+                primaryCareDx,
+                hivPlan
+            ]
+        };
+
         // oncologyConsult
         encounterTypes["035fb8da-226a-420b-8d8b-3904f3bedb25"] = {
             defaultState: "short",
