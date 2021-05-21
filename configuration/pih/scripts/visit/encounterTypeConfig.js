@@ -719,7 +719,7 @@ angular.module("encounterTypeConfig", [])
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
             templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
-            icon: "fas fa-fw fa-heartbeat",
+            icon: "fas fa-fw fa-chart-line",
             editUrl: hfeStandardEditUrl,
             showOnVisitList: true
         };
@@ -797,6 +797,40 @@ angular.module("encounterTypeConfig", [])
               showOnVisitList: true,
             }
           }
+        };
+
+        // pmtct intake
+        encounterTypes["584124b9-1f10-4757-ba09-91fc9075af92"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/defaultEncounterShort.page",   // no expanded view, instead there are individual sections
+            icon: "fas fa-fw fa-ribbon",
+            editUrl: hfeStandardEditUrl,
+            showOnVisitList: true,
+            sections: [
+                hivHistory,
+                primaryCareExam,
+                pedsVaccinations,
+                hivAssessment,
+                hivPlan
+            ]
+        };
+
+        // pmtct followup
+        encounterTypes["95e03e7d-9aeb-4a99-bd7a-94e8591ec2c5"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/defaultEncounterShort.page",   // no expanded view, instead there are individual sections
+            icon: "fas fa-fw fa-ribbon",
+            editUrl: hfeStandardEditUrl,
+            showOnVisitList: true,
+            sections: [
+                hivState,
+                primaryCareExam,
+                pedsVaccinations,
+                primaryCareDx,
+                hivPlan
+            ]
         };
 
         // oncologyConsult

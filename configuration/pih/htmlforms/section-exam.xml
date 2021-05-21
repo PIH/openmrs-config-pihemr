@@ -456,20 +456,20 @@
             </h3>
 
             <div class="two-columns exam">
+                <repeat>
+                    <template>
+                        <p>
+                            <obs class="{switch}" conceptId="CIEL:1124"
+                                 answerConceptId="{finding}" style="checkbox"/>
+                        </p>
+                    </template>
+                    <render finding="CIEL:1115"       name="Normal"        switch="normalObs" />
+                    <render finding="CIEL:562"        name="cardiacMurmur" switch="abnormalObs" />
+                    <render finding="PIH:TACHYCARDIA" name="tachycardia"   switch="abnormalObs" />
+                </repeat>
+
                 <p>
-                    <obs class="normalObs" conceptId="PIH:CARDIAC EXAM FINDINGS" answerConceptId="PIH:NORMAL"
-                         style="checkbox"/>
-                </p>
-                <p>
-                    <obs class="abnormalObs" conceptId="PIH:CARDIAC EXAM FINDINGS" answerConceptId="PIH:CARDIAC MURMUR"
-                         style="checkbox"/>
-                </p>
-                <p>
-                    <obs class="abnormalObs" conceptId="PIH:CARDIAC EXAM FINDINGS" answerConceptId="PIH:TACHYCARDIA"
-                         style="checkbox"/>
-                </p>
-                <p>
-                    <obs class="abnormalObs" conceptId="PIH:CARDIAC EXAM FINDINGS" answerConceptId="PIH:OTHER NON-CODED"
+                    <obs class="abnormalObs" conceptId="CIEL:1124" answerConceptId="CIEL:5622"
                          style="checkbox" showCommentField="true" commentFieldLabel=""/>
                 </p>
 

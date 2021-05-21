@@ -1,0 +1,6 @@
+Uuid,Void/Retire,Name,Description,Format,Foreign uuid,Searchable
+${personAttributeType.TELEPHONE_NUMBER.uuid},,Telephone Number,The telephone number for the person,java.lang.String,,
+${personAttributeType.TEST_PATIENT.uuid},,Test Patient,Flag to describe if the patient was created for demonstration or testing purposes,java.lang.Boolean,,
+${personAttributeType.UNKNOWN_PATIENT.uuid},,Unknown patient,Used to flag patients that cannot be identified during the check-in process,java.lang.String,,
+${personAttributeType.PROVIDER_IDENTIFIER.uuid},,Provider Identifier,,java.lang.String,,TRUE
+${personAttributeType.MOTHERS_FIRST_NAME.uuid},,First Name of Mother,"First name of the patient's mother, used for identification",java.lang.String,,

@@ -6,6 +6,7 @@ CREATE TABLE mch_status
     encounter_location_name     VARCHAR(25),
     start_date                  DATE,
     end_date                    DATE,
+    treatment_status            VARCHAR(255),
     outcome                     VARCHAR(100),
     antenatal_visit             VARCHAR(5),
     estimated_delivery_date     DATE,

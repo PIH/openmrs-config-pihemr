@@ -36,6 +36,19 @@
     </style>
 
     <ifMode mode="VIEW" include="false">
+        <div id="where">
+            <p id="where">
+                <label>
+                    <uimessage code="emr.locationRequired"/>
+                </label>
+                <span>
+                    <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Consult Note Location"/>
+                </span>
+            </p>
+        </div>
+    </ifMode>
+
+    <ifMode mode="VIEW" include="false">
         <h2>
             <label>
                 <uimessage code="pihcore.socioEconomic.title"/>
@@ -381,12 +394,6 @@
                                       required="true"/>
         </fieldset>
 
-        <fieldset>
-            <legend>Where?</legend>
-            <label>Where?</label>
-
-            <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"/>
-        </fieldset>
     </div>
 
     <br/>
