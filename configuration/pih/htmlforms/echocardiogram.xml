@@ -243,12 +243,11 @@
             </div>
 
         </includeIf>
-        <!-- all users that don't have retroConsultNote privilege cannot edit provider, location or date when active visit -->
-        <includeIf velocityTest="(!$user.hasPrivilege('Task: emr.retroConsultNote')) and ($visit.open)">
+        <!-- all users that don't have either retro privilege, or those with retro-this-provider-only but with an active visit, can only edit location -->
+        <includeIf velocityTest="(!$user.hasPrivilege('Task: emr.retroConsultNoteThisProviderOnly') and !$user.hasPrivilege('Task: emr.retroConsultNote')) or ($user.hasPrivilege('Task: emr.retroConsultNoteThisProviderOnly') and !$user.hasPrivilege('Task: emr.retroConsultNote') and $visit.open)">
             <div style="display:none">
                 <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05"
                                           required="true"/>
-                <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"/>
                 <encounterDate id="encounterDate" default="now"/>
             </div>
             <div id="who-when-where">
@@ -264,10 +263,10 @@
                         </td>
                         <td>
                             <label>
-                                <uimessage code="emr.location"/>
+                                <uimessage code="emr.locationRequired"/>
                             </label>
                             <span>
-                                <lookup complexExpression="#if($encounter) $ui.format($encounter.location) #else $ui.format($sessionContext.sessionLocation) #end"/>
+                                <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Consult Note Location"/>
                             </span>
                         </td>
                         <td>

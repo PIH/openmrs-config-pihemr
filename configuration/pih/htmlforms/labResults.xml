@@ -144,8 +144,13 @@
             <field>
                 <span class="ui-helper-hidden-accessible"><input type="text"/></span>
             </field>
-
             <p>
+                <label for="location">
+                    <uimessage code="emr.locationRequired"/>
+                </label>
+                <field class="required">
+                    <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Lab Results Location"/>
+                </field>
                 <label for="specimen-collection-date">
                     <uimessage code="pihcore.lab.specimen_collection_date"/>
                 </label>
@@ -1144,12 +1149,7 @@
                                       required="true"/>
         </fieldset>
 
-        <fieldset>
-            <legend>Where?</legend>
-            <label>Where?</label>
 
-            <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"/>
-        </fieldset>
     </div>
 
 

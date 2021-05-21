@@ -20,11 +20,6 @@
         <h2><uimessage code="zl.registration.patient.social.header"/></h2>
     </ifMode>
 
-    <div class="hidden">
-        <encounterProviderAndRole default="currentUser" encounterRole="cbfe0b9d-9923-404c-941b-f048adc8cdc0" required="true"/>
-        <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"/>
-    </div>
-
     <input id="displayEncounterDate" value="false" type="hidden" />
 
     <section id="social" sectionTag="section" headerStyle="title" headerCode="">
