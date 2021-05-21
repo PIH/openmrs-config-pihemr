@@ -493,18 +493,7 @@
                             <render concept="CIEL:162185" name="HIV infection with high VL"/>
                             <render concept="CIEL:138706" name="herpes simplex virus hsv" />
                             <render concept="CIEL:120147" name="condyloma" />
-                            <!--
-                            Add
-                                <render concept="CIEL:"  name="mass obstructing genital tract" />
-                            Removed
-                                <render concept="CIEL:113006" name="severe pre-eclampsia"/>
-                                <render concept="CIEL:113858" name="hypertension complications"/>
-                                <render concept="CIEL:166428" name="Permanent cerclage" />
-                                <render concept="CIEL:166429" name="Prior pelvic reconstructive surgery" />
-                                <render concept="CIEL:145879" name="cerebral arterial aneurysm" />
-                                <render concept="CIEL:155477" name="cerebral arteriovenous malformation" />
-                                <render concept="CIEL:123447" name="Uterine scar"/>
-                             -->
+                            <render concept="CIEL:166438" name="mass obstructing genital tract" />
                             <render concept="CIEL:116023" name="cervical cancer" />
                             <render concept="CIEL:142672" name="Deformity of  pelvis"/>
                             <render concept="CIEL:166427" name="Prior trachelectomy" />
@@ -559,6 +548,16 @@
                              commentFieldLabel=""/>
                     </div>
                 </div>
+
+                <!-- Removed
+                    <render concept="CIEL:113006" name="severe pre-eclampsia"/>
+                    <render concept="CIEL:113858" name="hypertension complications"/>
+                    <render concept="CIEL:166428" name="Permanent cerclage" />
+                    <render concept="CIEL:166429" name="Prior pelvic reconstructive surgery" />
+                    <render concept="CIEL:145879" name="cerebral arterial aneurysm" />
+                    <render concept="CIEL:155477" name="cerebral arteriovenous malformation" />
+                    <render concept="CIEL:123447" name="Uterine scar"/>
+                 -->
                 <br/>
                 <label>
                     <uimessage code="pihcore.consult.procedure"/>
