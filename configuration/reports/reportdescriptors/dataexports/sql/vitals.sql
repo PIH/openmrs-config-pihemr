@@ -67,7 +67,7 @@ SELECT  patient_id,
         encounter_datetime,
         date_created,
         creator
-FROM openmrs.encounter e
+FROM encounter e
 WHERE voided = 0
 AND encounter_type = (SELECT encounter_type_id 
 			FROM encounter_type
