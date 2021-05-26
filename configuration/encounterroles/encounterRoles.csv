@@ -1,0 +1,15 @@
+Uuid,Void/Retire,Name,Description
+${encounterRole.unknown.uuid},,Unknown,Unknown encounter role for legacy providers with no encounter role set
+${encounterRole.dispenser.uuid},,Dispenser,Provider that dispenses medications or other products
+${encounterRole.nurse.uuid},,Nurse,A person educated and trained to care for the sick or disabled.
+${encounterRole.nurseMidwife.uuid},,Nurse Midwife,A person educated and trained in midwifery.
+${encounterRole.consultingClinician.uuid},,Consulting Clinician,Clinician who is primarily responsible for examining and diagnosing a patient
+${encounterRole.administrativeClerk.uuid},,Administrative Clerk,This role is used for creating a Check-in encounter
+${encounterRole.orderingProvider.uuid},,Ordering Provider,"For encounters associated with orders, used to store the provider responsible for placing the order"
+${encounterRole.attendingSurgeon.uuid},,Attending Surgeon,The surgeon with primary responsibility for the care of a patient in a particular surgery.
+${encounterRole.anesthesiologist.uuid},,Anesthesiologist,"Anesthesiologists are physicians who delivering anesthesia during surgical procedures, care for critically ill patients in an ICU, manage medical emergencies, and pain management."
+${encounterRole.assistingSurgeon.uuid},,Assisting Surgeon,Additional surgeons (beyond the Attending Surgeon) who assist in a surgery.
+${encounterRole.labTechnician.uuid},,Lab Technician,Staff member performing lab tests.
+${encounterRole.commCareProvider.uuid},,CommCare Provider,CommCare integration provider
+${encounterRole.radiologyTechnician.uuid},,Radiology Technician,Radiology Technician - person who performs radiology studies
+${encounterRole.principalResultsInterpreter.uuid},,Principal Results Interpreter,Principal Results Interpreter - the provider responsible for interpreting the results of a radiology study
