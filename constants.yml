@@ -36,7 +36,12 @@ encounterRole:
   labTechnician:
     uuid: "781bee46-89c5-4230-a490-68fe21d61383"
 
-# for easy lookup, keys should be the name of the encounter type in the DB
+visitType:
+  CLINIC_OR_HOSPITAL_VISIT:
+    uuid: "f01c54cb-2225-471a-9cd5-d348552c337c"
+  HOME_VISIT:
+    uuid: "90973824-1AE9-4E22-B2BB-9CBD56FB3238"
+
 encounterType:
   PATIENT_REGISTRATION:
     uuid: "873f968a-73a8-4f9c-ac78-9f4778b751b6"
