@@ -155,10 +155,15 @@ encounterType:
   ATTACHMENT_UPLOAD:
     uuid: "5021b1a1-e7f6-44b4-ba02-da2f2bcf8718"
 
-# for easy lookup, keys should be the name of the order type in the DB
 orderType:
+  drugOrder:
+    uuid: "131168f4-15f5-102d-96e4-000c29c2a5d7"
   testOrder:
     uuid: "52a447d3-a64a-11e3-9aeb-50e549534c5e"
+  pathologyTestOrder:
+    uuid: "65c912c2-88cf-46c2-83ae-2b03b1f97d3a"
+  radiologyTestOrder:
+    uuid: "5a3a8d2e-97c3-4797-a6a8-5417e6e699ec"
 
 program:
   anc:
