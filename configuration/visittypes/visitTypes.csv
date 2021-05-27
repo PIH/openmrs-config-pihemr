@@ -1,0 +1,3 @@
+Uuid,Void/Retire,Name,Description
+${visitType.CLINIC_OR_HOSPITAL_VISIT.uuid},,Clinic or Hospital Visit,"Patient visits the clinic/hospital (as opposed to a home visit, or telephone contact)"
+${visitType.HOME_VISIT.uuid},,Home Visit,Health worker visits the patient at home

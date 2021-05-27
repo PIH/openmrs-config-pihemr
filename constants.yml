@@ -5,8 +5,12 @@ javaDateTimeFormat: "dd MMM yyyy h:mm aa"
 javaScriptDateFormat: "DD MMM YYYY"
 javaScriptDateTimeFormat: "DD-MMM-YYYY HH:mm"
 
-# references the uuids of frequently-used concepts
-# for easy lookup, all keys should be there fully-specified name, camel-case
+location:
+  UNKNOWN_LOCATION:
+    uuid: "8d6c993e-c2cc-11de-8d13-0010c6dffd0f"
+  PATIENT_HOME:
+    uuid: "AF939782-898B-409A-99A4-D1653484EDBD"
+
 concept:
   heightCM:
     uuid: "3ce93cf2-26fe-102b-80cb-0017a47871b2"
@@ -31,12 +35,42 @@ personAttributeType:
   MOTHERS_FIRST_NAME:
     uuid: "8d871d18-c2cc-11de-8d13-0010c6dffd0f"
 
-# for easy lookup, keys should be the name of the encounter role in the DB
 encounterRole:
+  unknown:
+    uuid: "a0b03050-c99b-11e0-9572-0800200c9a66"
+  dispenser:
+    uuid: "bad21515-fd04-4ff6-bfcd-78456d12f168"
+  nurse:
+    uuid: "98bf2792-3f0a-4388-81bb-c78b29c0df92"
+  nurseMidwife:
+    uuid: "1949e6f8-fd80-11e8-8eb2-f2801f1b9fd1"
+  consultingClinician:
+    uuid: "4f10ad1a-ec49-48df-98c7-1391c6ac7f05"
+  administrativeClerk:
+    uuid: "cbfe0b9d-9923-404c-941b-f048adc8cdc0"
+  orderingProvider:
+    uuid: "c458d78e-8374-4767-ad58-9f8fe276e01c"
+  attendingSurgeon:
+    uuid: "9b135b19-7ebe-4a51-aea2-69a53f9383af"
+  anesthesiologist:
+    uuid: "de11b25c-a641-4630-9524-5b85ece9a4f8"
+  assistingSurgeon:
+    uuid: "6e630e03-5182-4cb3-9a82-a5b1a85c09a7"
   labTechnician:
     uuid: "781bee46-89c5-4230-a490-68fe21d61383"
+  commCareProvider:
+    uuid: "9442C03D-C539-4345-8716-F70DB4BA6458"
+  radiologyTechnician:
+    uuid: "8f4d96e2-c97c-4285-9319-e56b9ba6029c"
+  principalResultsInterpreter:
+    uuid: "08f73be2-9452-44b5-801b-bdf7418c2f71"
 
-# for easy lookup, keys should be the name of the encounter type in the DB
+visitType:
+  CLINIC_OR_HOSPITAL_VISIT:
+    uuid: "f01c54cb-2225-471a-9cd5-d348552c337c"
+  HOME_VISIT:
+    uuid: "90973824-1AE9-4E22-B2BB-9CBD56FB3238"
+
 encounterType:
   PATIENT_REGISTRATION:
     uuid: "873f968a-73a8-4f9c-ac78-9f4778b751b6"
@@ -155,10 +189,15 @@ encounterType:
   ATTACHMENT_UPLOAD:
     uuid: "5021b1a1-e7f6-44b4-ba02-da2f2bcf8718"
 
-# for easy lookup, keys should be the name of the order type in the DB
 orderType:
+  drugOrder:
+    uuid: "131168f4-15f5-102d-96e4-000c29c2a5d7"
   testOrder:
     uuid: "52a447d3-a64a-11e3-9aeb-50e549534c5e"
+  pathologyTestOrder:
+    uuid: "65c912c2-88cf-46c2-83ae-2b03b1f97d3a"
+  radiologyTestOrder:
+    uuid: "5a3a8d2e-97c3-4797-a6a8-5417e6e699ec"
 
 program:
   anc:
