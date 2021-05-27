@@ -5,8 +5,12 @@ javaDateTimeFormat: "dd MMM yyyy h:mm aa"
 javaScriptDateFormat: "DD MMM YYYY"
 javaScriptDateTimeFormat: "DD-MMM-YYYY HH:mm"
 
-# references the uuids of frequently-used concepts
-# for easy lookup, all keys should be there fully-specified name, camel-case
+location:
+  UNKNOWN_LOCATION:
+    uuid: "8d6c993e-c2cc-11de-8d13-0010c6dffd0f"
+  PATIENT_HOME:
+    uuid: "AF939782-898B-409A-99A4-D1653484EDBD"
+
 concept:
   heightCM:
     uuid: "3ce93cf2-26fe-102b-80cb-0017a47871b2"

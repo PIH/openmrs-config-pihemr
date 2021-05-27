@@ -1,0 +1,14 @@
+Uuid,Void/Retire,Mapping source,Mapping code,Metadata class name,Metadata uuid
+58b607d7-3099-4f4e-86e5-2ef90658c104,,org.openmrs.module.emrapi,emr.unknownLocation,org.openmrs.Location,${location.UNKNOWN_LOCATION.uuid}
+04c879e6-f2c4-4e63-9c93-1900f7746737,,org.openmrs.module.emrapi,emr.atFacilityVisitType,org.openmrs.VisitType,${visitType.CLINIC_OR_HOSPITAL_VISIT.uuid}
+85ab5700-d3b4-4e7a-9ee6-ca25e10a311a,,org.openmrs.module.emrapi,emr.orderingProviderEncounterRole,org.openmrs.EncounterRole,${encounterRole.orderingProvider.uuid}
+a7362b18-8b59-49d7-afa8-5ee01ae880d9,,org.openmrs.module.emrapi,emr.checkInClerkEncounterRole,org.openmrs.EncounterRole,${encounterRole.administrativeClerk.uuid}
+b8db7be3-98f4-4606-88eb-27f34b5258b9,,org.openmrs.module.emrapi,emr.clinicianEncounterRole,org.openmrs.EncounterRole,${encounterRole.consultingClinician.uuid}
+7e6980f2-3b88-469d-af32-2498804a900a,,org.openmrs.module.emrapi,emr.checkInEncounterType,org.openmrs.EncounterType,${encounterType.CHECK_IN.uuid}
+20b0c0e4-cc45-4896-b9f6-4f61fb01258b,,org.openmrs.module.emrapi,emr.visitNoteEncounterType,org.openmrs.EncounterType,${encounterType.CONSULTATION.uuid}
+e75f752d-c775-4392-acae-1b2f7419443a,,org.openmrs.module.emrapi,emr.admissionEncounterType,org.openmrs.EncounterType,${encounterType.ADMISSION.uuid}
+fcb3ca09-0db1-4277-9636-bb069306de94,,org.openmrs.module.emrapi,emr.exitFromInpatientEncounterType,org.openmrs.EncounterType,${encounterType.EXIT_FROM_CARE.uuid}
+bc976a45-1d9e-4193-a541-a689ba38cf69,,org.openmrs.module.emrapi,emr.transferWithinHospitalEncounterType,org.openmrs.EncounterType,${encounterType.TRANSFER.uuid}
+99cb2776-c3d5-4e2c-9b65-3828cc1ae301,,org.openmrs.module.emrapi,emr.admissionForm,org.openmrs.Form,43acf930-eb1b-11e2-91e2-0800200c9a66
+302f09dd-1dfa-447b-8c88-84864256aeac,,org.openmrs.module.emrapi,emr.exitFromInpatientForm,org.openmrs.Form,e0a26c20-fba6-11e2-b778-0800200c9a66
+6c63c917-6b57-458c-8f36-f460ca70f67d,,org.openmrs.module.emrapi,emr.transferWithinHospitalForm,org.openmrs.Form,d068bc80-fb95-11e2-b778-0800200c9a66
