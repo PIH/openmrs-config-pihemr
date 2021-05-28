@@ -21,11 +21,11 @@ encounter_id INT,
 encounter_date DATE,
 birth_number INT,
 multiples INT,
-birth_apgar VARCHAR(255),
-birth_outcome VARCHAR(255),
+birth_apgar INT,
+birth_outcome VARCHAR(30),
 birth_weight DOUBLE,
-birth_neonatal_resuscitation VARCHAR(255),
-birth_macerated_fetus VARCHAR(255)
+birth_neonatal_resuscitation VARCHAR(5),
+birth_macerated_fetus VARCHAR(5)
 );
 
 INSERT INTO temp_mch_birth1(patient_id, encounter_id, encounter_date)
@@ -45,11 +45,11 @@ encounter_id INT,
 encounter_date DATE,
 birth_number INT,
 multiples INT,
-birth_apgar VARCHAR(255),
-birth_outcome VARCHAR(255),
+birth_apgar INT,
+birth_outcome VARCHAR(30),
 birth_weight DOUBLE,
-birth_neonatal_resuscitation VARCHAR(255),
-birth_macerated_fetus VARCHAR(255)
+birth_neonatal_resuscitation VARCHAR(5),
+birth_macerated_fetus VARCHAR(5)
 );
 
 INSERT INTO temp_mch_birth2(patient_id, encounter_id, encounter_date)
@@ -69,11 +69,11 @@ encounter_id INT,
 encounter_date DATE,
 birth_number INT,
 multiples INT,
-birth_apgar VARCHAR(255),
-birth_outcome VARCHAR(255),
+birth_apgar INT,
+birth_outcome VARCHAR(30),
 birth_weight DOUBLE,
-birth_neonatal_resuscitation VARCHAR(255),
-birth_macerated_fetus VARCHAR(255)
+birth_neonatal_resuscitation VARCHAR(5),
+birth_macerated_fetus VARCHAR(5)
 );
 INSERT INTO temp_mch_birth3(patient_id, encounter_id, encounter_date)
 SELECT patient_id, encounter_id, encounter_date FROM temp_mch_birth;
@@ -92,11 +92,11 @@ encounter_id INT,
 encounter_date DATE,
 birth_number INT,
 multiples INT,
-birth_apgar VARCHAR(255),
-birth_outcome VARCHAR(255),
+birth_apgar INT,
+birth_outcome VARCHAR(30),
 birth_weight DOUBLE,
-birth_neonatal_resuscitation VARCHAR(255),
-birth_macerated_fetus VARCHAR(255)
+birth_neonatal_resuscitation VARCHAR(5),
+birth_macerated_fetus VARCHAR(5)
 );
 
 INSERT INTO temp_mch_birth4(patient_id, encounter_id, encounter_date)
@@ -136,4 +136,4 @@ birth_outcome,
 birth_weight,
 birth_neonatal_resuscitation,
 birth_macerated_fetus
-FROM temp_mch_birth_final ORDER BY patient_id, encounter_id;
+FROM temp_mch_birth_final ORDER BY patient_id, encounter_id, birth_number;
