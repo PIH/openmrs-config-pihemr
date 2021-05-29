@@ -6,7 +6,7 @@ configuration:
 
   load:
     datasource: "sqlserver/openmrs_extractions.yml"
-    table: "delivery"
+    table: "mch_delivery"
     schema: "mch/delivery/target.sql"
 
 schedule:
