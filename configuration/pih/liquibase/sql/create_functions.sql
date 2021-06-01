@@ -1939,4 +1939,33 @@ BEGIN
     RETURN state_name_out;
 
 END
-#									
+#
+-- this function accepts concept_id of a concept and concept_id of a concept set
+-- if the concept is in that set, it returns true
+-- OR if the concept is in a set that is in that set, it returns true
+-- otherwise, false
+#
+DROP FUNCTION IF EXISTS concept_in_set;
+#
+CREATE FUNCTION concept_in_set(_concept_id int(11), _concept_set_id int(11))
+    RETURNS boolean
+    DETERMINISTIC
+
+BEGIN
+
+DECLARE ret boolean;
+
+select if(cs.concept_set_id is null,false,true) into ret from concept_set cs 
+where concept_id = _concept_id
+and concept_set = _concept_set_id
+limit 1;
+
+select if(ret,ret,if(cs.concept_set_id is null,false,true)) into ret from concept_set cs
+inner join concept_set cs2 on cs2.concept_id = _concept_id and cs2.concept_set = cs.concept_id 
+where cs.concept_set = _concept_set_id
+limit 1;
+
+    RETURN ret;
+
+END
+#
