@@ -483,21 +483,21 @@
                                 <obs conceptId="PIH:13571" answerConceptId="{concept}" style="checkbox"/>
                             </template>
                             <render concept="CIEL:113814" name="previous c-section"/>
-                            <render concept="CIEL:113017" name="severe asthma"/>
+                            <render concept="CIEL:118744" name="eclampsia"/>
                             <render concept="CIEL:121856" name="acute pulmonary edema" />
+                            <render concept="CIEL:158913" name="post myomectomy" />
+                            <render concept="CIEL:166427" name="Prior trachelectomy" />
+                            <render concept="CIEL:113017" name="severe asthma"/>
                             <render concept="CIEL:117703" name="sickle-cell anemia"/>
+                            <render concept="CIEL:116023" name="cervical cancer" />
                             <render concept="CIEL:113918" name="peripartum cardiomyopathy"/>
                             <render concept="CIEL:139071" name="heart disease" />
-                            <render concept="CIEL:118744" name="eclampsia"/>
-                            <render concept="CIEL:162185" name="HIV infection with high VL"/>
-                            <render concept="CIEL:138706" name="herpes simplex virus hsv" />
-                            <render concept="CIEL:120147" name="condyloma" />
-                            <render concept="CIEL:158913" name="post myomectomy" />
-                            <render concept="CIEL:166438" name="mass obstructing genital tract" />
-                            <render concept="CIEL:116023" name="cervical cancer" />
-                            <render concept="CIEL:166427" name="Prior trachelectomy" />
-                            <render concept="CIEL:142672" name="Deformity of  pelvis"/>
                             <render concept="CIEL:166437" name="perimortem c-section" />
+                            <render concept="CIEL:120147" name="condyloma" />
+                            <render concept="CIEL:138706" name="herpes simplex virus hsv" />
+                            <render concept="CIEL:166438" name="mass obstructing genital tract" />
+                            <render concept="CIEL:142672" name="Deformity of  pelvis"/>
+                            <render concept="CIEL:162185" name="HIV infection with high VL"/>
                         </repeat>
 
                         <!-- other maternal problem -->
@@ -514,10 +514,10 @@
                                 <obs conceptId="PIH:13572" answerConceptId="{concept}" style="checkbox"/>
                             </template>
                             <render concept="CIEL:118256" name="acute fetal distress"/>
+                            <render concept="CIEL:115939" name="malpresentation of fetus"/>
                             <render concept="CIEL:115491" name="multiple babies"/>
                             <render concept="CIEL:140951" name="large baby"/>
                             <render concept="CIEL:120129" name="Congenital malformation fetus"/>
-                            <render concept="CIEL:115939" name="malpresentation of fetus"/>
                         </repeat>
 
                         <!-- other fetal problem -->
@@ -533,14 +533,14 @@
                             <template>
                                 <obs conceptId="PIH:13573" answerConceptId="{concept}" style="checkbox"/>
                             </template>
-                            <render concept="CIEL:113602" name="prolonged labor"/>
                             <render concept="CIEL:145935" name="cephalopelvic disproportion"/>
                             <render concept="CIEL:130108" name="placenta abruption"/>
                             <render concept="CIEL:114127" name="placenta previa"/>
-                            <render concept="CIEL:166426" name="history of retained placenta" />
+                            <render concept="CIEL:113602" name="prolonged labor"/>
                             <render concept="CIEL:113617" name="prolapsed cord"/> <!-- laterocidence? -->
-                            <render concept="CIEL:161632" name="Failed instrument delivery"/>
                             <render concept="CIEL:118366" name="failed induction"/>
+                            <render concept="CIEL:166426" name="history of retained placenta" />
+                            <render concept="CIEL:161632" name="Failed instrument delivery"/>
                         </repeat>
 
                         <!-- other obstetrical problem -->
