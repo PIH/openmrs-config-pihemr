@@ -1254,6 +1254,8 @@
                     <obs conceptId="CIEL:160079" answerConceptId="CIEL:140399" style="checkbox"/>
                     <!-- Malpresentation of fetus -->
                     <obs conceptId="CIEL:160079" answerConceptId="CIEL:115939" style="checkbox"/>
+                    <!-- Uterine scar -->
+                    <obs conceptId="CIEL:160079" answerConceptId="CIEL:123450" style="checkbox"/>
                     <!-- GBV -->
                     <obs conceptId="CIEL:160079" answerConceptId="CIEL:165088"
                          style="checkbox"/>
