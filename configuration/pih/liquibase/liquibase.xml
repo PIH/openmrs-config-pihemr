@@ -161,7 +161,7 @@
             (select program_id from program where uuid in ("9fe0c32c-981f-4283-b4f4-168285a52c7d", "40657f91-5991-44fe-a16f-220dbeb9dcbd", "1eb13158-f39c-444a-b77c-78f1d78123be"));
         </sqlCheck>
         </preConditions>
-        <comment>If the count above is 0, then remove these programs (Hypertension program, Diabetes program, Epilepsy program)</comment>
+        <comment>If the count is 0, then remove these programs (Hypertension program, Diabetes program, Epilepsy program)</comment>
         <sql>
             delete from program where uuid in ("9fe0c32c-981f-4283-b4f4-168285a52c7d", "40657f91-5991-44fe-a16f-220dbeb9dcbd", "1eb13158-f39c-444a-b77c-78f1d78123be");
         </sql>
