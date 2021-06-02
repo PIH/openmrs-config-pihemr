@@ -23,6 +23,12 @@ concept:
   yes:
     uuid: "3cd6f600-26fe-102b-80cb-0017a47871b2"
 
+providerAttributeType:
+  households:
+    uuid: "0c267ae8-f793-4cf8-9b27-93accaa45d86"
+  dateHired:
+    uuid: "c8ef8a16-a8cd-4748-b0ea-e8a1ec503fbb"
+
 personAttributeType:
   TELEPHONE_NUMBER:
     uuid: "14d4f066-15f5-102d-96e4-000c29c2a5d7"
