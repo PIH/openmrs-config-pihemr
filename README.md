@@ -170,6 +170,7 @@ Components are defined in [pihcore/.../config/Components.java](https://github.co
 - **relationships**: Adds relationship summary widget to pt dashboard.
 - **socioEconomics**: Adds socio-econ htmlform to visit actions. Requires Consult Note location tag.
 - **spa**: The Single-SPA UI. Accessible at `/openmrs/spa/login`. Requires some set-up.
+- **spaPreview**: "Preview" links from the old UI to the Single-SPA UI, which are visible only to System Administrators.
 - **surgery**: Adds surgery htmlform visit action. Required Surgery Note location tag.
 - **systemAdministration**: Enables System Administration app from home page, and Manage Accounts,
   Merge Patient Electronic Records, and Advanced Features. Requires privilege `emr.systemAdministration`.
