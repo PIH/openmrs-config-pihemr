@@ -262,7 +262,6 @@ Metadata sharing packages include these:
 * Mexico only:  Mexico_Concepts-x.zip (1 concept: )
 * Oncology: Oncology-x.zip
 * Allergies:  PIH_Allergies-x.zip (1 concept: PIH allergy concept set)
-* Concept sources: PIH_Concept_Sources-x.zip (27 sources)
 * Physical exam:  PIH_Exam-x.zip (1 concept: Physical system concept set)
 * Intake history: PIH_History-x.zip (1 concept: PIH History Form Concept Set)
 * Labs: PIH_Labs-x.zip (1 concept: Laboratory concept set)
