@@ -159,22 +159,15 @@
             <sqlCheck expectedResult="0">
             select count(*) from patient_program where program_id in
             (select program_id from program where uuid in ("9fe0c32c-981f-4283-b4f4-168285a52c7d",
-                "40657f91-5991-44fe-a16f-220dbeb9dcbd", "1eb13158-f39c-444a-b77c-78f1d78123be") and retired = 0);
+                "40657f91-5991-44fe-a16f-220dbeb9dcbd", "1eb13158-f39c-444a-b77c-78f1d78123be"));
             </sqlCheck>
         </preConditions>
         <comment>If the count is 0, then remove these programs (Hypertension program, Diabetes program, Epilepsy program)</comment>
         <sql>
-            -- void patient states related to these programs
-            update patient_state set voided = 1 and voided_by = 3 and date_voided = now() and
-            void_reason = "Hypertension program, Diabetes program and Epilepsy program deleted"
-            where patient_program_id in (select program_id from program
-            where uuid in ("9fe0c32c-981f-4283-b4f4-168285a52c7d", "40657f91-5991-44fe-a16f-220dbeb9dcbd", "1eb13158-f39c-444a-b77c-78f1d78123be"))
-            and voided = 0;
-
             -- delete program_workflow_state related to these programs
             delete from program_workflow_state where program_workflow_id in
             (select program_workflow_id from program_workflow where program_id in (select program_id from program where uuid in
-            ("9fe0c32c-981f-4283-b4f4-168285a52c7d","40657f91-5991-44fe-a16f-220dbeb9dcbd", "1eb13158-f39c-444a-b77c-78f1d78123be") and retired = 0));
+            ("9fe0c32c-981f-4283-b4f4-168285a52c7d","40657f91-5991-44fe-a16f-220dbeb9dcbd", "1eb13158-f39c-444a-b77c-78f1d78123be")));
 
             -- delete program_workflow related to these programs
             delete from program_workflow
