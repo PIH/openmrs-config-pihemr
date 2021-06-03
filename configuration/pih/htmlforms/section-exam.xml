@@ -52,7 +52,7 @@
                 display: inline-block;
             }
 
-            .tanner label {
+            .in-line label {
                 display: inline-block;
             }
 
@@ -64,6 +64,22 @@
                 column-count: 2;
                 -webkit-column-count: 2;
                 -moz-column-count: 2;
+            }
+
+            .five-columns, .four-columns, .three-columns, .two-columns-n {
+                display: table;
+                height: 100%;
+                width: 100%;
+            }
+
+            .two-columns-n > div {
+                display: table-cell;
+                width: 50%;
+            }
+
+            .three-columns > div {
+                display: table-cell;
+                width: 33%;
             }
 
             .narrow {
@@ -670,59 +686,69 @@
                     <uimessage code="pihcore.exam.gynecology_exam.title"/>
                 </h3>
 
-                <div class="two-columns exam">
+                <div class="two-columns-n exam">
+                    <div>
+                        <repeat>
+                            <template>
+                                <p>
+                                    <obs class="{switch}" conceptId="PIH:13229"
+                                         answerConceptId="{finding}" style="checkbox"/>
+                                </p>
+                            </template>
+                            <render finding="CIEL:1115"   name="Normal"     switch="normalObs" />
+                            <render finding="CIEL:146512" name="GenCandid"  switch="abnormalObs" />
+                            <render finding="CIEL:120147" name="Condyloma"  switch="abnormalObs" />
+                            <render finding="CIEL:165162" name="BadSmell"   switch="abnormalObs" />
+                        </repeat>
 
-                    <repeat>
-                        <template>
-                            <p>
-                                <obs class="{switch}" conceptId="PIH:13229"
-                                     answerConceptId="{finding}" style="checkbox"/>
-                            </p>
-                        </template>
-                        <render finding="CIEL:1115"   name="Normal"     switch="normalObs" />
-                        <render finding="CIEL:146512" name="GenCandid"  switch="abnormalObs" />
-                        <render finding="CIEL:120147" name="Condyloma"  switch="abnormalObs" />
-                        <render finding="CIEL:165162" name="BadSmell"   switch="abnormalObs" />
-                    </repeat>
+                        <repeat>
+                            <template>
+                                <p>
+                                    <obs class="{switch}" conceptId="PIH:13229"
+                                         answerConceptId="{finding}" answerCode="pihcore.specExam.{name}"
+                                         style="checkbox"/>
+                                </p>
+                            </template>
+                            <render finding="CIEL:116995" name="cervicitis" switch="abnormalObs" />
+                        </repeat>
 
-                    <repeat>
-                        <template>
-                            <p>
-                                <obs class="{switch}" conceptId="PIH:13229"
-                                     answerConceptId="{finding}" answerCode="pihcore.specExam.{name}"
-                                     style="checkbox"/>
-                            </p>
-                        </template>
-                        <render finding="CIEL:116995" name="cervicitis" switch="abnormalObs" />
-                        <render finding="CIEL:157480" name="cervLesion" switch="abnormalObs" />
-                    </repeat>
+                        <repeat>
+                            <template>
+                                <p>
+                                    <obs class="{switch}" conceptId="PIH:13229"
+                                         answerConceptId="{finding}" style="checkbox"/>
+                                </p>
+                            </template>
+                            <render finding="CIEL:147967" name="Bartholini" switch="abnormalObs" />
+                            <render finding="CIEL:864"    name="GenUlcer"   switch="abnormalObs" />
+                        </repeat>
 
-                    <repeat>
-                        <template>
-                            <p>
-                                <obs class="{switch}" conceptId="PIH:13229"
-                                     answerConceptId="{finding}" style="checkbox"/>
-                            </p>
-                        </template>
-                        <render finding="CIEL:147967" name="Bartholini" switch="abnormalObs" />
-                        <render finding="CIEL:864"    name="GenUlcer"   switch="abnormalObs" />
-                    </repeat>
-
-                    <p>
-                        <obs class="abnormalObs" conceptId="PIH:13229"
-                             answerConceptId="CIEL:5622" style="checkbox" showCommentField="true" commentFieldLabel=""/>
-                    </p>
-
-                    <p class="comment-label">
-                        <uimessage code="pihcore.exam.comment"/>
-                    </p>
-
-                    <p class="comment-field">
                         <p>
-                            <obs conceptId="PIH:13231" rows="12" cols="45"/>
+                            <obs class="abnormalObs" conceptId="PIH:13229"
+                                 answerConceptId="CIEL:5622" style="checkbox" showCommentField="true" commentFieldLabel=""/>
                         </p>
-                    </p>
-                    <br/>
+                    </div>
+                    <div>
+                        <label>
+                            <uimessage code="pihcore.via.long"/>
+                        </label>
+                        <p class="in-line">
+                            <obs conceptId="CIEL:162816" style="radio"
+                                 answerConceptIds="CIEL:1115,CIEL:164808,CIEL:116031"
+                                 answerSeparator=""/>
+                        </p>
+
+                        <p class="comment-label">
+                            <uimessage code="pihcore.exam.comment"/>
+                        </p>
+
+                        <p class="comment-field">
+                            <p>
+                                <obs conceptId="PIH:13231" rows="6" cols="45"/>
+                            </p>
+                        </p>
+                    </div>
+
                 </div>
             </div>
         </includeIf>
@@ -730,55 +756,113 @@
 
         <!-- Women's Health only -->
         <includeIf velocityTest="$patient.gender == 'F' ">
+
+            <ifMode mode="VIEW" include="false">
+                <script type="text/javascript">
+
+                    var $j = jQuery;
+
+                    jq(function() {
+
+                        var hasValue = function(element) {
+                            return jq(element).find('.fetus-name input').val();
+                        };
+
+                        var hideOtherFetus = function() {
+                            jq('#fetus-2').hide();
+                            jq('#fetus-3').hide();
+                            jq('#fetus-4').hide();
+                        };
+
+                        if (!hasValue('#fetus-2') &amp;&amp; !hasValue('#fetus-3') &amp;&amp; !hasValue('#fetus-4')) {
+                        hideOtherFetus();
+                        jq('#show-more-fetus-button').show();
+                        }
+
+                        jq('#show-more-fetus-button').click(function() {
+                            jq('.fetus').show();
+                            jq('#show-more-fetus-button').hide();
+                            jq('#show-less-fetus-button').show();
+                        });
+
+                        jq('#show-less-fetus-button').click(function() {
+                            hideOtherFetus();
+                            jq('#show-less-fetus-button').hide();
+                            jq('#show-more-fetus-button').show();
+                        });
+
+                    })
+
+                </script>
+            </ifMode>
+
             <div class="section-container-color">
                 <h3 id="women">
                     <uimessage code="pihcore.exam.obstetrical_exam.title"/>
                 </h3>
 
-                <p class="tanner narrow">
-                    <label>
-                        <uimessage code="pihcore.fundalHeight"/>
-                    </label>
-                    <obs conceptId="CIEL:1439" showUnits="true"/>
-
-                </p>
-
-                <div class="two-columns tanner">
-                    <label>
-                        <uimessage code="pihcore.fetalPresentation"/>
-                    </label>
-                    <obs conceptId="CIEL:160090"
-                         answerConceptIds="CIEL:160091,CIEL:164148,PIH:13224,CIEL:146922,CIEL:139814,
-                         CIEL:118388,CIEL:164149,CIEL:164150,CIEL:115808,CIEL:112259,CIEL:144433,CIEL:113617,
-                         CIEL:5622"/>
-                    <br/>
-
-                    <label>
-                        <uimessage code="pihcore.fetalPosition"/>
-                    </label>
-                    <obs conceptId="CIEL:163749" style="radio"
-                         answerConceptIds="CIEL:5141,CIEL:5139"/>
+                <div class="two-columns-n in-line">
+                    <div>
+                        <label>
+                            <uimessage code="pihcore.fundalHeight"/>
+                        </label>
+                        <obs conceptId="CIEL:1439" showUnits="true"/>
+                    </div>
+                    <div>
+                        <label>
+                            <uimessage code="pihcore.uterineContractions"/>
+                        </label>
+                        <obs conceptId="CIEL:163750" style="radio"
+                             answerConceptIds="CIEL:163747,CIEL:163748"
+                             answerCodes="pihcore.absent.plural,pihcore.present.plural" />
+                        <obs conceptId="CIEL:160968" placeholder="comment"/>
+                    </div>
                 </div>
 
-                <div class="two-columns tanner">
-                    <label>
-                        <uimessage code="pihcore.fetalHeartRate"/>
-                    </label>
-                    <obs conceptId="CIEL:1440" showUnits="true"/>
-                    <br/>
-                    <br/>
+                <repeat with="['1'],['2'],['3'],['4']">
+                    <span id="fetus-{0}" class="fetus">
+                        <obsgroup groupingConceptId="PIH:13592">
+                            <h6>------- {0} -------</h6>
 
-                    <label>
-                        <uimessage code="pihcore.uterineContractions"/>
-                    </label>
-                    <obs conceptId="CIEL:163750" style="radio"
-                         answerConceptIds="CIEL:163747,CIEL:163748"
-                         answerCodes="pihcore.absent.plural,pihcore.present.plural" />
-                    <obs conceptId="CIEL:160968" placeholder="comment"/>
-                    <br/>
-                </div>
+                            <div class="three-columns in-line">
+                                <div>
+                                    <label>
+                                        <uimessage code="pihcore.fetalPresentation"/>
+                                    </label>
+                                    <obs id="fetus-presentation-{0}" conceptId="CIEL:160090"
+                                         answerConceptIds="CIEL:160091,CIEL:164148,PIH:13224,CIEL:146922,CIEL:139814,
+                             CIEL:118388,CIEL:164149,CIEL:164150,CIEL:115808,CIEL:112259,CIEL:144433,CIEL:113617,
+                             CIEL:5622"/>
+                                </div>
 
+                                <div>
+                                    <label>
+                                        <uimessage code="pihcore.fetalPosition"/>
+                                    </label>
+                                    <br/>
+                                    <obs id="fetus-position-{0}"
+                                         conceptId="CIEL:163749" style="radio"
+                                         answerConceptIds="CIEL:5141,CIEL:5139"/>
+                                </div>
+
+                                <div>
+                                    <label>
+                                        <uimessage code="pihcore.fetalHeartRate"/>
+                                    </label>
+                                    <obs id="fetus-hr-{0}" conceptId="CIEL:1440" showUnits="true"/>
+                                </div>
+                            </div>
+                        </obsgroup>
+                    </span>
+                </repeat>
+                <button id="show-more-fetus-button" type="button" style="display:none">
+                    <uimessage code="pihcore.showMore"/>
+                </button>
+                <button id="show-less-fetus-button" type="button" style="display:none">
+                    <uimessage code="pihcore.showLess"/>
+                </button>
             </div>
+
             <p/>
         </includeIf>
 
@@ -905,7 +989,7 @@
                 </h3>
 
                 <includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) &lt; 6">
-                    <p class="tanner">
+                    <p class="in-line">
                         <label>
                             <uimessage code="pihcore.exam.denverTest"/>
                         </label>
@@ -1054,7 +1138,7 @@
                          answerConceptId="CIEL:118729" style="checkbox"/>
                 </p>
 
-                <p class="tanner">
+                <p class="in-line">
                     Pitting:
                     <obs class="abnormalObs" conceptId="PIH:MUSCULOSKELETAL EXAM FINDINGS"
                          answerConceptIds="CIEL:165598,CIEL:165599,CIEL:165600"
@@ -1086,7 +1170,7 @@
                 <uimessage code="pihcore.exam.other_exam.title"/>
             </h3>
 
-            <p class="tanner">
+            <p class="in-line">
                 <uimessage code="pihcore.exam.tannerstage"/>
                 <obs conceptId="PIH:5310" style="radio" answerSeparator=""
                      answerConceptIds="CIEL:160771,CIEL:160774,CIEL:160778,CIEL:160782,PIH:11931"
