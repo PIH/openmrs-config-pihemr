@@ -742,6 +742,7 @@
                         <p>
                             <obsgroup groupingConceptId="CIEL:1938">
                                 <span class="small hidden">
+                                    <!-- NOTE: Using 6 so it doesn't conflict with the other procedures -->
                                     <obs conceptId="CIEL:1937" defaultValue="6"></obs>
                                 </span>
                                 <obs conceptId="CIEL:1651" style="checkbox"
