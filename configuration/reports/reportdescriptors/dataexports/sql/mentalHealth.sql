@@ -1,6 +1,3 @@
--- set @startDate = '1900-01-01';
--- set @endDate = '2021-06-04';
-
 DROP TEMPORARY TABLE IF EXISTS temp_mentalhealth_visit;
 
 SET sql_safe_updates = 0;
@@ -150,7 +147,7 @@ return_date DATE
 );
 
 INSERT INTO temp_mentalhealth_visit (   patient_id,
-										zl_emr_id, gender,
+                                        gender,
                                         encounter_id,
                                         encounter_date,
                                         age_at_enc,
@@ -162,7 +159,6 @@ INSERT INTO temp_mentalhealth_visit (   patient_id,
                                         visit_id
                                         )
 SELECT patient_id,
-	   ZLEMR(patient_id),
        GENDER(patient_id),
        encounter_id,
        encounter_datetime,
@@ -183,9 +179,9 @@ SELECT patient_id,
 DELETE FROM temp_mentalhealth_visit WHERE
 patient_id IN (SELECT person_id FROM person_attribute WHERE value = 'true' AND person_attribute_type_id = (SELECT
 person_attribute_type_id FROM person_attribute_type WHERE name = "Test Patient")
-                         AND voided = 0)
-;
-
+                         AND voided = 0);
+-- emr id
+update temp_mentalhealth_visit tmhv set zl_emr_id = patient_identifier(patient_id, metadata_uuid('org.openmrs.module.emrapi', 'emr.primaryIdentifierType'));
 -- unknown patient
 UPDATE temp_mentalhealth_visit tmhv
 SET tmhv.unknown_patient = IF(tmhv.patient_id = UNKNOWN_PATIENT(tmhv.patient_id), 'true', NULL);
