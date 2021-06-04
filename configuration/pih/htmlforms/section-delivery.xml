@@ -365,8 +365,8 @@
                                         <obs conceptId="PIH:DIAGNOSIS" answerConceptId="{concept}" style="checkbox"/>
                                     </obsgroup>
                                 </template>
-                                <render concept="CIEL:230"    name="intrapartum hemorrhage"/>
-                                <render concept="CIEL:136601" name="postpartum hemorrhage"/>
+                                <render concept="CIEL:230"    name="postpartum hemorrhage" />
+                                <render concept="CIEL:136601" name="intrapartum hemorrhage" />
                                 <render concept="CIEL:130108" name="placental abruption"/>
                                 <render concept="CIEL:114127" name="placenta praevia"/>
                                 <render concept="CIEL:127259" name="uterus rupture"/> <!-- PIH:7566/CIEL:127259 -->
