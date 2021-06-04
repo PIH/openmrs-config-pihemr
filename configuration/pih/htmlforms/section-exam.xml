@@ -738,13 +738,24 @@
                                  answerSeparator=""/>
                         </p>
 
+                        <!-- Cryotherapy of lesion of cervix -->
+                        <p>
+                            <obsgroup groupingConceptId="CIEL:1938">
+                                <span class="small hidden">
+                                    <obs conceptId="CIEL:1937" defaultValue="6"></obs>
+                                </span>
+                                <obs conceptId="CIEL:1651" style="checkbox"
+                                     answerConceptId="CIEL:162812"/>
+                            </obsgroup>
+                        </p>
+
                         <p class="comment-label">
                             <uimessage code="pihcore.exam.comment"/>
                         </p>
 
                         <p class="comment-field">
                             <p>
-                                <obs conceptId="PIH:13231" rows="6" cols="45"/>
+                                <obs conceptId="PIH:13231" rows="4" cols="45"/>
                             </p>
                         </p>
                     </div>
@@ -821,7 +832,7 @@
 
                 <repeat with="['1'],['2'],['3'],['4']">
                     <span id="fetus-{0}" class="fetus">
-                        <obsgroup groupingConceptId="PIH:13592">
+                        <obsgroup groupingConceptId="CIEL:165381">
                             <h6>------- {0} -------</h6>
 
                             <div class="three-columns in-line">
