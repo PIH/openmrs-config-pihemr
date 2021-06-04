@@ -1328,12 +1328,12 @@ END
 DROP FUNCTION IF EXISTS obs_from_group_id_value_numeric;
 #
 CREATE FUNCTION obs_from_group_id_value_numeric(_obsGroupId int(11), _source varchar(50), _term varchar(255))
-    RETURNS int
+    RETURNS double
     DETERMINISTIC
 
 BEGIN
 
-    DECLARE ret int;
+    DECLARE ret double;
 
     select      value_numeric into ret
     from        obs o
@@ -1607,12 +1607,12 @@ END
 DROP FUNCTION IF EXISTS obs_from_group_id_value_numeric;
 #
 CREATE FUNCTION obs_from_group_id_value_numeric(_obsGroupId int(11), _source varchar(50), _term varchar(255))
-    RETURNS int
+    RETURNS double
     DETERMINISTIC
 
 BEGIN
 
-    DECLARE ret int;
+    DECLARE ret double;
 
     select      value_numeric into ret
     from        obs o
