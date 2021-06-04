@@ -1,0 +1,27 @@
+key: "diagnosesdataexport"
+uuid: "257bb3e9-fc74-11e3-8248-08002769d9ae"
+name: "mirebalaisreports.diagnosesdataexport.name"
+description: "mirebalaisreports.diagnosesdataexport.description"
+parameters:
+  - key: "startDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.startDate"
+  - key: "endDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.endDate"
+datasets:
+  - key: "diagnosesdataexport"
+    type: "sql"
+    config: "sql/diagnoses.sql"
+designs:
+  - type: "csv"
+    properties:
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
+config:
+  category: "dataExport"
+  order: 9
+  components:
+    - "consult"
+    - "allDataExports"
