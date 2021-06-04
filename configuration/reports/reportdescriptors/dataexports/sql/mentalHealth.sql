@@ -389,17 +389,17 @@ ORDER BY person_id, encounter_id, obs_group_id DESC) meds;
 UPDATE temp_mentalhealth_visit tmhv LEFT JOIN temp_med_order tmo ON patient_id = person_id AND tmhv.encounter_id = tmo.encounter_id AND tmo.drug_order = 1
 SET obs_group_id_med1 = tmo.obs_group_id,
 	medication_1 = CONCEPT_NAME(tmo.value_coded, 'en'),
-    drug_name_1 = (select d.name from drug d where d.drug_id = tmo.value_drug);
+    drug_name_1 = drugName(tmo.value_drug);
 
 UPDATE temp_mentalhealth_visit tmhv LEFT JOIN temp_med_order tmo ON patient_id = person_id AND tmhv.encounter_id = tmo.encounter_id AND tmo.drug_order = 2
 SET obs_group_id_med2 = tmo.obs_group_id,
 	medication_2 = CONCEPT_NAME(tmo.value_coded, 'en'),
-    drug_name_2 = (select d.name from drug d where d.drug_id = tmo.value_drug);
+    drug_name_2 = drugName(tmo.value_drug);
 
 UPDATE temp_mentalhealth_visit tmhv LEFT JOIN temp_med_order tmo ON patient_id = person_id AND tmhv.encounter_id = tmo.encounter_id AND tmo.drug_order = 3
 SET obs_group_id_med3 = tmo.obs_group_id,
 	medication_3 = CONCEPT_NAME(tmo.value_coded, 'en'),
-    drug_name_3 = (select d.name from drug d where d.drug_id = tmo.value_drug);
+    drug_name_3 = drugName(tmo.value_drug);
 
 -- quantity
 UPDATE temp_mentalhealth_visit LEFT JOIN temp_medications_construct tmc ON obs_group_id_med1 = obs_group_id AND tmc.concept_id = CONCEPT_FROM_MAPPING('CIEL', '160856')
