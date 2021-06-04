@@ -1601,30 +1601,6 @@ RETURN ret;
 
 END
 #
--- This function accepts obs_group_id, mapping source, mapping code
--- It will find the value_numeric entry of the latest obs that matches this
-#
-DROP FUNCTION IF EXISTS obs_from_group_id_value_numeric;
-#
-CREATE FUNCTION obs_from_group_id_value_numeric(_obsGroupId int(11), _source varchar(50), _term varchar(255))
-    RETURNS double
-    DETERMINISTIC
-
-BEGIN
-
-    DECLARE ret double;
-
-    select      value_numeric into ret
-    from        obs o
-    where       o.voided = 0
-      and       o.obs_group_id= _obsGroupId
-      and       o.concept_id = concept_from_mapping(_source, _term)
-      order by obs_datetime desc limit 1;
-
-    RETURN ret;
-
-END
-#
 -- This function accepts encounter_id and drug_id
 -- It will find the obs_id of the latest observation with the drug_id as an answer
 #
