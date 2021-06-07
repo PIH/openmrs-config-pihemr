@@ -64,7 +64,7 @@ SET @intramuscular = CONCEPT_FROM_MAPPING('CIEL', '160243');
 CREATE TEMPORARY TABLE temp_mentalhealth_visit
 (
 patient_id INT,
-zl_emr_id VARCHAR(255),
+emr_id VARCHAR(255),
 gender VARCHAR(50),
 unknown_patient TEXT,
 patient_address TEXT,
@@ -181,7 +181,7 @@ patient_id IN (SELECT person_id FROM person_attribute WHERE value = 'true' AND p
 person_attribute_type_id FROM person_attribute_type WHERE name = "Test Patient")
                          AND voided = 0);
 -- emr id
-update temp_mentalhealth_visit tmhv set zl_emr_id = patient_identifier(patient_id, metadata_uuid('org.openmrs.module.emrapi', 'emr.primaryIdentifierType'));
+update temp_mentalhealth_visit tmhv set emr_id = patient_identifier(patient_id, metadata_uuid('org.openmrs.module.emrapi', 'emr.primaryIdentifierType'));
 -- unknown patient
 UPDATE temp_mentalhealth_visit tmhv
 SET tmhv.unknown_patient = IF(tmhv.patient_id = UNKNOWN_PATIENT(tmhv.patient_id), 'true', NULL);
@@ -501,7 +501,7 @@ SET tmhv.disposition = (SELECT CONCEPT_NAME(value_coded, 'fr') FROM obs WHERE co
 SELECT
 encounter_id,
 patient_id,
-zl_emr_id,
+emr_id,
 gender,
 unknown_patient,
 PERSON_ADDRESS_STATE_PROVINCE(patient_id) 'province',
