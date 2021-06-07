@@ -64,7 +64,7 @@ SET @intramuscular = CONCEPT_FROM_MAPPING('CIEL', '160243');
 CREATE TEMPORARY TABLE temp_mentalhealth_visit
 (
 patient_id INT,
-zl_emr_id VARCHAR(255),
+emr_id VARCHAR(255),
 gender VARCHAR(50),
 unknown_patient TEXT,
 patient_address TEXT,
@@ -110,6 +110,7 @@ psychological_intervention TEXT,
 other_psychological_intervention TEXT,
 obs_group_id_med1 INT,
 medication_1 TEXT,
+drug_name_1 TEXT,
 quantity_1 DOUBLE,
 dosing_units_1 TEXT,
 frequency_1 TEXT,
@@ -118,6 +119,7 @@ duration_units_1 TEXT,
 route_1 TEXT,
 obs_group_id_med2 INT,
 medication_2 TEXT,
+drug_name_2 TEXT,
 quantity_2 DOUBLE,
 dosing_units_2 TEXT,
 frequency_2 TEXT,
@@ -126,6 +128,7 @@ duration_units_2 TEXT,
 route_2 TEXT,
 obs_group_id_med3 INT,
 medication_3 TEXT,
+drug_name_3 TEXT,
 quantity_3 DOUBLE,
 dosing_units_3 TEXT,
 frequency_3 TEXT,
@@ -144,7 +147,7 @@ return_date DATE
 );
 
 INSERT INTO temp_mentalhealth_visit (   patient_id,
-										zl_emr_id, gender,
+                                        gender,
                                         encounter_id,
                                         encounter_date,
                                         age_at_enc,
@@ -156,7 +159,6 @@ INSERT INTO temp_mentalhealth_visit (   patient_id,
                                         visit_id
                                         )
 SELECT patient_id,
-	   ZLEMR(patient_id),
        GENDER(patient_id),
        encounter_id,
        encounter_datetime,
@@ -177,9 +179,9 @@ SELECT patient_id,
 DELETE FROM temp_mentalhealth_visit WHERE
 patient_id IN (SELECT person_id FROM person_attribute WHERE value = 'true' AND person_attribute_type_id = (SELECT
 person_attribute_type_id FROM person_attribute_type WHERE name = "Test Patient")
-                         AND voided = 0)
-;
-
+                         AND voided = 0);
+-- emr id
+update temp_mentalhealth_visit tmhv set emr_id = patient_identifier(patient_id, metadata_uuid('org.openmrs.module.emrapi', 'emr.primaryIdentifierType'));
 -- unknown patient
 UPDATE temp_mentalhealth_visit tmhv
 SET tmhv.unknown_patient = IF(tmhv.patient_id = UNKNOWN_PATIENT(tmhv.patient_id), 'true', NULL);
@@ -351,11 +353,12 @@ obs_id INT,
 concept_id INT, 
 value_coded INT,
 value_numeric INT,
+value_drug INT,
 date_created DATETIME
 );
 
-INSERT INTO temp_medications_construct (person_id, encounter_id, obs_group_id, obs_id, concept_id, value_coded, value_numeric, date_created)
-SELECT person_id, encounter_id, obs_group_id, obs_id, concept_id, value_coded, value_numeric, date_created FROM obs WHERE obs_group_id IN (
+INSERT INTO temp_medications_construct (person_id, encounter_id, obs_group_id, obs_id, concept_id, value_coded, value_numeric, value_drug, date_created)
+SELECT person_id, encounter_id, obs_group_id, obs_id, concept_id, value_coded, value_numeric, value_drug, date_created FROM obs WHERE obs_group_id IN (
 SELECT obs_id FROM obs WHERE concept_id = CONCEPT_FROM_MAPPING('PIH', 'Prescription construct') AND voided = 0);
 
 
@@ -367,10 +370,11 @@ SELECT
     obs_group_id, 
     obs_id, 
     concept_id, 
-    value_coded, 
+    value_coded,
+    value_drug,
     drug_order
 FROM (SELECT
-		@r:= IF(@u = encounter_id, @r + 1,1) AS drug_order, person_id, encounter_id,  obs_group_id, obs_id, concept_id, value_coded, @u:= encounter_id
+		@r:= IF(@u = encounter_id, @r + 1,1) AS drug_order, person_id, encounter_id,  obs_group_id, obs_id, concept_id, value_coded, value_drug, @u:= encounter_id
 FROM temp_medications_construct,
 	(SELECT @rownum := 0) AS r,
 	(SELECT @u:= 0) AS u
@@ -380,15 +384,18 @@ ORDER BY person_id, encounter_id, obs_group_id DESC) meds;
 -- meds
 UPDATE temp_mentalhealth_visit tmhv LEFT JOIN temp_med_order tmo ON patient_id = person_id AND tmhv.encounter_id = tmo.encounter_id AND tmo.drug_order = 1
 SET obs_group_id_med1 = tmo.obs_group_id,
-	medication_1 = CONCEPT_NAME(tmo.value_coded, 'en');
+	medication_1 = CONCEPT_NAME(tmo.value_coded, 'en'),
+    drug_name_1 = drugName(tmo.value_drug);
 
 UPDATE temp_mentalhealth_visit tmhv LEFT JOIN temp_med_order tmo ON patient_id = person_id AND tmhv.encounter_id = tmo.encounter_id AND tmo.drug_order = 2
 SET obs_group_id_med2 = tmo.obs_group_id,
-	medication_2 = CONCEPT_NAME(tmo.value_coded, 'en');
+	medication_2 = CONCEPT_NAME(tmo.value_coded, 'en'),
+    drug_name_2 = drugName(tmo.value_drug);
 
 UPDATE temp_mentalhealth_visit tmhv LEFT JOIN temp_med_order tmo ON patient_id = person_id AND tmhv.encounter_id = tmo.encounter_id AND tmo.drug_order = 3
 SET obs_group_id_med3 = tmo.obs_group_id,
-	medication_3 = CONCEPT_NAME(tmo.value_coded, 'en');
+	medication_3 = CONCEPT_NAME(tmo.value_coded, 'en'),
+    drug_name_3 = drugName(tmo.value_drug);
 
 -- quantity
 UPDATE temp_mentalhealth_visit LEFT JOIN temp_medications_construct tmc ON obs_group_id_med1 = obs_group_id AND tmc.concept_id = CONCEPT_FROM_MAPPING('CIEL', '160856')
@@ -494,7 +501,7 @@ SET tmhv.disposition = (SELECT CONCEPT_NAME(value_coded, 'fr') FROM obs WHERE co
 SELECT
 encounter_id,
 patient_id,
-zl_emr_id,
+emr_id,
 gender,
 unknown_patient,
 PERSON_ADDRESS_STATE_PROVINCE(patient_id) 'province',
@@ -538,6 +545,7 @@ diagnosis,
 psychological_intervention,
 other_psychological_intervention,
 medication_1,
+drug_name_1,
 quantity_1,
 dosing_units_1,
 frequency_1,
@@ -545,6 +553,7 @@ duration_1,
 duration_units_1,
 route_1,
 medication_2,
+drug_name_2,
 quantity_2,
 dosing_units_2,
 frequency_2,
@@ -552,6 +561,7 @@ duration_2,
 duration_units_2,
 route_2,
 medication_3,
+drug_name_3,
 quantity_3,
 dosing_units_3,
 frequency_3,
