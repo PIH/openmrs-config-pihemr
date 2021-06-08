@@ -71,62 +71,66 @@
         <ifMode mode="VIEW" include="true">
 
             #section-anc-intake legend {
-            display: none;
+                display: none;
             }
 
             #section-anc-intake fieldset {
-            margin: 0px;
-            border: 0px;
-            padding: 0px;
+                margin: 0px;
+                border: 0px;
+                padding: 0px;
             }
 
             #section-anc-intake fieldset h3 {
-            font-size: 1em;
-            width: 200px;
-            display: inline-block;
-            margin: 0px;
-            margin-right: 10px;
-            color: #3E3E3E;
-            vertical-align: top;
+                font-size: 1em;
+                width: 200px;
+                display: inline-block;
+                margin: 0px;
+                margin-right: 10px;
+                color: #3E3E3E;
+                vertical-align: top;
             }
 
             #section-anc-intake fieldset p {
-            vertical-align: top;
-            display: inline-block;
-            float: none;
+                vertical-align: top;
+                display: inline-block;
+                float: none;
             }
 
             #section-anc-intake fieldset .left {
-            vertical-align: top;
-            display: inline-block;
-            float: none;
+                vertical-align: top;
+                display: inline-block;
+                float: none;
             }
 
             #section-anc-intake .title {
-            display: none;
+                display: none;
             }
 
             #section-anc-intake .encounter-date {
-            display: none;
+                display: none;
             }
 
             #section-anc-intake .encounter-provider {
-            display: none;
+                display: none;
             }
 
             #section-anc-intake .encounter-location {
-            display: none;
+                display: none;
             }
 
             #section-anc-intake .comment-label {
-            display: none;
+                display: none;
             }
             #section-anc-intake .comment-field {
-            display: block;
-            margin-left: 215px;
+                display: block;
+                margin-left: 215px;
             }
             #section-anc-intake br {
-            display: none;
+                display: none;
+            }
+
+            .side-by-side label {
+                display: inline-block;
             }
         </ifMode>
     </style>
@@ -205,6 +209,32 @@
             });
         </script>
     </ifMode>
+
+    <section id="consult-type" sectionTag="fieldset" headerStyle="title"
+             headerCode="pihcore.typeOfConsult">
+        <div class="section-container">
+            <div class="two-columns">
+
+                <div>
+                    <p class="side-by-side">
+                        <obs id="visit-reason" conceptId="PIH:8879" style="radio"
+                             answerConceptIds="CIEL:165013,CIEL:1622,PIH:6261"
+                             answerCodes="pihcore.gyn,pihcore.prenatal,pihcore.postnatal"
+                             answerSeparator="" />
+                    </p>
+                </div>
+
+                <div>
+                    <p class="side-by-side">
+                        <obs id="intake-or-followup" conceptId="CIEL:164181" style="radio"
+                             answerConceptIds="CIEL:164180,PIH:7383"
+                             answerCodes="pihcore.new,pihcore.followup"
+                             answerSeparator="" />
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <section id="anc-intake" sectionTag="fieldset" headerTag="legend"
              headerStyle="title" headerCode="pihcore.ancIntake.title">

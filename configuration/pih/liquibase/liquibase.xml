@@ -68,7 +68,7 @@
     </changeSet>
 
     <changeSet id="20210405-restore-value-drug" author="ball">
-        <validCheckSum>3:4912bdee60ad40b50e9f2c76560756e1</validCheckSum>
+        <validCheckSum>3:60fc99e90700bdd6fff363fd5f9a1d02</validCheckSum>
         <comment>
             UHM-5226 Restore obs.value_drug for meds
         </comment>
@@ -177,6 +177,76 @@
             -- delete these programs
             delete from program where uuid in ("9fe0c32c-981f-4283-b4f4-168285a52c7d", "40657f91-5991-44fe-a16f-220dbeb9dcbd",
             "1eb13158-f39c-444a-b77c-78f1d78123be");
+        </sql>
+    </changeSet>
+
+    <changeSet id="20210608-migrate-anc-v1-to-obgyn-encounters" author="ball">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">
+                select count(*) from address_hierarchy_entry where parent_id is NULL and name like 'Haiti';
+            </sqlCheck>
+        </preConditions>
+        <comment>
+            If the count is 1, this is a Haiti server
+        </comment>
+        <sql>
+            -- Add prenatal obs for ANC V1 encounters; type of outpatient visit = prenatal visit
+            insert into obs
+                (person_id,
+                 concept_id,
+                 value_coded,
+                 encounter_id, obs_datetime, location_id,
+                 comments, creator, date_created, uuid)
+            select e.patient_id,
+                   (select concept_id from concept where uuid = 'e2964359-790a-419d-be53-602e828dcdb9'),
+                   (select concept_id from concept where uuid = 'cabf0c04-7d4e-4db4-921c-d5ba90f00fc9'),
+                   e.encounter_id, now(), e.location_id,
+                   'create anc prenatal obs for obgyn', e.creator, now(), uuid()
+              from encounter e
+             where e.encounter_type IN
+                    (select et.encounter_type_id from encounter_type et
+                      where et.uuid IN ('00e5e810-90ec-11e8-9eb6-529269fb1459','00e5e946-90ec-11e8-9eb6-529269fb1459'));
+
+            -- Add visit initial obs for ANC V1 intake encounters
+            insert into obs
+                (person_id, concept_id, value_coded,
+                encounter_id, obs_datetime, location_id,
+                comments, creator, date_created, uuid)
+            select e.patient_id,
+                (select concept_id from concept where uuid = '164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'),
+                (select concept_id from concept where uuid = '164180AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'),
+                e.encounter_id, now(), e.location_id,
+                'create anc ddb obs for obgyn', e.creator, now(), uuid()
+              from encounter e
+             where e.encounter_type IN
+                (select et.encounter_type_id from encounter_type et
+                  where et.uuid = '00e5e810-90ec-11e8-9eb6-529269fb1459') ;
+
+            -- Add visit followup obs for ANC V1 followup encounters
+            insert into obs
+                (person_id, concept_id, value_coded,
+                encounter_id, obs_datetime, location_id,
+                comments, creator, date_created, uuid)
+            select e.patient_id,
+                (select concept_id from concept where uuid = '164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'),
+                (select concept_id from concept where uuid = '53b1484a-c50c-4e44-880d-c8c6d6f63762'),
+                e.encounter_id, now(), e.location_id,
+                'create anc rdv obs for obgyn', e.creator, now(), uuid()
+              from encounter e
+             where e.encounter_type IN
+                (select et.encounter_type_id from encounter_type et
+                  where et.uuid = '00e5e946-90ec-11e8-9eb6-529269fb1459') ;
+
+            -- Change to OB/GYN encounter type and form_id on ANC V1 encounter
+            update encounter
+               set encounter_type =
+                    (select encounter_type_id from encounter_type where uuid = 'd83e98fd-dc7b-420f-aa3f-36f648b4483d'),
+                   form_id =
+                    (select form_id from form where uuid = '97ba85df-83b6-49ed-b34f-30b33436e599')
+             where encounter_type IN
+                    (select et.encounter_type_id
+                       from encounter_type et
+                      where et.uuid IN ('00e5e810-90ec-11e8-9eb6-529269fb1459','00e5e946-90ec-11e8-9eb6-529269fb1459'));
         </sql>
     </changeSet>
 

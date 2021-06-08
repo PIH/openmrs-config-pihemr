@@ -53,6 +53,11 @@
         -moz-column-count: 2;
         }
 
+
+        .side-by-side-by label {
+            display: inline-block;
+        }
+
     </style>
 
     <style type="text/css">
@@ -190,6 +195,32 @@
             });
         </script>
     </ifMode>
+
+    <section id="consult-type" sectionTag="fieldset" headerStyle="title"
+             headerCode="pihcore.typeOfConsult">
+        <div class="section-container">
+            <div class="two-columns">
+
+                <div>
+                    <p class="side-by-side">
+                        <obs id="visit-reason" conceptId="PIH:8879" style="radio"
+                             answerConceptIds="CIEL:165013,CIEL:1622,PIH:6261"
+                             answerCodes="pihcore.gyn,pihcore.prenatal,pihcore.postnatal"
+                             answerSeparator="" />
+                    </p>
+                </div>
+
+                <div>
+                    <p class="side-by-side">
+                        <obs id="intake-or-followup" conceptId="CIEL:164181" style="radio"
+                             answerConceptIds="CIEL:164180,PIH:7383"
+                             answerCodes="pihcore.new,pihcore.followup"
+                             answerSeparator="" />
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <section id="anc-followup" sectionTag="fieldset" headerTag="legend"
              headerStyle="title" headerCode="pihcore.ancFollowup.title">
