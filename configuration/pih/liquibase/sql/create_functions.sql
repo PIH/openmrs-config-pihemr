@@ -2010,7 +2010,7 @@ BEGIN
 
 DECLARE ret varchar(255);
 
-select onc.value_coded into ret from obs ogr 
+select onc.value_text into ret from obs ogr 
  left outer join obs oo on oo.obs_group_id = ogr.obs_id and oo.concept_id = concept_from_mapping('PIH','7537') and oo.voided = 0
  left outer join obs onc on od.obs_group_id = ogr.obs_id and od.concept_id = concept_from_mapping('PIH','7416') and od.voided = 0
 where ogr.encounter_id = _encounter_id
