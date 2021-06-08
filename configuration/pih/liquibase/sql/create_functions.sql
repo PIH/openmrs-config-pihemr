@@ -1945,3 +1945,131 @@ limit 1;
 
 END
 #
+-- The following diagnosis functions can work together to provide all of the details of diagnoses entered in encounters
+-- they each accept encounter_id and offset and will return the details of the nth (based on offset) encounter,
+-- ordered by: 
+--   primary diagnoses first, then other diagnoses with an order, then diagnoses without an order. obs_id is included as a final sort factor
+#
+-- The following function accepts encounter_id and offset
+-- It will return the obs_group_id of the construct of the nth diagnosis of that encounter (n being the offset)
+#
+DROP FUNCTION IF EXISTS diagnosis_obs_group_id;
+#
+CREATE FUNCTION diagnosis_obs_group_id(_encounter_id int(11), _offset int(11)) RETURNS int(11)
+    DETERMINISTIC
+BEGIN
+
+DECLARE ret int(11);
+
+select ogr.obs_id into ret from obs ogr 
+ left outer join obs oo on oo.obs_group_id = ogr.obs_id and oo.concept_id = concept_from_mapping('PIH','7537') and oo.voided = 0
+where ogr.encounter_id = _encounter_id
+and ogr.concept_id = concept_from_mapping('PIH','7539')
+and ogr.voided = 0
+order by ISNULL(oo.value_coded) ASC ,LOCATE('7534',retrieveConceptMapping(oo.value_coded,'PIH')) DESC, ogr.obs_id ASC
+limit 1
+offset _offset;
+
+    RETURN ret;
+
+END
+#
+-- The following function accepts encounter_id, offset and locale
+-- It will return the coded diagnosis name (if exists) in that locale of the nth diagnosis of that encounter (n being the offset)
+#
+DROP FUNCTION IF EXISTS diagnosis;
+#
+CREATE FUNCTION diagnosis(_encounter_id int(11), _offset int(11), _locale varchar(50)) RETURNS varchar(255)
+    DETERMINISTIC
+BEGIN
+
+DECLARE ret varchar(255);
+
+select concept_name(od.value_coded ,_locale) into ret from obs ogr 
+ left outer join obs oo on oo.obs_group_id = ogr.obs_id and oo.concept_id = concept_from_mapping('PIH','7537') and oo.voided = 0
+ left outer join obs od on od.obs_group_id = ogr.obs_id and od.concept_id = concept_from_mapping('PIH','DIAGNOSIS') and od.voided = 0
+where ogr.encounter_id = _encounter_id
+and ogr.concept_id = concept_from_mapping('PIH','7539')
+and ogr.voided = 0
+order by ISNULL(oo.value_coded) ASC ,LOCATE('7534',retrieveConceptMapping(oo.value_coded,'PIH')) DESC, ogr.obs_id ASC
+limit 1
+offset _offset;
+
+    RETURN ret;
+
+END
+#
+-- The following function accepts encounter_id, offset and locale
+-- It will return the noncoded diagnosis (if exists) of the nth diagnosis of that encounter (n being the offset)
+#
+DROP FUNCTION IF EXISTS diagnosis_noncoded;
+#
+CREATE FUNCTION diagnosis_noncoded(_encounter_id int(11), _offset int(11)) RETURNS varchar(255)
+    DETERMINISTIC
+BEGIN
+
+DECLARE ret varchar(255);
+
+select onc.value_text into ret from obs ogr 
+ left outer join obs oo on oo.obs_group_id = ogr.obs_id and oo.concept_id = concept_from_mapping('PIH','7537') and oo.voided = 0
+ left outer join obs onc on od.obs_group_id = ogr.obs_id and od.concept_id = concept_from_mapping('PIH','7416') and od.voided = 0
+where ogr.encounter_id = _encounter_id
+and ogr.concept_id = concept_from_mapping('PIH','7539')
+and ogr.voided = 0
+order by ISNULL(oo.value_coded) ASC ,LOCATE('7534',retrieveConceptMapping(oo.value_coded,'PIH')) DESC, ogr.obs_id ASC
+limit 1
+offset _offset;
+
+    RETURN ret;
+
+END
+#
+-- The following function accepts encounter_id, offset and locale
+-- It will return the diagnosis order in that locale of the nth diagnosis of that encounter (n being the offset)
+#
+DROP FUNCTION IF EXISTS diagnosis_order;
+#
+CREATE FUNCTION diagnosis_order(_encounter_id int(11), _offset int(11), _locale varchar(50)) RETURNS varchar(255)
+    DETERMINISTIC
+BEGIN
+
+DECLARE ret varchar(255);
+
+select concept_name(oo.value_coded ,_locale) into ret from obs ogr 
+ left outer join obs oo on oo.obs_group_id = ogr.obs_id and oo.concept_id = concept_from_mapping('PIH','7537') and oo.voided = 0
+where ogr.encounter_id = _encounter_id
+and ogr.concept_id = concept_from_mapping('PIH','7539')
+and ogr.voided = 0
+order by ISNULL(oo.value_coded) ASC ,LOCATE('7534',retrieveConceptMapping(oo.value_coded,'PIH')) DESC, ogr.obs_id ASC
+limit 1
+offset _offset;
+
+    RETURN ret;
+
+END
+#
+-- The following function accepts encounter_id, offset and locale
+-- It will return the diagnosis certainty in that locale of the nth diagnosis of that encounter (n being the offset)
+#
+DROP FUNCTION IF EXISTS diagnosis_certainty;
+#
+CREATE FUNCTION diagnosis_certainty(_encounter_id int(11), _offset int(11), _locale varchar(50)) RETURNS varchar(255)
+    DETERMINISTIC
+BEGIN
+
+DECLARE ret varchar(255);
+
+select concept_name(oc.value_coded ,_locale) into ret from obs ogr 
+ left outer join obs oo on oo.obs_group_id = ogr.obs_id and oo.concept_id = concept_from_mapping('PIH','7537') and oo.voided = 0
+ left outer join obs oc on oc.obs_group_id = ogr.obs_id and oc.concept_id = concept_from_mapping('PIH','1379') and oc.voided = 0
+where ogr.encounter_id = _encounter_id
+and ogr.concept_id = concept_from_mapping('PIH','7539')
+and ogr.voided = 0
+order by ISNULL(oo.value_coded) ASC ,LOCATE('7534',retrieveConceptMapping(oo.value_coded,'PIH')) DESC, ogr.obs_id ASC
+limit 1
+offset _offset;
+
+RETURN ret;
+
+END
+#
