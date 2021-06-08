@@ -302,12 +302,12 @@
                                  answerCode="pihcore.{name}"/>
                         </p>
                     </template>
-                    <render answer="CIEL:1382" name="familyPlanning.title" />
                     <render answer="CIEL:161651" name="mch.breastfeeding" />
                     <render answer="CIEL:1906" name="hygiene" />
-                    <render answer="CIEL:164480" name="mch.dangerSigns" />
                     <render answer="CIEL:1380" name="nutrition" />
+                    <render answer="CIEL:1382" name="familyPlanning.title" />
                     <render answer="CIEL:161069" name="deliveryPrep" />
+                    <render answer="CIEL:164480" name="mch.dangerSigns" />
                 </repeat>
             </div>
 
@@ -404,31 +404,25 @@
             <repeat>
                 <template>
                     <p>
-                        <obs conceptId="CIEL:1272" style="checkbox" answerConceptId="{answerId}" />
+                        <obs conceptId="CIEL:1272" style="checkbox"
+                             answerConceptId="{answerId}" answerCode="pihcore.{code}" />
                     </p>
                 </template>
-                <render answerId="CIEL:163558" code="psychologist" />
-                <render answerId="PIH:NUTRITION PROGRAM"  code="nutritionProgram" />
-                <render answerId="PIH:FAMILY PLANNING" code="familyPlanning" />
+                <render answerId="CIEL:165018" code="location.idClinic" />
+                <render answerId="PIH:NCD Program" code="visitNote.ncdInitial" />
+                <render answerId="PIH:9361" code="communityHealth" />
             </repeat>
 
             <repeat>
                 <template>
                     <p>
-                        <obs conceptId="CIEL:1272" style="checkbox"
-                             answerConceptId="{answerId}" answerCode="pihcore.{code}" />
+                        <obs conceptId="CIEL:1272" style="checkbox" answerConceptId="{answerId}" />
                     </p>
                 </template>
-                <render answerId="PIH:NCD Program" code="visitNote.ncdInitial" />
-                <render answerId="CIEL:165018" code="location.idClinic" />
-                <render answerId="PIH:9361" code="communityHealth" />
+                <render answerId="PIH:FAMILY PLANNING" code="familyPlanning" />
+                <render answerId="PIH:NUTRITION PROGRAM"  code="nutritionProgram" />
+                <render answerId="CIEL:163558" code="psychologist" />
             </repeat>
-
-            <!-- These should be set with ADT
-               <render answerId="PIH:Labor and delivery visit" code="laborDelivery" />
-               <render answerId="CIEL:5485" code="hospitalized" />
-               <render answerId="PIH:11956" code="otherFacility" />
-            -->
 
             <p>
                 <obs conceptId="CIEL:1272" style="checkbox"

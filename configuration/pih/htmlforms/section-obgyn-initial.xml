@@ -1256,9 +1256,6 @@
                     <obs conceptId="CIEL:160079" answerConceptId="CIEL:115939" style="checkbox"/>
                     <!-- Uterine scar -->
                     <obs conceptId="CIEL:160079" answerConceptId="CIEL:123450" style="checkbox"/>
-                    <!-- GBV -->
-                    <obs conceptId="CIEL:160079" answerConceptId="CIEL:165088"
-                         style="checkbox"/>
                     <!-- Syphilis -->
                     <obs conceptId="CIEL:160079" answerConceptId="CIEL:112493"
                          style="checkbox"/>
@@ -1279,8 +1276,9 @@
                          answerConceptId="{mh-answer}" />
                 </template>
                 <render name="Depression"    mh-answer="CIEL:119537" />
-                <render name="Schizophrenia" mh-answer="CIEL:113155" />
+                <render name="GBV"           mh-answer="CIEL:165088" />
                 <render name="PTSD"          mh-answer="CIEL:113881" />
+                <render name="Schizophrenia" mh-answer="CIEL:113155" />
             </repeat>
         </div>
     </section>
