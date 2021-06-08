@@ -13,7 +13,7 @@ datasets:
   - key: "deliverydataexport"
     type: "sql"
     config: "sql/delivery.sql"
-      parameters:
+    parameters:
       - key: "locale"
         value: "es"
 designs:
