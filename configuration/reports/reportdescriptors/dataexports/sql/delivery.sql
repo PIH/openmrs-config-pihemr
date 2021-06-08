@@ -1,7 +1,7 @@
 -- set @startDate = '2020-04-27';
 -- set @endDate = '2021-04-27';
 
-SET @locale =   if(@startDate is null, 'en', GLOBAL_PROPERTY_VALUE('default_locale', 'en'));
+SET @locale =  ifnull(@locale,if(@startDate is null, 'en', GLOBAL_PROPERTY_VALUE('default_locale', 'en')));
 
 select encounter_type_id into @delivery_note from encounter_type where uuid = '00e5ebb2-90ec-11e8-9eb6-529269fb1459'; 
 
