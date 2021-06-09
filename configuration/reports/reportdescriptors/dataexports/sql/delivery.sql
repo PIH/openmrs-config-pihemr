@@ -1,7 +1,7 @@
--- set @startDate = '2020-04-27';
--- set @endDate = '2021-04-27';
+-- set @startDate = '2021-05-01';
+-- set @endDate = '2021-06-09';
 
-SET @locale =  ifnull(@locale,if(@startDate is null, 'en', GLOBAL_PROPERTY_VALUE('default_locale', 'en')));
+SET @locale = ifnull(@locale, GLOBAL_PROPERTY_VALUE('default_locale', 'en'));
 
 select encounter_type_id into @delivery_note from encounter_type where uuid = '00e5ebb2-90ec-11e8-9eb6-529269fb1459'; 
 
@@ -38,8 +38,8 @@ CREATE TEMPORARY TABLE temp_delivery
     Episiotomy                      varchar(255),
     Postpartum_blood_loss           varchar(255),
     Transfusion                     varchar(255),
-    Type_of_delivery                varchar(1000),
-    c_section_maternal_reasons      varchar(300),
+    Type_of_delivery                varchar(500),
+    c_section_maternal_reasons      varchar(500),
     other_c_section_maternal_reasons    text,
     c_section_fetal_reasons         varchar(255),
     other_c_section_fetal_reason        text,
@@ -298,67 +298,76 @@ update temp_delivery set nutrition_newborn_counseling = obs_value_coded_list(enc
 update temp_delivery set family_planning_after_delivery = obs_value_coded_list(encounter_id,'PIH','13564',@locale);
 
 -- diagnoses
-update temp_delivery t set diagnosis_1 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',0),'PIH','3064',@locale);
-update temp_delivery t set diagnosis_1_confirmed =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',0),'PIH','1379',@locale);
-update temp_delivery t
-inner join obs o on  o.obs_group_id =  obs_id(t.encounter_id,'PIH','7539',0) and concept_id = concept_from_mapping('PIH','7537') and o.voided = 0
-set diagnosis_1_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),'@locale'), concept_name(concept_from_mapping('PIH','NO'),'@locale'))
+update temp_delivery t set diagnosis_1 = diagnosis(t.encounter_id,0,@locale);
+update temp_delivery t set diagnosis_1_confirmed = diagnosis_certainty(t.encounter_id,0,@locale);
+update temp_delivery t 
+inner join obs o on o.obs_group_id  = diagnosis_obs_group_id(t.encounter_id,0)
+set diagnosis_1_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),@locale), concept_name(concept_from_mapping('PIH','NO'),@locale))
 ;
 
-update temp_delivery t set diagnosis_2 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',1),'PIH','3064',@locale);
-update temp_delivery t set diagnosis_2_confirmed =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',1),'PIH','1379',@locale);
-update temp_delivery t
-inner join obs o on  o.obs_group_id =  obs_id(t.encounter_id,'PIH','7539',1) and concept_id = concept_from_mapping('PIH','7537') and o.voided = 0
-set diagnosis_2_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),'@locale'), concept_name(concept_from_mapping('PIH','NO'),'@locale'))
+update temp_delivery t set diagnosis_2 = diagnosis(t.encounter_id,1,@locale);
+update temp_delivery t set diagnosis_2_confirmed = diagnosis_certainty(t.encounter_id,1,@locale);
+update temp_delivery t 
+inner join obs o on o.obs_group_id  = diagnosis_obs_group_id(t.encounter_id,1)
+set diagnosis_2_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),@locale), concept_name(concept_from_mapping('PIH','NO'),@locale))
 ;
-update temp_delivery t set diagnosis_3 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',2),'PIH','3064',@locale);
-update temp_delivery t set diagnosis_3_confirmed =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',2),'PIH','1379',@locale);
-update temp_delivery t
-inner join obs o on  o.obs_group_id =  obs_id(t.encounter_id,'PIH','7539',2) and concept_id = concept_from_mapping('PIH','7537') and o.voided = 0
-set diagnosis_3_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),'@locale'), concept_name(concept_from_mapping('PIH','NO'),'@locale'))
+
+update temp_delivery t set diagnosis_3 = diagnosis(t.encounter_id,2,@locale);
+update temp_delivery t set diagnosis_3_confirmed = diagnosis_certainty(t.encounter_id,2,@locale);
+update temp_delivery t 
+inner join obs o on o.obs_group_id  = diagnosis_obs_group_id(t.encounter_id,2)
+set diagnosis_3_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),@locale), concept_name(concept_from_mapping('PIH','NO'),@locale))
 ;
-update temp_delivery t set diagnosis_4 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',3),'PIH','3064',@locale);
-update temp_delivery t set diagnosis_4_confirmed =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',3),'PIH','1379',@locale);
-update temp_delivery t
-inner join obs o on  o.obs_group_id =  obs_id(t.encounter_id,'PIH','7539',3) and concept_id = concept_from_mapping('PIH','7537') and o.voided = 0
-set diagnosis_4_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),'@locale'), concept_name(concept_from_mapping('PIH','NO'),'@locale'))
+
+update temp_delivery t set diagnosis_4 = diagnosis(t.encounter_id,3,@locale);
+update temp_delivery t set diagnosis_4_confirmed = diagnosis_certainty(t.encounter_id,3,@locale);
+update temp_delivery t 
+inner join obs o on o.obs_group_id  = diagnosis_obs_group_id(t.encounter_id,3)
+set diagnosis_4_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),@locale), concept_name(concept_from_mapping('PIH','NO'),@locale))
 ;
-update temp_delivery t set diagnosis_5 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',4),'PIH','3064',@locale);
-update temp_delivery t set diagnosis_5_confirmed =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',4),'PIH','1379',@locale);
-update temp_delivery t
-inner join obs o on  o.obs_group_id =  obs_id(t.encounter_id,'PIH','7539',4) and concept_id = concept_from_mapping('PIH','7537') and o.voided = 0
-set diagnosis_5_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),'@locale'), concept_name(concept_from_mapping('PIH','NO'),'@locale'))
+
+update temp_delivery t set diagnosis_5 = diagnosis(t.encounter_id,4,@locale);
+update temp_delivery t set diagnosis_5_confirmed = diagnosis_certainty(t.encounter_id,4,@locale);
+update temp_delivery t 
+inner join obs o on o.obs_group_id  = diagnosis_obs_group_id(t.encounter_id,4)
+set diagnosis_5_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),@locale), concept_name(concept_from_mapping('PIH','NO'),@locale))
 ;
-update temp_delivery t set diagnosis_6 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',5),'PIH','3064',@locale);
-update temp_delivery t set diagnosis_6_confirmed =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',5),'PIH','1379',@locale);
-update temp_delivery t
-inner join obs o on  o.obs_group_id =  obs_id(t.encounter_id,'PIH','7539',5) and concept_id = concept_from_mapping('PIH','7537') and o.voided = 0
-set diagnosis_6_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),'@locale'), concept_name(concept_from_mapping('PIH','NO'),'@locale'))
+
+update temp_delivery t set diagnosis_6 = diagnosis(t.encounter_id,5,@locale);
+update temp_delivery t set diagnosis_6_confirmed = diagnosis_certainty(t.encounter_id,5,@locale);
+update temp_delivery t 
+inner join obs o on o.obs_group_id  = diagnosis_obs_group_id(t.encounter_id,5)
+set diagnosis_6_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),@locale), concept_name(concept_from_mapping('PIH','NO'),@locale))
 ;
-update temp_delivery t set diagnosis_7 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',6),'PIH','3064',@locale);
-update temp_delivery t set diagnosis_7_confirmed =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',6),'PIH','1379',@locale);
-update temp_delivery t
-inner join obs o on  o.obs_group_id =  obs_id(t.encounter_id,'PIH','7539',6) and concept_id = concept_from_mapping('PIH','7537') and o.voided = 0
-set diagnosis_7_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),'@locale'), concept_name(concept_from_mapping('PIH','NO'),'@locale'))
+
+update temp_delivery t set diagnosis_7 = diagnosis(t.encounter_id,6,@locale);
+update temp_delivery t set diagnosis_7_confirmed = diagnosis_certainty(t.encounter_id,6,@locale);
+update temp_delivery t 
+inner join obs o on o.obs_group_id  = diagnosis_obs_group_id(t.encounter_id,6)
+set diagnosis_7_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),@locale), concept_name(concept_from_mapping('PIH','NO'),@locale))
 ;
-update temp_delivery t set diagnosis_8 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',7),'PIH','3064',@locale);
-update temp_delivery t set diagnosis_8_confirmed =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',7),'PIH','1379',@locale);
-update temp_delivery t
-inner join obs o on  o.obs_group_id =  obs_id(t.encounter_id,'PIH','7539',7) and concept_id = concept_from_mapping('PIH','7537') and o.voided = 0
-set diagnosis_8_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),'@locale'), concept_name(concept_from_mapping('PIH','NO'),'@locale'))
+
+update temp_delivery t set diagnosis_8 = diagnosis(t.encounter_id,7,@locale);
+update temp_delivery t set diagnosis_8_confirmed = diagnosis_certainty(t.encounter_id,7,@locale);
+update temp_delivery t 
+inner join obs o on o.obs_group_id  = diagnosis_obs_group_id(t.encounter_id,7)
+set diagnosis_8_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),@locale), concept_name(concept_from_mapping('PIH','NO'),@locale))
 ;
-update temp_delivery t set diagnosis_9 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',8),'PIH','3064',@locale);
-update temp_delivery t set diagnosis_9_confirmed =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',8),'PIH','1379',@locale);
-update temp_delivery t
-inner join obs o on  o.obs_group_id =  obs_id(t.encounter_id,'PIH','7539',8) and concept_id = concept_from_mapping('PIH','7537') and o.voided = 0
-set diagnosis_9_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),'@locale'), concept_name(concept_from_mapping('PIH','NO'),'@locale'))
+
+update temp_delivery t set diagnosis_9 = diagnosis(t.encounter_id,8,@locale);
+update temp_delivery t set diagnosis_9_confirmed = diagnosis_certainty(t.encounter_id,8,@locale);
+update temp_delivery t 
+inner join obs o on o.obs_group_id  = diagnosis_obs_group_id(t.encounter_id,8)
+set diagnosis_9_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),@locale), concept_name(concept_from_mapping('PIH','NO'),@locale))
 ;
-update temp_delivery t set diagnosis_10 =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',9),'PIH','3064',@locale);
-update temp_delivery t set diagnosis_10_confirmed =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'PIH','7539',9),'PIH','1379',@locale);
-update temp_delivery t
-inner join obs o on  o.obs_group_id =  obs_id(t.encounter_id,'PIH','7539',9) and concept_id = concept_from_mapping('PIH','7537') and o.voided = 0
-set diagnosis_10_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),'@locale'), concept_name(concept_from_mapping('PIH','NO'),'@locale'))
+
+update temp_delivery t set diagnosis_10 = diagnosis(t.encounter_id,9,@locale);
+update temp_delivery t set diagnosis_10_confirmed = diagnosis_certainty(t.encounter_id,9,@locale);
+update temp_delivery t 
+inner join obs o on o.obs_group_id  = diagnosis_obs_group_id(t.encounter_id,9)
+set diagnosis_10_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),@locale), concept_name(concept_from_mapping('PIH','NO'),@locale))
 ;
+
 -- disposition info
 update temp_delivery set disposition = obs_value_coded_list(encounter_id,'PIH','8620',@locale);
 update temp_delivery set disposition_comment = obs_value_text(encounter_id,'PIH','DISPOSITION COMMENTS');
