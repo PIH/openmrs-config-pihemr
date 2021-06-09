@@ -120,9 +120,12 @@ set t.retrospective =
 
 update temp_diagnoses set dx_order = obs_from_group_id_value_coded_list(obs_id, 'PIH','7537',@locale);
 update temp_diagnoses set certainty = obs_from_group_id_value_coded_list(obs_id, 'PIH','1379',@locale);
+
+update temp_diagnoses set icd10_code = retrieveICD10(diagnosis_concept);
     
 select concept_id into @non_diagnoses from concept where uuid = 'a2d2124b-fc2e-4aa2-ac87-792d4205dd8d';    
 update temp_diagnoses set notifiable = concept_in_set(diagnosis_concept, concept_from_mapping('PIH','8612'));
+update temp_diagnoses set santeFamn = concept_in_set(diagnosis_concept, concept_from_mapping('PIH','7957'));
 update temp_diagnoses set urgent = concept_in_set(diagnosis_concept, concept_from_mapping('PIH','7679'));
 update temp_diagnoses set psychological = concept_in_set(diagnosis_concept, concept_from_mapping('PIH','7942'));
 update temp_diagnoses set pediatric = concept_in_set(diagnosis_concept, concept_from_mapping('PIH','7933'));
