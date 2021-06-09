@@ -3,7 +3,7 @@ configuration:
   extract:
     datasource: "mysql/openmrs.yml"
     query:  "../../../reports/reportdescriptors/dataexports/sql/delivery.sql"
-
+    context: "mch/delivery/context.sql"
   load:
     datasource: "sqlserver/openmrs_extractions.yml"
     table: "mch_delivery"
