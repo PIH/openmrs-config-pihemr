@@ -409,8 +409,6 @@
                     </p>
                 </template>
                 <render answerId="CIEL:165018" code="location.idClinic" />
-                <render answerId="PIH:NCD Program" code="visitNote.ncdInitial" />
-                <render answerId="PIH:9361" code="communityHealth" />
             </repeat>
 
             <repeat>
@@ -422,6 +420,17 @@
                 <render answerId="PIH:FAMILY PLANNING" code="familyPlanning" />
                 <render answerId="PIH:NUTRITION PROGRAM"  code="nutritionProgram" />
                 <render answerId="CIEL:163558" code="psychologist" />
+                <render answerId="PIH:NCD Program" code="visitNote.ncdInitial" />
+            </repeat>
+
+            <repeat>
+                <template>
+                    <p>
+                        <obs conceptId="CIEL:1272" style="checkbox"
+                             answerConceptId="{answerId}" answerCode="pihcore.{code}" />
+                    </p>
+                </template>
+                <render answerId="PIH:9361" code="communityHealth" />
             </repeat>
 
             <p>
