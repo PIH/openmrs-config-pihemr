@@ -1449,7 +1449,35 @@ BEGIN
 
 END
 #
+-- The following function accepts concept_id of a diagnosis
+-- it returns a single ICD10 code that matches best
+-- it will always return a "SAME-AS" mapping if it exists 
+#
+DROP FUNCTION IF EXISTS retrieveICD10;
+#
+CREATE FUNCTION retrieveICD10 (
+    _concept_id int
+)
+	RETURNS varchar(255)
+    DETERMINISTIC
 
+BEGIN
+    DECLARE mapping varchar(255);
+
+   select  crt.code into mapping
+    from concept_reference_term crt
+    inner join concept_reference_map crm on crm.concept_reference_term_id = crt.concept_reference_term_id
+    inner join concept_reference_source crs on crt.concept_source_id = crs.concept_source_id and crs.retired = 0
+    inner join concept_map_type cmt on cmt.concept_map_type_id = crm.concept_map_type_id
+   where  crt.retired = 0
+    and crs.name = 'ICD-10-WHO'
+    and crm.concept_id = _concept_id
+    order by if(cmt.uuid = '35543629-7d8c-11e1-909d-c80aa9edcf4e',0,1) asc  -- always sort "SAME AS" mappings first
+    limit 1;
+
+    RETURN mapping;
+
+END
 #
 /*
   Location name
