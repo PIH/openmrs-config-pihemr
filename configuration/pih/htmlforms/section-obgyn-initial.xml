@@ -386,9 +386,9 @@
                              style="checkbox"
                              answerConceptId="{point}" answerCode="{message}"/>
                     </template>
-                    <render point="CIEL:1589" message="pihcore.hospitalName"/>
                     <render point="PIH:PRIMARY CARE CLINIC" message="pihcore.location.opd"/>
                     <render point="CIEL:159940" message="pihcore.location.vctCenter" />
+                    <render point="CIEL:1589" message="pihcore.hospitalName"/>
                     <render point="PIH:Community meeting" message="pihcore.program.community"/>
                 </repeat>
             </p>
@@ -612,7 +612,7 @@
             <p class="side-by-side">
                 <!-- Alcohol use -->
                 <label>
-                    <uimessage code="Alcohol"/>:
+                    <uimessage code="pihcore.alcohol"/>:
                 </label>
                 <obs conceptId="CIEL:159449" answerConceptIds="CIEL:159450,CIEL:159452,CIEL:1090"
                      style="radio"  />
@@ -653,14 +653,16 @@
                     <template>
                         <obs conceptId="CIEL:1193" answerConceptId="{drug}" />
                     </template>
-                    <render drug="CIEL:73624" message="Clotrimoazole" />
-                    <render drug="CIEL:461" message="Multivitamin" />
-                    <render drug="CIEL:104677" message="Folate/Iron" />
-                    <render drug="CIEL:79723" message="AMD/Methyldopa" />
-                    <render drug="CIEL:79831" message="Miconazole"/>
-                    <render drug="CIEL:86339" message="Vitamin A" />
-                    <render drug="CIEL:71589" message="Vitamin C"/>
                     <render drug="CIEL:76613" message="Folic acid" />
+                    <render drug="CIEL:104677" message="Folate/Iron" />
+                    <render drug="CIEL:71160" message="Amoxicillin" />
+                    <render drug="CIEL:450"   message="Augmentin" />
+                    <render drug="CIEL:71780" message="Azithromycin" />
+                    <render drug="CIEL:73006" message="Cefixine" />
+                    <render drug="CIEL:73624" message="Clotrimoazole" />
+                    <render drug="CIEL:493"   message="Calamine" /> <!-- CIEL:72621? -->
+                    <render drug="CIEL:79782" message="Metronidazole" />
+                    <render drug="CIEL:79723" message="AMD/Methyldopa" />
                 </repeat>
             </div>
             <div>
@@ -668,13 +670,11 @@
                     <template>
                         <obs conceptId="CIEL:1193" answerConceptId="{drug}" />
                     </template>
+                    <render drug="CIEL:79831" message="Miconazole"/>
                     <render drug="CIEL:70116" message="Paracetamol" />
-                    <render drug="CIEL:493"   message="Calamine" /> <!-- CIEL:72621? -->
-                    <render drug="CIEL:450"   message="Augmentin" />
-                    <render drug="CIEL:71160" message="Amoxicillin" />
-                    <render drug="CIEL:71780" message="Azithromycin" />
-                    <render drug="CIEL:79782" message="Metronidazole" />
-                    <render drug="CIEL:73006" message="Cefixine" />
+                    <render drug="CIEL:461"   message="Multivitamin" />
+                    <render drug="CIEL:86339" message="Vitamin A" />
+                    <render drug="CIEL:71589" message="Vitamin C"/>
                     <render drug="CIEL:5622"  message="Other" />
                 </repeat>
                 <obs conceptId="PIH:CURRENT MEDICATIONS" style="textarea"/>
@@ -688,26 +688,26 @@
             <div class="two-columns">
                 <div>
                     <pastMedicalHistoryCheckbox concept="CIEL:117703" name="sickle cell"/>
+                    <pastMedicalHistoryCheckbox concept="PIH:ASTHMA"/>
                     <pastMedicalHistoryCheckbox concept="PIH:HEART DISEASE" specify="true"
                                                 class="medicalHistoryText patientHistory" />
+                    <pastMedicalHistoryCheckbox concept="PIH:SURGERY" specify="true" class="medicalHistoryText patientHistory"/>
                     <pastMedicalHistoryCheckbox concept="CIEL:142474" name="type 1 DM"/>
                     <pastMedicalHistoryCheckbox concept="CIEL:142473" name="type 2 DM"/>
                     <pastMedicalHistoryCheckbox concept="CIEL:1449"   name="gestational DM"/>
-                    <pastMedicalHistoryCheckbox concept="PIH:HYPERTENSION" label="pihcore.medicalhistory.hypertension"/>
-                    <pastMedicalHistoryCheckbox concept="CIEL:113859"   name="gestational htn"/>
-                    <pastMedicalHistoryCheckbox concept="PIH:47" />
                     <pastMedicalHistoryCheckbox concept="PIH:Eclampsia" />
                 </div>
                 <div>
-                    <pastMedicalHistoryCheckbox concept="PIH:ASTHMA"/>
+                    <pastMedicalHistoryCheckbox concept="PIH:HYPERTENSION" label="pihcore.medicalhistory.hypertension"/>
+                    <pastMedicalHistoryCheckbox concept="CIEL:113859"   name="gestational htn"/>
                     <pastMedicalHistoryCheckbox concept="PIH:SEXUALLY TRANSMITTED INFECTION" label="pihcore.medicalhistory.sti"
                                                 specify="true" class="medicalHistoryText patientHistory"/>
-                    <pastMedicalHistoryCheckbox concept="PIH:TUBERCULOSIS"/>
-                    <pastMedicalHistoryCheckbox concept="CIEL:138405" label="pihcore.lab.hiv.title"/>
                     <pastMedicalHistoryCheckbox concept="CIEL:116128" name="malaria" />
-                    <pastMedicalHistoryCheckbox concept="PIH:SURGERY" specify="true" class="medicalHistoryText patientHistory"/>
+                    <pastMedicalHistoryCheckbox concept="PIH:47" name="pre-eclampsia"/>
                     <pastMedicalHistoryCheckbox concept="PIH:Traumatic Injury" specify="true"
                                                 class="medicalHistoryText patientHistory"/>
+                    <pastMedicalHistoryCheckbox concept="PIH:TUBERCULOSIS"/>
+                    <pastMedicalHistoryCheckbox concept="CIEL:138405" label="pihcore.lab.hiv.title"/>
                     <pastMedicalHistoryCheckbox concept="PIH:OTHER" code="pihcore.other" specify="true"
                                                 class="medicalHistoryText patientHistory"/>
                 </div>
@@ -720,6 +720,11 @@
         <div class="section-container">
             <familyHistoryRelativeCheckboxes concept="PIH:ASTHMA" relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
             <familyHistoryRelativeCheckboxes concept="PIH:HEART DISEASE" relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
+            <br/>
+            <familyHistoryRelativeCheckboxes id="familyCancer" class="medicalHistoryText famHistory"
+                                             concept="CIEL:116031" label="Cancer"
+                                             relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"
+                                             specify="true"/>
             <familyHistoryRelativeCheckboxes concept="PIH:DIABETES" relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
             <familyHistoryRelativeCheckboxes concept="PIH:EPILEPSY" relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
             <familyHistoryRelativeCheckboxes concept="CIEL:117635" comment="Hémoglobinopathie"
@@ -727,12 +732,6 @@
             <familyHistoryRelativeCheckboxes concept="PIH:HYPERTENSION" label="pihcore.medicalhistory.hypertension"
                                              relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
             <familyHistoryRelativeCheckboxes concept="PIH:TUBERCULOSIS" relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
-            <br/>
-            <familyHistoryRelativeCheckboxes id="familyCancer" class="medicalHistoryText famHistory"
-                                             concept="CIEL:116031" label="Cancer"
-                                             relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"
-                                             specify="true"/>
-
             <br/>
             <familyHistoryRelativeCheckboxes id="familyOther" class="medicalHistoryText famHistory"
                                              concept="PIH:OTHER" code="pihcore.other"
@@ -783,13 +782,13 @@
                         </template>
                         <render fpMethod="CIEL:159783" comment="COC" tag="COC"/>
                         <render fpMethod="CIEL:80784"  comment="COP" tag="COP"/>
-                        <render fpMethod="CIEL:907"    comment="Depo-provera" tag="depo"/>
-                        <render fpMethod="CIEL:1873"   comment="Implant" tag="implant"/>
-                        <render fpMethod="CIEL:5275"   comment="pihcore.fp.iud" tag="iud"/>
                         <render fpMethod="CIEL:5277"   comment="pihcore.fp.rhythm" tag="rhythm"/>
-                        <render fpMethod="CIEL:136163" comment="pihcore.fp.breast" tag="mama"/>
                         <render fpMethod="CIEL:190"    comment="Condoms" tag="rubber"/>
+                        <render fpMethod="CIEL:907"    comment="Depo-provera" tag="depo"/>
+                        <render fpMethod="CIEL:5275"   comment="pihcore.fp.iud" tag="iud"/>
+                        <render fpMethod="CIEL:1873"   comment="Implant" tag="implant"/>
                         <render fpMethod="CIEL:1472"   comment="pihcore.fp.tubalLig" tag="tubal"/>
+                        <render fpMethod="CIEL:136163" comment="pihcore.fp.breast" tag="mama"/>
                     </repeat>
                 </table>
             </div>
@@ -818,8 +817,8 @@
             <p class="side-by-side">
                 <obsgroup groupingConceptId="PIH:Family planning construct">
                     <obs conceptId="CIEL:374"
-                         answerConceptIds="CIEL:159783,CIEL:80784,CIEL:907,CIEL:1873,CIEL:5275,CIEL:5277,CIEL:136163,CIEL:190,CIEL:1472"
-                         answerCodes="COC,COP,Depo-provera,Implant,pihcore.fp.iud,pihcore.fp.rhythm,pihcore.fp.breast,Condoms,pihcore.fp.tubalLig"
+                         answerConceptIds="CIEL:159783,CIEL:80784,CIEL:5277,CIEL:190,CIEL:907,CIEL:5275,CIEL:1873,CIEL:1472,CIEL:136163"
+                         answerCodes="COC,COP,pihcore.fp.rhythm,Condoms,Depo-provera,pihcore.fp.iud,Implant,pihcore.fp.tubalLig,pihcore.fp.breast"
                          style="radio" />
                     <div class="two-columns">
                         <div>
@@ -1172,18 +1171,18 @@
                                 <obs conceptId="PIH:DIAGNOSIS" answerConceptId="{concept}" style="checkbox" />
                             </obsgroup>
                         </template>
-                        <render concept="CIEL:139081" name="severe headache"/>
-                        <render concept="CIEL:140238" name="fever"/>
-                        <render concept="CIEL:113054" name="seizure"/>
-                        <render concept="CIEL:111525" name="vertigo" />
-                        <render concept="CIEL:135592" name="loss of consciousness" />
-                        <render concept="CIEL:112721" name="stiffness of neck" />
-                        <render concept="CIEL:118938" name="vision problem"/>
                         <render concept="CIEL:123588" name="tinnitis" />
-                        <render concept="CIEL:165193" name="edema of hands or face"/>
-                        <render concept="CIEL:136443" name="jaundice" />
+                        <render concept="CIEL:139081" name="severe headache"/>
+                        <render concept="CIEL:113054" name="seizure"/>
                         <render concept="CIEL:127639" name="respiratory distress" />
+                        <render concept="CIEL:142412" name="diarrhea"/>
+                        <render concept="CIEL:113377" name="decreased fetal movement"/>
+                        <render concept="CIEL:141128" name="epigastric pain"/>
+                        <render concept="CIEL:157544" name="lower abdominal pain"/>
                         <render concept="CIEL:122496" name="shortness of breathe"/>
+                        <render concept="CIEL:118771" name="painful urination"/>
+                        <render concept="CIEL:140238" name="fever"/>
+                        <render concept="CIEL:136443" name="jaundice" />
                     </repeat>
                 </div>
                 <div>
@@ -1193,18 +1192,17 @@
                                 <obs conceptId="PIH:DIAGNOSIS" answerConceptId="{concept}" style="checkbox" />
                             </obsgroup>
                         </template>
-                        <render concept="CIEL:122983" name="vomiting"/>
+
                         <!-- replace CIEL:151 with chaussier
                         <render concept="CIEL:151"    name="abdominal pain"/> -->
-                        <render concept="CIEL:141128" name="epigastric pain"/>
-                        <!-- replace uterine contractions (CIEL:153316) with hypogastrique (CIEL:157544)
-                        <render concept="CIEL:153316" name="contractions"/> -->
-                        <render concept="CIEL:157544" name="lower abdominal pain"/>
-                        <render concept="CIEL:113377" name="decreased fetal movement"/>
-                        <render concept="CIEL:142412" name="diarrhea"/>
-                        <render concept="CIEL:118771" name="painful urination"/>
+                        <render concept="CIEL:165193" name="edema of hands or face"/>
                         <render concept="CIEL:148968" name="amniotic fluid leaking"/>
+                        <render concept="CIEL:135592" name="loss of consciousness" />
+                        <render concept="CIEL:112721" name="stiffness of neck" />
                         <render concept="CIEL:147232" name="vaginal bleeding" />
+                        <render concept="CIEL:118938" name="vision problem"/>
+                        <render concept="CIEL:111525" name="vertigo" />
+                        <render concept="CIEL:122983" name="vomiting"/>
                     </repeat>
                     <obs conceptId="CIEL:1880" style="checkbox"
                          answerConceptId="CIEL:1065" answerCode="pihcore.other"
@@ -1219,46 +1217,46 @@
         <div class="section-container">
             <div class="two-columns">
                 <div>
+                    <!-- Placental abruption -->
+                    <obs conceptId="CIEL:160079" answerConceptId="CIEL:130108" style="checkbox"/>
                     <!-- Anemia -->
                     <obs conceptId="CIEL:160079" answerConceptId="CIEL:121629" style="checkbox"/>
-                    <!-- Hypertension -->
-                    <obs conceptId="CIEL:160079" answerConceptId="CIEL:117399" style="checkbox"/>
                     <obs conceptId="CIEL:160079" answerConceptId="PIH:HEART DISEASE" style="checkbox"/>
-                    <!-- Edema -->
-                    <obs conceptId="CIEL:160079" answerConceptId="CIEL:460" style="checkbox"/>
-                    <!-- Antepartum hemorrhage -->
-                    <obs conceptId="CIEL:160079" answerConceptId="PIH:ANTEPARTUM HEMORRHAGE" style="checkbox"/>
-                    <!-- No weight gain -->
-                    <obs conceptId="CIEL:160079" answerConceptId="CIEL:140707"
-                         answerCode="pihcore.noWeightChange" style="checkbox" />
-                    <!-- Diabetes -->
-                    <obs conceptId="CIEL:160079" answerConceptId="CIEL:119481" style="checkbox"/>
                     <!-- C-section -->
                     <obs conceptId="CIEL:160079" answerConceptId="CIEL:163155"
                          answerCode="pihcore.mch.previousCSection" style="checkbox"/>
-                    <!-- HIV -->
-                    <obs conceptId="CIEL:160079" answerConceptId="CIEL:138405"
-                         answerCode="HIV" style="checkbox"/>
+                    <!-- Diabetes -->
+                    <obs conceptId="CIEL:160079" answerConceptId="CIEL:119481" style="checkbox"/>
                     <!-- Grand multiparity -->
                     <obs conceptId="CIEL:160079" answerConceptId="CIEL:117749" style="checkbox"/>
-                </div>
-                <div>
                     <!-- Multiple gestation -->
                     <obs conceptId="CIEL:160079" answerConceptId="CIEL:115491" style="checkbox"/>
-
-                    <!-- Placental abruption -->
-                    <obs conceptId="CIEL:160079" answerConceptId="CIEL:130108" style="checkbox"/>
-                    <!-- Placenta previa -->
-                    <obs conceptId="CIEL:160079" answerConceptId="CIEL:114127" style="checkbox"/>
+                    <!-- Antepartum hemorrhage -->
+                    <obs conceptId="CIEL:160079" answerConceptId="PIH:ANTEPARTUM HEMORRHAGE" style="checkbox"/>
+                    <!-- Hypertension -->
+                    <obs conceptId="CIEL:160079" answerConceptId="CIEL:117399" style="checkbox"/>
+                </div>
+                <div>
                     <!-- Fetal death -->
                     <obs conceptId="CIEL:160079" answerConceptId="CIEL:140399" style="checkbox"/>
+                    <!-- Edema -->
+                    <obs conceptId="CIEL:160079" answerConceptId="CIEL:460" style="checkbox"/>
+                    <!-- Placenta previa -->
+                    <obs conceptId="CIEL:160079" answerConceptId="CIEL:114127" style="checkbox"/>
+                    <!-- No weight gain -->
+                    <obs conceptId="CIEL:160079" answerConceptId="CIEL:140707"
+                         answerCode="pihcore.noWeightChange" style="checkbox" />
                     <!-- Malpresentation of fetus -->
                     <obs conceptId="CIEL:160079" answerConceptId="CIEL:115939" style="checkbox"/>
-                    <!-- Uterine scar -->
-                    <obs conceptId="CIEL:160079" answerConceptId="CIEL:123450" style="checkbox"/>
                     <!-- Syphilis -->
                     <obs conceptId="CIEL:160079" answerConceptId="CIEL:112493"
                          style="checkbox"/>
+                    <!-- Uterine scar -->
+                    <obs conceptId="CIEL:160079" answerConceptId="CIEL:123450" style="checkbox"/>
+                    <!-- HIV -->
+                    <obs conceptId="CIEL:160079" answerConceptId="CIEL:138405"
+                         answerCode="pihcore.lab.hiv.title" style="checkbox"/>
+
                     <obs conceptId="CIEL:160079" answerConceptId="PIH:OTHER"
                          commentFieldLabel="  " style="checkbox"/>
                 </div>
@@ -1276,9 +1274,9 @@
                          answerConceptId="{mh-answer}" />
                 </template>
                 <render name="Depression"    mh-answer="CIEL:119537" />
-                <render name="GBV"           mh-answer="CIEL:165088" />
                 <render name="PTSD"          mh-answer="CIEL:113881" />
                 <render name="Schizophrenia" mh-answer="CIEL:113155" />
+                <render name="GBV"           mh-answer="CIEL:165088" />
             </repeat>
         </div>
     </section>
