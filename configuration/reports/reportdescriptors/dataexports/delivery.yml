@@ -13,9 +13,6 @@ datasets:
   - key: "deliverydataexport"
     type: "sql"
     config: "sql/delivery.sql"
-    parameters:
-      - key: "locale"
-        value: "es"
 designs:
   - type: "csv"
     properties:
