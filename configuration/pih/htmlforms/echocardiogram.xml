@@ -37,6 +37,17 @@
             width: 200px;
         }
 
+        .five-columns, .four-columns, .three-columns, .two-columns {
+            display: table;
+            height: 100%;
+            width: 100%;
+        }
+
+        .two-columns > div {
+            display: table-cell;
+            width: 50%;
+        }
+
         .field-error {
             color: #ff6666;
             font-size: 1.1em;
@@ -97,6 +108,11 @@
 
         .diagnosis-primary, .diagnosis-secondary {
             min-width: 15%;
+        }
+
+
+        .side-by-side label {
+            display: inline-block;
         }
 
     </style>
@@ -283,66 +299,80 @@
         </includeIf>
       </ifMode>
 
-    <!-- ToDo:  Add results questions; Check on French translations; "Grand" epanchement cardiaque -->
-    <section id="diagnosis" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="pihcore.diagnosis.label">
-        <div id="heart_failure" class="section-container">
-            <p>
-                <repeat with="['PIH:5016','Cardiomyopathy],
-                              ['PIH:3129','Peripartum cardiomyopathy'],
-                              ['CIEL:134082','Mitral stenosis'],
-                              ['PIH:3071','Hypertensive heart disease'],
-                              ['PIH:7497','Valve disease'],
-                              ['PIH:CONGENITAL HEART DISEASE','Congenital heart disease'],
-                              ['PIH:4000','Isolated right heart failure'],
-                              ['PIH:PERICARDIAL EFFUSION','Pericardial effussion'],
-                              ['PIH:3468','Other heart failure']">
-                    <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
-                        <obs conceptId="PIH:DIAGNOSIS" answerConceptId="{0}"
-                             style="checkbox" />
-                    </obsgroup>
-                </repeat>
+    <section id="vitals" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.vitalSigns">
+        <div class="section-container">
+            <table>
+                <tr>
+                    <td>
+                        <div class="two-columns">
+                            <div>
+                                <label>
+                                    <uimessage code="mirebalais.vitals.bloodPressure.short.title"/>
+                                </label>
+                                <span class="small">
+                                    <span class="append-to-value left">
+                                        <obs conceptId="CIEL:5085" id="bp_systolic"/>
+                                    </span>
+                                    <span class="append-to-value left">/</span>
+                                    <span class="append-to-value left">
+                                        <obs conceptId="CIEL:5086" id="bp_diastolic"/>
+                                    </span>
+                                    <span class="append-to-value">mm/Hg</span>
 
-                <p>
-                    <obs conceptId="PIH:11926" answerConceptId="PIH:YES"
-                         answerCode="pihcore.ncd.improbable"/>
-                </p>
-            </p>
+                                </span>
+                            </div>
+                            <div>
+                                <label>
+                                    <uimessage code="mirebalais.vitals.short.heartRate.title"/>
+                                </label>
+                                <span class="small">
+                                    <obs conceptId="CIEL:5087" id="heart_rate"
+                                         showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
 
-            <p>
-                <label>
-                    <uimessage code="pihcore.remarks"/>:
-                </label>
-                <obs conceptId="PIH:11973"/>
-            </p>
+
+                <tr>
+                    <td>
+                        <label>
+                            <uimessage code="pihcore.ncd.hf.nyha.class"/>
+                        </label>
+                        <p>
+                            <obs conceptId="PIH:NYHA CLASS"
+                                 answerConceptIds="PIH:NYHA CLASS 1,PIH:NYHA CLASS 2,PIH:NYHA CLASS 3,PIH:NYHA CLASS 4"
+                                 answerCodes="I,II,III,IV"
+                                 style="radio" answerSeparator=""/>
+                        </p>
+                    </td>
+                </tr>
+            </table>
         </div>
+    </section>
+
+    <section id="echo-study" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.echocardiogram.title">
 
         <div id="echo" class="section-container">
             <table>
-                <tr>
-                    <th colspan="3">
-                        <label>
-                            <uimessage code="pihcore.echocardiogram.title"/>
-                        </label>
-                    </th>
-                </tr>
 
-                <repeat with="['ltVentSystolic','PIH:Left ventricle systolic function','PIH:NORMAL','PIH:Very weak'],
-                              ['rtVentDim','PIH:Right ventricle dimension','PIH:NORMAL','PIH:SEVERELY DILATED'],
-                              ['mitralValve','PIH:MITRAL VALVE FINDINGS','PIH:NO MITRAL STENOSIS','CIEL:134082'],
-                              ['pericardium','PIH:PERICARDIUM FINDINGS','PIH:No pericardial effusion','PIH:Severe pericardial effusion'],
-                              ['venaCava','PIH:Inferior vena cava findings','PIH:NORMAL','PIH:DILATED']">
+                <repeat with="['ltVentSystolic','PIH:Left ventricle systolic function','PIH:Very weak,CIEL:5226,PIH:NORMAL,CIEL:160737'],
+                              ['rtVentDim','PIH:Right ventricle dimension','PIH:SEVERELY DILATED,PIH:NORMAL,CIEL:160737'],
+                              ['mitralValve','PIH:MITRAL VALVE FINDINGS','CIEL:134082,PIH:NO MITRAL STENOSIS,CIEL:160737'],
+                              ['pericardium','PIH:PERICARDIUM FINDINGS','PIH:Severe pericardial effusion,CIEL:130562,,PIH:No pericardial effusion,CIEL:160737'],
+                              ['venaCava','PIH:Inferior vena cava findings','PIH:DILATED,PIH:NORMAL,CIEL:160737']">
                     <tr>
                         <td>
                             <label>
                                 <uimessage code="pihcore.echo.{0}" />
                             </label>
                         </td>
-                        <td width="35%">
-                            <obs conceptId="{1}" answerConceptId="{2}" style="checkbox" />
-                        </td>
-                        <td width="35%">
-                            <obs conceptId="{1}" answerConceptId="{3}" style="checkbox" />
+                        <td>
+                            <obs conceptId="{1}" answerConceptIds="{2}"
+                                 style="radio" answerSeparator=""/>
                         </td>
                     </tr>
                 </repeat>
@@ -354,25 +384,82 @@
                         </label>
                     </td>
                     <td>
-                        <obs conceptId="CIEL:165253" answerConceptId="PIH:SATISFACTORY"
-                             style="checkbox" answerCode="pihcore.adequate" />
-                    </td>
-                    <td>
-                        <obs conceptId="CIEL:165253" answerConceptId="PIH:UNSATISFACTORY SAMPLE"
-                             style="checkbox" answerCode="pihcore.inadequate"/>
+                        <obs conceptId="CIEL:165253" answerConceptIds="PIH:SATISFACTORY,PIH:UNSATISFACTORY SAMPLE"
+                             style="radio" answerSeparator=""
+                             answerCodes="pihcore.adequate,pihcore.inadequate" />
                     </td>
                 </tr>
+
                 <tr>
-                    <td>
-                        <label>
-                            <uimessage code="pihcore.additionalComments"/>:
-                        </label>
-                    </td>
                     <td colspan="2">
-                        <obs conceptId="PIH:3407" />
+                        <p>
+                            <label>
+                                <uimessage code="pihcore.echo.sPAP"/>:
+                            </label>
+                            <!-- ToDo:  uncomment
+                            <obs conceptId="PIH:3991" /> -->
+                        </p>
                     </td>
                 </tr>
             </table>
+
+            <p class="side-by-side">
+                <label>
+                    <uimessage code="pihcore.echo.studyChangedPlan" />
+                </label>
+                <!-- ToDo:  uncomment
+                <obs conceptId="PIH:13594" style="radio"
+                     answerConceptIds="CIEL:1065,CIEL:1066" /> -->
+            </p>
+
+            <p>
+                <label>
+                    <uimessage code="pihcore.additionalComments"/>:
+                </label>
+                <obs conceptId="PIH:3407" />
+            </p>
+        </div>
+    </section>
+
+    <section id="diagnosis" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.diagnosis.label">
+
+        <div id="heart_failure" class="section-container">
+            <p>
+                <repeat with="['PIH:5016','Cardiomyopathy'],
+                              ['CIEL:134082','Mitral stenosis'],
+                              ['PIH:3071','Hypertensive heart disease'],
+                              ['PIH:7497','Valve disease'],
+                              ['PIH:CONGENITAL HEART DISEASE','Congenital heart disease'],
+                              ['PIH:4000','Isolated right heart failure'],
+                              ['PIH:Severe pericardial effusion','Severe pericardial effusion'],
+                              ['PIH:3468','Other heart failure']">
+                    <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
+                        <obs conceptId="PIH:DIAGNOSIS" answerConceptId="{0}"
+                             style="checkbox" />
+                    </obsgroup>
+                </repeat>
+
+                <p>
+                    <obs conceptId="PIH:11926" answerConceptId="PIH:YES"
+                         answerCode="pihcore.ncd.improbable"/>
+                </p>
+
+                <repeat with="['CIEL:113918','Peripartum cardiomyopathy'],
+                              ['CIEL:139529','Ischemic cardiomyopathy']">
+                    <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
+                        <obs conceptId="PIH:DIAGNOSIS" answerConceptId="{0}"
+                             style="checkbox" />
+                    </obsgroup>
+                </repeat>
+            </p>
+
+            <p>
+                <label>
+                    <uimessage code="pihcore.remarks"/>:
+                </label>
+                <obs conceptId="PIH:11973"/>
+            </p>
         </div>
     </section>
 
