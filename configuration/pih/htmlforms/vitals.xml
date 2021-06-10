@@ -398,6 +398,16 @@
 
     <span id="most-recent-encounter-title" style="display:none"><!--The Most Recent Encounter app in Core Apps replaces this with the "most recent" label--></span>
 
+    <!-- don't allow editing provider, location, or date if an active visit -->
+    <includeIf velocityTest="$visit.open">
+        <div style="display:none">
+            <encounterProviderAndRole default="currentUser" encounterRole="98bf2792-3f0a-4388-81bb-c78b29c0df92"
+                                      required="true"/>
+            <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"/>
+            <encounterDate id="encounterDate" default="now"/>
+        </div>
+    </includeIf>
+
     <section id="vitals" sectionTag="section" headerStyle="title" headerCode="mirebalais.vitals.title">
 
         <ifMode mode="VIEW" include="false">
@@ -449,35 +459,6 @@
                         </field>
                     </span>
 
-                </fieldset>
-            </includeIf>
-
-            <!-- only allow location if an active visit or user has no retro privileges -->
-            <includeIf velocityTest="$visit.open or ($user.hasPrivilege('Task: emr.retroConsultNote') and $user.hasPrivilege('Task: emr.retroConsultNoteThisProviderOnly'))">
-                <fieldset field-separator=", ">
-
-                    <legend><uimessage code="pihcore.details"/></legend>
-                    <h3><uimessage code="pihcore.details"/></h3>
-
-                    <div style="display:none">
-                        <encounterProviderAndRole default="currentUser" encounterRole="98bf2792-3f0a-4388-81bb-c78b29c0df92"
-                                                      required="true"/>
-                    </div>
-
-                    <label>
-                        <uimessage code="emr.locationRequired"/>
-                    </label>
-                    <span>
-                        <p class="required">
-                            <field>
-                                <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"
-                                                   tags="Vitals Location"/>
-                            </field>
-                        </p>
-                    </span>
-                    <div  style="display:none">
-                        <encounterDate id="encounterDate" default="now"/>
-                    </div>
                 </fieldset>
             </includeIf>
         </ifMode>
