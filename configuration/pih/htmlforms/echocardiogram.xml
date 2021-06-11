@@ -78,6 +78,11 @@
             label[for] { font-weight: normal } /* refers to the radio set label */
         }
 
+
+        .side-by-side label {
+            display: inline-block;
+        }
+
         .section-container {
             background: #F2F2F2;
             box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
@@ -94,26 +99,15 @@
             margin: 0px;
         }
 
-       - .section {
+        - .section {
             width: 100%;
         }
 
-        .diagnosis, .diagnosis-primary, .diagnosis-secondary, .diagnosis-confirmed {
+        form input[type="radio"], .form input[type="radio"] {
+            float: none;
             display: inline-block;
         }
 
-        .diagnosis {
-            min-width: 60%
-        }
-
-        .diagnosis-primary, .diagnosis-secondary {
-            min-width: 15%;
-        }
-
-
-        .side-by-side label {
-            display: inline-block;
-        }
 
     </style>
 
@@ -302,50 +296,62 @@
     <section id="vitals" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.vitalSigns">
         <div class="section-container">
+
             <table>
                 <tr>
                     <td>
-                        <div class="two-columns">
-                            <div>
-                                <label>
-                                    <uimessage code="mirebalais.vitals.bloodPressure.short.title"/>
-                                </label>
-                                <span class="small">
-                                    <span class="append-to-value left">
-                                        <obs conceptId="CIEL:5085" id="bp_systolic"/>
-                                    </span>
-                                    <span class="append-to-value left">/</span>
-                                    <span class="append-to-value left">
-                                        <obs conceptId="CIEL:5086" id="bp_diastolic"/>
-                                    </span>
-                                    <span class="append-to-value">mm/Hg</span>
+                        <label>
+                            <uimessage code="mirebalais.vitals.bloodPressure.short.title"/>
+                        </label>
+                        <span class="small">
+                            <span class="append-to-value left">
+                                <obs conceptId="CIEL:5085" id="bp_systolic" required="true"/>
+                            </span>
+                            <span class="append-to-value left">/</span>
+                            <span class="append-to-value left">
+                                <obs conceptId="CIEL:5086" id="bp_diastolic" required="true"/>
+                            </span>
+                            <span class="append-to-value">mm/Hg</span>
 
-                                </span>
-                            </div>
-                            <div>
-                                <label>
-                                    <uimessage code="mirebalais.vitals.short.heartRate.title"/>
-                                </label>
-                                <span class="small">
-                                    <obs conceptId="CIEL:5087" id="heart_rate"
-                                         showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
-                                </span>
-                            </div>
-                        </div>
+                        </span>
                     </td>
                 </tr>
 
+                <tr>
+                    <td>
+                        <label>
+                            <uimessage code="mirebalais.vitals.short.heartRate.title"/>
+                        </label>
+                        <span class="small">
+                            <obs conceptId="CIEL:5087" id="heart_rate" required="true"
+                                 showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
+                        </span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <label>
+                            <uimessage code="pihcore.ncd.murmur"/>
+                        </label>
+                        <p class="side-by-side">
+                            <obs conceptId="CIEL:562" style="radio" required="true"
+                                 answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067"
+                                 answerSeparator=""/>
+                        </p>
+                    </td>
+                </tr>
 
                 <tr>
                     <td>
                         <label>
                             <uimessage code="pihcore.ncd.hf.nyha.class"/>
                         </label>
-                        <p>
-                            <obs conceptId="PIH:NYHA CLASS"
+                        <p class="side-by-side">
+                            <obs conceptId="PIH:NYHA CLASS" style="radio" required="true"
                                  answerConceptIds="PIH:NYHA CLASS 1,PIH:NYHA CLASS 2,PIH:NYHA CLASS 3,PIH:NYHA CLASS 4"
                                  answerCodes="I,II,III,IV"
-                                 style="radio" answerSeparator=""/>
+                                 answerSeparator=""/>
                         </p>
                     </td>
                 </tr>
@@ -371,8 +377,11 @@
                             </label>
                         </td>
                         <td>
-                            <obs conceptId="{1}" answerConceptIds="{2}"
-                                 style="radio" answerSeparator=""/>
+                            <p class="side-by-side">
+                                <obs conceptId="{1}" style="radio" required="true"
+                                     answerConceptIds="{2}"
+                                     answerSeparator=""/>
+                            </p>
                         </td>
                     </tr>
                 </repeat>
@@ -380,53 +389,36 @@
                 <tr>
                     <td>
                         <label>
-                            <uimessage code="pihcore.echo.quality" />
+                            <uimessage code="pihcore.echo.sPAP"/>
                         </label>
                     </td>
                     <td>
-                        <obs conceptId="CIEL:165253" answerConceptIds="PIH:SATISFACTORY,PIH:UNSATISFACTORY SAMPLE"
-                             style="radio" answerSeparator=""
-                             answerCodes="pihcore.adequate,pihcore.inadequate" />
-                    </td>
-                </tr>
-
-                <tr>
-                    <td colspan="2">
-                        <p>
-                            <label>
-                                <uimessage code="pihcore.echo.sPAP"/>:
-                            </label>
-                            <!-- ToDo:  uncomment
-                            <obs conceptId="PIH:3991" /> -->
-                        </p>
+                        <obs conceptId="PIH:3991" showUnits="true" />
                     </td>
                 </tr>
             </table>
 
-            <p class="side-by-side">
-                <label>
-                    <uimessage code="pihcore.echo.studyChangedPlan" />
-                </label>
-                <!-- ToDo:  uncomment
-                <obs conceptId="PIH:13594" style="radio"
-                     answerConceptIds="CIEL:1065,CIEL:1066" /> -->
-            </p>
-
-            <p>
-                <label>
-                    <uimessage code="pihcore.additionalComments"/>:
-                </label>
-                <obs conceptId="PIH:3407" />
-            </p>
         </div>
     </section>
 
+    <macros>
+        @NCD_CATEGORIES@=PIH:5016,CIEL:134082,PIH:3071,PIH:7497,PIH:CONGENITAL HEART DISEASE,PIH:4000,PIH:Severe pericardial effusion,PIH:11926,CIEL:5622
+    </macros>
     <section id="diagnosis" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.diagnosis.label">
 
         <div id="heart_failure" class="section-container">
-            <p>
-                <repeat with="['PIH:5016','Cardiomyopathy'],
+
+            <p class="side-by-side">
+                <label>
+                    <uimessage code="zl.diagnosisCategory"/>
+                </label>
+                <br/>
+                <obs conceptId="PIH:NCD category" style="radio" required="true"
+                     answerConceptIds="$@NCD_CATEGORIES@"
+                     answerSeparator="&lt;br /&gt;" />
+
+                <!-- <repeat with="['PIH:5016','Cardiomyopathy'],
                               ['CIEL:134082','Mitral stenosis'],
                               ['PIH:3071','Hypertensive heart disease'],
                               ['PIH:7497','Valve disease'],
@@ -439,12 +431,20 @@
                              style="checkbox" />
                     </obsgroup>
                 </repeat>
-
                 <p>
                     <obs conceptId="PIH:11926" answerConceptId="PIH:YES"
                          answerCode="pihcore.ncd.improbable"/>
                 </p>
+                -->
 
+                <br/>
+                <label>
+                    <uimessage code="zl.ifOtherSpecify"/>:
+                </label>
+                <obs conceptId="PIH:11973"/>
+
+            </p>
+            <p>
                 <repeat with="['CIEL:113918','Peripartum cardiomyopathy'],
                               ['CIEL:139529','Ischemic cardiomyopathy']">
                     <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
@@ -453,12 +453,27 @@
                     </obsgroup>
                 </repeat>
             </p>
+        </div>
+    </section>
+
+    <section id="final" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.other" >
+
+        <div class="section-container">
+            <p class="side-by-side">
+                <label>
+                    <uimessage code="pihcore.echo.studyChangedPlan" />
+                </label>
+                <obs conceptId="PIH:13594" style="radio"
+                     answerConceptIds="CIEL:1065,CIEL:1066"
+                     answerSeparator="" />
+            </p>
 
             <p>
                 <label>
-                    <uimessage code="pihcore.remarks"/>:
+                    <uimessage code="pihcore.drugOrders.comments"/>:
                 </label>
-                <obs conceptId="PIH:11973"/>
+                <obs conceptId="PIH:3407" style="textarea" rows="4" cols="60" />
             </p>
         </div>
     </section>
