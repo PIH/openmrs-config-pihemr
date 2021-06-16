@@ -1371,6 +1371,30 @@ BEGIN
 
 END
 #
+-- this following accepts encounter_id and drug_id
+-- it will return the obs_group_id of the latest observation in that encounter with that drug as an answer, if it exists  
+#
+DROP FUNCTION IF EXISTS obs_group_id_with_drug_answer;
+#
+CREATE FUNCTION obs_group_id_with_drug_answer(_encounter_id int(11), _drug_id int(11))
+    RETURNS int
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret_obs_group_id int;
+
+    select      obs_group_id into ret_obs_group_id
+    from        obs o
+    where       o.voided = 0
+      and       o.encounter_id = _encounter_id
+      and       o.value_drug = _drug_id
+      order by obs_datetime desc limit 1;
+
+    RETURN ret_obs_group_id;
+
+END
+#
 -- This function accepts obs_id
 -- It will find the obs_group_id of that observation, if there is one
 #
