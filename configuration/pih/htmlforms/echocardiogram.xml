@@ -418,33 +418,29 @@
                      answerConceptIds="$@NCD_CATEGORIES@"
                      answerSeparator="&lt;br /&gt;" />
 
-                <!-- <repeat with="['PIH:5016','Cardiomyopathy'],
-                              ['CIEL:134082','Mitral stenosis'],
-                              ['PIH:3071','Hypertensive heart disease'],
-                              ['PIH:7497','Valve disease'],
+                <!-- <repeat with="['PIH:5016','Cardiomyopathy'], x
+                              ['CIEL:134082','Mitral stenosis'], x
+                              ['PIH:3071','Hypertensive heart disease'], x
+                              ['PIH:7497','Valve disease'], NO
                               ['PIH:CONGENITAL HEART DISEASE','Congenital heart disease'],
-                              ['PIH:4000','Isolated right heart failure'],
-                              ['PIH:Severe pericardial effusion','Severe pericardial effusion'],
-                              ['PIH:3468','Other heart failure']">
-                    <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
-                        <obs conceptId="PIH:DIAGNOSIS" answerConceptId="{0}"
-                             style="checkbox" />
-                    </obsgroup>
+                              ['PIH:4000','Isolated right heart failure'], x
+                              ['PIH:Severe pericardial effusion','Severe pericardial effusion'], x
+                              ['PIH:3468','Other heart failure'],
+                              ['PIH:11926','Improbable/normal pihcore.ncd.improbable']">
                 </repeat>
-                <p>
-                    <obs conceptId="PIH:11926" answerConceptId="PIH:YES"
-                         answerCode="pihcore.ncd.improbable"/>
-                </p>
                 -->
 
                 <br/>
                 <label>
-                    <uimessage code="zl.ifOtherSpecify"/>:
+                    <uimessage code="zl.ifOtherSpecify"/>
                 </label>
                 <obs conceptId="PIH:11973"/>
 
             </p>
             <p>
+                <label>
+                    <uimessage code="pihcore.diagnosis.additional" />
+                </label>
                 <repeat with="['CIEL:113918','Peripartum cardiomyopathy'],
                               ['CIEL:139529','Ischemic cardiomyopathy']">
                     <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
