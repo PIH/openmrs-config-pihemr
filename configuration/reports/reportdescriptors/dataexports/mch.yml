@@ -10,9 +10,6 @@ parameters:
     type: "java.util.Date"
     label: "reporting.parameter.endDate"
 datasets:
-  - key: "prenatalAndDelivery"
-    type: "sql"
-    config: "sql/prenatalAndDelivery.sql"
   - key: "vaccinationsANC"
     type: "sql"
     config: "sql/vaccinationsANC.sql"
