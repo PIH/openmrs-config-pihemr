@@ -7,7 +7,7 @@
 ## THE EVALUATOR WILL INSERT THESE AS BELOW WHEN EXECUTING.  YOU CAN UNCOMMENT THE BELOW LINES FOR MANUAL TESTING:
 
 ## set @startDate='2019-01-01';
-## set @endDate='2019-06-30';
+## set @endDate='2021-06-30';
 
 ## START BUILDING PATIENT TABLE.  LIMIT TO NON-TEST PATIENTS EVER ENROLLED IN THE MCH PROGRAM
 
@@ -157,13 +157,12 @@ FROM temp_patient p
          INNER JOIN person_name pn ON pn.person_id = pv.person_id and pn.voided = 0
 WHERE e.voided = 0
   AND e.encounter_id in (select encounter_id from temp_vaccinations)
-  AND et.name in (
-                  'Primary Care Adult Initial Consult',
-                  'Primary Care Adult Followup Consult',
-                  'Primary Care Pediatric Initial Consult',
-                  'Primary Care Pediatric Followup Consult',
-                  'ANC Intake',
-                  'ANC Followup'
+  AND et.uuid in (
+                  '27d3a180-031b-11e6-a837-0800200c9a66', -- Primary Care Adult Initial Consult
+                  '27d3a181-031b-11e6-a837-0800200c9a66', -- Primary Care Adult Followup Consult
+                  '5b812660-0262-11e6-a837-0800200c9a66', -- Primary Care Pediatric Initial Consult
+                  '229e5160-031b-11e6-a837-0800200c9a66', -- Primary Care Pediatric Followup Consult
+                  'd83e98fd-dc7b-420f-aa3f-36f648b4483d' -- OB/GYN
     )
     AND e.encounter_datetime >= @startDate
     AND e.encounter_datetime < ADDDATE(@endDate, INTERVAL 1 DAY)
