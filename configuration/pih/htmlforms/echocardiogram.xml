@@ -365,11 +365,12 @@
         <div id="echo" class="section-container">
             <table>
 
-                <repeat with="['ltVentSystolic','PIH:Left ventricle systolic function','PIH:Very weak,CIEL:5226,PIH:NORMAL,CIEL:160737'],
-                              ['rtVentDim','PIH:Right ventricle dimension','PIH:SEVERELY DILATED,PIH:NORMAL,CIEL:160737'],
-                              ['mitralValve','PIH:MITRAL VALVE FINDINGS','CIEL:134082,PIH:NO MITRAL STENOSIS,CIEL:160737'],
-                              ['pericardium','PIH:PERICARDIUM FINDINGS','PIH:Severe pericardial effusion,CIEL:130562,,PIH:No pericardial effusion,CIEL:160737'],
-                              ['venaCava','PIH:Inferior vena cava findings','PIH:DILATED,PIH:NORMAL,CIEL:160737']">
+                <repeat with="['ltVentSystolic','PIH:Left ventricle systolic function','PIH:Very weak,CIEL:5226,PIH:NORMAL,CIEL:160737','true'],
+                              ['rtVentDim','PIH:Right ventricle dimension','PIH:SEVERELY DILATED,PIH:NORMAL,CIEL:160737','true'],
+                              ['mitralValve','PIH:MITRAL VALVE FINDINGS','CIEL:134082,PIH:NO MITRAL STENOSIS,CIEL:160737','true'],
+                              ['pericardium','PIH:PERICARDIUM FINDINGS','PIH:Severe pericardial effusion,CIEL:130562,,PIH:No pericardial effusion,CIEL:160737','true'],
+                              ['venaCava','PIH:Inferior vena cava findings','PIH:DILATED,PIH:NORMAL,CIEL:160737','true'],
+                              ['ltVentDim','PIH:Left ventricle dimension','PIH:DILATED,PIH:NORMAL,CIEL:160737','false']">
                     <tr>
                         <td>
                             <label>
@@ -378,7 +379,7 @@
                         </td>
                         <td>
                             <p class="side-by-side">
-                                <obs conceptId="{1}" style="radio" required="true"
+                                <obs conceptId="{1}" style="radio" required="{3}"
                                      answerConceptIds="{2}"
                                      answerSeparator=""/>
                             </p>
