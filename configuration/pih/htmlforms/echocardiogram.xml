@@ -103,6 +103,12 @@
             width: 100%;
         }
 
+        p.radio > * {
+            display: inline;
+            float: none !important;
+            min-width: initial;
+        }
+
         form input[type="radio"], .form input[type="radio"] {
             float: none;
             display: inline-block;
@@ -365,12 +371,12 @@
         <div id="echo" class="section-container">
             <table>
 
-                <repeat with="['ltVentSystolic','PIH:Left ventricle systolic function','PIH:Very weak,CIEL:5226,PIH:NORMAL,CIEL:160737','true'],
-                              ['rtVentDim','PIH:Right ventricle dimension','PIH:SEVERELY DILATED,PIH:NORMAL,CIEL:160737','true'],
-                              ['mitralValve','PIH:MITRAL VALVE FINDINGS','CIEL:134082,PIH:NO MITRAL STENOSIS,CIEL:160737','true'],
-                              ['pericardium','PIH:PERICARDIUM FINDINGS','PIH:Severe pericardial effusion,CIEL:130562,,PIH:No pericardial effusion,CIEL:160737','true'],
-                              ['venaCava','PIH:Inferior vena cava findings','PIH:DILATED,PIH:NORMAL,CIEL:160737','true'],
-                              ['ltVentDim','PIH:Left ventricle dimension','PIH:DILATED,PIH:NORMAL,CIEL:160737','false']">
+                <repeat with="['ltVentSystolic','PIH:Left ventricle systolic function','CIEL:159570,CIEL:159569,CIEL:159568,PIH:13596','true'],
+                              ['rtVentDim','PIH:Right ventricle dimension','PIH:SEVERELY DILATED,PIH:3830,PIH:NORMAL,PIH:13596','true'],
+                              ['mitralValve','PIH:MITRAL VALVE FINDINGS','CIEL:134082,PIH:13597,PIH:NO MITRAL STENOSIS,PIH:13596','true'],
+                              ['pericardium','PIH:PERICARDIUM FINDINGS','PIH:Severe pericardial effusion,CIEL:130562,,PIH:No pericardial effusion,PIH:13596','true'],
+                              ['venaCava','PIH:Inferior vena cava findings','PIH:DILATED,PIH:MODERATELY DILATED,PIH:NORMAL,PIH:13596','true'],
+                              ['ltVentDim','PIH:Left ventricle dimension','CIEL:135972,PIH:NORMAL,PIH:13596','false']">
                     <tr>
                         <td>
                             <label>
@@ -378,10 +384,11 @@
                             </label>
                         </td>
                         <td>
-                            <p class="side-by-side">
-                                <obs conceptId="{1}" style="radio" required="{3}"
-                                     answerConceptIds="{2}"
-                                     answerSeparator=""/>
+                            <p class="radio">
+                                <obs conceptId="{1}"
+                                     style="radio" answerSeparator="&lt;br /&gt;"
+                                     required="{3}"
+                                     answerConceptIds="{2}" />
                             </p>
                         </td>
                     </tr>
@@ -403,7 +410,7 @@
     </section>
 
     <macros>
-        @NCD_CATEGORIES@=PIH:5016,CIEL:134082,PIH:3071,PIH:7497,PIH:CONGENITAL HEART DISEASE,PIH:4000,PIH:Severe pericardial effusion,PIH:11926,CIEL:5622
+        @NCD_CATEGORIES@=PIH:5016,CIEL:134082,PIH:3071,PIH:12231,CIEL:127376,PIH:Severe pericardial effusion,PIH:11926,CIEL:5622
     </macros>
     <section id="diagnosis" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.diagnosis.label">
@@ -419,13 +426,12 @@
                      answerConceptIds="$@NCD_CATEGORIES@"
                      answerSeparator="&lt;br /&gt;" />
 
-                <!-- <repeat with="['PIH:5016','Cardiomyopathy'], x
-                              ['CIEL:134082','Mitral stenosis'], x
-                              ['PIH:3071','Hypertensive heart disease'], x
-                              ['PIH:7497','Valve disease'], NO
-                              ['PIH:CONGENITAL HEART DISEASE','Congenital heart disease'],
-                              ['PIH:4000','Isolated right heart failure'], x
-                              ['PIH:Severe pericardial effusion','Severe pericardial effusion'], x
+                <!-- <repeat with="['PIH:5016','Cardiomyopathy'],
+                              ['CIEL:134082','Mitral stenosis'],
+                              ['PIH:3071','Hypertensive heart disease'],
+                              ['PIH:12231','Valve disease or Congenital heart disease'],
+                              ['CIEL:127376',Right heart failure'],
+                              ['PIH:Severe pericardial effusion','Severe pericardial effusion'],
                               ['PIH:3468','Other heart failure'],
                               ['PIH:11926','Improbable/normal pihcore.ncd.improbable']">
                 </repeat>
