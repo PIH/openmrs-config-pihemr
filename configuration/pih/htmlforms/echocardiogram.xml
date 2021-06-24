@@ -371,12 +371,101 @@
         <div id="echo" class="section-container">
             <table>
 
-                <repeat with="['ltVentSystolic','PIH:Left ventricle systolic function','CIEL:159570,CIEL:159569,CIEL:159568,PIH:13596','true','pihcore.required'],
-                              ['rtVentDim','PIH:Right ventricle dimension','PIH:SEVERELY DILATED,PIH:3830,PIH:NORMAL,PIH:13596','true','pihcore.required'],
-                              ['mitralValve','PIH:MITRAL VALVE FINDINGS','CIEL:134082,PIH:13597,PIH:NO MITRAL STENOSIS,PIH:13596','true','pihcore.required'],
-                              ['pericardium','PIH:PERICARDIUM FINDINGS','PIH:Severe pericardial effusion,CIEL:130562,,PIH:No pericardial effusion,PIH:13596','true','pihcore.required'],
-                              ['venaCava','PIH:Inferior vena cava findings','PIH:DILATED,PIH:MODERATELY DILATED,PIH:NORMAL,PIH:13596','true','pihcore.required'],
-                              ['ltVentDim','PIH:Left ventricle dimension','CIEL:135972,PIH:NORMAL,PIH:13596','false','blank.label']">
+                <repeat with="['ltVentSystolic','PIH:Left ventricle systolic function','CIEL:159570,CIEL:159569,CIEL:159568,PIH:13596','true','pihcore.required','pihcore.ncd.veryLow40,pihcore.ncd.mildDepress,pihcore.ncd.norm50,pihcore.cantEval'],
+                              ['rtVentDim','PIH:Right ventricle dimension','PIH:SEVERELY DILATED,PIH:3830,PIH:NORMAL,PIH:13596','true','pihcore.required','pihcore.ncd.veryDilated,pihcore.ncd.mildDilated,pihcore.normal,pihcore.cantEval']">
+                    <tr>
+                        <td>
+                            <label>
+                                <uimessage code="pihcore.echo.{0}" />
+                            </label>
+                            <label style="color:red">
+                                <uimessage code="{4}" />
+                            </label>
+                        </td>
+                        <td>
+                            <p class="radio">
+                                <obs conceptId="{1}"
+                                     style="radio" answerSeparator="&lt;br /&gt;"
+                                     required="{3}"
+                                     answerConceptIds="{2}" answerCodes="{5}" />
+                            </p>
+                        </td>
+                    </tr>
+                </repeat>
+
+                <tr>
+                 <td>
+                     <label>
+                         <uimessage code="pihcore.echo.mitralValve" />
+                     </label>
+                     <label style="color:red">
+                         <uimessage code="pihcore.required" />
+                     </label>
+
+                     <br/>
+                     <u>
+                         <uimessage code="pihcore.ncd.stenosis"/>
+                     </u>
+                     <br/>
+                     1.<uimessage code="pihcore.stenosis.symptom1" />
+                     <br/>
+                     2.<uimessage code="pihcore.stenosis.symptom2" />
+                     <br/>
+                     3.<uimessage code="pihcore.stenosis.symptom3" />
+                 </td>
+                 <td>
+                     <p class="radio">
+                         <obs conceptId="PIH:MITRAL VALVE FINDINGS"
+                          style="radio" answerSeparator="&lt;br /&gt;"
+                              required="true"
+                              answerConceptIds="CIEL:134082,PIH:13597,PIH:NO MITRAL STENOSIS,PIH:13596" />
+                     </p>
+                 </td>
+                </tr>
+
+                <repeat with="['pericardium','PIH:PERICARDIUM FINDINGS','PIH:Severe pericardial effusion,CIEL:130562,,PIH:No pericardial effusion,PIH:13596','true','pihcore.required']">
+                    <tr>
+                        <td>
+                            <label>
+                                <uimessage code="pihcore.echo.{0}" />
+                            </label>
+                            <label style="color:red">
+                                <uimessage code="{4}" />
+                            </label>
+                        </td>
+                        <td>
+                            <p class="radio">
+                                <obs conceptId="{1}"
+                                     style="radio" answerSeparator="&lt;br /&gt;"
+                                     required="{3}"
+                                     answerConceptIds="{2}" />
+                            </p>
+                        </td>
+                    </tr>
+                </repeat>
+
+                <repeat with="['venaCava','PIH:Inferior vena cava findings','PIH:DILATED,PIH:MODERATELY DILATED,PIH:NORMAL,PIH:13596','true','pihcore.required','pihcore.ncd.dilated2,pihcore.ncd.modDilated,pihcore.normal,pihcore.cantEval']">
+                    <tr>
+                        <td>
+                            <label>
+                                <uimessage code="pihcore.echo.{0}" />
+                            </label>
+                            <label style="color:red">
+                                <uimessage code="{4}" />
+                            </label>
+                        </td>
+                        <td>
+                            <p class="radio">
+                                <obs conceptId="{1}"
+                                     style="radio" answerSeparator="&lt;br /&gt;"
+                                     required="{3}"
+                                     answerConceptIds="{2}" answerCodes="{5}"/>
+                            </p>
+                        </td>
+                    </tr>
+                </repeat>
+
+                <repeat with="['ltVentDim','PIH:Left ventricle dimension','CIEL:135972,PIH:NORMAL,PIH:13596','false','blank.label']">
                     <tr>
                         <td>
                             <label>
