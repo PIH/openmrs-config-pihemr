@@ -371,16 +371,19 @@
         <div id="echo" class="section-container">
             <table>
 
-                <repeat with="['ltVentSystolic','PIH:Left ventricle systolic function','CIEL:159570,CIEL:159569,CIEL:159568,PIH:13596','true'],
-                              ['rtVentDim','PIH:Right ventricle dimension','PIH:SEVERELY DILATED,PIH:3830,PIH:NORMAL,PIH:13596','true'],
-                              ['mitralValve','PIH:MITRAL VALVE FINDINGS','CIEL:134082,PIH:13597,PIH:NO MITRAL STENOSIS,PIH:13596','true'],
-                              ['pericardium','PIH:PERICARDIUM FINDINGS','PIH:Severe pericardial effusion,CIEL:130562,,PIH:No pericardial effusion,PIH:13596','true'],
-                              ['venaCava','PIH:Inferior vena cava findings','PIH:DILATED,PIH:MODERATELY DILATED,PIH:NORMAL,PIH:13596','true'],
-                              ['ltVentDim','PIH:Left ventricle dimension','CIEL:135972,PIH:NORMAL,PIH:13596','false']">
+                <repeat with="['ltVentSystolic','PIH:Left ventricle systolic function','CIEL:159570,CIEL:159569,CIEL:159568,PIH:13596','true','pihcore.required'],
+                              ['rtVentDim','PIH:Right ventricle dimension','PIH:SEVERELY DILATED,PIH:3830,PIH:NORMAL,PIH:13596','true','pihcore.required'],
+                              ['mitralValve','PIH:MITRAL VALVE FINDINGS','CIEL:134082,PIH:13597,PIH:NO MITRAL STENOSIS,PIH:13596','true','pihcore.required'],
+                              ['pericardium','PIH:PERICARDIUM FINDINGS','PIH:Severe pericardial effusion,CIEL:130562,,PIH:No pericardial effusion,PIH:13596','true','pihcore.required'],
+                              ['venaCava','PIH:Inferior vena cava findings','PIH:DILATED,PIH:MODERATELY DILATED,PIH:NORMAL,PIH:13596','true','pihcore.required'],
+                              ['ltVentDim','PIH:Left ventricle dimension','CIEL:135972,PIH:NORMAL,PIH:13596','false','blank.label']">
                     <tr>
                         <td>
                             <label>
                                 <uimessage code="pihcore.echo.{0}" />
+                            </label>
+                            <label style="color:red">
+                                <uimessage code="{4}" />
                             </label>
                         </td>
                         <td>
@@ -420,6 +423,9 @@
             <p class="side-by-side">
                 <label>
                     <uimessage code="zl.diagnosisCategory"/>
+                </label>
+                <label style="color:red">
+                    (<uimessage code="pihcore.required" />)
                 </label>
                 <br/>
                 <obs conceptId="PIH:NCD category" style="radio" required="true"
@@ -467,7 +473,7 @@
                 <label>
                     <uimessage code="pihcore.echo.studyChangedPlan" />
                 </label>
-                <obs conceptId="PIH:13594" style="radio"
+                <obs conceptId="PIH:13594" style="radio" required="true"
                      answerConceptIds="CIEL:1065,CIEL:1066"
                      answerSeparator="" />
             </p>
@@ -480,6 +486,13 @@
             </p>
         </div>
     </section>
+
+     <section id="protocol" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+              headerCode="protocol" >
+         <!-- Todo: Fix file path for the image where webapp is openmrs -->
+         <img src="/mirebalais/ms/uiframework/resource/file/configuration/pih/images/heartFailureProtocol.png"
+              alt="Heart Failure protocol" />
+     </section>
 
     <ifMode mode="VIEW" include="false">
         <div id="buttons">
