@@ -504,6 +504,16 @@
     <macros>
         @NCD_CATEGORIES@=PIH:5016,CIEL:134082,PIH:3071,PIH:12231,CIEL:127376,PIH:Severe pericardial effusion,PIH:11926,CIEL:5622
     </macros>
+    <!-- ['PIH:5016','Cardiomyopathy'],
+         ['CIEL:134082','Mitral stenosis'],
+         ['PIH:3071','Hypertensive heart disease'],
+         ['PIH:12231','Valve disease or Congenital heart disease'],
+         ['CIEL:127376',Right heart failure'],
+         ['PIH:Severe pericardial effusion','Severe pericardial effusion'],
+         ['PIH:3468','Other heart failure'],
+         ['PIH:11926','Improbable/normal pihcore.ncd.improbable']
+    -->
+
     <section id="diagnosis" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.diagnosis.label">
 
@@ -520,17 +530,6 @@
                 <obs conceptId="PIH:NCD category" style="radio" required="true"
                      answerConceptIds="$@NCD_CATEGORIES@"
                      answerSeparator="&lt;br /&gt;" />
-
-                <!-- <repeat with="['PIH:5016','Cardiomyopathy'],
-                              ['CIEL:134082','Mitral stenosis'],
-                              ['PIH:3071','Hypertensive heart disease'],
-                              ['PIH:12231','Valve disease or Congenital heart disease'],
-                              ['CIEL:127376',Right heart failure'],
-                              ['PIH:Severe pericardial effusion','Severe pericardial effusion'],
-                              ['PIH:3468','Other heart failure'],
-                              ['PIH:11926','Improbable/normal pihcore.ncd.improbable']">
-                </repeat>
-                -->
 
                 <br/>
                 <label>
@@ -576,11 +575,21 @@
         </div>
     </section>
 
+    <translations defaultLocale="fr">
+        <code name="protocolImage">
+            <variant locale="fr" value="heartFailureProtocol-1-fr.png"/>
+            <variant locale="en" value="heartFailureProtocol-en.png"/>
+        </code>
+    </translations>
+
      <section id="protocol" sectionTag="fieldset" headerTag="legend" headerStyle="title"
               headerCode="protocol" >
          <!-- Todo: Fix file path for the image where webapp is openmrs -->
-         <img src="/mirebalais/ms/uiframework/resource/file/configuration/pih/images/heartFailureProtocol.png"
+         <img src="/mirebalais/ms/uiframework/resource/file/configuration/pih/images/heartFailureProtocol-1-fr.png"
               alt="Heart Failure protocol" />
+         <br/>
+         <img src="/mirebalais/ms/uiframework/resource/file/configuration/pih/images/heartFailureProtocol-2-fr.png"
+              alt="Heart Failure medication protocol" />
      </section>
 
     <ifMode mode="VIEW" include="false">
