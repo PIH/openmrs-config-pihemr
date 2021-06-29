@@ -1,0 +1,27 @@
+key: "echocardiogramexport"
+uuid: "0d0afa7a-670c-4d68-8f34-79430b574e2e "
+name: "mirebalaisreports.echocardiogramdataexport.name"
+description: "mirebalaisreports.echocardiogramdataexport.description"
+parameters:
+  - key: "startDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.startDate"
+  - key: "endDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.endDate"
+datasets:
+  - key: "echocardiogramdataexport"
+    type: "sql"
+    config: "sql/echocardiogram.sql"
+designs:
+  - type: "csv"
+    properties:
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
+config:
+  category: "dataExport"
+  order: 50
+  components:
+    - "echocardiogram"
+    - "allDataExports"
