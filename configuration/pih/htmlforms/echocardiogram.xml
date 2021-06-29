@@ -366,7 +366,7 @@
     </section>
 
     <section id="echo-study" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="pihcore.echocardiogram.title">
+             headerCode="pihcore.vitals.latest.results.label">
 
         <div id="echo" class="section-container">
             <table>
@@ -503,6 +503,7 @@
 
     <macros>
         @NCD_CATEGORIES@=PIH:5016,CIEL:134082,PIH:3071,PIH:12231,CIEL:127376,PIH:Severe pericardial effusion,PIH:11926,CIEL:5622
+        @WEBAPP_NAME@=mirebalais
     </macros>
     <!-- ['PIH:5016','Cardiomyopathy'],
          ['CIEL:134082','Mitral stenosis'],
@@ -575,22 +576,24 @@
         </div>
     </section>
 
-    <translations defaultLocale="fr">
-        <code name="protocolImage">
-            <variant locale="fr" value="heartFailureProtocol-1-fr.png"/>
-            <variant locale="en" value="heartFailureProtocol-en.png"/>
-        </code>
-    </translations>
+    <section id="protocol" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.hfProtocol">
+        <!-- Todo: Fix file path for the image where webapp is openmrs or mirebalais -->
+        <includeIf velocityTest="$locale == 'fr' ">
+            <img src="/$@WEBAPP_NAME@/ms/uiframework/resource/file/configuration/pih/images/heartFailureProtocol-1-fr.png"
+                 alt="Heart Failure protocol" width="100%"/>
+            <br/>
+            <br/>
+            <img src="/$@WEBAPP_NAME@/ms/uiframework/resource/file/configuration/pih/images/heartFailureProtocol-2-fr.png"
+                 alt="Heart Failure medication protocol"
+                 width="100%"/>
+        </includeIf>
 
-     <section id="protocol" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-              headerCode="protocol" >
-         <!-- Todo: Fix file path for the image where webapp is openmrs -->
-         <img src="/mirebalais/ms/uiframework/resource/file/configuration/pih/images/heartFailureProtocol-1-fr.png"
-              alt="Heart Failure protocol" />
-         <br/>
-         <img src="/mirebalais/ms/uiframework/resource/file/configuration/pih/images/heartFailureProtocol-2-fr.png"
-              alt="Heart Failure medication protocol" />
-     </section>
+        <includeIf velocityTest="$locale == 'en' ">
+            <img src="/$@WEBAPP_NAME@/ms/uiframework/resource/file/configuration/pih/images/heartFailureProtocol-en.png"
+                 alt="Heart Failure protocol" width="100%"/>
+        </includeIf>
+    </section>
 
     <ifMode mode="VIEW" include="false">
         <div id="buttons">
