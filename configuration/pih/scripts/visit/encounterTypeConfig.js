@@ -178,6 +178,17 @@ angular.module("encounterTypeConfig", [])
             editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-hiv-history.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
         };
 
+        var pmtctHistory = {
+            type: "encounter-section",
+            id: "pmtct-history",
+            label: "pihcore.pmtctHistory.label",
+            icon: "fas fa-fw fa-history",
+            shortTemplate: "templates/sections/defaultSectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-pmtct-history.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-pmtct-history.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+        };
+
         var labRadOrder = {
             type: "encounter-section",
             id: "lab-rad-order",
@@ -808,7 +819,7 @@ angular.module("encounterTypeConfig", [])
             editUrl: hfeStandardEditUrl,
             showOnVisitList: true,
             sections: [
-                hivHistory,
+                pmtctHistory,
                 primaryCareExam,
                 pedsVaccinations,
                 hivAssessment,
