@@ -423,7 +423,7 @@
                  </td>
                 </tr>
 
-                <repeat with="['pericardium','PIH:PERICARDIUM FINDINGS','PIH:Severe pericardial effusion,CIEL:130562,,PIH:No pericardial effusion,PIH:13596','true','pihcore.required']">
+                <repeat with="['pericardium','PIH:PERICARDIUM FINDINGS','PIH:Severe pericardial effusion,PIH:13612,,PIH:No pericardial effusion,PIH:13596','true','pihcore.required']">
                     <tr>
                         <td>
                             <label>
@@ -465,7 +465,7 @@
                     </tr>
                 </repeat>
 
-                <repeat with="['ltVentDim','PIH:Left ventricle dimension','CIEL:135972,PIH:NORMAL,PIH:13596','false','blank.label']">
+                <repeat with="['ltVentDim','PIH:Left ventricle dimension','CIEL:135972,PIH:NORMAL,PIH:13596','false','blank.label','Dilitation,pihcore.normal,pihcore.cantEval']">
                     <tr>
                         <td>
                             <label>
@@ -480,7 +480,7 @@
                                 <obs conceptId="{1}"
                                      style="radio" answerSeparator="&lt;br /&gt;"
                                      required="{3}"
-                                     answerConceptIds="{2}" />
+                                     answerConceptIds="{2}" answerCodes="{5}"/>
                             </p>
                         </td>
                     </tr>
