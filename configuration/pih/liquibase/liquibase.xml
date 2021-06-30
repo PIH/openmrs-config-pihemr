@@ -250,19 +250,4 @@
         </sql>
     </changeSet>
 
-    <changeSet id="20210628-cleanup-encounters-without-visits" author="bistenes">
-        <comment>Assign encounters (other than registration) that don't have visits to whatever visit is on the same day, if there is one</comment>
-        <sql>
-            update encounter e, encounter_type et, visit v
-            set e.visit_id = v.visit_id,
-                e.location_id = v.location_id
-            where e.encounter_type = et.encounter_type_id
-                and et.name != 'Enregistrement de patient'
-                and e.visit_id is null
-                and v.patient_id = e.patient_id
-                and date(v.date_started) = date(e.encounter_datetime)
-                and v.voided = 0;
-        </sql>
-    </changeSet>
-
 </databaseChangeLog>
