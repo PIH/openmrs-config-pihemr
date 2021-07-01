@@ -265,4 +265,35 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20210701-migrate-mentalhealth-drug-to-other" author="ball">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">
+                select count(*) from address_hierarchy_entry where parent_id is NULL and name like 'Sierra Leone';
+            </sqlCheck>
+        </preConditions>
+        <comment>
+            If the count is 1, this is a Sierra Leone server
+        </comment>
+        <sql>
+            update obs
+               set concept_id =
+                    (select concept_id from concept
+                      where uuid like '163043AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
+                         -- mental status exam findings
+             where concept_id =
+                    (select concept_id from concept
+                      where uuid like '162556AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
+                         -- history of drug
+               and value_coded =
+                    (select concept_id from concept
+                      where uuid like '3cee7fb4-26fe-102b-80cb-0017a47871b2')
+                         -- other
+               and voided = 0
+               and encounter_id IN
+                    (select encounter_id from encounter
+                      where encounter_type IN
+                            (select encounter_type_id from encounter_type
+                              where name like 'Mental Health Consult'));
+        </sql>
+    </changeSet>
 </databaseChangeLog>
