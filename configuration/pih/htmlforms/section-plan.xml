@@ -121,7 +121,7 @@
 
                 });
 
-                // validate that if a disposition has been selected, the all fields associated with that disposition have also been filled out
+                // validate that if a disposition has been selected, all the fields associated with that disposition have also been filled out
                 jq('#disposition .field-error').first().html('').hide(); // hide any previous error
                 if (jq('#disposition select:first').val() != '' &amp;&amp;
                     (jq('#disposition select:visible').is(function() { return jq(this).val() == ''; })
