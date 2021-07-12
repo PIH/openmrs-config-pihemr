@@ -103,6 +103,34 @@
 
     </style>
 
+    <ifMode mode="VIEW" include="false" >
+        <script type="text/javascript">
+
+            // add validation handler to the HTML form
+            htmlForm.getBeforeValidation().push(function() {
+                var valid = true;
+
+                // validate that if a disposition has been selected, all the fields associated with that disposition have also been filled out
+                jq('#disposition .field-error').first().html('').hide(); // hide any previous error
+
+                if (jq('#disposition select:first').val() != '' &amp;&amp;
+                    (jq('#disposition select:visible').is(function() { return jq(this).val() == ''; })
+                    || jq('#disposition input:visible').is(function() { return jq(this).val() == ''; }))) {
+                        jq('#disposition .field-error').first().append('<uimessage code="pihcore.errors.fieldsAssociatedWithDisposition"/>').show();
+                        valid = false;
+                }
+                return valid;
+            });
+
+            jq(function() {
+                jq('#disposition select:first').change(function() {
+                    jq('#disposition .field-error').first().html('').hide(); // hide any previous error if disposition is changed
+                });
+            });
+
+        </script>
+    </ifMode>
+
     <div class="print-form-datestamps" style="display:none">
         <p><uimessage code="pih.form.created_on"/>:
             <lookup complexExpression="$form.dateCreated"/>
@@ -377,7 +405,9 @@
 
             <br/>
             <p>
-                <encounterDisposition required="true"/>
+                <div id="disposition">
+                    <encounterDisposition required="true"/>
+                </div>
             </p>
 
             <p>
