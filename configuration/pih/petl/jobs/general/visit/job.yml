@@ -1,0 +1,13 @@
+type: "sqlserver-bulk-import"
+configuration:
+  extract:
+    datasource: "mysql/openmrs.yml"
+    query:  "general/visit/source.sql"
+
+  load:
+    datasource: "sqlserver/openmrs_extractions.yml"
+    table: "consult_visits"
+    schema: "general/visit/target.sql"
+
+schedule:
+  cron: "0 30 6 ? * *"
