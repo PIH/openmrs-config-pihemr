@@ -16,7 +16,7 @@ set @YEAR=YEAR(NOW());
 
 insert into temp_services (especialidad,frecuencia_dias,frecuencia_semana,frecuencia_mes,frecuencia_manana,frecuencia_tarde)
 select 'examenes',(count(encounter_type))/251 as frecuencia_dia,
-(count(encounter_type)/(WEEK(MAX(encounter_datetime)) - WEEK(MIN(encounter_datetime))+1)) as frecuencia_mes,
+(count(encounter_type)/(WEEK(MAX(encounter_datetime)) - WEEK(MIN(encounter_datetime))+1)) as frecuencia_semana,
 (count(encounter_type)/(MONTH(MAX(encounter_datetime))-MONTH(MIN(encounter_datetime))+1)) as frecuencia_mes,
 (select count(encounter_type)/251 from encounter where HOUR (encounter_datetime) BETWEEN 01 AND 11 AND MINUTE (encounter_datetime) BETWEEN 00 AND 59 )as frecuencia_manana,
 (select count(encounter_type)/251 from encounter where HOUR (encounter_datetime) BETWEEN 12 AND 23 AND MINUTE (encounter_datetime) BETWEEN 00 AND 59 ) as frecuencia_tarde
