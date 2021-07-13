@@ -17,7 +17,7 @@ set @YEAR=YEAR(NOW());
 
 insert into temp_consultations (especialidad,frecuencia_dias,frecuencia_semana,frecuencia_mes,frecuencia_manana,frecuencia_tarde)
 select 'tuberculosis',(count(encounter_type))/251 as frecuencia_dia,
-(count(encounter_type)/(WEEK(MAX(encounter_datetime)) - WEEK(MIN(encounter_datetime))+1)) as frecuencia_mes,
+(count(encounter_type)/(WEEK(MAX(encounter_datetime)) - WEEK(MIN(encounter_datetime))+1)) as frecuencia_semana,
 (count(encounter_type)/(MONTH(MAX(encounter_datetime))-MONTH(MIN(encounter_datetime))+1)) as frecuencia_mes,
 (select count(encounter_type)/251 from encounter where HOUR (encounter_datetime) BETWEEN 01 AND 11 AND MINUTE (encounter_datetime) BETWEEN 00 AND 59 )as frecuencia_manana,
 (select count(encounter_type)/251 from encounter where HOUR (encounter_datetime) BETWEEN 12 AND 23 AND MINUTE (encounter_datetime) BETWEEN 00 AND 59 ) as frecuencia_tarde
@@ -26,7 +26,7 @@ where encounter_type=@tb_general and YEAR(encounter_datetime) = @YEAR;
 
 insert into temp_consultations (especialidad,frecuencia_dias,frecuencia_semana,frecuencia_mes,frecuencia_manana,frecuencia_tarde)
 select 'covid',(count(encounter_type))/251 as frecuencia_dia,
-(count(encounter_type)/(WEEK(MAX(encounter_datetime)) - WEEK(MIN(encounter_datetime))+1)) as frecuencia_mes,
+(count(encounter_type)/(WEEK(MAX(encounter_datetime)) - WEEK(MIN(encounter_datetime))+1)) as frecuencia_semana,
 (count(encounter_type)/(MONTH(MAX(encounter_datetime))-MONTH(MIN(encounter_datetime))+1)) as frecuencia_mes,
 (select count(encounter_type)/251 from encounter where HOUR (encounter_datetime) BETWEEN 01 AND 11 AND MINUTE (encounter_datetime) BETWEEN 00 AND 59 )as frecuencia_manana,
 (select count(encounter_type)/251 from encounter where HOUR (encounter_datetime) BETWEEN 12 AND 23 AND MINUTE (encounter_datetime) BETWEEN 00 AND 59 ) as frecuencia_tarde
@@ -35,7 +35,7 @@ where encounter_type=@covid_general and YEAR(encounter_datetime) = @YEAR;
 
 insert into temp_consultations (especialidad,frecuencia_dias,frecuencia_semana,frecuencia_mes,frecuencia_manana,frecuencia_tarde)
 select 'hiv',(count(encounter_type))/251 as frecuencia_dia,
-(count(encounter_type)/(WEEK(MAX(encounter_datetime)) - WEEK(MIN(encounter_datetime))+1)) as frecuencia_mes,
+(count(encounter_type)/(WEEK(MAX(encounter_datetime)) - WEEK(MIN(encounter_datetime))+1)) as frecuencia_semana,
 (count(encounter_type)/(MONTH(MAX(encounter_datetime))-MONTH(MIN(encounter_datetime))+1)) as frecuencia_mes,
 (select count(encounter_type)/251 from encounter where HOUR (encounter_datetime) BETWEEN 01 AND 11 AND MINUTE (encounter_datetime) BETWEEN 00 AND 59 )as frecuencia_manana,
 (select count(encounter_type)/251 from encounter where HOUR (encounter_datetime) BETWEEN 12 AND 23 AND MINUTE (encounter_datetime) BETWEEN 00 AND 59 ) as frecuencia_tarde
