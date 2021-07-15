@@ -26,20 +26,20 @@ create temporary table temp_obgyn
     diastolic int(4),
     pulse int(4),
  	  respiratory_rate int(4),
-		temperature int(4),												
+		temperature int(4),
 		oxygen_saturation int(4),
 		presenting_history varchar(255),
     latest_vitals_encounter_id int,
     latest_vitals_datetime datetime,
     latest_vitals_height decimal,
-    latest_vitals_weight decimal,    
+    latest_vitals_weight decimal,
     latest_vitals_temperature decimal,
-    latest_vitals_heart_rate int,  
+    latest_vitals_heart_rate int,
     latest_vitals_respiratory_rate int,
-    latest_vitals_systolic int,  
+    latest_vitals_systolic int,
     latest_vitals_diastolic int,
     latest_vitals_oxygen_saturation int,
-    latest_vitals_chief_complaint varchar(255),  
+    latest_vitals_chief_complaint varchar(255),
     J9_mothers_group varchar(255),
     alcohol_use  varchar(50),
     tobacco_use varchar(50),
@@ -58,10 +58,10 @@ create temporary table temp_obgyn
     family_history_diabetes varchar(50),
     family_history_epilepsy varchar(50),
     family_history_hemoglobinopathy varchar(50),
-    family_history_hypertension varchar(50),    
+    family_history_hypertension varchar(50),
     family_history_tuberculosis varchar(50),
     family_history_cancer varchar(50),
-    family_history_cancer_specific varchar(255),    
+    family_history_cancer_specific varchar(255),
     family_history_other varchar(50),
     family_history_other_specific varchar(255),
     hiv_test varchar(50),
@@ -100,7 +100,7 @@ create temporary table temp_obgyn
     Condoms_FP_End_Date datetime,
     Tubal_Ligation_FP_method varchar(50),
     Tubal_Ligation_FP_Start_Date datetime,
-    Tubal_Ligation_FP_End_Date datetime,    
+    Tubal_Ligation_FP_End_Date datetime,
     received_FP_counseling varchar(50),
     current_family_planning_method varchar(255),
     current_FP_start_date datetime,
@@ -125,31 +125,31 @@ create temporary table temp_obgyn
     pregnancy_1_outcome varchar(255),
     pregnancy_2_birth_order int,
     pregnancy_2_delivery_type varchar(255),
-    pregnancy_2_outcome varchar(255),    
+    pregnancy_2_outcome varchar(255),
     pregnancy_3_birth_order int,
     pregnancy_3_delivery_type varchar(255),
     pregnancy_3_outcome varchar(255),
     pregnancy_4_birth_order int,
     pregnancy_4_delivery_type varchar(255),
-    pregnancy_4_outcome varchar(255),    
+    pregnancy_4_outcome varchar(255),
     pregnancy_5_birth_order int,
     pregnancy_5_delivery_type varchar(255),
-    pregnancy_5_outcome varchar(255),    
+    pregnancy_5_outcome varchar(255),
     pregnancy_6_birth_order int,
     pregnancy_6_delivery_type varchar(255),
     pregnancy_6_outcome varchar(255),
     pregnancy_7_birth_order int,
     pregnancy_7_delivery_type varchar(255),
-    pregnancy_7_outcome varchar(255),    
+    pregnancy_7_outcome varchar(255),
     pregnancy_8_birth_order int,
     pregnancy_8_delivery_type varchar(255),
     pregnancy_8_outcome varchar(255),
     pregnancy_9_birth_order int,
     pregnancy_9_delivery_type varchar(255),
-    pregnancy_9_outcome varchar(255),    
+    pregnancy_9_outcome varchar(255),
     pregnancy_10_birth_order int,
     pregnancy_10_delivery_type varchar(255),
-    pregnancy_10_outcome varchar(255),      
+    pregnancy_10_outcome varchar(255),
     number_postpartum_visits int,
     high_risk_factors varchar(1000),
     other_specific_high_risk_factor varchar(255),
@@ -160,16 +160,16 @@ create temporary table temp_obgyn
     diagnosis_1 varchar(255),
     diagnosis_2 varchar(255),
     diagnosis_3 varchar(255),
-    diagnosis_4 varchar(255),    
+    diagnosis_4 varchar(255),
     diagnosis_5 varchar(255),
     diagnosis_6 varchar(255),
     diagnosis_7 varchar(255),
     diagnosis_8 varchar(255),
-    diagnosis_9 varchar(255),    
+    diagnosis_9 varchar(255),
     diagnosis_10 varchar(255)
 );
 
--- load temporary table with all ob_gyn encounters within the date range 
+-- load temporary table with all ob_gyn encounters within the date range
 insert into temp_obgyn (
     patient_id,
     encounter_id,
@@ -206,7 +206,7 @@ update temp_obgyn t set visit_type = obs_value_coded_list(t.encounter_id,'CIEL',
 -- referring services
 update temp_obgyn t set referring_service = obs_value_coded_list(t.encounter_id,'PIH','7454',@locale);
 update temp_obgyn t
-  inner join obs o on o.encounter_id = t.encounter_id 
+  inner join obs o on o.encounter_id = t.encounter_id
   and o.concept_id =  concept_from_mapping('PIH','7454')
   and o.value_coded = concept_from_mapping('PIH','5622')
   and o.voided = 0
@@ -224,16 +224,16 @@ update temp_obgyn t set oxygen_saturation = obs_value_numeric(t.encounter_id,'PI
 
 -- latest vitals
 
-update temp_obgyn t
-  inner join encounter e on e.encounter_id =
-    (select encounter_id from encounter e2
-     where e2.voided = 0 
-     and e2.encounter_type = @vital_signs 
-     and e2.patient_id = t.patient_id
-     and date(e2.encounter_datetime) <= date(t.encounter_datetime)
-     order by e2.encounter_datetime desc limit 1)
- set t.latest_vitals_encounter_id = e.encounter_id,
-     t.latest_vitals_datetime = e.encounter_datetime;
+--update temp_obgyn t
+  --inner join encounter e on e.encounter_id =
+    --(select encounter_id from encounter e2
+     --where e2.voided = 0
+     --and e2.encounter_type = @vital_signs
+     --and e2.patient_id = t.patient_id
+     --and date(e2.encounter_datetime) <= date(t.encounter_datetime)
+     --order by e2.encounter_datetime desc limit 1)
+ --set t.latest_vitals_encounter_id = e.encounter_id,
+   --  t.latest_vitals_datetime = e.encounter_datetime;
 
 update temp_obgyn t set latest_vitals_height = obs_value_numeric(t.latest_vitals_encounter_id, 'PIH','5090');
 update temp_obgyn t set latest_vitals_weight = obs_value_numeric(t.latest_vitals_encounter_id, 'PIH','5089');
@@ -263,35 +263,35 @@ update temp_obgyn t set other_medication = obs_value_text(t.encounter_id,'PIH','
 
 -- patient history
 update temp_obgyn t set medical_history = obs_value_coded_list(t.encounter_id,'CIEL','1628',@locale);
-update temp_obgyn t 
+update temp_obgyn t
   set specific_heart_disease = obs_from_group_id_value_text( obs_group_id_of_coded_answer(t.encounter_id,'PIH','3305') ,'CIEL','160221');
-update temp_obgyn t 
+update temp_obgyn t
   set specific_sti = obs_from_group_id_value_text( obs_group_id_of_coded_answer(t.encounter_id,'PIH','174') ,'CIEL','160221');
-update temp_obgyn t 
+update temp_obgyn t
   set specific_surgery = obs_from_group_id_value_text( obs_group_id_of_coded_answer(t.encounter_id,'PIH','6298') ,'CIEL','160221');
-update temp_obgyn t 
+update temp_obgyn t
   set specific_trauma = obs_from_group_id_value_text( obs_group_id_of_coded_answer(t.encounter_id,'PIH','7532'), 'CIEL','160221');
-update temp_obgyn t 
+update temp_obgyn t
   inner join obs other_group on other_group.voided = 0 and other_group.encounter_id = t.encounter_id
     and other_group.concept_id = concept_from_mapping('CIEL','1628')
     and other_group.value_coded = concept_from_mapping('PIH', '5622')
   inner join obs o on o.voided = 0 and o.obs_group_id = other_group.obs_group_id
     and o.concept_id = concept_from_mapping('CIEL','160221')
 set other_specific_history = o.value_text;
- 
+
 -- family history
 update temp_obgyn t
 set family_history_asthma =
-(select group_concat( obs_from_group_id_value_coded_list(fh_group.obs_group_id,'PIH','2172',@locale)) 
+(select group_concat( obs_from_group_id_value_coded_list(fh_group.obs_group_id,'PIH','2172',@locale))
 from obs fh_group where fh_group.voided = 0 and fh_group.encounter_id = t.encounter_id
     and fh_group.concept_id = concept_from_mapping('CIEL','160592')
     and fh_group.value_coded = concept_from_mapping('PIH', '5')
    group by fh_group.encounter_id)
  ;
- 
+
 update temp_obgyn t
 set family_history_heart_disease =
-(select group_concat( obs_from_group_id_value_coded_list(fh_group.obs_group_id,'PIH','2172',@locale)) 
+(select group_concat( obs_from_group_id_value_coded_list(fh_group.obs_group_id,'PIH','2172',@locale))
 from obs fh_group where fh_group.voided = 0 and fh_group.encounter_id = t.encounter_id
      and fh_group.concept_id = concept_from_mapping('CIEL','160592')
     and fh_group.value_coded = concept_from_mapping('PIH', '3305')
@@ -300,7 +300,7 @@ from obs fh_group where fh_group.voided = 0 and fh_group.encounter_id = t.encoun
 
 update temp_obgyn t
 set family_history_diabetes =
-(select group_concat( obs_from_group_id_value_coded_list(fh_group.obs_group_id,'PIH','2172',@locale)) 
+(select group_concat( obs_from_group_id_value_coded_list(fh_group.obs_group_id,'PIH','2172',@locale))
 from obs fh_group where fh_group.voided = 0 and fh_group.encounter_id = t.encounter_id
     and fh_group.concept_id = concept_from_mapping('CIEL','160592')
     and fh_group.value_coded = concept_from_mapping('PIH', '3720')
@@ -309,7 +309,7 @@ from obs fh_group where fh_group.voided = 0 and fh_group.encounter_id = t.encoun
 
 update temp_obgyn t
 set family_history_epilepsy =
-(select group_concat( obs_from_group_id_value_coded_list(fh_group.obs_group_id,'PIH','2172',@locale)) 
+(select group_concat( obs_from_group_id_value_coded_list(fh_group.obs_group_id,'PIH','2172',@locale))
 from obs fh_group where fh_group.voided = 0 and fh_group.encounter_id = t.encounter_id
     and fh_group.concept_id = concept_from_mapping('CIEL','160592')
     and fh_group.value_coded = concept_from_mapping('PIH', '155')
@@ -318,7 +318,7 @@ from obs fh_group where fh_group.voided = 0 and fh_group.encounter_id = t.encoun
 
 update temp_obgyn t
 set family_history_hemoglobinopathy =
-(select group_concat( obs_from_group_id_value_coded_list(fh_group.obs_group_id,'PIH','2172',@locale)) 
+(select group_concat( obs_from_group_id_value_coded_list(fh_group.obs_group_id,'PIH','2172',@locale))
 from obs fh_group where fh_group.voided = 0 and fh_group.encounter_id = t.encounter_id
     and fh_group.concept_id = concept_from_mapping('CIEL','160592')
     and fh_group.value_coded = concept_from_mapping('CIEL', '117635')
@@ -327,7 +327,7 @@ from obs fh_group where fh_group.voided = 0 and fh_group.encounter_id = t.encoun
 
 update temp_obgyn t
 set family_history_hypertension =
-(select group_concat( obs_from_group_id_value_coded_list(fh_group.obs_group_id,'PIH','2172',@locale)) 
+(select group_concat( obs_from_group_id_value_coded_list(fh_group.obs_group_id,'PIH','2172',@locale))
 from obs fh_group where fh_group.voided = 0 and fh_group.encounter_id = t.encounter_id
     and fh_group.concept_id = concept_from_mapping('CIEL','160592')
     and fh_group.value_coded = concept_from_mapping('PIH', '903')
@@ -336,31 +336,31 @@ from obs fh_group where fh_group.voided = 0 and fh_group.encounter_id = t.encoun
 
 update temp_obgyn t
 set family_history_tuberculosis =
-(select group_concat( obs_from_group_id_value_coded_list(fh_group.obs_group_id,'PIH','2172',@locale),'|') 
+(select group_concat( obs_from_group_id_value_coded_list(fh_group.obs_group_id,'PIH','2172',@locale),'|')
 from obs fh_group where fh_group.voided = 0 and fh_group.encounter_id = t.encounter_id
     and fh_group.concept_id = concept_from_mapping('CIEL','160592')
     and fh_group.value_coded = concept_from_mapping('PIH', '58')
    group by fh_group.encounter_id)
  ;
- 
+
 update temp_obgyn t
 set family_history_cancer =
-(select group_concat( obs_from_group_id_value_coded_list(fh_group.obs_group_id,'PIH','2172',@locale)) 
+(select group_concat( obs_from_group_id_value_coded_list(fh_group.obs_group_id,'PIH','2172',@locale))
 from obs fh_group where fh_group.voided = 0 and fh_group.encounter_id = t.encounter_id
     and fh_group.concept_id = concept_from_mapping('CIEL','160592')
     and fh_group.value_coded = concept_from_mapping('CIEL', '116030')
    group by fh_group.encounter_id)
  ;
- 
+
 update temp_obgyn t
 set family_history_other =
-(select group_concat( obs_from_group_id_value_coded_list(fh_group.obs_group_id,'PIH','2172',@locale)) 
+(select group_concat( obs_from_group_id_value_coded_list(fh_group.obs_group_id,'PIH','2172',@locale))
 from obs fh_group where fh_group.voided = 0 and fh_group.encounter_id = t.encounter_id
     and fh_group.concept_id = concept_from_mapping('CIEL','160592')
     and fh_group.value_coded = concept_from_mapping('PIH', '6408')
    group by fh_group.encounter_id)
  ;
- 
+
  -- HIV/TB Section
 update temp_obgyn t set hiv_test = obs_value_coded_list(t.encounter_id,'PIH','HIV test done',@locale);
 update temp_obgyn t set on_ARV = obs_value_coded_list(t.encounter_id,'CIEL','160119',@locale);
@@ -423,8 +423,8 @@ update temp_obgyn t set date_implant_placement =obs_value_datetime(t.encounter_i
 
 -- cervical cancer screening
 
-update temp_obgyn t set cervical_cancer_screening = obs_single_value_coded(t.encounter_id,'CIEL','163560','CIEL','151185'); 
-update temp_obgyn t set cervical_cancer_screening_date = obs_value_datetime(t.encounter_id,'CIEL','165429'); 
+update temp_obgyn t set cervical_cancer_screening = obs_single_value_coded(t.encounter_id,'CIEL','163560','CIEL','151185');
+update temp_obgyn t set cervical_cancer_screening_date = obs_value_datetime(t.encounter_id,'CIEL','165429');
 
 -- OB/GYN
 update temp_obgyn t set last_mentruation_date =obs_value_datetime(t.encounter_id,'PIH','968');
@@ -484,15 +484,15 @@ update temp_obgyn t set other_specific_high_risk_factor = obs_comments(t.encount
 update temp_obgyn t set other_specific_danger_signs = obs_comments(t.encounter_id,'CIEL','1880','CIEL','1065');
 
 -- Mental Health Assessment
-update temp_obgyn t 
+update temp_obgyn t
   inner join obs o on o.obs_id = obs_id(t.encounter_id, 'PIH','Mental health diagnosis',0)
 set mental_health_dx_1= concept_name(o.value_coded,@locale);
 
-update temp_obgyn t 
+update temp_obgyn t
   inner join obs o on o.obs_id = obs_id(t.encounter_id, 'PIH','Mental health diagnosis',1)
 set mental_health_dx_2= concept_name(o.value_coded,@locale);
 
-update temp_obgyn t 
+update temp_obgyn t
   inner join obs o on o.obs_id = obs_id(t.encounter_id, 'PIH','Mental health diagnosis',2)
 set mental_health_dx_3= concept_name(o.value_coded,@locale);
 
