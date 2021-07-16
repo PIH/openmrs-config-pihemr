@@ -180,7 +180,7 @@
 
 
     <section id="procedures" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="pihcore.procedure.small">
+             headerCode="pihcore.procedureSurgery">
 
         <div class="section-container-color">
             <repeat with="['1'],['2'],['3'],['4'],['5']">
