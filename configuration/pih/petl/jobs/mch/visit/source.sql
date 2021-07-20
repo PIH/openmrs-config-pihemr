@@ -105,7 +105,7 @@ WHERE
         a.person_id
     FROM
         person_attribute a
-            INNER JOIN
+            JOIN
         person_attribute_type t ON a.person_attribute_type_id = t.person_attribute_type_id
             AND a.value = 'true'
             AND t.name = 'Test Patient');
@@ -317,7 +317,7 @@ SET
 
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '3cd42c36-26fe-102b-80cb-0017a47871b2'
         AND v.dose_number = 0 
@@ -325,7 +325,7 @@ SET
     e.polio_0 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '3cd42c36-26fe-102b-80cb-0017a47871b2'
         AND v.dose_number = 1 
@@ -333,7 +333,7 @@ SET
     e.polio_1 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '3cd42c36-26fe-102b-80cb-0017a47871b2'
         AND v.dose_number = 2 
@@ -341,7 +341,7 @@ SET
     e.polio_2 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '3cd42c36-26fe-102b-80cb-0017a47871b2'
         AND v.dose_number = 3 
@@ -349,7 +349,7 @@ SET
     e.polio_3 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '3cd42c36-26fe-102b-80cb-0017a47871b2'
         AND v.dose_number = 11 
@@ -357,7 +357,7 @@ SET
     e.polio_booster_1 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '3cd42c36-26fe-102b-80cb-0017a47871b2'
         AND v.dose_number = 12 
@@ -365,7 +365,7 @@ SET
     e.polio_booster_2 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '1423AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
         AND v.dose_number = 1 
@@ -373,7 +373,7 @@ SET
     e.pentavalent_1 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '1423AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
         AND v.dose_number = 2 
@@ -381,7 +381,7 @@ SET
     e.pentavalent_2 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '1423AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
         AND v.dose_number = 3 
@@ -389,7 +389,7 @@ SET
     e.pentavalent_3 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '83531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
         AND v.dose_number = 1 
@@ -397,7 +397,7 @@ SET
     e.rotavirus_1 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '83531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
         AND v.dose_number = 2 
@@ -405,7 +405,7 @@ SET
     e.rotavirus_2 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '162586AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
         AND v.dose_number = 1 
@@ -413,7 +413,7 @@ SET
     e.mmr_1 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '3ccc6b7c-26fe-102b-80cb-0017a47871b2'
         AND v.dose_number = 0 
@@ -421,7 +421,7 @@ SET
     e.tetanus_0 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '3ccc6b7c-26fe-102b-80cb-0017a47871b2'
         AND v.dose_number = 1 
@@ -429,7 +429,7 @@ SET
     e.tetanus_1 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '3ccc6b7c-26fe-102b-80cb-0017a47871b2'
         AND v.dose_number = 2 
@@ -437,7 +437,7 @@ SET
     e.tetanus_2 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '3ccc6b7c-26fe-102b-80cb-0017a47871b2'
         AND v.dose_number = 3 
@@ -445,7 +445,7 @@ SET
     e.tetanus_3 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '3ccc6b7c-26fe-102b-80cb-0017a47871b2'
         AND v.dose_number = 11 
@@ -453,7 +453,7 @@ SET
     e.tetanus_booster_1 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '3ccc6b7c-26fe-102b-80cb-0017a47871b2'
         AND v.dose_number = 12 
@@ -691,7 +691,7 @@ encounter_id, GROUP_CONCAT(t.primary_diagnosis SEPARATOR ' | ') primary_diagnosi
                         temp_primary_diagnosis_stage_names t
                     GROUP BY t.encounter_id;
 
-UPDATE temp_obgyn_visit t LEFT JOIN temp_primary_diagnosis tp ON tp.encounter_id = t.encounter_id
+UPDATE temp_obgyn_visit t JOIN temp_primary_diagnosis tp ON tp.encounter_id = t.encounter_id
 SET t.primary_diagnosis = tp.primary_diagnosis;
 
 -- return only mch secondary diagnosis
@@ -752,7 +752,7 @@ encounter_id, GROUP_CONCAT(t.secondary_diagnosis SEPARATOR ' | ') secondary_diag
                         temp_secondary_diagnosis_stage_names t
                     GROUP BY t.encounter_id;
 
-UPDATE temp_obgyn_visit t LEFT JOIN temp_secondary_diagnosis tp ON tp.encounter_id = t.encounter_id
+UPDATE temp_obgyn_visit t JOIN temp_secondary_diagnosis tp ON tp.encounter_id = t.encounter_id
 SET t.secondary_diagnosis = tp.secondary_diagnosis;
 
 -- non coded diagnosis    
