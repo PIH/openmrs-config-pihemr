@@ -1,9 +1,9 @@
--- set @startDate='2021-03-21';
--- set @endDate='2021-03-21';
+-- set @startDate='2021-04-01';
+-- set @endDate='2021-08-21';
 
 set @locale = global_property_value('default_locale', 'en');
 select encounter_type_id into @obgyn from encounter_type where uuid = 'd83e98fd-dc7b-420f-aa3f-36f648b4483d';
-select encounter_type_id into @vital_signs from encounter_type where uuid = '4fb47712-34a6-40d2-8ed3-e153abbd25b7';
+select name into @vital_signs from encounter_type where uuid = '4fb47712-34a6-40d2-8ed3-e153abbd25b7';
 
 drop temporary table if exists temp_obgyn;
 create temporary table temp_obgyn
@@ -31,9 +31,9 @@ create temporary table temp_obgyn
 		presenting_history varchar(255),
     latest_vitals_encounter_id int,
     latest_vitals_datetime datetime,
-    latest_vitals_height decimal,
-    latest_vitals_weight decimal,
-    latest_vitals_temperature decimal,
+    latest_vitals_height double,
+    latest_vitals_weight double,
+    latest_vitals_temperature double,
     latest_vitals_heart_rate int,
     latest_vitals_respiratory_rate int,
     latest_vitals_systolic int,
@@ -224,17 +224,7 @@ update temp_obgyn t set oxygen_saturation = obs_value_numeric(t.encounter_id,'PI
 
 -- latest vitals
 
---update temp_obgyn t
-  --inner join encounter e on e.encounter_id =
-    --(select encounter_id from encounter e2
-     --where e2.voided = 0
-     --and e2.encounter_type = @vital_signs
-     --and e2.patient_id = t.patient_id
-     --and date(e2.encounter_datetime) <= date(t.encounter_datetime)
-     --order by e2.encounter_datetime desc limit 1)
- --set t.latest_vitals_encounter_id = e.encounter_id,
-   --  t.latest_vitals_datetime = e.encounter_datetime;
-
+update temp_obgyn t set latest_vitals_encounter_id = latestEncBetweenDates(t.patient_id, 'Signes vitaux',null, t.encounter_datetime);
 update temp_obgyn t set latest_vitals_height = obs_value_numeric(t.latest_vitals_encounter_id, 'PIH','5090');
 update temp_obgyn t set latest_vitals_weight = obs_value_numeric(t.latest_vitals_encounter_id, 'PIH','5089');
 update temp_obgyn t set latest_vitals_temperature = obs_value_numeric(t.latest_vitals_encounter_id, 'PIH','5088');
@@ -440,7 +430,7 @@ update temp_obgyn t set menarche_age =obs_value_numeric(t.encounter_id,'CIEL','1
 update temp_obgyn t set number_sexual_partners =obs_value_numeric(t.encounter_id,'PIH','5570');
 update temp_obgyn t set age_first_sexual_intercourse =obs_value_numeric(t.encounter_id,'CIEL','163587');
 
---- Birth History
+-- Birth History
 
 update temp_obgyn t set pregnancy_1_birth_order =obs_from_group_id_value_numeric(obs_id(t.encounter_id,'CIEL','163588',0),'CIEL','163460');
 update temp_obgyn t set pregnancy_1_delivery_type =obs_from_group_id_value_coded_list(obs_id(t.encounter_id,'CIEL','163588',0),'PIH','11663',@locale);
