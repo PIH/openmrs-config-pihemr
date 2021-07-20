@@ -532,9 +532,6 @@ SET
     age_at_visit = AGE_AT_ENC(te.patient_id, te.encounter_id);
 
 ### indexes
-CREATE INDEX mch_visit_index_asc ON temp_mch_visit_index_asc(patient_id, index_asc, encounter_id);
-CREATE INDEX mch_visit_index_desc ON temp_mch_visit_index_desc(patient_id, index_desc, encounter_id);
-
 -- index ascending
 DROP TEMPORARY TABLE IF EXISTS temp_mch_visit_index_asc;
 CREATE TEMPORARY TABLE temp_mch_visit_index_asc
