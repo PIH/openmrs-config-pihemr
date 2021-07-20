@@ -1,5 +1,11 @@
 SET sql_safe_updates = 0;
+
 SET @obgyn_encounter = (SELECT encounter_type_id FROM encounter_type WHERE uuid = 'd83e98fd-dc7b-420f-aa3f-36f648b4483d');
+SET @visit_diagnosis_concept_id = CONCEPT_FROM_MAPPING('PIH', 'Visit Diagnoses');
+SET @diagnosis_order = CONCEPT_FROM_MAPPING('PIH', 'Diagnosis order');
+SET @primary_diagnosis = CONCEPT_FROM_MAPPING('PIH', 'primary');
+SET @secondary_diagnosis = CONCEPT_FROM_MAPPING('PIH', 'secondary');
+SET @diagnosis = CONCEPT_FROM_MAPPING('PIH', 'DIAGNOSIS');
 
 DROP TEMPORARY TABLE IF EXISTS temp_obgyn_visit;
 CREATE TEMPORARY TABLE temp_obgyn_visit
@@ -73,6 +79,9 @@ CREATE TEMPORARY TABLE temp_obgyn_visit
     index_desc         INT
 );
 
+CREATE INDEX temp_obgyn_visit_patient_id ON temp_obgyn_visit (patient_id);
+CREATE INDEX temp_obgyn_visit_encounter_id ON temp_obgyn_visit (encounter_id);
+
 INSERT INTO temp_obgyn_visit(patient_id, encounter_id, visit_date, visit_site, entry_date, entered_by_id)
 SELECT patient_id, encounter_id, DATE(encounter_datetime), LOCATION_NAME(location_id), date_created, creator FROM encounter WHERE voided = 0 AND encounter_type = @obgyn_encounter;
 
@@ -96,7 +105,7 @@ WHERE
         a.person_id
     FROM
         person_attribute a
-            INNER JOIN
+            JOIN
         person_attribute_type t ON a.person_attribute_type_id = t.person_attribute_type_id
             AND a.value = 'true'
             AND t.name = 'Test Patient');
@@ -119,14 +128,17 @@ SET
                 WHERE
                     concept_id = CONCEPT_FROM_MAPPING('CIEL', '1633')));
 
-UPDATE temp_obgyn_visit t join obs o ON o.encounter_id = t.encounter_id and o.voided = 0 AND o.concept_id = CONCEPT_FROM_MAPPING('PIH','Type of HUM visit')
-SET consultation_type = concept_name(value_coded, 'en');
+UPDATE temp_obgyn_visit t JOIN obs o ON o.encounter_id = t.encounter_id AND o.voided = 0 AND o.concept_id = CONCEPT_FROM_MAPPING('PIH','Type of HUM visit')
+SET consultation_type = CONCEPT_NAME(value_coded, 'en');
 
-UPDATE temp_obgyn_visit t join obs o ON o.encounter_id = t.encounter_id and o.voided = 0 AND o.concept_id = CONCEPT_FROM_MAPPING('PIH','REASON FOR VISIT')
-SET consultation_type_fp = concept_name(value_coded, 'en');
+UPDATE temp_obgyn_visit t JOIN obs o ON o.encounter_id = t.encounter_id AND o.voided = 0 AND o.concept_id = CONCEPT_FROM_MAPPING('PIH','REASON FOR VISIT')
+SET consultation_type_fp = CONCEPT_NAME(value_coded, 'en');
 
 
 # pregnancy
+CREATE INDEX temp_obgyn_pregnacy_patient_id ON temp_obgyn_pregnacy (patient_id);
+CREATE INDEX temp_obgyn_pregnacy_encounter_id ON temp_obgyn_pregnacy (encounter_id);
+
 DROP TEMPORARY TABLE IF EXISTS temp_obgyn_pregnacy;
 CREATE TEMPORARY TABLE IF NOT EXISTS temp_obgyn_pregnacy
 (
@@ -250,6 +262,12 @@ SET
 ### vaccinations
 # polio
 ## START BUILDING VACCINATION TABLE
+CREATE INDEX temp_vaccinations_person_id ON temp_vaccinations (person_id);
+CREATE INDEX temp_vaccinations_encounter_id ON temp_vaccinations (encounter_id);
+CREATE INDEX temp_vaccinations_obs_group_id ON temp_vaccinations (obs_group_id);
+CREATE INDEX temp_vaccinations_concept_id ON temp_vaccinations (concept_id);
+CREATE INDEX temp_vaccinations_dose_number ON temp_vaccinations (dose_number);
+
 DROP TEMPORARY TABLE IF EXISTS temp_vaccinations;
 CREATE TEMPORARY TABLE temp_vaccinations
 (
@@ -299,7 +317,7 @@ SET
 
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '3cd42c36-26fe-102b-80cb-0017a47871b2'
         AND v.dose_number = 0 
@@ -307,7 +325,7 @@ SET
     e.polio_0 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '3cd42c36-26fe-102b-80cb-0017a47871b2'
         AND v.dose_number = 1 
@@ -315,7 +333,7 @@ SET
     e.polio_1 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '3cd42c36-26fe-102b-80cb-0017a47871b2'
         AND v.dose_number = 2 
@@ -323,7 +341,7 @@ SET
     e.polio_2 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '3cd42c36-26fe-102b-80cb-0017a47871b2'
         AND v.dose_number = 3 
@@ -331,7 +349,7 @@ SET
     e.polio_3 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '3cd42c36-26fe-102b-80cb-0017a47871b2'
         AND v.dose_number = 11 
@@ -339,7 +357,7 @@ SET
     e.polio_booster_1 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '3cd42c36-26fe-102b-80cb-0017a47871b2'
         AND v.dose_number = 12 
@@ -347,7 +365,7 @@ SET
     e.polio_booster_2 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '1423AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
         AND v.dose_number = 1 
@@ -355,7 +373,7 @@ SET
     e.pentavalent_1 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '1423AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
         AND v.dose_number = 2 
@@ -363,7 +381,7 @@ SET
     e.pentavalent_2 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '1423AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
         AND v.dose_number = 3 
@@ -371,7 +389,7 @@ SET
     e.pentavalent_3 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '83531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
         AND v.dose_number = 1 
@@ -379,7 +397,7 @@ SET
     e.rotavirus_1 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '83531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
         AND v.dose_number = 2 
@@ -387,7 +405,7 @@ SET
     e.rotavirus_2 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '162586AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
         AND v.dose_number = 1 
@@ -395,7 +413,7 @@ SET
     e.mmr_1 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '3ccc6b7c-26fe-102b-80cb-0017a47871b2'
         AND v.dose_number = 0 
@@ -403,7 +421,7 @@ SET
     e.tetanus_0 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '3ccc6b7c-26fe-102b-80cb-0017a47871b2'
         AND v.dose_number = 1 
@@ -411,7 +429,7 @@ SET
     e.tetanus_1 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '3ccc6b7c-26fe-102b-80cb-0017a47871b2'
         AND v.dose_number = 2 
@@ -419,7 +437,7 @@ SET
     e.tetanus_2 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '3ccc6b7c-26fe-102b-80cb-0017a47871b2'
         AND v.dose_number = 3 
@@ -427,7 +445,7 @@ SET
     e.tetanus_3 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '3ccc6b7c-26fe-102b-80cb-0017a47871b2'
         AND v.dose_number = 11 
@@ -435,7 +453,7 @@ SET
     e.tetanus_booster_1 = v.vaccine_date;
 
 UPDATE temp_obgyn_visit e
-        INNER JOIN
+        JOIN
     temp_vaccinations v ON e.encounter_id = v.encounter_id
         AND v.vaccine = '3ccc6b7c-26fe-102b-80cb-0017a47871b2'
         AND v.dose_number = 12 
@@ -513,7 +531,7 @@ UPDATE temp_obgyn_visit te
 SET 
     age_at_visit = AGE_AT_ENC(te.patient_id, te.encounter_id);
 
-### indexs
+### indexes
 -- index ascending
 DROP TEMPORARY TABLE IF EXISTS temp_mch_visit_index_asc;
 CREATE TEMPORARY TABLE temp_mch_visit_index_asc
@@ -590,89 +608,151 @@ SET
             te.encounter_id = o.encounter_id
                 AND te.patient_id = o.patient_id
                 AND o.voided = 0);
-    
-UPDATE temp_obgyn_visit te 
-SET 
-    primary_diagnosis = (SELECT 
-            GROUP_CONCAT(diag.diagnosis
-                    SEPARATOR ' | ')
-        FROM
-            (SELECT 
-                person_id,
-                    obs_id,
-                    obs_group_id,
-                    encounter_id,
-                    concept_id,
-                    CONCEPT_NAME(concept_id, 'en'),
-                    value_coded,
-                    CONCEPT_NAME(value_coded, 'en') diagnosis,
-                    value_coded_name_id
-            FROM
-                obs
-            WHERE
-                voided = 0
-                    AND obs_group_id IN (SELECT 
-                        obs_id
-                    FROM
-                        obs
-                    WHERE
-                        concept_id = CONCEPT_FROM_MAPPING('PIH', 'Visit Diagnoses')
-                            AND voided = 0)
-                    AND obs_group_id IN (SELECT 
-                        obs_group_id
-                    FROM
-                        obs
-                    WHERE
-                        concept_id = CONCEPT_FROM_MAPPING('PIH', 'Diagnosis order')
-                            AND voided = 0
-                            AND value_coded = CONCEPT_FROM_MAPPING('PIH', 'primary'))) diag
-        WHERE
-            concept_id = CONCEPT_FROM_MAPPING('PIH', 'DIAGNOSIS')
-                AND te.patient_id = diag.person_id
-                AND te.encounter_id = diag.encounter_id
-        GROUP BY encounter_id);
 
-UPDATE temp_obgyn_visit te 
-SET 
-    secondary_diagnosis = (SELECT 
-            GROUP_CONCAT(diag.diagnosis
-                    SEPARATOR ' | ')
-        FROM
-            (SELECT 
-                person_id,
-                    obs_id,
-                    obs_group_id,
-                    encounter_id,
-                    concept_id,
-                    CONCEPT_NAME(concept_id, 'en'),
-                    value_coded,
-                    CONCEPT_NAME(value_coded, 'en') diagnosis,
-                    value_coded_name_id
-            FROM
-                obs
-            WHERE
-                voided = 0
-                    AND obs_group_id IN (SELECT 
-                        obs_id
+-- all mch diagnosis
+DROP TEMPORARY TABLE IF EXISTS temp_diagnosis_obs_id;
+CREATE TEMPORARY TABLE temp_diagnosis_obs_id
+(
+encounter_id INT,
+obs_id INT
+);
+
+CREATE INDEX temp_diagnosis_obs_id_encounter_id ON temp_diagnosis_obs_id (encounter_id);
+CREATE INDEX temp_diagnosis_obs_id_obs_id ON temp_diagnosis_obs_id (obs_id);
+
+INSERT INTO temp_diagnosis_obs_id(encounter_id, obs_id)
+SELECT
+                        encounter_id, obs_id
                     FROM
                         obs
                     WHERE
-                        concept_id = CONCEPT_FROM_MAPPING('PIH', 'Visit Diagnoses')
-                            AND voided = 0)
-                    AND obs_group_id IN (SELECT 
-                        obs_group_id
+                        concept_id = @visit_diagnosis_concept_id
+AND voided = 0
+                    AND encounter_id IN (SELECT encounter_id temp_obgyn_visit);
+
+-- return only mch primary diagnosis
+DROP TEMPORARY TABLE IF EXISTS temp_primary_diagnosis_obs_group_id;
+CREATE TEMPORARY TABLE temp_primary_diagnosis_obs_group_id
+(
+encounter_id INT,
+obs_id INT,
+obs_group_id INT
+);
+
+CREATE INDEX temp_primary_diagnosis_obs_group_id_encounter_id ON temp_primary_diagnosis_obs_group_id (encounter_id);
+CREATE INDEX temp_primary_diagnosis_obs_group_id_obs_id ON temp_primary_diagnosis_obs_group_id (obs_id);
+CREATE INDEX temp_primary_diagnosis_obs_group_id_obs_group_id ON temp_primary_diagnosis_obs_group_id (obs_group_id);
+
+INSERT INTO temp_primary_diagnosis_obs_group_id(encounter_id, obs_id, obs_group_id)
+SELECT
+encounter_id, obs_id, obs_group_id
                     FROM
                         obs
                     WHERE
-                        concept_id = CONCEPT_FROM_MAPPING('PIH', 'Diagnosis order')
+                        concept_id = @diagnosis_order
                             AND voided = 0
-                            AND value_coded = CONCEPT_FROM_MAPPING('PIH', 'secondary'))) diag
-        WHERE
-            concept_id = CONCEPT_FROM_MAPPING('PIH', 'DIAGNOSIS')
-                AND te.patient_id = diag.person_id
-                AND te.encounter_id = diag.encounter_id
-        GROUP BY encounter_id);
-   
+                            AND value_coded = @primary_diagnosis
+                            AND encounter_id IN (SELECT encounter_id FROM temp_diagnosis_obs_id);
+
+DROP TEMPORARY TABLE IF EXISTS temp_primary_diagnosis_stage;
+CREATE TEMPORARY TABLE temp_primary_diagnosis_stage
+(
+encounter_id INT,
+value_coded INT,
+diagnosis VARCHAR(255)
+);
+
+CREATE INDEX temp_primary_diagnosis_stage_encounter_id ON temp_primary_diagnosis_stage (encounter_id);
+CREATE INDEX temp_primary_diagnosis_stage_value_coded ON temp_primary_diagnosis_stage (value_coded);
+
+INSERT INTO temp_primary_diagnosis_stage (encounter_id, value_coded)
+SELECT
+encounter_id, value_coded
+                    FROM
+                        obs
+                    WHERE
+                        concept_id = @diagnosis
+                            AND voided = 0
+                            AND obs_group_id IN (SELECT obs_group_id FROM temp_primary_diagnosis_obs_group_id);
+
+DROP TEMPORARY TABLE IF EXISTS temp_primary_diagnosis_stage_names;
+CREATE TEMPORARY TABLE temp_primary_diagnosis_stage_names
+AS SELECT encounter_id, CONCEPT_NAME(value_coded, 'en') primary_diagnosis FROM temp_primary_diagnosis_stage;
+
+DROP TEMPORARY TABLE IF EXISTS temp_primary_diagnosis;
+CREATE TEMPORARY TABLE temp_primary_diagnosis
+AS
+SELECT
+encounter_id, GROUP_CONCAT(t.primary_diagnosis SEPARATOR ' | ') primary_diagnosis
+                    FROM
+                        temp_primary_diagnosis_stage_names t
+                    GROUP BY t.encounter_id;
+
+UPDATE temp_obgyn_visit t JOIN temp_primary_diagnosis tp ON tp.encounter_id = t.encounter_id
+SET t.primary_diagnosis = tp.primary_diagnosis;
+
+-- return only mch secondary diagnosis
+DROP TEMPORARY TABLE IF EXISTS temp_secondary_diagnosis_obs_group_id;
+CREATE TEMPORARY TABLE temp_secondary_diagnosis_obs_group_id
+(
+encounter_id INT,
+obs_id INT,
+obs_group_id INT
+);
+
+CREATE INDEX temp_secondary_diagnosis_obs_group_id_encounter_id ON temp_secondary_diagnosis_obs_group_id (encounter_id);
+CREATE INDEX temp_secondary_diagnosis_obs_group_id_obs_id ON temp_secondary_diagnosis_obs_group_id (obs_id);
+CREATE INDEX temp_secondary_diagnosis_obs_group_id_obs_group_id ON temp_secondary_diagnosis_obs_group_id (obs_group_id);
+
+INSERT INTO temp_secondary_diagnosis_obs_group_id(encounter_id, obs_id, obs_group_id)
+SELECT
+encounter_id, obs_id, obs_group_id
+                    FROM
+                        obs
+                    WHERE
+                        concept_id = @diagnosis_order
+                            AND voided = 0
+                            AND value_coded = @secondary_diagnosis
+                            AND encounter_id IN (SELECT encounter_id FROM temp_diagnosis_obs_id);
+
+DROP TEMPORARY TABLE IF EXISTS temp_secondary_diagnosis_stage;
+CREATE TEMPORARY TABLE temp_secondary_diagnosis_stage
+(
+encounter_id INT,
+value_coded INT,
+diagnosis VARCHAR(255)
+);
+
+CREATE INDEX temp_secondary_diagnosis_stage_encounter_id ON temp_secondary_diagnosis_stage (encounter_id);
+CREATE INDEX temp_secondary_diagnosis_stage_value_coded ON temp_secondary_diagnosis_stage (value_coded);
+
+INSERT INTO temp_secondary_diagnosis_stage (encounter_id, value_coded)
+SELECT
+encounter_id, value_coded
+                    FROM
+                        obs
+                    WHERE
+                        concept_id = @diagnosis
+                            AND voided = 0
+                            AND obs_group_id IN (SELECT obs_group_id FROM temp_secondary_diagnosis_obs_group_id);
+
+DROP TEMPORARY TABLE IF EXISTS temp_secondary_diagnosis_stage_names;
+CREATE TEMPORARY TABLE temp_secondary_diagnosis_stage_names
+AS SELECT encounter_id, CONCEPT_NAME(value_coded, 'en') secondary_diagnosis FROM temp_secondary_diagnosis_stage;
+
+DROP TEMPORARY TABLE IF EXISTS temp_secondary_diagnosis;
+CREATE TEMPORARY TABLE temp_secondary_diagnosis
+AS
+SELECT
+encounter_id, GROUP_CONCAT(t.secondary_diagnosis SEPARATOR ' | ') secondary_diagnosis
+                    FROM
+                        temp_secondary_diagnosis_stage_names t
+                    GROUP BY t.encounter_id;
+
+UPDATE temp_obgyn_visit t JOIN temp_secondary_diagnosis tp ON tp.encounter_id = t.encounter_id
+SET t.secondary_diagnosis = tp.secondary_diagnosis;
+
+-- non coded diagnosis    
 UPDATE temp_obgyn_visit te
         JOIN
     obs o ON te.encounter_id = o.encounter_id
