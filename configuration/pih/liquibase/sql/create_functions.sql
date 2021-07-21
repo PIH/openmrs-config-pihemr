@@ -1210,7 +1210,9 @@ BEGIN
     where       o.voided = 0
     and         o.encounter_id = _encounterId
     and         o.concept_id = concept_from_mapping(_source, _term)
-    and 		o.value_coded = concept_from_mapping(_source1, _term1);
+    and 		o.value_coded = concept_from_mapping(_source1, _term1)
+    order by    o.date_created desc, o.obs_id desc
+    limit 1;
 
     RETURN ret;
 
