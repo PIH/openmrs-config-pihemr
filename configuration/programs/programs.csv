@@ -1,16 +1,16 @@
 Uuid,Name,Description,Void/Retire,Program concept,Outcomes concept
-${program.anc.uuid},ANC,Antenatal Care Program,,CIEL:165475,PIH:MCH outcome
-${program.asthma.uuid},Asthma,Asthma Program,,PIH:Asthma Program,PIH:Generic outcome
-${program.covid19.uuid},COVID-19,COVID-19 Program,,CIEL:166009,PIH:Generic outcome
-${program.diabetes.uuid},Diabetes,Diabetes Program,,PIH:Diabetes Program,PIH:Generic outcome
-${program.epilepsy.uuid},Epilepsy,Epilepsy Program,,PIH:Epilepsy program,PIH:Generic outcome
-${program.hypertension.uuid},Hypertension,Hypertension Program,,PIH:Hypertension program,PIH:Generic outcome
-${program.hiv.uuid},HIV,HIV Program,,PIH:HIV PROGRAM,PIH:HIV outcome
-${program.malnutrition.uuid},Malnutrition,Malnutrition Program,,PIH:MALNUTRITION PROGRAM,PIH:Generic outcome
-${program.mentalHealth.uuid},Mental Health,Mental Health Program,,PIH:Mental Health Program,PIH:Mental Health outcome
-${program.mch.uuid},MCH,Maternal and Child Health Program,,CIEL:159937,PIH:MCH outcome
-${program.ncd.uuid},NCD,NCD Program,,PIH:NCD Program,PIH:NCD outcome
-${program.ovc.uuid},OVC,USAID orphans and vulnerable children program,,PIH:OVC PROGRAM,PIH:OVC OUTCOMES
-${program.oncology.uuid},Oncology,ONCOLOGY Program,,PIH:Oncology program,PIH:Oncology outcome
-${program.tb.uuid},TB,Tuberculosis Program,,CIEL:160541,PIH:Generic outcome
-${program.zika.uuid},Zika,Zika Program,,PIH:Zika program,PIH:Study outcome
+${program.anc.uuid},ANC,Antenatal Care Program,,165475AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,cd4e30b1-9935-4b30-9de8-b56e057c541d
+${program.asthma.uuid},Asthma,Asthma Program,,2b0b5e74-1f78-4cbc-847d-07e3e6f166b3,73eb05c2-e4be-4d82-bcad-ffec1be67d01
+${program.covid19.uuid},COVID-19,COVID-19 Program,,60abb010-0f54-47d1-bcff-f3d3b4a631e9,73eb05c2-e4be-4d82-bcad-ffec1be67d01
+${program.diabetes.uuid},Diabetes,Diabetes Program,,db80904c-d893-42ea-9b56-9c4cdf77b2fd,73eb05c2-e4be-4d82-bcad-ffec1be67d01
+${program.epilepsy.uuid},Epilepsy,Epilepsy Program,,c1d7cd24-3d0d-4aab-ae72-5db1ec632816,73eb05c2-e4be-4d82-bcad-ffec1be67d01
+${program.hypertension.uuid},Hypertension,Hypertension Program,,74b896da-9583-4f5e-88c9-7f76c71e84b3,73eb05c2-e4be-4d82-bcad-ffec1be67d01
+${program.hiv.uuid},HIV,HIV Program,,3cdb4962-26fe-102b-80cb-0017a47871b2,e65f5aaa-ba76-4a6c-ab38-07c9bf831892
+${program.malnutrition.uuid},Malnutrition,Malnutrition Program,,3ce1e560-26fe-102b-80cb-0017a47871b2,73eb05c2-e4be-4d82-bcad-ffec1be67d01
+${program.mentalHealth.uuid},Mental Health,Mental Health Program,,d3368ded-6d96-4bfc-b590-cb663b7ec70b,fb5f05f8-85f1-4c4b-b400-86f5914ba584
+${program.mch.uuid},MCH,Maternal and Child Health Program,,159937AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,cd4e30b1-9935-4b30-9de8-b56e057c541d
+${program.ncd.uuid},NCD,NCD Program,,099d3ba9-b302-4565-a060-09915f3c85b5,a65eb5bf-d0a5-4ce3-b3c5-b16d0df3f468
+${program.ovc.uuid},OVC,USAID orphans and vulnerable children program,,3ce1e560-26fe-102b-80cb-0017a47871b2,306b2423-ac9b-4a50-9337-3339187fe7d9
+${program.oncology.uuid},Oncology,ONCOLOGY Program,,fddbc14c-a11d-4526-8846-83d7b6425f19,abc0e2ca-9175-411b-973c-7e6ee91aa2f3
+${program.tb.uuid},TB,Tuberculosis Program,,160541AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,73eb05c2-e4be-4d82-bcad-ffec1be67d01
+${program.zika.uuid},Zika,Zika Program,,58c9ab03-9601-4d88-88b7-c4932004374e,e39310c1-2936-4395-83a5-f4d49061a117
