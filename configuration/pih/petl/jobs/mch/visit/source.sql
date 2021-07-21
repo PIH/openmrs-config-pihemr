@@ -262,12 +262,6 @@ SET
 ### vaccinations
 # polio
 ## START BUILDING VACCINATION TABLE
-CREATE INDEX temp_vaccinations_person_id ON temp_vaccinations (person_id);
-CREATE INDEX temp_vaccinations_encounter_id ON temp_vaccinations (encounter_id);
-CREATE INDEX temp_vaccinations_obs_group_id ON temp_vaccinations (obs_group_id);
-CREATE INDEX temp_vaccinations_concept_id ON temp_vaccinations (concept_id);
-CREATE INDEX temp_vaccinations_dose_number ON temp_vaccinations (dose_number);
-
 DROP TEMPORARY TABLE IF EXISTS temp_vaccinations;
 CREATE TEMPORARY TABLE temp_vaccinations
 (
@@ -279,6 +273,12 @@ CREATE TEMPORARY TABLE temp_vaccinations
     dose_number  INT,
     vaccine_date DATE
 );
+
+CREATE INDEX temp_vaccinations_person_id ON temp_vaccinations (person_id);
+CREATE INDEX temp_vaccinations_encounter_id ON temp_vaccinations (encounter_id);
+CREATE INDEX temp_vaccinations_obs_group_id ON temp_vaccinations (obs_group_id);
+CREATE INDEX temp_vaccinations_concept_id ON temp_vaccinations (concept_id);
+CREATE INDEX temp_vaccinations_dose_number ON temp_vaccinations (dose_number);
 
 INSERT INTO temp_vaccinations (obs_group_id, person_id, encounter_id, concept_id, vaccine)
 SELECT o.obs_group_id, o.person_id, o.encounter_id, o.concept_id, a.uuid
