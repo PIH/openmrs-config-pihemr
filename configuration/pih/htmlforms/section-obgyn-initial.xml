@@ -343,21 +343,23 @@
 
                 <div>
                     <p class="side-by-side">
+                        <label>
+                            <uimessage code="pihcore.type_of_visit" />
+                        </label>
+                        <label style="color:red">
+                            [<uimessage code="pihcore.required" />]
+                        </label>
+                        <br/>
                         <obs id="visit-reason" conceptId="PIH:8879" style="radio"
-                             answerConceptIds="CIEL:165013,CIEL:1622,PIH:6261"
-                             answerCodes="pihcore.gyn,pihcore.prenatal,pihcore.postnatal"
-                             required="true" >
+                             answerConceptIds="CIEL:165013,CIEL:1622,PIH:6261,PIH:5483"
+                             answerCodes="pihcore.gyn,pihcore.prenatal,pihcore.postnatal,pihcore.familyPlanning.title"
+                             required="true" answerSeparator="&lt;br /&gt;" >
                             <controls>
                                 <when value="CIEL:1622" thenDisplay="#prenatal-area" />
                                 <when value="PIH:6261" thenDisplay="#postpartum-area" />
                             </controls>
                         </obs>
-                        <br/>
-                        <obs conceptId="PIH:6189" style="checkbox"
-                             answerConceptId="PIH:5483" answerCode="pihcore.familyPlanning.title"
-                             toggle="fp-area"/>
                     </p>
-
                 </div>
 
                 <div>
@@ -997,38 +999,40 @@
                 -->
             </p>
 
-            <div class="four-columns">
+            <!-- ToDo: GPAL should be required but not for family planning -->
+            <div id="gpal" class="four-columns">
                 <div>
                     <label>
                         <uimessage code="pihcore.mch.grava"/>
                     </label>
-                    <obs conceptId="CIEL:5624" required="true" id="gravidaInput"/>
+                    <obs conceptId="CIEL:5624" required="false" id="gravidaInput"/>
                 </div>
                 <div>
                     <label>
                         <uimessage code="pihcore.mch.para"/>
                     </label>
-                    <obs conceptId="CIEL:1053" required="true"/>
+                    <obs conceptId="CIEL:1053" required="false"/>
                 </div>
                 <div>
                     <label>
                         <uimessage code="pihcore.mch.abortus"/>
                     </label>
-                    <obs conceptId="CIEL:1823" required="true"/>
+                    <obs conceptId="CIEL:1823" required="false"/>
                 </div>
                 <div>
                     <label>
                         <uimessage code="pihcore.mch.living"/>
                     </label>
-                    <obs conceptId="CIEL:1825" required="true"/>
+                    <obs conceptId="CIEL:1825" required="false"/>
                 </div>
             </div>
+            <br/>
 
             <div class="two-columns">
                 <div>
                     <p class="side-by-side">
                         <label>
-                            <b><uimessage code="Menstruation" /></b>
+                            <uimessage code="Menstruation" />
                         </label>
                         <obs conceptId="CIEL:160600" style="radio"
                              answerConceptIds="CIEL:1065,CIEL:1066"
