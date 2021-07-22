@@ -12,8 +12,8 @@ set @whodas_score = concept_from_mapping('CIEL', '163226');
 set @seizures = concept_from_mapping('PIH', 'Number of seizures in the past month');
 set @medication = concept_from_mapping('PIH', 'Mental health medication');
 set @mh_intervention =  concept_from_mapping('PIH', 'Mental health intervention');
-set @other_noncoded = concept_from_mapping('PIH', 'OTHER NON-CODED');
 set @return_visit_date = concept_from_mapping('PIH', 'RETURN VISIT DATE');
+
 
 create temporary table temp_mentalhealth_program
 (
@@ -32,6 +32,7 @@ program_status_outcome varchar(255),
 unknown_patient varchar(50),
 encounter_id int,
 encounter_datetime datetime,
+latest_diagnosis_encounter_id int,
 latest_diagnosis text,
 latest_zlds_score double,
 recent_date_zlds_score date,
@@ -63,8 +64,7 @@ three_months_since_latest_return_date varchar(50),
 six_months_since_latest_return_date varchar(50)
 );
 
-insert into temp_mentalhealth_program (patient_id, patient_program_id, prog_location_id, zlemr, gender, date_enrolled, date_completed, number_of_days_in_care, program_status_outcome
-                                        )
+insert into temp_mentalhealth_program (patient_id, patient_program_id, prog_location_id, zlemr, gender, date_enrolled, date_completed, number_of_days_in_care, program_status_outcome)
 select patient_id,
 	   patient_program_id,
        location_id,
@@ -74,7 +74,8 @@ select patient_id,
        date(date_completed),
        If(date_completed is null, datediff(now(), date_enrolled), datediff(date_completed, date_enrolled)),
        concept_name(outcome_concept_id, 'fr')
-       from patient_program where program_id = @program_id and voided = 0;
+       from patient_program where program_id = @program_id and voided = 0
+     ;
 
 -- exclude test patients
 delete from temp_mentalhealth_program where
@@ -87,6 +88,7 @@ person_attribute_type_id from person_attribute_type where name = "Test Patient")
 update temp_mentalhealth_program tmhp
 set tmhp.unknown_patient = IF(tmhp.patient_id = unknown_patient(tmhp.patient_id), 'true', NULL);
 
+-- age
 update temp_mentalhealth_program tmhp
 left join person p on person_id = patient_id and p.voided = 0
 set tmhp.age = CAST(CONCAT(timestampdiff(YEAR, p.birthdate, NOW()), '.', MOD(timestampdiff(MONTH, p.birthdate, NOW()), 12) ) as CHAR);
@@ -103,390 +105,381 @@ update temp_mentalhealth_program tmhp
 left join location l on location_id = tmhp.prog_location_id and l.retired = 0
 set tmhp.location_when_registered_in_program = l.name;
 
--- latest dignoses
+-- latest diagnosis
+-- The approach below in finding the latest diagnosis is to:
+-- create a temp table with all of the encounters in the correct date range for each patient-program 
+-- duplicate that table (because MYSQL doesn't allow for a temp table to be opened twice in a query)
+-- index that table and use that to join back into the main temp table in this query
+
+drop temporary table if exists temp_obs;
+CREATE TEMPORARY TABLE temp_obs
+(	temp_id int(11) AUTO_INCREMENT,
+	patient_program_id int(11),
+	patient_id int(11),
+	encounter_id int(11),
+	encounter_datetime datetime,
+	value_coded int(11),
+	PRIMARY KEY (temp_id) );
+
+insert into  temp_obs (patient_program_id, patient_id,encounter_id,encounter_datetime,value_coded)
+SELECT 	t.patient_program_id,
+		t.patient_id,
+		e.encounter_id,
+		e.encounter_datetime,
+		o.value_coded 
+from temp_mentalhealth_program t
+inner join encounter e on e.patient_id = t.patient_id and e.encounter_type = @encounter_type and e.voided = 0
+	and date(e.encounter_datetime) >= date(t.date_enrolled) and (date(e.encounter_datetime) <= date(t.date_completed) or t.date_completed is null)
+inner join obs o on o.encounter_id  = e.encounter_id and o.voided = 0 
+	and o.concept_id in (@latest_diagnosis) -- , @zlds_score,@whodas_score,@seizures,@medication)
+;
+
+drop temporary table if exists temp_obs_dup;
+CREATE TEMPORARY TABLE temp_obs_dup
+select * from temp_obs;
+
+create index t_encounter_datetime_index on temp_obs_dup (encounter_datetime);
+create index t_obs_id_temp_id on temp_obs_dup (temp_id);
+
 update temp_mentalhealth_program tmh
-LEFT JOIN 
-(
-select pp.patient_id, patient_program_id, date_enrolled, date_completed, e.encounter_id, group_concat(distinct(cn.name) separator ' | ') diagnoses from patient_program pp
-INNER JOIN
-encounter e on e.encounter_id =
-    (select encounter_id from encounter e2 where
-     e2.voided = 0
-     and e2.patient_id = pp.patient_id
-     and e2.encounter_type = @encounter_type
-     and date(e2.encounter_datetime) >= date(date_enrolled) and (date(e2.encounter_datetime)  <= date(date_completed) or date_completed is null)
-     and exists (select 1 from obs where encounter_id = e2.encounter_id and concept_id = @latest_diagnosis  and voided = 0)
-     order by e2.encounter_datetime desc
-     limit 1
-     )
-     inner join obs o on o.encounter_id = e.encounter_id and o.concept_id = @latest_diagnosis and o.voided = 0
-     left outer join concept_name cn on concept_name_id = 
-        (select concept_name_id from concept_name cn2
-         where cn2.concept_id = o.value_coded
-         and cn2.voided = 0
-         and cn2.locale in ('en','fr')
-         order by field(cn2.locale,'fr','en') asc, cn2.locale_preferred desc
-         limit 1)
-     where pp.program_id = @program_id and pp.voided = 0
-     group by patient_program_id
-) tld on tld.patient_program_id = tmh.patient_program_id
-set tmh.latest_diagnosis = tld.diagnoses;
+inner join temp_obs t on t.temp_id =
+	(select temp_id from temp_obs_dup t2 
+	where t2.patient_program_id = tmh.patient_program_id
+  	order by t2.encounter_datetime desc limit 1)
+set tmh.latest_diagnosis = concept_name(t.value_coded,@locale);
 
--- latest zlds non null score
+-- latest zlds non null score (uses the same approach as latest diagnosis above)
+
+drop temporary table if exists temp_obs;
+CREATE TEMPORARY TABLE temp_obs
+(	temp_id int(11) AUTO_INCREMENT,
+	patient_program_id int(11),
+	patient_id int(11),
+	encounter_id int(11),
+	encounter_datetime datetime,
+	value_numeric double,
+	PRIMARY KEY (temp_id) );
+
+insert into  temp_obs (patient_program_id, patient_id,encounter_id,encounter_datetime,value_numeric)
+SELECT 	t.patient_program_id,
+		t.patient_id,
+		e.encounter_id,
+		e.encounter_datetime,
+		o.value_numeric
+from temp_mentalhealth_program t
+inner join encounter e on e.patient_id = t.patient_id and e.encounter_type = @encounter_type and e.voided = 0
+	and date(e.encounter_datetime) >= date(t.date_enrolled) and (date(e.encounter_datetime) <= date(t.date_completed) or t.date_completed is null)
+inner join obs o on o.encounter_id  = e.encounter_id and o.voided = 0 
+	and o.concept_id in (@zlds_score) 
+;
+
+drop temporary table if exists temp_obs_dup;
+CREATE TEMPORARY TABLE temp_obs_dup
+select * from temp_obs;
+
+create index t_encounter_datetime_index on temp_obs_dup (encounter_datetime);
+create index t_obs_id_temp_id on temp_obs_dup (temp_id);
+
 update temp_mentalhealth_program tmh
-LEFT JOIN 
-(
-select pp.patient_id, patient_program_id, date_enrolled, date_completed, e.encounter_id, date(e.encounter_datetime) enc_date, value_numeric from patient_program pp
-INNER JOIN
-encounter e on e.encounter_id =
-    (select encounter_id from encounter e2 where
-     e2.voided = 0
-     and e2.patient_id = pp.patient_id
-     and e2.encounter_type = @encounter_type
-     and (date(e2.encounter_datetime) >= date(date_enrolled) and (date(e2.encounter_datetime)  <= date(date_completed)) or 
-     (date(e2.encounter_datetime) >= date(date_enrolled) and date_completed is null))
-     and exists (select 1 from obs where encounter_id = e2.encounter_id and concept_id = @zlds_score and voided = 0)
-     order by e2.encounter_datetime desc
-     limit 1
-     )
-     inner join obs o on o.encounter_id = e.encounter_id and o.concept_id = @zlds_score and o.voided = 0
-     where pp.program_id = @program_id and pp.voided = 0
-     group by patient_program_id
-) tzld
-on tzld.patient_program_id = tmh.patient_program_id
-set tmh.latest_zlds_score = tzld.value_numeric,
-	tmh.recent_date_zlds_score = tzld.enc_date;
+inner join temp_obs t on t.temp_id =
+	(select temp_id from temp_obs_dup t2 
+	where t2.patient_program_id = tmh.patient_program_id
+  	order by t2.encounter_datetime desc limit 1)
+set tmh.latest_zlds_score = t.value_numeric,
+	tmh.recent_date_zlds_score = date(t.encounter_datetime);
 
--- Previous zlds non-null score
+-- previous zlds score and date (uses the same temp table as the latest score)
+
 update temp_mentalhealth_program tmh
-LEFT JOIN 
-(
-select pp.patient_id, patient_program_id, date_enrolled, date_completed, e.encounter_id, date(e.encounter_datetime) enc_date, value_numeric from patient_program pp
-INNER JOIN
-encounter e on e.encounter_id =
-    (select encounter_id from encounter e2 where
-     e2.voided = 0
-     and e2.patient_id = pp.patient_id
-     and e2.encounter_type = @encounter_type
-     and date(e2.encounter_datetime) >= date(date_enrolled) and (date(e2.encounter_datetime)  <= date(date_completed) or date_completed is null)
-     and exists (select 1 from obs where encounter_id = e2.encounter_id and concept_id = @zlds_score and voided = 0)
-     order by e2.encounter_datetime desc
-     limit 1,1
-     )
-     inner join obs o on o.encounter_id = e.encounter_id and o.concept_id = @zlds_score and o.voided = 0
-     where pp.program_id = @program_id and pp.voided = 0
-     group by patient_program_id
-) tzld_prev
-on tzld_prev.patient_program_id = tmh.patient_program_id
-set tmh.previous_zlds_score = tzld_prev.value_numeric,
-	tmh.previous_date_zlds_score = tzld_prev.enc_date;
+inner join temp_obs t on t.temp_id =
+	(select temp_id from temp_obs_dup t2 
+	where t2.patient_program_id = tmh.patient_program_id
+  	order by t2.encounter_datetime desc limit 1,1)
+set tmh.previous_zlds_score = t.value_numeric,
+	tmh.previous_date_zlds_score = date(t.encounter_datetime);
 
--- Baseline zlds non-null score
+-- baseline zlds score and date (uses the same temp table as the latest score)
+
 update temp_mentalhealth_program tmh
-LEFT JOIN 
-(
-select pp.patient_id, patient_program_id, date_enrolled, date_completed, e.encounter_id, date(e.encounter_datetime) enc_date, value_numeric from patient_program pp
-INNER JOIN
-encounter e on e.encounter_id =
-    (select encounter_id from encounter e2 where
-     e2.voided = 0
-     and e2.patient_id = pp.patient_id
-     and e2.encounter_type = @encounter_type
-     and (date(e2.encounter_datetime) >= date(date_enrolled) and (date(e2.encounter_datetime)  <= date(date_completed)) or 
-     (date(e2.encounter_datetime) >= date(date_enrolled) and date_completed is null))
-     and exists (select 1 from obs where encounter_id = e2.encounter_id and concept_id = @zlds_score and voided = 0)
-     order by e2.encounter_datetime asc
-     limit 1
-     )
-     inner join obs o on o.encounter_id = e.encounter_id and o.concept_id = @zlds_score and o.voided = 0
-     where pp.program_id = @program_id and pp.voided = 0
-     group by patient_program_id
-) tzld_baseline
-on tzld_baseline.patient_program_id = tmh.patient_program_id
-set tmh.baseline_zlds_score = tzld_baseline.value_numeric,
-	tmh.baseline_date_zlds_score = tzld_baseline.enc_date;
+inner join temp_obs t on t.temp_id =
+	(select temp_id from temp_obs_dup t2 
+	where t2.patient_program_id = tmh.patient_program_id
+  	order by t2.encounter_datetime asc limit 1)
+set tmh.baseline_zlds_score = t.value_numeric,
+	tmh.baseline_date_zlds_score = date(t.encounter_datetime);
 
--- latest WHODAS score
+
+-- latest WHODAS score (uses the same approach as latest diagnosis above)
+drop temporary table if exists temp_obs;
+CREATE TEMPORARY TABLE temp_obs
+(	temp_id int(11) AUTO_INCREMENT,
+	patient_program_id int(11),
+	patient_id int(11),
+	encounter_id int(11),
+	encounter_datetime datetime,
+	value_numeric double,
+	PRIMARY KEY (temp_id) );
+
+insert into  temp_obs (patient_program_id, patient_id,encounter_id,encounter_datetime,value_numeric)
+SELECT 	t.patient_program_id,
+		t.patient_id,
+		e.encounter_id,
+		e.encounter_datetime,
+		o.value_numeric
+from temp_mentalhealth_program t
+inner join encounter e on e.patient_id = t.patient_id and e.encounter_type = @encounter_type and e.voided = 0
+	and date(e.encounter_datetime) >= date(t.date_enrolled) and (date(e.encounter_datetime) <= date(t.date_completed) or t.date_completed is null)
+inner join obs o on o.encounter_id  = e.encounter_id and o.voided = 0 
+	and o.concept_id in (@whodas_score) 
+;
+
+drop temporary table if exists temp_obs_dup;
+CREATE TEMPORARY TABLE temp_obs_dup
+select * from temp_obs;
+
+create index t_encounter_datetime_index on temp_obs_dup (encounter_datetime);
+create index t_obs_id_temp_id on temp_obs_dup (temp_id);
+
 update temp_mentalhealth_program tmh
-LEFT JOIN 
-(
-select pp.patient_id, patient_program_id, date_enrolled, date_completed, e.encounter_id enc_id, date(e.encounter_datetime) enc_date, value_numeric from patient_program pp
-INNER JOIN
-encounter e on e.encounter_id =
-    (select encounter_id from encounter e2 where
-     e2.voided = 0
-     and e2.patient_id = pp.patient_id
-     and e2.encounter_type = @encounter_type
-     and (date(e2.encounter_datetime) >= date(date_enrolled) and (date(e2.encounter_datetime)  <= date(date_completed)) or 
-     (date(e2.encounter_datetime) >= date(date_enrolled) and date_completed is null))
-     and exists (select 1 from obs where encounter_id = e2.encounter_id and concept_id = @whodas_score and voided = 0)
-     order by e2.encounter_datetime desc
-     limit 1
-     )
-     inner join obs o on o.encounter_id = e.encounter_id and o.concept_id = @whodas_score and o.voided = 0
-     where pp.program_id = @program_id and pp.voided = 0
-     group by patient_program_id
-) twhodas
-on twhodas.patient_program_id = tmh.patient_program_id
-set tmh.latest_whodas_score = twhodas.value_numeric,
-	tmh.recent_date_whodas_score = twhodas.enc_date,
-    tmh.encounter_id = twhodas.enc_id;
+inner join temp_obs t on t.temp_id =
+	(select temp_id from temp_obs_dup t2 
+	where t2.patient_program_id = tmh.patient_program_id
+  	order by t2.encounter_datetime desc limit 1)
+set tmh.latest_whodas_score = t.value_numeric,
+	tmh.recent_date_whodas_score = date(t.encounter_datetime);
 
--- Previous WHODAS score
+-- previous whodas score and date (uses the same temp table as the latest score)
+
 update temp_mentalhealth_program tmh
-LEFT JOIN 
-(
-select pp.patient_id, patient_program_id, date_enrolled, date_completed, e.encounter_id, date(e.encounter_datetime) enc_date, value_numeric from patient_program pp
-INNER JOIN
-encounter e on e.encounter_id =
-    (select encounter_id from encounter e2 where
-     e2.voided = 0
-     and e2.patient_id = pp.patient_id
-     and e2.encounter_type = @encounter_type
-     and (date(e2.encounter_datetime) >= date(date_enrolled) and (date(e2.encounter_datetime)  <= date(date_completed)) or 
-     (date(e2.encounter_datetime) >= date(date_enrolled) and date_completed is null))
-     and exists (select 1 from obs where encounter_id = e2.encounter_id and concept_id = @whodas_score and voided = 0)
-     order by e2.encounter_datetime desc
-     limit 1,1
-     )
-     inner join obs o on o.encounter_id = e.encounter_id and o.concept_id = @whodas_score and o.voided = 0
-     where pp.program_id = @program_id and pp.voided = 0
-     group by patient_program_id
-) twhodas_prev
-on twhodas_prev.patient_program_id = tmh.patient_program_id
-set tmh.previous_whodas_score = twhodas_prev.value_numeric,
-	tmh.previous_date_whodas_score = twhodas_prev.enc_date;
+inner join temp_obs t on t.temp_id =
+	(select temp_id from temp_obs_dup t2 
+	where t2.patient_program_id = tmh.patient_program_id
+  	order by t2.encounter_datetime desc limit 1,1)
+set tmh.previous_whodas_score = t.value_numeric,
+	tmh.previous_date_whodas_score = date(t.encounter_datetime);
 
--- first/baseline WHODAS
+-- baseline whodas score and date (uses the same temp table as the latest score)
+
 update temp_mentalhealth_program tmh
-LEFT JOIN 
-(
-select pp.patient_id, patient_program_id, date_enrolled, date_completed, e.encounter_id enc_id, date(e.encounter_datetime) enc_date, value_numeric from patient_program pp
-INNER JOIN
-encounter e on e.encounter_id =
-    (select encounter_id from encounter e2 where
-     e2.voided = 0
-     and e2.patient_id = pp.patient_id
-     and e2.encounter_type = @encounter_type
-     and (date(e2.encounter_datetime) >= date(date_enrolled) and (date(e2.encounter_datetime)  <= date(date_completed)) or 
-     (date(e2.encounter_datetime) >= date(date_enrolled) and date_completed is null))
-     and exists (select 1 from obs where encounter_id = e2.encounter_id and concept_id = @whodas_score and voided = 0)
-     order by e2.encounter_datetime asc
-     limit 1
-     )
-     inner join obs o on o.encounter_id = e.encounter_id and o.concept_id = @whodas_score and o.voided = 0
-     where pp.program_id = @program_id and pp.voided = 0
-     group by patient_program_id
-) twhodas_baseline
-on twhodas_baseline.patient_program_id = tmh.patient_program_id
-set tmh.baseline_whodas_score = twhodas_baseline.value_numeric,
-	tmh.baseline_date_whodas_score = twhodas_baseline.enc_date;
+inner join temp_obs t on t.temp_id =
+	(select temp_id from temp_obs_dup t2 
+	where t2.patient_program_id = tmh.patient_program_id
+  	order by t2.encounter_datetime asc limit 1)
+set tmh.baseline_whodas_score = t.value_numeric,
+	tmh.baseline_date_whodas_score =date(t.encounter_datetime);
 
--- latest number of seizures
+-- latest number of seizures (uses the same approach as latest diagnosis above)
+drop temporary table if exists temp_obs;
+CREATE TEMPORARY TABLE temp_obs
+(	temp_id int(11) AUTO_INCREMENT,
+	patient_program_id int(11),
+	patient_id int(11),
+	encounter_id int(11),
+	encounter_datetime datetime,
+	value_numeric double,
+	PRIMARY KEY (temp_id) );
+
+insert into  temp_obs (patient_program_id, patient_id,encounter_id,encounter_datetime,value_numeric)
+SELECT 	t.patient_program_id,
+		t.patient_id,
+		e.encounter_id,
+		e.encounter_datetime,
+		o.value_numeric
+from temp_mentalhealth_program t
+inner join encounter e on e.patient_id = t.patient_id and e.encounter_type = @encounter_type and e.voided = 0
+	and date(e.encounter_datetime) >= date(t.date_enrolled) and (date(e.encounter_datetime) <= date(t.date_completed) or t.date_completed is null)
+inner join obs o on o.encounter_id  = e.encounter_id and o.voided = 0 
+	and o.concept_id in (@seizures) 
+;
+
+drop temporary table if exists temp_obs_dup;
+CREATE TEMPORARY TABLE temp_obs_dup
+select * from temp_obs;
+
+create index t_encounter_datetime_index on temp_obs_dup (encounter_datetime);
+create index t_obs_id_temp_id on temp_obs_dup (temp_id);
+
 update temp_mentalhealth_program tmh
-LEFT JOIN 
-(
-select pp.patient_id, patient_program_id, date_enrolled, date_completed, e.encounter_id enc_id, date(e.encounter_datetime) enc_date, value_numeric from patient_program pp
-INNER JOIN
-encounter e on e.encounter_id =
-    (select encounter_id from encounter e2 where
-     e2.voided = 0
-     and e2.patient_id = pp.patient_id
-     and e2.encounter_type = @encounter_type
-     and (date(e2.encounter_datetime) >= date(date_enrolled) and (date(e2.encounter_datetime)  <= date(date_completed)) or 
-     (date(e2.encounter_datetime) >= date(date_enrolled) and date_completed is null))
-     and exists (select 1 from obs where encounter_id = e2.encounter_id and concept_id = @seizures and voided = 0)
-     order by e2.encounter_datetime desc
-     limit 1
-     )
-     inner join obs o on o.encounter_id = e.encounter_id and o.concept_id = @seizures and o.voided = 0
-     where pp.program_id = @program_id and pp.voided = 0
-     group by patient_program_id
-) seizure
-on seizure.patient_program_id = tmh.patient_program_id
-set tmh.latest_seizure_number = seizure.value_numeric,
-	tmh.latest_seizure_date = seizure.enc_date;
+inner join temp_obs t on t.temp_id =
+	(select temp_id from temp_obs_dup t2 
+	where t2.patient_program_id = tmh.patient_program_id
+  	order by t2.encounter_datetime desc limit 1)
+set tmh.latest_seizure_number = t.value_numeric,
+	tmh.latest_seizure_date = date(t.encounter_datetime);
 
--- Previous number of seizures
+-- previous number of seizures and date (uses the same temp table as the latest score)
+
 update temp_mentalhealth_program tmh
-LEFT JOIN 
-(
-select pp.patient_id, patient_program_id, date_enrolled, date_completed, e.encounter_id enc_id, date(e.encounter_datetime) enc_date, value_numeric from patient_program pp
-INNER JOIN
-encounter e on e.encounter_id =
-    (select encounter_id from encounter e2 where
-     e2.voided = 0
-     and e2.patient_id = pp.patient_id
-     and e2.encounter_type = @encounter_type
-     and (date(e2.encounter_datetime) >= date(date_enrolled) and (date(e2.encounter_datetime)  <= date(date_completed)) or 
-     (date(e2.encounter_datetime) >= date(date_enrolled) and date_completed is null))
-     and exists (select 1 from obs where encounter_id = e2.encounter_id and concept_id = @seizures and voided = 0)
-     order by e2.encounter_datetime desc
-     limit 1,1
-     )
-     inner join obs o on o.encounter_id = e.encounter_id and o.concept_id = @seizures and o.voided = 0
-     where pp.program_id = @program_id and pp.voided = 0
-     group by patient_program_id
-) seizure_prev
-on seizure_prev.patient_program_id = tmh.patient_program_id
-set tmh.previous_seizure_number = seizure_prev.value_numeric,
-	tmh.previous_seizure_date = seizure_prev.enc_date;
+inner join temp_obs t on t.temp_id =
+	(select temp_id from temp_obs_dup t2 
+	where t2.patient_program_id = tmh.patient_program_id
+  	order by t2.encounter_datetime desc limit 1,1)
+set tmh.previous_seizure_number = t.value_numeric,
+	tmh.previous_seizure_date =date(t.encounter_datetime);
 
--- first/baseline number or seizures
+-- baseline number of seizures and date (uses the same temp table as the latest score)
+
 update temp_mentalhealth_program tmh
-LEFT JOIN 
-(
-select pp.patient_id, patient_program_id, date_enrolled, date_completed, e.encounter_id enc_id, date(e.encounter_datetime) enc_date, value_numeric from patient_program pp
-INNER JOIN
-encounter e on e.encounter_id =
-    (select encounter_id from encounter e2 where
-     e2.voided = 0
-     and e2.patient_id = pp.patient_id
-     and e2.encounter_type = @encounter_type
-     and (date(e2.encounter_datetime) >= date(date_enrolled) and (date(e2.encounter_datetime)  <= date(date_completed)) or 
-     (date(e2.encounter_datetime) >= date(date_enrolled) and date_completed is null))
-     and exists (select 1 from obs where encounter_id = e2.encounter_id and concept_id = @seizures and voided = 0)
-     order by e2.encounter_datetime asc
-     limit 1
-     )
-     inner join obs o on o.encounter_id = e.encounter_id and o.concept_id = @seizures and o.voided = 0
-     where pp.program_id = @program_id and pp.voided = 0
-     group by patient_program_id
-) seizure_baseline
-on seizure_baseline.patient_program_id = tmh.patient_program_id
-set tmh.baseline_seizure_number = seizure_baseline.value_numeric,
-	tmh.baseline_seizure_date = seizure_baseline.enc_date;
+inner join temp_obs t on t.temp_id =
+	(select temp_id from temp_obs_dup t2 
+	where t2.patient_program_id = tmh.patient_program_id
+  	order by t2.encounter_datetime asc limit 1)
+set tmh.baseline_seizure_number = t.value_numeric,
+	tmh.baseline_seizure_date = date(t.encounter_datetime);
 
--- last Medication recorded
+-- last Medication recorded (uses the same approach as latest diagnosis above)
+
+drop temporary table if exists temp_obs;
+CREATE TEMPORARY TABLE temp_obs
+(	temp_id int(11) AUTO_INCREMENT,
+	patient_program_id int(11),
+	encounter_id int(11),
+	encounter_datetime datetime,
+	medications varchar(500),
+	PRIMARY KEY (temp_id) );
+
+insert into temp_obs (patient_program_id, encounter_id,encounter_datetime,medications)
+SELECT 	t.patient_program_id,
+		e.encounter_id,
+		e.encounter_datetime,
+		group_concat(concept_name(o.value_coded,@locale))
+from temp_mentalhealth_program t
+inner join encounter e on e.patient_id = t.patient_id and e.encounter_type = @encounter_type and e.voided = 0
+	and date(e.encounter_datetime) >= date(t.date_enrolled) and (date(e.encounter_datetime) <= date(t.date_completed) or t.date_completed is null)
+inner join obs o on o.encounter_id  = e.encounter_id and o.voided = 0 
+	and o.concept_id in (@medication) 
+group by patient_program_id, encounter_id ,encounter_datetime 	
+;
+
+drop temporary table if exists temp_obs_dup;
+CREATE TEMPORARY TABLE temp_obs_dup
+select * from temp_obs;
+
+create index t_encounter_datetime_index on temp_obs_dup (encounter_datetime);
+create index t_encounter_id_temp_id on temp_obs_dup (temp_id);
+
 update temp_mentalhealth_program tmh
-LEFT JOIN
-(
-select pp.patient_id, patient_program_id, date_enrolled, date_completed, e.encounter_id enc_id, date(e.encounter_datetime) enc_date, 
-group_concat(distinct(cn.name) separator ' | ') "medication_names"
-from patient_program pp
-INNER JOIN
-encounter e on e.encounter_id =
-    (select encounter_id from encounter e2 where
-     e2.voided = 0
-     and e2.patient_id = pp.patient_id
-     and e2.encounter_type = @encounter_type
-     and date(e2.encounter_datetime) >= date(date_enrolled) and (date(e2.encounter_datetime)  <= date(date_completed) or date_completed is null)
-     and exists (select 1 from obs where encounter_id = e2.encounter_id and concept_id = @medication and voided = 0)
-     order by e2.encounter_datetime desc
-     limit 1
-     )
-     inner join obs o on o.encounter_id = e.encounter_id and o.concept_id = @medication and o.voided = 0
-     -- INNER JOIN drug cnd on cnd.drug_id  = o.value_drug
-     left outer join concept_name cn on concept_name_id = 
-        (select concept_name_id from concept_name cn2
-         where cn2.concept_id = o.value_coded
-         and cn2.voided = 0
-         and cn2.locale in ('en','fr')
-         order by field(cn2.locale,'fr','en') asc, cn2.locale_preferred desc
-         limit 1)
-     left outer join concept_name cn1 on cn1.name = 
-        (select name from concept_name cn2
-         where cn2.concept_id = o.value_coded
-         and cn2.voided = 0
-         and cn2.locale in ('en','fr')
-         order by field(cn2.locale,'fr','en') asc, cn2.locale_preferred desc
-         limit 1)
-     where pp.program_id = @program_id and pp.voided = 0
-     group by patient_program_id   
-) medication
-on medication.patient_program_id = tmh.patient_program_id
-set tmh.latest_medication_given = medication.medication_names,
+inner join temp_obs t on t.temp_id =
+	(select temp_id from temp_obs_dup t2 
+	where t2.patient_program_id = tmh.patient_program_id
+  	order by t2.encounter_datetime desc limit 1)
+set tmh.latest_medication_given = t.medications,
+	tmh.latest_medication_date = date(t.encounter_datetime);
 
-	tmh.latest_medication_date = medication.enc_date;
+-- latest intervention (uses the same temp table as the latest score)
+drop temporary table if exists temp_obs;
+CREATE TEMPORARY TABLE temp_obs
+(	temp_id int(11) AUTO_INCREMENT,
+	patient_program_id int(11),
+	encounter_id int(11),
+	encounter_datetime datetime,
+	coded varchar(1000),
+	non_coded varchar(255),
+	PRIMARY KEY (temp_id) );
 
--- latest intervention
-UPDATE temp_mentalhealth_program tmh
-LEFT JOIN
-(
-select pp.patient_id, patient_program_id, date_enrolled, date_completed, e.encounter_id enc_id, date(e.encounter_datetime) enc_date, group_concat(distinct(cn.name) separator ' | ') intervention from patient_program pp
-INNER JOIN
-encounter e on e.encounter_id =
-    (select encounter_id from encounter e2 where
-     e2.voided = 0
-     and e2.patient_id = pp.patient_id
-     and e2.encounter_type = @encounter_type
-     and date(e2.encounter_datetime) >= date(date_enrolled) and (date(e2.encounter_datetime)  <= date(date_completed) or date_completed is null)
-     and exists (select 1 from obs where encounter_id = e2.encounter_id and concept_id = @mh_intervention and voided = 0)
-     order by e2.encounter_datetime desc
-     limit 1
-     )
-     inner join obs o on o.encounter_id = e.encounter_id and o.concept_id = @mh_intervention and o.voided = 0
-     left outer join concept_name cn on concept_name_id = 
-        (select concept_name_id from concept_name cn2
-         where cn2.concept_id = o.value_coded
-         and cn2.voided = 0
-         and cn2.locale in ('en','fr')
-         order by field(cn2.locale,'fr','en') asc, cn2.locale_preferred desc
-         limit 1)
-     where pp.program_id = @program_id and pp.voided = 0
-     group by patient_program_id   
-) tli ON tli.patient_program_id = tmh.patient_program_id
-SET
-    tmh.latest_intervention = tli.intervention,
-    tmh.other_intervention = (SELECT
-            comments
-        FROM
-            obs o
-        WHERE
-            o.concept_id = @mh_intervention
-                AND value_coded = @other_noncoded
-                AND o.voided = 0
-                AND o.encounter_id = tli.enc_id),
-    tmh.last_intervention_date = tli.enc_date;
+insert into  temp_obs (patient_program_id, encounter_id,encounter_datetime,coded,non_coded)
+SELECT 	t.patient_program_id,
+		e.encounter_id,
+		e.encounter_datetime,
+		GROUP_CONCAT(concept_name(o.value_coded,@locale)),
+		max(o.comments)
+from temp_mentalhealth_program t
+inner join encounter e on e.patient_id = t.patient_id and e.encounter_type = @encounter_type and e.voided = 0
+	and date(e.encounter_datetime) >= date(t.date_enrolled) and (date(e.encounter_datetime) <= date(t.date_completed) or t.date_completed is null)
+inner join obs o on o.encounter_id  = e.encounter_id and o.voided = 0 
+	and o.concept_id in (@mh_intervention, @other_noncoded)
+group by patient_program_id, encounter_id, encounter_datetime
+;
 
--- Last Visit Date
-UPDATE temp_mentalhealth_program tmh
-LEFT JOIN
-(
-select pp.patient_id, patient_program_id, date_enrolled, date_completed, e.encounter_id enc_id, date(e.encounter_datetime) enc_date from patient_program pp
-INNER JOIN
-encounter e on e.encounter_id =
-    (select encounter_id from encounter e2 where
-     e2.voided = 0
-     and e2.patient_id = pp.patient_id
-     and e2.encounter_type = @encounter_type
-     and (date(e2.encounter_datetime) >= date(date_enrolled) and (date(e2.encounter_datetime)  <= date(date_completed)) or 
-     (date(e2.encounter_datetime) >= date(date_enrolled) and date_completed is null))
-     order by e2.encounter_datetime desc
-     limit 1
-     )
-     where pp.program_id = @program_id and pp.voided = 0
-     group by patient_program_id
-) last_visit
-on last_visit.patient_program_id = tmh.patient_program_id
-set tmh.last_visit_date = date(last_visit.enc_date);
+drop temporary table if exists temp_obs_dup;
+CREATE TEMPORARY TABLE temp_obs_dup
+select * from temp_obs;
 
--- Next Scheduled Visit Date
-UPDATE temp_mentalhealth_program tmh
-LEFT JOIN
-(
-select pp.patient_id, patient_program_id, date_enrolled, date_completed, e.encounter_id enc_id, date(e.encounter_datetime) enc_date, value_datetime from patient_program pp
-INNER JOIN
-encounter e on e.encounter_id =
-    (select encounter_id from encounter e2 where
-     e2.voided = 0
-     and e2.patient_id = pp.patient_id
-     and e2.encounter_type = @encounter_type
-     and (date(e2.encounter_datetime) >= date(date_enrolled) and (date(e2.encounter_datetime)  <= date(date_completed)) or 
-     (date(e2.encounter_datetime) >= date(date_enrolled) and date_completed is null))
-     and exists (select 1 from obs where encounter_id = e2.encounter_id and concept_id = @return_visit_date and voided = 0)
-     order by e2.encounter_datetime desc
-     limit 1
-     )
-     inner join obs o on o.encounter_id = e.encounter_id and o.concept_id = @return_visit_date and o.voided = 0
-     where pp.program_id = @program_id and pp.voided = 0
-     group by patient_program_id
-) next_visit on next_visit.patient_program_id = tmh.patient_program_id
-set tmh.next_scheduled_visit_date = date(next_visit.value_datetime),
+create index t_encounter_datetime_index on temp_obs_dup (encounter_datetime);
+create index t_obs_id_temp_id on temp_obs_dup (temp_id);
+
+update temp_mentalhealth_program tmh
+inner join temp_obs t on t.temp_id =
+	(select temp_id from temp_obs_dup t2 
+	where t2.patient_program_id = tmh.patient_program_id
+  	order by t2.encounter_datetime desc limit 1)
+set tmh.latest_intervention = t.coded,
+	tmh.other_intervention = t.non_coded;
+
+-- Last Visit Date  (uses the same temp table as the latest score)
+drop temporary table if exists temp_obs;
+CREATE TEMPORARY TABLE temp_obs
+(	temp_id int(11) AUTO_INCREMENT,
+	patient_program_id int(11),
+	encounter_id int(11),
+	encounter_datetime datetime,
+	PRIMARY KEY (temp_id) );
+
+insert into  temp_obs (patient_program_id, encounter_id,encounter_datetime)
+SELECT 	t.patient_program_id,
+		e.encounter_id,
+		e.encounter_datetime
+from temp_mentalhealth_program t
+inner join encounter e on e.patient_id = t.patient_id and e.encounter_type = @encounter_type and e.voided = 0
+	and date(e.encounter_datetime) >= date(t.date_enrolled) and (date(e.encounter_datetime) <= date(t.date_completed) or t.date_completed is null)
+group by patient_program_id, encounter_id, encounter_datetime
+;
+
+drop temporary table if exists temp_obs_dup;
+CREATE TEMPORARY TABLE temp_obs_dup
+select * from temp_obs;
+
+create index t_encounter_datetime_index on temp_obs_dup (encounter_datetime);
+create index t_obs_id_temp_id on temp_obs_dup (temp_id);
+
+update temp_mentalhealth_program tmh
+inner join temp_obs t on t.temp_id =
+	(select temp_id from temp_obs_dup t2 
+	where t2.patient_program_id = tmh.patient_program_id
+  	order by t2.encounter_datetime desc limit 1)
+set tmh.last_visit_date = date(t.encounter_datetime);
+
+-- Next Scheduled Visit Date  (uses the same temp table as the latest score)
+drop temporary table if exists temp_obs;
+CREATE TEMPORARY TABLE temp_obs
+(	temp_id int(11) AUTO_INCREMENT,
+	patient_program_id int(11),
+	patient_id int(11),
+	encounter_id int(11),
+	encounter_datetime datetime,
+	value_datetime double,
+	PRIMARY KEY (temp_id) );
+
+insert into  temp_obs (patient_program_id, patient_id,encounter_id,encounter_datetime,value_datetime)
+SELECT 	t.patient_program_id,
+		t.patient_id,
+		e.encounter_id,
+		e.encounter_datetime,
+		o.value_datetime
+from temp_mentalhealth_program t
+inner join encounter e on e.patient_id = t.patient_id and e.encounter_type = @encounter_type and e.voided = 0
+	and date(e.encounter_datetime) >= date(t.date_enrolled) and (date(e.encounter_datetime) <= date(t.date_completed) or t.date_completed is null)
+inner join obs o on o.encounter_id  = e.encounter_id and o.voided = 0 
+	and o.concept_id in (@return_visit_date) 
+;
+
+drop temporary table if exists temp_obs_dup;
+CREATE TEMPORARY TABLE temp_obs_dup
+select * from temp_obs;
+
+create index t_encounter_datetime_index on temp_obs_dup (encounter_datetime);
+create index t_obs_id_temp_id on temp_obs_dup (temp_id);
+
+update temp_mentalhealth_program tmh
+inner join temp_obs t on t.temp_id =
+	(select temp_id from temp_obs_dup t2 
+	where t2.patient_program_id = tmh.patient_program_id
+  	order by t2.encounter_datetime desc limit 1)
+set tmh.next_scheduled_visit_date = date(t.value_datetime),
     tmh.patient_came_within_14_days_appt = IF(datediff(now(), tmh.last_visit_date) <= 14, 'Oui', 'No'),
     tmh.three_months_since_latest_return_date = IF(datediff(now(), tmh.last_visit_date) <= 91.2501, 'No', 'Oui'),
 	tmh.six_months_since_latest_return_date = IF(datediff(now(), tmh.last_visit_date) <= 182.5, 'No', 'Oui');
-                                                                          
+        
 select
 patient_id,
 zlemr,
