@@ -1,0 +1,25 @@
+{
+  "@openmrs/esm-login-app": {
+    "logo": {
+      "src": "/openmrs/spa/site/pih-logo.png",
+      "alt": "Partners in Health"
+    },
+    "links": {
+      "loginSuccess": "${openmrsBase}/mirebalais/home.page"
+    }
+  },
+  "@openmrs/esm-patient-vitals-app": {
+    "concepts": {
+      "systolicBloodPressureUuid": "3ce934fa-26fe-102b-80cb-0017a47871b2",
+      "diastolicBloodPressureUuid": "3ce93694-26fe-102b-80cb-0017a47871b2",
+      "pulseUuid": "3ce93824-26fe-102b-80cb-0017a47871b2",
+      "temperatureUuid": "3ce939d2-26fe-102b-80cb-0017a47871b2",
+      "oxygenSaturationUuid": "3ce9401c-26fe-102b-80cb-0017a47871b2",
+      "heightUuid": "3ce93cf2-26fe-102b-80cb-0017a47871b2",
+      "weightUuid": "3ce93b62-26fe-102b-80cb-0017a47871b2",
+      "respiratoryRateUuid": "3ceb11f8-26fe-102b-80cb-0017a47871b2",
+      "generalPatientNoteUuid": "3cd9d956-26fe-102b-80cb-0017a47871b2",
+      "midUpperArmCircumferenceUuid": "4326b04b-3158-417a-bb8d-ad022295b0f4"
+    }
+  }
+}
