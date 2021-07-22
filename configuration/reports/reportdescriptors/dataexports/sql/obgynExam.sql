@@ -48,11 +48,20 @@ CREATE TEMPORARY TABLE temp_exam
     Musculoskeletal_Exam_Other varchar(255),
     Musculoskeletal_Exam_Comments varchar(1000),
     Fundal_height         double,
-    Fetal_presentation    varchar(255),
-    Fetal_position        varchar(255),
-    Fetal_heart_rate      double,
     Uterine_Contraction   varchar(255),
     UC_Comment            varchar(255),
+    Fetal_presentation_1    varchar(255),
+    Fetal_position_1        varchar(255),
+    Fetal_heart_rate_1      double,
+    Fetal_presentation_2    varchar(255),
+    Fetal_position_2        varchar(255),
+    Fetal_heart_rate_2      double,
+    Fetal_presentation_3    varchar(255),
+    Fetal_position_3        varchar(255),
+    Fetal_heart_rate_3      double,
+    Fetal_presentation_4    varchar(255),
+    Fetal_position_4        varchar(255),
+    Fetal_heart_rate_4      double,
     Gross_Motor_Exam      varchar(255),
     Gross_Motor_Comments  varchar(255),
     Fine_Motor_Exam       varchar(255),
@@ -129,11 +138,24 @@ update temp_exam set Musculoskeletal_Exam_other = obs_comments(encounter_id,'PIH
 update temp_exam set Musculoskeletal_Exam_comments = obs_value_text(encounter_id,'CIEL','163048');
 
 update temp_exam set Fundal_height = obs_value_numeric(encounter_id,'CIEL','1439');
-update temp_exam set Fetal_presentation = obs_value_coded_list(encounter_id,'CIEL','160090',@locale);
-update temp_exam set Fetal_position = obs_value_coded_list(encounter_id,'CIEL','163749',@locale);
-update temp_exam set Fetal_heart_rate = obs_value_numeric(encounter_id,'CIEL','1440');
 update temp_exam set Uterine_Contraction = obs_value_coded_list(encounter_id,'CIEL','163750',@locale);
 update temp_exam set UC_Comment = obs_value_text(encounter_id,'CIEL','160968');
+
+update temp_exam set Fetal_presentation_1 = obs_from_group_id_value_coded_list(obs_id(encounter_id, 'PIH', '13592', 0),'CIEL','160090',@locale);
+update temp_exam set Fetal_position_1 = obs_from_group_id_value_coded_list(obs_id(encounter_id, 'PIH', '13592', 0),'CIEL','163749',@locale);
+update temp_exam set Fetal_heart_rate_1 = obs_from_group_id_value_numeric(obs_id(encounter_id, 'PIH', '13592', 0),'CIEL','1440');
+
+update temp_exam set Fetal_presentation_2 = obs_from_group_id_value_coded_list(obs_id(encounter_id, 'PIH', '13592', 1),'CIEL','160090',@locale);
+update temp_exam set Fetal_position_2 = obs_from_group_id_value_coded_list(obs_id(encounter_id, 'PIH', '13592', 1),'CIEL','163749',@locale);
+update temp_exam set Fetal_heart_rate_2 = obs_from_group_id_value_numeric(obs_id(encounter_id, 'PIH', '13592', 1),'CIEL','1440');
+
+update temp_exam set Fetal_presentation_3 = obs_from_group_id_value_coded_list(obs_id(encounter_id, 'PIH', '13592', 2),'CIEL','160090',@locale);
+update temp_exam set Fetal_position_3 = obs_from_group_id_value_coded_list(obs_id(encounter_id, 'PIH', '13592', 2),'CIEL','163749',@locale);
+update temp_exam set Fetal_heart_rate_3 = obs_from_group_id_value_numeric(obs_id(encounter_id, 'PIH', '13592', 2),'CIEL','1440');
+
+update temp_exam set Fetal_presentation_4 = obs_from_group_id_value_coded_list(obs_id(encounter_id, 'PIH', '13592', 3),'CIEL','160090',@locale);
+update temp_exam set Fetal_position_4 = obs_from_group_id_value_coded_list(obs_id(encounter_id, 'PIH', '13592', 3),'CIEL','163749',@locale);
+update temp_exam set Fetal_heart_rate_4 = obs_from_group_id_value_numeric(obs_id(encounter_id, 'PIH', '13592', 3),'CIEL','1440');
 
 update temp_exam set gross_motor_exam = obs_value_coded_list(encounter_id,'PIH','GROSS MOTOR SKILLS EVALUATION',@locale);
 update temp_exam set gross_motor_comments = obs_value_text(encounter_id,'PIH','Gross Motor Skills Evaluation (text)');
