@@ -236,3 +236,9 @@ program:
     uuid: "5682f919-a43b-4d4a-bcc3-ef0426162e23"
   zika:
     uuid: "3bea593a-9afd-4642-96a6-210b60f5aff2"
+
+programWorkflow:
+  hivTreatmentStatus:
+    # this is referred to by UUID in configs because some servers have a
+    # retired workflow with the same concept
+    uuid: "aba55bfe-9490-4362-9841-0c476e379889"
