@@ -18,7 +18,7 @@ CREATE TABLE diagnoses
 	obs_datetime					datetime,
 	entered_by						varchar(255),
 	provider						varchar(255),
-	diagnosis_entered				varchar(255),
+	diagnosis_entered				text,
 	dx_order						varchar(255),
 	certainty						varchar(255),
 	coded							varchar(255),
