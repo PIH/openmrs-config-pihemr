@@ -1226,9 +1226,6 @@
                     <!-- Anemia -->
                     <obs conceptId="CIEL:160079" answerConceptId="CIEL:121629" style="checkbox"/>
                     <obs conceptId="CIEL:160079" answerConceptId="PIH:HEART DISEASE" style="checkbox"/>
-                    <!-- C-section -->
-                    <obs conceptId="CIEL:160079" answerConceptId="CIEL:163155"
-                         answerCode="pihcore.mch.previousCSection" style="checkbox"/>
                     <!-- Diabetes -->
                     <obs conceptId="CIEL:160079" answerConceptId="CIEL:119481" style="checkbox"/>
                     <!-- Grand multiparity -->
@@ -1239,10 +1236,13 @@
                     <obs conceptId="CIEL:160079" answerConceptId="PIH:ANTEPARTUM HEMORRHAGE" style="checkbox"/>
                     <!-- Hypertension -->
                     <obs conceptId="CIEL:160079" answerConceptId="CIEL:117399" style="checkbox"/>
-                </div>
-                <div>
                     <!-- Fetal death -->
                     <obs conceptId="CIEL:160079" answerConceptId="CIEL:140399" style="checkbox"/>
+                </div>
+                <div>
+                    <!-- Rh negative -->
+                    <obs conceptId="CIEL:160079" answerConceptId="CIEL:127459"
+                         answerCode="pihcore.mch.rhNeg" style="checkbox"/>
                     <!-- Edema -->
                     <obs conceptId="CIEL:160079" answerConceptId="CIEL:460" style="checkbox"/>
                     <!-- Placenta previa -->
@@ -1260,7 +1260,6 @@
                     <!-- HIV -->
                     <obs conceptId="CIEL:160079" answerConceptId="CIEL:138405"
                          answerCode="pihcore.lab.hiv.title" style="checkbox"/>
-
                     <obs conceptId="CIEL:160079" answerConceptId="PIH:OTHER"
                          commentFieldLabel="  " style="checkbox"/>
                 </div>
