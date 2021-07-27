@@ -14,7 +14,7 @@ CREATE TABLE mch_status
     high_risk_factor_hiv        VARCHAR(5),
     arv_status                  VARCHAR(5),
     patient_disposition         VARCHAR(100),
-    transfer                    VARCHAR(100),
+    transfer                    TEXT,
     index_asc                   INT,
     index_desc                  INT
 );

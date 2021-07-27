@@ -141,7 +141,7 @@ CREATE TEMPORARY TABLE temp_mch_encounters
     high_risk_factor_hiv        VARCHAR(5),
     arv_status                  VARCHAR(5),
     patient_disposition         VARCHAR(100),
-    admission_ward_location     VARCHAR(100),
+    admission_ward_location     TEXT,
     transfer_within_location    VARCHAR(100),
     transfer_out_location       VARCHAR(30)
 );
