@@ -1514,10 +1514,10 @@ DROP FUNCTION IF EXISTS location_name;
 CREATE FUNCTION location_name (
     _location_id int
 )
-    RETURNS varchar(255)
+    RETURNS TEXT
     DETERMINISTIC
 BEGIN
-    DECLARE locName varchar(255);
+    DECLARE locName TEXT;
 
     select      name into locName
     from        location
