@@ -224,7 +224,7 @@ SET tmp.encounter_location_name	= tme.encounter_location_name,
     tmp.high_risk_factor_hiv = tme.high_risk_factor_hiv,
     tmp.arv_status = tme.arv_status,
     tmp.patient_disposition = tme.patient_disposition,
-    tmp.transfer = COALESCE(enrollment_location, transfer_within_location, transfer_out_location);
+    tmp.transfer = COALESCE(admission_ward_location, transfer_within_location, transfer_out_location);
 
 ### Final Query
 SELECT
