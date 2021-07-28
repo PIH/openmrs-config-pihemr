@@ -53,6 +53,7 @@ create table hiv_patient
      last_height                    FLOAT,
      last_height_date               DATE,
      last_visit_date                DATE,
+     next_visit_date                DATE,
      viral_load_date                DATE,
      last_viral_load_date           DATE,
      last_viral_load_numeric        FLOAT,

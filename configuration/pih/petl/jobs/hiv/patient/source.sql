@@ -461,13 +461,13 @@ UPDATE temp_hiv_vitals_height t SET last_height_date = (SELECT DATE(encounter_da
 DROP TEMPORARY TABLE IF EXISTS temp_hiv_last_visits;
 CREATE TEMPORARY TABLE temp_hiv_last_visits (
 patient_id INT,
-last_visit_date DATE
+last_visit_date DATETIME
 );
 
 CREATE INDEX temp_hiv_last_visits_patient_id ON temp_hiv_last_visits (patient_id);
 
 INSERT INTO temp_hiv_last_visits (patient_id, last_visit_date)
-SELECT patient_id, MAX(DATE(date_started)) FROM visit WHERE voided = 0 GROUP BY patient_id;
+SELECT patient_id, MAX(date_started) FROM visit WHERE voided = 0 GROUP BY patient_id;
 
 -- viral_load_date
 DROP TEMPORARY TABLE IF EXISTS temp_hiv_last_viral_stage;
@@ -511,30 +511,30 @@ UPDATE temp_hiv_last_viral tvl SET last_viral_load_numeric = OBS_VALUE_NUMERIC(t
 UPDATE temp_hiv_last_viral tvl SET last_viral_load_undetectable = OBS_VALUE_NUMERIC(tvl.encounter_id, 'PIH', '11548');
 UPDATE temp_hiv_last_viral t SET months_since_last_vl = TIMESTAMPDIFF(MONTH, last_viral_load_date, NOW());
 
--- last_visit_date 
+-- next_visit_date
 ### For this section, putting into account restrospective data entry, 
 ### maybe we should use max(encounter_date) instead of max(encounter_id)
-DROP TEMPORARY TABLE IF EXISTS temp_hiv_last_visit_date_stage;
-CREATE TEMPORARY TABLE temp_hiv_last_visit_date_stage
+DROP TEMPORARY TABLE IF EXISTS temp_hiv_next_visit_date_stage;
+CREATE TEMPORARY TABLE temp_hiv_next_visit_date_stage
 AS
-SELECT person_id, encounter_id, value_datetime AS last_visit_date FROM obs WHERE voided = 0 AND concept_id = CONCEPT_FROM_MAPPING("PIH", "RETURN VISIT DATE")
+SELECT person_id, encounter_id, value_datetime AS next_visit_date FROM obs WHERE voided = 0 AND concept_id = CONCEPT_FROM_MAPPING("PIH", "RETURN VISIT DATE")
 AND encounter_id IN (SELECT encounter_id FROM encounter WHERE encounter_type IN (@hiv_initial_encounter_type, @hiv_followup_encounter_type) AND voided = 0);
 
-DROP TEMPORARY TABLE IF EXISTS temp_hiv_last_visit_date;
-CREATE TEMPORARY TABLE temp_hiv_last_visit_date (
+DROP TEMPORARY TABLE IF EXISTS temp_hiv_next_visit_date;
+CREATE TEMPORARY TABLE temp_hiv_next_visit_date (
 person_id INT,
 encounter_id INT, 
-last_visit_date DATETIME
+next_visit_date DATETIME
 );
 
-CREATE INDEX temp_hiv_last_visit_date_person_id ON temp_hiv_last_visit_date (person_id);
-CREATE INDEX temp_hiv_last_visit_date_encounter ON temp_hiv_last_visit_date (encounter_id);
+CREATE INDEX temp_hiv_next_visit_date_person_id ON temp_hiv_next_visit_date (person_id);
+CREATE INDEX temp_hiv_next_visit_date_encounter ON temp_hiv_next_visit_date (encounter_id);
 
-INSERT INTO temp_hiv_last_visit_date (person_id, encounter_id)
-SELECT person_id, MAX(encounter_id) FROM temp_hiv_last_visit_date_stage GROUP BY person_id; 
+INSERT INTO temp_hiv_next_visit_date (person_id, encounter_id)
+SELECT person_id, MAX(encounter_id) FROM temp_hiv_next_visit_date_stage GROUP BY person_id;
 
-UPDATE temp_hiv_last_visit_date t JOIN temp_hiv_last_visit_date_stage ts ON t.encounter_id = ts.encounter_id
-SET t.last_visit_date = ts.last_visit_date;
+UPDATE temp_hiv_next_visit_date t JOIN temp_hiv_next_visit_date_stage ts ON t.encounter_id = ts.encounter_id
+SET t.next_visit_date = ts.next_visit_date;
 
 ### Final Query
 SELECT 
@@ -590,8 +590,9 @@ tsw.last_weight,
 tsw.last_weight_date,
 tsh.last_height,
 tsh.last_height_date,
-tsv.last_visit_date,
-DATE(tsl.viral_load_date) ,
+DATE(tsv.last_visit_date),
+DATE(tsd.next_visit_date),
+DATE(tsl.viral_load_date),
 tsl.last_viral_load_date,
 tsl.last_viral_load_numeric,
 tsl.last_viral_load_undetectable,
@@ -603,4 +604,4 @@ LEFT JOIN temp_hiv_vitals_weight tsw ON t.patient_id = tsw.person_id
 LEFT JOIN temp_hiv_vitals_height tsh ON t.patient_id = tsh.person_id
 LEFT JOIN temp_hiv_last_visits tsv ON t.patient_id = tsv.patient_id
 LEFT JOIN temp_hiv_last_viral tsl ON t.patient_id = tsl.person_id
-LEFT JOIN temp_hiv_last_visit_date tsd ON t.patient_id = tsd.person_id;
+LEFT JOIN temp_hiv_next_visit_date tsd ON t.patient_id = tsd.person_id;
