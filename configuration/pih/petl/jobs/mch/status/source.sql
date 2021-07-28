@@ -11,7 +11,7 @@ CREATE TABLE temp_mch_status
     patient_id                  INT(11),
     patient_program_id          INT(11),
     mch_emr_id                  VARCHAR(15),
-    enrollment_location         VARCHAR(15),
+    enrollment_location         VARCHAR(255),
     start_date                  DATE,
     end_date                    DATE,
     treatment_status            varchar(255),    
@@ -142,7 +142,7 @@ CREATE TEMPORARY TABLE temp_mch_encounters
     arv_status                  VARCHAR(5),
     patient_disposition         VARCHAR(100),
     admission_ward_location     TEXT,
-    transfer_within_location    VARCHAR(100),
+    transfer_within_location    VARCHAR(255),
     transfer_out_location       VARCHAR(30)
 );
 
@@ -192,7 +192,8 @@ SET patient_disposition = CONCEPT_NAME(value_coded, 'en');
 -- admission ward location
 UPDATE temp_mch_encounters te JOIN obs o ON te.encounter_id = o.encounter_id AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'Admission location in hospital')
 AND o.voided = 0
-SET admission_ward_location = LOCATION_NAME(value_text);
+join location l on l.location_id = value_text
+SET admission_ward_location = l.name;
 
 -- transfer out location
 UPDATE temp_mch_encounters te JOIN obs o ON te.encounter_id = o.encounter_id AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'Transfer out location')
@@ -202,7 +203,8 @@ SET transfer_out_location = CONCEPT_NAME(value_coded, 'en');
 -- transfer in location
 UPDATE temp_mch_encounters te JOIN obs o ON te.encounter_id = o.encounter_id AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'Arrival location within hospital')
 AND o.voided = 0
-SET transfer_within_location = LOCATION_NAME(value_text);
+join location l on l.location_id = value_text
+SET transfer_within_location = l.name;
 
 -- latest treatment status
 UPDATE temp_mch_status te 
@@ -222,7 +224,7 @@ SET tmp.encounter_location_name	= tme.encounter_location_name,
     tmp.high_risk_factor_hiv = tme.high_risk_factor_hiv,
     tmp.arv_status = tme.arv_status,
     tmp.patient_disposition = tme.patient_disposition,
-    tmp.transfer = COALESCE(admission_ward_location, transfer_within_location, transfer_out_location);
+    tmp.transfer = COALESCE(enrollment_location, transfer_within_location, transfer_out_location);
 
 ### Final Query
 SELECT
