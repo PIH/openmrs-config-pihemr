@@ -388,23 +388,7 @@ socio_smoker_cigarette_per_day INT,
 socio_alcohol VARCHAR(50),
 socio_alcohol_type TEXT,
 socio_alcohol_drinks_per_day INT,
-socio_alcohol_days_per_week INT /*,
-hiv_diagnosis_date date NULL,
-art_start_date date NULL,
-months_on_art int NULL,
-initial_art_regimen varchar(100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-art_regimen varchar(100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-treatment_status varchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-treatment_status_date date NULL,
-regimen_outcome varchar(100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-regimen_outcome_date date NULL,
-days_late_to_visit int NULL,
-last_pickup_date date NULL,
-last_pickup_months_dispensed int NULL,
-last_pickup_treatment_line varchar(30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-next_pickup_date date NULL,
-days_late_to_pickup int NULL,
-*/
+socio_alcohol_days_per_week INT
 );
 
 CREATE INDEX temp_socio_hiv_intake_patient_id ON temp_socio_hiv_intake (patient_id);
@@ -458,6 +442,8 @@ UPDATE temp_hiv_vitals_height t SET last_height = OBS_VALUE_NUMERIC(t.encounter_
 UPDATE temp_hiv_vitals_height t SET last_height_date = (SELECT DATE(encounter_datetime) FROM encounter e WHERE voided = 0 AND t.encounter_id = e.encounter_id );
 
 -- last_visit_date
+### For this section, putting into account restrospective data entry,
+### thus using max(encounter_date) instead of max(encounter_id)
 DROP TEMPORARY TABLE IF EXISTS temp_hiv_last_visits;
 CREATE TEMPORARY TABLE temp_hiv_last_visits (
 patient_id INT,
@@ -467,7 +453,9 @@ last_visit_date DATETIME
 CREATE INDEX temp_hiv_last_visits_patient_id ON temp_hiv_last_visits (patient_id);
 
 INSERT INTO temp_hiv_last_visits (patient_id, last_visit_date)
-SELECT patient_id, MAX(date_started) FROM visit WHERE voided = 0 GROUP BY patient_id;
+SELECT patient_id, MAX(encounter_datetime) FROM encounter WHERE voided = 0
+AND encounter_id IN (SELECT encounter_id FROM encounter WHERE encounter_type IN (@hiv_initial_encounter_type, @hiv_followup_encounter_type) AND voided = 0)
+GROUP BY patient_id;
 
 -- viral_load_date
 DROP TEMPORARY TABLE IF EXISTS temp_hiv_last_viral_stage;
@@ -513,28 +501,12 @@ UPDATE temp_hiv_last_viral t SET months_since_last_vl = TIMESTAMPDIFF(MONTH, las
 
 -- next_visit_date
 ### For this section, putting into account restrospective data entry, 
-### maybe we should use max(encounter_date) instead of max(encounter_id)
-DROP TEMPORARY TABLE IF EXISTS temp_hiv_next_visit_date_stage;
-CREATE TEMPORARY TABLE temp_hiv_next_visit_date_stage
-AS
-SELECT person_id, encounter_id, value_datetime AS next_visit_date FROM obs WHERE voided = 0 AND concept_id = CONCEPT_FROM_MAPPING("PIH", "RETURN VISIT DATE")
-AND encounter_id IN (SELECT encounter_id FROM encounter WHERE encounter_type IN (@hiv_initial_encounter_type, @hiv_followup_encounter_type) AND voided = 0);
-
+### thus using max(encounter_date) instead of max(encounter_id)
 DROP TEMPORARY TABLE IF EXISTS temp_hiv_next_visit_date;
-CREATE TEMPORARY TABLE temp_hiv_next_visit_date (
-person_id INT,
-encounter_id INT, 
-next_visit_date DATETIME
-);
-
-CREATE INDEX temp_hiv_next_visit_date_person_id ON temp_hiv_next_visit_date (person_id);
-CREATE INDEX temp_hiv_next_visit_date_encounter ON temp_hiv_next_visit_date (encounter_id);
-
-INSERT INTO temp_hiv_next_visit_date (person_id, encounter_id)
-SELECT person_id, MAX(encounter_id) FROM temp_hiv_next_visit_date_stage GROUP BY person_id;
-
-UPDATE temp_hiv_next_visit_date t JOIN temp_hiv_next_visit_date_stage ts ON t.encounter_id = ts.encounter_id
-SET t.next_visit_date = ts.next_visit_date;
+CREATE TEMPORARY TABLE temp_hiv_next_visit_date
+AS
+SELECT person_id, encounter_id, max(value_datetime) AS next_visit_date FROM obs WHERE voided = 0 AND concept_id = CONCEPT_FROM_MAPPING("PIH", "RETURN VISIT DATE")
+AND encounter_id IN (SELECT encounter_id FROM encounter WHERE encounter_type IN (@hiv_initial_encounter_type, @hiv_followup_encounter_type) AND voided = 0) group by person_id;
 
 ### Final Query
 SELECT 
