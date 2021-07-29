@@ -136,9 +136,6 @@ SET consultation_type_fp = CONCEPT_NAME(value_coded, 'en');
 
 
 # pregnancy
-CREATE INDEX temp_obgyn_pregnacy_patient_id ON temp_obgyn_pregnacy (patient_id);
-CREATE INDEX temp_obgyn_pregnacy_encounter_id ON temp_obgyn_pregnacy (encounter_id);
-
 DROP TEMPORARY TABLE IF EXISTS temp_obgyn_pregnacy;
 CREATE TEMPORARY TABLE IF NOT EXISTS temp_obgyn_pregnacy
 (
@@ -147,6 +144,9 @@ patient_id INT,
 antenatal_visit VARCHAR(20),
 estimated_delivery_date DATE
 );
+
+CREATE INDEX temp_obgyn_pregnacy_patient_id ON temp_obgyn_pregnacy (patient_id);
+CREATE INDEX temp_obgyn_pregnacy_encounter_id ON temp_obgyn_pregnacy (encounter_id);
 
 INSERT INTO temp_obgyn_pregnacy(encounter_id, patient_id)
 SELECT encounter_id, patient_id FROM temp_obgyn_visit;
