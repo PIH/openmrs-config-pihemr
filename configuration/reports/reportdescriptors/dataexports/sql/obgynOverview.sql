@@ -200,7 +200,7 @@ update temp_obgyn set address = person_address(patient_id);
 update temp_obgyn set provider = provider(encounter_id);
 
 -- type of consultation
-update temp_obgyn t set reason_for_visit = obs_value_coded_list(t.encounter_id,'PIH','6189',@locale);
+update temp_obgyn t set reason_for_visit = obs_value_coded_list(t.encounter_id,'PIH','8879',@locale);
 update temp_obgyn t set visit_type = obs_value_coded_list(t.encounter_id,'CIEL','164181',@locale);
 
 -- referring services
