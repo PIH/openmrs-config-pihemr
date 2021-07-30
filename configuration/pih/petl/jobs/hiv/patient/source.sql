@@ -505,9 +505,16 @@ UPDATE temp_hiv_last_viral t SET months_since_last_vl = TIMESTAMPDIFF(MONTH, las
 ### thus using max(encounter_date) instead of max(encounter_id)
 DROP TEMPORARY TABLE IF EXISTS temp_hiv_next_visit_date;
 CREATE TEMPORARY TABLE temp_hiv_next_visit_date
-AS
-SELECT person_id, encounter_id, MAX(value_datetime) AS next_visit_date FROM obs WHERE voided = 0 AND concept_id = CONCEPT_FROM_MAPPING("PIH", "RETURN VISIT DATE")
+(
+person_id int,
+next_visit_date datetime,
+days_late_to_visit double
+);
+insert into temp_hiv_next_visit_date (person_id, next_visit_date)
+SELECT person_id, MAX(value_datetime) FROM obs WHERE voided = 0 AND concept_id = CONCEPT_FROM_MAPPING("PIH", "RETURN VISIT DATE")
 AND encounter_id IN (SELECT encounter_id FROM encounter WHERE encounter_type IN (@hiv_initial_encounter_type, @hiv_followup_encounter_type) AND voided = 0) GROUP BY person_id;
+
+update temp_hiv_next_visit_date t set days_late_to_visit =  TIMESTAMPDIFF(DAY, next_visit_date, NOW());
 
 --
 DROP TABLE IF EXISTS temp_hiv_diagnosis_date;
@@ -637,6 +644,7 @@ tsh.last_height,
 tsh.last_height_date,
 DATE(tsv.last_visit_date),
 DATE(tsd.next_visit_date),
+IF(tsd.days_late_to_visit > 0, days_late_to_visit, 0) days_late_to_visit, 
 DATE(tsl.viral_load_date),
 tsl.last_viral_load_date,
 tsl.last_viral_load_numeric,
