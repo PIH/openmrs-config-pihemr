@@ -11,6 +11,7 @@ create table hiv_patient
      age                            FLOAT,
      marital_status                 CHAR(5),
      occupation                     VARCHAR(255),
+     agent 							TEXT,
      mothers_first_name             VARCHAR(255),
      telephone_number               VARCHAR(60),
      address                        VARCHAR(255),
@@ -58,5 +59,15 @@ create table hiv_patient
      last_viral_load_date           DATE,
      last_viral_load_numeric        FLOAT,
      last_viral_load_undetectable   FLOAT,
-     months_since_last_vl           FLOAT
+     months_since_last_vl           FLOAT,
+     hiv_diagnosis_date 			DATE,
+     art_start_date 				DATE,
+     months_on_art 					FLOAT,
+     initial_art_regimen 			VARCHAR(100),
+     art_regimen 					VARCHAR(100),
+     last_pickup_date 				DATE,
+     last_pickup_months_dispensed 	FLOAT,
+     last_pickup_treatment_line 	VARCHAR(5),
+     next_pickup_date 				DATE,
+     days_late_to_pickup 			FLOAT
 );

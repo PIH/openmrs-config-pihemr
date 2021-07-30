@@ -8,6 +8,7 @@ SET @ovc_baseline_encounter_type = ENCOUNTER_TYPE('OVC Intake');
 SET @socio_economics_encounter_type = ENCOUNTER_TYPE('Socio-economics');
 SET @hiv_initial_encounter_type = ENCOUNTER_TYPE('HIV Intake');
 SET @hiv_followup_encounter_type = ENCOUNTER_TYPE('HIV Followup');
+SET @hiv_dispensing_encounter = ENCOUNTER_TYPE('HIV drug dispensing');
 SET @mothers_first_name = (SELECT person_attribute_type_id FROM person_attribute_type p WHERE p.name = 'First Name of Mother');
 SET @telephone_number = (SELECT person_attribute_type_id FROM person_attribute_type p WHERE p.name = 'Telephone Number');
 
@@ -108,7 +109,7 @@ t.commune = c.commune,
 t.section_communal = c.section_communal,
 t.locality = c.locality,
 t.street_landmark = c.street_landmark,
-t.age = CAST(CONCAT(timestampdiff(YEAR, c.birthdate, NOW()), '.', MOD(timestampdiff(MONTH, c.birthdate, NOW()), 12) ) as CHAR);
+t.age = CAST(CONCAT(TIMESTAMPDIFF(YEAR, c.birthdate, NOW()), '.', MOD(TIMESTAMPDIFF(MONTH, c.birthdate, NOW()), 12) ) AS CHAR);
 
 UPDATE temp_patient t JOIN obs m ON t.patient_id = m.person_id AND 
 m.voided = 0 AND concept_id = CONCEPT_FROM_MAPPING('PIH','CIVIL STATUS')
@@ -505,8 +506,79 @@ UPDATE temp_hiv_last_viral t SET months_since_last_vl = TIMESTAMPDIFF(MONTH, las
 DROP TEMPORARY TABLE IF EXISTS temp_hiv_next_visit_date;
 CREATE TEMPORARY TABLE temp_hiv_next_visit_date
 AS
-SELECT person_id, encounter_id, max(value_datetime) AS next_visit_date FROM obs WHERE voided = 0 AND concept_id = CONCEPT_FROM_MAPPING("PIH", "RETURN VISIT DATE")
-AND encounter_id IN (SELECT encounter_id FROM encounter WHERE encounter_type IN (@hiv_initial_encounter_type, @hiv_followup_encounter_type) AND voided = 0) group by person_id;
+SELECT person_id, encounter_id, MAX(value_datetime) AS next_visit_date FROM obs WHERE voided = 0 AND concept_id = CONCEPT_FROM_MAPPING("PIH", "RETURN VISIT DATE")
+AND encounter_id IN (SELECT encounter_id FROM encounter WHERE encounter_type IN (@hiv_initial_encounter_type, @hiv_followup_encounter_type) AND voided = 0) GROUP BY person_id;
+
+--
+DROP TABLE IF EXISTS temp_hiv_diagnosis_date;
+CREATE TEMPORARY TABLE temp_hiv_diagnosis_date
+(
+person_id INT,
+encounter_id INT,
+hiv_diagnosis_date DATE
+);
+
+CREATE INDEX temp_hiv_diagnosis_date_person_id ON temp_hiv_diagnosis_date (person_id);
+CREATE INDEX temp_hiv_diagnosis_date_encounter_id ON temp_hiv_diagnosis_date (encounter_id);
+
+INSERT INTO temp_hiv_diagnosis_date (person_id, encounter_id, hiv_diagnosis_date)
+SELECT person_id, encounter_id, DATE(MIN(value_datetime)) FROM obs WHERE voided = 0 AND
+concept_id = CONCEPT_FROM_MAPPING('CIEL', '164400') GROUP BY person_id;
+
+DROP TABLE IF EXISTS temp_hiv_dispensing;
+CREATE TEMPORARY TABLE temp_hiv_dispensing
+(
+person_id INT,
+encounter_id INT,
+art_start_date DATE,
+months_on_art DOUBLE,
+initial_art_regimen VARCHAR(100),
+latest_encounter INT,
+art_regimen VARCHAR(100),
+last_pickup_date DATE,
+last_pickup_months_dispensed DOUBLE,
+last_pickup_treatment_line VARCHAR(5),
+next_pickup_date DATE,
+days_late_to_pickup DOUBLE,
+agent TEXT
+);
+
+CREATE INDEX temp_hiv_dispensing_person_id ON temp_hiv_dispensing (person_id);
+CREATE INDEX temp_hiv_dispensing_encounter_id ON temp_hiv_dispensing (encounter_id);
+CREATE INDEX temp_hiv_dispensing_latest_encounter ON temp_hiv_dispensing (latest_encounter);
+
+INSERT INTO temp_hiv_dispensing (person_id, art_start_date)
+SELECT person_id, MIN(obs_datetime) FROM 
+obs WHERE voided = 0 AND
+concept_id = CONCEPT_FROM_MAPPING('PIH', '1535') AND encounter_id IN (SELECT encounter_id FROM encounter
+WHERE voided = 0 AND encounter_type = @hiv_dispensing_encounter)
+AND value_coded IN (CONCEPT_FROM_MAPPING('PIH', '3013') , CONCEPT_FROM_MAPPING('PIH', '2848')) GROUP BY person_id;
+
+UPDATE temp_hiv_dispensing t SET months_on_art = TIMESTAMPDIFF(MONTH, t.art_start_date, NOW());
+
+UPDATE temp_hiv_dispensing t SET encounter_id = (SELECT encounter_id FROM encounter WHERE encounter_type = @hiv_dispensing_encounter
+AND DATE(encounter_datetime) = t.art_start_date AND voided = 0 AND t.person_id = patient_id GROUP BY patient_id);
+
+UPDATE temp_hiv_dispensing t SET latest_encounter = (SELECT MAX(encounter_id) FROM encounter WHERE encounter_type = @hiv_dispensing_encounter
+AND voided = 0 AND t.person_id = patient_id GROUP BY patient_id);
+
+UPDATE temp_hiv_dispensing t SET initial_art_regimen = (SELECT GROUP_CONCAT(CONCEPT_NAME(value_coded, 'en')) FROM obs o WHERE o.encounter_id = t.encounter_id 
+AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'MEDICATION ORDERS'));
+
+UPDATE temp_hiv_dispensing t SET art_regimen = (SELECT GROUP_CONCAT(CONCEPT_NAME(value_coded, 'en')) FROM obs o WHERE o.encounter_id = t.latest_encounter 
+AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'MEDICATION ORDERS'));
+
+UPDATE temp_hiv_dispensing t SET last_pickup_date = (SELECT DATE(encounter_datetime) FROM encounter e WHERE voided = 0 AND e.encounter_id = t.latest_encounter);
+
+UPDATE temp_hiv_dispensing t SET last_pickup_months_dispensed =  OBS_VALUE_NUMERIC(t.latest_encounter, 'PIH', '3102');
+
+UPDATE temp_hiv_dispensing t SET last_pickup_treatment_line = OBS_VALUE_CODED_LIST(t.latest_encounter, 'CIEL', '166073', 'en');
+
+UPDATE temp_hiv_dispensing t SET next_pickup_date = (SELECT DATE(value_datetime) FROM obs o WHERE voided = 0 AND o.encounter_id = t.latest_encounter 
+AND concept_id = CONCEPT_FROM_MAPPING('CIEL', '5096'));
+UPDATE temp_hiv_dispensing t SET days_late_to_pickup = TIMESTAMPDIFF(DAY, next_pickup_date, NOW());
+
+UPDATE temp_hiv_dispensing t SET agent = OBS_VALUE_TEXT(t.latest_encounter, 'CIEL', '164141');
 
 ### Final Query
 SELECT 
@@ -521,6 +593,7 @@ t.birthdate,
 t.age,
 t.marital_status,
 t.occupation,
+tehd.agent,
 t.mothers_first_name,
 t.telephone_number,
 t.address,
@@ -568,7 +641,17 @@ DATE(tsl.viral_load_date),
 tsl.last_viral_load_date,
 tsl.last_viral_load_numeric,
 tsl.last_viral_load_undetectable,
-tsl.months_since_last_vl
+tsl.months_since_last_vl,
+thd.hiv_diagnosis_date,
+tehd.art_start_date,
+tehd.months_on_art,
+tehd.initial_art_regimen,
+tehd.art_regimen,
+tehd.last_pickup_date,
+tehd.last_pickup_months_dispensed,
+tehd.last_pickup_treatment_line,
+tehd.next_pickup_date,
+IF(tehd.days_late_to_pickup > 0, tehd.days_late_to_pickup, 0) days_late_to_pickup 
 FROM temp_patient t 
 LEFT JOIN temp_socio_economics tse ON t.patient_id = tse.patient_id
 LEFT JOIN temp_socio_hiv_intake ts ON t.patient_id = ts.patient_id
@@ -576,4 +659,6 @@ LEFT JOIN temp_hiv_vitals_weight tsw ON t.patient_id = tsw.person_id
 LEFT JOIN temp_hiv_vitals_height tsh ON t.patient_id = tsh.person_id
 LEFT JOIN temp_hiv_last_visits tsv ON t.patient_id = tsv.patient_id
 LEFT JOIN temp_hiv_last_viral tsl ON t.patient_id = tsl.person_id
-LEFT JOIN temp_hiv_next_visit_date tsd ON t.patient_id = tsd.person_id;
+LEFT JOIN temp_hiv_next_visit_date tsd ON t.patient_id = tsd.person_id
+LEFT JOIN temp_hiv_diagnosis_date thd ON t.patient_id = thd.person_id
+LEFT JOIN temp_hiv_dispensing tehd ON tehd.person_id = t.patient_id;
