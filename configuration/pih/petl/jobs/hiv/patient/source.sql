@@ -265,7 +265,6 @@ CREATE TEMPORARY TABLE temp_key_popn(
 );
 
 CREATE INDEX temp_key_popn_patient_id ON temp_key_popn (patient_id);
-CREATE INDEX temp_key_popn_concept_id ON temp_key_popn (concept_id);
 
 INSERT INTO temp_key_popn (patient_id , patient_msm, patient_sw, patient_pris, patient_trans, patient_idu )
 SELECT DISTINCT(tkpe.patient_id), patient_msm, patient_sw, patient_pris, patient_trans, patient_idu
