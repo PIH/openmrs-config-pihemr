@@ -844,6 +844,23 @@ angular.module("encounterTypeConfig", [])
             ]
         };
 
+        // exposed infant (EID) followup
+        encounterTypes["0f070640-279e-4ec0-9e6c-6ef1f6567030"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/defaultEncounterShort.page",   // no expanded view, instead there are individual sections
+            icon: "fas fa-fw fa-ribbon",
+            editUrl: hfeStandardEditUrl,
+            showOnVisitList: true,
+            sections: [
+                hivState,
+                primaryCareExam,
+                pedsVaccinations,
+                primaryCareDx,
+                hivPlan
+            ]
+        };
+
         // oncologyConsult
         encounterTypes["035fb8da-226a-420b-8d8b-3904f3bedb25"] = {
             defaultState: "short",

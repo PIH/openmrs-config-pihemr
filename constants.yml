@@ -186,6 +186,8 @@ encounterType:
     uuid: "584124b9-1f10-4757-ba09-91fc9075af92"
   PMTCT_FOLLOWUP:
     uuid: "95e03e7d-9aeb-4a99-bd7a-94e8591ec2c5"
+  EID_FOLLOWUP:
+    uuid: "0f070640-279e-4ec0-9e6c-6ef1f6567030"
   RADIOLOGY_ORDER:
     uuid: "1b3d1e13-f0b1-4b83-86ea-b1b1e2fb4efa"
   RADIOLOGY_REPORT:
