@@ -9,7 +9,7 @@ create table hiv_patient
      gender                         VARCHAR(50),
      birthdate                      DATE,
      age                            FLOAT,
-     marital_status                 CHAR(5),
+     marital_status                 CHAR(60),
      occupation                     VARCHAR(255),
      agent 							TEXT,
      mothers_first_name             VARCHAR(255),
