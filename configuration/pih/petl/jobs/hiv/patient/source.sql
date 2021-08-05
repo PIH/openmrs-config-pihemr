@@ -109,7 +109,7 @@ t.commune = c.commune,
 t.section_communal = c.section_communal,
 t.locality = c.locality,
 t.street_landmark = c.street_landmark,
-t.age = CAST(CONCAT(TIMESTAMPDIFF(YEAR, c.birthdate, NOW()), '.', MOD(TIMESTAMPDIFF(MONTH, c.birthdate, NOW()), 12) ) AS CHAR);
+t.age = ROUND(DATEDIFF(NOW(),c.birthdate) / 365.25 , 1);
 
 UPDATE temp_patient t JOIN obs m ON t.patient_id = m.person_id AND 
 m.voided = 0 AND concept_id = CONCEPT_FROM_MAPPING('PIH','CIVIL STATUS')
