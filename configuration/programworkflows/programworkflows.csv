@@ -3,5 +3,6 @@ ${programWorkflow.hivTreatmentStatus.uuid},,${program.hiv.uuid},PIH:HIV TREATMEN
 39270921-4ee3-4655-978d-745b68bdef5f,,${program.hiv.uuid},PIH:PMTCT status
 51579bce-bf3a-11e7-abc4-cec278b6b50a,,${program.ncd.uuid},PIH:NCD clinical status
 ee228c4f-f898-494a-9740-213f757cb10c,,${program.ovc.uuid},PIH:OVC program status
+7e35b35e-5f40-4652-b2f2-b4afcb8e683a,,${program.eid.uuid},PIH:EID treatment status
 157333e6-6851-11e8-adc0-fa7ae01bbebc,,${program.oncology.uuid},PIH:Oncology program status
 45ffa97a-684e-11e8-adc0-fa7ae01bbebc,,${program.oncology.uuid},PIH:Oncology treatment status

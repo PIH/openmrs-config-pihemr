@@ -18,3 +18,5 @@ E64A842B-E4A6-49B4-882A-4F578A94400A,,${programWorkflow.hivTreatmentStatus.uuid}
 45ffabfa-684e-11e8-adc0-fa7ae01bbebc,,PIH:Oncology treatment status,CIEL:160847,true,
 5da5fa62-ef9f-4f15-9b58-d23136c2907b,,PIH:PMTCT status,PIH:PATIENT PREGNANT,true,
 55963d2f-963e-4fb2-8aa9-8cf4abe3c8ae,,PIH:PMTCT status,PIH:Not pregnant,false,
+ff00f7b7-867d-42af-9ab4-797bb976f575,,PIH:EID treatment status,PIH:On prophylaxis,true,
+6cf90fb5-febe-4bba-b926-2eef252168df,,PIH:EID treatment status,PIH:ON ANTIRETROVIRALS,true,

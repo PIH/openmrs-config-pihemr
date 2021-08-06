@@ -216,6 +216,8 @@ program:
     uuid: "dc227c44-d68e-431b-a20d-a60bb3496543"
   diabetes:
     uuid: "3f038507-f4bc-4877-ade0-96ce170fc8eb"
+  eid:
+    uuid: "7e06bf82-9f1a-4218-b68f-823082ef519b"
   epilepsy:
     uuid: "69e6a46d-674e-4281-99a0-4004f293ee57"
   hypertension:

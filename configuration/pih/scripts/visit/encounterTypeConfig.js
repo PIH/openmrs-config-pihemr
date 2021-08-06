@@ -849,14 +849,15 @@ angular.module("encounterTypeConfig", [])
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/defaultEncounterShort.page",   // no expanded view, instead there are individual sections
-            icon: "fas fa-fw fa-ribbon",
+            icon: "fas fa-fw fa-baby",
             editUrl: hfeStandardEditUrl,
             showOnVisitList: true,
             sections: [
                 hivState,
-                primaryCareExam,
+                pedsFoodAndSupplements,
                 pedsVaccinations,
                 primaryCareDx,
+                primaryCareExam,
                 hivPlan
             ]
         };

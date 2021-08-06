@@ -14,3 +14,4 @@ ${program.ovc.uuid},OVC,USAID orphans and vulnerable children program,,PIH:OVC P
 ${program.oncology.uuid},Oncology,ONCOLOGY Program,,PIH:Oncology program,PIH:Oncology outcome
 ${program.tb.uuid},TB,Tuberculosis Program,,CIEL:160541,PIH:Generic outcome
 ${program.zika.uuid},Zika,Zika Program,,PIH:Zika program,PIH:Study outcome
+${program.eid.uuid},EID,HIV Exposed Infant Program,,PIH:EID program,PIH:EID outcome
