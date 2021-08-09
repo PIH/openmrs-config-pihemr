@@ -245,6 +245,30 @@ angular.module("encounterTypeConfig", [])
             editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-hiv-state.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
         };
 
+
+        var eidProtection = {
+            type: "encounter-section",
+            id: "pihcore-peds",
+            label: "pihcore.prevention.label",
+            icon: "fas fa-fw fa-shield-alt",
+            shortTemplate: "templates/sections/defaultSectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-eid-protection.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-eid-protection.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}",
+            require: "patientAgeInYearsOnDate(visit.startDatetime) < 2"
+        };
+
+        var eidPlan = {
+            type: "encounter-section",
+            id: "eid-followup-plan",
+            label: "pihcore.visitNote.plan",
+            icon: "fas fa-fw fa-flag-checkered",
+            shortTemplate: "templates/sections/defaultSectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-eid-plan.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-eid-plan.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+        };
+
         var ancInitial = {
             type: "encounter-section",
             id: "section-anc-intake",
@@ -853,12 +877,10 @@ angular.module("encounterTypeConfig", [])
             editUrl: hfeStandardEditUrl,
             showOnVisitList: true,
             sections: [
-                hivState,
-                pedsFoodAndSupplements,
+                eidProtection,
                 pedsVaccinations,
-                primaryCareDx,
                 primaryCareExam,
-                hivPlan
+                eidPlan
             ]
         };
 
