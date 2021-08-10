@@ -117,71 +117,31 @@
 
     <ifMode mode="VIEW" include="false" >
         <script type="text/javascript">
-
-            // add validation handler to the HTML form
-            htmlForm.getBeforeValidation().push(function() {
-                var valid = true;
-
-                // validate that if a disposition has been selected, all the fields associated with that disposition have also been filled out
-                jq('#disposition .field-error').first().html('').hide(); // hide any previous error
-
-                if (jq('#disposition select:first').val() != '' &amp;&amp;
-                    (jq('#disposition select:visible').is(function() { return jq(this).val() == ''; })
-                    || jq('#disposition input:visible').is(function() { return jq(this).val() == ''; }))) {
-                        jq('#disposition .field-error').first().append('<uimessage code="pihcore.errors.fieldsAssociatedWithDisposition"/>').show();
-                        valid = false;
-                }
-                 return valid;
-            });
-
             jq(function() {
 
-                var updateEdd = function() {
-
-                    var lastPeriodDate = htmlForm.getValueIfLegal('lastPeriodDate.value');
-                    if (typeof lastPeriodDate !== "undefined" &amp;&amp; lastPeriodDate !== null &amp;&amp; (lastPeriodDate.length > 0)) {
-
-                        var today = new Date();
-                        var currentEncounterDate = '<lookup expression="encounter.getEncounterDatetime().getTime()"/>';
-                        if (typeof currentEncounterDate !== "undefined" &amp;&amp; currentEncounterDate !== null &amp;&amp; (currentEncounterDate.length > 0)) {
-                            // calculate the gestational age at the time of the encounter
-                            today = new Date(+currentEncounterDate);
-                        }
-
-                        var dateObj = getField('lastPeriodDate.value').datepicker('getDate');
-                        var newDate = new Date(dateObj);
-                        // time difference
-                        var timeDiff = Math.abs(today.getTime() - newDate.getTime());
-                        // weeks difference = gestational age
-                        var diffWeeks = Math.ceil(timeDiff / (1000 * 3600 * 24 * 7));
-
-                        // Estimated Delivery Date = (LMP - 3 months) + 12 months + 7 days
-                        newDate.setMonth(newDate.getMonth() - 3);
-                        newDate.setFullYear(newDate.getFullYear() + 1);
-                        newDate.setDate(newDate.getDate() + 7);
-
-                        var widgetDate = getField('lastPeriodDate.value').datepicker('setDate', newDate).val();
-                        getField('lastPeriodDate.value').datepicker('setDate', dateObj);
-
-                        jq('#calculated-edd-and-gestational').show();
-                        jq('#calculated-edd').text(widgetDate);
-                        jq('#calculated-gestational-age-value').text(diffWeeks + " " + '<uimessage code="pihcore.weeks"/>');
-
-                    } else {
-                        jq('#calculated-edd-and-gestational').hide();
-                    }
-                };
-
-                jq('#calculated-edd-and-gestational').hide();
-
-                jq("#lastPeriodDate input[type='hidden']").change(function() {
-                    updateEdd();
-                });
-
-                updateEdd();
+                setUpEdd(
+                    '<lookup expression="encounter.getEncounterDatetime().getTime()"/>',
+                    '<uimessage code="pihcore.weeks"/>'
+                );
 
                 jq('#disposition select:first').change(function() {
                     jq('#disposition .field-error').first().html('').hide(); // hide any previous error if disposition is changed
+                });
+
+                // add validation handler to the HTML form
+                htmlForm.getBeforeValidation().push(function() {
+                    var valid = true;
+
+                    // validate that if a disposition has been selected, all the fields associated with that disposition have also been filled out
+                    jq('#disposition .field-error').first().html('').hide(); // hide any previous error
+
+                    if (jq('#disposition select:first').val() != '' &amp;&amp;
+                        (jq('#disposition select:visible').is(function() { return jq(this).val() == ''; })
+                        || jq('#disposition input:visible').is(function() { return jq(this).val() == ''; }))) {
+                            jq('#disposition .field-error').first().append('<uimessage code="pihcore.errors.fieldsAssociatedWithDisposition"/>').show();
+                            valid = false;
+                    }
+                    return valid;
                 });
             });
         </script>
@@ -376,23 +336,22 @@
                 </div>
 
                 <div id="calculated-edd-and-gestational" class="two-columns hidden">
-                    <p>
+                    <div>
                         <span id="calculated-gestational-age-wrapper">
                             <span id="calculated-gestational-age-label">
                                 <uimessage code="pihcore.calculatedGestationalAge"/>:&#160;
                             </span>
                             <span id='calculated-gestational-age-value' class="value"></span>
                         </span>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                         <span id="calculated-edd-wrapper">
                             <span id="calculated-edd-label">
                                 <uimessage code="pihcore.calculatedEstimatedDeliveryDate"/>:&#160;
                             </span>
                             <span id='calculated-edd' class="value"></span>
                         </span>
-                    </p>
-
+                    </div>
                 </div>
 
                 <!-- Post partum -->

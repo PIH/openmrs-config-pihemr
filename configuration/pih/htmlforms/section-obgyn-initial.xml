@@ -200,59 +200,6 @@
   });
 </script>
 
-    <ifMode mode="VIEW" include="false" >
-        <script type="text/javascript">
-
-            jq(function() {
-
-                var updateEdd = function() {
-
-                    var lastPeriodDate = htmlForm.getValueIfLegal('lastPeriodDate.value');
-                    if (typeof lastPeriodDate !== "undefined" &amp;&amp; lastPeriodDate !== null &amp;&amp; 
-                        (lastPeriodDate.length > 0)) {
-
-                        var today = new Date();
-                        var currentEncounterDate = '<lookup expression="encounter.getEncounterDatetime().getTime()"/>';
-                        if (typeof currentEncounterDate !== "undefined" &amp;&amp; currentEncounterDate !== null &amp;&amp;     (currentEncounterDate.length > 0)) {
-                            // calculate the gestational age at the time of the encounter
-                            today = new Date(+currentEncounterDate);
-                        }
-
-                        var dateObj = getField('lastPeriodDate.value').datepicker('getDate');
-                        var newDate = new Date(dateObj);
-                        // time difference
-                        var timeDiff = Math.abs(today.getTime() - newDate.getTime());
-                        // weeks difference = gestational age
-                        var diffWeeks = Math.ceil(timeDiff / (1000 * 3600 * 24 * 7));
-
-                        // Estimated Delivery Date = (LMP - 3 months) + 12 months + 7 days
-                        newDate.setMonth(newDate.getMonth() - 3);
-                        newDate.setFullYear(newDate.getFullYear() + 1);
-                        newDate.setDate(newDate.getDate() + 7);
-
-                        var widgetDate = getField('lastPeriodDate.value').datepicker('setDate', newDate).val();
-                        getField('lastPeriodDate.value').datepicker('setDate', dateObj);
-
-                        jq('#calculated-edd-and-gestational').show();
-                        jq('#calculated-edd').text(widgetDate);
-                        jq('#calculated-gestational-age-value').text(diffWeeks + " " + '<uimessage code="pihcore.weeks"/>');
-
-                    } else {
-                        jq('#calculated-edd-and-gestational').hide();
-                    }
-                };
-
-                jq('#calculated-edd-and-gestational').hide();
-
-                jq("#lastPeriodDate input[type='hidden']").change(function() {
-                    updateEdd();
-                });
-
-                updateEdd();
-            });
-        </script>
-    </ifMode>
-
     <!-- special formatting when in view mode -->
     <style type="text/css">
         <ifMode mode="VIEW" include="false">
@@ -265,6 +212,11 @@
     <ifMode mode="VIEW" include="false">
         <script type="text/javascript">
             jq(function() {
+
+                setUpEdd(
+                    '<lookup expression="encounter.getEncounterDatetime().getTime()"/>',
+                    '<uimessage code="pihcore.weeks"/>'
+                );
 
                 var validateFamHistoryText = function(divElem) {
                     var parentDiv = divElem.closest('.medicalHistoryText');
@@ -305,19 +257,7 @@
                     validateFamHistoryText(jq(this));
                 });
 
-                // handle our custom functionality for triggering going to the next section when the "Next" button is clicked
-                jq('#next').click(function() {
-                    window.htmlForm.getBeforeSubmit().push(function () {
-                        window.htmlForm.setReturnUrl(window.htmlForm.getReturnUrl() + "&amp;goToNextSection=section-obgyn-initial");
-                        return true;
-                    });
-
-                    window.htmlForm.submitHtmlForm();
-                })
-
-                jq('#submit').click(function() {
-                    window.htmlForm.submitHtmlForm();
-                })
+                setUpNextButtonForSections('section-obgyn-initial');
 
                 beforeSubmit.push(function() {
                     var numErrors = 0;
@@ -962,7 +902,7 @@
                         <uimessage code="pihcore.pregnancy.dueDate"/>
                     </label>
                     <span class="small">
-                        <obs conceptId="CIEL:5596" allowFutureDates="true"/>
+                        <obs id="edd" conceptId="CIEL:5596" allowFutureDates="true"/>
                     </span>
                 </div>
             </div>
