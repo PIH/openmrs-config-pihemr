@@ -567,6 +567,7 @@
                               ['Doxycycline','CIEL:75222']">
                     <obsgroup groupingConceptId="PIH:Prescription construct">
                         <obs conceptId="PIH:1282" answerConceptId="{1}"
+                             answerCode="{0}"
                              style="checkbox"/>
                     </obsgroup>
                     <br/>
