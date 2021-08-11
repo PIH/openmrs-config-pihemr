@@ -507,19 +507,49 @@
                 <strong>
                     <uimessage code="pihcore.firstLineMeds"/>
                 </strong>
-                <repeat with="['Dexamethasone','CIEL:74609']">
+                <repeat with="['Dexamethasone','CIEL:74609'],
+                              ['Corticosteroids','CIEL:165948'],
+                              ['Tocilizumab',  'CIEL:165872']">
                     <obsgroup groupingConceptId="PIH:Prescription construct">
                         <obs conceptId="PIH:1282" answerConceptId="{1}"
+                             answerCode="{0}"
                              style="checkbox"/>
                     </obsgroup>
                 </repeat>
+
+                <table>
+                    <tr>
+                        <th>Corticosteroid</th>
+                        <th><label><uimessage code="mirebalais.dispensing.medicationDose"/></label></th>
+                        <th><label><uimessage code="mirebalais.dispensing.medicationDuration"/></label></th>
+                    </tr>
+                    <tr>
+                        <td><label>Dexamethasone (preferred if available)</label></td>
+                        <td><label>6mg IV or PO daily</label></td>
+                        <td><label>10 <uimessage code="htmlformentry.general.days"/></label></td>
+                    </tr>
+                    <tr>
+                        <td><label>Hydrocortisone</label></td>
+                        <td><label>50mg IV Q8h</label></td>
+                        <td><label>10 <uimessage code="htmlformentry.general.days"/></label></td>
+                    </tr>
+                    <tr>
+                        <td><label>Methylprednisolone</label></td>
+                        <td><label>15mg IV BID</label></td>
+                        <td><label>10 <uimessage code="htmlformentry.general.days"/></label></td>
+                    </tr>
+                    <tr>
+                        <td><label>Prednisone / Prednisolone</label></td>
+                        <td><label>40mg PO daily</label></td>
+                        <td><label>10 <uimessage code="htmlformentry.general.days"/></label></td>
+                    </tr>
+                </table>
             </p>
             <p>
                 <strong>
                     <uimessage code="pihcore.secondLineMeds"/>
                 </strong>
-                <repeat with="['Lopinavir/Ritonavir','CIEL:794'],
-                              ['Remdesivir','CIEL:165878']">
+                <repeat with="['Remdesivir','CIEL:165878']">
                     <obsgroup groupingConceptId="PIH:Prescription construct">
                         <obs conceptId="PIH:1282" answerConceptId="{1}"
                              style="checkbox"/>
@@ -585,6 +615,10 @@
                          answerConceptId="{1}" answerCode="{0}"
                          style="checkbox"/>
                 </repeat>
+
+                <!-- Prone position -->
+                <br/>
+                <obs conceptId="CIEL:165995" answerConceptId="CIEL:165928" style="checkbox" />
             </div>
 
             <div>
