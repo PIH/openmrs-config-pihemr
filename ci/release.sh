@@ -1,4 +1,11 @@
 #!/bin/bash
+#
+# This versions and releases a config repo.
+#
+# It reuqires the repo name as an argument. It accepts the environment variables
+#   `RELEASE_VERSION`
+#   `DEVELOPMENT_VERSION`
+#
 
 set -e  # die on error
 set -o pipefail  # die on error within pipes
@@ -32,22 +39,18 @@ git fetch central --tags
 
 CURRENT_RELEASE_TARGET=$(grep -m 1 "<version>" pom.xml | sed 's/.*version>\(.*\)-SNAPSHOT<\/version.*/\1/')
 
-if [ -z "${bamboo.release.version}" ]; then
+if [ -z "${RELEASE_VERSION}" ]; then
     RELEASE_VERSION=$CURRENT_RELEASE_TARGET
-else
-    RELEASE_VERSION=${bamboo.release.version}
 fi
 
 echo RELEASE_VERSION ${RELEASE_VERSION}
 
-if [ -z "${bamboo.development.version}" ]; then
+if [ -z "${DEVELOPMENT_VERSION}" ]; then
     MAJOR=$(echo "${RELEASE_VERSION#v}" | cut -f1 -d.)
     MINOR=$(echo "${RELEASE_VERSION#v}" | cut -f2 -d.)
     PATCH=$(echo "${RELEASE_VERSION#v}" | cut -f3 -d.)
     NEW_MINOR="$(( ${MINOR} + 1 ))"
     DEVELOPMENT_VERSION="${MAJOR}.${NEW_MINOR}.0-SNAPSHOT"
-else
-    DEVELOPMENT_VERSION=${bamboo.development.version}
 fi
 
 echo DEVELOPMENT_VERSION ${DEVELOPMENT_VERSION}
