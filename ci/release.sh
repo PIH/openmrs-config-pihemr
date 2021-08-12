@@ -26,6 +26,11 @@ git config --global user.email "pihinformatics@gmail.com"
 git config --global user.name "pihinformatics"
 git fetch central
 
+cd openmrs-module-pihcore
+git remote add central git@github.com:PIH/openmrs-module-pihcore.git
+git fetch central
+cd ..
+
 ### Clean up
 
 # For these to work, it's important that the Bamboo has git repository caching disabled for this repo/job.
@@ -74,29 +79,28 @@ git push central master
 
 ### Update development version in pihcore
 
+cd openmrs-module-pihcore
+
 # https://www.baeldung.com/linux/sed-editor
 sed -n -i \
   "/$1/{h; n; s/<version>.*<\/version>/<version>${DEVELOPMENT_VERSION}<\/version>/; x; p; x}; p" \
-  openmrs-module-pihcore/api/pom.xml
+  api/pom.xml
 # sed \     # the stream editor
 # -n \      # don't automatically print each line
 # -i \      # replace the file contents
 # "/$1/{    # search for the config repo name. If found, execute the function in curly braces.
-#     h;    # 'put the line in hold space'--i.e. save it for later
+#     h;    # 'put the line in hold space'--i.e. save the repo name line for later
 #     n;    # go to the next line and execute the following replacement
 #     s/<version>.*<\/version>/<version>2.0.0-SNAPSHOT<\/version>/;
-#     x; p; # exchange the active line with the held line (the repo name) and print it out
+#     x;    # exchange the active line (the version line) with the held line (the repo name)
+#     p;    # print out the repo name line
 #     x     # exchange them back so the active line is again the version line
 #           #   and will be printed by the `p` below
 #   };
 # p"        # print whatever's active. Note that this is different than if we just didn't use
 #           #   the `-n` flag. I struggle to explain why.
 
-# sed seems to want to replace the tabs with whitespace. Very strange. Change it back.
-sed -i "s/    /\t/g" openmrs-module-pihcore/api/pom.xml
-
-cd openmrs-module-pihcore
 git add api/pom.xml
 git commit -m "Update $1 version to ${DEVELOPMENT_VERSION}"
-git push origin `git rev-parse --abbrev-ref HEAD`
+git push central `git rev-parse --abbrev-ref HEAD`
 cd ..
