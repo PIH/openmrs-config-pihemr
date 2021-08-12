@@ -6,8 +6,8 @@
 #   `RELEASE_VERSION`
 #   `DEVELOPMENT_VERSION`
 #
-# This also sets the hard requirement that the config repo dependency entries
-# in openmrs-module-pihcore/api/pom.xml *must* have the version line
+# This script requires that the config repo dependency entries
+# in openmrs-module-pihcore/api/pom.xml have the version line
 # immediately following the `artifactId` line. e.g.
 #
 # <groupId>org.pih.openmrs</groupId>
