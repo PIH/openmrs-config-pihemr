@@ -6,6 +6,17 @@
 #   `RELEASE_VERSION`
 #   `DEVELOPMENT_VERSION`
 #
+# This also sets the hard requirement that the config repo dependency entries
+# in openmrs-module-pihcore/api/pom.xml *must* have the version line
+# immediately following the `artifactId` line. e.g.
+#
+# <groupId>org.pih.openmrs</groupId>
+# <artifactId>openmrs-config-ces</artifactId>
+# <version>1.0.0-SNAPSHOT</version>
+#
+# If the version line is not immediately after the artifactId line,
+# terrible things will happen.
+#
 
 set -e  # die on error
 set -o pipefail  # die on error within pipes
