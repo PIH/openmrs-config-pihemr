@@ -49,6 +49,45 @@ function setUpEdd(currentEncounterDate, msgWeeks) {
   updateEdd();
 }
 
+/**
+ * 
+ * This is for showing the calculated gestational age at birth,
+ * for the delivery form.
+ * 
+ * @param {Date} lastPeriodDate 
+ */
+function setUpGestationalAgeAtBirth(lastPeriodDate) {
+  function updateGestationalAge() {
+    if (lastPeriodDate) {
+      jq("#calculated-edd-wrapper").show();
+      const deliveryDateValue = htmlForm.getValueIfLegal("deliveryDate.value");
+      if (deliveryDateValue) {
+        const gestAgeMs = deliveryDateValue.getTime() - lastPeriodDate.getTime();
+        const gestAgeDays = Math.floor(gestAgeMs / (1000 * 3600 * 24))
+        const gestAgeWeeks = Math.floor(gestAgeDays / 7);
+        const gestAgeRemainderDays = gestAgeDays % 7;
+        jq("#calculated-gestational").show();
+        const gestAgeText = gestAgeWeeks + " " +
+          (gestAgeRemainderDays ? gestAgeRemainderDays + "/7 " : " ") +
+          msgWeeks;
+        jq("#calculated-gestational-age-value").text(gestAgeText);
+      } else {
+        jq("#calculated-gestational").hide();
+      }
+    } else {
+      jq("#calculated-edd-wrapper").hide();
+    }
+  };
+
+  jq("#calculated-gestational").hide();
+
+  jq("#deliveryDate").change(function () {
+    updateGestationalAge();
+  });
+
+  updateGestationalAge();
+}
+
 function setUpNextButtonForSections(currentSection) {
   jq("#next").click(function () {
     window.htmlForm.getBeforeSubmit().push(function () {
