@@ -571,31 +571,31 @@
                 <label>
                     <uimessage code="pihcore.drugOrders.comments"/>:
                 </label>
-                <obs conceptId="PIH:3407" style="textarea" rows="4" cols="60" />
+                <obs conceptId="CIEL:159573" style="textarea" rows="4" cols="60" />
             </p>
         </div>
     </section>
 
-    <section id="protocol" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="pihcore.hfProtocol">
-        <!-- Todo: Fix file path for the image where webapp is openmrs or mirebalais -->
-        <includeIf velocityTest="$locale == 'fr' ">
-            <img src="/$@WEBAPP_NAME@/ms/uiframework/resource/file/configuration/pih/images/heartFailureProtocol-1-fr.png"
-                 alt="Heart Failure protocol" width="100%"/>
-            <br/>
-            <br/>
-            <img src="/$@WEBAPP_NAME@/ms/uiframework/resource/file/configuration/pih/images/heartFailureProtocol-2-fr.png"
-                 alt="Heart Failure medication protocol"
-                 width="100%"/>
-        </includeIf>
-
-        <includeIf velocityTest="$locale == 'en' ">
-            <img src="/$@WEBAPP_NAME@/ms/uiframework/resource/file/configuration/pih/images/heartFailureProtocol-en.png"
-                 alt="Heart Failure protocol" width="100%"/>
-        </includeIf>
-    </section>
-
     <ifMode mode="VIEW" include="false">
+        <section id="protocol" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+                 headerCode="pihcore.hfProtocol">
+            <!-- Todo: Fix file path for the image where webapp is openmrs or mirebalais -->
+            <includeIf velocityTest="$locale == 'fr' ">
+                <img src="/$@WEBAPP_NAME@/ms/uiframework/resource/file/configuration/pih/images/heartFailureProtocol-1-fr.png"
+                     alt="Heart Failure protocol" width="100%"/>
+                <br/>
+                <br/>
+                <img src="/$@WEBAPP_NAME@/ms/uiframework/resource/file/configuration/pih/images/heartFailureProtocol-2-fr.png"
+                     alt="Heart Failure medication protocol"
+                     width="100%"/>
+            </includeIf>
+
+            <includeIf velocityTest="$locale == 'en' ">
+                <img src="/$@WEBAPP_NAME@/ms/uiframework/resource/file/configuration/pih/images/heartFailureProtocol-en.png"
+                     alt="Heart Failure protocol" width="100%"/>
+            </includeIf>
+        </section>
+
         <div id="buttons">
             <submit submitClass="confirm right" submitCode="mirebalais.save"/>
             <button type="button" class="cancel">
