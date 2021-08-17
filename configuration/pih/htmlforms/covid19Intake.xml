@@ -330,27 +330,23 @@
                             <uimessage code="pihcore.pregnancy.dueDate"/>
                         </label>
                         <span class="small">
-                            <obs conceptId="CIEL:5596" allowFutureDates="true"/>
+                            <obs id="edd" conceptId="CIEL:5596" allowFutureDates="true"/>
                         </span>
                     </p>
                 </div>
 
-                <div id="calculated-edd-and-gestational" class="two-columns hidden">
-                    <div>
-                        <span id="calculated-gestational-age-wrapper">
-                            <span id="calculated-gestational-age-label">
-                                <uimessage code="pihcore.calculatedGestationalAge"/>:&#160;
-                            </span>
-                            <span id='calculated-gestational-age-value' class="value"></span>
+                <div id="calculated-edd-and-gestational" class="hidden">
+                    <div id="calculated-gestational-age-wrapper">
+                        <span id="calculated-gestational-age-label">
+                            <uimessage code="pihcore.calculatedGestationalAge"/>:&#160;
                         </span>
+                        <span id='calculated-gestational-age-value' class="value"></span>
                     </div>
-                    <div>
-                        <span id="calculated-edd-wrapper">
-                            <span id="calculated-edd-label">
-                                <uimessage code="pihcore.calculatedEstimatedDeliveryDate"/>:&#160;
-                            </span>
-                            <span id='calculated-edd' class="value"></span>
+                    <div id="calculated-edd-wrapper">
+                        <span id="calculated-edd-label">
+                            <uimessage code="pihcore.calculatedEstimatedDeliveryDate"/>:&#160;
                         </span>
+                        <span id='calculated-edd' class="value"></span>
                     </div>
                 </div>
 
