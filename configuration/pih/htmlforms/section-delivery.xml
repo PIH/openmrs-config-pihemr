@@ -75,17 +75,16 @@
 
         <ifMode mode="VIEW" include="false">
             .date-one-line {
-                display:flex;
-                flex-direction: row;
+                display: flex;
             }
 
-            #deliveryTime label {
+            .date-one-line label {
                 align-self: center;
-                margin-right: 10px;
+                margin-right: 1em;
             }
-            #deliveryTime p input {
-                display: block;
-                margin: 0px 10px 0px 0px;
+
+            .date-one-line span {
+                display: flex;
             }
 
             .hasDatepicker {
@@ -172,21 +171,7 @@
 
         <script type="text/javascript">
 
-            var $j = jQuery;  // This probably does nothing
-
             jq(document).ready(function() {
-
-                setUpEdd(
-                    '<lookup expression="encounter.getEncounterDatetime().getTime()"/>',
-                    '<uimessage code="pihcore.weeks"/>'
-                );
-
-                setUpNextButtonForSections('section-delivery');
-
-                jq('#disposition select:first').change(function() {
-                    jq('#disposition .field-error').first().html('').hide(); // hide any previous error if disposition is changed
-                });
-
                 // add handler validation to the HTML form
                 htmlForm.getBeforeValidation().push(function() {
                     var valid = true;
@@ -203,7 +188,23 @@
                     return valid;
                 });
 
-                // Set up babies section
+                setUpGestationalAgeAtBirth('<lookup expression="fn.latestObs('CIEL:1427').getValueDatetime().getTime()"/>');
+
+                jq('#disposition select:first').change(function() {
+                    jq('#disposition .field-error').first().html('').hide(); // hide any previous error if disposition is changed
+                });
+
+            });
+        </script>
+    </ifMode>
+
+    <ifMode mode="VIEW" include="false">
+        <script type="text/javascript">
+
+            var $j = jQuery;
+
+            jq(function() {
+
                 var hasValue = function(element) {
                     return jq(element).find('.baby-name input').val();
                 };
@@ -240,32 +241,32 @@
              headerStyle="title" headerCode="pihcore.delivery.title">
         <div class="section-container">
 
-            <div>
-                <p id="deliveryTime" class="date-one-line">
+            <p class="date-one-line">
                 <label>
                     <uimessage code="pihcore.mch.deliveryDateTime"/>
                 </label>
 
                 <!-- ToDo:  UHM-5417 Show delivery time also -->
-                <obs conceptId="CIEL:5599" allowTime="true" defaultDatetime="today"/>
-                </p>
-            </div>
+                <obs id="deliveryDate" conceptId="CIEL:5599" defaultDatetime="today" />
+            </p>
 
-            <div id="calculated-edd-and-gestational" class="two-columns hidden">
-                <div>
-                    <span id="calculated-gestational-age-wrapper">
-                        <span id="calculated-gestational-age-label">
-                            <uimessage code="pihcore.calculatedGestationalAge"/>:&#160;
-                        </span>
-                        <span id='calculated-gestational-age-value' class="value"></span>
-                    </span>
-                </div>
+            <div class="two-columns">
                 <div>
                     <span id="calculated-edd-wrapper">
                         <span id="calculated-edd-label">
                             <uimessage code="pihcore.calculatedEstimatedDeliveryDate"/>:&#160;
                         </span>
-                        <span id='calculated-edd' class="value"></span>
+                        <span id='calculated-edd' class="value">
+                            <lookup expression="fn.latestObs('CIEL:1427').valueDatetime"/>
+                        </span>
+                    </span>
+                </div>
+                <div>
+                    <span id="calculated-gestational" class="hidden">
+                        <span id="calculated-gestational-age-label">
+                            <uimessage code="pihcore.calculatedGestationalAge"/>:&#160;
+                        </span>
+                        <span id='calculated-gestational-age-value' class="value"></span>
                     </span>
                 </div>
             </div>
