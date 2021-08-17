@@ -14,6 +14,8 @@
 
 <htmlform formUuid="43acf930-eb1b-11e2-91e2-0800200c9a66" formName="Admission" formEncounterType="260566e1-c909-4d61-a96f-c1019291a09d" formVersion="2.0">
 
+    <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.ReopenVisitAction"/>
+
     <style type="text/css">
         #who-when-where {
         margin-bottom: 6px;
