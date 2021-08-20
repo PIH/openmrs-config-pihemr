@@ -1,0 +1,6 @@
+UUID,Void/Retire,Name,Description,A is to B,B is to A
+8d919b58-c2cc-11de-8d13-0010c6dffd0f,,Doctor/Patient,Relationship from a primary care provider to the patient,Doctor,Patient
+8d91a01c-c2cc-11de-8d13-0010c6dffd0f,,Sibling,"Relationship between brother/sister, brother/brother, and sister/sister",Sibling,Sibling
+8d91a210-c2cc-11de-8d13-0010c6dffd0f,,Parent/Child,Relationship from a mother/father to the child,Parent,Child
+8d91a3dc-c2cc-11de-8d13-0010c6dffd0f,,Aunt/Uncle/Niece/Nephew,Relationship from a parent’s sibling to a child of that parent,Aunt/Uncle,Niece/Nephew
+2a5f4ff4-a179-4b8a-aa4c-40f71956ebbc,,Supervisor/Supervisee,Provider supervisor to provider supervisee relationship,Supervisor,Supervisee
