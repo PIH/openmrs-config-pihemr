@@ -248,6 +248,8 @@ programWorkflow:
     uuid: "aba55bfe-9490-4362-9841-0c476e379889"
 
 relationshipType:
+  spousePartner:
+    uuid: "C8CDE783-00EB-4FEA-9E4B-A2BDCAD8D33E"
   chwToPatient:
     uuid: "eb567be2-fda1-4746-9d51-833de8a7e81f"
   nurseChwToPatient:

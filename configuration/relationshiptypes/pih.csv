@@ -1,5 +1,5 @@
 UUID,Void/Retire,Name,Description,A is to B,B is to A
-C8CDE783-00EB-4FEA-9E4B-A2BDCAD8D33E,,Spouse/Partner,Spouse/Partner relationship,Spouse/Partner,Spouse/Partner
+${relationshipType.spousePartner.uuid},,Spouse/Partner,Spouse/Partner relationship,Spouse/Partner,Spouse/Partner
 ${relationshipType.chwToPatient.uuid},,CHW/Patient,CHW to Patient relationship,Community Health Worker,Patient
 ${relationshipType.nurseChwToPatient.uuid},,Nurse accompagnateur/Patient,Nurse accompagnateur to Patient relationship,Nurse accompagnateur,Patient
 ${relationshipType.clinicianToPatient.uuid},,Clinician/Patient,Clinician/Patient relationship,Clinician,Patient
