@@ -2,7 +2,11 @@
 #
 # This versions and releases a config repo.
 #
-# It reuqires the repo name as an argument. It accepts the environment variables
+# It requires the repo name as an argument.
+# It requires the environment variables
+#   `GPG_KEYNAME`
+#   `GPG_PASSPHRASE`
+# It accepts the environment variables
 #   `RELEASE_VERSION`
 #   `DEVELOPMENT_VERSION`
 #
@@ -85,7 +89,7 @@ git tag ${RELEASE_VERSION}
 git push central master --tags
 
 # Deploy
-mvn clean deploy -U -DdeployRelease -Dgpg.passphrase=${bamboo.gpg.passphrase} -Dgpg.keyname=${bamboo.gpg.keyname}
+mvn clean deploy -U -DdeployRelease -Dgpg.passphrase=${GPG_PASSPHRASE} -Dgpg.keyname=${GPG_KEYNAME}
 
 # Prep for next development cycle
 sed -i "0,/<\/version>/{s/version>.*<\/version/version>${DEVELOPMENT_VERSION}<\/version/}" pom.xml
