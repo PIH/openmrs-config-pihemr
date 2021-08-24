@@ -3,11 +3,7 @@
 # This versions and releases a config repo.
 #
 # It requires the repo name as an argument.
-# It requires the environment variables
-#   `GPG_KEYNAME`
-#   `GPG_PASSPHRASE`
 # It accepts the environment variables
-#   `RELEASE_VERSION`
 #   `DEVELOPMENT_VERSION`
 #
 # This script requires that the config repo dependency entries
@@ -59,13 +55,8 @@ git fetch central --tags
 
 ### Figure out versions
 
-CURRENT_RELEASE_TARGET=$(grep -m 1 "<version>" pom.xml | sed 's/.*version>\(.*\)-SNAPSHOT<\/version.*/\1/')
-
-if [ -z "${RELEASE_VERSION}" ]; then
-    RELEASE_VERSION=$CURRENT_RELEASE_TARGET
-fi
-
-echo RELEASE_VERSION ${RELEASE_VERSION}
+# POM should currently have release version from `release-prepare.sh`
+RELEASE_VERSION=$(grep -m 1 "<version>" pom.xml | sed 's/.*version>\(.*\)<\/version.*/\1/')
 
 if [ -z "${DEVELOPMENT_VERSION}" ]; then
     MAJOR=$(echo "${RELEASE_VERSION#v}" | cut -f1 -d.)
@@ -77,21 +68,7 @@ fi
 
 echo DEVELOPMENT_VERSION ${DEVELOPMENT_VERSION}
 
-### Do release
-
-set -x  # print all commands
-
-# Update version to release version
-sed -i "0,/<\/version>/{s/version>.*-SNAPSHOT<\/version/version>${RELEASE_VERSION}<\/version/}" pom.xml
-git add pom.xml
-git commit -m "${RELEASE_VERSION} release"
-git tag ${RELEASE_VERSION}
-git push central master --tags
-
-# Deploy
-mvn clean deploy -U -DdeployRelease -Dgpg.passphrase=${GPG_PASSPHRASE} -Dgpg.keyname=${GPG_KEYNAME}
-
-# Prep for next development cycle
+### Prep for next development cycle
 sed -i "0,/<\/version>/{s/version>.*<\/version/version>${DEVELOPMENT_VERSION}<\/version/}" pom.xml
 git add pom.xml
 git commit -m "update to ${DEVELOPMENT_VERSION}"
