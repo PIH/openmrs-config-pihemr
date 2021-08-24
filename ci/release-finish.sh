@@ -1,6 +1,7 @@
 #!/bin/bash
 #
-# This versions and releases a config repo.
+# This versions a config repo to the next SNAPSHOT version,
+# and updates pihcore to refer to the correct SNAPSHOT version.
 #
 # It requires the repo name as an argument.
 # It accepts the environment variables
@@ -71,8 +72,10 @@ echo DEVELOPMENT_VERSION ${DEVELOPMENT_VERSION}
 ### Prep for next development cycle
 sed -i "0,/<\/version>/{s/version>.*<\/version/version>${DEVELOPMENT_VERSION}<\/version/}" pom.xml
 git add pom.xml
-git commit -m "update to ${DEVELOPMENT_VERSION}"
-git push central master
+if git diff --cached --exit-code; then
+  git commit -m "update to ${DEVELOPMENT_VERSION}"
+  git push central master
+fi
 
 ### Update development version in pihcore
 
@@ -98,6 +101,8 @@ sed -n -i \
 #           #   the `-n` flag. I struggle to explain why.
 
 git add api/pom.xml
-git commit -m "Update $1 version to ${DEVELOPMENT_VERSION}"
-git push central `git rev-parse --abbrev-ref HEAD`
+if git diff --cached --exit-code; then
+  git commit -m "Update $1 version to ${DEVELOPMENT_VERSION}"
+  git push central `git rev-parse --abbrev-ref HEAD`
+fi
 cd ..

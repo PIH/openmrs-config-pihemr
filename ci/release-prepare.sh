@@ -1,6 +1,7 @@
 #!/bin/bash
 #
-# This versions and releases a config repo.
+# This versions a config repo to its release version,
+# preparing it for a Maven deploy.
 #
 # It requires the repo name as an argument.
 # It accepts the environment variables
