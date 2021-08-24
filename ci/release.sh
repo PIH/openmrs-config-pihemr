@@ -82,6 +82,9 @@ git commit -m "${RELEASE_VERSION} release"
 git tag ${RELEASE_VERSION}
 git push central master --tags
 
+# Deploy
+mvn clean deploy -U -DdeployRelease -Dgpg.passphrase=${bamboo.gpg.passphrase} -Dgpg.keyname=${bamboo.gpg.keyname}
+
 # Prep for next development cycle
 sed -i "0,/<\/version>/{s/version>.*<\/version/version>${DEVELOPMENT_VERSION}<\/version/}" pom.xml
 git add pom.xml
