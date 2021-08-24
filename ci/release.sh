@@ -31,13 +31,15 @@ fi
 
 ### Configure Github
 
-git remote remove central || true
-git remote add central git@github.com:PIH/$1.git
 git config --global user.email "pihinformatics@gmail.com"
 git config --global user.name "pihinformatics"
+
+git remote remove central || true
+git remote add central git@github.com:PIH/$1.git
 git fetch central
 
 cd openmrs-module-pihcore
+git remote remove central || true
 git remote add central git@github.com:PIH/openmrs-module-pihcore.git
 git fetch central
 cd ..
