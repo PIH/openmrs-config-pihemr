@@ -1,4 +1,4 @@
-  
+
 type: "sqlserver-bulk-import"
 configuration:
   extract:
@@ -9,6 +9,3 @@ configuration:
     datasource: "sqlserver/openmrs_extractions.yml"
     table: "diagnoses"
     schema: "crossservice/diagnoses/target.sql"
-
-schedule:
-  cron: "0 30 6 ? * *"

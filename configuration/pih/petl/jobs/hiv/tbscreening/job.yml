@@ -8,6 +8,3 @@ configuration:
     datasource: "sqlserver/openmrs_extractions.yml"
     table: "tb_screening"
     schema: "hiv/tbscreening/target.sql"
-
-schedule:
-  cron: "0 30 6 ? * *"

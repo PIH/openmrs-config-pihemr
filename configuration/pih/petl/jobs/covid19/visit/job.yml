@@ -9,5 +9,3 @@ configuration:
     table: "covid_visit"
     schema: "covid19/visit/target.sql"
 
-schedule:
-  cron: "0 30 6 ? * *"

@@ -9,5 +9,3 @@ configuration:
     table: "hiv_patient"
     schema: "hiv/patient/target.sql"
 
-schedule:
-  cron: "0 30 6 ? * *"

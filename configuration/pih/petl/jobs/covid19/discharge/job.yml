@@ -8,6 +8,3 @@ configuration:
     datasource: "sqlserver/openmrs_extractions.yml"
     table: "covid_discharge"
     schema: "covid19/discharge/target.sql"
-
-schedule:
-  cron: "0 30 6 ? * *"

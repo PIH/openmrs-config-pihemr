@@ -8,6 +8,3 @@ configuration:
     datasource: "sqlserver/openmrs_extractions.yml"
     table: "all_lab_results"
     schema: "labs/all_lab_results/target.sql"
-
-schedule:
-  cron: "0 30 6 ? * *"
