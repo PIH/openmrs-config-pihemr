@@ -1152,7 +1152,7 @@
 
                 <p class="in-line">
                     Pitting:
-                    <obs class="abnormalObs" conceptId="PIH:MUSCULOSKELETAL EXAM FINDINGS"
+                    <obs class="abnormalObs" conceptId="CIEL:130166"
                          answerConceptIds="CIEL:165598,CIEL:165599,CIEL:165600"
                          answerLabels="+1,+2,+3" style="radio" answerSeparator=""/>
                 </p>
