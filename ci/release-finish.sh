@@ -72,7 +72,7 @@ echo DEVELOPMENT_VERSION ${DEVELOPMENT_VERSION}
 ### Prep for next development cycle
 sed -i "0,/<\/version>/{s/version>.*<\/version/version>${DEVELOPMENT_VERSION}<\/version/}" pom.xml
 git add pom.xml
-if git diff --cached --exit-code; then
+if ! git diff --cached --exit-code; then
   git commit -m "update to ${DEVELOPMENT_VERSION}"
   git push central master
 fi
@@ -101,7 +101,7 @@ sed -n -i \
 #           #   the `-n` flag. I struggle to explain why.
 
 git add api/pom.xml
-if git diff --cached --exit-code; then
+if ! git diff --cached --exit-code; then
   git commit -m "Update $1 version to ${DEVELOPMENT_VERSION}"
   git push central `git rev-parse --abbrev-ref HEAD`
 fi
