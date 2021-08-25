@@ -1,9 +1,10 @@
 #!/bin/bash
 #
-# This versions and releases a config repo.
+# This versions a config repo to the next SNAPSHOT version,
+# and updates pihcore to refer to the correct SNAPSHOT version.
 #
-# It reuqires the repo name as an argument. It accepts the environment variables
-#   `RELEASE_VERSION`
+# It requires the repo name as an argument.
+# It accepts the environment variables
 #   `DEVELOPMENT_VERSION`
 #
 # This script requires that the config repo dependency entries
@@ -31,13 +32,15 @@ fi
 
 ### Configure Github
 
-git remote remove central || true
-git remote add central git@github.com:PIH/$1.git
 git config --global user.email "pihinformatics@gmail.com"
 git config --global user.name "pihinformatics"
+
+git remote remove central || true
+git remote add central git@github.com:PIH/$1.git
 git fetch central
 
 cd openmrs-module-pihcore
+git remote remove central || true
 git remote add central git@github.com:PIH/openmrs-module-pihcore.git
 git fetch central
 cd ..
@@ -53,13 +56,8 @@ git fetch central --tags
 
 ### Figure out versions
 
-CURRENT_RELEASE_TARGET=$(grep -m 1 "<version>" pom.xml | sed 's/.*version>\(.*\)-SNAPSHOT<\/version.*/\1/')
-
-if [ -z "${RELEASE_VERSION}" ]; then
-    RELEASE_VERSION=$CURRENT_RELEASE_TARGET
-fi
-
-echo RELEASE_VERSION ${RELEASE_VERSION}
+# POM should currently have release version from `release-prepare.sh`
+RELEASE_VERSION=$(grep -m 1 "<version>" pom.xml | sed 's/.*version>\(.*\)<\/version.*/\1/')
 
 if [ -z "${DEVELOPMENT_VERSION}" ]; then
     MAJOR=$(echo "${RELEASE_VERSION#v}" | cut -f1 -d.)
@@ -71,22 +69,13 @@ fi
 
 echo DEVELOPMENT_VERSION ${DEVELOPMENT_VERSION}
 
-### Do release
-
-set -x  # print all commands
-
-# Update version to release version
-sed -i "0,/<\/version>/{s/version>.*-SNAPSHOT<\/version/version>${RELEASE_VERSION}<\/version/}" pom.xml
-git add pom.xml
-git commit -m "${RELEASE_VERSION} release"
-git tag ${RELEASE_VERSION}
-git push central master --tags
-
-# Prep for next development cycle
+### Prep for next development cycle
 sed -i "0,/<\/version>/{s/version>.*<\/version/version>${DEVELOPMENT_VERSION}<\/version/}" pom.xml
 git add pom.xml
-git commit -m "update to ${DEVELOPMENT_VERSION}"
-git push central master
+if ! git diff --cached --exit-code; then
+  git commit -m "update to ${DEVELOPMENT_VERSION}"
+  git push central master
+fi
 
 ### Update development version in pihcore
 
@@ -112,6 +101,8 @@ sed -n -i \
 #           #   the `-n` flag. I struggle to explain why.
 
 git add api/pom.xml
-git commit -m "Update $1 version to ${DEVELOPMENT_VERSION}"
-git push central `git rev-parse --abbrev-ref HEAD`
+if ! git diff --cached --exit-code; then
+  git commit -m "Update $1 version to ${DEVELOPMENT_VERSION}"
+  git push central `git rev-parse --abbrev-ref HEAD`
+fi
 cd ..
