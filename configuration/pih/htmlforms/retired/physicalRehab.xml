@@ -1,0 +1,473 @@
+<htmlform>
+
+<!-- paper form by Megan Brock and Koji Nakashima
+       htmlform written by Sudha Guttikonda and Ellen Ball
+       Tested by Cordt Byrne
+       Summer 2011 
+       Added the toileting transfer concept  
+-->
+
+	<macros>
+		paperFormId = Evaluation-REHAB-Haiti.V1.4.mb.13sep11.eg
+		headerColor =#009d8e
+		fontOnHeaderColor = white
+	</macros>
+
+	<style>
+                body  {
+	             margin: 0px 0px 0px 0px;
+	             padding: 0px 0px 0px 0px;
+                 }
+
+		.section {
+			border: 1px solid #8FABC7;
+			text-align: left;
+			width: 97%;
+			margin-bottom: 1em;
+		}
+
+		.formName { background-color:#e0e0ff; }
+
+		.sectionHeader {
+			background-color: #8FABC7;
+			color: $fontOnHeaderColor;
+			display: block;
+			font-weight: bold;
+		}
+		table.symptoms th {text-align:right;}
+
+		th.subheader { background-color:
+		#8FABC7; color:white }
+
+		.note {color:red;}
+
+		td {vertical-align:top;}
+		table.labTable td { color:red; }
+		table.labTable
+		td.dateField { text-align:right; }
+		
+		.indented {padding-left: 20pt; 
+                      padding-right: 20pt; }
+		.bigIndent {padding-left: 40pt;
+		      padding-right: 10pt; }
+
+		th {vertical-align:top;}
+		.newpage {color:#8FABC7;
+		font-weight:bold;}
+
+	</style>
+
+
+<table border="2" cellspacing="0" cellpadding="6" width="97%" >
+<td width="100">
+<img src="/openmrs/images/emr_hands.gif" align="right" height="105"
+					width="100"></img></td>
+	<td><center><h2>Zanmi Lasante Rehabilitation Evaluation Form</h2>
+<p><small>Evaluation-REHAB-Haiti.V1.4.mb.13sep11.eg</small></p>
+</center></td>
+</table>
+
+<section headerLabel="Part 1 : Basic Information">
+<table border = "1" bordercolor="#336699" width="100%">
+
+<tr>
+<th width="50%" valign="top">
+<p><i>Paste label here</i></p>
+
+ZL EMR ID: <lookup class="value" expression="patient.getPatientIdentifier('ZL EMR ID')"/><br/>
+Name : <lookup class="value" expression="patient.personName"/><br />
+Age :<lookup class="value" expression="patient.age"/><br/>
+Birthdate : <lookup class="value" expression="patient.birthdate"/><br/>
+Gender : <lookup class="value" expression="patient.gender"/><br/>
+
+Address :<br />
+Telephone : <lookup class="value" expression="personAttributes.get('Telephone Number')"/><br/>
+</th>
+<th>Health center:<br /><encounterLocation/></th>
+<th>Visit:<obs conceptId="PIH: Nature of visit" /></th>
+</tr>
+</table>
+
+<table border = "1" bordercolor="#336699" width="100%">
+		<tr>
+		<td><b>Rehab educator:</b> <obs conceptId="PIH: Name of rehabilitation educator" style="person" role="Rehab educator" /><br />
+                <p><b>Referring service :</b>
+<ul>
+                <obs conceptId="PIH: Type of referring service" answerConceptId="PIH: HOSPITAL SURGERY ROOM" answerLabel="Surgery" /><br />
+                <obs conceptId="PIH: Type of referring service" answerConceptId="PIH: HOSPITAL INTERNAL MEDICINE" answerLabel="Internal medicine" /><br />
+                <obs conceptId="PIH: Type of referring service" answerConceptId="PIH: HOSPITAL PEDIATRICS" answerLabel="Inpatient pediatrics" /><br />
+                <obs conceptId="PIH: Type of referring service" answerConceptId="PIH: OUTPATIENT CONSULTATION" answerLabel="Outpatient" /></ul>
+</p>
+                <p><b>Referring physician :</b>
+                <obs conceptId="PIH: NAME OF REFERRING PERSON" /></p></td>
+		
+		<td><table border = "0">
+                    <tr><th colspan="4">Medical diagnosis: </th></tr>
+                    <tr>
+			<td width="25%" valign="top">
+				<obs conceptId="PIH: Rehabilitation Medical Diagnosis" answerConceptId="PIH: 7314" answerLabel="stroke"/>
+				<br/>
+				<obs conceptId="PIH: Rehabilitation Medical Diagnosis" answerConceptId="PIH: Spinal Cord Injury " answerLabel="spinal cord injury"/>
+				<br/>
+				<obs conceptId="PIH: Rehabilitation Medical Diagnosis" answerConceptId="PIH: Traumatic Brain Injury " answerLabel="traumatic brain injury"/>
+			</td>
+			<td width="25%" valign="top">
+				<obs conceptId="PIH: Rehabilitation Medical Diagnosis" answerConceptId="PIH: FRACTURE" answerLabel="fracture"/>
+				<br/>
+				&#160; <obs conceptId="PIH: Rehabilitation Medical Diagnosis" answerConceptId="PIH: Right Upper Fracture" answerLabel="R upper"/>
+				<br/>
+				&#160; <obs conceptId="PIH: Rehabilitation Medical Diagnosis" answerConceptId="PIH: Left Upper Fracture" answerLabel="L upper"/>
+				<br/>
+				&#160; <obs conceptId="PIH: Rehabilitation Medical Diagnosis" answerConceptId="PIH: Right Lower Fracture" answerLabel="R lower"/>
+				<br/>
+				&#160; <obs conceptId="PIH: Rehabilitation Medical Diagnosis" answerConceptId="PIH: Left Lower Fracture" answerLabel="L lower"/>
+				<br/>
+				&#160; <obs conceptId="PIH: Rehabilitation Medical Diagnosis" answerConceptId="PIH: Spine" answerLabel="spine"/>
+				<br/>
+				&#160; <obs conceptId="PIH: Rehabilitation Medical Diagnosis" answerConceptId="PIH: Other fracture" answerLabel="other:"/>
+				&#160; <obs conceptId="PIH: Other fracture"/>
+			</td>
+			<td valign="top">
+				<obs conceptId="PIH: Rehabilitation Medical Diagnosis" answerConceptId="PIH: Amputation" answerLabel="amputation"/>
+				<br/>
+				&#160; <obs conceptId="PIH: Rehabilitation Medical Diagnosis" answerConceptId="PIH: Right Upper Amputation" answerLabel="R upper"/>
+				<br/>
+				&#160; <obs conceptId="PIH: Rehabilitation Medical Diagnosis" answerConceptId="PIH: Left Upper Amputation" answerLabel="L upper"/>
+				<br/>
+				&#160; <obs conceptId="PIH: Rehabilitation Medical Diagnosis" answerConceptId="PIH: Right Lower Amputation" answerLabel="R lower"/>
+				<br/>
+				&#160; <obs conceptId="PIH: Rehabilitation Medical Diagnosis" answerConceptId="PIH: Left Lower Amputation" answerLabel="L lower"/>
+				<br/>
+			</td>
+			<td width="25%" valign="top">
+			<obs conceptId="PIH: Rehabilitation Medical Diagnosis" answerConceptId="PIH: OTHER NON-CODED" answerLabel="other:"/>
+				<obs conceptId="PIH: Rehabilitation diagnosis non-coded"/>
+			</td>
+		</tr>
+
+		<tr>
+			<th colspan="4">
+				Etiology is not entered online
+				<!-- <obs conceptId="PIH: Rehab etiology" rows="4" cols="60"/> -->
+			</th>
+		</tr>
+                </table></td></tr>
+		<tr>
+			<td rowspan = "2">
+				<i>Precautions are not entered online</i>
+				<!-- <obs conceptId="PIH: Precautions" rows="4" cols="60"/> -->
+			</td>
+			<td><b>Prior level of function : </b>
+<obs conceptId="PIH: Previous Functional Ability of Patient" style="checkbox" answerConceptId="PIH:NORMAL" answerLabel="independent" />
+<obs conceptId="PIH: Previous Functional Ability of Patient" style="checkbox" answerConceptId="PIH:Assistance required" answerLabel="needed help" />
+			<br />
+			<i>Description is not entered online.</i></td>
+		</tr>
+		<tr>
+			<td><b>Primary caregiver name:</b> <i>not entered online.</i><br />
+                        Relationship to caregiver: <obs conceptId="PIH: Caregiver"/></td>
+		</tr>
+	</table>
+</section>
+
+<section headerLabel="Part 2 : History and Interview">
+<i>This section is not entered online.</i>
+	<!-- <table border = "2" bordercolor="#336699" cellpadding="2" cellspacing="2" width="100%">
+		<tr>
+			<th>Medical History : <obs conceptId="PIH: PREVIOUS MEDICAL HISTORY" rows="4" cols="60"/></th>
+			<th>Current Medications : <obs conceptId="PIH: All medications currently taken at time of intake" rows="4" cols="60"/> </th>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<strong>Patient/family comments: </strong> <i>Not entered online.</i>
+			</td>
+		</tr>
+	</table> -->
+</section>
+
+
+<section headerLabel="Part 3 : Objective">
+	<table border = "2" bordercolor="#336699" width="100%">
+		<tr>
+			<th>Heart Rate</th>
+			<th colspan = "3" align="center">Blood Pressure</th>
+			<th>Oxygen Saturation</th>
+		</tr>
+		<tr>
+			<td><obs conceptId="PIH: PULSE"/>BPM</td>
+			<td>
+				<strong>Supine</strong>
+				<br/>
+				<obsgroup groupingConceptId="PIH: Supine Vital Signs Construct ">
+					<obs conceptId="PIH: SYSTOLIC BLOOD PRESSURE" />/
+					<obs conceptId="PIH: DIASTOLIC BLOOD PRESSURE" />
+				</obsgroup>
+			</td>
+			<td>
+				<strong>Sit</strong>
+				<br/> 
+				<obsgroup groupingConceptId="PIH: SITTING VITAL SIGNS CONSTRUCT ">
+					<obs conceptId="PIH: SYSTOLIC BLOOD PRESSURE" />/
+					<obs conceptId="PIH: DIASTOLIC BLOOD PRESSURE" />
+				</obsgroup>
+			</td>
+			<td>
+				<strong>Stand</strong>
+				<br/>
+				<obsgroup groupingConceptId="PIH: STANDING VITAL SIGNS CONSTRUCT ">
+					<obs conceptId="PIH: SYSTOLIC BLOOD PRESSURE" />/
+					<obs conceptId="PIH: DIASTOLIC BLOOD PRESSURE" />
+				</obsgroup>
+			</td>
+			<td><obs conceptId="PIH: BLOOD OXYGEN SATURATION"/> %</td>
+		</tr>
+	</table>
+	<table border = "0" width="100%">
+		<tr>
+			<th colspan = "2" align="center">Orientation</th>
+			<td rowspan="5"><p><b>Signs of communication impairment? </b>
+				<obs conceptId="PIH: Communication Difficulties" style="radio" answerConceptIds="PIH:NO,PIH:YES" answerLabels="no,yes" />
+				<br/>
+                                <i>Description is not entered online.</i></p>
+				<p>
+				<b>Signs of swallowing impairment? </b><obs conceptId="PIH: Swallowing Impairment" style="radio" answerConceptIds="PIH:NO,PIH:YES" answerLabels="no,yes" /><br/><i>Description is not entered online.</i></p>
+			</td>
+		</tr>
+		<tr>
+			<td>Self</td>
+			<td> <obs conceptId="PIH: Self orientation" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerLabels="yes,no" /></td>
+		</tr>
+		<tr>
+			<td>Day </td>
+			<td><obs conceptId="PIH: Day Orientation" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerLabels="yes,no" /></td>
+		</tr>
+		<tr>
+			<td>Situation </td>
+			<td><obs conceptId="PIH: Situation Orientation" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerLabels="yes,no" /></td>
+		</tr>
+		<tr>
+			<td>Location </td>
+			<td><obs conceptId="PIH: Location Orientation" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerLabels="yes,no" /></td>
+		</tr>
+	</table>
+
+	<table border = "2" bordercolor="#336699" width="100%">
+		<tr>
+			<td>
+				<strong>Pre-evaluation pain score: </strong>
+				<obsgroup groupingConceptId="PIH: Pre-evaluation pain construct ">
+					<obs conceptId="PIH: Pain Score"/>/10<br/><strong>Location:</strong>
+					<obs conceptId="PIH: Pain Location"/> 
+				</obsgroup>
+				<br/>
+			</td>
+			<td width = "350" height = "110"><img src="/openmrs/images/face-scale.jpg" height="110" width="350"></img></td>
+		</tr>
+	</table>
+
+<div class="newpage">Page 2 of 3</div>
+<table border = "2" bordercolor="#336699" width="100%">
+<tr>
+<td><i>Passive Range of Motion not entered online.</i></td>
+</tr>
+</table>
+<p></p>
+<div class="newpage">Page 3 of 3</div>
+	<table border = "0" bordercolor="#336699" width="100%">
+		<tr>
+			<th colspan = "3" align="center">Objective Measures</th>
+		</tr>
+		<tr>
+			<td>
+				FIM Score <obs conceptId="PIH: Functional independence measure"/>
+			</td>
+			<td colspan = "2">
+				Berg <obs conceptId="PIH: BERG"/>
+				<br/>
+				TUG <obs conceptId="PIH: Timed Up and Go"/> sec
+				<br/>
+				Other <obs conceptId="PIH: Other Physical Abilities Test"/>
+<br /><br />
+			</td>
+		</tr>
+		<tr>
+			<td><strong>Post-evaluation pain score: </strong>
+				<obsgroup groupingConceptId="PIH: Post-evaluation pain construct ">
+					<obs conceptId="PIH: Pain Score"/>/10
+					<br/>
+					<strong>Location:</strong>
+					<obs conceptId="PIH: Pain Location"/> 
+				</obsgroup>
+				<br/>
+                                <img src="/openmrs/images/face-scale.jpg" height = "110" width = "350"/></td>
+			<td colspan = "2"><b>Rehab pain management plan :</b><br />
+<table border = "0" width="100%">
+<tr><td>
+				<obs conceptId="PIH: Rehabilitation pain management plan" answerConceptId="PIH: positioning" answerLabel="positioning"/> 
+				</td><td>
+				<obs conceptId="PIH: Rehabilitation pain management plan" answerConceptId="PIH: Ice or heat" answerLabel="ice and/or heat"/></td></tr>
+				<tr><td><obs conceptId="PIH: Rehabilitation pain management plan" answerConceptId="PIH: Massage" answerLabel="massage"/> 
+				</td><td>
+				<obs conceptId="PIH: Rehabilitation pain management plan" answerConceptId=" PIH: Range of motion" answerLabel="range of motion"/></td></tr>
+				<tr><td><obs conceptId="PIH: Rehabilitation pain management plan" answerConceptId="PIH: SPLINTING" answerLabel="splint"/> 
+				</td><td>
+				<obs conceptId="PIH: Rehabilitation pain management plan" answerConceptId="PIH: Assistive device" answerLabel="assistive device"/></td></tr>
+			<tr colspan="2"><td>
+				<obs conceptId="PIH: Rehabilitation pain management plan" answerConceptId="PIH: Medication discussion with clinician" answerLabel="discuss medicines with doctor and nurse"/>
+			</td>
+		</tr>
+	</table>
+</td></tr></table>
+</section>
+
+<section headerLabel="Part 4: Assessment">
+	<table border = "0" bordercolor="#336699" width="100%">
+		<tr>
+			<th align="center" colspan = "4">Rehabilitation Problem List</th>
+		</tr>
+		<tr>
+			<th colspan = "2" align="center" >Impairments</th>
+                        <th colspan = "2" align="center" >Functional limitations</th>
+		</tr>
+		<tr>
+			<td>
+				<obs conceptId="PIH: Impairments requiring rehabilitation" answerConceptId="PIH: WEAKNESS" answerLabel="weakness"/>
+				<br/>
+				<obs conceptId="PIH: Impairments requiring rehabilitation" answerConceptId="PIH: Decreased range of motion" answerLabel="decreased range of motion"/>
+				<br/>
+				<obs conceptId="PIH: Impairments requiring rehabilitation" answerConceptId="PIH: Poor coordination" answerLabel="decreased coordination"/>
+				<br/>
+				<obs conceptId="PIH: Impairments requiring rehabilitation" answerConceptId="PIH: DECREASED SENSATION" answerLabel="impaired sensation"/>
+				<br/>
+				<obs conceptId="PIH: Impairments requiring rehabilitation" answerConceptId="PIH: Balance Problem" answerLabel="impaired balance"/>
+				<br/>
+				<obs conceptId="PIH: Impairments requiring rehabilitation" answerConceptId="PIH: Visual-spatial neglect" answerLabel="visual-spatial neglect"/>
+				<br/>
+				<obs conceptId="PIH: Impairments requiring rehabilitation" answerConceptId="PIH: Decreased endurance" answerLabel="decreased endurance"/>
+				<br/>
+				<obs conceptId="PIH: Impairments requiring rehabilitation" answerConceptId="PIH: Impaired cognition" answerLabel="impaired cognition"/>
+				<br/>
+				<obs conceptId="PIH: Impairments requiring rehabilitation" answerConceptId="PIH: Communication Difficulties" answerLabel="impaired communication"/>
+			</td>
+			<td>
+				<obs conceptId="PIH: Impairments requiring rehabilitation" answerConceptId="PIH: VISION DIFFICULTIES" answerLabel="vision difficulties"/>
+				<br/>
+				<obs conceptId="PIH: Impairments requiring rehabilitation" answerConceptId="PIH: DYSPHAGIA" answerLabel="dysphagia"/>
+				<br/>
+				<obs conceptId="PIH: Impairments requiring rehabilitation" answerConceptId="PIH: OTHER NON-CODED" answerLabel="other:"/>
+					<obs conceptId="PIH: Other impairments 1"/>
+				<br/>
+				<obs conceptId="PIH: Impairments requiring rehabilitation" answerConceptId="PIH: OTHER NON-CODED" answerLabel="other:"/>
+				
+					<obs conceptId="PIH: Other impairments 2"/>
+				
+			</td>
+			<td>
+				<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Eating" answerLabel="eating"/>
+				<br/>
+				<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Grooming" answerLabel="grooming"/>
+				<br/>
+				<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Bathing" answerLabel="bathing"/>
+				<br/>
+				<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Dressing" answerLabel="dressing"/>
+				<br/>
+				<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Toileting" answerLabel="toileting"/>
+				<br/>
+				<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Urinary Incontinence" answerLabel="bladder management"/>
+				<br/>
+				<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Incontinence of Feces" answerLabel="bowel management"/>
+				<br/>
+				<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Bed and chair transfers" answerLabel="transfers bed/chair/wc"/>
+				<br/>
+				<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Toilet transfers" answerLabel="toilet transfers"/>
+			</td>
+			<td>
+				<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Tub and shower transfers" answerLabel="tub/shower transfers"/>
+				<br/>
+				<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: WALKING" answerLabel="walking"/>
+				<br/>
+				<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Wheelchair mobility" answerLabel="wheelchair mobility"/>
+				<br/>
+				<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Stairs" answerLabel="stairs"/>
+				<br/>
+				<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Comprehension" answerLabel="comprehension"/>
+				<br/>
+				<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Expression" answerLabel="expression"/>
+				<br/>
+				<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Social interaction" answerLabel="social interaction"/>
+				<br/>
+				<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Problem solving" answerLabel="problem solving"/>
+				<br/>
+				<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: MEMORY PROBLEMS" answerLabel="memory"/>
+			</td>
+		</tr>
+	</table>
+</section>
+
+<section headerLabel="Part 5 : Plan">
+	<table border = "0" bordercolor="#336699" width="100%">
+		<tr>
+			<th colspan = "3" align="center">Treatment Plan</th>
+		</tr>
+		<tr>
+			<td width="33%">
+				<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: Strengthening exercises" answerLabel="strengthening exercises"/>
+				<br/>
+				<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: Stretching exercises" answerLabel="stretching exercises"/>
+				<br/>
+				<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: Neuromuscular re-education" answerLabel="neuromuscular re-education"/>
+				<br/>
+				<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: Endurance training" answerLabel="endurance training"/>
+				<br/>
+				<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: Bed and chair transfers" answerLabel="bed mobility"/>
+				<br/>
+				<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: Tub and shower transfers" answerLabel="transfers"/>
+				<br/>
+				<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: Gait training" answerLabel="gait training"/>
+			</td>
+			<td width="33%">
+				<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: Wheelchair mobility" answerLabel="wheelchair mobility"/>
+				<br/>
+				<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: Eating" answerLabel="eating"/>
+				<br/>
+				<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: Grooming" answerLabel="grooming"/>
+				<br/>
+				<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: Bathing" answerLabel="bathing"/>
+				<br/>
+				<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: Dressing" answerLabel="dressing"/>
+				<br/>
+				<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: Toileting" answerLabel="toileting"/>
+			</td>
+			<td>
+				<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: OTHER NON-CODED" answerLabel="other:"/>
+					<obs conceptId="PIH: TREATMENT PLAN OTHER REMARKS"/>
+				<br/>
+				<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: OTHER NON-CODED" answerLabel="other:"/>
+									<obs conceptId="PIH: TREATMENT PLAN OTHER REMARKS"/>
+				
+				<br/>
+				Equipment: <obs conceptId="PIH: Equipment" />
+			</td>
+		</tr>
+		<tr>
+			<th colspan="3">
+				<p><i>Short and long term goals are not entered online.</i></p>
+			</th>
+		</tr>
+		<tr>
+			<th><p>Signature: <encounterProvider role="Rehab technician" /></p>
+                               <p>Date: <encounterDate default="today"/></p></th>
+			<th colspan="2">
+				<i>Patient Status (state) is entered in the patient dashboard.</i>
+			</th>
+		</tr>
+	</table>
+</section>
+
+<center>
+<submit/>
+</center>
+
+<enrollInProgram programId="Rehab program"/>
+</htmlform>
+

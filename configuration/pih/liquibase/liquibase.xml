@@ -322,5 +322,20 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20210830-migrate-pitting-levels" author="ball">
+        <comment>
+            To correct a bug with the pitting levels on the physical exam musculoskeletal section
+        </comment>
+        <sql>
+             update obs
+                set concept_id = concept_from_mapping('CIEL','130166') -- pitting edema question
+              where concept_id = concept_from_mapping('PIH','MUSCULOSKELETAL EXAM FINDINGS')
+                and value_coded in (
+                        concept_from_mapping('CIEL','165598'),  -- pitting +1
+                        concept_from_mapping('CIEL','165599'),  -- pitting +2
+                        concept_from_mapping('CIEL','165600'))  -- pitting +3
+            ;
+        </sql>
+    </changeSet>
 
 </databaseChangeLog>
