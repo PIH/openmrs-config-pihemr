@@ -27,6 +27,7 @@ person_address_three(patient_id)
 person_address_two(patient_id)
 person_address_one(patient_id)
 encounter_creator(encounter_id)
+obs_creator(encounter_id)
 
 */
 
