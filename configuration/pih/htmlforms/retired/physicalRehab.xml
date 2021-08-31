@@ -1,7 +1,7 @@
 <htmlform id="physical-rehab-eval" class="simple-form-ui"
 		  formUuid="25bd3238-274f-4d5b-8f97-d21d8161b046"
 		  formName="Physical rehabilitation evaluation" formVersion="1.4"
-		  formEncounterType="e91a4139-e0e7-447f-a5dd-c4f3b92d27c9" >
+		  formEncounterType="e91a4139-e0e7-447f-a5dd-c4f3b92d27c9">
 
 	<!-- paper form by Megan Brock and Koji Nakashima
 		   htmlform written by Sudha Guttikonda and Ellen Ball
@@ -12,7 +12,10 @@
 
 	<!-- ToDo:  To get this working with the PIH EMR, need the following:
 		* 2 images:  face-scale.jpg and emr_hands.gif (not required and can be substituted
-		* All the concepts packaged into rehab mds and included in OCL
+		* concepts packaged into rehab mds and included in OCL
+		* add encounter type (Rehab evaluation; rehabilitation encounter with an initial or ongoing evaluation)
+		* add 2 roles:  role="Rehab educator" and "Rehab technician"
+		* add program:  "Rehab program"
 		-->
 
 	<macros>
@@ -71,20 +74,17 @@
 		}
 	</style>
 
-
 	<table border="2" cellspacing="0" cellpadding="6" width="97%">
-		<td width="100">
-			<img src="/openmrs/images/emr_hands.gif" align="right" height="105"
-				 width="100"></img>
-		</td>
-		<td>
-			<center>
-				<h2>Zanmi Lasante Rehabilitation Evaluation Form</h2>
-				<p>
-					<small>Evaluation-REHAB-Haiti.V1.4.mb.13sep11.eg</small>
-				</p>
-			</center>
-		</td>
+        <tr>
+            <td>
+                <center>
+                    <h2>Zanmi Lasante Rehabilitation Evaluation Form</h2>
+                    <p>
+                        <small>Evaluation-REHAB-Haiti.V1.4.mb.13sep11.eg</small>
+                    </p>
+                </center>
+            </td>
+		</tr>
 	</table>
 
 	<section headerLabel="Part 1 : Basic Information">
@@ -123,7 +123,8 @@
 					<encounterLocation/>
 				</th>
 				<th>Visit:
-					<obs conceptId="PIH: Nature of visit"/>
+				    <!-- Type of visit: initial or re-evaluation -->
+					<obs conceptId="CIEL:164181"/>
 				</th>
 			</tr>
 		</table>
@@ -132,27 +133,28 @@
 			<tr>
 				<td>
 					<b>Rehab educator:</b>
-					<obs conceptId="PIH: Name of rehabilitation educator" style="person" role="Rehab educator"/>
+					<obs conceptId="PIH:Name of rehabilitation educator" style="person" />
+					<!-- ToDo:  Add Role="Rehab educator" -->
 					<br/>
 					<p>
 						<b>Referring service :</b>
 						<ul>
-							<obs conceptId="PIH: Type of referring service" answerConceptId="PIH: HOSPITAL SURGERY ROOM"
+							<obs conceptId="PIH:Type of referring service" answerConceptId="CIEL:160449"
 								 answerLabel="Surgery"/>
 							<br/>
-							<obs conceptId="PIH: Type of referring service"
-								 answerConceptId="PIH: HOSPITAL INTERNAL MEDICINE" answerLabel="Internal medicine"/>
+							<obs conceptId="PIH:Type of referring service"
+								 answerConceptId="CIEL:160448" answerLabel="Internal medicine"/>
 							<br/>
-							<obs conceptId="PIH: Type of referring service" answerConceptId="PIH: HOSPITAL PEDIATRICS"
+							<obs conceptId="PIH:Type of referring service" answerConceptId="CIEL:165048"
 								 answerLabel="Inpatient pediatrics"/>
 							<br/>
-							<obs conceptId="PIH: Type of referring service"
-								 answerConceptId="PIH: OUTPATIENT CONSULTATION" answerLabel="Outpatient"/>
+							<obs conceptId="PIH:Type of referring service"
+								 answerConceptId="PIH:HUM outpatient" answerLabel="Outpatient"/>
 						</ul>
 					</p>
 					<p>
 						<b>Referring physician :</b>
-						<obs conceptId="PIH: NAME OF REFERRING PERSON"/>
+						<obs conceptId="CIEL:161103"/>
 					</p>
 				</td>
 
@@ -163,71 +165,71 @@
 						</tr>
 						<tr>
 							<td width="25%" valign="top">
-								<obs conceptId="PIH: Rehabilitation Medical Diagnosis" answerConceptId="PIH: 7314"
+								<obs conceptId="PIH:Rehabilitation Medical Diagnosis" answerConceptId="PIH:7314"
 									 answerLabel="stroke"/>
 								<br/>
-								<obs conceptId="PIH: Rehabilitation Medical Diagnosis"
-									 answerConceptId="PIH: Spinal Cord Injury " answerLabel="spinal cord injury"/>
+								<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
+									 answerConceptId="CIEL:112827" answerLabel="spinal cord injury"/>
 								<br/>
-								<obs conceptId="PIH: Rehabilitation Medical Diagnosis"
-									 answerConceptId="PIH: Traumatic Brain Injury "
+								<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
+									 answerConceptId="CIEL:124209"
 									 answerLabel="traumatic brain injury"/>
 							</td>
 							<td width="25%" valign="top">
-								<obs conceptId="PIH: Rehabilitation Medical Diagnosis" answerConceptId="PIH: FRACTURE"
+								<obs conceptId="PIH:Rehabilitation Medical Diagnosis" answerConceptId="PIH:FRACTURE"
 									 answerLabel="fracture"/>
 								<br/>
 								&#160;
-								<obs conceptId="PIH: Rehabilitation Medical Diagnosis"
-									 answerConceptId="PIH: Right Upper Fracture" answerLabel="R upper"/>
+								<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
+									 answerConceptId="PIH:Right Upper Fracture" answerLabel="R upper"/>
 								<br/>
 								&#160;
-								<obs conceptId="PIH: Rehabilitation Medical Diagnosis"
-									 answerConceptId="PIH: Left Upper Fracture" answerLabel="L upper"/>
+								<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
+									 answerConceptId="PIH:Left Upper Fracture" answerLabel="L upper"/>
 								<br/>
 								&#160;
-								<obs conceptId="PIH: Rehabilitation Medical Diagnosis"
-									 answerConceptId="PIH: Right Lower Fracture" answerLabel="R lower"/>
+								<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
+									 answerConceptId="PIH:Right Lower Fracture" answerLabel="R lower"/>
 								<br/>
 								&#160;
-								<obs conceptId="PIH: Rehabilitation Medical Diagnosis"
-									 answerConceptId="PIH: Left Lower Fracture" answerLabel="L lower"/>
+								<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
+									 answerConceptId="PIH:Left Lower Fracture" answerLabel="L lower"/>
 								<br/>
 								&#160;
-								<obs conceptId="PIH: Rehabilitation Medical Diagnosis" answerConceptId="PIH: Spine"
+								<obs conceptId="PIH:Rehabilitation Medical Diagnosis" answerConceptId="PIH:Spine"
 									 answerLabel="spine"/>
 								<br/>
 								&#160;
-								<obs conceptId="PIH: Rehabilitation Medical Diagnosis"
-									 answerConceptId="PIH: Other fracture" answerLabel="other:"/>
+								<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
+									 answerConceptId="PIH:Other fracture" answerLabel="other:"/>
 								&#160;
-								<obs conceptId="PIH: Other fracture"/>
+								<obs conceptId="PIH:Other fracture"/>
 							</td>
 							<td valign="top">
-								<obs conceptId="PIH: Rehabilitation Medical Diagnosis" answerConceptId="PIH: Amputation"
+								<obs conceptId="PIH:Rehabilitation Medical Diagnosis" answerConceptId="PIH:Amputation"
 									 answerLabel="amputation"/>
 								<br/>
 								&#160;
-								<obs conceptId="PIH: Rehabilitation Medical Diagnosis"
-									 answerConceptId="PIH: Right Upper Amputation" answerLabel="R upper"/>
+								<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
+									 answerConceptId="PIH:Right Upper Amputation" answerLabel="R upper"/>
 								<br/>
 								&#160;
-								<obs conceptId="PIH: Rehabilitation Medical Diagnosis"
-									 answerConceptId="PIH: Left Upper Amputation" answerLabel="L upper"/>
+								<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
+									 answerConceptId="PIH:Left Upper Amputation" answerLabel="L upper"/>
 								<br/>
 								&#160;
-								<obs conceptId="PIH: Rehabilitation Medical Diagnosis"
-									 answerConceptId="PIH: Right Lower Amputation" answerLabel="R lower"/>
+								<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
+									 answerConceptId="PIH:Right Lower Amputation" answerLabel="R lower"/>
 								<br/>
 								&#160;
-								<obs conceptId="PIH: Rehabilitation Medical Diagnosis"
-									 answerConceptId="PIH: Left Lower Amputation" answerLabel="L lower"/>
+								<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
+									 answerConceptId="PIH:Left Lower Amputation" answerLabel="L lower"/>
 								<br/>
 							</td>
 							<td width="25%" valign="top">
-								<obs conceptId="PIH: Rehabilitation Medical Diagnosis"
-									 answerConceptId="PIH: OTHER NON-CODED" answerLabel="other:"/>
-								<obs conceptId="PIH: Rehabilitation diagnosis non-coded"/>
+								<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
+									 answerConceptId="PIH:OTHER NON-CODED" answerLabel="other:"/>
+								<obs conceptId="PIH:Rehabilitation diagnosis non-coded"/>
 							</td>
 						</tr>
 
@@ -247,7 +249,7 @@
 				</td>
 				<td>
 					<b>Prior level of function :</b>
-					<obs conceptId="PIH: Previous Functional Ability of Patient" style="checkbox"
+					<obs conceptId="PIH:Previous Functional Ability of Patient" style="checkbox"
 						 answerConceptId="PIH:NORMAL" answerLabel="independent"/>
 					<obs conceptId="PIH: Previous Functional Ability of Patient" style="checkbox"
 						 answerConceptId="PIH:Assistance required" answerLabel="needed help"/>
@@ -261,7 +263,7 @@
 					<i>not entered online.</i>
 					<br/>
 					Relationship to caregiver:
-					<obs conceptId="PIH: Caregiver"/>
+					<obs conceptId="CIEL:1560"/>
 				</td>
 			</tr>
 		</table>
@@ -271,8 +273,8 @@
 		<i>This section is not entered online.</i>
 		<!-- <table border = "2" bordercolor="#336699" cellpadding="2" cellspacing="2" width="100%">
             <tr>
-                <th>Medical History : <obs conceptId="PIH: PREVIOUS MEDICAL HISTORY" rows="4" cols="60"/></th>
-                <th>Current Medications : <obs conceptId="PIH: All medications currently taken at time of intake" rows="4" cols="60"/> </th>
+                <th>Medical History : <obs conceptId="CIEL:160221" rows="4" cols="60"/></th>
+                <th>Current Medications : <obs conceptId="PIH:All medications currently taken at time of intake" rows="4" cols="60"/> </th>
             </tr>
             <tr>
                 <td colspan="2">
@@ -296,29 +298,29 @@
 				<td>
 					<strong>Supine</strong>
 					<br/>
-					<obsgroup groupingConceptId="PIH: Supine Vital Signs Construct ">
-						<obs conceptId="PIH: SYSTOLIC BLOOD PRESSURE"/>/
-						<obs conceptId="PIH: DIASTOLIC BLOOD PRESSURE"/>
+					<obsgroup groupingConceptId="PIH:Supine Vital Signs Construct ">
+						<obs conceptId="PIH:SYSTOLIC BLOOD PRESSURE"/>/
+						<obs conceptId="PIH:DIASTOLIC BLOOD PRESSURE"/>
 					</obsgroup>
 				</td>
 				<td>
 					<strong>Sit</strong>
 					<br/>
-					<obsgroup groupingConceptId="PIH: SITTING VITAL SIGNS CONSTRUCT ">
-						<obs conceptId="PIH: SYSTOLIC BLOOD PRESSURE"/>/
-						<obs conceptId="PIH: DIASTOLIC BLOOD PRESSURE"/>
+					<obsgroup groupingConceptId="PIH:SITTING VITAL SIGNS CONSTRUCT ">
+						<obs conceptId="PIH:SYSTOLIC BLOOD PRESSURE"/>/
+						<obs conceptId="PIH:DIASTOLIC BLOOD PRESSURE"/>
 					</obsgroup>
 				</td>
 				<td>
 					<strong>Stand</strong>
 					<br/>
-					<obsgroup groupingConceptId="PIH: STANDING VITAL SIGNS CONSTRUCT ">
-						<obs conceptId="PIH: SYSTOLIC BLOOD PRESSURE"/>/
-						<obs conceptId="PIH: DIASTOLIC BLOOD PRESSURE"/>
+					<obsgroup groupingConceptId="PIH:STANDING VITAL SIGNS CONSTRUCT ">
+						<obs conceptId="PIH:SYSTOLIC BLOOD PRESSURE"/>/
+						<obs conceptId="PIH:DIASTOLIC BLOOD PRESSURE"/>
 					</obsgroup>
 				</td>
 				<td>
-					<obs conceptId="PIH: BLOOD OXYGEN SATURATION"/>
+					<obs conceptId="PIH:BLOOD OXYGEN SATURATION"/>
 					%
 				</td>
 			</tr>
@@ -329,15 +331,15 @@
 				<td rowspan="5">
 					<p>
 						<b>Signs of communication impairment?</b>
-						<obs conceptId="PIH: Communication Difficulties" style="radio" answerConceptIds="PIH:NO,PIH:YES"
-							 answerLabels="no,yes"/>
+						<obs conceptId="PIH:Communication Difficulties" style="radio"
+						     answerConceptIds="PIH:NO,PIH:YES"/>
 						<br/>
 						<i>Description is not entered online.</i>
 					</p>
 					<p>
 						<b>Signs of swallowing impairment?</b>
-						<obs conceptId="PIH: Swallowing Impairment" style="radio" answerConceptIds="PIH:NO,PIH:YES"
-							 answerLabels="no,yes"/>
+						<obs conceptId="PIH:Swallowing Impairment" style="radio"
+						     answerConceptIds="PIH:NO,PIH:YES"/>
 						<br/>
 						<i>Description is not entered online.</i>
 					</p>
@@ -346,29 +348,29 @@
 			<tr>
 				<td>Self</td>
 				<td>
-					<obs conceptId="PIH: Self orientation" style="radio" answerConceptIds="PIH:YES,PIH:NO"
-						 answerLabels="yes,no"/>
+					<obs conceptId="PIH:Self orientation" style="radio"
+						 answerConceptIds="PIH:YES,PIH:NO"/>
 				</td>
 			</tr>
 			<tr>
 				<td>Day</td>
 				<td>
-					<obs conceptId="PIH: Day Orientation" style="radio" answerConceptIds="PIH:YES,PIH:NO"
-						 answerLabels="yes,no"/>
+					<obs conceptId="PIH:Day Orientation" style="radio"
+						 answerConceptIds="PIH:YES,PIH:NO"/>
 				</td>
 			</tr>
 			<tr>
 				<td>Situation</td>
 				<td>
-					<obs conceptId="PIH: Situation Orientation" style="radio" answerConceptIds="PIH:YES,PIH:NO"
-						 answerLabels="yes,no"/>
+					<obs conceptId="PIH:Situation Orientation" style="radio"
+						 answerConceptIds="PIH:YES,PIH:NO"/>
 				</td>
 			</tr>
 			<tr>
 				<td>Location</td>
 				<td>
-					<obs conceptId="PIH: Location Orientation" style="radio" answerConceptIds="PIH:YES,PIH:NO"
-						 answerLabels="yes,no"/>
+					<obs conceptId="PIH:Location Orientation" style="radio"
+						 answerConceptIds="PIH:YES,PIH:NO"/>
 				</td>
 			</tr>
 		</table>
@@ -377,16 +379,17 @@
 			<tr>
 				<td>
 					<strong>Pre-evaluation pain score:</strong>
-					<obsgroup groupingConceptId="PIH: Pre-evaluation pain construct ">
+					<obsgroup groupingConceptId="PIH:Pre-evaluation pain construct ">
 						<obs conceptId="PIH: Pain Score"/>/10
 						<br/>
 						<strong>Location:</strong>
-						<obs conceptId="PIH: Pain Location"/>
+						<obs conceptId="PIH:Pain Location"/>
 					</obsgroup>
 					<br/>
 				</td>
 				<td width="350" height="110">
-					<img src="/openmrs/images/face-scale.jpg" height="110" width="350"></img>
+                    <img src="/$@WEBAPP_NAME@/ms/uiframework/resource/file/configuration/pih/images/face-scale.png"
+                         alt="Pain face scale"/>
 				</td>
 			</tr>
 		</table>
@@ -408,18 +411,18 @@
 			<tr>
 				<td>
 					FIM Score
-					<obs conceptId="PIH: Functional independence measure"/>
+					<obs conceptId="PIH:Functional independence measure"/>
 				</td>
 				<td colspan="2">
 					Berg
-					<obs conceptId="PIH: BERG"/>
+					<obs conceptId="PIH:BERG"/>
 					<br/>
 					TUG
-					<obs conceptId="PIH: Timed Up and Go"/>
+					<obs conceptId="PIH:Timed Up and Go"/>
 					sec
 					<br/>
 					Other
-					<obs conceptId="PIH: Other Physical Abilities Test"/>
+					<obs conceptId="PIH:Other Physical Abilities Test"/>
 					<br/>
 					<br/>
 				</td>
@@ -427,14 +430,15 @@
 			<tr>
 				<td>
 					<strong>Post-evaluation pain score:</strong>
-					<obsgroup groupingConceptId="PIH: Post-evaluation pain construct ">
-						<obs conceptId="PIH: Pain Score"/>/10
+					<obsgroup groupingConceptId="PIH:Post-evaluation pain construct ">
+						<obs conceptId="PIH:Pain Score"/>/10
 						<br/>
 						<strong>Location:</strong>
-						<obs conceptId="PIH: Pain Location"/>
+						<obs conceptId="PIH:Pain Location"/>
 					</obsgroup>
 					<br/>
-					<img src="/openmrs/images/face-scale.jpg" height="110" width="350"/>
+                    <img src="/$@WEBAPP_NAME@/ms/uiframework/resource/file/configuration/pih/images/face-scale.png"
+                         alt="Pain face scale"/>
 				</td>
 				<td colspan="2">
 					<b>Rehab pain management plan :</b>
@@ -442,35 +446,36 @@
 					<table border="0" width="100%">
 						<tr>
 							<td>
-								<obs conceptId="PIH: Rehabilitation pain management plan"
-									 answerConceptId="PIH: positioning"
+								<obs conceptId="PIH:Rehabilitation pain management plan"
+									 answerConceptId="PIH:Positioning"
 									 answerLabel="positioning"/>
 							</td>
 							<td>
-								<obs conceptId="PIH: Rehabilitation pain management plan"
-									 answerConceptId="PIH: Ice or heat"
+								<obs conceptId="PIH:Rehabilitation pain management plan"
+									 answerConceptId="PIH:Ice or heat"
 									 answerLabel="ice and/or heat"/>
 							</td>
 						</tr>
 						<tr>
 							<td>
-								<obs conceptId="PIH: Rehabilitation pain management plan" answerConceptId="PIH: Massage"
+								<obs conceptId="PIH:Rehabilitation pain management plan"
+									 answerConceptId="PIH:Massage"
 									 answerLabel="massage"/>
 							</td>
 							<td>
-								<obs conceptId="PIH: Rehabilitation pain management plan"
-									 answerConceptId=" PIH: Range of motion" answerLabel="range of motion"/>
+								<obs conceptId="PIH:Rehabilitation pain management plan"
+									 answerConceptId=" PIH:Range of motion" answerLabel="range of motion"/>
 							</td>
 						</tr>
 						<tr>
 							<td>
-								<obs conceptId="PIH: Rehabilitation pain management plan"
-									 answerConceptId="PIH: SPLINTING"
+								<obs conceptId="PIH:Rehabilitation pain management plan"
+									 answerConceptId="PIH:SPLINTING"
 									 answerLabel="splint"/>
 							</td>
 							<td>
-								<obs conceptId="PIH: Rehabilitation pain management plan"
-									 answerConceptId="PIH: Assistive device" answerLabel="assistive device"/>
+								<obs conceptId="PIH:Rehabilitation pain management plan"
+									 answerConceptId="PIH:Assistive device" answerLabel="assistive device"/>
 							</td>
 						</tr>
 						<tr colspan="2">
@@ -497,43 +502,43 @@
 			</tr>
 			<tr>
 				<td>
-					<obs conceptId="PIH: Impairments requiring rehabilitation" answerConceptId="PIH: WEAKNESS"
+					<obs conceptId="PIH:Impairments requiring rehabilitation" answerConceptId="CIEL:5226"
 						 answerLabel="weakness"/>
 					<br/>
-					<obs conceptId="PIH: Impairments requiring rehabilitation"
-						 answerConceptId="PIH: Decreased range of motion" answerLabel="decreased range of motion"/>
+					<obs conceptId="PIH:Impairments requiring rehabilitation"
+						 answerConceptId="PIH:Decreased range of motion" answerLabel="decreased range of motion"/>
 					<br/>
-					<obs conceptId="PIH: Impairments requiring rehabilitation" answerConceptId="PIH: Poor coordination"
+					<obs conceptId="PIH:Impairments requiring rehabilitation" answerConceptId="PIH:Poor coordination"
 						 answerLabel="decreased coordination"/>
 					<br/>
-					<obs conceptId="PIH: Impairments requiring rehabilitation"
-						 answerConceptId="PIH: DECREASED SENSATION" answerLabel="impaired sensation"/>
+					<obs conceptId="PIH:Impairments requiring rehabilitation"
+						 answerConceptId="PIH:DECREASED SENSATION" answerLabel="impaired sensation"/>
 					<br/>
-					<obs conceptId="PIH: Impairments requiring rehabilitation" answerConceptId="PIH: Balance Problem"
+					<obs conceptId="PIH:Impairments requiring rehabilitation" answerConceptId="PIH:Balance Problem"
 						 answerLabel="impaired balance"/>
 					<br/>
-					<obs conceptId="PIH: Impairments requiring rehabilitation"
+					<obs conceptId="PIH:Impairments requiring rehabilitation"
 						 answerConceptId="PIH: Visual-spatial neglect" answerLabel="visual-spatial neglect"/>
 					<br/>
-					<obs conceptId="PIH: Impairments requiring rehabilitation"
+					<obs conceptId="PIH:Impairments requiring rehabilitation"
 						 answerConceptId="PIH: Decreased endurance" answerLabel="decreased endurance"/>
 					<br/>
-					<obs conceptId="PIH: Impairments requiring rehabilitation" answerConceptId="PIH: Impaired cognition"
+					<obs conceptId="PIH:Impairments requiring rehabilitation" answerConceptId="PIH:Impaired cognition"
 						 answerLabel="impaired cognition"/>
 					<br/>
-					<obs conceptId="PIH: Impairments requiring rehabilitation"
-						 answerConceptId="PIH: Communication Difficulties" answerLabel="impaired communication"/>
+					<obs conceptId="PIH:Impairments requiring rehabilitation"
+						 answerConceptId="PIH:Communication Difficulties" answerLabel="impaired communication"/>
 				</td>
 				<td>
-					<obs conceptId="PIH: Impairments requiring rehabilitation"
-						 answerConceptId="PIH: VISION DIFFICULTIES" answerLabel="vision difficulties"/>
+					<obs conceptId="PIH:Impairments requiring rehabilitation"
+						 answerConceptId="CIEL:118938" answerLabel="vision problem"/>
 					<br/>
-					<obs conceptId="PIH: Impairments requiring rehabilitation" answerConceptId="PIH: DYSPHAGIA"
+					<obs conceptId="PIH:Impairments requiring rehabilitation" answerConceptId="PIH:DYSPHAGIA"
 						 answerLabel="dysphagia"/>
 					<br/>
-					<obs conceptId="PIH: Impairments requiring rehabilitation" answerConceptId="PIH: OTHER NON-CODED"
+					<obs conceptId="PIH:Impairments requiring rehabilitation" answerConceptId="PIH:OTHER NON-CODED"
 						 answerLabel="other:"/>
-					<obs conceptId="PIH: Other impairments 1"/>
+					<obs conceptId="PIH:Other impairments 1"/>
 					<br/>
 					<obs conceptId="PIH: Impairments requiring rehabilitation" answerConceptId="PIH: OTHER NON-CODED"
 						 answerLabel="other:"/>
@@ -542,55 +547,55 @@
 
 				</td>
 				<td>
-					<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Eating" answerLabel="eating"/>
+					<obs conceptId="PIH:Functional Limitations" answerConceptId="PIH:Eating" answerLabel="eating"/>
 					<br/>
-					<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Grooming"
+					<obs conceptId="PIH:Functional Limitations" answerConceptId="PIH:Grooming"
 						 answerLabel="grooming"/>
 					<br/>
-					<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Bathing" answerLabel="bathing"/>
+					<obs conceptId="PIH:Functional Limitations" answerConceptId="PIH:Bathing" answerLabel="bathing"/>
 					<br/>
-					<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Dressing"
+					<obs conceptId="PIH:Functional Limitations" answerConceptId="PIH:Dressing"
 						 answerLabel="dressing"/>
 					<br/>
-					<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Toileting"
+					<obs conceptId="PIH:Functional Limitations" answerConceptId="PIH:Toileting"
 						 answerLabel="toileting"/>
 					<br/>
-					<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Urinary Incontinence"
+					<obs conceptId="PIH:Functional Limitations" answerConceptId="PIH:Urinary Incontinence"
 						 answerLabel="bladder management"/>
 					<br/>
-					<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Incontinence of Feces"
+					<obs conceptId="PIH:Functional Limitations" answerConceptId="PIH:Incontinence of Feces"
 						 answerLabel="bowel management"/>
 					<br/>
-					<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Bed and chair transfers"
+					<obs conceptId="PIH:Functional Limitations" answerConceptId="PIH:Bed and chair transfers"
 						 answerLabel="transfers bed/chair/wc"/>
 					<br/>
-					<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Toilet transfers"
+					<obs conceptId="PIH:Functional Limitations" answerConceptId="PIH:Toilet transfers"
 						 answerLabel="toilet transfers"/>
 				</td>
 				<td>
-					<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Tub and shower transfers"
+					<obs conceptId="PIH:Functional Limitations" answerConceptId="PIH:Tub and shower transfers"
 						 answerLabel="tub/shower transfers"/>
 					<br/>
-					<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: WALKING" answerLabel="walking"/>
+					<obs conceptId="PIH:Functional Limitations" answerConceptId="PIH:WALKING" answerLabel="walking"/>
 					<br/>
-					<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Wheelchair mobility"
+					<obs conceptId="PIH:Functional Limitations" answerConceptId="PIH:Wheelchair mobility"
 						 answerLabel="wheelchair mobility"/>
 					<br/>
-					<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Stairs" answerLabel="stairs"/>
+					<obs conceptId="PIH:Functional Limitations" answerConceptId="PIH:Stairs" answerLabel="stairs"/>
 					<br/>
-					<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Comprehension"
+					<obs conceptId="PIH:Functional Limitations" answerConceptId="PIH:Comprehension"
 						 answerLabel="comprehension"/>
 					<br/>
-					<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Expression"
+					<obs conceptId="PIH:Functional Limitations" answerConceptId="PIH:Expression"
 						 answerLabel="expression"/>
 					<br/>
-					<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Social interaction"
+					<obs conceptId="PIH:Functional Limitations" answerConceptId="PIH:Social interaction"
 						 answerLabel="social interaction"/>
 					<br/>
-					<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: Problem solving"
+					<obs conceptId="PIH:Functional Limitations" answerConceptId="PIH:Problem solving"
 						 answerLabel="problem solving"/>
 					<br/>
-					<obs conceptId="PIH: Functional Limitations" answerConceptId="PIH: MEMORY PROBLEMS"
+					<obs conceptId="PIH:Functional Limitations" answerConceptId="PIH:MEMORY PROBLEMS"
 						 answerLabel="memory"/>
 				</td>
 			</tr>
@@ -604,58 +609,54 @@
 			</tr>
 			<tr>
 				<td width="33%">
-					<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: Strengthening exercises"
+					<obs conceptId="PIH:Rehabilitation treatment plan" answerConceptId="PIH:Strengthening exercises"
 						 answerLabel="strengthening exercises"/>
 					<br/>
-					<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: Stretching exercises"
+					<obs conceptId="PIH:Rehabilitation treatment plan" answerConceptId="PIH:Stretching exercises"
 						 answerLabel="stretching exercises"/>
 					<br/>
-					<obs conceptId="PIH: Rehabilitation treatment plan"
+					<obs conceptId="PIH:Rehabilitation treatment plan"
 						 answerConceptId="PIH: Neuromuscular re-education" answerLabel="neuromuscular re-education"/>
 					<br/>
-					<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: Endurance training"
+					<obs conceptId="PIH:Rehabilitation treatment plan" answerConceptId="PIH:Endurance training"
 						 answerLabel="endurance training"/>
 					<br/>
-					<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: Bed and chair transfers"
+					<obs conceptId="PIH:Rehabilitation treatment plan" answerConceptId="PIH:Bed and chair transfers"
 						 answerLabel="bed mobility"/>
 					<br/>
-					<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: Tub and shower transfers"
+					<obs conceptId="PIH:Rehabilitation treatment plan" answerConceptId="PIH:Tub and shower transfers"
 						 answerLabel="transfers"/>
 					<br/>
-					<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: Gait training"
+					<obs conceptId="PIH:Rehabilitation treatment plan" answerConceptId="PIH:Gait training"
 						 answerLabel="gait training"/>
 				</td>
 				<td width="33%">
-					<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: Wheelchair mobility"
+					<obs conceptId="PIH:Rehabilitation treatment plan" answerConceptId="PIH:Wheelchair mobility"
 						 answerLabel="wheelchair mobility"/>
 					<br/>
-					<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: Eating"
+					<obs conceptId="PIH:Rehabilitation treatment plan" answerConceptId="PIH:Eating"
 						 answerLabel="eating"/>
 					<br/>
-					<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: Grooming"
+					<obs conceptId="PIH:Rehabilitation treatment plan" answerConceptId="PIH:Grooming"
 						 answerLabel="grooming"/>
 					<br/>
-					<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: Bathing"
+					<obs conceptId="PIH:Rehabilitation treatment plan" answerConceptId="PIH:Bathing"
 						 answerLabel="bathing"/>
 					<br/>
-					<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: Dressing"
+					<obs conceptId="PIH:Rehabilitation treatment plan" answerConceptId="PIH:Dressing"
 						 answerLabel="dressing"/>
 					<br/>
-					<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: Toileting"
+					<obs conceptId="PIH:Rehabilitation treatment plan" answerConceptId="PIH:Toileting"
 						 answerLabel="toileting"/>
 				</td>
 				<td>
-					<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: OTHER NON-CODED"
+					<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH:OTHER NON-CODED"
 						 answerLabel="other:"/>
-					<obs conceptId="PIH: TREATMENT PLAN OTHER REMARKS"/>
-					<br/>
-					<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH: OTHER NON-CODED"
-						 answerLabel="other:"/>
-					<obs conceptId="PIH: TREATMENT PLAN OTHER REMARKS"/>
+					<obs conceptId="PIH:PATIENT PLAN COMMENTS"/>
 
 					<br/>
 					Equipment:
-					<obs conceptId="PIH: Equipment"/>
+					<obs conceptId="PIH:Equipment"/>
 				</td>
 			</tr>
 			<tr>
@@ -668,7 +669,8 @@
 			<tr>
 				<th>
 					<p>Signature:
-						<encounterProvider role="Rehab technician"/>
+						<encounterProvider />
+						<!-- ToDo:  Add Role="Rehab technician" -->
 					</p>
 					<p>Date:
 						<encounterDate default="today"/>
@@ -685,6 +687,7 @@
 		<submit/>
 	</center>
 
-	<enrollInProgram programId="Rehab program"/>
+	<!-- ToDo: Add rehab program
+	<enrollInProgram programId="Rehab program"/> -->
 </htmlform>
 
