@@ -28,6 +28,7 @@ person_address_two(patient_id)
 person_address_one(patient_id)
 encounter_creator(encounter_id)
 obs_creator(encounter_id)
+encounter_type_name(encounter_id)
 
 */
 
@@ -2137,7 +2138,7 @@ END
 DROP FUNCTION IF EXISTS encounter_creator;
 #
 CREATE FUNCTION encounter_creator(
-    _encounter_id int
+    _encounter_id INT
 )
     RETURNS TEXT
     DETERMINISTIC
@@ -2147,7 +2148,7 @@ BEGIN
 
     SELECT CONCAT(given_name, ' ', family_name) creator_names INTO creatorName
     FROM person_name pn
-    JOIN users u ON pn.voided = 0 AND u.retired = 0 AND pn.person_id = u.person_id
+    JOIN users u ON pn.voided = 0 AND u.retired = 0 AND pn.person_id = u.person_id AND pn.preferred = 1
     JOIN encounter e ON e.creator = u.user_id AND e.voided = 0 AND e.encounter_id = _encounter_id;
 
     RETURN creatorName;
@@ -2163,7 +2164,7 @@ END
 DROP FUNCTION IF EXISTS obs_creator;
 #
 CREATE FUNCTION obs_creator(
-    _encounter_id int
+    _encounter_id INT
 )
     RETURNS TEXT
     DETERMINISTIC
@@ -2173,10 +2174,38 @@ BEGIN
 
     SELECT DISTINCT(CONCAT(given_name, ' ', family_name)) creator_names INTO creatorName
     FROM person_name pn
-    JOIN users u ON pn.voided = 0 AND u.retired = 0 AND pn.person_id = u.person_id
+    JOIN users u ON pn.voided = 0 AND u.retired = 0 AND pn.person_id = u.person_id AND pn.preferred = 1
     JOIN obs o ON o.creator = u.user_id AND o.voided = 0 AND o.encounter_id = _encounter_id;
 
     RETURN creatorName;
+
+END
+#
+
+-- The following function accepts encounter_id
+-- It will return the names of the encounter_type
+#
+DROP FUNCTION IF EXISTS encounter_type_name;
+#
+CREATE FUNCTION encounter_type_name(
+    _encounter_id INT
+)
+    RETURNS TEXT
+    DETERMINISTIC
+
+BEGIN
+    DECLARE encounterName TEXT;
+
+    SELECT
+    et.name INTO encounterName
+FROM
+    encounter_type et
+        JOIN
+    encounter e ON et.encounter_type_id = e.encounter_type
+        AND e.voided = 0
+        AND et.retired = 0 AND e.encounter_id = _encounter_id;
+
+    RETURN encounterName;
 
 END
 #
