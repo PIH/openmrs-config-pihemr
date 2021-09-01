@@ -20,6 +20,7 @@
 		paperFormId = Evaluation-REHAB-Haiti.V1.4.mb.13sep11.eg
 		headerColor =#009d8e
 		fontOnHeaderColor = white
+		@WEBAPP_NAME@=mirebalais
 	</macros>
 
 	<style>
@@ -386,8 +387,11 @@
 					<br/>
 				</td>
 				<td width="350" height="110">
-                    <img src="/$@WEBAPP_NAME@/ms/uiframework/resource/file/configuration/pih/images/face-scale.png"
-                         alt="Pain face scale"/>
+					<ifMode mode="VIEW" include="false">
+						<img src="/$@WEBAPP_NAME@/ms/uiframework/resource/file/configuration/pih/images/face-scale.png"
+							 style="width:300px;height:100px;"
+							 alt="Pain face scale"/>
+					</ifMode>
 				</td>
 			</tr>
 		</table>
@@ -434,9 +438,12 @@
 						<strong>Location:</strong>
 						<obs conceptId="PIH:Pain Location"/>
 					</obsgroup>
-					<br/>
-                    <img src="/$@WEBAPP_NAME@/ms/uiframework/resource/file/configuration/pih/images/face-scale.png"
-                         alt="Pain face scale"/>
+					<ifMode mode="VIEW" include="false">
+						<br/>
+						<img src="/$@WEBAPP_NAME@/ms/uiframework/resource/file/configuration/pih/images/face-scale.png"
+							 style="width:300px;height:100px;"
+							 alt="Pain face scale"/>
+					</ifMode>
 				</td>
 				<td colspan="2">
 					<b>Rehab pain management plan :</b>
