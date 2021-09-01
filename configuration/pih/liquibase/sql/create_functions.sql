@@ -2209,3 +2209,21 @@ FROM
 
 END
 #
+
+/*
+ get boolean indicating if a given component is enabled
+*/
+#
+DROP FUNCTION IF EXISTS is_component_enabled;
+#
+CREATE FUNCTION is_component_enabled(
+    _component varchar(255)
+)
+    RETURNS BOOLEAN
+    DETERMINISTIC
+BEGIN
+    DECLARE ret BOOLEAN;
+    SELECT if(lower(trim(global_property_value(concat('pihcore.component.', _component), ''))) = 'true', TRUE, FALSE) into ret;
+    RETURN ret;
+END
+#
