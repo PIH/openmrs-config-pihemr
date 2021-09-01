@@ -1,0 +1,10 @@
+type: "sqlserver-bulk-import"
+configuration:
+  extract:
+    datasource: "mysql/openmrs.yml"
+    query:  "data_kind/encounter/source.sql"
+
+  load:
+    datasource: "sqlserver/openmrs_extractions.yml"
+    table: "datakind_encounter"
+    schema: "data_kind/encounter/target.sql"
