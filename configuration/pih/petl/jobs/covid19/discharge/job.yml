@@ -1,5 +1,8 @@
 type: "sqlserver-bulk-import"
 configuration:
+
+  conditional: "select is_component_enabled('covid19')"
+  
   extract:
     datasource: "mysql/openmrs.yml"
     query:  "covid19/discharge/source.sql"
