@@ -183,7 +183,7 @@ angular.module("encounterTypeConfig", [])
             id: "pmtct-history",
             label: "pihcore.pmtctHistory.label",
             icon: "fas fa-fw fa-history",
-            shortTemplate: "templates/sections/pmtctHistorySectionShort.page",
+            shortTemplate: "templates/sections/defaultSectionShort.page",
             longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
             templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-pmtct-history.xml"),
             editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-pmtct-history.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"

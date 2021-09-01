@@ -10,10 +10,8 @@
 		   Summer 2011 -->
 
 
-	<!-- ToDo:  To get this working with the PIH EMR, need the following:
+	<!-- ToDo:  To get this working perfectly, need the following:
 		* 2 images:  face-scale.jpg and emr_hands.gif (not required and can be substituted
-		* concepts packaged into rehab mds and included in OCL
-		* add encounter type (Rehab evaluation; rehabilitation encounter with an initial or ongoing evaluation)
 		* add 2 roles:  role="Rehab educator" and "Rehab technician"
 		* add program:  "Rehab program"
 		-->
@@ -45,6 +43,17 @@
 			display: block;
 			font-weight: bold;
 		}
+
+		form input[type="checkbox"], form input[type="radio"],
+		.form input[type="checkbox"], .form input[type="radio"] {
+			float: none;
+			display: inline-block;
+		}
+
+		form label, .form label {
+			display: inline-block;
+		}
+
 		table.symptoms th { text-align:right; }
 
 		th.subheader { background-color:
@@ -138,19 +147,19 @@
 					<br/>
 					<p>
 						<b>Referring service :</b>
-						<ul>
-							<obs conceptId="PIH:Type of referring service" answerConceptId="CIEL:160449"
-								 answerLabel="Surgery"/>
-							<br/>
-							<obs conceptId="PIH:Type of referring service"
-								 answerConceptId="CIEL:160448" answerLabel="Internal medicine"/>
-							<br/>
-							<obs conceptId="PIH:Type of referring service" answerConceptId="CIEL:165048"
-								 answerLabel="Inpatient pediatrics"/>
-							<br/>
-							<obs conceptId="PIH:Type of referring service"
-								 answerConceptId="PIH:HUM outpatient" answerLabel="Outpatient"/>
-						</ul>
+						<br/>
+
+						<obs conceptId="PIH:Type of referring service" answerConceptId="CIEL:160449"
+							 answerLabel="Surgery"/>
+						<br/>
+						<obs conceptId="PIH:Type of referring service"
+							 answerConceptId="CIEL:160448" answerLabel="Internal medicine"/>
+						<br/>
+						<obs conceptId="PIH:Type of referring service" answerConceptId="CIEL:165048"
+							 answerLabel="Inpatient pediatrics"/>
+						<br/>
+						<obs conceptId="PIH:Type of referring service"
+							 answerConceptId="PIH:HUM outpatient" answerLabel="Outpatient"/>
 					</p>
 					<p>
 						<b>Referring physician :</b>
@@ -161,10 +170,10 @@
 				<td>
 					<table border="0">
 						<tr>
-							<th colspan="4">Medical diagnosis:</th>
+							<th colspan="3">Medical diagnosis:</th>
 						</tr>
 						<tr>
-							<td width="25%" valign="top">
+							<td width="33%" valign="top">
 								<obs conceptId="PIH:Rehabilitation Medical Diagnosis" answerConceptId="PIH:7314"
 									 answerLabel="stroke"/>
 								<br/>
@@ -175,60 +184,46 @@
 									 answerConceptId="CIEL:124209"
 									 answerLabel="traumatic brain injury"/>
 							</td>
-							<td width="25%" valign="top">
+							<td width="33%" valign="top">
 								<obs conceptId="PIH:Rehabilitation Medical Diagnosis" answerConceptId="PIH:FRACTURE"
 									 answerLabel="fracture"/>
 								<br/>
-								&#160;
-								<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
-									 answerConceptId="PIH:Right Upper Fracture" answerLabel="R upper"/>
-								<br/>
-								&#160;
-								<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
-									 answerConceptId="PIH:Left Upper Fracture" answerLabel="L upper"/>
-								<br/>
-								&#160;
-								<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
-									 answerConceptId="PIH:Right Lower Fracture" answerLabel="R lower"/>
-								<br/>
-								&#160;
-								<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
-									 answerConceptId="PIH:Left Lower Fracture" answerLabel="L lower"/>
-								<br/>
-								&#160;
-								<obs conceptId="PIH:Rehabilitation Medical Diagnosis" answerConceptId="PIH:Spine"
-									 answerLabel="spine"/>
-								<br/>
-								&#160;
-								<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
-									 answerConceptId="PIH:Other fracture" answerLabel="other:"/>
-								&#160;
-								<obs conceptId="PIH:Other fracture"/>
+
+									<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
+										 answerConceptId="PIH:Right Upper Fracture" answerLabel="R upper"/>
+									<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
+										 answerConceptId="PIH:Left Upper Fracture" answerLabel="L upper"/>
+									<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
+										 answerConceptId="PIH:Right Lower Fracture" answerLabel="R lower"/>
+									<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
+										 answerConceptId="PIH:Left Lower Fracture" answerLabel="L lower"/>
+									<obs conceptId="PIH:Rehabilitation Medical Diagnosis" answerConceptId="PIH:Spine"
+										 answerLabel="spine"/>
+									<br/>
+									<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
+										 answerConceptId="PIH:Other fracture" answerLabel="other:"/>
+									<obs conceptId="PIH:Other fracture"/>
+
 							</td>
 							<td valign="top">
 								<obs conceptId="PIH:Rehabilitation Medical Diagnosis" answerConceptId="PIH:Amputation"
 									 answerLabel="amputation"/>
-								<br/>
-								&#160;
-								<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
-									 answerConceptId="PIH:Right Upper Amputation" answerLabel="R upper"/>
-								<br/>
-								&#160;
-								<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
-									 answerConceptId="PIH:Left Upper Amputation" answerLabel="L upper"/>
-								<br/>
-								&#160;
-								<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
-									 answerConceptId="PIH:Right Lower Amputation" answerLabel="R lower"/>
-								<br/>
-								&#160;
-								<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
-									 answerConceptId="PIH:Left Lower Amputation" answerLabel="L lower"/>
-								<br/>
+								<ul>
+									<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
+										 answerConceptId="PIH:Right Upper Amputation" answerLabel="R upper"/>
+									<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
+										 answerConceptId="PIH:Left Upper Amputation" answerLabel="L upper"/>
+									<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
+										 answerConceptId="PIH:Right Lower Amputation" answerLabel="R lower"/>
+									<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
+										 answerConceptId="PIH:Left Lower Amputation" answerLabel="L lower"/>
+								</ul>
 							</td>
-							<td width="25%" valign="top">
+						</tr>
+						<tr>
+							<td colspan="3" align="top">
 								<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
-									 answerConceptId="PIH:OTHER NON-CODED" answerLabel="other:"/>
+									 answerConceptId="PIH:OTHER NON-CODED" answerLabel="other diagnosis:"/>
 								<obs conceptId="PIH:Rehabilitation diagnosis non-coded"/>
 							</td>
 						</tr>
@@ -249,6 +244,7 @@
 				</td>
 				<td>
 					<b>Prior level of function :</b>
+					<br/>
 					<obs conceptId="PIH:Previous Functional Ability of Patient" style="checkbox"
 						 answerConceptId="PIH:NORMAL" answerLabel="independent"/>
 					<obs conceptId="PIH: Previous Functional Ability of Patient" style="checkbox"
@@ -331,6 +327,7 @@
 				<td rowspan="5">
 					<p>
 						<b>Signs of communication impairment?</b>
+						<br/>
 						<obs conceptId="PIH:Communication Difficulties" style="radio"
 						     answerConceptIds="PIH:NO,PIH:YES"/>
 						<br/>
@@ -338,6 +335,7 @@
 					</p>
 					<p>
 						<b>Signs of swallowing impairment?</b>
+						<br/>
 						<obs conceptId="PIH:Swallowing Impairment" style="radio"
 						     answerConceptIds="PIH:NO,PIH:YES"/>
 						<br/>
@@ -494,14 +492,13 @@
 	<section headerLabel="Part 4: Assessment">
 		<table border="0" bordercolor="#336699" width="100%">
 			<tr>
-				<th align="center" colspan="4">Rehabilitation Problem List</th>
+				<th align="center" colspan="2">Rehabilitation Problem List</th>
 			</tr>
 			<tr>
 				<th colspan="2" align="center">Impairments</th>
-				<th colspan="2" align="center">Functional limitations</th>
 			</tr>
 			<tr>
-				<td>
+				<td width="50%">
 					<obs conceptId="PIH:Impairments requiring rehabilitation" answerConceptId="CIEL:5226"
 						 answerLabel="weakness"/>
 					<br/>
@@ -546,17 +543,22 @@
 					<obs conceptId="PIH: Other impairments 2"/>
 
 				</td>
+			</tr>
+			<tr>
+				<th colspan="2" align="center">Functional limitations</th>
+			</tr>
+			<tr>
 				<td>
 					<obs conceptId="PIH:Functional Limitations" answerConceptId="PIH:Eating" answerLabel="eating"/>
-					<br/>
+
 					<obs conceptId="PIH:Functional Limitations" answerConceptId="PIH:Grooming"
 						 answerLabel="grooming"/>
-					<br/>
+
 					<obs conceptId="PIH:Functional Limitations" answerConceptId="PIH:Bathing" answerLabel="bathing"/>
 					<br/>
 					<obs conceptId="PIH:Functional Limitations" answerConceptId="PIH:Dressing"
 						 answerLabel="dressing"/>
-					<br/>
+
 					<obs conceptId="PIH:Functional Limitations" answerConceptId="PIH:Toileting"
 						 answerLabel="toileting"/>
 					<br/>
@@ -633,19 +635,19 @@
 				<td width="33%">
 					<obs conceptId="PIH:Rehabilitation treatment plan" answerConceptId="PIH:Wheelchair mobility"
 						 answerLabel="wheelchair mobility"/>
-					<br/>
+
 					<obs conceptId="PIH:Rehabilitation treatment plan" answerConceptId="PIH:Eating"
 						 answerLabel="eating"/>
 					<br/>
 					<obs conceptId="PIH:Rehabilitation treatment plan" answerConceptId="PIH:Grooming"
 						 answerLabel="grooming"/>
-					<br/>
+
 					<obs conceptId="PIH:Rehabilitation treatment plan" answerConceptId="PIH:Bathing"
 						 answerLabel="bathing"/>
 					<br/>
 					<obs conceptId="PIH:Rehabilitation treatment plan" answerConceptId="PIH:Dressing"
 						 answerLabel="dressing"/>
-					<br/>
+
 					<obs conceptId="PIH:Rehabilitation treatment plan" answerConceptId="PIH:Toileting"
 						 answerLabel="toileting"/>
 				</td>
@@ -653,8 +655,8 @@
 					<obs conceptId="PIH: Rehabilitation treatment plan" answerConceptId="PIH:OTHER NON-CODED"
 						 answerLabel="other:"/>
 					<obs conceptId="PIH:PATIENT PLAN COMMENTS"/>
-
 					<br/>
+
 					Equipment:
 					<obs conceptId="PIH:Equipment"/>
 				</td>
@@ -683,9 +685,14 @@
 		</table>
 	</section>
 
-	<center>
-		<submit/>
-	</center>
+	<ifMode mode="VIEW" include="false">
+		<div id="buttons">
+			<submit submitClass="confirm right" submitCode="mirebalais.save"/>
+			<button type="button" class="cancel">
+				<uimessage code="emr.cancel"/>
+			</button>
+		</div>
+	</ifMode>
 
 	<!-- ToDo: Add rehab program
 	<enrollInProgram programId="Rehab program"/> -->
