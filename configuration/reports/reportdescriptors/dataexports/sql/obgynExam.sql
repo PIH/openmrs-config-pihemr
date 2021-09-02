@@ -46,6 +46,7 @@ CREATE TEMPORARY TABLE temp_exam
     Gynecology_exam_Comments varchar(255),    
     Musculoskeletal_Exam  varchar(255),
     Musculoskeletal_Exam_Other varchar(255),
+    Pitting_edema		varchar(255),			
     Musculoskeletal_Exam_Comments varchar(1000),
     Fundal_height         double,
     Uterine_Contraction   varchar(255),
@@ -135,6 +136,7 @@ update temp_exam set Gynecology_exam_comments = obs_value_text(encounter_id,'CIE
 
 update temp_exam set Musculoskeletal_Exam = obs_value_coded_list(encounter_id,'PIH','MUSCULOSKELETAL EXAM FINDINGS',@locale);
 update temp_exam set Musculoskeletal_Exam_other = obs_comments(encounter_id,'PIH','MUSCULOSKELETAL EXAM FINDINGS','PIH','OTHER');
+update temp_exam set Pitting_edema = obs_value_coded_list(encounter_id,'CIEL','130166',@locale);
 update temp_exam set Musculoskeletal_Exam_comments = obs_value_text(encounter_id,'CIEL','163048');
 
 update temp_exam set Fundal_height = obs_value_numeric(encounter_id,'CIEL','1439');
