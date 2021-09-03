@@ -47,7 +47,7 @@ angular.module("encounterTypeConfig", [])
             id: "vaccinations",
             template: "templates/vaccination/vaccinations.page",
             editUrl: "",
-            require: "patientAgeInYearsOnDate(visit.startDatetime) < 15"
+            require: "fullMonthsBetweenDates(visit.patient.person.birthdate, visit.startDatetime) < 15*12"
         };
 
         var ancVaccinations = {
@@ -90,7 +90,7 @@ angular.module("encounterTypeConfig", [])
             longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
             templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-peds.xml"),
             editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-peds.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}",
-            require: "patientAgeInYearsOnDate(visit.startDatetime) < 15"
+            require: "fullMonthsBetweenDates(visit.patient.person.birthdate, visit.startDatetime) < 15*12"
         };
 
         var primaryCareDx = {
@@ -255,7 +255,7 @@ angular.module("encounterTypeConfig", [])
             longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
             templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-eid-protection.xml"),
             editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-eid-protection.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}",
-            require: "patientAgeInYearsOnDate(visit.startDatetime) < 2"
+            require: "fullMonthsBetweenDates(visit.patient.person.birthdate, visit.startDatetime) < 24"
         };
 
         var eidPlan = {
