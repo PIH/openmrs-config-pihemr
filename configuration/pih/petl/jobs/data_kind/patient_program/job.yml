@@ -1,5 +1,8 @@
 type: "sqlserver-bulk-import"
 configuration:
+
+  conditional: "select if(global_property_value('pihcore.site', '') = 'MIREBALAIS', true, false)"
+
   extract:
     datasource: "mysql/openmrs.yml"
     query:  "data_kind/patient_program/source.sql"
