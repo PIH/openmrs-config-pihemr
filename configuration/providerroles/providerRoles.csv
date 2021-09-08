@@ -1,0 +1,28 @@
+Uuid,Void/Retire,Name,Supervisee Provider Role,Relationship Type,Provider Attribute Type 1,Provider Attribute Type 2
+68624C4C-9E10-473B-A849-204820D16C45,,CHW,,eb567be2-fda1-4746-9d51-833de8a7e81f,0c267ae8-f793-4cf8-9b27-93accaa45d86,c8ef8a16-a8cd-4748-b0ea-e8a1ec503fbb
+11C1A56D-82F7-4269-95E8-2B67B9A3D837,,CHW Supervisor,68624C4C-9E10-473B-A849-204820D16C45,eb567be2-fda1-4746-9d51-833de8a7e81f,0c267ae8-f793-4cf8-9b27-93accaa45d86,c8ef8a16-a8cd-4748-b0ea-e8a1ec503fbb
+9a4b44b2-8a9f-11e8-9a94-a6cf71072f73,,Nurse Accompagnateur,,9a4b3eea-8a9f-11e8-9a94-a6cf71072f73,0c267ae8-f793-4cf8-9b27-93accaa45d86,c8ef8a16-a8cd-4748-b0ea-e8a1ec503fbb
+2fa6f8da-aa58-11e8-98d0-529269fb1459,,Clinician,,2fa6fcea-aa58-11e8-98d0-529269fb1459,0c267ae8-f793-4cf8-9b27-93accaa45d86,c8ef8a16-a8cd-4748-b0ea-e8a1ec503fbb
+4f88dd49-0c64-4ecd-af0f-4dff272a4971,,MH CHW Supervisor,68624C4C-9E10-473B-A849-204820D16C45,eb567be2-fda1-4746-9d51-833de8a7e81f,0c267ae8-f793-4cf8-9b27-93accaa45d86,c8ef8a16-a8cd-4748-b0ea-e8a1ec503fbb
+28d3a004-40ea-4ea3-9446-b3e325305a79,,Paraclinical,,,,
+d6c2343b-a02c-4664-b433-a1a212729291,,Social Worker,,,,
+942fea08-1423-4b65-8458-fbcb076cb6c2,,VCT Counselor,,,,
+2687b4be-3fd5-4e9d-8d10-9e2df18beeeb,,Nurse Midwife,,,,
+8fd1552e-6cb9-4719-b198-23a2c512a073,,Pharmacist,,,,
+39c28f78-6637-4c21-9bf4-db3e2398054f,,Anaesthetist,,,,
+b22929dc-d40a-4f10-9a9b-1eb2ba319775,,Administrator,,,,
+1474c25d-4fae-46d4-9fce-c77cb17b6610,,Nursing Auxiliary,,,,
+72a49488-2f7b-4cdc-a361-1f90cbb3d6bc,,Advance Practice Nurse,,,,
+7ec19cca-f563-4cee-940f-effec16b3b80,,Pharmacy Aide,,,,
+3182ee51-b895-4804-a342-5f261e995222,,Surgeon,,,,
+61eed524-4547-4228-a3ac-631fe1628a5e,,General Admin,,,,
+d85089d4-ee5b-4c2e-8f55-568038266db7,,Physical Therapist,,,,
+96b15916-2d56-4f7b-9072-18c2a23d8ea2,,Lab Technician,,,,
+556ceee6-d899-43d4-a98b-7973ebc85b75,,Physician,,,,
+f2c00ccb-bc65-431d-a688-174146463cb7,,Assistant Social,,,,
+62fbeae3-4e6f-4c35-8705-f3de10ab5b87,,Psychologist,,,,
+acda2647-8ff0-4599-8cf8-2500250cbc75,,Archivist/Clerk,,,,
+58fa14e6-e336-4e03-8811-22117027f25a,,Medical Student,,,,
+7207ba62-027f-4f9b-be67-a9f7a8a3abcc,,Nurse (RN),,,,
+e92792de-006a-4dea-b078-cf3776638b0c,,Resident,,,,
+248bc67b-4da1-4c50-b556-b8584c1c8d65,,Radiology Technician,,,,

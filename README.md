@@ -254,7 +254,6 @@ Metadata sharing packages include these:
 * NCD: HUM_NCD-x.zip (1 concept: NCD concept set)
 * Oncology: HUM_Oncology-x.zip (1 concept: PIH Oncology concept set; 3 htmlforms)
 * Pathology: HUM_Pathology-x.zip (1 concept: Pathology concept set)
-* Providers/Roles: HUM_Provider_Roles-x.zip (?)
 * Radiology orders: HUM_Radiology_Orderables-x.zip (2 concepts including Radiology concept set)
 * Appointment scheduling: HUM_Scheduling-x.zip (1 concept)
 * Surgery: HUM_Surgery-x.zip (1 concept; 1 htmlform)
