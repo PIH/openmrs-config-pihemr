@@ -232,9 +232,6 @@ Adding a new package to the distro should be as easy as adding a new MDS package
 package and replace it within the "/configuration/pih/concepts" directory.  Upon startup, the PIH EMR will scan
 that directory and compare all packages against their installed versions, and install/update as necessary.
 
-(Note that concepts installed via Metadata Deploy are still installed in the PIH Core module.  We will likely move
-these over to the PIH Config when we switch from using MDD and MDS to Iniz to install concepts.)
-
 More details about Concept Management can be found in the [Concept
 Management](#concept-management) section below.
 
@@ -242,36 +239,34 @@ Management](#concept-management) section below.
 
 Metadata sharing packages include these:
 
-* HIV (includes all concepts for Haiti including iSantePlus): Haiti_HIV-x.zip (1 concept)
-* Zika: Haiti_Zika-x.zip (1 concept: Zika study concept set)
-* COVID: PIH_COVID-19-x.zip (1 concept: COVID concept set)
-* Diagnoses, symptoms, etc:  HUM_Clinical_Concepts-x.zip (1 concept: Clinical concept set)
-* Dispensing: HUM_Dispensing_Concepts-x.zip (1 concept: Dispensing concept set)
-* Disposition:  HUM_Disposition_Concepts-x.zip (1 concept: PIH EMR Disposition concept set)
-* ED triage:  HUM_Emergency_Triage-x.zip (1 concept: HUM Triage set)
-* Medications:  HUM_Medication-x.zip (1 concept: PIH medication concept set)
-* Miscellaneous: HUM_Metadata-x.zip (1 concept: PIH metadata mds concept set)
+* HIV (includes all concepts for Haiti including iSantePlus): HIV-x.zip (1 concept)
+* Zika: Zika-x.zip (1 concept: Zika study concept set)
+* COVID: COVID-19-x.zip (1 concept: COVID concept set)
+* Diagnoses, symptoms, etc:  Clinical_Concepts-x.zip (1 concept: Clinical concept set)
+* Dispensing: Dispensing_Concepts-x.zip (1 concept: Dispensing concept set)
+* Disposition:  Disposition_Concepts-x.zip (1 concept: PIH EMR Disposition concept set)
+* ED triage:  Emergency_Triage-x.zip (1 concept: HUM Triage set)
+* Medications:  Medication-x.zip (1 concept: PIH medication concept set)
+* Miscellaneous: Metadata-x.zip (1 concept: PIH metadata mds concept set)
 * NCD: NCD-x.zip (1 concept: NCD concept set)
 * Oncology: Oncology-x.zip (1 concept: Oncology concept set)
-* Pathology: HUM_Pathology-x.zip (1 concept: Pathology concept set)
+* Pathology: Pathology-x.zip (1 concept: Pathology concept set)
 * Radiology orders: HUM_Radiology_Orderables-x.zip (2 concepts including Radiology concept set)
-* Appointment scheduling: HUM_Scheduling-x.zip (1 concept)
+* Appointment scheduling: Scheduling-x.zip (1 concept)
 * Surgery: Surgery-x.zip (1 concept)
 * Liberia only: Liberia_Concepts-x.zip (1 concept: Liberia concept set)
 * Mexico only:  Mexico_Concepts-x.zip (1 concept: )
 * Oncology: Oncology-x.zip
-* Allergies:  PIH_Allergies-x.zip (1 concept: PIH allergy concept set)
-* Physical exam:  PIH_Exam-x.zip (1 concept: Physical system concept set)
-* Intake history: PIH_History-x.zip (1 concept: PIH History Form Concept Set)
-* Labs: PIH_Labs-x.zip (1 concept: Laboratory concept set)
-* Maternal child health: PIH_Maternal_Child_Health-x.zip (1 concepts:  MCH concept set) 
-* Mental health: PIH_Mental_Health-x.zip (1 concept: Mental Health concept sets)
-* Pediatric feeding: PIH_Pediatric_Feeding-x.zip (1 concept: Pediatric feeding concept set)
-* Pediatric supplements: PIH_Pediatric_Supplements-x.zip (1 concept: Supplement history construct ?)
-* Socioeconomics:  PIH_Socio_Economics-x.zip (1 concept: Socioeconomics concept set)
+* Allergies:  Allergies-x.zip (1 concept: PIH allergy concept set)
+* Physical exam:  Exam-x.zip (1 concept: Physical system concept set)
+* Intake history: History-x.zip (1 concept: PIH History Form Concept Set)
+* Labs: Labs-x.zip (1 concept: Laboratory concept set)
+* Maternal child health: Maternal_Child_Health-x.zip (1 concepts:  MCH concept set) 
+* Mental health: Mental_Health-x.zip (1 concept: Mental Health concept sets)
+* Pediatric feeding: Pediatric_Feeding-x.zip (1 concept: Pediatric feeding concept set)
+* Pediatric supplements: Pediatric_Supplements-x.zip (1 concept: Supplement history construct ?)
+* Socioeconomics:  Socio_Economics-x.zip (1 concept: Socioeconomics concept set)
 * Sierra Leone only:  Sierra_Leone_Concepts-x.zip (1 concept: Sierra Leone concept set)
-
-
 
 ### Forms
 
