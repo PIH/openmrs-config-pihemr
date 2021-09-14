@@ -6,14 +6,17 @@
  */
  function setUpExpandableSection(id) {
   
-  const elements = jq("[id^=" + id + "]");
+  const elements = jq("[id^=" + id + "]").filter(
+    function() { return this.id.match(new RegExp(id + "-\\d+$")) }
+  );
+  console.log(elements);
   const showLessButton = jq("#show-less-" + id);
   const showMoreButton = jq("#show-more-" + id);
   let numToShow = 1;
 
   function hasValue(element) {
     let hasValues = false;
-    const inputElements = jq(element).find("input:checked, input[type=text], input[type=hidden], input[type=email], input[type=file], input[type=image], input[type=number], input[type=password], input[type=search], input[type=tel] input:not([type])");
+    const inputElements = jq(element).find("input:checked, input[type=text], select, input[type=hidden], input[type=email], input[type=file], input[type=image], input[type=number], input[type=password], input[type=search], input[type=tel] input:not([type])");
     inputElements.each(
       function (i, inputElement) {
         if (jq(inputElement).val()) {
@@ -32,6 +35,7 @@
   };
 
   function update() {
+    console.log('updating for', numToShow);
     for (let i = 0; i < elements.length; i++) {
       if (i < numToShow) {
         jq(elements[i]).show();
