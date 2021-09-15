@@ -3,13 +3,25 @@
  *   - Elements with IDs '[id]-[n]' where '[n]' counts the elements (starting from 1)
  *   - A button with ID 'show-more-[id]'
  *   - A button with ID 'show-less-[id]'
+ * 
+ * Example usage:
+ * 
+ * <script>
+ *   setUpExpandableSection("medication");
+ * </script>
+ * <repeat with="['1'],['2'],['3']">
+ *   <div id="medication-{0}">
+ *     <!-- obsgroup, obs, etc -->
+ *   </div>
+ * </repeat>
+ * <button id="show-less-medication" type="button"> - </button>
+ * <button id="show-more-medication" type="button"> + </button>
  */
  function setUpExpandableSection(id) {
   
   const elements = jq("[id^=" + id + "]").filter(
     function() { return this.id.match(new RegExp(id + "-\\d+$")) }
   );
-  console.log(elements);
   const showLessButton = jq("#show-less-" + id);
   const showMoreButton = jq("#show-more-" + id);
   let numToShow = 1;
@@ -35,7 +47,6 @@
   };
 
   function update() {
-    console.log('updating for', numToShow);
     for (let i = 0; i < elements.length; i++) {
       if (i < numToShow) {
         jq(elements[i]).show();
