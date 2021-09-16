@@ -9,6 +9,7 @@ BEGIN
     SET @hivId = (select patient_identifier_type_id from patient_identifier_type where uuid = '139766e8-15f5-102d-96e4-000c29c2a5d7');
     SET @biometricId = (select patient_identifier_type_id from patient_identifier_type where uuid = 'e26ca279-8f57-44a5-9ed8-8cc16e90e559');
 
+	SET @phoneNumber = (select person_attribute_type_id from person_attribute_type where uuid = '14d4f066-15f5-102d-96e4-000c29c2a5d7');
     SET @testPt = (select person_attribute_type_id from person_attribute_type where uuid = '4f07985c-88a5-4abd-aa0c-f3ec8324d8e7');
     SET @unknownPt = (select person_attribute_type_id from person_attribute_type where uuid = '8b56eac7-5c76-4b9c-8c6f-1deab8d3fc47');
 
