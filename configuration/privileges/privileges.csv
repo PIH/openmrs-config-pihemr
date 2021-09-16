@@ -1,91 +1,91 @@
 Uuid,Privilege name,Description
-6c02aeb4-198f-4bd7-8076-4606a6b6629b,App: appointmentschedulingui.appointmentTypes,Access to the Manage Service Types app
-0174be37-79fb-4ffd-8a0f-835a9040261c,App: appointmentschedulingui.home,Access to the Appointment Scheduling home page
-c6f36ef5-6b4b-4855-8a41-9e62451438b6,App: appointmentschedulingui.providerSchedules,Access to the Manage Provider Schedules app
-732c40bc-260e-4a42-91ef-17c6faf4c3f3,App: appointmentschedulingui.viewAppointments,Access to Manage Appointments and Daily Scheduled Appointments (but not the ability to book appointments from these pages)
-e898fa6e-3d75-4d0c-a0a7-d6aaaa13b0e9,App: attachments.attachments.page,Allows access to the attachments page
-F5330846-A1B4-4BB5-9843-66203E767E90,App: chwapp.mgmt,Use CHW management app
-5b38d53c-a521-4df4-be11-8f1abdcdae12,App: cohortBuilder,Allows access to cohort builder app
-c2f37314-3ed3-49a9-a43d-81448db33435,App: coreapps.activeVisits,Able to access the active visits app
-7232d5a2-f890-4834-a0ea-e88eadc8aae2,App: coreapps.awaitingAdmission,Privilege to use the Awaiting Admission app
-e84b166a-9626-4456-bd70-44a40add377d,App: coreapps.dataManagement,Able to access data management apps
-1b54dcfc-8d58-4048-8679-a60c57790bef,App: coreapps.findPatient,Able to access the find patient app
-68aabf82-a16b-42f9-85a5-e71570f5a669,App: coreapps.mergePatient,Able to access the merge patient app
-54b54fc4-1fef-41bc-8d3b-1941ab3ba397,App: coreapps.patientDashboard,Able to access the patient dashboard
-d221abbc-1989-4014-9558-f4bc62455b36,App: coreapps.patientVisits,Able to access the patient visits screen
-26ef73b4-7aa6-4f7a-bce8-b5c37dc83a8c,App: coreapps.summaryDashboard,Able to access summary dashboards
-69da2140-85ce-40d0-82ad-6ca7c188f2c6,App: coreapps.systemAdministration,Run the System Administration app
-769a12c2-6ff0-42ba-888e-52e66ed16fb7,App: dispensing.app.dispense,Access to dispensing medication app
-28860d07-9e9e-441d-9b9b-f9af3cff0349,App: edtriage.app.triage,Able to triage a patient
-1b699660-245a-11e6-bdf4-0800200c9a66,App: edtriageapp.edtriage,Use ED Triage App provided by the ED Triage moddule
-F7BAE2F7-78AB-4D7A-8470-8068E4969F56,App: edtriageapp.edtriage.queue,Use ED Triage Queue provided by the ED Triage moddule
-24fb3877-c07e-436f-8005-ce7a81245fcd,App: emr.archivesRoom,Run the Archives Room app
-60ce8766-57cc-4e4f-8356-6bbe3f56f980,App: emr.inpatients,Right to view the Impatient app
-0a2e8032-abc9-11e8-843e-54ee75ef41c2,App: labs,Allows access to Labs apps
-1bc1d453-c675-4674-b1eb-120b19d97f16,App: labtrackingapp.monitorOrders,Use the Monitor Orders app provided by the Lab Tracking app
-18c8d715-8845-44e3-ac62-4b613f00e082,App: legacy.admin,Run the (Legacy) OpenMRS Administration app
-d36890f2-ef9f-4cd5-a48e-f5519e608b93,App: mirebalais.checkin,Access the ZL Mirebalais Check-In app
-9500dbe5-1a70-44a5-881d-424afc103367,App: mirebalais.mpi,Run the Search Master Patient Index app
-409c73d3-1184-4df1-b4b9-05f37b48f9ba,App: mirebalais.outpatientVitals,Run the capture Vitals app
-10122e43-196b-4563-b083-f0ec00f0429b,App: mirebalaisreports.dataexports,Ability to run data export reports
-fd7c4193-1202-48b7-a346-9046ffe15716,App: orderentryui.drugOrders,Allows access to drug orders page
-af11d5d3-caa0-4f7f-83d7-c7f2c3b902fd,App: pihcore.todaysVisits,Use the Today's Visits app provided by PIH Core
-0f986bdc-1cb2-4096-aeac-0d397de61dd5,App: pihcore.waitingForConsult,Use the Waiting For Consult app provided by PIH Core
-c6ad8bad-a09e-43b6-b311-ac27dd688060,App: registrationapp.registerPatient,Able to access the register patient app
-89cde56a-d8cc-4261-b491-38a1296edce0,App: reportingui.adHocAnalysis,Use the Ad Hoc Analysis tool
-a4bb96b4-b3cb-4e3c-9251-a7c0ca173035,App: reportingui.reports,Use the Reports app provided by the reportingui module
-fc342edd-a7da-457f-9332-012374c90e5d,Task: appointmentschedulingui.bookAppointments,"Ability book appointments, cancel appointments, and flag appointments as needs reschedule; Access to the Manage Rescheduled app"
-0d22febe-9a55-4baf-ad1d-25f12ff05f2c,Task: appointmentschedulingui.overbookAppointments,Ability to overbook time slots
-74a1d0a6-c2e5-4fd3-93c2-fac1e5888c05,Task: appointmentschedulingui.requestAppointments,Ability to request an appointment for a patient
-6d1b1e23-26fc-46e0-932e-cd6a5d010c0a,Task: appointmentschedulingui.viewConfidential,Ability to view appointments marked as confidential in the appointment scheduling ui
-98ba52e3-eecc-4260-8243-a7d05cda9865,Task: coreapps.createRetrospectiveVisit,"Ability to create a create retrospective visit (i.e., one that starts in the past)"
-91c8eab6-9764-410f-92ab-978a6b5b1ddc,Task: coreapps.createVisit,Rights to start a visit from the patient dashboard
-ed1cc14f-54a2-41b8-b2d0-e10a4792b000,Task: coreapps.deletePatient,Able to delete a patient
-6b488071-a4a6-4b77-af25-4986a114af35,Task: coreapps.deletePatientProgram,Ability to delete a patient program via the program status widget
-8390667f-1ae3-4810-8044-442232664f04,Task: coreapps.editPatientProgram,Ability to edit a patient program via the program status widget
-ae2cb35c-2bb5-4dfa-b62d-985cfcf38f71,Task: coreapps.editRelationships,Able to edit relationships
-37c63011-51f4-4e3d-b291-ea8a061d0f97,Task: coreapps.endVisit,Ability to end visit
-841d114c-0844-4059-817e-0af0561aa950,Task: coreapps.enrollInProgram,Ability to enroll a patient in a program via the program status widget
-54360e0d-d3c2-4331-b295-dbb872e2347f,Task: coreapps.markPatientDead,Ability to Mark a patient dead/deceased.
-481ea817-cb16-4a2e-9848-8cbafabb93f1,Task: coreapps.mergeVisits,Ability to merge visits
-8accc0c0-3faf-11e6-bdf4-0800200c9a66,Task: edtriageapp.enterNote,Ability to enter an ED Triage form fo a patient
-3f407fdd-df00-42ec-9e1d-864ee896b2cb,Task: emr.enterAdmissionNote,Ability to enter an admission note
-02bd5352-aac7-4ec3-867b-79c66833d771,Task: emr.enterConsultNote,Ability to enter a consult note
-6f858c4d-f349-4595-8f82-cd3316a75c05,Task: emr.enterCOVID,Ability to enter a COVID-19 form
-62ef802c-0e6e-4aee-8340-bb25ed5da419,Task: emr.enterEDNote,Ability to enter an ED Note
-86698b3d-b2c7-4537-9157-3c8446946a9a,Task: emr.enterHIVConsultNote,Ability to enter an HIV consult note
-fbc80ff0-0805-11e6-a837-0800200c9a66,Task: emr.enterLabResults,Ability to enter a lab results form
-819b8a30-910c-11e8-9eb6-529269fb1459,Task: emr.enterMCH,Ability to enter an Maternal and Child health notes
-5f520ae8-cf63-11e5-ab30-625662870761,Task: emr.enterMentalHealthNote,Ability to enter a mental health note
-ba550ca0-6934-11e5-a837-0800200c9a66,Task: emr.enterNCDConsultNote,Ability to enter an NCD consult note
-22d89390-105d-11e5-b939-0800200c9a66,Task: emr.enterOncologyConsultNote,Ability to enter an oncology consult note
-ee9a1401-c440-4074-b81c-1df46951bf2e,Task: emr.enterPrimaryCareConsultNote,Ability to enter a Primary Care consult note
-de845182-11e1-11e8-b642-0ed5f89f718b,Task: emr.enterSocioEconomics,Ability to enter a Socio-economics note
-1e4b2181-12fd-4dfc-a200-f17975116bf0,Task: emr.enterSurgicalNote,Ability to enter a surgical note
-1443a1e4-7cc4-11e9-8f9e-2a86e4085a59,Task: emr.enterVax,Ability to enter a Vaccination form
-616b6eec-f189-11e7-8c3f-9a214cf093ae,Task: emr.enterVCT,Ability to enter a VCT note
-d7135338-93e9-46a9-9cde-07af84b2fe8c,Task: emr.enterVitalsNote,Ability to enter a vitals note
-5367155a-e435-4010-877a-f3007059c352,Task: emr.patient.encounter.delete,Gives permission to a user to delete a patient encounter
-4841f2dd-31f0-46b9-9877-74dcaf2cf07b,Task: emr.patient.encounter.edit,Gives permission to a user to edit a patient encounter
-6cdc5785-ee5c-48af-a2a2-7a574721fa97,Task: emr.patient.visit.delete,User has ability to delete a visit
-d8165924-87b3-441d-bce8-2230d7bb3307,Task: emr.printLabels,Access the emr.printPaperRecordLabel task
-7f4087ec-1d57-42aa-8704-fa27b0867d6f,Task: emr.printWristband,Ability to print a wristband from the patient dashboard
-91d80e71-3ad7-4bc2-8bef-c6378e1b2b70,Task: emr.requestPaperRecord,Access the emr.requestPaperRecord task
-d5e693ae-3f24-4fcb-abfd-eec345a76c17,Task: emr.retroConsultNote,Ability to retrospectively enter a consult note
-ac6585f1-10e0-4a4e-84e3-fb8b098f0cbe,Task: emr.retroConsultNoteThisProviderOnly,Ability to retrospectively enter a consult note for provider user.
-6C12D2F8-D8A6-4970-A814-439F1025F7F4,Task: growthchart.viewGrowthCharts,Able to view growth charts
-77581bcc-6ee3-4c64-b906-02a9a4e95307,Task: labtracking.update,Ability to place orders using functionality provided by the Lab Tracking app
-8c14474d-07e9-4283-9af2-0720522f1496,Task: labtrackingapp.placeOrders,Ability to place orders using functionality provided by the Lab Tracking app
-23e57acd-83b5-44f4-8730-109645bb4953,Task: labworkflow.viewLabs,Able to view lab tests via the order entry UI
-aa6751d5-1ca1-4863-be6b-d7a466aafd12,Task: Manage Condition Lists,Able to activate/inactivate/void condition lists.
-1a819ef6-4632-4d2e-8227-7bdf9e8e273a,Task: mirebalais.checkinForm,Ability to enter a Check In form from the patient dashboard.
-cc9bcfd5-2bc8-489f-85a7-fbd65e5a8293,Task: mirebalais.dispensing,Ability to dispense medicine.
-c4121a43-895d-4c07-83f9-64e6907e3742,Task: mirebalais.enterDeathCertificate,Enter the Death Certificate form
-d92637e3-8c03-4104-836a-f5bde8d8be47,Task: mirebalaisDispensingEditProviderAndLocation,Able to edit provide location and date of dispensing medication.
-6de2bc14-d143-468b-a70a-49fef3ba66d3,Task: Modify Allergies,"Able to add, edit, delete allergies"
-e534c845-74da-45f8-97d5-304482c52256,Task: orderentry.orderLabs,Able to order lab tests via the order entry UI
-6c87e448-a356-419d-9da9-f773ba9882cc,Task: org.openmrs.module.radiologyapp.orderCT,Rights to order a CT Scan via the radiology app
-90ba15be-842d-4d11-969d-773958ec0ded,Task: org.openmrs.module.radiologyapp.orderUS,Privilege to order an ultrasound exam
-9d28a374-89c4-4050-9efd-eabdbf828b75,Task: org.openmrs.module.radiologyapp.orderXray,Rights to order an x-ray via the x-ray app
-84a77327-a759-4681-8065-91670a16aacb,Task: org.openmrs.module.radiologyapp.retroOrder,Ability to retrospectively order a radiology study
-b0791308-22dd-4a64-ac9c-8dbb4d1be245,Task: org.openmrs.module.radiologyapp.tab,Ability to view the Radiology tab for patient
+6c02aeb4-198f-4bd7-8076-4606a6b6629b,${privilege.app_appointmentschedulingui_appointment_types},Access to the Manage Service Types app
+0174be37-79fb-4ffd-8a0f-835a9040261c,${privilege.app_appointmentschedulingui_home},Access to the Appointment Scheduling home page
+c6f36ef5-6b4b-4855-8a41-9e62451438b6,${privilege.app_appointmentschedulingui_provider_schedules},Access to the Manage Provider Schedules app
+732c40bc-260e-4a42-91ef-17c6faf4c3f3,${privilege.app_appointmentschedulingui_view_appointments},Access to Manage Appointments and Daily Scheduled Appointments (but not the ability to book appointments from these pages)
+e898fa6e-3d75-4d0c-a0a7-d6aaaa13b0e9,${privilege.app_attachments_page},Allows access to the attachments page
+F5330846-A1B4-4BB5-9843-66203E767E90,${privilege.app_chw},Use CHW management app
+5b38d53c-a521-4df4-be11-8f1abdcdae12,${privilege.app_cohort_builder},Allows access to cohort builder app
+c2f37314-3ed3-49a9-a43d-81448db33435,${privilege.app_coreapps_active_visits},Able to access the active visits app
+7232d5a2-f890-4834-a0ea-e88eadc8aae2,${privilege.app_coreapps_awaiting_admission},Privilege to use the Awaiting Admission app
+e84b166a-9626-4456-bd70-44a40add377d,${privilege.app_coreapps_data_management},Able to access data management apps
+1b54dcfc-8d58-4048-8679-a60c57790bef,${privilege.app_coreapps_find_patient},Able to access the find patient app
+68aabf82-a16b-42f9-85a5-e71570f5a669,${privilege.app_coreapps_merge_patient},Able to access the merge patient app
+54b54fc4-1fef-41bc-8d3b-1941ab3ba397,${privilege.app_coreapps_patient_dashboard},Able to access the patient dashboard
+d221abbc-1989-4014-9558-f4bc62455b36,${privilege.app_coreapps_patient_visits},Able to access the patient visits screen
+26ef73b4-7aa6-4f7a-bce8-b5c37dc83a8c,${privilege.app_coreapps_summary_dashboard},Able to access summary dashboards
+69da2140-85ce-40d0-82ad-6ca7c188f2c6,${privilege.app_emr_system_administration},Run the System Administration app
+769a12c2-6ff0-42ba-888e-52e66ed16fb7,${privilege.app_dispensing_app_dispense},Access to dispensing medication app
+28860d07-9e9e-441d-9b9b-f9af3cff0349,${privilege.app_ed_triage_app_triage},Able to triage a patient
+1b699660-245a-11e6-bdf4-0800200c9a66,${privilege.app_ed_triage},Use ED Triage App provided by the ED Triage moddule
+F7BAE2F7-78AB-4D7A-8470-8068E4969F56,${privilege.app_ed_triage_queue},Use ED Triage Queue provided by the ED Triage moddule
+24fb3877-c07e-436f-8005-ce7a81245fcd,${privilege.app_emr_archives_room},Run the Archives Room app
+60ce8766-57cc-4e4f-8356-6bbe3f56f980,${privilege.app_emr_inpatients},Right to view the Impatient app
+0a2e8032-abc9-11e8-843e-54ee75ef41c2,${privilege.app_labs},Allows access to Labs apps
+1bc1d453-c675-4674-b1eb-120b19d97f16,${privilege.app_lab_tracking_monitor_orders},Use the Monitor Orders app provided by the Lab Tracking app
+18c8d715-8845-44e3-ac62-4b613f00e082,${privilege.app_legacy_admin},Run the (Legacy) OpenMRS Administration app
+d36890f2-ef9f-4cd5-a48e-f5519e608b93,${privilege.app_emr_check_in},Access the ZL Mirebalais Check-In app
+9500dbe5-1a70-44a5-881d-424afc103367,${privilege.app_zl_mpi},Run the Search Master Patient Index app
+409c73d3-1184-4df1-b4b9-05f37b48f9ba,${privilege.app_emr_outpatient_vitals},Run the capture Vitals app
+10122e43-196b-4563-b083-f0ec00f0429b,${privilege.app_zl_reports_data_exports},Ability to run data export reports
+fd7c4193-1202-48b7-a346-9046ffe15716,${privilege.app_order_entry_order_drugs},Allows access to drug orders page
+af11d5d3-caa0-4f7f-83d7-c7f2c3b902fd,${privilege.app_todays_visits},Use the Today's Visits app provided by PIH Core
+0f986bdc-1cb2-4096-aeac-0d397de61dd5,${privilege.app_waiting_for_consult},Use the Waiting For Consult app provided by PIH Core
+c6ad8bad-a09e-43b6-b311-ac27dd688060,${privilege.app_registration_register_patient},Able to access the register patient app
+89cde56a-d8cc-4261-b491-38a1296edce0,${privilege.app_reportingui_adhoc_analysis},Use the Ad Hoc Analysis tool
+a4bb96b4-b3cb-4e3c-9251-a7c0ca173035,${privilege.app_reportingui_reports},Use the Reports app provided by the reportingui module
+fc342edd-a7da-457f-9332-012374c90e5d,${privilege.task_appointmentschedulingui_book_appointments},"Ability book appointments, cancel appointments, and flag appointments as needs reschedule; Access to the Manage Rescheduled app"
+0d22febe-9a55-4baf-ad1d-25f12ff05f2c,${privilege.task_appointmentschedulingui_overbook_appointments},Ability to overbook time slots
+74a1d0a6-c2e5-4fd3-93c2-fac1e5888c05,${privilege.task_appointmentschedulingui_request_appointments},Ability to request an appointment for a patient
+6d1b1e23-26fc-46e0-932e-cd6a5d010c0a,${privilege.task_appointmentschedulingui_view_confidential},Ability to view appointments marked as confidential in the appointment scheduling ui
+98ba52e3-eecc-4260-8243-a7d05cda9865,${privilege.task_coreapps_create_retro_visit},"Ability to create a create retrospective visit (i.e., one that starts in the past)"
+91c8eab6-9764-410f-92ab-978a6b5b1ddc,${privilege.task_coreapps_create_visit},Rights to start a visit from the patient dashboard
+ed1cc14f-54a2-41b8-b2d0-e10a4792b000,${privilege.task_coreapps_delete_patient},Able to delete a patient
+6b488071-a4a6-4b77-af25-4986a114af35,${privilege.task_delete_patient_program},Ability to delete a patient program via the program status widget
+8390667f-1ae3-4810-8044-442232664f04,${privilege.task_edit_patient_program},Ability to edit a patient program via the program status widget
+ae2cb35c-2bb5-4dfa-b62d-985cfcf38f71,${privilege.task_coreapps_edit_relationships},Able to edit relationships
+37c63011-51f4-4e3d-b291-ea8a061d0f97,${privilege.task_coreapps_end_visit},Ability to end visit
+841d114c-0844-4059-817e-0af0561aa950,${privilege.task_enroll_in_program},Ability to enroll a patient in a program via the program status widget
+54360e0d-d3c2-4331-b295-dbb872e2347f,${privilege.task_mark_patient_dead},Ability to Mark a patient dead/deceased.
+481ea817-cb16-4a2e-9848-8cbafabb93f1,${privilege.task_coreapps_merge_visits},Ability to merge visits
+8accc0c0-3faf-11e6-bdf4-0800200c9a66,${privilege.task_ed_triage_enter_note},Ability to enter an ED Triage form fo a patient
+3f407fdd-df00-42ec-9e1d-864ee896b2cb,${privilege.task_emr_enter_admission_note},Ability to enter an admission note
+02bd5352-aac7-4ec3-867b-79c66833d771,${privilege.task_emr_enter_consult_note},Ability to enter a consult note
+6f858c4d-f349-4595-8f82-cd3316a75c05,${privilege.task_emr_enter_covid},Ability to enter a COVID-19 form
+62ef802c-0e6e-4aee-8340-bb25ed5da419,${privilege.task_emr_enter_ed_note},Ability to enter an ED Note
+86698b3d-b2c7-4537-9157-3c8446946a9a,${privilege.task_emr_enter_hiv_consult_note},Ability to enter an HIV consult note
+fbc80ff0-0805-11e6-a837-0800200c9a66,${privilege.task_emr_enter_lab_results},Ability to enter a lab results form
+819b8a30-910c-11e8-9eb6-529269fb1459,${privilege.task_emr_enter_mch},Ability to enter an Maternal and Child health notes
+5f520ae8-cf63-11e5-ab30-625662870761,${privilege.task_emr_enter_mental_health_note},Ability to enter a mental health note
+ba550ca0-6934-11e5-a837-0800200c9a66,${privilege.task_emr_enter_ncd_consult_note},Ability to enter an NCD consult note
+22d89390-105d-11e5-b939-0800200c9a66,${privilege.task_emr_enter_oncology_consult_note},Ability to enter an oncology consult note
+ee9a1401-c440-4074-b81c-1df46951bf2e,${privilege.task_emr_enter_primary_care_consult_note},Ability to enter a Primary Care consult note
+de845182-11e1-11e8-b642-0ed5f89f718b,${privilege.task_emr_enter_socio},Ability to enter a Socio-economics note
+1e4b2181-12fd-4dfc-a200-f17975116bf0,${privilege.task_emr_enter_surgical_note},Ability to enter a surgical note
+1443a1e4-7cc4-11e9-8f9e-2a86e4085a59,${privilege.task_emr_enter_vaccination},Ability to enter a Vaccination form
+616b6eec-f189-11e7-8c3f-9a214cf093ae,${privilege.task_emr_enter_vct},Ability to enter a VCT note
+d7135338-93e9-46a9-9cde-07af84b2fe8c,${privilege.task_emr_enter_vitals_note},Ability to enter a vitals note
+5367155a-e435-4010-877a-f3007059c352,${privilege.task_emr_patient_encounter_delete},Gives permission to a user to delete a patient encounter
+4841f2dd-31f0-46b9-9877-74dcaf2cf07b,${privilege.task_emr_patient_encounter_edit},Gives permission to a user to edit a patient encounter
+6cdc5785-ee5c-48af-a2a2-7a574721fa97,${privilege.task_coreapps_delete_visit},User has ability to delete a visit
+d8165924-87b3-441d-bce8-2230d7bb3307,${privilege.task_emr_print_labels},Access the emr.printPaperRecordLabel task
+7f4087ec-1d57-42aa-8704-fa27b0867d6f,${privilege.task_emr_print_wristband},Ability to print a wristband from the patient dashboard
+91d80e71-3ad7-4bc2-8bef-c6378e1b2b70,${privilege.task_archives_request_paper_records},Access the emr.requestPaperRecord task
+d5e693ae-3f24-4fcb-abfd-eec345a76c17,${privilege.task_emr_retro_clinical_note},Ability to retrospectively enter a consult note
+ac6585f1-10e0-4a4e-84e3-fb8b098f0cbe,${privilege.task_emr_retro_clinical_note_this_provider_only},Ability to retrospectively enter a consult note for provider user.
+6C12D2F8-D8A6-4970-A814-439F1025F7F4,${privilege.task_view_growth_charts},Able to view growth charts
+77581bcc-6ee3-4c64-b906-02a9a4e95307,${privilege.task_lab_tracking_update},Ability to place orders using functionality provided by the Lab Tracking app
+8c14474d-07e9-4283-9af2-0720522f1496,${privilege.task_lab_tracking_place_orders},Ability to place orders using functionality provided by the Lab Tracking app
+23e57acd-83b5-44f4-8730-109645bb4953,${privilege.task_view_labs},Able to view lab tests via the order entry UI
+aa6751d5-1ca1-4863-be6b-d7a466aafd12,${privilege.task_manage_conditions_list},Able to activate/inactivate/void condition lists.
+1a819ef6-4632-4d2e-8227-7bdf9e8e273a,${privilege.task_emr_check_in},Ability to enter a Check In form from the patient dashboard.
+cc9bcfd5-2bc8-489f-85a7-fbd65e5a8293,${privilege.task_dispensing_dispense},Ability to dispense medicine.
+c4121a43-895d-4c07-83f9-64e6907e3742,${privilege.task_emr_death_certificate_form},Enter the Death Certificate form
+d92637e3-8c03-4104-836a-f5bde8d8be47,${privilege.task_dispensing_edit},Able to edit provide location and date of dispensing medication.
+6de2bc14-d143-468b-a70a-49fef3ba66d3,${privilege.task_allergies_modify},"Able to add, edit, delete allergies"
+e534c845-74da-45f8-97d5-304482c52256,${privilege.task_order_labs},Able to order lab tests via the order entry UI
+6c87e448-a356-419d-9da9-f773ba9882cc,${privilege.task_radiologyapp_order_ct},Rights to order a CT Scan via the radiology app
+90ba15be-842d-4d11-969d-773958ec0ded,${privilege.task_radiologyapp_order_us},Privilege to order an ultrasound exam
+9d28a374-89c4-4050-9efd-eabdbf828b75,${privilege.task_radiologyapp_order_xray},Rights to order an x-ray via the x-ray app
+84a77327-a759-4681-8065-91670a16aacb,${privilege.task_radiologyapp_retro_order},Ability to retrospectively order a radiology study
+b0791308-22dd-4a64-ac9c-8dbb4d1be245,${privilege.task_radiologyapp_tab},Ability to view the Radiology tab for patient
