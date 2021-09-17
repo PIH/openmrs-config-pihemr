@@ -13,6 +13,8 @@ BEGIN
     SET @testPt = (select person_attribute_type_id from person_attribute_type where uuid = '4f07985c-88a5-4abd-aa0c-f3ec8324d8e7');
     SET @unknownPt = (select person_attribute_type_id from person_attribute_type where uuid = '8b56eac7-5c76-4b9c-8c6f-1deab8d3fc47');
 
+	SET @zikaProgram = (select program_id from program where uuid = '3bea593a-9afd-4642-96a6-210b60f5aff2');
+
     SET @regEnc = encounter_type('873f968a-73a8-4f9c-ac78-9f4778b751b6');
     SET @chkEnc = encounter_type('55a0d3ea-a4d7-4e88-8f01-5aceb2d3c61b');
     SET @vitEnc = encounter_type('4fb47712-34a6-40d2-8ed3-e153abbd25b7');
@@ -38,6 +40,7 @@ BEGIN
     SET @PedInitEnc = encounter_type('5b812660-0262-11e6-a837-0800200c9a66');
     SET @PedFollowEnc = encounter_type('229e5160-031b-11e6-a837-0800200c9a66');
     SET @NCDInitEnc = encounter_type('ae06d311-1866-455b-8a64-126a9bd74171');
+	SET @labResultEnc = encounter_type('4d77916a-0620-11e5-a6c0-1697f925ec7b');
 
     SET @pathologyTestOrder = (select order_type_id from order_type where uuid='65c912c2-88cf-46c2-83ae-2b03b1f97d3a');
 
