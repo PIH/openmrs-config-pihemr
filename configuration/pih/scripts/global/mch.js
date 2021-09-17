@@ -92,7 +92,7 @@ function setUpNextButtonForSections(currentSection) {
   jq("#next").click(function () {
     window.htmlForm.getBeforeSubmit().push(function () {
       window.htmlForm.setReturnUrl(
-        window.htmlForm.getReturnUrl() + "&amp;goToNextSection=" + currentSection
+        window.htmlForm.getReturnUrl() + "&goToNextSection=" + currentSection
       );
       return true;
     });
