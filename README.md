@@ -292,13 +292,19 @@ Note that this application logic often depends both on which components are enab
 at the active location.  Location Tags are currently set up in the PIH config; see for example
 [pih-config-haiti-hiv.json](https://github.com/PIH/openmrs-config-zl/blob/a7dd3dcfb34462e9088c03dc7ea7823a2868d48a/configuration/pih/pih-config-haiti-hiv.json#L64).
 
-A form must refer to an encounter type. Encounter types are currently managed in code; see
-[pihcore/EncounterTypes.java](https://github.com/PIH/openmrs-module-pihcore/blob/master/api/src/main/java/org/openmrs/module/pihcore/metadata/core/EncounterTypes.java)
-and [pihcore/EncounterTypeBundle.java](https://github.com/PIH/openmrs-module-pihcore/blob/master/api/src/main/java/org/openmrs/module/pihcore/deploy/bundle/core/EncounterTypeBundle.java).
+A form must refer to an encounter type. Encounter types are managed using
+[Initializer](https://github.com/mekomsolutions/openmrs-module-initializer/blob/master/readme/et.md);
+see
+[pihemr/configuration/encountertypes](https://github.com/PIH/openmrs-config-pihemr/tree/master/configuration/encountertypes).
 
 All forms are associated with components, which are declared in
 [pihcore/Components.java](https://github.com/PIH/openmrs-module-pihcore/blob/master/api/src/main/java/org/openmrs/module/pihcore/config/Components.java)
 and then used in the CALF.
+
+When creating a form you will also need to add boilerplate to
+[pihemr/encounterTypeConfig.js](https://github.com/PIH/openmrs-config-pihemr/blob/master/configuration/pih/scripts/visit/encounterTypeConfig.js).
+This configures features of how the form appears. If a form will have sections,
+this is configured here.
 
 ### Reports
 
