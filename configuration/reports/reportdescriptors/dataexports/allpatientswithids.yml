@@ -1,0 +1,33 @@
+key: "allpatientswithids"
+uuid: "d534683e-20bd-11e3-b5bd-0bec7fb71852"
+name: "mirebalaisreports.allpatientswithids.name"
+description: "mirebalaisreports.allpatientswithids.description"
+datasets:
+  - key: "dsd"
+    type: "sql"
+    config: "sql/allpatientswithids.sql"
+designs:
+  - type: "csv"
+    properties:
+      "filenameBase": "allpatientslistdataexport.{{ formatDate request.evaluateStartDatetime \"yyyyMMdd\" }}.{{ formatDate request.evaluateStartDatetime \"HHmm\" }}"
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
+    processors:
+      - name: "saveToDisk"
+        type: "disk"
+        runOnSuccess: "true"
+        runOnError: "false"
+        processorMode: "AUTOMATIC"
+        configuration:
+          saveLocation: "{{application_data_directory}}reports"
+          compressOutput: "true"
+config:
+  category: "dataExport"
+  countries:
+    - "HAITI"
+    - "LIBERIA"
+  order: 1005
+  components:
+    - "dataExports"
+    - "allDataExports"
