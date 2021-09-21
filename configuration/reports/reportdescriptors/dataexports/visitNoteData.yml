@@ -10,14 +10,14 @@ parameters:
     type: "java.util.Date"
     label: "reporting.parameter.endDate"
 datasets:
-  - {key: "chiefComplaint", type: "mirebalaisPatientDataSetManager"}
+  - {key: "chiefComplaint", type: "sql", config: "sql/chiefComplaint.sql"}
   - {key: "diagnoses", type: "sql", config: "sql/diagnoses.sql"}
-  - {key: "exams", type: "sql", config: "sql/visits.sql"}
-  - {key: "feeding", type: "sql", config: "sql/checkins.sql"}
-  - {key: "history", type: "consultationsDataSetManager"}
-  - {key: "primaryCarePlans", type: "sql", config: "sql/hospitalizations.sql"}
-  - {key: "supplements", type: "sql", config: "sql/postOpNote1.sql"}
-  - {key: "vaccinations", type: "sql", config: "sql/postOpNote2.sql"}
+  - {key: "exams", type: "sql", config: "sql/exams.sql"}
+  - {key: "feeding", type: "sql", config: "sql/feeding.sql"}
+  - {key: "history", type: "sql", config: "sql/history.sql"}
+  - {key: "primaryCarePlans", type: "sql", config: "sql/primaryCarePlans.sql"}
+  - {key: "supplements", type: "sql", config: "sql/supplements.sql"}
+  - {key: "vaccinations", type: "sql", config: "sql/vaccinations.sql"}
 designs:
   - type: "csv"
     properties:
