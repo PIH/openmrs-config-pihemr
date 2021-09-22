@@ -1,0 +1,48 @@
+key: "visitnotedataexport"
+uuid: "228BCF82-D496-49B0-929B-5B3C6AF3767E"
+name: "mirebalaisreports.visitnotedataexport.name"
+description: "mirebalaisreports.visitnotedataexport.description"
+parameters:
+  - key: "startDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.startDate"
+  - key: "endDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.endDate"
+datasets:
+  - {key: "chiefComplaint", type: "sql", config: "sql/chiefComplaint.sql"}
+  - {key: "diagnoses", type: "sql", config: "sql/diagnoses.sql"}
+  - {key: "exams", type: "sql", config: "sql/exams.sql"}
+  - {key: "feeding", type: "sql", config: "sql/feeding.sql"}
+  - {key: "history", type: "sql", config: "sql/history.sql"}
+  - {key: "primaryCarePlans", type: "sql", config: "sql/primaryCarePlans.sql"}
+  - {key: "supplements", type: "sql", config: "sql/supplements.sql"}
+  - {key: "vaccinations", type: "sql", config: "sql/vaccinations.sql"}
+designs:
+  - type: "csv"
+    properties:
+      "filenameBase": "visitnotedataexport.{{ formatDate request.reportDefinition.parameterMappings.startDate \"yyyyMMdd\" }}.{{ formatDate request.reportDefinition.parameterMappings.endDate \"yyyyMMdd\" }}.{{ formatDate request.evaluateStartDatetime \"yyyyMMdd\" }}.{{ formatDate request.evaluateStartDatetime \"HHmm\" }}"
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
+    processors:
+      - name: "saveToDisk"
+        type: "disk"
+        runOnSuccess: "true"
+        runOnError: "false"
+        processorMode: "AUTOMATIC"
+        configuration:
+          saveLocation: "{{application_data_directory}}reports"
+          compressOutput: "true"
+config:
+  category: "dataExport"
+  order: "7"
+  components:
+    - "visitNote"
+    - "allDataExports"
+  countries:
+    - "HAITI"
+    - "LIBERIA"
+    - "MEXICO"
+    - "PERU"
+    - "OTHER"
