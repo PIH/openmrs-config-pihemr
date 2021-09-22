@@ -88,6 +88,8 @@ encounterType:
     uuid: "4fb47712-34a6-40d2-8ed3-e153abbd25b7"
   PRIMARY_CARE_VISIT:
     uuid: "1373cf95-06e8-468b-a3da-360ac1cf026d"
+  CONSULTATION_INITIAL:
+    uuid: "59e55ca8-f3de-4d1e-b54c-9b880405b853"
   CONSULTATION:
     uuid: "92fd09b4-5335-4f7e-9f63-b2a663fd09a6"
   ONCOLOGY_CONSULT:
