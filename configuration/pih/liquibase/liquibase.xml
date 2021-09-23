@@ -338,4 +338,19 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20210916-clear-location-tag-maps-zl-only" author="mgoodrich">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">
+                select count(*) from address_hierarchy_entry where parent_id is NULL and name like 'Haiti';
+            </sqlCheck>
+        </preConditions>
+        <comment>
+            UHM-5770: Refactor location tag configuration into Iniz locationtagmaps
+            (One-time clear out of maps so they can be re-initiazed, on ZL servers only)
+        </comment>
+        <sql>
+            delete from location_tag_map;
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
