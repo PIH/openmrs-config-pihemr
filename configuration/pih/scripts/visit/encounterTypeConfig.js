@@ -622,6 +622,17 @@ angular.module("encounterTypeConfig", [])
             }
         };
 
+        // initial consultation
+        encounterTypes["59e55ca8-f3de-4d1e-b54c-9b880405b853"] = {
+            defaultState: "long",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("outpatientConsultInitial.xml"),
+            icon: "fas fa-fw fa-stethoscope",
+            editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("outpatientConsultInitial.xml"),
+            showOnVisitList: true
+        };
+
         // primaryCarePedsInitialConsult
         encounterTypes["5b812660-0262-11e6-a837-0800200c9a66"] = {
             defaultState: "short",

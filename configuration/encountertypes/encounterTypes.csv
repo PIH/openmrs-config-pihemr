@@ -4,6 +4,7 @@ ${encounterType.CHECK_IN.uuid},,Inscription,"Check-in encounter, formerly known 
 ${encounterType.PAYMENT.uuid},,Rencontre de paiement,Encounter used to capture patient payments
 ${encounterType.VITALS.uuid},,Signes vitaux,"Encounter where vital signs were captured, and triage may have been done, possibly for triage purposes, but a complete exam was not done."
 ${encounterType.PRIMARY_CARE_VISIT.uuid},,Consultation soins de base,"Primary care visit (In Kreyol, it&apos;s &apos;vizit swen primè&apos;)"
+${encounterType.CONSULTATION_INITIAL.uuid},,Consultation,"Encounter where a full or abbreviated examination is done, leading to a presumptive or confirmed diagnosis"
 ${encounterType.CONSULTATION.uuid},,Consultation,"Encounter where a full or abbreviated examination is done, leading to a presumptive or confirmed diagnosis"
 ${encounterType.ONCOLOGY_CONSULT.uuid},,Oncology Consultation,Consultation for Oncology
 ${encounterType.ONCOLOGY_INITIAL_VISIT.uuid},,Oncology Initial Visit,Intake for oncology patient
