@@ -10,7 +10,8 @@ parameters:
     type: "java.util.Date"
     label: "reporting.parameter.endDate"
 datasets:
-  - {key: "checkins", type: "sql", config: "sql/checkins.sql"}
+  - key: "checkins"
+    type: "checkInDataSetManager"
 designs:
   - type: "csv"
     properties:
