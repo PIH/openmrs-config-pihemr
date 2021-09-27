@@ -4,8 +4,8 @@ usage() {
     echo "Finds the package that a given reference term is found in."
     echo "Ignores the reference term source."
     echo
-    echo "Looks through the .xml files that ./update.sh puts in this directory."
-    echo "If there are no .xml files in this directory, run ./update.sh."
+    echo "Looks through the XML files that `./update.sh` puts in `mds/`"
+    echo "If there are no XML files in that directory, run `./update.sh`."
     echo
     echo "Usage: ./find-concept-by-ref-term.sh <ref_term>"
 }
@@ -20,5 +20,5 @@ if [ "$#" -ne 1 ]; then
     exit 1
 fi
 
-grep -l "<code>$1</code>" * | sed 's/metadata.xml/header.xml/' | xargs grep "<name>"
+grep -l "<code>$1</code>" mds/* | sed 's/metadata.xml/header.xml/' | xargs grep "<name>"
 

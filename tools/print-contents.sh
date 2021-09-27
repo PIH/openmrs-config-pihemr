@@ -1,10 +1,8 @@
 #!/bin/bash
 
 usage() {
-    echo "Prints the ID and name of all the concepts in a MDS file."
-    echo
-    echo "Looks through the .xml files that ./update.sh puts in this directory."
-    echo "If there are no .xml files in this directory, run ./update.sh."
+    echo "Prints the ID and name of all the concepts in a `metadata.xml` file."
+    echo "These files are put in the `mds/` folder by the `./update.sh` script."
     echo
     echo "Usage: ./print-contents.sh <metadata-xml-file>"
 }

@@ -457,9 +457,9 @@ This is described on the [OpenMRS wiki](https://wiki.openmrs.org/display/docs/Me
 You will at some point want to look up whether a concept exists in some or
 another package.
 
-To accomplish this you can use the tool in mds-search. `cd` into `mds-search`.
-Then run `./update.sh` to unzip all the MDS packages in this repo into the
-mds-search directory. Then use `./find-concept.sh 123` to find the MDS packages
+To accomplish this you can use the mds search tools. `cd` into `tools/`.
+Then run `./update.sh` to unzip all the MDS packages in this repo into `tools/mds/`.
+Then use `./find-concept.sh 123` to find the MDS packages
 that contain the concept with PIH concept ID `123`. The other `find-concept-`
 scripts work similarly. Execute any one of them with no arguments to see usage
 info.
