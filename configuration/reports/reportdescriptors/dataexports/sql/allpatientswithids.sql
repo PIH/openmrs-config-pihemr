@@ -1,3 +1,7 @@
+select 1;
+
+/*
+
 CALL initialize_global_metadata();
 
 select pn.family_name as 'Nom', pn.given_name as 'Prénom',
@@ -47,14 +51,14 @@ select pn.family_name as 'Nom', pn.given_name as 'Prénom',
   and zl.voided = 0
   and zl.preferred= 1
 
- left outer join patient_identifier bio on bio.patient_identifier_id = 
+ left outer join patient_identifier bio on bio.patient_identifier_id =
     (select patient_identifier_id from patient_identifier bio2
     where pat.patient_id = bio2.patient_id
     and bio2.identifier_type = @biometricId
     and bio2.voided = 0
     order by bio2.date_created desc limit 1)
 
-LEFT OUTER JOIN address_hierarchy_entry ahe_country on ahe_country.level_id = 1 and ahe_country.name = pa.country 
+LEFT OUTER JOIN address_hierarchy_entry ahe_country on ahe_country.level_id = 1 and ahe_country.name = pa.country
 LEFT OUTER JOIN address_hierarchy_entry ahe_dept on ahe_dept.level_id = 2 and ahe_dept.parent_id = ahe_country.address_hierarchy_entry_id and ahe_dept.name = pa.state_province
 LEFT OUTER JOIN address_hierarchy_entry ahe_commune on ahe_commune.level_id = 3 and ahe_commune.parent_id = ahe_dept.address_hierarchy_entry_id and ahe_commune.name = pa.city_village
 LEFT OUTER JOIN address_hierarchy_entry ahe_section on ahe_section.level_id = 4 and ahe_section.parent_id = ahe_commune.address_hierarchy_entry_id and ahe_section.name = pa.address3
@@ -65,3 +69,5 @@ where pat.voided = 0
 group by p.person_id, pn.family_name, pn.given_name, p.gender, p.birthdate
 
 order by pn.family_name, pn.given_name, p.gender, p.birthdate;
+
+*/
