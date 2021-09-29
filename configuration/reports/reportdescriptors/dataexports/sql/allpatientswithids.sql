@@ -1,7 +1,3 @@
-select 1;
-
-/*
-
 CALL initialize_global_metadata();
 
 select pn.family_name as 'Nom', pn.given_name as 'Prénom',
@@ -69,5 +65,3 @@ where pat.voided = 0
 group by p.person_id, pn.family_name, pn.given_name, p.gender, p.birthdate
 
 order by pn.family_name, pn.given_name, p.gender, p.birthdate;
-
-*/
