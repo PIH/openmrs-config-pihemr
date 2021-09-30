@@ -1,81 +1,99 @@
-SELECT encounter_type_id into @HIV_adult_intake from encounter_type where uuid = 'c31d306a-40c4-11e7-a919-92ebcb67fe33';
-SELECT encounter_type_id into @HIV_adult_followup from encounter_type where uuid = 'c31d3312-40c4-11e7-a919-92ebcb67fe33';
-SELECT encounter_type_id into @HIV_ped_intake from encounter_type where uuid = 'c31d3416-40c4-11e7-a919-92ebcb67fe33';
-SELECT encounter_type_id into @HIV_ped_followup from encounter_type where uuid = 'c31d34f2-40c4-11e7-a919-92ebcb67fe33';
-set @present = concept_from_mapping('PIH','11563');
-set @absent = concept_from_mapping('PIH','11564');
+SET sql_safe_updates = 0;
 
-drop temporary table if exists temp_TB_screening;
-create temporary table temp_TB_screening
+SELECT encounter_type_id INTO @HIV_adult_intake FROM encounter_type WHERE uuid = 'c31d306a-40c4-11e7-a919-92ebcb67fe33';
+SELECT encounter_type_id INTO @HIV_adult_followup FROM encounter_type WHERE uuid = 'c31d3312-40c4-11e7-a919-92ebcb67fe33';
+SELECT encounter_type_id INTO @HIV_ped_intake FROM encounter_type WHERE uuid = 'c31d3416-40c4-11e7-a919-92ebcb67fe33';
+SELECT encounter_type_id INTO @HIV_ped_followup FROM encounter_type WHERE uuid = 'c31d34f2-40c4-11e7-a919-92ebcb67fe33';
+SET @present = CONCEPT_FROM_MAPPING('PIH','11563');
+SET @absent = CONCEPT_FROM_MAPPING('PIH','11564');
+
+DROP TEMPORARY TABLE IF EXISTS temp_TB_screening;
+CREATE TEMPORARY TABLE temp_TB_screening
 (
-patient_id int(11),
-encounter_id int(11),
-cough_result_concept int(11),
-fever_result_concept int(11),
-weight_loss_result_concept int(11),
-tb_contact_result_concept int(11),
-lymph_pain_result_concept int(11),
-bloody_cough_result_concept int(11),
-dyspnea_result_concept int(11),
-chest_pain_result_concept int(11),
-tb_screening_date datetime,
-index_ascending int(11),
-index_descending int(11)
+patient_id INT(11),
+encounter_id INT(11),
+cough_result_concept INT(11),
+fever_result_concept INT(11),
+weight_loss_result_concept INT(11),
+tb_contact_result_concept INT(11),
+lymph_pain_result_concept INT(11),
+bloody_cough_result_concept INT(11),
+dyspnea_result_concept INT(11),
+chest_pain_result_concept INT(11),
+tb_screening VARCHAR(30),
+tb_screening_bool VARCHAR(5),
+tb_screening_date DATETIME,
+index_ascending INT(11),
+index_descending INT(11)
 );
 
-create index temp_TB_screening_patient_id on temp_TB_screening (patient_id);
-create index temp_TB_screening_tb_screening_date on temp_TB_screening (tb_screening_date);
-create index temp_TB_screening_encounter_id on temp_TB_screening (encounter_id);
+CREATE INDEX temp_TB_screening_patient_id ON temp_TB_screening (patient_id);
+CREATE INDEX temp_TB_screening_tb_screening_date ON temp_TB_screening (tb_screening_date);
+CREATE INDEX temp_TB_screening_encounter_id ON temp_TB_screening (encounter_id);
 
 -- load temp table with all intake/followup forms with any TB screening answer given
-insert into temp_TB_screening (patient_id, encounter_id,tb_screening_date)
-select e.patient_id, e.encounter_id,e.encounter_datetime from encounter e
-where e.voided =0 
-and e.encounter_type in (@HIV_adult_intake,@HIV_adult_followup,@HIV_ped_intake,@HIV_ped_followup)
-and exists
-  (select 1 from obs o where o.encounter_id = e.encounter_id 
-   and o.voided = 0 and o.concept_id in (@absent,@present))
+INSERT INTO temp_TB_screening (patient_id, encounter_id,tb_screening_date)
+SELECT e.patient_id, e.encounter_id,e.encounter_datetime FROM encounter e
+WHERE e.voided =0 
+AND e.encounter_type IN (@HIV_adult_intake,@HIV_adult_followup,@HIV_ped_intake,@HIV_ped_followup)
+AND EXISTS
+  (SELECT 1 FROM obs o WHERE o.encounter_id = e.encounter_id 
+   AND o.voided = 0 AND o.concept_id IN (@absent,@present))
 ;  
 
 -- update answer of each of the screening questions by bringing in the symptom/answer (fever, weight loss etc...)
 -- and update the temp table column based on whether the obs question was symptom question was present or absent
-update temp_TB_screening t
-inner join obs o on t.encounter_id = o.encounter_id and o.value_coded = concept_from_mapping('PIH', '11565')
+UPDATE temp_TB_screening t
+INNER JOIN obs o ON t.encounter_id = o.encounter_id AND o.value_coded = CONCEPT_FROM_MAPPING('PIH', '11565')
 -- set fever_result = if(o.concept_id = @present,'yes',if(o.concept_id = @absent,'no',null))
-set fever_result_concept =o.concept_id;
+SET fever_result_concept =o.concept_id;
 
-update temp_TB_screening t
-inner join obs o on t.encounter_id = o.encounter_id and o.value_coded = concept_from_mapping('PIH', '11566')
-set weight_loss_result_concept =o.concept_id;
+UPDATE temp_TB_screening t
+INNER JOIN obs o ON t.encounter_id = o.encounter_id AND o.value_coded = CONCEPT_FROM_MAPPING('PIH', '11566')
+SET weight_loss_result_concept =o.concept_id;
 
-update temp_TB_screening t
-inner join obs o on t.encounter_id = o.encounter_id and o.value_coded = concept_from_mapping('PIH', '11567')
-set cough_result_concept =o.concept_id;
+UPDATE temp_TB_screening t
+INNER JOIN obs o ON t.encounter_id = o.encounter_id AND o.value_coded = CONCEPT_FROM_MAPPING('PIH', '11567')
+SET cough_result_concept =o.concept_id;
 
-update temp_TB_screening t
-inner join obs o on t.encounter_id = o.encounter_id and o.value_coded = concept_from_mapping('PIH', '11568')
-set tb_contact_result_concept =o.concept_id;
+UPDATE temp_TB_screening t
+INNER JOIN obs o ON t.encounter_id = o.encounter_id AND o.value_coded = CONCEPT_FROM_MAPPING('PIH', '11568')
+SET tb_contact_result_concept =o.concept_id;
 
-update temp_TB_screening t
-inner join obs o on t.encounter_id = o.encounter_id and o.value_coded = concept_from_mapping('PIH', '11569')
-set lymph_pain_result_concept =o.concept_id;
+UPDATE temp_TB_screening t
+INNER JOIN obs o ON t.encounter_id = o.encounter_id AND o.value_coded = CONCEPT_FROM_MAPPING('PIH', '11569')
+SET lymph_pain_result_concept =o.concept_id;
 
-update temp_TB_screening t
-inner join obs o on t.encounter_id = o.encounter_id and o.value_coded = concept_from_mapping('PIH', '970')
-set bloody_cough_result_concept =o.concept_id;
+UPDATE temp_TB_screening t
+INNER JOIN obs o ON t.encounter_id = o.encounter_id AND o.value_coded = CONCEPT_FROM_MAPPING('PIH', '970')
+SET bloody_cough_result_concept =o.concept_id;
 
-update temp_TB_screening t
-inner join obs o on t.encounter_id = o.encounter_id and o.value_coded = concept_from_mapping('PIH', '5960')
-set dyspnea_result_concept =o.concept_id;
+UPDATE temp_TB_screening t
+INNER JOIN obs o ON t.encounter_id = o.encounter_id AND o.value_coded = CONCEPT_FROM_MAPPING('PIH', '5960')
+SET dyspnea_result_concept =o.concept_id;
 
-update temp_TB_screening t
-inner join obs o on t.encounter_id = o.encounter_id and o.value_coded = concept_from_mapping('PIH', '136')
-set chest_pain_result_concept =o.concept_id;
-                                         
+UPDATE temp_TB_screening t
+INNER JOIN obs o ON t.encounter_id = o.encounter_id AND o.value_coded = CONCEPT_FROM_MAPPING('PIH', '136')
+SET chest_pain_result_concept =o.concept_id;
+
+UPDATE temp_TB_screening t
+INNER JOIN obs o ON t.encounter_id = o.encounter_id AND o.concept_id = CONCEPT_FROM_MAPPING("CIEL", "160108")
+SET tb_screening = CONCEPT_NAME(o.value_coded, 'en');
+
+UPDATE temp_TB_screening t SET tb_screening_bool = IF(cough_result_concept = @present,'yes',
+  IF(fever_result_concept = @present,'yes',
+    IF(weight_loss_result_concept = @present,'yes',
+      IF(tb_contact_result_concept = @present,'yes',
+        IF(lymph_pain_result_concept = @present,'yes',
+          IF(bloody_cough_result_concept = @present,'yes',
+            IF(dyspnea_result_concept = @present,'yes',
+              IF(chest_pain_result_concept = @present,'yes',
+                'no')))))))); 
+
 -- The ascending/descending indexes are calculated ordering on the screening date
 -- new temp tables are used to build them and then joined into the main temp table. 
 -- index ascending
-drop temporary table if exists temp_screening_index_asc;
+DROP TEMPORARY TABLE IF EXISTS temp_screening_index_asc;
 CREATE TEMPORARY TABLE temp_screening_index_asc
 (
     SELECT
@@ -95,13 +113,12 @@ FROM (SELECT
             ORDER BY patient_id ASC, tb_screening_date ASC, encounter_id ASC
         ) index_ascending);
 
-update temp_TB_screening t
-inner join temp_screening_index_asc tsia on tsia.encounter_id = t.encounter_id
-set t.index_ascending = tsia.index_asc;
-
+UPDATE temp_TB_screening t
+INNER JOIN temp_screening_index_asc tsia ON tsia.encounter_id = t.encounter_id
+SET t.index_ascending = tsia.index_asc;
 
 -- index descending
-drop temporary table if exists temp_screening_index_desc;
+DROP TEMPORARY TABLE IF EXISTS temp_screening_index_desc;
 CREATE TEMPORARY TABLE temp_screening_index_desc
 (
     SELECT
@@ -121,35 +138,27 @@ FROM (SELECT
             ORDER BY patient_id DESC, tb_screening_date DESC, encounter_id DESC
         ) index_DESCending);
 
-update temp_TB_screening t
-inner join temp_screening_index_desc tsid on tsid.encounter_id = t.encounter_id
-set t.index_descending = tsid.index_desc;
+UPDATE temp_TB_screening t
+INNER JOIN temp_screening_index_desc tsid ON tsid.encounter_id = t.encounter_id
+SET t.index_descending = tsid.index_desc;
 
 
-Select
+SELECT
 patient_id,
-zlemr(patient_id) emr_id,
-dosId(patient_id) dossier_id,
+ZLEMR(patient_id) emr_id,
+DOSID(patient_id) dossier_id,
 encounter_id,
-if(cough_result_concept = @present,'yes',if(cough_result_concept = @absent,'no',null)) "cough_result",
-if(fever_result_concept = @present,'yes',if(fever_result_concept = @absent,'no',null)) "fever_result",
-if(weight_loss_result_concept = @present,'yes',if(weight_loss_result_concept = @absent,'no',null)) "weight_loss",
-if(tb_contact_result_concept = @present,'yes',if(tb_contact_result_concept = @absent,'no',null)) "tb_contact",
-if(lymph_pain_result_concept = @present,'yes',if(lymph_pain_result_concept = @absent,'no',null)) "lymph_pain",
-if(bloody_cough_result_concept = @present,'yes',if(bloody_cough_result_concept = @absent,'no',null)) "bloody_cough",
-if(dyspnea_result_concept = @present,'yes',if(dyspnea_result_concept = @absent,'no',null)) "dyspnea_result",
-if(chest_pain_result_concept = @present,'yes',if(chest_pain_result_concept = @absent,'no',null)) "chest_pain",
-if(cough_result_concept = @present,'yes',
-  if(fever_result_concept = @present,'yes',
-    if(weight_loss_result_concept = @present,'yes',
-      if(tb_contact_result_concept = @present,'yes',
-        if(lymph_pain_result_concept = @present,'yes',
-          if(bloody_cough_result_concept = @present,'yes',
-            if(dyspnea_result_concept = @present,'yes',
-              if(chest_pain_result_concept = @present,'yes',
-                'no')))))))) "tb_screening_result", 
+IF(cough_result_concept = @present,'yes',IF(cough_result_concept = @absent,'no',NULL)) "cough_result",
+IF(fever_result_concept = @present,'yes',IF(fever_result_concept = @absent,'no',NULL)) "fever_result",
+IF(weight_loss_result_concept = @present,'yes',IF(weight_loss_result_concept = @absent,'no',NULL)) "weight_loss",
+IF(tb_contact_result_concept = @present,'yes',IF(tb_contact_result_concept = @absent,'no',NULL)) "tb_contact",
+IF(lymph_pain_result_concept = @present,'yes',IF(lymph_pain_result_concept = @absent,'no',NULL)) "lymph_pain",
+IF(bloody_cough_result_concept = @present,'yes',IF(bloody_cough_result_concept = @absent,'no',NULL)) "bloody_cough",
+IF(dyspnea_result_concept = @present,'yes',IF(dyspnea_result_concept = @absent,'no',NULL)) "dyspnea_result",
+IF(chest_pain_result_concept = @present,'yes',IF(chest_pain_result_concept = @absent,'no',NULL)) "chest_pain",
+COALESCE(tb_screening, tb_screening_bool) "tb_screening_result",
 tb_screening_date,
 index_ascending,
 index_descending
-from temp_TB_screening
+FROM temp_TB_screening
 ORDER BY patient_id ASC, tb_screening_date ASC, encounter_id ASC;
