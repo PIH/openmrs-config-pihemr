@@ -1,3 +1,7 @@
 .idea/
 *.iml
 target/
+api-generation/
+.project
+.settings
+.vscode
