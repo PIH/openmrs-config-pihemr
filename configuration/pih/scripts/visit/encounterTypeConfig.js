@@ -633,6 +633,17 @@ angular.module("encounterTypeConfig", [])
             showOnVisitList: true
         };
 
+      // nurse consultation
+      encounterTypes["e920911f-dee9-4b18-9a58-50e685806ea0"] = {
+        defaultState: "long",
+        shortTemplate: "templates/encounters/defaultEncounterShort.page",
+        longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+        templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("nurseConsult.xml"),
+        icon: "fas fa-fw fa-stethoscope",
+        editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("nurseConsult.xml"),
+        showOnVisitList: true
+      };
+
         // primaryCarePedsInitialConsult
         encounterTypes["5b812660-0262-11e6-a837-0800200c9a66"] = {
             defaultState: "short",
