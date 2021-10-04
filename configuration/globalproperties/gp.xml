@@ -50,8 +50,8 @@
         </globalProperty>
         <globalProperty>
             <property>order.durationUnitsConceptUuid</property>
-            <!-- Concept: Time units, CIEL:1732 -->
-            <value>f1904502-319d-4681-9030-e642111e7ce2</value>
+            <!-- Concept: Medication Duration Units -->
+            <value>19cd6ff8-052b-46e7-96ef-91fccede9565</value>
         </globalProperty>
         <globalProperty>
             <property>order.drugDosingUnitsConceptUuid</property>
