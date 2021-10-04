@@ -3,38 +3,32 @@ CALL initialize_global_metadata();
 DROP TEMPORARY TABLE IF EXISTS temp_patients;
 CREATE TEMPORARY TABLE temp_patients
 (
-       patient_id					int(11),
+	patient_id					int(11),
 	family_name					varchar(255),
 	given_name					varchar(255),
-       patient_address_level_1                   varchar(255),
-       patient_address_level_2                   varchar(255),  
-       patient_address_level_3                   varchar(255),
-       patient_address_level_4                   varchar(255),
-       patient_address_level_5                   varchar(255),
-       birthdate					datetime,
-       birthdate_estimated                       char(1),
-       age						decimal,
+	patient_address_level_1				varchar(255),
+	patient_address_level_2				varchar(255),  
+	patient_address_level_3				varchar(255),
+	patient_address_level_4				varchar(255),
+	patient_address_level_5				varchar(255),
+	birthdate					datetime,
+	birthdate_estimated				char(1),
+	age						double,
 	gender						char(1),
-       patient_primary_id                        varchar(50),
-       dossier_id					varchar(50),
-	telephone_number			       varchar(50),
-	Section_Communale_CDC_ID	              varchar(11),
-	last_biometric_date			       datetime
+	patient_primary_id				varchar(50),
+	dossier_id					varchar(50),
+	telephone_number				varchar(50),
+	Section_Communale_CDC_ID			varchar(11),
+	last_biometric_date				datetime
 	);	
 	
 insert into temp_patients (patient_id)
-select patient_id from patient where voided = 0;
+select patient_id from patient where voided = 0
+;
 
 -- patient name
-update temp_patients t
-inner join person_name pn on person_name_id =
-	(select person_name_id from person_name pn2
-	where pn2.person_id = t.patient_id
-	and pn2.voided = 0
-	order by preferred desc, date_created desc limit 1)
-set t.family_name = pn.family_name,
-	t.given_name = pn.given_name; 
-
+update temp_patients t set t.family_name = person_family_name(patient_id);
+update temp_patients t set t.given_name = person_given_name(patient_id);
 
 -- person table fields
 update temp_patients t 
@@ -42,22 +36,17 @@ inner join person p on p.person_id = t.patient_id
 set t.birthdate = p.birthdate, 
 	t.birthdate_estimated = p.birthdate_estimated,
 	t.gender = p.gender,
-    t.age = CAST(CONCAT(timestampdiff(YEAR, p.birthdate, NOW()), '.', MOD(timestampdiff(MONTH, p.birthdate, NOW()), 12) ) as CHAR)
+    t.age = TIMESTAMPDIFF(YEAR, p.birthdate, NOW());    
 ;
 
 -- primary identifier
 update temp_patients set patient_primary_id = patient_identifier(patient_id, metadata_uuid('org.openmrs.module.emrapi', 'emr.primaryIdentifierType'));
 
 -- dossier id
-select patient_identifier_type_id into @dossier from patient_identifier_type pit where uuid = 'e66645eb-03a8-4991-b4ce-e87318e37566';
 update temp_patients set dossier_id = patient_identifier(patient_id, 'e66645eb-03a8-4991-b4ce-e87318e37566');
 
 -- telephone number
-update temp_patients t 
- inner join person_attribute pa on t.patient_id = pa.person_id
-   and pa.voided = 0
-   and pa.person_attribute_type_id = @phoneNumber
- set t.telephone_number = pa.value;  
+update temp_patients t set t.telephone_number = phone_number(patient_id);  
 
 -- patient address
 -- *NOTE* it seems that CDC ID is not working 
@@ -78,7 +67,7 @@ set patient_address_level_1 = pa.state_province,
 	patient_address_level_5 = pa.address2,
 	Section_Communale_CDC_ID = ahe_section.user_generated_id;
 
--- commenting out this statement for biometric ID date, because it performs really porrly
+-- commenting out this statement for biometric ID date, because it performs really poorly
 /*
 update temp_patients t 
 inner join patient_identifier bio on bio.patient_identifier_id =
