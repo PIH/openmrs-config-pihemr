@@ -7,7 +7,7 @@ CREATE TEMPORARY TABLE temp_patients
 	family_name					varchar(255),
 	given_name					varchar(255),
 	patient_address_level_1				varchar(255),
-	patient_address_level_2				varchar(255),  
+	patient_address_level_2				varchar(255),
 	patient_address_level_3				varchar(255),
 	patient_address_level_4				varchar(255),
 	patient_address_level_5				varchar(255),
@@ -20,8 +20,8 @@ CREATE TEMPORARY TABLE temp_patients
 	telephone_number				varchar(50),
 	Section_Communale_CDC_ID			varchar(11),
 	last_biometric_date				datetime
-	);	
-	
+	);
+
 insert into temp_patients (patient_id)
 select patient_id from patient where voided = 0
 ;
@@ -31,13 +31,12 @@ update temp_patients t set t.family_name = person_family_name(patient_id);
 update temp_patients t set t.given_name = person_given_name(patient_id);
 
 -- person table fields
-update temp_patients t 
+update temp_patients t
 inner join person p on p.person_id = t.patient_id
-set t.birthdate = p.birthdate, 
+set t.birthdate = p.birthdate,
 	t.birthdate_estimated = p.birthdate_estimated,
 	t.gender = p.gender,
-    t.age = TIMESTAMPDIFF(YEAR, p.birthdate, NOW());    
-;
+    t.age = TIMESTAMPDIFF(YEAR, p.birthdate, NOW());
 
 -- primary identifier
 update temp_patients set patient_primary_id = patient_identifier(patient_id, metadata_uuid('org.openmrs.module.emrapi', 'emr.primaryIdentifierType'));
@@ -46,11 +45,11 @@ update temp_patients set patient_primary_id = patient_identifier(patient_id, met
 update temp_patients set dossier_id = patient_identifier(patient_id, 'e66645eb-03a8-4991-b4ce-e87318e37566');
 
 -- telephone number
-update temp_patients t set t.telephone_number = phone_number(patient_id);  
+update temp_patients t set t.telephone_number = phone_number(patient_id);
 
 -- patient address
--- *NOTE* it seems that CDC ID is not working 
-update temp_patients t 
+-- *NOTE* it seems that CDC ID is not working
+update temp_patients t
 INNER JOIN person_address pa on pa.person_address_id =
 	(select person_address_id from person_address pa2
 	where pa2.person_id = t.patient_id
@@ -69,22 +68,22 @@ set patient_address_level_1 = pa.state_province,
 
 -- commenting out this statement for biometric ID date, because it performs really poorly
 /*
-update temp_patients t 
+update temp_patients t
 inner join patient_identifier bio on bio.patient_identifier_id =
     (select patient_identifier_id from patient_identifier bio2
     where t.patient_id = bio2.patient_id
     and bio2.identifier_type = @biometricId
-    and bio2.voided = 0 
+    and bio2.voided = 0
     order by date_created desc limit 1)
-set t.last_biometric_date = bio.date_created; 
-*/    
+set t.last_biometric_date = bio.date_created;
+*/
 
 
-SELECT 
+SELECT
        family_name,
        given_name,
        patient_address_level_1,
-       patient_address_level_2,  
+       patient_address_level_2,
        patient_address_level_3,
        patient_address_level_4,
        patient_address_level_5,
