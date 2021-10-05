@@ -1471,6 +1471,7 @@ angular.module("encounterTypeConfig", [])
             showOnVisitList: true
         };
 
+        // clinical history
         encounterTypes["0d16a7c9-07fb-43f6-8984-dd7787f26a5a"] = {
             defaultState: "long",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
