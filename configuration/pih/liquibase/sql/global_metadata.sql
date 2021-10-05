@@ -96,5 +96,9 @@ BEGIN
 
     SET @icd10 = (select concept_source_id from concept_reference_source where uuid='3f65bd34-26fe-102b-80cb-0017a47871b2');
 
+    SET @hivDosId = (SELECT patient_identifier_type_id FROM patient_identifier_type WHERE uuid = '3B954DB1-0D41-498E-A3F9-1E20CCC47323');
+    SET @hivProgram = (SELECT program_id from program where uuid = "b1cb1fc1-5190-4f7a-af08-48870975dafc");
+    SET @eidProgram = (SELECT program_id from program where uuid = "7e06bf82-9f1a-4218-b68f-823082ef519b");
+
 END
 #
