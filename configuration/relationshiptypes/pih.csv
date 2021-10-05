@@ -1,5 +1,5 @@
-UUID,Void/Retire,Name,Description,A is to B,B is to A
-${relationshipType.spousePartner.uuid},,Spouse/Partner,Spouse/Partner relationship,Spouse/Partner,Spouse/Partner
-${relationshipType.chwToPatient.uuid},,CHW/Patient,CHW to Patient relationship,Community Health Worker,Patient
-${relationshipType.nurseChwToPatient.uuid},,Nurse accompagnateur/Patient,Nurse accompagnateur to Patient relationship,Nurse accompagnateur,Patient
-${relationshipType.clinicianToPatient.uuid},,Clinician/Patient,Clinician/Patient relationship,Clinician,Patient
+UUID,Void/Retire,A is to B,B is to A,Description
+${relationshipType.spousePartner.uuid},,Spouse/Partner,Spouse/Partner,Spouse/Partner relationship
+${relationshipType.chwToPatient.uuid},,Community Health Worker,Patient,CHW to Patient relationship
+${relationshipType.nurseChwToPatient.uuid},,Nurse accompagnateur,Patient,Nurse accompagnateur to Patient relationship
+${relationshipType.clinicianToPatient.uuid},,Clinician,Patient,Clinician/Patient relationship
