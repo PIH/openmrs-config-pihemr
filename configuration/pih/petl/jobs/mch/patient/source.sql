@@ -82,7 +82,7 @@ program_treatment_type          VARCHAR(255)
 
 # patient in the mch program who may not have obgyn filled
 INSERT INTO temp_mch_prg(patient_id, initial_enrollment_location)
-SELECT DISTINCT(patient_id), LOCATION_NAME(location_id) FROM patient_program WHERE program_id =  @mch_patient_program_id AND patient_id NOT IN (
+SELECT DISTINCT(patient_id), LOCATION_NAME(location_id) FROM patient_program WHERE program_id =  @mch_patient_program_id AND date_completed IS NULL AND patient_id NOT IN (
 SELECT patient_id FROM temp_od_encounters);
 
 UPDATE temp_mch_prg  SET mch_emr_id = ZLEMR(patient_id);
