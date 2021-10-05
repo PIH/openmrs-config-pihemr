@@ -21,7 +21,8 @@ designs:
       "dateFormat": "dd-MMM-yyyy HH:mm:ss"
 config:
   category: "dataExport"
-  order: 9
+  order: "10"
   components:
     - "consult"
+    - "primaryCare"
     - "allDataExports"

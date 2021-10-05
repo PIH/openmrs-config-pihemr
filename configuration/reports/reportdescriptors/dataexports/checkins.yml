@@ -1,0 +1,42 @@
+key: "checkinsdataexport"
+uuid: "1c72b461-fc74-11e3-8248-08002769d9ae"
+name: "mirebalaisreports.checkinsdataexport.name"
+description: "mirebalaisreports.checkinsdataexport.description"
+parameters:
+  - key: "startDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.startDate"
+  - key: "endDate"
+    type: "java.util.Date"
+    label: "reporting.parameter.endDate"
+datasets:
+  - key: "checkins"
+    type: "checkInDataSetManager"
+designs:
+  - type: "csv"
+    properties:
+      "filenameBase": "checkinsdataexport.{{ formatDate request.reportDefinition.parameterMappings.startDate \"yyyyMMdd\" }}.{{ formatDate request.reportDefinition.parameterMappings.endDate \"yyyyMMdd\" }}.{{ formatDate request.evaluateStartDatetime \"yyyyMMdd\" }}.{{ formatDate request.evaluateStartDatetime \"HHmm\" }}"
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
+    processors:
+      - name: "saveToDisk"
+        type: "disk"
+        runOnSuccess: "true"
+        runOnError: "false"
+        processorMode: "AUTOMATIC"
+        configuration:
+          saveLocation: "{{application_data_directory}}reports"
+          compressOutput: "true"
+config:
+  category: "dataExport"
+  order: "8"
+  components:
+    - "checkIn"
+    - "allDataExports"
+  countries:
+    - "SIERRA_LEONE"
+    - "LIBERIA"
+    - "MEXICO"
+    - "PERU"
+    - "OTHER"

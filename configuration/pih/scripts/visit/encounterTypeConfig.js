@@ -598,29 +598,51 @@ angular.module("encounterTypeConfig", [])
 
         // consultation / outpatientConsult
         encounterTypes["92fd09b4-5335-4f7e-9f63-b2a663fd09a6"] = {
-            DEFAULT: {
                 defaultState: "short",
                 shortTemplate: "templates/encounters/defaultEncounterShort.page",
                 longTemplate: "templates/encounters/clinicConsultLong.page",
                 icon: "fas fa-fw fa-stethoscope",
                 editUrl: hfeStandardEditUrl,
                 showOnVisitList: true
-            },
-            peru: {
-                defaultState: "short",
-                shortTemplate: "templates/encounters/defaultEncounterShort.page",
-                longTemplate: "templates/encounters/defaultEncounterShort.page",
-                icon: "fas fa-fw fa-gift",
-                editUrl: hfeStandardEditUrl,
-                showOnVisitList: true,
-                sections: [
-                    primaryCareHistory,
-                    primaryCareExam,
-                    primaryCareDx,
-                    primaryCarePlan
-                ]
-            }
-        };
+            };
+
+        // initial consultation
+        encounterTypes["59e55ca8-f3de-4d1e-b54c-9b880405b853"] = {
+            DEFAULT: {
+            defaultState: "long",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("outpatientConsultInitial.xml"),
+            icon: "fas fa-fw fa-stethoscope",
+            editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("outpatientConsultInitial.xml"),
+            showOnVisitList: true
+        },
+        peru: {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/defaultEncounterShort.page",
+            icon: "fas fa-fw fa-gift",
+            editUrl: hfeStandardEditUrl,
+            showOnVisitList: true,
+            sections: [
+                primaryCareHistory,
+                primaryCareExam,
+                primaryCareDx,
+                primaryCarePlan
+            ]
+        }
+    };
+
+      // nurse consultation
+      encounterTypes["e920911f-dee9-4b18-9a58-50e685806ea0"] = {
+        defaultState: "long",
+        shortTemplate: "templates/encounters/defaultEncounterShort.page",
+        longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+        templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("nurseConsult.xml"),
+        icon: "fas fa-fw fa-stethoscope",
+        editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("nurseConsult.xml"),
+        showOnVisitList: true
+      };
 
         // primaryCarePedsInitialConsult
         encounterTypes["5b812660-0262-11e6-a837-0800200c9a66"] = {

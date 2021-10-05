@@ -4,6 +4,7 @@ ${encounterType.CHECK_IN.uuid},,Inscription,"Check-in encounter, formerly known 
 ${encounterType.PAYMENT.uuid},,Rencontre de paiement,Encounter used to capture patient payments
 ${encounterType.VITALS.uuid},,Signes vitaux,"Encounter where vital signs were captured, and triage may have been done, possibly for triage purposes, but a complete exam was not done."
 ${encounterType.PRIMARY_CARE_VISIT.uuid},,Consultation soins de base,"Primary care visit (In Kreyol, it&apos;s &apos;vizit swen primè&apos;)"
+${encounterType.CONSULTATION_INITIAL.uuid},,Initial Consultation,"Encounter where a full or abbreviated examination is done, leading to a presumptive or confirmed diagnosis"
 ${encounterType.CONSULTATION.uuid},,Consultation,"Encounter where a full or abbreviated examination is done, leading to a presumptive or confirmed diagnosis"
 ${encounterType.ONCOLOGY_CONSULT.uuid},,Oncology Consultation,Consultation for Oncology
 ${encounterType.ONCOLOGY_INITIAL_VISIT.uuid},,Oncology Initial Visit,Intake for oncology patient
@@ -59,3 +60,4 @@ ${encounterType.RADIOLOGY_REPORT.uuid},,Rapport de radiologie,Radiology Report -
 ${encounterType.RADIOLOGY_STUDY.uuid},,Examen de radiologie,Radiology Study - represents performance of a radiology study on a patient by a radiology technician
 ${encounterType.ATTACHMENT_UPLOAD.uuid},TRUE,Attachment Upload,Encounters used to record uploads of attachments.
 ${encounterType.REHAB_EVAL.uuid},,Rehab Evaluation,A rehabilitation encounter with an initial or ongoing evaluation
+${encounterType.NURSE_CONSULT.uuid},,Nurse Consult,A consult with a nurse
