@@ -3,39 +3,89 @@ SET @mch_patient_program_id = (SELECT program_id FROM program WHERE uuid = '41a2
 SET @mch_encounter = (SELECT encounter_type_id FROM encounter_type WHERE uuid = 'd83e98fd-dc7b-420f-aa3f-36f648b4483d');
 SET @delivery = (SELECT encounter_type_id FROM encounter_type WHERE uuid = '00e5ebb2-90ec-11e8-9eb6-529269fb1459');
 
-
 DROP TEMPORARY TABLE IF EXISTS temp_od_encounters;
 CREATE TEMPORARY TABLE temp_od_encounters
 (
-patient_id              INT(11),
-patient_program_id      INT(11),
-mch_emr_id              VARCHAR(15),
-enrollment_location     VARCHAR(255)
+patient_id                      INT(11),
+first_encounter_date            DATETIME,
+last_encounter_date             DATETIME,
+first_encounter_id              INT(11),
+last_encounter_id               INT,
+mch_emr_id                      VARCHAR(15),
+initial_enrollment_location     VARCHAR(150),
+latest_enrollment_location      VARCHAR(150),
+initial_encounter_type_name     VARCHAR(150),
+encounter_type_name             VARCHAR(150),
+estimated_delivery_date         DATE,
+pregnant                        BIT,
+antenatal_visit                 BIT,
+program_treatment_type          VARCHAR(255)
 );
 
-INSERT INTO temp_od_encounters(patient_id, enrollment_location)
-SELECT DISTINCT(patient_id), LOCATION_NAME(location_id)
-FROM encounter WHERE voided = 0 AND encounter_type IN (@mch_encounter, @delivery);
+INSERT INTO temp_od_encounters(patient_id, last_encounter_date, mch_emr_id)
+SELECT patient_id,  MAX(encounter_datetime), ZLEMR(e.patient_id)
+FROM encounter e WHERE e.voided = 0 AND e.encounter_type IN (@mch_encounter, @delivery) GROUP BY e.patient_id;
 
-UPDATE temp_od_encounters SET mch_emr_id = ZLEMR(patient_id);
-#update temp_od_encounters set enrollment_location = LOCATION_NAME(location_id);
+UPDATE temp_od_encounters t JOIN encounter e ON t.patient_id = e.patient_id AND last_encounter_date = e.encounter_datetime AND e.encounter_type IN (@mch_encounter, @delivery) AND e.voided = 0
+SET t.last_encounter_id = e.encounter_id;
 
+UPDATE temp_od_encounters t JOIN encounter e ON t.last_encounter_id = e.encounter_id AND e.voided = 0
+SET t.latest_enrollment_location  = LOCATION_NAME(e.location_id);
+    
+UPDATE temp_od_encounters t
+SET t.encounter_type_name = ENCOUNTER_TYPE_NAME(last_encounter_id);
+
+UPDATE temp_od_encounters te JOIN obs o ON te.last_encounter_id = o.encounter_id AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'Type of HUM visit')
+AND value_coded = CONCEPT_FROM_MAPPING('PIH', 'ANC VISIT') AND o.voided = 0
+SET antenatal_visit = 1; -- yes
+
+-- estimated_delivery_date
+UPDATE temp_od_encounters te JOIN obs o ON te.last_encounter_id = o.encounter_id AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'ESTIMATED DATE OF CONFINEMENT') AND o.voided = 0
+SET estimated_delivery_date = DATE(value_datetime);
+
+-- this doesnot put into acount if the last visit date was more than
+-- 9 months ago.
+-- pregnant
+UPDATE temp_od_encounters tv SET tv.pregnant = IF(tv.antenatal_visit IS NULL, NULL, 1);
+
+-- first encounter
+UPDATE temp_od_encounters t SET first_encounter_date = (SELECT MIN(e.encounter_datetime) FROM encounter e WHERE t.patient_id = e.patient_id AND e.voided = 0 
+AND encounter_type IN (@mch_encounter, @delivery) GROUP BY e.patient_id);
+
+UPDATE temp_od_encounters t JOIN encounter e ON t.patient_id = e.patient_id AND first_encounter_date = e.encounter_datetime AND e.encounter_type IN (@mch_encounter, @delivery) AND e.voided = 0
+SET t.first_encounter_id = e.encounter_id;
+
+UPDATE temp_od_encounters t SET initial_enrollment_location = (SELECT LOCATION_NAME(location_id) FROM encounter e WHERE t.first_encounter_id = e.encounter_id AND e.voided = 0);
+
+UPDATE temp_od_encounters t
+SET t.initial_encounter_type_name = ENCOUNTER_TYPE_NAME(first_encounter_id);
+
+## program
 DROP TEMPORARY TABLE IF EXISTS temp_mch_prg;
 CREATE TEMPORARY TABLE temp_mch_prg
 (
-patient_id              INT(11),
-patient_program_id      INT(11),
-mch_emr_id              VARCHAR(15),
-enrollment_location     VARCHAR(255)
+patient_id                      INT(11),
+first_encounter_date            DATETIME,
+last_encounter_date             DATETIME,
+first_encounter_id              INT(11),
+last_encounter_id               INT,
+mch_emr_id                      VARCHAR(15),
+initial_enrollment_location     VARCHAR(150),
+latest_enrollment_location      VARCHAR(150),
+initial_encounter_type_name     VARCHAR(150),
+encounter_type_name             VARCHAR(150),
+estimated_delivery_date         DATE,
+pregnant                        BIT,
+antenatal_visit                 BIT,
+program_treatment_type          VARCHAR(255)
 );
 
 # patient in the mch program who may not have obgyn filled
-INSERT INTO temp_mch_prg(patient_id, enrollment_location)
+INSERT INTO temp_mch_prg(patient_id, initial_enrollment_location)
 SELECT DISTINCT(patient_id), LOCATION_NAME(location_id) FROM patient_program WHERE program_id =  @mch_patient_program_id AND patient_id NOT IN (
 SELECT patient_id FROM temp_od_encounters);
 
-UPDATE temp_mch_prg SET mch_emr_id = ZLEMR(patient_id);
-#update temp_mch_prg set enrollment_location = LOCATION_NAME(location_id);
+UPDATE temp_mch_prg  SET mch_emr_id = ZLEMR(patient_id);
 
 # combine the above 2 temp tables
 DROP TEMPORARY TABLE IF EXISTS temp_final_mch;
@@ -49,30 +99,37 @@ SELECT * FROM temp_od_encounters;
 DROP TEMPORARY TABLE IF EXISTS temp_mch_patient;
 CREATE TEMPORARY TABLE IF NOT EXISTS temp_mch_patient
 (
-    patient_id              INT(11),
-    patient_program_id      INT(11),
-    mch_emr_id              VARCHAR(15),
-    given_name              VARCHAR(50),
-    family_name             VARCHAR(50),
-    nick_name               VARCHAR(50),
-    gender                  VARCHAR(2),
-    birthdate               DATE,
-    birthdate_estimated     BIT,
-    marital_status          VARCHAR(50),
-    locality                VARCHAR(100),
-    age                     DOUBLE,
-    age_cat_1               VARCHAR(10),
-    age_cat_2               VARCHAR(10),
-    antenatal_visit         BIT,
-    estimated_delivery_date DATE,
-    pregnant                BIT,
-    enrollment_location     VARCHAR(255),
-    encounter_location_name VARCHAR(255),
-    latest_encounter_date 	DATE
+    patient_id                  INT(11),
+    patient_program_id          INT(11),
+    last_encounter_id           INT(11),
+    mch_emr_id                  VARCHAR(15),
+    given_name                  VARCHAR(50),
+    initial_encounter_type_name VARCHAR(150),
+    encounter_type_name         VARCHAR(150),
+    family_name                 VARCHAR(50),
+    nick_name                   VARCHAR(50),
+    gender                      VARCHAR(2),
+    birthdate                   DATE,
+    birthdate_estimated         BIT,
+    marital_status              VARCHAR(50),
+    locality                    VARCHAR(100),
+    age                         DOUBLE,
+    age_cat_1                   VARCHAR(10),
+    age_cat_2                   VARCHAR(10),
+    antenatal_visit             BIT,
+    estimated_delivery_date     DATE,
+    pregnant                    BIT,
+    initial_enrollment_location VARCHAR(150),
+    latest_enrollment_location  VARCHAR(255),
+    first_encounter_date        DATETIME,
+    latest_encounter_date       DATETIME
 );
 
-INSERT INTO temp_mch_patient(patient_id, mch_emr_id, enrollment_location)
-SELECT patient_id, mch_emr_id, enrollment_location FROM temp_final_mch;
+INSERT INTO temp_mch_patient(patient_id, mch_emr_id, last_encounter_id, initial_enrollment_location, latest_enrollment_location, initial_encounter_type_name, encounter_type_name, 
+first_encounter_date, latest_encounter_date, estimated_delivery_date, antenatal_visit, pregnant)
+SELECT patient_id, mch_emr_id, last_encounter_id, initial_enrollment_location, latest_enrollment_location, initial_encounter_type_name, encounter_type_name, 
+first_encounter_date, last_encounter_date, estimated_delivery_date, antenatal_visit, pregnant
+FROM temp_final_mch;
 
 ## Delete test patients
 DELETE FROM temp_mch_patient WHERE
@@ -114,65 +171,28 @@ UPDATE temp_mch_patient tm SET age_cat_1 =  CASE WHEN tm.age < 10 THEN "Group 1"
                                                     WHEN tm.age > 49 THEN "Group 10"
                                                     WHEN tm.age IS NULL THEN "Group 10"
                                                     END;
-
-# pregnancy
-DROP TEMPORARY TABLE IF EXISTS temp_mch_pregnacy;
-CREATE TEMPORARY TABLE IF NOT EXISTS temp_mch_pregnacy
-(
-    encounter_id            INT,
-    patient_id              INT,
-    encounter_date          DATE,
-    antenatal_visit         BIT,
-    estimated_delivery_date DATE,
-    encounter_location_name VARCHAR(255)
-);
-
-INSERT INTO temp_mch_pregnacy(encounter_id, patient_id)
-SELECT MAX(encounter_id), person_id FROM obs WHERE voided = 0 AND encounter_id IN (SELECT encounter_id FROM 
-encounter WHERE encounter_type = @mch_encounter) GROUP BY person_id;
-
-UPDATE temp_mch_pregnacy t JOIN encounter e ON t.encounter_id = e.encounter_id AND e.voided = 0
-SET t.encounter_date = DATE(e.encounter_datetime);
-
-UPDATE temp_mch_pregnacy te JOIN obs o ON te.encounter_id = o.encounter_id AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'Type of HUM visit')
-AND value_coded = CONCEPT_FROM_MAPPING('PIH', 'ANC VISIT') AND o.voided = 0
-SET antenatal_visit = 1; -- yes
-
--- estimated_delivery_date
-UPDATE temp_mch_pregnacy te JOIN obs o ON te.encounter_id = o.encounter_id AND concept_id = CONCEPT_FROM_MAPPING('PIH', 'ESTIMATED DATE OF CONFINEMENT') AND o.voided = 0
-SET estimated_delivery_date = DATE(value_datetime);
-
-UPDATE temp_mch_patient tv JOIN temp_mch_pregnacy t ON t.patient_id = tv.patient_id
-SET tv.antenatal_visit = t.antenatal_visit,
-	tv.estimated_delivery_date = t.estimated_delivery_date,
-	tv.pregnant = IF(t.antenatal_visit IS NULL, 0, 1),
-	tv.latest_encounter_date = t.encounter_date;
-
--- encounter_location_name
-UPDATE temp_mch_pregnacy te JOIN encounter e ON te.encounter_id = e.encounter_id
-SET te.encounter_location_name = ENCOUNTER_LOCATION_NAME(e.encounter_id);
-
-UPDATE temp_mch_patient tv JOIN temp_mch_pregnacy t ON t.patient_id = tv.patient_id
-SET tv.encounter_location_name = t.encounter_location_name;
-
+                                                    
 ### Final query
 SELECT
     patient_id,
-    mch_emr_id                  pih_emr_id,
-    given_name 					first_name,
-    family_name 				last_name,
-    nick_name 					nickname,
-    gender,
-    IF(birthdate IS NULL, 1, NULL) age_unknown,
-    birthdate 					dob,
-    age,
-    encounter_location_name     current_reporting_health_center,
-    enrollment_location 		initital_health_center,
-    locality,
-    marital_status,
-    age_cat_1,
+    mch_emr_id                      pih_emr_id,
+    initial_encounter_type_name     first_encounter_type,
+    encounter_type_name             last_encounter_type,
+    first_encounter_date,
     latest_encounter_date,
-    IF(antenatal_visit IS NULL, 0, 1),
+    initial_enrollment_location     initial_health_center,
+    latest_enrollment_location      current_reporting_health_center,
+    given_name                      first_name,
+    family_name                     last_name,
+    nick_name                       nickname,
+    marital_status,
+    gender,
+    birthdate                       dob,
+    IF(birthdate IS NULL, 1, NULL)  age_unknown,
+    age,
+    age_cat_1,
+    locality,
+    antenatal_visit,
     estimated_delivery_date,
     pregnant
 FROM temp_mch_patient;
