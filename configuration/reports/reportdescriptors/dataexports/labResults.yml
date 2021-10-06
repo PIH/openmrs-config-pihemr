@@ -26,3 +26,4 @@ config:
     - "labs"
     - "labResults"
     - "allDataExports"
+  privilege: "Task: labworkflow.viewLabs"
