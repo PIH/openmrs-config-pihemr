@@ -1,0 +1,32 @@
+key: "tbcoinfectedpatients"
+uuid: "cc44bbd7-f16b-aaf1-9bd8-280c0e4ea999"
+name: "mirebalaisreports.tbcoinfectedpatients.name"
+description: "mirebalaisreports.tbcoinfectedpatients.description"
+datasets:
+  - key: "tbcoinfectedpatients"
+    type: "sql"
+    config: "sql/tbcoinfectedpatients.sql"
+designs:
+  - type: "csv"
+    properties:
+      "filenameBase": "tbcoinfectedpatients.{{ formatDate request.evaluateStartDatetime \"yyyyMMdd\" }}.{{ formatDate request.evaluateStartDatetime \"HHmm\" }}"
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
+    processors:
+      - name: "saveToDisk"
+        type: "disk"
+        runOnSuccess: "true"
+        runOnError: "false"
+        processorMode: "AUTOMATIC"
+        configuration:
+          saveLocation: "{{application_data_directory}}reports"
+          compressOutput: "true"
+config:
+  category: "dataExport"
+  countries:
+    - "HAITI"
+  order: 1005
+  components:
+    - "dataExports"
+    - "allDataExports"
