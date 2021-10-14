@@ -362,8 +362,8 @@ Message properties files are used to localize the PIH EMR into different languag
 Haitian Kreyol, and Spanish, and there's a separate messages_<lang>.properties files for each within the
 configuration/messagesproperties folder.
 
-To add/update translations, these files can be editing directly (we no longer use Transifex for message codes in
-this repo).
+To add or update translations, edit these files directly. We no longer use Transifex for message codes in
+this repo.```
 
 #### Implementation-specific messages code
 
