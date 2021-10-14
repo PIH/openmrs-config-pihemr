@@ -360,54 +360,19 @@ to expand to support all reports (see ticket https://pihemr.atlassian.net/browse
 
 Message properties files are used to localize the PIH EMR into different languages.  Currently we support French,
 Haitian Kreyol, and Spanish, and there's a separate messages_<lang>.properties files for each within the
-configuration/messagesproperties folder. 
+configuration/messagesproperties folder.
 
-#### Transifex
-
-Note that the *only* messages properties file that should be edited directly in the code is the source file,
-messages_en.properties. For translations we use a third-party translation tool, Transifex (www.transifex).
-
-To provide translations, you need to add new codes to the messages_en.properties file, push them up to Transifex, 
-do the translations, and then pull down the translations.  
-
-##### Installing the Transifex Client
-
-Instructions can be found here: 
-
-https://docs.transifex.com/client/installing-the-client
-
-##### Pushing new source codes to Transifex
-
-Add a new code and English translation to the "messages_en.properties" file.
-
-Run the following command from the top-level directory from where you have "openmrs-config-pihemr" checked out:
-
-```tx push -s```
-
-You then should see your new message code in Transifex under the "PIH EMR Config" project. You can proceed
-to provide translations there.
-
-##### Pulling new translation from Transifex
-
-To pull new translations you've provided to Transifex back into the code, run the following command:
-
-```tx  pull -a```
-
-You can confirm that the changes have been properly pulled into the translation files and then can
-commit them using Git.
-
-##### Full Transifex Client document
-
-Can be found here: 
-
-https://docs.transifex.com/client/introduction
-
+To add/update translations, these files can be editing directly (we no longer use Transifex for message codes in
+this repo).
 
 #### Implementation-specific messages code
 
 Implementations can add their own message properties files the configuration/messageproperties directory of
 their own config projects, as as long as they are given a unique filename (ie not "messages_<lang>.properties").
 so as not to conflict with any of the message files provided by the PIH EMR config.  
+
+If they want to *override* a message file defined in config-pihemr, they can provide a messages file with 
+a matching name.  
 
 ### Logo
 
@@ -532,3 +497,44 @@ New concepts are created using the Concept Dictionary Maintenance UI: [https://c
 Concepts are bundled into zip files using the Metadata Sharing module in the admin UI.  For transparency of the contents of each mds package, we are improving the packages to include only one ConvSet concepts for each mds.  For example, to add APGAR score to the MCH mds package, APGAR score is added to the "Maternal Child Health concept set".  See [README](https://github.com/PIH/openmrs-module-mirebalaismetadata/blob/master/api/src/main/resources/README.md). 
 
 
+### Transifex instructions (deprecated)
+
+(Note that we no longer use use Transifex for config-pihemr translations)
+
+Note that the *only* messages properties file that should be edited directly in the code is the source file,
+messages_en.properties. For translations we use a third-party translation tool, Transifex (www.transifex).
+
+To provide translations, you need to add new codes to the messages_en.properties file, push them up to Transifex,
+do the translations, and then pull down the translations.
+
+##### Installing the Transifex Client
+
+Instructions can be found here:
+
+https://docs.transifex.com/client/installing-the-client
+
+##### Pushing new source codes to Transifex
+
+Add a new code and English translation to the "messages_en.properties" file.
+
+Run the following command from the top-level directory from where you have "openmrs-config-pihemr" checked out:
+
+```tx push -s```
+
+You then should see your new message code in Transifex under the "PIH EMR Config" project. You can proceed
+to provide translations there.
+
+##### Pulling new translation from Transifex
+
+To pull new translations you've provided to Transifex back into the code, run the following command:
+
+```tx  pull -a```
+
+You can confirm that the changes have been properly pulled into the translation files and then can
+commit them using Git.
+
+##### Full Transifex Client document
+
+Can be found here:
+
+https://docs.transifex.com/client/introduction
