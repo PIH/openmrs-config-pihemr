@@ -1,0 +1,23 @@
+key: "hivdispensingappointments"
+uuid: "1506a521-ac81-4b5b-b9a9-1dce26ce6b1e"
+name: "mirebalaisreports.hivdispensingappointments.name"
+description: "mirebalaisreports.hivdispensingappointments.description"
+datasets:
+  - key: "hivdispensingappointments"
+    type: "sql"
+    config: "sql/hivdispensingappointments.sql"
+designs:
+  - type: "csv"
+    properties:
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
+config:
+  category: "dataExport"
+  countries:
+    - "HAITI"
+  order: 76
+  components:
+    - "dataExports"
+    - "allDataExports"
+    - "hiv"
