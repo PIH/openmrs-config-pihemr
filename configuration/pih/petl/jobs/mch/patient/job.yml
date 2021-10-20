@@ -1,7 +1,7 @@
 type: "sqlserver-bulk-import"
 configuration:
 
-  conditional: "select is_component_enabled('mch')"
+  conditional: "select is_component_enabled('mch') or is_component_enabled('allDataExports')"
 
   extract:
     datasource: "mysql/openmrs.yml"
