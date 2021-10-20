@@ -1,3 +1,4 @@
+SET sql_safe_updates = 0;
 CALL initialize_global_metadata();
 
 # Any of the answers below
@@ -68,7 +69,7 @@ SELECT
     a.person_id, a.tb_treatment_start_date
 FROM
     temp_hiv_tb_tr_start_date a
-        INNER JOIN
+        LEFT JOIN
 	temp_hiv_tb_patients_obs b ON a.person_id = b.person_id;
 
 ## patients that may have remained in temp_hiv_tb_patients_obs
@@ -123,6 +124,8 @@ WHERE
         AND order_reason = CONCEPT_FROM_MAPPING('CIEL', '112141')
 GROUP BY patient_id;
 
+UPDATE temp_hiv_tb_patients_start_date a SET tb_treatment_start_date = (SELECT tb_treatment_start_date FROM temp_hiv_tb_patients_obs_stage_four b WHERE a.patient_id = b.person_id);
+
 ## tb drug stop date
 DROP TEMPORARY TABLE IF EXISTS temp_hiv_tb_patients_stop_date;
 CREATE TEMPORARY TABLE temp_hiv_tb_patients_stop_date
@@ -143,11 +146,15 @@ WHERE
         AND order_reason = CONCEPT_FROM_MAPPING('CIEL', '112141')
 GROUP BY patient_id;
 
+UPDATE temp_hiv_tb_patients_stop_date a SET tb_treatment_start_date = (SELECT tb_treatment_start_date FROM temp_hiv_tb_patients_obs_stage_four b WHERE a.patient_id = b.person_id
+AND a.tb_treatment_start_date IS NULL);
+
+####
 DROP TEMPORARY TABLE IF EXISTS temp_hiv_tb_drug_dates;
 CREATE TEMPORARY TABLE temp_hiv_tb_drug_dates
 AS
 SELECT a.patient_id, a.tb_treatment_start_date, a.drug_start_date, b.drug_stop_date FROM temp_hiv_tb_patients_start_date a
-INNER JOIN
+LEFT JOIN
 temp_hiv_tb_patients_stop_date b ON a.patient_id = b.patient_id;
 
 # ensure that all patients from temp_hiv_tb_patients_start_date are included
@@ -195,5 +202,10 @@ UNION ALL
 SELECT * FROM temp_hiv_tb_patients_obs_stage_nine;
 
 # Final query
-SELECT tf.patient_id, ZLEMR(tf.patient_id), identifier hivemr_v1, tb_treatment_start_date, drug_start_date, drug_stop_date FROM temp_hiv_tb_patients_final tf
-JOIN patient_identifier pi ON tf.patient_id = pi.patient_id AND pi.voided = 0 AND pi.identifier_type = @hivId;
+SELECT 	tf.patient_id, 
+		ZLEMR(tf.patient_id) patient_id, 
+        identifier hivemr_v1, 
+        COALESCE(tb_treatment_start_date, drug_start_date) "tb_treatment_start_date", 
+        drug_start_date, 
+        drug_stop_date FROM temp_hiv_tb_patients_final tf
+        LEFT JOIN patient_identifier pi ON tf.patient_id = pi.patient_id AND pi.voided = 0 AND pi.identifier_type = @hivId;
