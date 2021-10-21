@@ -353,4 +353,15 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20211021-retired-old-hiv-workflow-and-states" author="mgoodrich">
+        <comment>
+            UHM-5887: inccorrect HIV Program workflows on Haitihivtest
+        </comment>
+        <sql>
+            update program_workflow set retired=1, date_changed=NOW() where uuid='f5022f7d-cdb2-491c-9f06-4f87c9877d17';
+            update program_workflow_state set retired=1, date_changed=NOW() where uuid='490a8b6f-4538-4c85-ace9-1535fc634ba7';
+            update program_workflow_state set retired=1, date_changed=NOW() where uuid='60030941-c0a3-4b84-92e8-2c201fb8102b';
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
