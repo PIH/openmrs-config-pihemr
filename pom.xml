@@ -83,37 +83,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.2</version>
-                <executions>
-                    <execution>
-                        <id>copy-liquibase-sql</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${build.directory}/openmrs-packager-config/configuration/pih/petl/jobs/pihemr</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${build.directory}/openmrs-packager-config/configuration/pih/liquibase</directory>
-                                    <includes>
-                                        <include>*/*.sql</include>
-                                    </includes>
-                                </resource>
-                                <resource>
-                                    <directory>${build.directory}/openmrs-packager-config/configuration/reports/reportdescriptors/dataexports</directory>
-                                    <includes>
-                                        <include>*/*.sql</include>
-                                    </includes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
