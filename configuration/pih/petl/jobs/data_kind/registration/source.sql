@@ -5,10 +5,7 @@ SELECT
     p.patient_id,
     encounter_datetime 'registration_date',
     d.death_date,
-	p.date_created 'patient_date_created',
-    p.date_changed 'patient_date_changed',
-    e.date_created 'encouter_date_created',
-    e.date_changed 'encounter_date_changed'
+    e.date_created 'encouter_date_created'
 FROM
     patient p
         LEFT JOIN
