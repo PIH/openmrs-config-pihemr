@@ -354,3 +354,7 @@ privilege:
   task_view_labs: "Task: labworkflow.viewLabs"
   task_view_growth_charts: "Task: growthchart.viewGrowthCharts"
   task_mark_patient_dead: "Task: coreapps.markPatientDead"
+  task_pharmacy_reports: "Task: pharmacy.reports"
+  task_clinical_reports: "Task: clinical.reports"
+  task_archive_reports: "Task: archive.reports"
+  task_lab_reports: "Task: lab.reports"
