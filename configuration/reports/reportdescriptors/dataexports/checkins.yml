@@ -40,3 +40,4 @@ config:
     - "MEXICO"
     - "PERU"
     - "OTHER"
+  privilege: "Task: archive.reports"

@@ -39,3 +39,4 @@ config:
     - "MEXICO"
     - "PERU"
     - "OTHER"
+  privilege: "Task: clinical.reports"
