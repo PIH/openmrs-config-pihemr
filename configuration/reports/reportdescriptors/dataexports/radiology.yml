@@ -34,3 +34,4 @@ config:
   components:
     - "radiology"
     - "allDataExports"
+  privilege: "Task: clinical.reports"

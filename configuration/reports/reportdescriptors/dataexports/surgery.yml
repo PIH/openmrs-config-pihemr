@@ -28,3 +28,4 @@ config:
   components:
     - "surgery"
     - "allDataExports"
+  privilege: "Task: clinical.reports"

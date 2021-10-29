@@ -18,3 +18,4 @@ config:
   components:
     - "mentalHealth"
     - "allDataExports"
+  privilege: "Task: clinical.reports"

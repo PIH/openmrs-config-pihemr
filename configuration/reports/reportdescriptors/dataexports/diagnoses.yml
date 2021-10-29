@@ -26,3 +26,4 @@ config:
     - "consult"
     - "primaryCare"
     - "allDataExports"
+  privilege: "Task: clinical.reports"

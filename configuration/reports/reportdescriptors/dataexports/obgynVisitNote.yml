@@ -37,3 +37,4 @@ config:
   components:
     - "mch"
     - "allDataExports"
+  privilege: "Task: clinical.reports"

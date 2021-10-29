@@ -33,3 +33,4 @@ config:
   components:
     - "patientRegistration"
     - "allDataExports"
+  privilege: "Task: clinical.reports"

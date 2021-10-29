@@ -22,3 +22,4 @@ config:
   components:
     - "dataExports"
     - "allDataExports"
+  privilege: "Task: archive.reports"

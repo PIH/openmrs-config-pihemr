@@ -19,4 +19,4 @@ config:
     - "covid19"
     - "covid19IntakeForm"
     - "allDataExports"
-
+  privilege: "Task: clinical.reports"
