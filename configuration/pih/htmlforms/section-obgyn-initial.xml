@@ -583,6 +583,22 @@
                 <span class="small">
                     <obs conceptId="PIH:6489"/>
                 </span>
+                <br/>
+
+                <!-- Traditional healer -->
+                <label>
+                    <uimessage code="pihcore.traditionalHealer"/>:
+                </label>
+                <obs conceptId="CIEL:166365" answerConceptIds="CIEL:159450,CIEL:159452,CIEL:1090"
+                     style="radio" />
+                <br/>
+                <!-- Pregnancy tea -->
+                <label>
+                    <uimessage code="pihcore.pregnancyTea"/>:
+                </label>
+                <obs conceptId="PIH:13737" answerConceptIds="CIEL:159450,CIEL:159452,CIEL:1090"
+                     style="radio" />
+                <br/>
             </p>
         </div>
     </section>
@@ -638,10 +654,10 @@
                     <pastMedicalHistoryCheckbox concept="CIEL:142473" name="type 2 DM"/>
                     <pastMedicalHistoryCheckbox concept="CIEL:1449"   name="gestational DM"/>
                     <pastMedicalHistoryCheckbox concept="PIH:Eclampsia" />
-                </div>
-                <div>
                     <pastMedicalHistoryCheckbox concept="PIH:HYPERTENSION" label="pihcore.medicalhistory.hypertension"/>
                     <pastMedicalHistoryCheckbox concept="CIEL:113859"   name="gestational htn"/>
+                </div>
+                <div>
                     <pastMedicalHistoryCheckbox concept="PIH:SEXUALLY TRANSMITTED INFECTION" label="pihcore.medicalhistory.sti"
                                                 specify="true" class="medicalHistoryText patientHistory"/>
                     <pastMedicalHistoryCheckbox concept="CIEL:116128" name="malaria" />
@@ -650,6 +666,7 @@
                                                 class="medicalHistoryText patientHistory"/>
                     <pastMedicalHistoryCheckbox concept="PIH:TUBERCULOSIS"/>
                     <pastMedicalHistoryCheckbox concept="CIEL:138405" label="pihcore.lab.hiv.title"/>
+                    <pastMedicalHistoryCheckbox concept="CIEL:165088"/>
                     <pastMedicalHistoryCheckbox concept="PIH:OTHER" code="pihcore.other" specify="true"
                                                 class="medicalHistoryText patientHistory"/>
                 </div>
