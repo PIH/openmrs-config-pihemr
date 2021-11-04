@@ -38,6 +38,18 @@
             width: 100%;
         }
 
+        .section-container-color label { /*new definition to override labels inside section-containers*/
+            margin: 0px;
+        }
+
+        - .section {
+            width: 100%;
+        }
+
+        .section-header {
+            margin-top: 1.5em;
+        }
+
         label {
             padding: 0px 3px 0px 0px
         }
