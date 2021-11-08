@@ -192,6 +192,7 @@
                         <label>
                             <uimessage code="pihcore.socioEconomic.floor"/>
                         </label>
+                        <br/>
                         <obs conceptId="CIEL:159387" style="radio"
                              answerConceptIds="CIEL:1943,CIEL:1944,CIEL:159679,CIEL:5622"
                              answerSeparator="&amp;nbsp;" />
@@ -202,6 +203,7 @@
                         <label>
                             <uimessage code="pihcore.socioEconomic.roof"/>
                         </label>
+                        <br/>
                         <obs conceptId="CIEL:1290" style="radio"
                              answerConceptIds="PIH:1320,CIEL:1942,CIEL:1943,CIEL:5622"
                              answerSeparator="&amp;nbsp;" />
@@ -211,6 +213,7 @@
                         <label>
                             <uimessage code="pihcore.socioEconomic.wall"/>
                         </label>
+                        <br/>
                         <obs conceptId="PIH:1668" style="radio"
                              answerConceptIds="CIEL:1943,PIH:11939,PIH:2937,CIEL:159685,PIH:11938,CIEL:1944,CIEL:5622"
                              answerSeparator="&amp;nbsp;" />
