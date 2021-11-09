@@ -1,5 +1,5 @@
--- set @startDate='2021-04-01';
--- set @endDate='2021-08-21';
+-- set @startDate='2021-11-01';
+-- set @endDate='2021-12-21';
 
 set @locale = global_property_value('default_locale', 'en');
 select encounter_type_id into @obgyn from encounter_type where uuid = 'd83e98fd-dc7b-420f-aa3f-36f648b4483d';
@@ -45,6 +45,8 @@ create temporary table temp_obgyn
     tobacco_use varchar(50),
     illicit_drug_use varchar(50),
     illicit_drug_name text,
+    traditional_healer varchar(50),
+    prenatal_tea varchar(50),
     current_medications varchar(255),
     other_medication text,
     medical_history varchar(2000),
@@ -246,6 +248,8 @@ update temp_obgyn t set alcohol_use = obs_value_coded_list(t.encounter_id,'PIH',
 update temp_obgyn t set tobacco_use = obs_value_coded_list(t.encounter_id,'PIH','2545',@locale);
 update temp_obgyn t set illicit_drug_use = obs_value_coded_list(t.encounter_id,'PIH','2546',@locale);
 update temp_obgyn t set illicit_drug_name = obs_value_text(t.encounter_id,'PIH','6489');
+update temp_obgyn t set traditional_healer = obs_value_coded_list(t.encounter_id,'PIH','13242',@locale);
+update temp_obgyn t set prenatal_tea = obs_value_coded_list(t.encounter_id,'PIH','13737',@locale);
 
 -- Current Medications
 update temp_obgyn t set current_medications = obs_value_coded_list(t.encounter_id,'CIEL','1193',@locale);
@@ -536,6 +540,8 @@ alcohol_use,
 tobacco_use,
 illicit_drug_use,
 illicit_drug_name,
+traditional_healer,
+prenatal_tea,
 current_medications,
 other_medication,
 medical_history,
