@@ -6,7 +6,7 @@
     <style type="text/css">
 
         form fieldset {
-            display: block;
+            min-width: 98%
         }
 
         .two-columns {
@@ -27,23 +27,19 @@
             min-width: initial;
         }
 
-        .section-container-color {
+        .section-container {
             background: #F2F2F2;
             box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
             padding: 10px 5px 10px 15px;
             line-height: 1.5em; /*add this for vertical spacing between elements*/
         }
 
-        .section {
-            width: 100%;
-        }
-
-        .section-container-color label { /*new definition to override labels inside section-containers*/
+        .section-container label { /*new definition to override labels inside section-containers*/
             margin: 0px;
         }
 
         - .section {
-            width: 100%;
+            width: 98%;
         }
 
         .section-header {
@@ -191,10 +187,11 @@
     </ifMode>
 
 
-    <section id="procedures" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+    <section id="procedures" sectionTag="fieldset"
+             headerStyle="title"
              headerCode="pihcore.procedureSurgery">
 
-        <div class="section-container-color">
+        <div class="section-container">
             <repeat with="['1'],['2'],['3'],['4'],['5']">
                 <obsgroup groupingConceptId="CIEL:1938">
                     <span class="small hidden">
@@ -251,9 +248,9 @@
 
     </style>
 
-    <section id="drug-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+    <section id="drug-orders" sectionTag="fieldset" headerStyle="title"
              headerCode="pihcore.visitNote.orders.medications">
-        <div class="section-container-color">
+        <div class="section-container">
             <drugOrder format="select" selectLabel="pihcore.drugOrder.addAnotherDrug">
                 <orderTemplate>
                     <orderProperty name="action" label="pihcore.action">
@@ -310,9 +307,9 @@
         </div>
     </section>
 
-    <section id="other-support" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+    <section id="other-support" sectionTag="fieldset" headerStyle="title"
              headerCode="pihcore.otherSupport">
-        <div class="section-container-color">
+        <div class="section-container">
 
             <label>
                 <uimessage code="Counseling" />
@@ -347,7 +344,8 @@
                     <uimessage code="pihcore.oncology.programWorkflow.treatmentStatus" />
                 </label>
                 <obs conceptId="CIEL:163105" style="radio"
-                     answerConceptIds="PIH:7262,CIEL:163057"/>
+                     answerConceptIds="CIEL:160035,PIH:7262,CIEL:163057"
+                     answerCodes="pihcore.treatCompleted2,pihcore.treatDelayed,pihcore.treatContinue"/>
             </p>
 
             <!-- Syphilis treatment -->
@@ -367,9 +365,9 @@
         </div>
     </section>
 
-    <section id="delivery-plan" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+    <section id="delivery-plan" sectionTag="fieldset" headerStyle="title"
              headerCode="pihcore.deliveryPlan">
-        <div class="section-container-color">
+        <div class="section-container">
             <p class="side-by-side">
                 <label>
                     <uimessage code="pihcore.acceptCHW" />
@@ -421,9 +419,9 @@
         </div>
     </section>
 
-    <section id="referral" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+    <section id="referral" sectionTag="fieldset" headerStyle="title"
              headerCode="pihcore.mch.referral">
-        <div class="section-container-color">
+        <div class="section-container">
 
             <repeat>
                 <template>
@@ -464,10 +462,10 @@
         </div>
     </section>
 
-    <section id="disposition-section" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+    <section id="disposition-section" sectionTag="fieldset" headerStyle="title"
              headerCode="coreapps.consult.disposition">
 
-        <div class="section-container-color">
+        <div class="section-container">
 
             <div id="disposition">
                 <encounterDisposition/>

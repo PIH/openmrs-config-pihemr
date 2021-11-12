@@ -16,7 +16,7 @@
     <style type="text/css">
 
         form fieldset {
-            min-width: 90%
+            min-width: 98%
         }
 
         #encounterDate input {
@@ -108,7 +108,7 @@
         }
 
         - .section {
-            width: 100%;
+            width: 98%;
         }
 
         .section-header {

@@ -229,6 +229,15 @@
         <div class="section-container">
             <div>
                 <p>
+                    <!-- Access to transportation -->
+                    <label>
+                        <uimessage code="pihcore.socioEconomic.transportAccess"/>
+                    </label>
+                    <obs conceptId="PIH:13746" style="radio"
+                         answerConceptIds="CIEL:1065,CIEL:1066"/>
+                </p>
+
+                <p>
                     <label>
                         <uimessage code="pihcore.socioEconomic.methodTransport"/>
                     </label>
@@ -256,15 +265,6 @@
                     <obs conceptId="PIH:CLINIC TRAVEL TIME" style="radio"
                          answerSeparator="&amp;nbsp;"
                          answerConceptIds="PIH:1049,PIH:1050,PIH:1051,PIH:982,PIH:3669"/>
-                </p>
-
-                <p>
-                    <!-- Access to transportation -->
-                    <label>
-                        <uimessage code="pihcore.socioEconomic.transportAccess"/>
-                    </label>
-                    <obs conceptId="PIH:13746" style="radio"
-                         answerConceptIds="CIEL:1065,CIEL:1066"/>
                 </p>
 
                 <p>
@@ -356,34 +356,6 @@
                 <render aid="PIH:12885" aidLabel="pihcore.aid.cashTransfer"/>
             </repeat>
 
-            <includeIf velocityTest="$patient.gender == 'F' ">
-                <tr>
-                    <td>
-                        <label>
-                            <uimessage code="pihcore.aid.familySupport" />
-                        </label>
-                    </td>
-                    <td>
-                        <obs conceptId="PIH:2156" answerConceptId="PIH:10642"
-                             answerLabel="" style="checkbox" />
-                    </td>
-                    <td></td>
-                </tr>
-
-                <tr>
-                    <td>
-                        <label>
-                            <uimessage code="pihcore.aid.partnerSupportsANC" />
-                        </label>
-                    </td>
-                    <td colspan="2">
-                        <obs conceptId="PIH:13747"
-                             style="radio"
-                             answerConceptIds="CIEL:1065,CIEL:1066"/>
-                    </td>
-                </tr>
-            </includeIf>
-
             <tr>
                 <td>
                     <obs conceptId="PIH:SOCIO-ECONOMIC ASSISTANCE NON-CODED"
@@ -398,8 +370,27 @@
                          answerLabel="" style="checkbox" />
                 </td>
             </tr>
-
         </table>
+
+        <includeIf velocityTest="$patient.gender == 'F' ">
+            <p>
+                <label>
+                    <uimessage code="pihcore.aid.familySupport" />
+                </label>
+
+                <obs conceptId="PIH:2156" answerConceptId="PIH:10642"
+                     answerCode="pihcore.received" style="checkbox" />
+            </p>
+
+            <p>
+                <label>
+                    <uimessage code="pihcore.aid.partnerSupportsANC" />
+                </label>
+                <obs conceptId="PIH:13747"
+                     style="radio"
+                     answerConceptIds="CIEL:1065,CIEL:1066"/>
+            </p>
+        </includeIf>
 
         <p>
             <label>
