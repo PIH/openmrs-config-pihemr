@@ -1108,10 +1108,10 @@
         </div>
     </section>
 
-    <section id="postpartum-section" sectionTag="fieldset"
+    <section id="postpartum-area" sectionTag="fieldset"
              headerStyle="title" headerCode="pihcore.postnatal">
 
-        <div id="postpartum-area" class="section-container">
+        <div id="postpartum-visit" class="section-container">
             <p>
                 <label>
                     <uimessage code="pihcore.numPostpartumVisits" />
@@ -1121,9 +1121,9 @@
         </div>
     </section>
 
-    <section id="prenatal-section" sectionTag="fieldset"
+    <section id="prenatal-area" sectionTag="fieldset"
              headerStyle="title" headerCode="pihcore.mch.dangerSigns">
-        <div id="prenatal-area" class="section-container">
+        <div id="prenatal-division" class="section-container">
             <div class="two-columns">
                 <div>
                     <repeat>
