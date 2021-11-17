@@ -28,9 +28,26 @@
                 -moz-column-count: 2;
             }
 
-           - .section {
-        width: 100%;
-        }
+            .section-container {
+                background: #F2F2F2;
+                box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+                padding: 10px 5px 10px 15px;
+                line-height: 1.5em; /*add this for vertical spacing between elements*/
+            }
+
+            .section-container input[type="checkbox"] {
+                margin: 0px 5px; /*changed values to vertical, horizontal*/
+                top:5px; /*added to offset the checkbox position to line up*/
+            }
+
+            .section-container label,
+            .section-container-color label {
+                margin: 0px;
+            }
+
+            .section {
+                width: 95%;
+            }
 
         </ifMode>
     </style>
@@ -61,9 +78,23 @@
                  headerStyle="title" headerCode="pihcore.socioEconomic.education">
             <div class="section-container">
                 <p>
+                    <!-- Education level -->
+                    <label>
+                        <uimessage code="pihcore.socioEconomic.levelEducation" />
+                    </label>
+                    <br/>
                     <obs conceptId="CIEL:1712" style="radio"
                          answerConceptIds="CIEL:1107,CIEL:1713,CIEL:1714,PIH:3396,CIEL:159785"/>
                          <!-- CIEL codes: 1107=None, 1713=Primary school, 1714=Some secondary, 3396=Professional, 159785=University -->
+                </p>
+
+                <p>
+                    <!-- Literacy -->
+                    <label>
+                        <uimessage code="pihcore.socioEconomic.literate" />
+                    </label>
+                    <obs conceptId="CIEL:166855" style="radio"
+                         answerConceptIds="CIEL:1065,CIEL:1066"/>
                 </p>
             </div>
         </section>
@@ -161,6 +192,7 @@
                         <label>
                             <uimessage code="pihcore.socioEconomic.floor"/>
                         </label>
+                        <br/>
                         <obs conceptId="CIEL:159387" style="radio"
                              answerConceptIds="CIEL:1943,CIEL:1944,CIEL:159679,CIEL:5622"
                              answerSeparator="&amp;nbsp;" />
@@ -171,6 +203,7 @@
                         <label>
                             <uimessage code="pihcore.socioEconomic.roof"/>
                         </label>
+                        <br/>
                         <obs conceptId="CIEL:1290" style="radio"
                              answerConceptIds="PIH:1320,CIEL:1942,CIEL:1943,CIEL:5622"
                              answerSeparator="&amp;nbsp;" />
@@ -180,6 +213,7 @@
                         <label>
                             <uimessage code="pihcore.socioEconomic.wall"/>
                         </label>
+                        <br/>
                         <obs conceptId="PIH:1668" style="radio"
                              answerConceptIds="CIEL:1943,PIH:11939,PIH:2937,CIEL:159685,PIH:11938,CIEL:1944,CIEL:5622"
                              answerSeparator="&amp;nbsp;" />
@@ -194,6 +228,15 @@
              headerStyle="title" headerCode="pihcore.socioEconomic.transport">
         <div class="section-container">
             <div>
+                <p>
+                    <!-- Access to transportation -->
+                    <label>
+                        <uimessage code="pihcore.socioEconomic.transportAccess"/>
+                    </label>
+                    <obs conceptId="PIH:13746" style="radio"
+                         answerConceptIds="CIEL:1065,CIEL:1066"/>
+                </p>
+
                 <p>
                     <label>
                         <uimessage code="pihcore.socioEconomic.methodTransport"/>
@@ -226,7 +269,7 @@
 
                 <p>
                     <label>
-                        <uimessage code="pihcore.comment"/>:
+                        <uimessage code="pihcore.comment"/>
                     </label>
                     <obs conceptId="PIH:1301" />
                 </p>
@@ -239,7 +282,6 @@
     <section id="activity" sectionTag="fieldset" headerTag="legend"
              headerStyle="title" headerCode="pihcore.socioEconomic.dailyActivity">
         <div class="section-container">
-
             <!-- ToDo: We are collecting occupation during registration.
                 Is that different from "main activity"? -->
             <p>
@@ -253,6 +295,17 @@
                     Eske kounye a jan w santi w la, anpeche w fè gwo aktivite sa a ?
                 </label>
                 <obs conceptId="PIH:11543" />
+            </p>
+        </div>
+
+        <div class="section-container">
+            <p>
+                <!-- Employment status -->
+                <label>
+                    <uimessage code="pihcore.socio.currentlyEmployed"/>
+                </label>
+                <obs conceptId="PIH:3395" style="radio"
+                     answerConceptIds="CIEL:1065,CIEL:1066" />
             </p>
         </div>
     </section>
@@ -317,8 +370,27 @@
                          answerLabel="" style="checkbox" />
                 </td>
             </tr>
-
         </table>
+
+        <includeIf velocityTest="$patient.gender == 'F' ">
+            <p>
+                <label>
+                    <uimessage code="pihcore.aid.familySupport" />
+                </label>
+
+                <obs conceptId="PIH:2156" answerConceptId="PIH:10642"
+                     answerCode="pihcore.received" style="checkbox" />
+            </p>
+
+            <p>
+                <label>
+                    <uimessage code="pihcore.aid.partnerSupportsANC" />
+                </label>
+                <obs conceptId="PIH:13747"
+                     style="radio"
+                     answerConceptIds="CIEL:1065,CIEL:1066"/>
+            </p>
+        </includeIf>
 
         <p>
             <label>

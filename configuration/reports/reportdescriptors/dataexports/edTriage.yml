@@ -25,3 +25,4 @@ config:
   components:
     - "edTriage"
     - "allDataExports"
+  privilege: "Task: clinical.reports"

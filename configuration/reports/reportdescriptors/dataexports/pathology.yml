@@ -25,3 +25,4 @@ config:
   components:
     - "pathologyTracking"
     - "allDataExports"
+  privilege: "Task: clinical.reports"

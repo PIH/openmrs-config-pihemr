@@ -25,3 +25,4 @@ config:
   components:
     - "echocardiogram"
     - "allDataExports"
+  privilege: "Task: clinical.reports"

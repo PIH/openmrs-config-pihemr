@@ -18,3 +18,4 @@ config:
   components:
     - "hiv"
     - "allDataExports"
+  privilege: "Task: clinical.reports"

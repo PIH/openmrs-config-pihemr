@@ -18,3 +18,4 @@ config:
   components:
     - "ncd"
     - "allDataExports"
+  privilege: "Task: clinical.reports"

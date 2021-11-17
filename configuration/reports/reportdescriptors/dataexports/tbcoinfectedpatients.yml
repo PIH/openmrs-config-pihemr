@@ -30,3 +30,4 @@ config:
   components:
     - "dataExports"
     - "allDataExports"
+  privilege: "Task: clinical.reports"

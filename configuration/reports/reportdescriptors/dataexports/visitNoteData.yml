@@ -40,6 +40,7 @@ config:
   components:
     - "visitNote"
     - "allDataExports"
+  privilege: "Task: clinical.reports"
   countries:
     - "HAITI"
     - "LIBERIA"

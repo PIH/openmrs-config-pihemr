@@ -21,3 +21,4 @@ config:
     - "dataExports"
     - "allDataExports"
     - "hiv"
+  privilege: "Task: clinical.reports"

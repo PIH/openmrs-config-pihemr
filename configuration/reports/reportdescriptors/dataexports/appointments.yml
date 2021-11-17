@@ -25,3 +25,4 @@ config:
   components:
     - "appointmentScheduling"
     - "allDataExports"
+  privilege: "Task: archive.reports"

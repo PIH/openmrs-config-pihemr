@@ -25,4 +25,4 @@ config:
   components:
     - "labs"
     - "allDataExports"
-  privilege: "Task: labworkflow.viewLabs"
+  privilege: "Task: lab.reports"

@@ -89,3 +89,7 @@ e534c845-74da-45f8-97d5-304482c52256,${privilege.task_order_labs},Able to order 
 9d28a374-89c4-4050-9efd-eabdbf828b75,${privilege.task_radiologyapp_order_xray},Rights to order an x-ray via the x-ray app
 84a77327-a759-4681-8065-91670a16aacb,${privilege.task_radiologyapp_retro_order},Ability to retrospectively order a radiology study
 b0791308-22dd-4a64-ac9c-8dbb4d1be245,${privilege.task_radiologyapp_tab},Ability to view the Radiology tab for patient
+557f3817-8116-498d-b375-e87605bb71b6,${privilege.task_pharmacy_reports},Ability to view pharmacy reports
+69afe7a9-4698-4236-a177-5ad9a17b9c12,${privilege.task_clinical_reports},Ability to view clinical reports
+9cfcc88d-9ed5-4eff-bbe8-301173f84f48,${privilege.task_archive_reports},Ability to view archive reports
+3cd0cbef-cde7-4819-92fd-c108dce23ea1,${privilege.task_lab_reports},Ability to view lab reports
