@@ -1,6 +1,0 @@
-databaseType: "sqlserver"
-host: ${sqlserver.host}
-port: ${sqlserver.port}
-databaseName: ${sqlserver.databaseName}
-user: ${sqlserver.user}
-password: ${sqlserver.password}
