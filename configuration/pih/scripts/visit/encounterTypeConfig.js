@@ -643,14 +643,14 @@ angular.module("encounterTypeConfig", [])
         editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("nurseConsult.xml"),
         showOnVisitList: true
       };
-      // Peru prescription
+      // Prescription
       encounterTypes["03546c8c-0c2c-4a58-80a0-0e5d112464ac"] = {
         defaultState: "long",
         shortTemplate: "templates/encounters/defaultEncounterShort.page",
         longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
-        templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("peruPrescription.xml"),
+        templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("prescription.xml"),
         icon: "fas fa-fw fa-stethoscope",
-        editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("peruPrescription.xml"),
+        editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("prescription.xml"),
         showOnVisitList: true
       };
 
