@@ -1,0 +1,10 @@
+.status-data-widget-label {
+    font-weight: bold;
+}
+.status-data-widget-value {
+
+}
+.status-data-alert {
+    font-weight: bold;
+    color: red;
+}
