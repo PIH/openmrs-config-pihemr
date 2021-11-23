@@ -324,6 +324,7 @@
                 <pastMedicalHistoryCheckbox concept="PIH:Diphtheria"/>
                 <pastMedicalHistoryCheckbox concept="PIH:ACUTE RHEUMATIC FEVER" label="pihcore.acuteRheumaticFever.abbrev"/>
                 <pastMedicalHistoryCheckbox concept="CIEL:117703" />
+                <pastMedicalHistoryCheckbox concept="CIEL:165623" label="COVID-19" />
                 <pastMedicalHistoryCheckbox concept="PIH:OTHER" code="pihcore.other" specify="true" class="medicalHistoryText patientHistory"/>
             </div>
             <!-- only show these diseases if encounter type is NCD Intake -->
