@@ -132,7 +132,28 @@ BEGIN
     RETURN ret;
 END
 #
+/*
+This function accepts patient/person id and returns that person's age in months
+*/
+#
+DROP FUNCTION IF EXISTS current_age_in_months;
+#
+CREATE FUNCTION current_age_in_months(
+    _person_id int)
 
+    RETURNS DOUBLE
+    DETERMINISTIC
+
+BEGIN
+    DECLARE currentAge DOUBLE;
+
+	select  TIMESTAMPDIFF(MONTH, birthdate, now()) into currentAge
+	from    person p 
+	where 	p.person_id = _person_id;
+
+    RETURN currentAge;
+END
+#
 /*
  get patient age at encounter
 */
@@ -533,6 +554,27 @@ and patient_id = _patient_id;
 
     RETURN visitDate;
 
+END
+#
+/*
+This function accepts an obs_id and returns the obs_datetime of that obs
+*/
+#
+DROP FUNCTION IF EXISTS obs_date;
+#
+CREATE FUNCTION obs_date (
+    _obs_id int
+)
+    RETURNS datetime
+    DETERMINISTIC
+BEGIN
+    DECLARE obsDate datetime;
+
+    select      o.obs_datetime into obsDate
+    from        obs o
+    where       o.obs_id = _obs_id;
+
+    RETURN obsDate;
 END
 #
 /*
