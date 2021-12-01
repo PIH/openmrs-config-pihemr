@@ -136,6 +136,28 @@ END
 This function accepts patient/person id and returns that person's age in months
 */
 #
+DROP FUNCTION IF EXISTS current_age_in_years;
+#
+CREATE FUNCTION current_age_in_years(
+    _person_id int)
+
+    RETURNS DOUBLE
+    DETERMINISTIC
+
+BEGIN
+    DECLARE currentAge DOUBLE;
+
+	select  TIMESTAMPDIFF(YEAR, birthdate, now()) into currentAge
+	from    person p 
+	where 	p.person_id = _person_id;
+
+    RETURN currentAge;
+END
+#
+/*
+This function accepts patient/person id and returns that person's age in months
+*/
+#
 DROP FUNCTION IF EXISTS current_age_in_months;
 #
 CREATE FUNCTION current_age_in_months(
@@ -834,6 +856,83 @@ BEGIN
     limit       1;
 
     RETURN enc_id_out;
+
+END
+#
+/*
+This function accepts a patient id, source & code of a concept and a locale
+It will return the single, latest value coded of the obs of that concept in the locale
+*/
+DROP FUNCTION IF EXISTS latest_obs_value_coded;
+#
+CREATE FUNCTION latest_obs_value_coded(_patient_id int(11), _source varchar(50), _term varchar(255), _locale varchar(50))
+    RETURNS text
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret text;
+
+    select      concept_name(o.value_coded, _locale) into ret
+    from        obs o
+    where       o.voided = 0
+		and o.person_id = _patient_id    		
+      	and       o.concept_id = concept_from_mapping(_source, _term)
+    order by obs_datetime desc limit 1 ;
+
+    RETURN ret;
+
+END
+#
+/*
+This function accepts a patient id, source & code of a concept
+It will return the single, latest numeric value of the obs of that concept in the locale
+*/
+#
+DROP FUNCTION IF EXISTS latest_obs_value_numeric;
+#
+CREATE FUNCTION latest_obs_value_numeric(_patient_id int(11), _source varchar(50), _term varchar(255))
+    RETURNS double
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret double;
+
+    select      o.value_numeric into ret
+    from        obs o
+    where       o.voided = 0
+		and o.person_id = _patient_id    		
+      	and       o.concept_id = concept_from_mapping(_source, _term)
+    order by obs_datetime desc limit 1 ;
+
+    RETURN ret;
+
+END
+#
+/*
+This function accepts a patient id, source & code of a concept
+It will return the single datetime value recorded latest for the obs of that concept in the locale
+*/
+#
+DROP FUNCTION IF EXISTS latest_obs_value_datetime;
+#
+CREATE FUNCTION latest_obs_value_datetime(_patient_id int(11), _source varchar(50), _term varchar(255))
+    RETURNS datetime
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret datetime;
+
+    select      o.value_datetime into ret
+    from        obs o
+    where       o.voided = 0
+	and 		o.person_id = _patient_id    		
+    and       	o.concept_id = concept_from_mapping(_source, _term)
+    order by obs_datetime desc limit 1 ;
+
+    RETURN ret;
 
 END
 #
@@ -1995,6 +2094,7 @@ END
 #
 -- this function accepts patient_program_id, program_workflow_id and a locale
 -- it will return the name of the current state in the given locale if one exists in the given worflow
+-- this is limited to the latest one to account for the rare case of multiple states in the same workflow
 DROP FUNCTION IF EXISTS currentProgramState;
 #
 CREATE FUNCTION currentProgramState(_patient_program_id int(11), _program_workflow_id int(11), _locale varchar(50))
@@ -2009,7 +2109,8 @@ BEGIN
   from patient_state ps
   inner join program_workflow_state pws on ps.state = pws.program_workflow_state_id and program_workflow_id =_program_workflow_id  
   where ps.patient_program_id = _patient_program_id
-  and ps.end_date is null;
+  and ps.end_date is null
+  order by ps.start_date desc limit 1;
 
     RETURN state_name_out;
 
