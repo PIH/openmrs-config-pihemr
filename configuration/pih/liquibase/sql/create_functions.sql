@@ -133,7 +133,7 @@ BEGIN
 END
 #
 /*
-This function accepts patient/person id and returns that person's age in months
+This function accepts patient/person id and returns that person's age in years
 */
 #
 DROP FUNCTION IF EXISTS current_age_in_years;
