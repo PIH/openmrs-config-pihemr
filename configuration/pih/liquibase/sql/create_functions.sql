@@ -141,7 +141,7 @@ DROP FUNCTION IF EXISTS current_age_in_years;
 CREATE FUNCTION current_age_in_years(
     _person_id int)
 
-    RETURNS DOUBLE
+    RETURNS int
     DETERMINISTIC
 
 BEGIN
@@ -2105,12 +2105,13 @@ BEGIN
 
   DECLARE state_name_out varchar(255);
 
-  select concept_name(pws.concept_id, _locale) into state_name_out
-  from patient_state ps
-  inner join program_workflow_state pws on ps.state = pws.program_workflow_state_id and program_workflow_id =_program_workflow_id  
-  where ps.patient_program_id = _patient_program_id
-  and ps.end_date is null
-  order by ps.start_date desc limit 1;
+select concept_name(pws.concept_id, _locale) into state_name_out
+from patient_state ps
+inner join program_workflow_state pws on ps.state = pws.program_workflow_state_id and program_workflow_id =_program_workflow_id
+inner join patient_program pp on pp.voided =0 and pp.patient_program_id = ps.patient_program_id
+where ps.patient_program_id = _patient_program_id
+and (ps.end_date is null or ps.end_date = pp.date_completed )
+order by ps.start_date desc limit 1; 
 
     RETURN state_name_out;
 
