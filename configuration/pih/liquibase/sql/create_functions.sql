@@ -2094,6 +2094,7 @@ END
 #
 -- this function accepts patient_program_id, program_workflow_id and a locale
 -- it will return the name of the current state in the given locale if one exists in the given worflow
+-- Note that the current state is either is the one that is either still active or the one that was active when the program was closed.
 -- this is limited to the latest one to account for the rare case of multiple states in the same workflow
 DROP FUNCTION IF EXISTS currentProgramState;
 #
