@@ -24,13 +24,13 @@
                 return empty &amp;&amp; !optional;
             }
 
-            $('fieldset.medication').each(function() {
+            $j('fieldset.medication').each(function() {
                 var numEmptyFields = 0;
                 var numFilledFields = 0;
-                $(this).find('input:not(:last), select').each(function() {
-                    $(this).removeClass('emptyValue');
+                $j(this).find('input:not(:last), select').each(function() {
+                    $j(this).removeClass('emptyValue');
 
-                    if ($(this).val()) {
+                    if ($j(this).val()) {
                         numFilledFields += 1;
                     } else {
                         numEmptyFields += 1;
@@ -39,14 +39,14 @@
 
                 var anyErrors = false;
                 if (numFilledFields > 0) {
-                    $(this).find('input, select').each(function () {
-                        if (requiredAndEmpty($(this))) {
-                            if (!$(this).hasClass('illegalValue')) {
-                                $(this).addClass('emptyValue');
+                    $j(this).find('input, select').each(function () {
+                        if (requiredAndEmpty($j(this))) {
+                            if (!$j(this).hasClass('illegalValue')) {
+                                $j(this).addClass('emptyValue');
                             }
                             anyErrors = true;
                             if (!scrolled) {
-                                $(window).scrollTop($(this).offset().top);
+                                $j(window).scrollTop($j(this).offset().top);
                                 scrolled = true;
                             }
                         }
@@ -54,28 +54,28 @@
                 }
                 if (anyErrors) {
                     ++numErrors;
-                    $(this).find('.field-error').first().html("<uimessage code="dispensing.error.missingRequiredFields"/>").show();
+                    $j(this).find('.field-error').first().html("<uimessage code="dispensing.error.missingRequiredFields"/>").show();
 
-                    $('.medication input.emptyValue, .medication select.emptyValue').on('blur', function() {
-                        if ($(this).val()) {
-                            if($(this).hasClass('illegalValue')) {
-                                $(this).removeClass('emptyValue');
+                    $j('.medication input.emptyValue, .medication select.emptyValue').on('blur', function() {
+                        if ($j(this).val()) {
+                            if($j(this).hasClass('illegalValue')) {
+                                $j(this).removeClass('emptyValue');
                             } else {
-                                if($(this).siblings('input[type="hidden"]').length = 0) {
-                                    $(this).removeClass('emptyValue').addClass('notEmpty');
+                                if($j(this).siblings('input[type="hidden"]').length = 0) {
+                                    $j(this).removeClass('emptyValue').addClass('notEmpty');
                                 } else {
-                                    if($(this).siblings('input[type="hidden"]').attr("value") != "") {
-                                        $(this).removeClass('emptyValue').addClass('notEmpty');
+                                    if($j(this).siblings('input[type="hidden"]').attr("value") != "") {
+                                        $j(this).removeClass('emptyValue').addClass('notEmpty');
                                     }
                                 }
                             }
                         } else {
-                            $(this).removeClass('notEmpty').addClass('emptyValue');
+                            $j(this).removeClass('notEmpty').addClass('emptyValue');
                         }
                     });
 
                 } else {
-                    $(this).find('.field-error').first().html("").hide();
+                    $j(this).find('.field-error').first().html("").hide();
                     if (numFilledFields > 0) {
                         numDispensed += 1;
                     }
@@ -83,8 +83,8 @@
             });
 
             if (numErrors == 0 &amp;&amp; numDispensed == 0) {
-                $('fieldset.medication').first().find('.field-error').first().html("All fields are required!").show();
-                $(window).scrollTop(300);
+                $j('fieldset.medication').first().find('.field-error').first().html("All fields are required!").show();
+                $j(window).scrollTop(300);
             }
             return numErrors == 0 &amp;&amp; numDispensed > 0;
         });
