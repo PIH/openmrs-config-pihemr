@@ -1206,8 +1206,8 @@ BEGIN
 select if(obs_id is null,0,1) into ret
 from obs o where o.voided =0 
 	and o.person_id = _patient_id
-	and o.concept_id = concept_from_mapping(source_question,term_question)
-	and o.value_coded  = concept_from_mapping(source_answer,term_answer)
+	and o.concept_id = concept_from_mapping(_source_question,_term_question)
+	and o.value_coded  = concept_from_mapping(_source_answer,_term_answer)
 	and (o.obs_datetime >= _begin_datetime or _begin_datetime is null)
 	limit 1;
 
