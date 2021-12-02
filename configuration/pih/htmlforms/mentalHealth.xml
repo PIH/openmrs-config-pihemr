@@ -175,7 +175,6 @@
 
     <ifMode mode="VIEW" include="false">
         <script type="text/javascript">
-            var $j = jQuery;
 
             // add validation handler to the HTML form
             htmlForm.getBeforeValidation().push(function() {
@@ -212,21 +211,21 @@
 
                 setMinReturnVisitDate();
 
-                $('.medication-checkbox > input:checkbox').each(function(idx, it){
-                    if($(it).not(':checked')){
-                        $(it).closest("td").siblings().find(":input").each(function(i, el){
-                            $(el).attr("disabled", "disabled");
+                jq('.medication-checkbox > input:checkbox').each(function(idx, it){
+                    if(jq(it).not(':checked')){
+                        jq(it).closest("td").siblings().find(":input").each(function(i, el){
+                            jq(el).attr("disabled", "disabled");
                         });
                     }
 
-                    $(it).change(function(){
-                        if($(this).is(':checked')){
-                            $(this).closest("td").siblings().find(":input").each(function(i, el){
-                                $(el).removeAttr("disabled");
+                    jq(it).change(function(){
+                        if(jq(this).is(':checked')){
+                            jq(this).closest("td").siblings().find(":input").each(function(i, el){
+                                jq(el).removeAttr("disabled");
                             });
                         } else {
-                            $(this).closest("td").siblings().find(":input").each(function(i, el){
-                                $(el).val('').attr("disabled", "disabled");
+                            jq(this).closest("td").siblings().find(":input").each(function(i, el){
+                                jq(el).val('').attr("disabled", "disabled");
                             });
                         }
                     });

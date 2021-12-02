@@ -66,17 +66,17 @@
 
             var needsDisposition = true;
 
-            var hasDisposition = $('#disposition select:first').val() != '';
+            var hasDisposition = jq('#disposition select:first').val() != '';
 
-            var isValid =   $('#where select').val() != '' &amp;&amp;
-                            $('#who select').val() != '' &amp;&amp;
-                            $('#when input').val() != '' &amp;&amp;      // does this actually work?
-                            $('.diagnosis').length;
+            var isValid =   jq('#where select').val() != '' &amp;&amp;
+                            jq('#who select').val() != '' &amp;&amp;
+                            jq('#when input').val() != '' &amp;&amp;      // does this actually work?
+                            jq('.diagnosis').length;
 
             if (hasDisposition || needsDisposition) {
                 // make sure disposition and all related field have been filled out
-                isValid = isValid &amp;&amp; !$('#disposition select:visible').is(function() { return $(this).val() == ''; })  &amp;&amp;
-                                !$('#disposition input:visible').is(function() { return $(this).val() == ''; })
+                isValid = isValid &amp;&amp; !jq('#disposition select:visible').is(function() { return jq(this).val() == ''; })  &amp;&amp;
+                                !jq('#disposition input:visible').is(function() { return jq(this).val() == ''; })
             }
 
             if (isValid) {
@@ -88,11 +88,11 @@
 
         }
 
-        $(function() {
+        jq(function() {
 
             // yes, a rather large amount of events trigger a validation...
-            $(document).change(validateForm);
-            $(document).click(validateForm);
+            jq(document).change(validateForm);
+            jq(document).click(validateForm);
             validateForm();
 
         });

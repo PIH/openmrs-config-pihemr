@@ -314,27 +314,27 @@
             var encounterDateInput; // set in a script at the end of the page
             ExitHandlers['calc-enc-date'] = {
                 handleExit: function(fieldModel) {
-                    var date = $('.calc-enc-date.year').val() + '-' +
-                        $('.calc-enc-date.month').val() + '-' +
-                        leadingZero($('.calc-enc-date.day').val());
+                    var date = jq('.calc-enc-date.year').val() + '-' +
+                        jq('.calc-enc-date.month').val() + '-' +
+                        leadingZero(jq('.calc-enc-date.day').val());
                     encounterDateInput.val(date);
 
-                    $('#encounterDate .hfe-seconds').val(0);
-                    if (Number($('.calc-enc-date.hour').val()) == 0) {
-                        $('.calc-enc-date.hour').val('');
-                        $('.calc-enc-date.minute').val('');
-                        $('.calc-enc-date.ampm').val('AM');
+                    jq('#encounterDate .hfe-seconds').val(0);
+                    if (Number(jq('.calc-enc-date.hour').val()) == 0) {
+                        jq('.calc-enc-date.hour').val('');
+                        jq('.calc-enc-date.minute').val('');
+                        jq('.calc-enc-date.ampm').val('AM');
 
-                        $('#encounterDate .hfe-hours').val(hours);
-                        $('#encounterDate .hfe-minutes').val(minutes);
+                        jq('#encounterDate .hfe-hours').val(hours);
+                        jq('#encounterDate .hfe-minutes').val(minutes);
                     }
                     else {
-                        var hours = ($('.calc-enc-date.ampm').val() == 'PM' ? 12 : 0) +
-                        Number($('.calc-enc-date.hour').val());
-                        var minutes = $('.calc-enc-date.minute').val();
+                        var hours = (jq('.calc-enc-date.ampm').val() == 'PM' ? 12 : 0) +
+                        Number(jq('.calc-enc-date.hour').val());
+                        var minutes = jq('.calc-enc-date.minute').val();
 
-                        $('#encounterDate .hfe-hours').val(hours);
-                        $('#encounterDate .hfe-minutes').val(minutes);
+                        jq('#encounterDate .hfe-hours').val(hours);
+                        jq('#encounterDate .hfe-minutes').val(minutes);
                     }
                     return true;
                 }
@@ -349,11 +349,11 @@
                 defaultDeathDate = new Date(<lookup expression="patient.deathDate.time"/>);
             }
 
-            $(function() {
+            jq(function() {
                 // when you navigate to one of the date component field, select all its text
                 // (might be nice to do this elsewhere also)
-                $('.date-component').focus(function() {
-                    $(this).select();
+                jq('.date-component').focus(function() {
+                    jq(this).select();
                 });
 
                 var demogConfirm = '<lookup expression="patient.personName.familyName"/>, ';
@@ -362,7 +362,7 @@
                 demogConfirm += '<lookup complexExpression="#if( $patient.birthdateEstimated )~#end"/>';
                 demogConfirm += '<lookup expression="patient.birthdate"/>,';
                 demogConfirm += '<lookup complexExpression="#foreach( $addr in $patient.addresses ) $ui.format($addr).replaceAll('\n', ', ')#end"/>';
-                $('#hidden-demog').val(demogConfirm);
+                jq('#hidden-demog').val(demogConfirm);
             });
         </script>
 
@@ -638,49 +638,49 @@
             // this code snippet is here (outside of a $(function) block) because we need it to happen before the navigator
             // model is built, and the date question does determineDisplayValue() the first time.
 
-            encounterDateInput = $('#encounterDate input[type=hidden]').first();
+            encounterDateInput = jq('#encounterDate input[type=hidden]').first();
 
             // set both the hidden inputs (from the encounterDate tag) and the custom visible inputs for this form
             if (defaultDeathDate) {
                 // set date (y/m/d) fields
                 var ymd = defaultDeathDate.toISOString();
                 encounterDateInput.val(ymd.substring(0,10));
-                $('.calc-enc-date.year').val(ymd.substring(0, 4));
-                $('.calc-enc-date.month').val(ymd.substring(5, 7));
-                $('.calc-enc-date.day').val(ymd.substring(8, 10));
+                jq('.calc-enc-date.year').val(ymd.substring(0, 4));
+                jq('.calc-enc-date.month').val(ymd.substring(5, 7));
+                jq('.calc-enc-date.day').val(ymd.substring(8, 10));
 
                 var hour = defaultDeathDate.getHours();
                 var minute = defaultDeathDate.getMinutes();
-                $('#encounterDate .hfe-hours').val(leadingZero(hour));
-                $('#encounterDate .hfe-minutes').val(leadingZero(minute));
-                $('#encounterDate .hfe-seconds').val(0);
+                jq('#encounterDate .hfe-hours').val(leadingZero(hour));
+                jq('#encounterDate .hfe-minutes').val(leadingZero(minute));
+                jq('#encounterDate .hfe-seconds').val(0);
 
                 if (hour == 0 &amp;&amp; minute == 0) {
-                    $('.calc-enc-date.hour').val('');
-                    $('.calc-enc-date.ampm').val('AM');
-                    $('.calc-enc-date.minute').val('');
+                    jq('.calc-enc-date.hour').val('');
+                    jq('.calc-enc-date.ampm').val('AM');
+                    jq('.calc-enc-date.minute').val('');
                 } else {
-                    $('.calc-enc-date.minute').val(leadingZero(minute));
+                    jq('.calc-enc-date.minute').val(leadingZero(minute));
                     if (hour == 0) {
-                        $('.calc-enc-date.hour').val('12');
-                        $('.calc-enc-date.ampm').val('AM');
+                        jq('.calc-enc-date.hour').val('12');
+                        jq('.calc-enc-date.ampm').val('AM');
                     } else if (hour > 12) {
-                        $('.calc-enc-date.hour').val(hour-12);
-                        $('.calc-enc-date.ampm').val('PM');
+                        jq('.calc-enc-date.hour').val(hour-12);
+                        jq('.calc-enc-date.ampm').val('PM');
                     } else {
-                        $('.calc-enc-date.hour').val(hour);
-                        $('.calc-enc-date.ampm').val('AM');
+                        jq('.calc-enc-date.hour').val(hour);
+                        jq('.calc-enc-date.ampm').val('AM');
                     }
                 }
 
             } else {
                 encounterDateInput.val('');
-                $('#encounterDate .hfe-hours').val('');
-                $('#encounterDate .hfe-minutes').val('');
-                $('.calc-enc-date').val(''); // all visible inputs
+                jq('#encounterDate .hfe-hours').val('');
+                jq('#encounterDate .hfe-minutes').val('');
+                jq('.calc-enc-date').val(''); // all visible inputs
             }
 
-            $(function() {
+            jq(function() {
                 onBlurAutocomplete = function(element){
                 var hiddenField = jQuery("#"+element.id+"_hid");
                 var textField = jQuery(element);

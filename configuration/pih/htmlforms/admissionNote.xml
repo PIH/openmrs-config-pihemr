@@ -81,7 +81,7 @@
         }
 
 
-        $(function() {
+        jq(function() {
             // yes, a rather large amount of events trigger a validation...
             jq(document).change(validateForm);
             jq(document).click(validateForm);
@@ -186,7 +186,7 @@
                 var admitToLocationVisitId = '<lookup expression="fn.latestObs('f3e04276-2db0-4181-b937-d73275dc1b15').encounter.visit.id"/>';
                 var activeVisitId = '<lookup expression="visit.visit.id"/>';
 
-                $(function() {
+                jq(function() {
                     if(admitToLocationId != '' &amp;&amp; admitToLocationVisitId == activeVisitId) {
                         setValue('encounterLocation.value', admitToLocationId);
                     }

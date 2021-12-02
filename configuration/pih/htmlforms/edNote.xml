@@ -66,19 +66,19 @@
 
                 var needsDisposition = true;
 
-                var hasDisposition = $('#disposition select:first').val() != '';
+                var hasDisposition = jq('#disposition select:first').val() != '';
 
-                var isValid =   $('#where select').val() != '' &amp;&amp;
-                                $('#who select').val() != '' &amp;&amp;
-                                $('#when input').val() != '' &amp;&amp;      // does this actually work?
-                                $('.diagnosis').length &amp;&amp;
+                var isValid =   jq('#where select').val() != '' &amp;&amp;
+                                jq('#who select').val() != '' &amp;&amp;
+                                jq('#when input').val() != '' &amp;&amp;      // does this actually work?
+                                jq('.diagnosis').length &amp;&amp;
                                 getValue("trauma.value") &amp;&amp;
-                               (getValue("trauma.value") != yesCode || $('#trauma-type-container select').val() != '');
+                               (getValue("trauma.value") != yesCode || jq('#trauma-type-container select').val() != '');
 
                 if (hasDisposition || needsDisposition) {
                     // make sure disposition and all related field have been filled out
-                    isValid = isValid &amp;&amp; !$('#disposition select:visible').is(function() { return $(this).val() == ''; })  &amp;&amp;
-                                                    !$('#disposition input:visible').is(function() { return $(this).val() == ''; })
+                    isValid = isValid &amp;&amp; !jq('#disposition select:visible').is(function() { return jq(this).val() == ''; })  &amp;&amp;
+                                                    !jq('#disposition input:visible').is(function() { return jq(this).val() == ''; })
                 }
 
                 if (isValid) {
@@ -103,23 +103,23 @@
                 if (!trauma) {
                     getField("traumaType.value").val("");
                 }
-                $('#trauma-type-container').toggle(trauma);
+                jq('#trauma-type-container').toggle(trauma);
             }
 
-            $(function() {
-                traumaFieldName = $('#trauma input[type=radio]').last().attr('name');
-                //$('input[name=' + traumaFieldName + ']').change(updateTraumaQuestions);
-                $('#trauma input').change(updateTraumaQuestions);
+            jq(function() {
+                traumaFieldName = jq('#trauma input[type=radio]').last().attr('name');
+                //jq('input[name=' + traumaFieldName + ']').change(updateTraumaQuestions);
+                jq('#trauma input').change(updateTraumaQuestions);
                 updateTraumaQuestions();
 
                 // hack to make this look like the entry form. need a better fix in HFE to make radio buttons look right
-                $('#trauma input[type=radio]').last().appendTo('#no-goes-here');
-                $('#trauma label').last().appendTo('#no-goes-here');
-                $('#trauma span.required').hide();
+                jq('#trauma input[type=radio]').last().appendTo('#no-goes-here');
+                jq('#trauma label').last().appendTo('#no-goes-here');
+                jq('#trauma span.required').hide();
 
                 // yes, a rather large amount of events trigger a validation...
-                $(document).change(validateForm);
-                $(document).click(validateForm);
+                jq(document).change(validateForm);
+                jq(document).click(validateForm);
                 validateForm();
 
             });

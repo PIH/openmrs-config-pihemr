@@ -7,7 +7,7 @@
 
             var validateForm = function () {
 
-                var isValid =   $('#cancel-reason select').val() != '';
+                var isValid =   jq('#cancel-reason select').val() != '';
 
                 if (isValid) {
                     htmlForm.enableSubmitButton();
@@ -18,8 +18,8 @@
             }
 
             // yes, a rather large amount of events trigger a validation...
-            $(document).change(validateForm);
-            $(document).click(validateForm);
+            jq(document).change(validateForm);
+            jq(document).click(validateForm);
             validateForm();
 
 

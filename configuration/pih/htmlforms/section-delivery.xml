@@ -203,8 +203,6 @@
     <ifMode mode="VIEW" include="false">
         <script type="text/javascript">
 
-            var $j = jQuery;
-
             jq(function() {
 
                 var hasValue = function(element) {

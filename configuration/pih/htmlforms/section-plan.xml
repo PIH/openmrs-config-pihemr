@@ -64,8 +64,6 @@
     <ifMode mode="VIEW" include="false">
         <script type="text/javascript">
 
-            var $j = jQuery;
-
             htmlForm.getBeforeValidation().push(function() {
 
                 var valid = true;

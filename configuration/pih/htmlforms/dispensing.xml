@@ -1,6 +1,5 @@
 <htmlform formUuid="ba22eda5-148d-456e-8adc-f36247d1f7c3" formName="Dispensing" formEncounterType="8ff50dea-18a1-4609-b4c9-3f8f2d611b84" formVersion="1.0" class="dispensing-form">
     <script type="text/javascript">
-        var $j = jQuery;
 
         htmlForm.getBeforeValidation().push(function() {
             var numErrors = 0;
@@ -24,13 +23,13 @@
                 return empty &amp;&amp; !optional;
             }
 
-            $j('fieldset.medication').each(function() {
+            jq('fieldset.medication').each(function() {
                 var numEmptyFields = 0;
                 var numFilledFields = 0;
-                $j(this).find('input:not(:last), select').each(function() {
-                    $j(this).removeClass('emptyValue');
+                jq(this).find('input:not(:last), select').each(function() {
+                    jq(this).removeClass('emptyValue');
 
-                    if ($j(this).val()) {
+                    if (jq(this).val()) {
                         numFilledFields += 1;
                     } else {
                         numEmptyFields += 1;
@@ -39,14 +38,14 @@
 
                 var anyErrors = false;
                 if (numFilledFields > 0) {
-                    $j(this).find('input, select').each(function () {
-                        if (requiredAndEmpty($j(this))) {
-                            if (!$j(this).hasClass('illegalValue')) {
-                                $j(this).addClass('emptyValue');
+                    jq(this).find('input, select').each(function () {
+                        if (requiredAndEmpty(jq(this))) {
+                            if (!jq(this).hasClass('illegalValue')) {
+                                jq(this).addClass('emptyValue');
                             }
                             anyErrors = true;
                             if (!scrolled) {
-                                $j(window).scrollTop($j(this).offset().top);
+                                jq(window).scrollTop(jq(this).offset().top);
                                 scrolled = true;
                             }
                         }
@@ -54,28 +53,28 @@
                 }
                 if (anyErrors) {
                     ++numErrors;
-                    $j(this).find('.field-error').first().html("<uimessage code="dispensing.error.missingRequiredFields"/>").show();
+                    jq(this).find('.field-error').first().html("<uimessage code="dispensing.error.missingRequiredFields"/>").show();
 
-                    $j('.medication input.emptyValue, .medication select.emptyValue').on('blur', function() {
-                        if ($j(this).val()) {
-                            if($j(this).hasClass('illegalValue')) {
-                                $j(this).removeClass('emptyValue');
+                    jq('.medication input.emptyValue, .medication select.emptyValue').on('blur', function() {
+                        if (jq(this).val()) {
+                            if(jq(this).hasClass('illegalValue')) {
+                                jq(this).removeClass('emptyValue');
                             } else {
-                                if($j(this).siblings('input[type="hidden"]').length = 0) {
-                                    $j(this).removeClass('emptyValue').addClass('notEmpty');
+                                if(jq(this).siblings('input[type="hidden"]').length = 0) {
+                                    jq(this).removeClass('emptyValue').addClass('notEmpty');
                                 } else {
-                                    if($j(this).siblings('input[type="hidden"]').attr("value") != "") {
-                                        $j(this).removeClass('emptyValue').addClass('notEmpty');
+                                    if(jq(this).siblings('input[type="hidden"]').attr("value") != "") {
+                                        jq(this).removeClass('emptyValue').addClass('notEmpty');
                                     }
                                 }
                             }
                         } else {
-                            $j(this).removeClass('notEmpty').addClass('emptyValue');
+                            jq(this).removeClass('notEmpty').addClass('emptyValue');
                         }
                     });
 
                 } else {
-                    $j(this).find('.field-error').first().html("").hide();
+                    jq(this).find('.field-error').first().html("").hide();
                     if (numFilledFields > 0) {
                         numDispensed += 1;
                     }
@@ -83,8 +82,8 @@
             });
 
             if (numErrors == 0 &amp;&amp; numDispensed == 0) {
-                $j('fieldset.medication').first().find('.field-error').first().html("All fields are required!").show();
-                $j(window).scrollTop(300);
+                jq('fieldset.medication').first().find('.field-error').first().html("All fields are required!").show();
+                jq(window).scrollTop(300);
             }
             return numErrors == 0 &amp;&amp; numDispensed > 0;
         });
