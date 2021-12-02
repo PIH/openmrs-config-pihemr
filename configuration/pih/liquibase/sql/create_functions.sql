@@ -145,7 +145,7 @@ CREATE FUNCTION current_age_in_years(
     DETERMINISTIC
 
 BEGIN
-    DECLARE currentAge DOUBLE;
+    DECLARE currentAge int;
 
 	select  TIMESTAMPDIFF(YEAR, birthdate, now()) into currentAge
 	from    person p 
@@ -1162,12 +1162,12 @@ BEGIN
 END
 #
 /*  
-This function accepts an obs_id and a locale
-It will return the concept name of that obs, in that locale
+This function accepts an obs_id 
+It will return the value coded of that obs, translated into a boolean
 */    
-DROP FUNCTION IF EXISTS value_coded_boolean;
+DROP FUNCTION IF EXISTS value_coded_as_boolean;
 #
-CREATE FUNCTION value_coded_boolean(_obs_id int(11))
+CREATE FUNCTION value_coded_as_boolean(_obs_id int(11))
     RETURNS boolean
     DETERMINISTIC
 
