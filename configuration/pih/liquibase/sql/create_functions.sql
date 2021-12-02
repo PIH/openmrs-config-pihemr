@@ -859,88 +859,9 @@ BEGIN
 
 END
 #
-/*
-This function accepts a patient id, source & code of a concept and a locale
-It will return the single, latest value coded of the obs of that concept in the locale
-*/
-DROP FUNCTION IF EXISTS latest_obs_value_coded;
-#
-CREATE FUNCTION latest_obs_value_coded(_patient_id int(11), _source varchar(50), _term varchar(255), _locale varchar(50))
-    RETURNS text
-    DETERMINISTIC
-
-BEGIN
-
-    DECLARE ret text;
-
-    select      concept_name(o.value_coded, _locale) into ret
-    from        obs o
-    where       o.voided = 0
-		and o.person_id = _patient_id    		
-      	and       o.concept_id = concept_from_mapping(_source, _term)
-    order by obs_datetime desc limit 1 ;
-
-    RETURN ret;
-
-END
-#
-/*
-This function accepts a patient id, source & code of a concept
-It will return the single, latest numeric value of the obs of that concept in the locale
-*/
-#
-DROP FUNCTION IF EXISTS latest_obs_value_numeric;
-#
-CREATE FUNCTION latest_obs_value_numeric(_patient_id int(11), _source varchar(50), _term varchar(255))
-    RETURNS double
-    DETERMINISTIC
-
-BEGIN
-
-    DECLARE ret double;
-
-    select      o.value_numeric into ret
-    from        obs o
-    where       o.voided = 0
-		and o.person_id = _patient_id    		
-      	and       o.concept_id = concept_from_mapping(_source, _term)
-    order by obs_datetime desc limit 1 ;
-
-    RETURN ret;
-
-END
-#
-/*
-This function accepts a patient id, source & code of a concept
-It will return the single datetime value recorded latest for the obs of that concept in the locale
-*/
-#
-DROP FUNCTION IF EXISTS latest_obs_value_datetime;
-#
-CREATE FUNCTION latest_obs_value_datetime(_patient_id int(11), _source varchar(50), _term varchar(255))
-    RETURNS datetime
-    DETERMINISTIC
-
-BEGIN
-
-    DECLARE ret datetime;
-
-    select      o.value_datetime into ret
-    from        obs o
-    where       o.voided = 0
-	and 		o.person_id = _patient_id    		
-    and       	o.concept_id = concept_from_mapping(_source, _term)
-    order by obs_datetime desc limit 1 ;
-
-    RETURN ret;
-
-END
-#
-
 -- This function accepts patient_id, encounter_type and beginDate
 -- It will return the first encounter of the specified type that it finds for the patient after the passed beginDate
 -- if null is passed in as the beginDate, it will be disregarded
-
 #
 DROP FUNCTION IF EXISTS firstEnc;
 #
@@ -1124,10 +1045,8 @@ BEGIN
 END
 
 #
-
 -- This function accepts encounter_id, mapping source, mapping code
 -- It will find the obs_id of the matching observation
-
 #
 DROP FUNCTION IF EXISTS obs_id;
 #
@@ -1150,6 +1069,149 @@ offset _offset_value
 ;
 
 RETURN ret;
+
+END
+#
+/*
+This function accepts a patient id, source & code of a concept
+It will return the obs_id of the single latest obs recorded for that concept
+*/
+DROP FUNCTION IF EXISTS latest_obs;
+#
+CREATE FUNCTION latest_obs(_patient_id int(11), _source varchar(50), _term varchar(255))
+    RETURNS int
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret int(11);
+
+    select      o.obs_id into ret
+    from        obs o
+    where       o.voided = 0
+		and o.person_id = _patient_id    		
+      	and       o.concept_id = concept_from_mapping(_source, _term)
+    order by obs_datetime desc limit 1 ;
+
+    RETURN ret;
+#
+/*  
+This function accepts an obs_id and a locale
+It will return the concept name of that obs, in that locale
+*/    
+DROP FUNCTION IF EXISTS value_coded_name;
+#
+CREATE FUNCTION value_coded_name(_obs_id int(11),  _locale varchar(50))
+    RETURNS varchar(255)
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret varchar(255);
+
+    select      concept_name(o.value_coded,@locale) into ret
+    from        obs o
+    where       o.obs_id = _obs_id;
+
+    RETURN ret;
+
+END
+#
+/*  
+This function accepts an obs_id
+It will return the value_numeric of that obs
+*/    
+DROP FUNCTION IF EXISTS value_numeric;
+#
+CREATE FUNCTION value_numeric(_obs_id int(11))
+    RETURNS double
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret double;
+
+    select      value_numeric into ret
+    from        obs o
+    where       o.obs_id = _obs_id;
+
+    RETURN ret;
+
+END
+#
+/*  
+This function accepts an obs_id
+It will return the value_datetime of that obs
+*/    
+DROP FUNCTION IF EXISTS value_datetime;
+#
+CREATE FUNCTION value_datetime(_obs_id int(11))
+    RETURNS datetime
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret datetime;
+
+    select      value_datetime into ret
+    from        obs o
+    where       o.obs_id = _obs_id;
+
+    RETURN ret;
+
+END
+#
+/*  
+This function accepts an obs_id and a locale
+It will return the concept name of that obs, in that locale
+*/    
+DROP FUNCTION IF EXISTS value_coded_boolean;
+#
+CREATE FUNCTION value_coded_boolean(_obs_id int(11))
+    RETURNS boolean
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret boolean;
+
+    select CASE o.value_coded
+		WHEN concept_from_mapping('PIH','YES') then 1
+		WHEN concept_from_mapping('PIH','NO') then 0
+	END into @ret
+	from        obs o
+    where       o.obs_id = _obs_id;
+
+    RETURN ret;
+
+END
+#
+/*
+This function accepts a patient id, source & code of a question concept and source &code of an answer concept
+It will return a boolean set to 1 if that question and answer has EVER been recorded for a patient since the datetime passed in.
+Null can be passed in as the datetime if it is to be disregarded.
+*/
+#
+DROP FUNCTION IF EXISTS answerEverExists;
+#
+CREATE FUNCTION answerEverExists(_patient_id int(11), _source_question varchar(50), _term_question varchar(255), _source_answer varchar(50), _term_answer varchar(255), _begin_datetime datetime)
+    RETURNS boolean
+    DETERMINISTIC
+
+BEGIN
+
+  DECLARE ret boolean;
+
+
+select if(obs_id is null,0,1) into ret
+from obs o where o.voided =0 
+	and o.person_id = _patient_id
+	and o.concept_id = concept_from_mapping(source_question,term_question)
+	and o.value_coded  = concept_from_mapping(source_answer,term_answer)
+	and (o.obs_datetime >= _begin_datetime or _begin_datetime is null)
+	limit 1;
+
+    RETURN ret;
 
 END
 #
