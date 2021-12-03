@@ -1094,6 +1094,8 @@ BEGIN
     order by obs_datetime desc limit 1 ;
 
     RETURN ret;
+    
+END    
 #
 /*  
 This function accepts an obs_id and a locale
