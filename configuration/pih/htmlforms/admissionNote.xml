@@ -143,7 +143,7 @@
                                 jq.ajaxSetup({async:false});
 
                                 // call the function to print a wristband (at the admission location)
-                                emr.getFragmentActionWithCallback('mirebalais', 'wristband', 'printWristband', { patientId: <lookup expression="patient.id"/> , locationId: getValue("encounterLocation.value") },
+                                emr.getFragmentActionWithCallback('pihcore', 'wristband', 'printWristband', { patientId: <lookup expression="patient.id"/> , locationId: getValue("encounterLocation.value") },
                                     function(data) {
                                         success = data.success;
                                         if (success) {
