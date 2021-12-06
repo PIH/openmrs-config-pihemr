@@ -379,7 +379,7 @@
         </globalProperty>
         <globalProperty>
             <property>labworkflowowa.labelPrintingEndpoint</property>
-            <value>mirebalais/lablabelprinter</value>
+            <value>pihcore/lablabelprinter</value>
         </globalProperty>
         <globalProperty>
             <property>labworkflowowa.ordersBatchSize</property>
