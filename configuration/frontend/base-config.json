@@ -5,7 +5,7 @@
       "alt": "Partners in Health"
     },
     "links": {
-      "loginSuccess": "${openmrsBase}/pihcore/home.page"
+      "loginSuccess": "${openmrsBase}/mirebalais/home.page"
     }
   },
   "@openmrs/esm-patient-vitals-app": {
