@@ -655,7 +655,8 @@
                     <pastMedicalHistoryCheckbox concept="CIEL:1449"   name="gestational DM"/>
                     <pastMedicalHistoryCheckbox concept="PIH:Eclampsia" />
                     <pastMedicalHistoryCheckbox concept="PIH:HYPERTENSION" label="pihcore.medicalhistory.hypertension"/>
-                    <pastMedicalHistoryCheckbox concept="CIEL:113859"   name="gestational htn"/>
+                    <pastMedicalHistoryCheckbox concept="CIEL:113859" name="gestational htn"/>
+                    <pastMedicalHistoryCheckbox concept="CIEL:230"    name="postpartum hemorrhage"/>
                 </div>
                 <div>
                     <pastMedicalHistoryCheckbox concept="PIH:SEXUALLY TRANSMITTED INFECTION" label="pihcore.medicalhistory.sti"
