@@ -2418,7 +2418,33 @@ FROM
 
 END
 #
+/* 
+The following accepts a patient id and source and term of a concept to identify order reason 
+It will return the date of that patient started on that order reason
+*/
+#
+DROP FUNCTION IF EXISTS OrderReasonStartDate;
+#
+CREATE FUNCTION OrderReasonStartDate(_patient_id int(11), _order_reason_source varchar(50), _order_reason_term varchar(255))
+    RETURNS datetime
+    DETERMINISTIC
 
+BEGIN
+
+  DECLARE ret datetime;
+
+
+select min(ifnull(o.scheduled_date, o.date_activated)) into ret
+from orders o
+where o.patient_id  = _patient_id
+and o.order_reason = concept_from_mapping(_order_reason_source,_order_reason_term)
+and voided = 0
+;
+
+  RETURN ret;
+
+END
+#
 /*
  get boolean indicating if a given component is enabled
 */
