@@ -2182,33 +2182,6 @@ order by ps.start_date desc limit 1;
 
 END
 #
-/* 
-The following accepts a patient id and program (identified by UUID or program id)
-it will return the the date of the latest time the patient enrolled in that program
- */
-#
-DROP FUNCTION IF EXISTS latestProgramEnrollmentDate;
-#
-CREATE FUNCTION latestProgramEnrollmentDate(_patient_id int(11), _program_id_or_uuid char(38))
-    RETURNS datetime
-    DETERMINISTIC
-
-BEGIN
-
-  DECLARE ret datetime;
-
-select max(pp.date_enrolled) into ret
-from patient_program pp 
-inner join program p on p.program_id = pp.program_id
-where pp.patient_id  = _patient_id
-and (pp.program_id = _program_id_or_uuid or p.uuid = _program_id_or_uuid)
-and pp.voided = 0
-;
-
-  RETURN ret;
-
-END
-#
 -- this function accepts concept_id of a concept and concept_id of a concept set
 -- if the concept is in that set, it returns true
 -- OR if the concept is in a set that is in that set, it returns true
@@ -2465,6 +2438,7 @@ select min(ifnull(o.scheduled_date, o.date_activated)) into ret
 from orders o
 where o.patient_id  = _patient_id
 and o.order_reason = concept_from_mapping(_order_reason_source,_order_reason_term)
+and voided = 0
 ;
 
   RETURN ret;
