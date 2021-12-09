@@ -332,4 +332,15 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20211209-update-baptist_uuid" author="ball">
+        <comment>
+            Fix the Baptist concept uuid from 37 to 36 characters
+        </comment>
+        <sql>
+            update concept
+               set uuid = '162932AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+             where uuid like '1162932AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
