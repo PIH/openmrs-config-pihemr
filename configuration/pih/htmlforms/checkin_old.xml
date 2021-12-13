@@ -162,7 +162,7 @@
 
                 <p class="left">
                     <obs conceptId="PIH:RETURN VISIT DATE" id="apptDate"
-                         allowFutureDates="true"/>
+                         allowFutureDates="true" allowPastDates="false"/>
                 </p>
             </fieldset>
 

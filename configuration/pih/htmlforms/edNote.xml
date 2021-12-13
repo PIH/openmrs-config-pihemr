@@ -228,7 +228,7 @@
 
         <p class="narrow">
             <label><lookup expression="fn.getConcept('PIH:RETURN VISIT DATE').name"/></label>
-            <obs conceptId="PIH:RETURN VISIT DATE" allowFutureDates="true"/>
+            <obs conceptId="PIH:RETURN VISIT DATE" allowFutureDates="true" allowPastDates="false"/>
         </p>
 
         <p>
