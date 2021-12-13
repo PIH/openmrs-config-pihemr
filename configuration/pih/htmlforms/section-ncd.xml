@@ -1092,7 +1092,7 @@
             <label>
                 <lookup expression="fn.getConcept('PIH:RETURN VISIT DATE').name"/>
             </label>
-            <obs conceptId="PIH:RETURN VISIT DATE" allowFutureDates="true" id="apptDate"
+            <obs conceptId="PIH:RETURN VISIT DATE" allowFutureDates="true" allowPastDates="false" id="apptDate"
                  required="true"/>
         </p>
     </section>

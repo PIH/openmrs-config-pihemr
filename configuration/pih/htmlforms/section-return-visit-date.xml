@@ -90,7 +90,7 @@
                 <h3><uimessage code="pihcore.consult.returnVisitDate"/></h3>
 
                 <p class="left">
-                    <obs conceptId="PIH:RETURN VISIT DATE" allowFutureDates="true" id="apptDate" />
+                    <obs conceptId="PIH:RETURN VISIT DATE" allowFutureDates="true" allowPastDates="false" id="apptDate" />
                 </p>
             </fieldset>
         </div>
