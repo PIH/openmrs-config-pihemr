@@ -2436,7 +2436,7 @@ BEGIN
 
 select pp.patient_program_id into ret from patient_program pp
 	where pp.patient_id = _patient_id
-	and program_id = _program_id
+	and pp.program_id = _program_id
 	and (pp.date_enrolled <= _program_date and (_program_date <= pp.date_completed or pp.date_completed is null))
 	and pp.voided = 0
 order by pp.date_enrolled desc, pp.date_created desc limit 1;
@@ -2459,8 +2459,8 @@ BEGIN
 
   DECLARE ret int(11);
 
-select location_id into ret from patient_program pp 
-where patient_program_id = _patient_program_id;
+select pp.location_id into ret from patient_program pp 
+where pp.patient_program_id = _patient_program_id;
   RETURN ret;
 
 END
@@ -2474,7 +2474,7 @@ in which case, it will return the program enrollment location at the time of the
 #
 DROP FUNCTION IF EXISTS hivEncounterLocationId;
 #
-CREATE FUNCTION hivEncounterLocationId(_encounter_location int(11))
+CREATE FUNCTION hivEncounterLocationId(_encounterId int(11))
     RETURNS int(11)
     DETERMINISTIC
 
@@ -2490,7 +2490,7 @@ select if(e.location_id = @unknownLocationId,
 	e.location_id)
 into ret
 from encounter e
-where encounter_id = @_encounterId
+where encounter_id = _encounterId
 ;
  RETURN ret;
 END
