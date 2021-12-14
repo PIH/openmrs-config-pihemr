@@ -2419,6 +2419,83 @@ FROM
 END
 #
 /* 
+This function accepts patient_id, program_id and a date
+It will return the patient_program_id of that patient's enrollment into that program on that date
+In case of duplicates it is limited to the latest, based on date enrolled, date created
+*/
+#
+DROP FUNCTION IF EXISTS patientProgramId;
+#
+CREATE FUNCTION patientProgramId(_patient_id int(11), _program_id int(11), _program_date date)
+    RETURNS int(11)
+    DETERMINISTIC
+
+BEGIN
+
+  DECLARE ret int(11);
+
+select pp.patient_program_id into ret from patient_program pp
+	where pp.patient_id = _patient_id
+	and pp.program_id = _program_id
+	and (pp.date_enrolled <= _program_date and (_program_date <= pp.date_completed or pp.date_completed is null))
+	and pp.voided = 0
+order by pp.date_enrolled desc, pp.date_created desc limit 1;
+
+  RETURN ret;
+
+END
+#
+/* 
+This accepts a patient_program_id and returns the location_id for that enrollment
+*/
+#
+DROP FUNCTION IF EXISTS programLocationId;
+#
+CREATE FUNCTION programLocationId(_patient_program_id int(11))
+    RETURNS int(11)
+    DETERMINISTIC
+
+BEGIN
+
+  DECLARE ret int(11);
+
+select pp.location_id into ret from patient_program pp 
+where pp.patient_program_id = _patient_program_id;
+  RETURN ret;
+
+END
+#
+/* 
+This function accepts an encounter_id and returns a location id
+For the HIV system, since there are many encounters migrated in with "unknown location",
+This function will return the encounter location unless it is unknown location, 
+in which case, it will return the program enrollment location at the time of the encounter  
+*/
+#
+DROP FUNCTION IF EXISTS hivEncounterLocationId;
+#
+CREATE FUNCTION hivEncounterLocationId(_encounterId int(11))
+    RETURNS int(11)
+    DETERMINISTIC
+
+BEGIN
+
+  DECLARE ret int(11);
+
+select location_id into @unknownLocationId from location l where uuid = '8d6c993e-c2cc-11de-8d13-0010c6dffd0f';
+select program_id into @hivProgramId from program where uuid = 'b1cb1fc1-5190-4f7a-af08-48870975dafc';
+
+select if(e.location_id = @unknownLocationId, 
+	ifnull(programLocationId(patientProgramId(e.patient_id,@hivProgramId,e.encounter_datetime)),@unknownLocationId),
+	e.location_id)
+into ret
+from encounter e
+where encounter_id = _encounterId
+;
+ RETURN ret;
+END
+#
+/* 
 The following accepts a patient id and source and term of a concept to identify order reason 
 It will return the date of that patient started on that order reason
 */
