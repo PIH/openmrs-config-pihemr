@@ -33,7 +33,7 @@ CREATE TEMPORARY TABLE temp_echo
     peripartum_cardiomyopathy_diagnosis varchar(255),
     ischemic_cardiomyopathy_diagnosis varchar(255),
     study_results_changed_treatment_plan varchar(255),
-    general_comments				varchar(255)
+    general_comments				text
     );
 
 -- insert encounters into temp table
