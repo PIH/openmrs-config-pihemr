@@ -1180,7 +1180,7 @@ BEGIN
     select CASE o.value_coded
 		WHEN concept_from_mapping('PIH','YES') then 1
 		WHEN concept_from_mapping('PIH','NO') then 0
-	END into @ret
+	END into ret
 	from        obs o
     where       o.obs_id = _obs_id;
 
