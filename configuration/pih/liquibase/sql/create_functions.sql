@@ -563,7 +563,7 @@ Visit date
 DROP FUNCTION IF EXISTS visit_date;
 #
 CREATE FUNCTION visit_date(
-    _patient_id int
+    _encounter_id int
 )
 	RETURNS DATE
     DETERMINISTIC
@@ -571,8 +571,7 @@ CREATE FUNCTION visit_date(
 BEGIN
     DECLARE visitDate date;
 
-    select date(date_started) into visitDate from visit where voided = 0 and visit_id = (select visit_id from encounter where encounter_type = @encounter_type)
-and patient_id = _patient_id;
+    select date(date_started) into visitDate from visit where voided = 0 and visit_id = (select visit_id from encounter where encounter_id = _encounter_id);
 
     RETURN visitDate;
 
