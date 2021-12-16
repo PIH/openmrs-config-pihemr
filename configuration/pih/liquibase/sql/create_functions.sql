@@ -2525,6 +2525,27 @@ END
  get boolean indicating if a given component is enabled
 */
 #
+/*
+ this function accepts a concept id and returns the concept class id of that concept
+*/
+#
+DROP FUNCTION IF EXISTS concept_class_id;
+#
+CREATE FUNCTION concept_class_id(
+    _concept_id int(11)
+)
+	RETURNS INT(11)
+    DETERMINISTIC
+
+BEGIN
+    DECLARE ret INT(11);
+
+	SELECT  class_id INTO ret
+	FROM    concept where concept_id = _concept_id;
+
+    RETURN ret;
+END
+#
 DROP FUNCTION IF EXISTS is_component_enabled;
 #
 CREATE FUNCTION is_component_enabled(
