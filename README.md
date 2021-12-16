@@ -20,7 +20,7 @@ The configuration distro projects are as follows:
 These configurations are merged and packaged using the [OpenMRS Packager Maven Plugin](https://github.com/openmrs/openmrs-contrib-packager-maven-plugin). The full documentation for using the plug-in to 
 build a site-specific deployment configuration can be found at the above link.  
 
-As part of our build, the latest configuration artifacts for each country are deployed to [sonatype](https://oss.sonatype.org/#nexus-search;quick~org.pih.openmrs).
+As part of our build, the latest configuration artifacts for each country are deployed to [sonatype](https://s01.oss.sonatype.org/#nexus-search;quick~org.pih.openmrs).
 
 Release instructions can be found 
 [in Confluence](https://pihemr.atlassian.net/wiki/spaces/PIHEMR/pages/482705471/Release+instructions+for+PIH+EMR+Distro).
