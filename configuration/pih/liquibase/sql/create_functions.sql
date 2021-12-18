@@ -1163,6 +1163,28 @@ BEGIN
 END
 #
 /*  
+This function accepts an obs_id
+It will return the value_text of that obs
+*/    
+DROP FUNCTION IF EXISTS value_text;
+#
+CREATE FUNCTION value_text(_obs_id int(11))
+    RETURNS text
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret text;
+
+    select      value_text into ret
+    from        obs o
+    where       o.obs_id = _obs_id;
+
+    RETURN ret;
+
+END
+#
+/*  
 This function accepts an obs_id 
 It will return the value coded of that obs, translated into a boolean
 */    
