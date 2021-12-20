@@ -43,7 +43,7 @@ CREATE TEMPORARY TABLE temp_exam
     Urogenital_Exam_Comments varchar(1000),
     Gynecology_exam       varchar(255),
     Gynecology_exam_Other varchar(255),
-    Gynecology_exam_Comments text,
+    Gynecology_exam_Comments varchar(1000),
     Musculoskeletal_Exam  varchar(255),
     Musculoskeletal_Exam_Other varchar(255),
     Pitting_edema		varchar(255),			
