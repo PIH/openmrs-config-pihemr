@@ -2486,6 +2486,92 @@ where pp.patient_program_id = _patient_program_id;
 
 END
 #
+-- this function accepts a patient_program_id for an enrollment and a state ID
+-- it will return the most recent patient_state_id for that state within the program enrollment
+#
+DROP FUNCTION IF EXISTS mostRecentPatientStateId;
+#
+CREATE FUNCTION mostRecentPatientStateId(_patient_program_id int(11), _state int(11))
+    RETURNS int(11)
+    DETERMINISTIC
+
+BEGIN
+
+  DECLARE ret int(11);
+
+select patient_state_id into ret from patient_state ps
+	where ps.patient_program_id = _patient_program_id
+	and ps.state =  _state
+	and ps.voided = 0
+	order by ps.start_date desc limit 1;
+
+  RETURN ret;
+
+END
+#
+-- this function accepts a patient_id and a program ID
+-- it will return the patient_program_id of the most recent program enrollment for that patient and program
+#
+DROP FUNCTION IF EXISTS mostRecentPatientProgramId;
+#
+CREATE FUNCTION mostRecentPatientProgramId(_patient_id int(11), _program_id int(11))
+    RETURNS int(11)
+    DETERMINISTIC
+
+BEGIN
+
+  DECLARE ret int(11);
+
+select patient_program_id into ret from patient_program pp
+	where pp.patient_id = _patient_id
+	and pp.program_id = _program_id
+	and pp.voided = 0
+	order by pp.date_enrolled desc limit 1;
+
+  RETURN ret;
+
+END
+#
+-- this function accepts a patient_program_id for a patient program enrollment
+-- it will return the enrollment date of that program
+#
+DROP FUNCTION IF EXISTS programStartDate;
+#
+CREATE FUNCTION programStartDate(_patient_program_id int)
+    RETURNS datetime
+    DETERMINISTIC
+
+BEGIN
+
+  DECLARE ret datetime;
+
+select date_enrolled into ret from patient_program pp
+	where pp.patient_program_id = _patient_program_id;
+	
+  RETURN ret;
+
+END
+#
+-- this function accepts a patient_state_id for a patient state in program enrollment
+-- it will return the start date of that state
+#
+DROP FUNCTION IF EXISTS patientStateStartDate;
+#
+CREATE FUNCTION patientStateStartDate(_patient_state_id int(11))
+    RETURNS datetime
+    DETERMINISTIC
+
+BEGIN
+
+  DECLARE ret datetime;
+
+select start_date into ret from patient_state ps
+	where ps.patient_state_id = _patient_state_id;
+	
+  RETURN ret;
+  
+END
+#
 /* 
 This function accepts an encounter_id and returns a location id
 For the HIV system, since there are many encounters migrated in with "unknown location",
