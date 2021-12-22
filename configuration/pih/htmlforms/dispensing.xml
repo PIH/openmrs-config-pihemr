@@ -147,7 +147,8 @@
                 <label>
                     <uimessage code="dispensing.medication.typeOfPrescription"/>
                 </label>
-                <obs id="Timing of hospital prescription" required="true" class="select-arrow" conceptId="PIH:9292"/>
+                <obs id="Timing of hospital prescription" required="true" class="select-arrow"
+                     conceptId="PIH:9292" answerConceptIds="PIH:Discharge,PIH:INPATIENT HOSPITALIZATION"/>
             </span>
             <span class="input-container">
                 <label>
