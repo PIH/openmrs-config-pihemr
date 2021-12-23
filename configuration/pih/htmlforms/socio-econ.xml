@@ -229,9 +229,9 @@
         <div class="section-container">
             <div>
                 <p>
-                    <!-- Access to transportation -->
+                    <!-- Money for transportation -->
                     <label>
-                        <uimessage code="pihcore.socioEconomic.transportAccess"/>
+                        <uimessage code="pihcore.socioEconomic.transportMoney"/>
                     </label>
                     <obs conceptId="PIH:13746" style="radio"
                          answerConceptIds="CIEL:1065,CIEL:1066"/>
