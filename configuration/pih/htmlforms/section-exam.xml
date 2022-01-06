@@ -271,6 +271,14 @@
                 </a>
                 |
             </includeIf>
+
+            <includeIf velocityTest="$encounter.encounterType.uuid == 'd83e98fd-dc7b-420f-aa3f-36f648b4483d'">
+                <a href="#postpartum">
+                    <uimessage code="pihcore.postnatal"/>
+                </a>
+                |
+            </includeIf>
+
             <a href="#mental">
                 <uimessage code="pihcore.exam.mental_exam"/>
             </a>
@@ -875,6 +883,97 @@
             </div>
 
             <p/>
+        </includeIf>
+
+        <p/>
+
+        <includeIf velocityTest="$encounter.encounterType.uuid == 'd83e98fd-dc7b-420f-aa3f-36f648b4483d'">
+            <div id="postpartum" class="section-container-color">
+                <b>
+                    <uimessage code="pihcore.exam.postpartum_exam.title"/>
+                </b>
+
+                <div class="two-columns-n exam">
+                    <div>
+                        <p class="in-line">
+                            <label>
+                                <uimessage code="pihcore.lochiaType" />
+                            </label>
+                            <br/>
+                            <obs conceptId="CIEL:159721" style="radio"
+                                 answerConceptIds="CIEL:164145,CIEL:159724,CIEL:159723"
+                                 showIfEmpty="false"  />
+                        </p>
+
+                        <div class="exam">
+                            <repeat>
+                                <template>
+                                    <p>
+                                        <obs class="{switch}" conceptId="CIEL:159844"
+                                             answerConceptId="{finding}"
+                                             showIfEmpty="false"  style="checkbox"/>
+                                    </p>
+                                </template>
+                                <render finding="CIEL:1115"   name="Normal"      switch="normalObs" />
+                                <render finding="CIEL:159845" name="LociaExcess" switch="abnormalObs" />
+                                <render finding="CIEL:159846" name="LochiaSmell" switch="abnormalObs" />
+                            </repeat>
+                        </div>
+
+                        <!-- Pads used -->
+                        <p class="in-line">
+                            <br/>
+                            <label>
+                                <uimessage code="pihcore.numberPads" />
+                            </label>
+                            <obsgroup groupingConceptId="CIEL:166896" >
+                                <obs conceptId="CIEL:166895" />
+                                <obs conceptId="PIH:TIME UNITS" style="radio"
+                                     answerConceptIds="CIEL:1822,CIEL:1072"
+                                     answerCodes="pihcore.perHour,pihcore.perDay"/>
+                            </obsgroup>
+                        </p>
+                    </div>
+
+                    <div class="in-line">
+                        <p>
+                            <label>
+                                <uimessage code="pihcore.uterusInvolution" />
+                            </label>
+                            <obs conceptId="CIEL:167038" style="radio"
+                                 answerConceptIds="CIEL:1115,CIEL:1116"/>
+                        </p>
+
+                        <p>
+                            <label>
+                                <uimessage code="pihcore.uterusPalpation" />
+                            </label>
+                            <br/>
+                            <obs conceptId="CIEL:167035" style="radio"
+                                 answerConceptIds="CIEL:167036,CIEL:167037"
+                                 answerCodes="pihcore.sensitiveUterus,pihcore.nonSensitiveUterus"/>
+                        </p>
+
+                        <p>
+                            <label>
+                                <uimessage code="pihcore.csWoundStatus" />
+                            </label>
+                            <br/>
+                            <obs conceptId="CIEL:166894" style="radio"
+                                 answerConceptIds="PIH:GOOD,CIEL:163799,CIEL:156794"
+                                 answerCodes="pihcore.healing,pihcore.dehiscence,pihcore.infection"/>
+                        </p>
+
+                        <p class="comment-label">
+                            <uimessage code="pihcore.exam.comment"/>
+                        </p>
+
+                        <p class="comment-field">
+                            <obs conceptId="PIH:14053" rows="5" cols="45"/>
+                        </p>
+                    </div>
+                </div>
+            </div>
         </includeIf>
 
         <p/>
