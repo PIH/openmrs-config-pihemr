@@ -903,22 +903,20 @@
                             <obs conceptId="CIEL:159721" style="radio"
                                  answerConceptIds="CIEL:164145,CIEL:159724,CIEL:159723"
                                  showIfEmpty="false"  />
-                        </p>
 
-                        <div class="exam">
-                            <repeat>
-                                <template>
-                                    <p>
-                                        <obs class="{switch}" conceptId="CIEL:159844"
-                                             answerConceptId="{finding}"
-                                             showIfEmpty="false"  style="checkbox"/>
-                                    </p>
-                                </template>
-                                <render finding="CIEL:1115"   name="Normal"      switch="normalObs" />
-                                <render finding="CIEL:159845" name="LociaExcess" switch="abnormalObs" />
-                                <render finding="CIEL:159846" name="LochiaSmell" switch="abnormalObs" />
-                            </repeat>
-                        </div>
+                            <!-- ToDo:  Add odor -->
+
+                            <label>
+                                <uimessage code="pihcore.lochiaQuant" />
+                            </label>
+
+                            <obs conceptId="CIEL:167042" style="radio"
+                                 answerConceptIds="CIEL:1362,CIEL:1363,CIEL:1364"
+                                 answerCodes="+,++,+++"
+                                 showIfEmpty="false"  />
+
+                            <!-- ToDo:  Add postpartum hemorrhage -->
+                        </p>
 
                         <!-- Pads used -->
                         <p class="in-line">
@@ -933,6 +931,43 @@
                                      answerCodes="pihcore.perHour,pihcore.perDay"/>
                             </obsgroup>
                         </p>
+
+                        <!-- Resumed sex -->
+                        <p class="in-line">
+                            <label>
+                                <uimessage code="pihcore.restartSex" />
+                            </label>
+                            <obs conceptId="CIEL:167043" style="radio"
+                                 answerConceptIds="CIEL:1065,CIEL:1066"/>
+                        </p>
+
+                        <!-- ToDo:  Add 2 perineum questions -->
+                        <p class="in-line">
+                            <label>
+                                <uimessage code="pihcore.perineum" />
+                            </label>
+                        </p>
+
+                        <div class="exam">
+                            <label>
+                                <uimessage code="pihcore.breast" />
+                            </label>
+                            <repeat>
+                                <template>
+                                    <p>
+                                        <obs conceptId="CIEL:159780" style="checkbox"
+                                             answerConceptId="{finding}" answerCode="pihcore.{name}"
+                                             showIfEmpty="false"  />
+                                    </p>
+                                </template>
+                                <render finding="PIH:14061"   name="goodMilk"  />
+                                <render finding="CIEL:140103" name="crackNip"  />
+                                <render finding="CIEL:118620" name="engorgedBreast"  />
+                                <render finding="CIEL:115914" name="mastitis"  />
+                                <render finding="CIEL:115099" name="breastAbscess"  />
+                            </repeat>
+                        </div>
+
                     </div>
 
                     <div class="in-line">
@@ -940,8 +975,23 @@
                             <label>
                                 <uimessage code="pihcore.uterusInvolution" />
                             </label>
-                            <obs conceptId="CIEL:167038" style="radio"
-                                 answerConceptIds="CIEL:1115,CIEL:1116"/>
+                            <obs id="involution" conceptId="CIEL:167038" style="radio"
+                                 answerConceptIds="CIEL:1115,CIEL:1116">
+                                <controls>
+                                    <when value="CIEL:1116" thenDisplay="#abnormal-involution" />
+                                </controls>
+                            </obs>
+
+                            <div id="abnormal-involution">
+                                <label>
+                                    <uimessage code="pihcore.ifAbnormal" />
+                                </label>
+                                <!-- ToDo: Add new concept -->____
+                                <label>
+                                    <uimessage code="pihcore.umbilMeasure" />
+                                </label>
+
+                            </div>
                         </p>
 
                         <p>
@@ -955,6 +1005,7 @@
                         </p>
 
                         <p>
+                            <!-- ToDo:  Update answers and concept -->
                             <label>
                                 <uimessage code="pihcore.csWoundStatus" />
                             </label>
