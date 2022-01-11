@@ -104,11 +104,23 @@
             }
 
             jq(function() {
-                getField('specimen-collection-date.value').datepicker('option', 'maxDate', new Date());
+                getField('encounter-date.value').change(function(evt) {
+                    getField('test-date.value').datepicker('option', 'minDate', evt.target.value);
+                });
+                getField('test-date.value').change(function(evt) {
+                    getField('encounter-date.value').datepicker('option', 'maxDate', evt.target.value);
+                })
+                const encounterDate = getDatePart(new Date(getValue('encounter-date.value'))) || new Date();
+                getField('encounter-date.value').datepicker('option', 'maxDate', new Date());
                 getField('test-date.value').datepicker('option', 'maxDate', new Date());
+                getField('test-date.value').datepicker('option', 'minDate', encounterDate);
                 getField('viral-load.value').change(toggleViralLoadFields);
                 toggleViralLoadFields();
             });
+
+            function getDatePart(date) {
+                return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+            }
 
         </script>
     </ifMode>
@@ -144,28 +156,16 @@
             <field>
                 <span class="ui-helper-hidden-accessible"><input type="text"/></span>
             </field>
-            <p>
+            <div>
                 <label for="location">
                     <uimessage code="emr.locationRequired"/>
                 </label>
-                <field class="required">
+                <div class="required">
                     <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Lab Results Location"/>
-                </field>
-                <label for="specimen-collection-date">
-                    <uimessage code="pihcore.lab.specimen_collection_date"/>
-                </label>
-                <field class="required">
-                    <encounterDate id="specimen-collection-date"
-                                   default="now" />
-
-                    <div class="section-container">
-                        <obs conceptId="PIH:11781" answerConceptId="PIH:YES"
-                             style="checkbox" answerCode="pihcore.date_estimated"/>
-                    </div>
-                </field>
-            </p>
+                </div>
+            </div>
             <br/>
-            <p>
+            <div>
                 <label for="sample-id">
                     <uimessage code="pihcore.lab.sample_id"/>
                 </label>
@@ -175,19 +175,31 @@
                               placeholder="Enter Sample ID"/>
                     </field>
                 </span>
-            </p>
-            <br/><br/>
-            <p>
+            </div>
+            <br/>
+            <div>
+                <label for="specimen-collection-date">
+                    <uimessage code="pihcore.lab.specimen_collection_date"/>
+                </label>
+                <div class="small required">
+                    <!-- The sputum collection date is stored as the encounter date. -->
+                    <encounterDate id="encounter-date" default="now" />
+                    <div class="section-container">
+                        <obs conceptId="PIH:11781" answerConceptId="PIH:YES"
+                             style="checkbox" answerCode="pihcore.date_estimated"/>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div>
                 <label for="test-date">
                     <uimessage code="pihcore.lab.test_date"/>
                 </label>
-                <span class="small">
-                    <field>
-                        <obs  id="test-date" conceptId="PIH:DATE OF LABORATORY TEST"
-                              placeholder="Enter date"/>
-                    </field>
-                </span>
-            </p>
+                <div class="small">
+                    <obs id="test-date" conceptId="PIH:DATE OF LABORATORY TEST" allowFutureDates="true" />
+                </div>
+            </div>
+            
         </fieldset>
 
         <fieldset class="multi-line-confirmation">
