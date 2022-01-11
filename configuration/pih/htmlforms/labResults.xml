@@ -105,16 +105,22 @@
 
             jq(function() {
                 getField('encounter-date.value').change(function(evt) {
-                    setValue('specimen-collection-date.value', evt.target.value);
                     getField('test-date.value').datepicker('option', 'minDate', evt.target.value);
                 });
-                setValue('specimen-collection-date.value', new Date());
+                getField('test-date.value').change(function(evt) {
+                    getField('encounter-date.value').datepicker('option', 'maxDate', evt.target.value);
+                })
+                const encounterDate = getDatePart(new Date(getValue('encounter-date.value'))) || new Date();
                 getField('encounter-date.value').datepicker('option', 'maxDate', new Date());
                 getField('test-date.value').datepicker('option', 'maxDate', new Date());
-                getField('test-date.value').datepicker('option', 'minDate', new Date());
+                getField('test-date.value').datepicker('option', 'minDate', encounterDate);
                 getField('viral-load.value').change(toggleViralLoadFields);
                 toggleViralLoadFields();
             });
+
+            function getDatePart(date) {
+                return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+            }
 
         </script>
     </ifMode>
@@ -176,12 +182,8 @@
                     <uimessage code="pihcore.lab.specimen_collection_date"/>
                 </label>
                 <div class="small required">
+                    <!-- The sputum collection date is stored as the encounter date. -->
                     <encounterDate id="encounter-date" default="now" />
-                    <div style="display: none;">
-                        <obs id="specimen-collection-date"
-                            conceptId="PIH:SPUTUM COLLECTION DATE"
-                            allowTime="false" />
-                    </div>
                     <div class="section-container">
                         <obs conceptId="PIH:11781" answerConceptId="PIH:YES"
                              style="checkbox" answerCode="pihcore.date_estimated"/>
@@ -193,7 +195,7 @@
                 <label for="test-date">
                     <uimessage code="pihcore.lab.test_date"/>
                 </label>
-                <div class="small required">
+                <div class="small">
                     <obs id="test-date" conceptId="PIH:DATE OF LABORATORY TEST" allowFutureDates="true" />
                 </div>
             </div>
