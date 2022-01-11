@@ -1492,6 +1492,17 @@ angular.module("encounterTypeConfig", [])
             showOnVisitList: true
         };
 
+        // ultrasonido
+        encounterTypes["40d024d9-c7ec-4d2a-a862-68cb87543c4b"] = {
+            defaultState: "long",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("ultrasound.xml"),
+            icon: "fas fa-fw fa-clipboard-list",
+            editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("ultrasound.xml"),
+            showOnVisitList: true
+        };
+
         // sierraLeoneOutpatientInitial
         encounterTypes["7d5853d4-67b7-4742-8492-fcf860690ed5"] = {
             defaultState: "short",
