@@ -894,7 +894,7 @@ angular.module("encounterTypeConfig", [])
             sections: [
                 hivState,
                 primaryCareExam,
-                pedsVaccinations,
+                ancVaccinations,
                 primaryCareDx,
                 hivPlan
             ]
