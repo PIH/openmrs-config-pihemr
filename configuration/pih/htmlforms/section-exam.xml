@@ -896,29 +896,43 @@
                 <div class="two-columns-n exam">
                     <div>
                         <p class="in-line">
+                            <!-- Lochia type/color -->
                             <label>
                                 <uimessage code="pihcore.lochiaType" />
                             </label>
                             <br/>
                             <obs conceptId="CIEL:159721" style="radio"
                                  answerConceptIds="CIEL:164145,CIEL:159724,CIEL:159723"  />
+                            <br/>
 
-                            <!-- ToDo:  Add odor -->
+                            <!-- Lochia odor -->
+                            <label>
+                                <uimessage code="pihcore.lochiaOdor" />
+                            </label>
+                            <obs conceptId="PIH:14062" style="radio"
+                                 answerConceptIds="CIEL:1115,CIEL:159846" />
+                            <br/>
 
+                            <!-- Lochia quantity -->
                             <label>
                                 <uimessage code="pihcore.lochiaQuant" />
                             </label>
-
                             <obs conceptId="CIEL:167042" style="radio"
                                  answerConceptIds="CIEL:1362,CIEL:1363,CIEL:1364"
                                  answerCodes="+,++,+++" />
 
-                            <!-- ToDo:  Add postpartum hemorrhage -->
+
+                            <div class="exam">
+                                <!-- Postpartum hemorrhage -->
+                                <obs conceptId="CIEL:230" style="checkbox"
+                                     answerConceptId="CIEL:1065"
+                                     answerCode="pihcore.postpartumHemorrhage" />
+                            </div>
                         </p>
+
 
                         <!-- Pads used -->
                         <p class="in-line">
-                            <br/>
                             <label>
                                 <uimessage code="pihcore.numberPads" />
                             </label>
@@ -939,13 +953,92 @@
                                  answerConceptIds="CIEL:1065,CIEL:1066"/>
                         </p>
 
-                        <!-- ToDo:  Add 2 perineum questions -->
                         <p class="in-line">
                             <label>
-                                <uimessage code="pihcore.perineum" />
+                                <uimessage code="pihcore.uterusInvolution" />
                             </label>
+                            <obs id="involution" conceptId="CIEL:167038" style="radio"
+                                 answerConceptIds="CIEL:1115,CIEL:1116">
+                                <controls>
+                                    <when value="CIEL:1116" thenDisplay="#abnormal-involution" />
+                                </controls>
+                            </obs>
+
+                            <div id="abnormal-involution">
+                                <label>
+                                    <uimessage code="pihcore.ifAbnormal" />,
+                                </label>
+                                <!-- Uterus level from umbilicus during postpartum involution -->
+                                <obs conceptId="PIH:14063" showUnits="true" />
+                                <label>
+                                    <uimessage code="pihcore.umbilMeasure" />
+                                </label>
+                            </div>
                         </p>
 
+                        <p class="in-line">
+                            <label>
+                                <uimessage code="pihcore.uterusPalpation" />
+                            </label>
+                            <br/>
+                            <obs conceptId="CIEL:167035" style="radio"
+                                 answerConceptIds="CIEL:167036,CIEL:167037"
+                                 answerCodes="pihcore.sensitiveUterus,pihcore.nonSensitiveUterus"/>
+                        </p>
+
+                        <p class="comment-label">
+                            <uimessage code="pihcore.exam.comment"/>
+                        </p>
+
+                        <p class="comment-field">
+                            <obs conceptId="PIH:14053" rows="5" cols="45"/>
+                        </p>
+                    </div>
+
+                    <div>
+                        <p class="exam">
+                            <label>
+                                <uimessage code="pihcore.csWoundStatus" />
+                            </label>
+
+                            <repeat>
+                                <template>
+                                    <p>
+                                        <obs conceptId="CIEL:162128" style="checkbox"
+                                             answerConceptId="{csState}"
+                                             answerCode="pihcore.{csName}"  />
+                                    </p>
+                                </template>
+                                <render csState="CIEL:162130" csName="clean"  />
+                                <render csState="CIEL:441"    csName="dressed"  />
+                                <render csState="CIEL:151596" csName="redress"  />
+                                <render csState="CIEL:162129" csName="healingIntact"  />
+                                <render csState="CIEL:150632" csName="abscess"  />
+                                <render csState="CIEL:114797" csName="openWoundEdges"  />
+                                <render csState="CIEL:1175"   csName="na"  />
+                                <render csState="CIEL:5622"   csName="other"  />
+                            </repeat>
+                        </p>
+
+                        <!-- Perineum -->
+                        <p class="in-line">
+                            <!-- Perineum intact -->
+                            <label>
+                                <uimessage code="pihcore.perineumIntact" />
+                            </label>
+                            <obs conceptId="CIEL:160089" style="radio"
+                                 answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1175"/>
+
+                            <br/>
+                            <!-- Perineum wound -->
+                            <label>
+                                <uimessage code="pihcore.perineumWoundInfection" />
+                            </label>
+                            <br/>
+                            <obs conceptId="PIH:14065" style="radio"
+                                 answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1175"/>
+
+                        </p>
                         <div class="exam">
                             <label>
                                 <uimessage code="pihcore.breast" />
@@ -964,61 +1057,6 @@
                                 <render finding="CIEL:115099" name="breastAbscess"  />
                             </repeat>
                         </div>
-
-                    </div>
-
-                    <div class="in-line">
-                        <p>
-                            <label>
-                                <uimessage code="pihcore.uterusInvolution" />
-                            </label>
-                            <obs id="involution" conceptId="CIEL:167038" style="radio"
-                                 answerConceptIds="CIEL:1115,CIEL:1116">
-                                <controls>
-                                    <when value="CIEL:1116" thenDisplay="#abnormal-involution" />
-                                </controls>
-                            </obs>
-
-                            <div id="abnormal-involution">
-                                <label>
-                                    <uimessage code="pihcore.ifAbnormal" />
-                                </label>
-                                <!-- ToDo: Add new concept -->____
-                                <label>
-                                    <uimessage code="pihcore.umbilMeasure" />
-                                </label>
-
-                            </div>
-                        </p>
-
-                        <p>
-                            <label>
-                                <uimessage code="pihcore.uterusPalpation" />
-                            </label>
-                            <br/>
-                            <obs conceptId="CIEL:167035" style="radio"
-                                 answerConceptIds="CIEL:167036,CIEL:167037"
-                                 answerCodes="pihcore.sensitiveUterus,pihcore.nonSensitiveUterus"/>
-                        </p>
-
-                        <p>
-                            <!-- ToDo:  Update answers and concept -->
-                            <label>
-                                <uimessage code="pihcore.csWoundStatus" />
-                            </label>
-                            <br/>
-                            <obs conceptId="CIEL:166894" style="radio"
-                                 answerConceptIds="PIH:GOOD,CIEL:163799,CIEL:156794"
-                                 answerCodes="pihcore.healing,pihcore.dehiscence,pihcore.infection"/>
-                        </p>
-
-                        <p class="comment-label">
-                            <uimessage code="pihcore.exam.comment"/>
-                        </p>
-
-                        <p class="comment-field">
-                            <obs conceptId="PIH:14053" rows="5" cols="45"/>
-                        </p>
                     </div>
                 </div>
             </div>
