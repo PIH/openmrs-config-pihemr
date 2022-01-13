@@ -1,19 +1,9 @@
-select distinct concat(pe.given_name, ' ' ,pe.family_name) as 'Person name',
-                u.username as 'User name',
-                u.retired as 'User inactive',
-                u.date_created as 'Date user account created',
-                (select group_concat(role) from user_role where user_id = u.user_id ) as 'Roles associated',
-                pp.name as 'Provider type'
-           from person_name pe
-
-           inner join users u
-           on u.person_id=pe.person_id
-
-           inner join user_role ur
-           on ur.user_id = u.user_id
-
-           inner join provider p
-           on u.person_id = p.person_id
-
-           inner join providermanagement_provider_role pp
-           on pp.provider_role_id = p.provider_role_id;
+select      u.username as 'Username',
+            person_given_name(u.person_id) as 'First name',
+            person_family_name(u.person_id) as 'Last name',
+            (select group_concat(role) from user_role where user_id = u.user_id) as 'Roles',
+            (select group_concat(pp.name) from provider p inner join providermanagement_provider_role pp on p.provider_role_id = pp.provider_role_id where p.person_id = u.person_id) as 'Provider Type',
+            if(u.retired, 0, 1) as 'Enabled',
+            u.date_created as 'Date created'
+from        users u
+;
