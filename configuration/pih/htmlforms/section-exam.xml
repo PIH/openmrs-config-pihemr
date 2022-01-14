@@ -902,7 +902,8 @@
                             </label>
                             <br/>
                             <obs conceptId="CIEL:159721" style="radio"
-                                 answerConceptIds="CIEL:164145,CIEL:159724,CIEL:159723"  />
+                                 answerConceptIds="CIEL:159722,CIEL:159724,CIEL:159723"
+                                 answerCodes="pihcore.lochia.rubra,pihcore.lochia.serosa,pihcore.lochia.alba"/>
                             <br/>
 
                             <!-- Lochia odor -->
@@ -1014,7 +1015,7 @@
                                 <render csState="CIEL:151596" csName="redress"  />
                                 <render csState="CIEL:162129" csName="healingIntact"  />
                                 <render csState="CIEL:150632" csName="abscess"  />
-                                <render csState="CIEL:114797" csName="openWoundEdges"  />
+                                <render csState="CIEL:163799" csName="openWoundEdges"  />
                                 <render csState="CIEL:1175"   csName="na"  />
                                 <render csState="CIEL:5622"   csName="other"  />
                             </repeat>
