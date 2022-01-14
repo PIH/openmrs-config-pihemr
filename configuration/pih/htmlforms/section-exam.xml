@@ -918,7 +918,7 @@
                                 <uimessage code="pihcore.lochiaQuant" />
                             </label>
                             <obs conceptId="CIEL:167042" style="radio"
-                                 answerConceptIds="CIEL:1362,CIEL:1363,CIEL:1364"
+                                 answerConceptIds="PIH:12270,CIEL:1363,CIEL:1364"
                                  answerCodes="+,++,+++" />
 
 
