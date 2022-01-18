@@ -2667,3 +2667,32 @@ BEGIN
     RETURN ret;
 END
 #
+
+/*
+ this function accepts patient_id and program_id and return the initial program location name
+*/
+DROP FUNCTION IF EXISTS initialProgramLocation;
+#
+CREATE FUNCTION initialProgramLocation(_patient_id INT, _program_id INT)
+	RETURNS VARCHAR(255)
+    DETERMINISTIC
+
+BEGIN
+    DECLARE minDateEnrolled DATETIME;
+	DECLARE initialProgramLocationName VARCHAR(255);
+
+    SELECT MIN(date_enrolled) INTO minDateEnrolled FROM patient_program
+    WHERE patient_id = _patient_id
+    AND program_id = _program_id
+    AND voided = 0;
+
+    SELECT LOCATION_NAME(location_id) INTO initialProgramLocationName FROM patient_program WHERE
+    date_enrolled = minDateEnrolled
+    AND patient_id = _patient_id
+    AND program_id = _program_id
+    AND voided = 0;
+
+    RETURN initialProgramLocationName;
+
+END
+#
