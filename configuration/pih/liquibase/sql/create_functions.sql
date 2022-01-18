@@ -2667,3 +2667,26 @@ BEGIN
     RETURN ret;
 END
 #
+
+/*
+ this function accepts patient_id and program_id and return the initial program location name
+*/
+DROP FUNCTION IF EXISTS initialProgramLocation;
+#
+CREATE FUNCTION initialProgramLocation(_patient_id INT, _program_id INT)
+	RETURNS VARCHAR(255)
+    DETERMINISTIC
+
+BEGIN
+	DECLARE initialProgramLocationName VARCHAR(255);
+
+    SELECT LOCATION_NAME(location_id) INTO initialProgramLocationName FROM patient_program
+    WHERE patient_id = _patient_id
+    AND program_id = _program_id
+    AND voided = 0
+    ORDER BY date_enrolled ASC, IFNULL(date_completed,'9999-12-31') ASC LIMIT 1;
+
+    RETURN initialProgramLocationName;
+
+END
+#
