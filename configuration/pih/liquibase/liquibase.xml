@@ -343,4 +343,21 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20220118-delete-dupe-mapping" author="ball">
+        <comment>
+            Remove duplicate CIEL:1362 mapping on weakly positive concept
+        </comment>
+        <sql>
+            delete from concept_reference_map
+             where concept_id IN
+                    (select c.concept_id from concept c where c.uuid = '3cda1dd0-26fe-102b-80cb-0017a47871b2');
+
+            update concept
+               set retired = 1, retired_by = 1, date_retired = now(), retire_reason = 'Duplicate concept with CIEL:1362'
+             where uuid = '3cda1dd0-26fe-102b-80cb-0017a47871b2'
+
+
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
