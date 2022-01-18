@@ -2678,19 +2678,13 @@ CREATE FUNCTION initialProgramLocation(_patient_id INT, _program_id INT)
     DETERMINISTIC
 
 BEGIN
-    DECLARE minDateEnrolled DATETIME;
 	DECLARE initialProgramLocationName VARCHAR(255);
 
-    SELECT MIN(date_enrolled) INTO minDateEnrolled FROM patient_program
+    SELECT LOCATION_NAME(location_id) INTO initialProgramLocationName FROM patient_program
     WHERE patient_id = _patient_id
     AND program_id = _program_id
-    AND voided = 0;
-
-    SELECT LOCATION_NAME(location_id) INTO initialProgramLocationName FROM patient_program WHERE
-    date_enrolled = minDateEnrolled
-    AND patient_id = _patient_id
-    AND program_id = _program_id
-    AND voided = 0;
+    AND voided = 0
+    ORDER BY date_enrolled ASC, IFNULL(date_completed,'9999-12-31') ASC LIMIT 1;
 
     RETURN initialProgramLocationName;
 
