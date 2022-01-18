@@ -237,14 +237,18 @@
                          answerConceptIds="CIEL:1065,CIEL:1066"/>
                 </p>
 
-                <p>
+                <p class="side-by-side">
                     <label>
                         <uimessage code="pihcore.socioEconomic.methodTransport"/>
                     </label>
                     <br/>
+                    <!-- automobile (private) CIEL:162712, motorcycle (private) (PIH:13973), motorcycle taxi (PIH:13972),
+                         taptap (PIH:13780), foot (PIH:976), horse (PIH:1660), donkey (PIH:1659), bicycle (CIEL:159748), other -->
                     <obs conceptId="PIH:975" style="radio"
-                         answerSeparator="&amp;nbsp;"
-                         answerConceptIds="PIH:WALKING,PIH:BY BICYCLE,PIH:MOTORBIKE,PIH:CAR,PIH:MINI BUS,PIH:980,PIH:STRETCHER,PIH:OTHER"/>
+                         answerConceptIds="CIEL:162712,PIH:13973,PIH:13972,PIH:13780,PIH:976,PIH:1660,PIH:1659,CIEL:159748,CIEL:5622"/>
+
+                    <!-- obs conceptId="PIH:975" style="radio"
+                         answerConceptIds="PIH:WALKING,PIH:BY BICYCLE,PIH:MOTORBIKE,PIH:CAR,PIH:MINI BUS,PIH:980,PIH:STRETCHER,PIH:OTHER"/ -->
                 </p>
 
                 <p>
@@ -310,7 +314,65 @@
         </div>
     </section>
 
-    <p></p>
+    <includeIf velocityTest="$patient.gender == 'F' ">
+        <section id="prenatal" sectionTag="fieldset" headerTag="legend"
+                 headerStyle="title" headerCode="pihcore.prenatal">
+            <div class="section-container">
+                <p class="side-by-side">
+                    <!-- Received care from a traditional healer/external care source during pregnancy -->
+                    <label>
+                        <uimessage code="pihcore.careTraditionalHealerEtc"/>
+                    </label>
+                    <obs id="trad-heal" conceptId="CIEL:159549" style="radio"
+                         answerConceptIds="CIEL:1065,CIEL:1066">
+                        <controls>
+                            <when value="CIEL:1065" thenDisplay="#which-healer"/>
+                        </controls>
+                    </obs>
+                </p>
+
+                <div id="which-healer">
+                    <label>
+                        <uimessage code="pihcore.yesSpecify" />,
+                    </label>
+                    <repeat>
+                        <template>
+                            <obs conceptId="PIH:13781" style="checkbox"
+                                 answerConceptId="{who-answer}"/>
+                        </template>
+                        <render name="TraditionalHealer" who-answer="PIH:2067"/>
+                        <render name="MalePriest" who-answer="PIH:13782"/>
+                        <render name="FemalePriest" who-answer="PIH:13783"/>
+                    </repeat>
+                    <obs conceptId="PIH:13781" style="checkbox"
+                         answerConceptId="PIH:11783" answerCode="pihcore.church"/>
+                    <obs conceptId="PIH:13781" style="checkbox"
+                         answerConceptId="CIEL:5622"/>
+                    <br/><br/>
+                </div>
+
+                <p class="side-by-side">
+                    <!-- Who provides financial support during pregnancy -->
+                    <label>
+                        <uimessage code="pihcore.financialSupportProvider"/>
+                    </label>
+                    <br/>
+                    <obs conceptId="PIH:13967" style="radio"
+                         answerConceptIds="CIEL:5617,CIEL:1527,PIH:13968,CIEL:5622"/>
+                    <br/>
+                    <br/>
+
+                    <!-- Who provides non-financial support during pregnancy -->
+                    <label>
+                        <uimessage code="pihcore.nonFinancialSupportProvider"/>
+                    </label>
+                    <br/>
+                    <obs conceptId="PIH:13969" style="radio"
+                         answerConceptIds="CIEL:5617,CIEL:1527,PIH:13968,CIEL:5622"/>
+                </p>
+            </div>
+        </section>
+    </includeIf>
 
     <section id="assistance" sectionTag="fieldset" headerTag="legend"
              headerStyle="title" headerCode="pihcore.socioEconomic.assistance">
