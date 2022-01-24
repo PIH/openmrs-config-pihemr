@@ -2690,3 +2690,26 @@ BEGIN
 
 END
 #
+
+/*
+ this function accepts patient_id and program_id and return the latest program location name
+*/
+DROP FUNCTION IF EXISTS currentProgramLocation;
+#
+CREATE FUNCTION currentProgramLocation(_patient_id INT, _program_id INT)
+	RETURNS VARCHAR(255)
+    DETERMINISTIC
+
+BEGIN
+	DECLARE currentProgramLocationName VARCHAR(255);
+
+    SELECT LOCATION_NAME(location_id) INTO currentProgramLocationName FROM patient_program
+    WHERE patient_id = _patient_id
+    AND program_id = _program_id
+    AND voided = 0
+    ORDER BY date_enrolled DESC, IFNULL(date_completed,'9999-12-31') ASC LIMIT 1;
+
+    RETURN currentProgramLocationName;
+
+END
+#
