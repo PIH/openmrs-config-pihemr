@@ -2707,7 +2707,7 @@ BEGIN
     WHERE patient_id = _patient_id
     AND program_id = _program_id
     AND voided = 0
-    ORDER BY date_enrolled DESC, IFNULL(date_completed,'9999-12-31') ASC LIMIT 1;
+    ORDER BY date_enrolled DESC, IFNULL(date_completed,'9999-12-31') DESC LIMIT 1;
 
     RETURN currentProgramLocationName;
 
