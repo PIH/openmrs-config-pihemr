@@ -358,7 +358,7 @@ to expand to support all reports (see ticket https://pihemr.atlassian.net/browse
 
 ### SQL Tools
 
-To aid in the writing of SQL for the reports above, a set of views and functions have been written and are deployed through liquibase:
+To aid in the writing of SQL for the reports above and other SQL scripts (ETLs etc...), a set of views and functions have been written and are deployed through liquibase:
 
 Views:
 https://github.com/PIH/openmrs-config-pihemr/blob/master/configuration/pih/liquibase/sql/create_views.sql
