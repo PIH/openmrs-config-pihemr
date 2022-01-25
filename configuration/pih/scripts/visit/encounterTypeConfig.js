@@ -248,10 +248,10 @@ angular.module("encounterTypeConfig", [])
 
         var eidProtection = {
             type: "encounter-section",
-            id: "pihcore-peds",
+            id: "eid-protection",
             label: "pihcore.prevention.label",
             icon: "fas fa-fw fa-shield-alt",
-            shortTemplate: "templates/sections/defaultSectionShort.page",
+            shortTemplate: "templates/sections/eidProtectionSectionShort.page",
             longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
             templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-eid-protection.xml"),
             editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-eid-protection.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}",
@@ -263,7 +263,7 @@ angular.module("encounterTypeConfig", [])
             id: "eid-followup-plan",
             label: "pihcore.visitNote.plan",
             icon: "fas fa-fw fa-flag-checkered",
-            shortTemplate: "templates/sections/defaultSectionShort.page",
+            shortTemplate: "templates/sections/eidPlanSectionShort.page",
             longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
             templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-eid-plan.xml"),
             editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-eid-plan.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
