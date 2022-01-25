@@ -172,7 +172,7 @@ angular.module("encounterTypeConfig", [])
             id: "hiv-history",
             label: "pihcore.history.label",
             icon: "fas fa-fw fa-history",
-            shortTemplate: "templates/sections/defaultSectionShort.page",
+            shortTemplate: "templates/sections/hivHistorySectionShort.page",
             longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
             templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-hiv-history.xml"),
             editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-hiv-history.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
@@ -228,7 +228,7 @@ angular.module("encounterTypeConfig", [])
             id: "hiv-intake-plan",
             label: "pihcore.visitNote.plan",
             icon: "fas fa-fw fa-flag-checkered",
-            shortTemplate: "templates/sections/defaultSectionShort.page",
+            shortTemplate: "templates/sections/hivPlanSectionShort.page",
             longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
             templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-hiv-plan.xml"),
             editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/section-hiv-plan.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
