@@ -356,6 +356,20 @@ A set of global variables can be loaded by calling the "initialize_global_metada
 Currently, you can only add reports to the "Data Exports" section of the Reports page, but it should be very simple
 to expand to support all reports (see ticket https://pihemr.atlassian.net/browse/UHM-4738)
 
+### SQL Tools
+
+To aid in the writing of SQL for the reports above and other SQL scripts (ETLs etc...), a set of views and functions have been written and are deployed through liquibase:
+
+Views:
+[link text](./configuration/pih/liquibase/sql/create_views.sql)
+Functions:
+[link text](./configuration/pih/liquibase/sql/create_functions.sql)
+
+Documentation for the functions exist here: 
+
+[link text](./configuration/pih/liquibase/sql/sql_function_reference.csv)
+It is recommended that these are used as much as possible in any SQL scripts.
+
 ### Message Properties
 
 Message properties files are used to localize the PIH EMR into different languages.  Currently we support French,
