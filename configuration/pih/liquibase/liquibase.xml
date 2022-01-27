@@ -359,7 +359,7 @@
         </sql>
     </changeSet>
 
-    <changeSet id="20220125-migrate-test-date" author="ball">
+    <changeSet id="20220125-migrate-test-date" author="bistenes">
         <comment>
             Change a concept on the lab results form
         </comment>
