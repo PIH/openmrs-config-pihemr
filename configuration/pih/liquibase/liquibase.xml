@@ -344,6 +344,7 @@
     </changeSet>
 
     <changeSet id="20220118-delete-dupe-mapping" author="ball">
+        <validCheckSum>3:67f0215daef2642076b05d93087f24f3</validCheckSum>
         <comment>
             Remove duplicate CIEL:1362 mapping on weakly positive concept
         </comment>
@@ -354,9 +355,7 @@
 
             update concept
                set retired = 1, retired_by = 1, date_retired = now(), retire_reason = 'Duplicate concept with CIEL:1362'
-             where uuid = '3cda1dd0-26fe-102b-80cb-0017a47871b2'
-
-
+             where uuid = '3cda1dd0-26fe-102b-80cb-0017a47871b2';
         </sql>
     </changeSet>
 
@@ -372,5 +371,26 @@
                 and e.encounter_type = encounter_type('4d77916a-0620-11e5-a6c0-1697f925ec7b');
         </sql>
     </changeSet>
+
+    <changeSet id="20220127-delete-rxnorm-comb-mapping" author="ball">
+        <comment>
+            Remove RxNORM Comb mappings
+        </comment>
+        <sql>
+            delete from concept_reference_map
+             where concept_reference_term_id IN
+                     (select concept_reference_term_id
+                        from concept_reference_term crt
+                       where crt.concept_source_id IN
+                                 (select concept_source_id
+                                    from concept_reference_source crs
+                                   where name like 'RxNORM Comb'));
+
+            update concept_reference_source
+               set retired = 1, retired_by = 1, date_retired = now(), retire_reason = 'Not using RxNORM Comb'
+             where name like 'RxNORM Comb';
+        </sql>
+    </changeSet>
+
 
 </databaseChangeLog>
