@@ -196,7 +196,7 @@
                     <uimessage code="pihcore.lab.test_date"/>
                 </label>
                 <div class="small">
-                    <obs id="test-date" conceptId="PIH:DATE OF LABORATORY TEST" allowFutureDates="true" />
+                    <obs id="test-date" conceptId="PIH:Date of test results" allowFutureDates="true" />
                 </div>
             </div>
             

@@ -360,4 +360,17 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20220125-migrate-test-date" author="ball">
+        <comment>
+            Change a concept on the lab results form
+        </comment>
+        <sql>
+            update obs
+            join encounter e on obs.encounter_id = e.encounter_id
+            set concept_id = concept_from_mapping('PIH','Date of test results')
+            where concept_id = concept_from_mapping('PIH','DATE OF LABORATORY TEST')
+                and e.encounter_type = encounter_type('4d77916a-0620-11e5-a6c0-1697f925ec7b');
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
