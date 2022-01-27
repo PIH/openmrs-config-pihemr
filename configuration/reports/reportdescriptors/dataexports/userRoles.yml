@@ -1,0 +1,22 @@
+key: "userRoles"
+uuid: "fc0e29e9-7ef4-11ec-ad73-0242ac110002"
+name: "mirebalaisreports.userRoles.name"
+description: "mirebalaisreports.userRoles.description"
+datasets:
+  - key: "userRoles"
+    type: "sql"
+    config: "sql/userRoles.sql"
+designs:
+  - type: "csv"
+    properties:
+      "filenameBase": "userRoles.{{ formatDate request.evaluateStartDatetime \"yyyyMMdd\" }}.{{ formatDate request.evaluateStartDatetime \"HHmm\" }}"
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
+config:
+  category: "dataExport"
+  order: 1003
+  components:
+    - "dataExports"
+    - "allDataExports"
+  privilege: "Task: archive.reports"
