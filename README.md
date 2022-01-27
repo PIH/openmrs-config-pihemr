@@ -361,12 +361,13 @@ to expand to support all reports (see ticket https://pihemr.atlassian.net/browse
 To aid in the writing of SQL for the reports above and other SQL scripts (ETLs etc...), a set of views and functions have been written and are deployed through liquibase:
 
 Views:
-https://github.com/PIH/openmrs-config-pihemr/blob/master/configuration/pih/liquibase/sql/create_views.sql
+[link text](./configuration/pih/liquibase/sql/create_views.sql)
 Functions:
-https://github.com/PIH/openmrs-config-pihemr/blob/master/configuration/pih/liquibase/sql/create_functions.sql
+[link text](./configuration/pih/liquibase/sql/create_functions.sql)
 
 Documentation for the functions exist here: 
-https://github.com/PIH/openmrs-config-pihemr/blob/master/configuration/pih/liquibase/sql/sql_function_reference.csv
+
+[link text](./configuration/pih/liquibase/sql/sql_function_reference.csv)
 It is recommended that these are used as much as possible in any SQL scripts.
 
 ### Message Properties
