@@ -361,13 +361,14 @@ to expand to support all reports (see ticket https://pihemr.atlassian.net/browse
 To aid in the writing of SQL for the reports above and other SQL scripts (ETLs etc...), a set of views and functions have been written and are deployed through liquibase:
 
 Views:
-[link text](./configuration/pih/liquibase/sql/create_views.sql)
+[create_views.sql](./configuration/pih/liquibase/sql/create_views.sql)
+
 Functions:
-[link text](./configuration/pih/liquibase/sql/create_functions.sql)
+[create_functions.sql](./configuration/pih/liquibase/sql/create_functions.sql)
 
 Documentation for the functions exist here: 
+[sql_function_reference.csv](./configuration/pih/liquibase/sql/sql_function_reference.csv)
 
-[link text](./configuration/pih/liquibase/sql/sql_function_reference.csv)
 It is recommended that these are used as much as possible in any SQL scripts.
 
 ### Message Properties
