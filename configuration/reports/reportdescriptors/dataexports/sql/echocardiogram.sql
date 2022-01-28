@@ -1,5 +1,5 @@
--- set @startDate = '2020-06-28';
--- set @endDate = '2021-06-29';
+set @startDate = '2020-06-28';
+set @endDate = '2022-01-28';
 
 SET @locale = ifnull(@locale, GLOBAL_PROPERTY_VALUE('default_locale', 'en'));
 
@@ -11,11 +11,14 @@ CREATE TEMPORARY TABLE temp_echo
     patient_id                      int(11),
     dossierId                       varchar(50),
     emrid                           varchar(50),
+    age 							double,
+    gender 							varchar(10),
     loc_registered                  varchar(255),
     encounter_datetime              datetime,
     encounter_location              varchar(255),
     provider                        varchar(255),
     encounter_id                    int(11),
+    visit_id	                    int(11),
     systolic_bp						double,
     diastolic_bp					double,
     heart_rate						double,
@@ -30,21 +33,29 @@ CREATE TEMPORARY TABLE temp_echo
     pulmonary_artery_systolic_pressure	double,
     disease_category				varchar(255),
     disease_category_other_comment	varchar(255),
-    peripartum_cardiomyopathy_diagnosis varchar(255),
-    ischemic_cardiomyopathy_diagnosis varchar(255),
-    study_results_changed_treatment_plan varchar(255),
-    general_comments				text
+    peripartum_cardiomyopathy_diagnosis bit,
+    ischemic_cardiomyopathy_diagnosis bit,
+    study_results_changed_treatment_plan bit,
+    general_comments				text,
+    date_created    				datetime,
+    index_asc 						int,
+    index_desc 						int
     );
 
 -- insert encounters into temp table
 insert into temp_echo (
   patient_id,
   encounter_id,
-  encounter_datetime)
+  visit_id,
+  encounter_datetime,
+  date_created
+  )
 select
   patient_id,
   encounter_id,
-  encounter_datetime
+  visit_id,
+  encounter_datetime,
+  date_created
 from encounter e
 where e.encounter_type in (@echo_note)
 AND ((date(e.encounter_datetime) >=@startDate) or @startDate is null)
@@ -54,6 +65,9 @@ and voided = 0
 -- encounter and demo info
 update temp_echo set emrid = patient_identifier(patient_id, metadata_uuid('org.openmrs.module.emrapi', 'emr.primaryIdentifierType'));
 update temp_echo set dossierid = dosid(patient_id);
+update temp_echo set age = age_at_enc(patient_id, encounter_id);
+update temp_echo set gender = gender(patient_id);
+
 update temp_echo set loc_registered = loc_registered(patient_id);
 update temp_echo set encounter_location = encounter_location_name(encounter_id);
 update temp_echo set provider = provider(encounter_id);
@@ -77,12 +91,30 @@ update temp_echo set pulmonary_artery_systolic_pressure = obs_value_numeric(enco
 -- diagnosis
 update temp_echo set disease_category = obs_value_coded_list(encounter_id, 'PIH','10529',@locale);
 update temp_echo set disease_category_other_comment = obs_value_text(encounter_id, 'PIH','11973');
-update temp_echo set peripartum_cardiomyopathy_diagnosis = obs_single_value_coded(encounter_id, 'PIH','3064','PIH','3129');
-update temp_echo set ischemic_cardiomyopathy_diagnosis = obs_single_value_coded(encounter_id, 'PIH','3064','CIEL','139529');
+update temp_echo set peripartum_cardiomyopathy_diagnosis =  IF(obs_single_value_coded(encounter_id, 'PIH','3064', 'PIH','3129') is not null, 1, 0);
+update temp_echo set ischemic_cardiomyopathy_diagnosis = IF(obs_single_value_coded(encounter_id, 'PIH','3064', 'CIEL','139529') is not null, 1, 0);
 
 -- Other
-update temp_echo set study_results_changed_treatment_plan = obs_value_coded_list(encounter_id, 'PIH','13594',@locale);
+update temp_echo set study_results_changed_treatment_plan = IF(obs_value_coded_list(encounter_id, 'PIH','13594',@locale) like 'Oui', 1, 
+IF(obs_value_coded_list(encounter_id, 'PIH','13594',@locale) like 'Non', 0, null)) ;
 update temp_echo set general_comments = obs_value_text(encounter_id, 'PIH','3407');
+
+
+-- indexes
+update temp_echo set index_asc = encounter_index_asc(
+    encounter_id,
+    'Echocardiogram',
+    null,
+    null
+);
+
+update temp_echo set index_desc = encounter_index_desc(
+    encounter_id,
+    'Echocardiogram',
+    null,
+    null
+);
+
 
 -- select final output
 select * from temp_echo;
