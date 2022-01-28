@@ -1,5 +1,5 @@
-set @startDate = '2020-06-28';
-set @endDate = '2022-01-28';
+-- set @startDate = '2020-06-28';
+-- set @endDate = '2022-01-28';
 
 SET @locale = ifnull(@locale, GLOBAL_PROPERTY_VALUE('default_locale', 'en'));
 
