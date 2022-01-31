@@ -392,5 +392,30 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20220131-remove-obsolete-mapping" author="ball">
+        <comment>
+            Remove obsolete mappings and reference source
+        </comment>
+        <sql>
+            delete from concept_reference_map
+             where concept_reference_term_id IN
+                    (select crt.concept_reference_term_id from concept_reference_term crt
+                      where crt.concept_source_id IN
+                            (select concept_source_id
+                               from concept_reference_source crs
+                              where name IN ('org.openmrs.module.mdrtb','org.openmrs.module.emr','SNOMED MVP','ICD-10-WHO NP2','ICD-10-WHO NP','RxNORM Comb')));
+
+            delete from concept_reference_term
+             where concept_source_id IN
+                      (select concept_source_id
+                         from concept_reference_source crs
+                        where name IN ('org.openmrs.module.mdrtb','org.openmrs.module.emr','SNOMED MVP','ICD-10-WHO NP2','ICD-10-WHO NP','RxNORM Comb'));
+
+            delete from concept_reference_source
+             where name IN
+                    ('org.openmrs.module.mdrtb','org.openmrs.module.emr','SNOMED MVP','ICD-10-WHO NP2','ICD-10-WHO NP','RxNORM Comb');
+        </sql>
+    </changeSet>
+
 
 </databaseChangeLog>
