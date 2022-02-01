@@ -27,6 +27,6 @@ config:
     - "primaryCare"
     - "allDataExports"
   countries:
-      - "HAITI"
-      - "SIERRA_LEONE"
+    - "HAITI"
+    - "SIERRA_LEONE"
   privilege: "Task: clinical.reports"
