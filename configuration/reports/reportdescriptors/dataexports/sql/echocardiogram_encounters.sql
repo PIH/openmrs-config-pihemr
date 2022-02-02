@@ -91,12 +91,15 @@ update temp_echo set pulmonary_artery_systolic_pressure = obs_value_numeric(enco
 -- diagnosis
 update temp_echo set disease_category = obs_value_coded_list(encounter_id, 'PIH','10529',@locale);
 update temp_echo set disease_category_other_comment = obs_value_text(encounter_id, 'PIH','11973');
+
 update temp_echo set peripartum_cardiomyopathy_diagnosis =  IF(obs_single_value_coded(encounter_id, 'PIH','3064', 'PIH','3129') is not null, 1, 0);
 update temp_echo set ischemic_cardiomyopathy_diagnosis = IF(obs_single_value_coded(encounter_id, 'PIH','3064', 'CIEL','139529') is not null, 1, 0);
 
--- Other
-update temp_echo set study_results_changed_treatment_plan = IF(obs_value_coded_list(encounter_id, 'PIH','13594',@locale) like 'Oui', 1, 
-IF(obs_value_coded_list(encounter_id, 'PIH','13594',@locale) like 'Non', 0, null)) ;
+-- study_results_changed_treatment_plan
+update temp_echo t left join obs o on t.encounter_id = o.encounter_id and o.concept_id = concept_from_mapping('PIH','13594') and o.voided = 0
+set study_results_changed_treatment_plan = value_coded_as_boolean(o.obs_id);
+
+-- general_comments
 update temp_echo set general_comments = obs_value_text(encounter_id, 'PIH','3407');
 
 
