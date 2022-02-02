@@ -417,5 +417,18 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20220201-cleanup-concept-numeric" author="ball">
+        <comment>
+            Concept datatype for Horse and Jackass changed from numeric but these row remained (UHM-6144)
+        </comment>
+        <sql>
+            delete from concept_numeric
+             where concept_id IN
+                    ((select concept_id from concept
+                       where uuid like '3cdc94a2-26fe-102b-80cb-0017a47871b2'),
+                     (select concept_id from concept
+                       where uuid like '3cdc9326-26fe-102b-80cb-0017a47871b2'));
+        </sql>
+    </changeSet>
 
 </databaseChangeLog>
