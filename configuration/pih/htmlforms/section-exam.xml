@@ -220,7 +220,7 @@
     <ifMode mode="VIEW" include="true">
         <script type="text/javascript">
             jq(document).ready(function() {
-                //hideIfEmpty(".section-container-color");
+                hideIfEmpty(".section-container-color");
             });
         </script>
     </ifMode>
