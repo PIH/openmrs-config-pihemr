@@ -173,6 +173,10 @@
     const ageMenarcheConcept = '<lookup expression="fn.getConcept('CIEL:160598').uuid"/>';
     const age1stSexualInterConcept = '<lookup expression="fn.getConcept('CIEL:163587').uuid"/>';
     const numSexPartnersConcept = '<lookup expression="fn.getConcept('CIEL:5570').uuid"/>';
+    const pregOrderConcept = '<lookup expression="fn.getConcept('CIEL:163460').uuid"/>';
+    const deliveryTypeConcept = '<lookup expression="fn.getConcept('PIH:11663').uuid"/>';     
+    const pregOutcomeConcept = '<lookup expression="fn.getConcept('CIEL:161033').uuid"/>';
+
 
     const contextPath = window.location.href.split('/')[3];
     const apiBaseUrl =  "/" + contextPath + "/ws/rest/v1";
@@ -357,10 +361,27 @@
                                         jq("#obgyn_initial_numSexPartners").text(Math.round(obs.valueNumeric)); 
                                         jq("#obgyn_initial_numSexPartners").removeClass("emptyValue").addClass("value");
                                     }                                    
-                                } 
+                                } else if (obs.concept.uuid === pregnancyHistoryConstruct) {                                    
+                                    if ( obs.groupMembers ) {  
+                                        let pregOrder = null;
+                                        let typeOfDelivery= null;
+                                        let outcome = null;                                                                                                                                 
+                                        for (let index=0; index &lt; obs.groupMembers.length; index++) {                                             
+                                            let member = obs.groupMembers[index];                                                                                       
+                                            if ( member.concept.uuid === pregOrderConcept ) { 
+                                                pregOrder = Math.round(member.valueNumeric);                                             
+                                            } else if ( member.concept.uuid === deliveryTypeConcept ) { 
+                                                typeOfDelivery = member.valueCoded.display;                                             
+                                            } else if ( member.concept.uuid === pregOutcomeConcept ) { 
+                                                outcome = member.valueCoded.display;                                             
+                                            }
+                                        }
+                                        
+                                        jq("#obgyn_initial_pregnancyHistoryTable tbody").append('<tr></tr>').append('<td class="value">' + pregOrder + '</td>').append('<td class="value">' + typeOfDelivery + '</td>').append('<td class="value">' + outcome + '</td>').show();
+                                    }                                    
+                                }
                             }
-                        }
-                        
+                        }                        
                         break;                  
                     }
                   }
@@ -1216,31 +1237,7 @@
                             <th><uimessage code="pihcore.pregOrder" /></th>
                             <th><uimessage code="pihcore.mch.deliveryType" /></th>
                             <th><uimessage code="pihcore.outcome" /></th>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <span class="value">1</span>
-                            </td>
-                            <td>
-                                <span class="value">Vaginal delivery</span>
-                            </td>
-                            <td>
-                                <span class="value">Livebirth</span>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <span class="value">2</span>
-                            </td>
-                            <td>
-                                <span class="value">Vaginal delivery</span>
-                            </td>
-                            <td>
-                                <span class="value">Livebirth</span>
-                            </td>
-                        </tr>
+                        </tr>                        
                     </tbody>
                 </table>
 
