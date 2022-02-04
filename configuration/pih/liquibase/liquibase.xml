@@ -392,7 +392,7 @@
         </sql>
     </changeSet>
 
-<!--    <changeSet id="20220131-remove-obsolete-mapping" author="ball">
+    <changeSet id="20220131-remove-obsolete-mapping" author="ball">
         <comment>
             Remove obsolete mappings and reference source
         </comment>
@@ -415,7 +415,7 @@
              where name IN
                     ('org.openmrs.module.mdrtb','org.openmrs.module.emr','SNOMED MVP','ICD-10-WHO NP2','ICD-10-WHO NP','RxNORM Comb');
         </sql>
-    </changeSet>-->
+    </changeSet>
 
 
 </databaseChangeLog>
