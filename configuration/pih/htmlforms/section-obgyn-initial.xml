@@ -23,6 +23,10 @@
             min-width: 15%
         }
 
+        .small-input input {
+            min-width: 15em;
+        }
+
         textarea {
             overflow-y: hidden; /* fixes scrollbar flash - kudos to @brettjonesdev */
             padding-top: 1.1em; /* fixes text jump on Enter keypress */
@@ -1012,9 +1016,20 @@
                     <uimessage code="pihcore.mch.hivTest"/>
                 </label>
 
-                <obs conceptId="CIEL:164401" answerConceptId="CIEL:1065"
-                     style="checkbox" />
+                <obs id="hiv-test-checkbox" conceptId="CIEL:164401" answerConceptId="CIEL:1065"
+                     toggle="hiv-test" style="checkbox"/>
             </p>
+            <div id="hiv-test" class="side-by-side">
+                <obsgroup groupingConceptId="PIH:11522">
+                    <p class="small-input">
+                        <obs conceptId="CIEL:164400" labelCode="pihcore.hiv.testDate" size="10"/>
+                    </p>
+                    <p>
+                        <obs conceptId="CIEL:159427" answerConceptIds="CIEL:664,CIEL:703"
+                            labelCode="pihcore.hiv.testResult" style="radio"/>
+                    </p>
+                </obsgroup>
+            </div>
             <p class="side-by-side">
                 <label>
                     <uimessage code="pihcore.ifHIVpatient" />, <uimessage code="pihcore.onARV"/>
