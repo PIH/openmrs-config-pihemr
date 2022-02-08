@@ -21,6 +21,7 @@ CREATE TEMPORARY TABLE temp_echo
     visit_id	                    int(11),
     systolic_bp						double,
     diastolic_bp					double,
+    heart_failure					bit,
     heart_rate						double,
     murmur							varchar(255),
     NYHA_class						varchar(255),
@@ -36,7 +37,7 @@ CREATE TEMPORARY TABLE temp_echo
     peripartum_cardiomyopathy_diagnosis bit,
     ischemic_cardiomyopathy_diagnosis bit,
     study_results_changed_treatment_plan bit,
-    general_comments				text,
+    study_results_changed_treatment_plan_comment text,
     date_created    				datetime,
     index_asc 						int,
     index_desc 						int
@@ -99,8 +100,9 @@ update temp_echo set ischemic_cardiomyopathy_diagnosis = IF(obs_single_value_cod
 update temp_echo t left join obs o on t.encounter_id = o.encounter_id and o.concept_id = concept_from_mapping('PIH','13594') and o.voided = 0
 set study_results_changed_treatment_plan = value_coded_as_boolean(o.obs_id);
 
--- general_comments
-update temp_echo set general_comments = obs_value_text(encounter_id, 'PIH','3407');
+-- study_results_changed_treatment_plan_comment 
+update temp_echo set study_results_changed_treatment_plan_comment  = obs_value_text(encounter_id, 'PIH','3407');
+
 
 
 -- indexes
@@ -118,6 +120,46 @@ update temp_echo set index_desc = encounter_index_desc(
     null
 );
 
+-- heart failure
+set @diagnosis = concept_from_mapping('CIEL',1284);
+set @heart_failure = concept_from_mapping('CIEL', 139069);
+set @left_heart_failure = concept_from_mapping('CIEL', 116364);
+set @right_heart_failure = concept_from_mapping('CIEL', 127376);
+set @isolated_right_failure = concept_from_mapping('PIH', 4000);
+set @congestive_heart_failure_exacerbation = concept_from_mapping('CIEL', 162212);
+set @rheumatic_heart_disease = concept_from_mapping('CIEL',113227);
+set @ncd_category = concept_from_mapping('PIH', 'NCD category');
+
+drop temporary table if exists temp_heart_failure_1 ;
+create temporary table temp_heart_failure_1 as 
+select person_id from obs where voided = 0 and concept_id = @diagnosis and value_coded in (
+@heart_failure, 
+@left_heart_failure,
+@right_heart_failure,
+@isolated_right_failure,
+@congestive_heart_failure_exacerbation,
+@rheumatic_heart_disease
+) group by person_id ;
+
+
+drop temporary table if exists temp_heart_failure_2 ;
+create temporary table temp_heart_failure_2 as
+select person_id from obs where voided = 0 and concept_id = @ncd_category and value_coded = @heart_failure group by person_id;
+
+drop temporary table if exists temp_heart_failure_stage;
+create temporary table temp_heart_failure_stage
+AS
+select person_id from temp_heart_failure_1
+union all 
+select person_id from temp_heart_failure_2;
+
+drop temporary table if exists temp_heart_failure_final;
+create temporary table temp_heart_failure_final
+as
+select distinct(person_id) from temp_heart_failure_stage;
+
+update temp_echo t inner join temp_heart_failure_final th on t.patient_id = th.person_id
+set heart_failure = 1;
 
 -- select final output
 select * from temp_echo;
