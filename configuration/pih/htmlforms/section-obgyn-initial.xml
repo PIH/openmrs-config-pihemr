@@ -23,6 +23,10 @@
             min-width: 15%
         }
 
+        .small-input input {
+            min-width: 15em;
+        }
+
         textarea {
             overflow-y: hidden; /* fixes scrollbar flash - kudos to @brettjonesdev */
             padding-top: 1.1em; /* fixes text jump on Enter keypress */
@@ -145,12 +149,53 @@
     const temperatureConceptUuid = '3ce939d2-26fe-102b-80cb-0017a47871b2';
     const respiratoryRateConceptUuid = '3ceb11f8-26fe-102b-80cb-0017a47871b2';
     const o2SatConceptUuid = '3ce9401c-26fe-102b-80cb-0017a47871b2';
+    const pregnancyHistoryConstruct = '163588AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+    const obGynEncounterType= 'd83e98fd-dc7b-420f-aa3f-36f648b4483d';
+    const typeOfVisit = '164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+    const intakeVisit = '164180AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+
+    const lastPeriodDateConcept = '<lookup expression="fn.getConcept('CIEL:1427').uuid"/>';
+    const dueDateConcept = '<lookup expression="fn.getConcept('CIEL:5596').uuid"/>';    
+    const trimAtEnrollConcept = '<lookup expression="fn.getConcept('PIH:11661').uuid"/>';
+    const firstTrimConcept = '<lookup expression="fn.getConcept('CIEL:1721').uuid"/>';
+    const secondTrimConcept = '<lookup expression="fn.getConcept('CIEL:1722').uuid"/>';
+    const thirdTrimConcept = '<lookup expression="fn.getConcept('CIEL:1723').uuid"/>';
+    const gravidaConcept = '<lookup expression="fn.getConcept('CIEL:5624').uuid"/>';
+    const paraConcept = '<lookup expression="fn.getConcept('CIEL:1053').uuid"/>';
+    const abortusConcept = '<lookup expression="fn.getConcept('CIEL:1823').uuid"/>';
+    const livingConcept = '<lookup expression="fn.getConcept('CIEL:1825').uuid"/>';
+    const menstruationConcept = '<lookup expression="fn.getConcept('CIEL:160600').uuid"/>';
+    const regularMenstrConcept = '<lookup expression="fn.getConcept('CIEL:1065').uuid"/>';    
+    const irregularMenstrConcept = '<lookup expression="fn.getConcept('CIEL:1066').uuid"/>';
+    const regularTxt = '<uimessage code="pihcore.regular"/>';
+    const irregularTxt = '<uimessage code="pihcore.irregular"/>';
+    const visitDiagConcept = '<lookup expression="fn.getConcept('PIH:Visit Diagnoses').uuid"/>';
+    const diagConcept = '<lookup expression="fn.getConcept('PIH:DIAGNOSIS').uuid"/>';
+    const dysmenorConcept = '<lookup expression="fn.getConcept('CIEL:127').uuid"/>';
+    const durationMenstCycleConcept = '<lookup expression="fn.getConcept('CIEL:160597').uuid"/>';
+    const durationMensesConcept = '<lookup expression="fn.getConcept('CIEL:163732').uuid"/>';
+    const ageMenarcheConcept = '<lookup expression="fn.getConcept('CIEL:160598').uuid"/>';
+    const age1stSexualInterConcept = '<lookup expression="fn.getConcept('CIEL:163587').uuid"/>';
+    const numSexPartnersConcept = '<lookup expression="fn.getConcept('CIEL:5570').uuid"/>';
+    const pregOrderConcept = '<lookup expression="fn.getConcept('CIEL:163460').uuid"/>';
+    const deliveryTypeConcept = '<lookup expression="fn.getConcept('PIH:11663').uuid"/>';     
+    const pregOutcomeConcept = '<lookup expression="fn.getConcept('CIEL:161033').uuid"/>';
+
 
     const contextPath = window.location.href.split('/')[3];
     const apiBaseUrl =  "/" + contextPath + "/ws/rest/v1";
     const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
     const monthOption = { month: 'short'};
 
+    const patientUuid = '<lookup expression="patient.uuid"/>';
+    let currentEncounterDate = new Date();    
+    let lookupEncDate = '<lookup expression="encounter.getEncounterDatetime().getTime()"/>';
+    if ( lookupEncDate ) {
+        currentEncounterDate = new Date(+lookupEncDate);
+    }    
+
+    let serverEncounterDate = '<lookup complexExpression="#if ($encounter) #set ($encounterDate = $encounter.encounterDatetime) #else #set ($encounterDate = $visit.startDatetime) #end"/>';
+    
     const visitUuid = '<lookup expression="encounter.getVisit().getUuid()"/>';    
 
     jq.getJSON(apiBaseUrl + "/visit/" + visitUuid, {        
@@ -197,7 +242,158 @@
               }
         }
     });
-  });
+
+    // looking for OB/GYN encounters with an obs that indicates that it was an intake encounter
+    jq.getJSON(apiBaseUrl + "/encounter", {
+            s: 'byObs',
+            patient: patientUuid,
+            encounterType: obGynEncounterType,
+            obsConcept: typeOfVisit,
+            obsValues: intakeVisit,
+            v: 'custom:(uuid,patient:(uuid),encounterType:(uuid),encounterDatetime,voided,obs:(uuid,display,concept:(uuid,display),obsDatetime,valueCoded:(uuid,display),valueDatetime,valueNumeric,valueText,groupMembers:(uuid,display,person:(uuid),concept:(uuid,display),obsDatetime,valueCoded:(uuid,display),valueDatetime,valueNumeric,valueText,voided),voided)', 
+            order: 'desc'
+          },
+          function( data ){
+              if (data.results.length &gt; 0) {
+                  for (let index = 0; index &lt; data.results.length; index++) {
+                    let obGynEnc = data.results[index];
+                    let obGynEncDate = new Date(obGynEnc.encounterDatetime);                    
+
+                    if( (currentEncounterDate.getTime() &gt;=  obGynEncDate.getTime())) {                        
+                        let month = new Intl.DateTimeFormat(undefined, monthOption).format(obGynEncDate);                   
+                        jq("#lastObGynInitialEncounterDate").text(obGynEncDate.getDate() + "-" + month + "-" + obGynEncDate.getFullYear()); 
+                        jq("#lastObGynInitialEncounterTime").text(obGynEncDate.toLocaleTimeString()); 
+                        
+                        if (obGynEnc.obs &amp;&amp; obGynEnc.obs.length &gt; 0) {                            
+                            for (let j=0; j &lt; obGynEnc.obs.length; j++) {
+                                let obs = obGynEnc.obs[j];
+                                if (obs.concept.uuid === lastPeriodDateConcept) {                                    
+                                    if ( obs.valueDatetime ) {
+                                        let periodDate = new Date(obs.valueDatetime);                                                        
+                                        jq("#obgyn_initial_lastPeriodDate").text(periodDate.getDate() + " " + new Intl.DateTimeFormat(undefined, monthOption).format(periodDate) + " " + periodDate.getFullYear()); 
+                                        jq("#obgyn_initial_lastPeriodDate").removeClass("emptyValue").addClass("value");
+                                    }                                    
+                                } else if (obs.concept.uuid === dueDateConcept) {                                    
+                                    if ( obs.valueDatetime ) {
+                                        let dueDate = new Date(obs.valueDatetime);                                                        
+                                        jq("#obgyn_initial_edd").text(dueDate.getDate() + " " + new Intl.DateTimeFormat(undefined, monthOption).format(dueDate) + " " + dueDate.getFullYear()); 
+                                        jq("#obgyn_initial_edd").removeClass("emptyValue").addClass("value");
+                                    }                                    
+                                } else if (obs.concept.uuid === trimAtEnrollConcept) {                                    
+                                    if ( obs.valueCoded ) {
+                                        switch ( obs.valueCoded.uuid ) { 
+                                            case firstTrimConcept:
+                                                jq("#obgyn_initial_firstTrimester").text("[X] " + obs.valueCoded.display);
+                                                jq("#obgyn_initial_firstTrimester").removeClass("emptyValue").addClass("value");
+                                                break;
+                                            case secondTrimConcept:
+                                                jq("#obgyn_initial_secondTrimester").text("[X] " + obs.valueCoded.display);
+                                                jq("#obgyn_initial_secondTrimester").removeClass("emptyValue").addClass("value");
+                                                break;
+                                            case thirdTrimConcept:
+                                                jq("#obgyn_initial_thirdTrimester").text("[X] " + obs.valueCoded.display);
+                                                jq("#obgyn_initial_thirdTrimester").removeClass("emptyValue").addClass("value");
+                                                break;        
+                                        }                                        
+                                    }                                    
+                                } else if (obs.concept.uuid === gravidaConcept) {                                    
+                                    if ( obs.valueNumeric ) {                                                                                            
+                                        jq("#obgyn_initial_gravidaInput").text(Math.round(obs.valueNumeric)); 
+                                        jq("#obgyn_initial_gravidaInput").removeClass("emptyValue").addClass("value");
+                                    }                                    
+                                } else if (obs.concept.uuid === paraConcept) {                                    
+                                    if ( obs.valueNumeric ) {                                                                                            
+                                        jq("#obgyn_initial_paraInput").text(Math.round(obs.valueNumeric)); 
+                                        jq("#obgyn_initial_paraInput").removeClass("emptyValue").addClass("value");
+                                    }                                    
+                                } else if (obs.concept.uuid === abortusConcept) {                                    
+                                    if ( obs.valueNumeric ) {                                                                                            
+                                        jq("#obgyn_initial_abortusInput").text(Math.round(obs.valueNumeric)); 
+                                        jq("#obgyn_initial_abortusInput").removeClass("emptyValue").addClass("value");
+                                    }                                    
+                                } else if (obs.concept.uuid === livingConcept) {                                    
+                                    if ( obs.valueNumeric ) {                                                                                            
+                                        jq("#obgyn_initial_livingInput").text(Math.round(obs.valueNumeric)); 
+                                        jq("#obgyn_initial_livingInput").removeClass("emptyValue").addClass("value");
+                                    }                                    
+                                } else if (obs.concept.uuid === menstruationConcept) {                                    
+                                    if ( obs.valueCoded ) {
+                                        switch ( obs.valueCoded.uuid ) { 
+                                            case regularMenstrConcept:
+                                                jq("#obgyn_initial_regularMenstruation").text("[X] " + regularTxt);
+                                                jq("#obgyn_initial_regularMenstruation").removeClass("emptyValue").addClass("value");
+                                                break;
+                                            case irregularMenstrConcept:
+                                                jq("#obgyn_initial_irregularMenstruation").text("[X] " + irregularTxt);
+                                                jq("#obgyn_initial_irregularMenstruation").removeClass("emptyValue").addClass("value");
+                                                break;                                                   
+                                        }                                        
+                                    }                                    
+                                } else if (obs.concept.uuid === visitDiagConcept) {                                    
+                                    if ( obs.groupMembers ) {                                                                                            
+                                        for (let index=0; index &lt; obs.groupMembers.length; index++) {                                             
+                                            let member = obs.groupMembers[index];                                            
+                                            if ( member.concept.uuid === diagConcept &amp;&amp; member.valueCoded.uuid === dysmenorConcept ) { 
+                                                jq("#obgyn_initial_dysmenorrhea").text("[X] " + member.valueCoded.display);
+                                                jq("#obgyn_initial_dysmenorrhea").removeClass("emptyValue").addClass("value");
+                                                break;
+                                            }
+                                        }                                        
+                                    }                                    
+                                } else if (obs.concept.uuid === durationMenstCycleConcept) {                                    
+                                    if ( obs.valueNumeric ) {                                                                                            
+                                        jq("#obgyn_initial_durationMenstCycle").text(Math.round(obs.valueNumeric)); 
+                                        jq("#obgyn_initial_durationMenstCycle").removeClass("emptyValue").addClass("value");
+                                    }                                    
+                                } else if (obs.concept.uuid === durationMensesConcept) {                                    
+                                    if ( obs.valueNumeric ) {                                                                                            
+                                        jq("#obgyn_initial_durationMenses").text(Math.round(obs.valueNumeric)); 
+                                        jq("#obgyn_initial_durationMenses").removeClass("emptyValue").addClass("value");
+                                    }                                    
+                                } else if (obs.concept.uuid === ageMenarcheConcept) {                                    
+                                    if ( obs.valueNumeric ) {                                                                                            
+                                        jq("#obgyn_initial_ageMenarche").text(Math.round(obs.valueNumeric)); 
+                                        jq("#obgyn_initial_ageMenarche").removeClass("emptyValue").addClass("value");
+                                    }                                    
+                                } else if (obs.concept.uuid === age1stSexualInterConcept) {                                    
+                                    if ( obs.valueNumeric ) {                                                                                            
+                                        jq("#obgyn_initial_age1stSexualInter").text(Math.round(obs.valueNumeric)); 
+                                        jq("#obgyn_initial_age1stSexualInter").removeClass("emptyValue").addClass("value");
+                                    }                                    
+                                } else if (obs.concept.uuid === numSexPartnersConcept) {                                    
+                                    if ( obs.valueNumeric ) {                                                                                            
+                                        jq("#obgyn_initial_numSexPartners").text(Math.round(obs.valueNumeric)); 
+                                        jq("#obgyn_initial_numSexPartners").removeClass("emptyValue").addClass("value");
+                                    }                                    
+                                } else if (obs.concept.uuid === pregnancyHistoryConstruct) {                                    
+                                    if ( obs.groupMembers ) {  
+                                        let pregOrder = null;
+                                        let typeOfDelivery= null;
+                                        let outcome = null;                                                                                                                                 
+                                        for (let index=0; index &lt; obs.groupMembers.length; index++) {                                             
+                                            let member = obs.groupMembers[index];                                                                                       
+                                            if ( member.concept.uuid === pregOrderConcept ) { 
+                                                pregOrder = Math.round(member.valueNumeric);                                             
+                                            } else if ( member.concept.uuid === deliveryTypeConcept ) { 
+                                                typeOfDelivery = member.valueCoded.display;                                             
+                                            } else if ( member.concept.uuid === pregOutcomeConcept ) { 
+                                                outcome = member.valueCoded.display;                                             
+                                            }
+                                        }
+                                        
+                                        jq("#obgyn_initial_pregnancyHistoryTable tbody").append('<tr></tr>').append('<td class="value">' + pregOrder + '</td>').append('<td class="value">' + typeOfDelivery + '</td>').append('<td class="value">' + outcome + '</td>').show();
+                                    }                                    
+                                }
+                            }
+                        }                        
+                        break;                  
+                    }
+                  }
+                  
+              }
+        });
+        
+});
 </script>
 
     <!-- special formatting when in view mode -->
@@ -309,7 +505,12 @@
                              answerCodes="pihcore.new,pihcore.followup"
                              required="true">
                             <controls>
-                                <when value="CIEL:164180" thenDisplay="#intake-only"/>
+                                <when value="CIEL:164180"
+                                      thenJavaScript="jq('#intake-only').show(); jq('#obgyn-initial-div').hide();"
+                                      elseJavaScript="jq('#intake-only').hide();"/>
+                                <when value="PIH:7383"
+                                      thenJavaScript="jq('#obgyn-initial-div').show(); jq('#obgyn-section').hide();"
+                                      elseJavaScript="jq('#obgyn-initial-div').hide(); jq('#obgyn-section').show();"/>
                             </controls>
                         </obs>
                     </p>
@@ -537,7 +738,7 @@
         </div>
     </section>
 
-    <div id="intake-only">
+    <div id="intake-only" class="hidden">
         <section id="j9" sectionTag="fieldset"
                  headerStyle="title" headerCode="J9">
             <div class="section-container">
@@ -815,9 +1016,20 @@
                     <uimessage code="pihcore.mch.hivTest"/>
                 </label>
 
-                <obs conceptId="CIEL:164401" answerConceptId="CIEL:1065"
-                     style="checkbox" />
+                <obs id="hiv-test-checkbox" conceptId="CIEL:164401" answerConceptId="CIEL:1065"
+                     toggle="hiv-test" style="checkbox"/>
             </p>
+            <div id="hiv-test" class="side-by-side">
+                <obsgroup groupingConceptId="PIH:11522">
+                    <p class="small-input">
+                        <obs conceptId="CIEL:164400" labelCode="pihcore.hiv.testDate" size="10"/>
+                    </p>
+                    <p>
+                        <obs conceptId="CIEL:159427" answerConceptIds="CIEL:664,CIEL:703"
+                            labelCode="pihcore.hiv.testResult" style="radio"/>
+                    </p>
+                </obsgroup>
+            </div>
             <p class="side-by-side">
                 <label>
                     <uimessage code="pihcore.ifHIVpatient" />, <uimessage code="pihcore.onARV"/>
@@ -899,6 +1111,159 @@
         </div>
     </section>
 
+    <ifMode mode="VIEW" include="false">
+        <div id="obgyn-initial-div" class="hidden">
+        <section id="obgyn-initial-section" sectionTag="fieldset"
+                 headerStyle="title" headerCode="OB/GYN Initial">
+            <div class="section-container">
+                <table style="color:grey">
+                <tr>
+                    <td>
+                        <label>
+                            <uimessage code="mirebalais.mostRecentObGynInitial.label"/>
+                            <span class="date-span ng-binding">
+                                <i class="icon-calendar"></i><span id="lastObGynInitialEncounterDate"></span>
+                            </span>
+                            <span class="time-span ng-binding">
+                                <i class="icon-time"></i><span id="lastObGynInitialEncounterTime"></span>
+                            </span>
+                        </label>
+                    </td>
+                </tr>
+
+                <tr><td>
+                <div class="two-columns">
+                    <!-- Last menstrual period (LMP or DDR) -->
+                    <div>
+                        <p class="side-by-side">
+                            <label>
+                                <uimessage code="pihcore.pregnancy.lastPeriod"/>
+                            </label>                                                        
+                            <span id="obgyn_initial_lastPeriodDate" class="emptyValue"></span>                                                            
+                        </p>
+                    </div>
+
+                    <!-- Due date (DPA) -->
+                    <div>
+                        <p class="side-by-side">
+                            <label><uimessage code="pihcore.pregnancy.dueDate"/></label>                            
+                            <span id="obgyn_initial_edd" class="emptyValue"></span>                           
+                        </p>
+                    </div>
+                </div>
+
+                <br/>
+
+                <p class="side-by-side">
+                    <label>
+                        <uimessage code="pihcore.mch.trimesterAtEnrollment" />
+                    </label>
+
+                    <span id="obgyn_initial_firstTrimester" class="emptyValue">[&amp;nbsp&amp;nbsp]&amp;nbsp First trimester</span>&amp;nbsp
+                    <span id="obgyn_initial_secondTrimester" class="emptyValue">[&amp;nbsp&amp;nbsp]&amp;nbspSecond trimester</span>&amp;nbsp
+                    <span id="obgyn_initial_thirdTrimester" class="emptyValue">[&amp;nbsp&amp;nbsp]&amp;nbspThird trimester</span>
+                </p>
+
+                <div class="four-columns">
+                    <div>
+                        <p class="side-by-side">
+                            <label><uimessage code="pihcore.mch.grava"/></label>
+                            <span class="obs-field"><span id="obgyn_initial_gravidaInput" class="emptyValue">____</span></span>
+                        </p>
+                    </div>
+                    <div>
+                        <p class="side-by-side">
+                            <label><uimessage code="pihcore.mch.para"/></label>
+                            <span class="obs-field"><span id="obgyn_initial_paraInput" class="emptyValue">____</span></span>
+                        </p>
+                    </div>
+                    <div>
+                        <p class="side-by-side">
+                            <label><uimessage code="pihcore.mch.abortus"/></label>
+                            <span class="obs-field"><span id="obgyn_initial_abortusInput" class="emptyValue">____</span></span>
+                        </p>
+                    </div>
+                    <div>
+                        <p class="side-by-side">
+                            <label><uimessage code="pihcore.mch.living"/></label>
+                            <span class="obs-field"><span id="obgyn_initial_livingInput" class="emptyValue">____</span></span>
+                        </p>
+                    </div>
+                </div>
+
+                <br/>
+                <div class="two-columns">
+                    <div>
+                        <p class="side-by-side">
+                            <label><uimessage code="Menstruation" /></label>
+                            <span id="obgyn_initial_regularMenstruation" class="emptyValue">[&amp;nbsp&amp;nbsp]&amp;nbsp Regular</span>&amp;nbsp
+                            <span id="obgyn_initial_irregularMenstruation" class="emptyValue">[&amp;nbsp&amp;nbsp]&amp;nbsp Irregular</span>
+                        </p>
+                    </div>
+                    <div>
+                        <span id="obgyn_initial_dysmenorrhea" class="emptyValue">[&amp;nbsp&amp;nbsp]&amp;nbsp Dysmenorrhea</span>
+                    </div>
+                </div>
+
+                <div class="two-columns">
+                    <div>
+                        <p class="side-by-side">
+                            <label><uimessage code="pihcore.durationMenstCycle"/></label>
+                            <span id="obgyn_initial_durationMenstCycle" class="emptyValue">____</span>
+                        </p>
+                    </div>
+                    <div>
+                        <p class="side-by-side">
+                            <label><uimessage code="pihcore.durationMenses"/></label>
+                            <span id="obgyn_initial_durationMenses" class="emptyValue">____</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="three-columns">
+                    <div>
+                        <p class="side-by-side">
+                            <label><uimessage code="pihcore.ageMenarche"/></label>
+                            <span id="obgyn_initial_ageMenarche" class="emptyValue">____</span>
+                        </p>
+                    </div>
+                    <div>
+                        <p class="side-by-side">
+                            <label><uimessage code="pihcore.age1stSexualInter"/></label>
+                            <span id="obgyn_initial_age1stSexualInter" class="emptyValue">____</span>
+                        </p>
+                    </div>
+                    <div>
+                        <p class="side-by-side">
+                            <label><uimessage code="pihcore.numSexPartners"/></label>
+                            <span id="obgyn_initial_numSexPartners" class="emptyValue">____</span>
+                        </p>
+                    </div>
+                </div>
+
+                <br/>
+
+                <table id="obgyn_initial_pregnancyHistoryTable">
+                    <tbody>
+                        <tr>
+                            <th colspan="3"><uimessage code="pihcore.mch.pregnancyHistory" /></th>
+                        </tr>
+                        <tr>
+                            <th><uimessage code="pihcore.pregOrder" /></th>
+                            <th><uimessage code="pihcore.mch.deliveryType" /></th>
+                            <th><uimessage code="pihcore.outcome" /></th>
+                        </tr>                        
+                    </tbody>
+                </table>
+
+                </td>
+                </tr>
+                </table>
+            </div>
+        </section>
+        </div>
+    </ifMode>
+
     <section id="obgyn-section" sectionTag="fieldset"
              headerStyle="title" headerCode="OB/GYN">
         <div class="section-container">
@@ -925,24 +1290,6 @@
                 </div>
             </div>
 
-            <div id="calculated-edd-and-gestational" class="two-columns hidden">
-                <div>
-                    <span id="calculated-gestational-age-wrapper">
-                        <span id="calculated-gestational-age-label">
-                            <uimessage code="pihcore.calculatedGestationalAge"/>:&#160;
-                        </span>
-                        <span id='calculated-gestational-age-value' class="value"></span>
-                    </span>
-                </div>
-                <div>
-                    <span id="calculated-edd-wrapper">
-                        <span id="calculated-edd-label">
-                            <uimessage code="pihcore.calculatedEstimatedDeliveryDate"/>:&#160;
-                        </span>
-                        <span id='calculated-edd' class="value"></span>
-                    </span>
-                </div>
-            </div>
             <br/>
 
             <p class="side-by-side">
@@ -969,19 +1316,19 @@
                     <label>
                         <uimessage code="pihcore.mch.para"/>
                     </label>
-                    <obs conceptId="CIEL:1053" required="false"/>
+                    <obs conceptId="CIEL:1053" required="false" id="paraInput"/>
                 </div>
                 <div>
                     <label>
                         <uimessage code="pihcore.mch.abortus"/>
                     </label>
-                    <obs conceptId="CIEL:1823" required="false"/>
+                    <obs conceptId="CIEL:1823" required="false" id="abortusInput"/>
                 </div>
                 <div>
                     <label>
                         <uimessage code="pihcore.mch.living"/>
                     </label>
-                    <obs conceptId="CIEL:1825" required="false"/>
+                    <obs conceptId="CIEL:1825" required="false" id="livingInput"/>
                 </div>
             </div>
             <br/>
@@ -1042,7 +1389,7 @@
             </div>
             <br/>
 
-            <table>
+            <table id="pregnancyHistoryTable">
                 <tr>
                     <th colspan="3">
                         <uimessage code="pihcore.mch.pregnancyHistory" />

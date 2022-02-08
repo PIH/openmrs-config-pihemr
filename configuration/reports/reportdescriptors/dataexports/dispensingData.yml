@@ -33,4 +33,7 @@ config:
   components:
     - "dispensing"
     - "allDataExports"
+  countries:
+    - "HAITI"
+    - "SIERRA_LEONE"
   privilege: "Task: pharmacy.reports"

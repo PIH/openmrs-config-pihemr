@@ -217,6 +217,14 @@
         </script>
     </ifMode>
 
+    <ifMode mode="VIEW" include="true">
+        <script type="text/javascript">
+            jq(document).ready(function() {
+                hideIfEmpty(".section-container-color");
+            });
+        </script>
+    </ifMode>
+
     <ifMode mode="VIEW" include="false">
         <div class="shortcuts">
             |

@@ -12,7 +12,7 @@ parameters:
 datasets:
   - key: "echocardiogramdataexport"
     type: "sql"
-    config: "sql/echocardiogram.sql"
+    config: "sql/echocardiogram_encounters.sql"
 designs:
   - type: "csv"
     properties:

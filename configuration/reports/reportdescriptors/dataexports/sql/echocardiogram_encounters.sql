@@ -104,6 +104,7 @@ set study_results_changed_treatment_plan = value_coded_as_boolean(o.obs_id);
 update temp_echo set study_results_changed_treatment_plan_comment  = obs_value_text(encounter_id, 'PIH','3407');
 
 
+
 -- indexes
 update temp_echo set index_asc = encounter_index_asc(
     encounter_id,
