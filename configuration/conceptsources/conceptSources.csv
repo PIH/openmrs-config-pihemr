@@ -7,7 +7,7 @@ fb9aaaf1-65e2-4c18-b53c-16b575f2f385,,PIH,Partners In Health concept dictionary 
 4ADDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD,,RxNORM,RxNORM CUI,
 25ADDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD,,IMO ProcedureIT,"Intelligent Medical Objects, Inc. procedure/test datasource",
 24ADDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD,,IMO ProblemIT,"Intelligent Medical Objects, Inc. problem/disease/finding datasource",
-2ADDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD,,SNOMED NP,Non-preferred SNOMED CT mappings,
+2ADDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD,true,SNOMED NP,Non-preferred SNOMED CT mappings,
 13ADDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD,,AMPATH,AMPATH concept dictionary,
 3f65bd34-26fe-102b-80cb-0017a47871b2,,ICD-10-WHO,ICD-10 WHO Version,
 2889f378-f287-40a5-ac9c-ce77ee963ed7,,LOINC,A universal code system for identifying laboratory and clinical observations.,
