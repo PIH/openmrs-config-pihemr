@@ -107,15 +107,6 @@
                 <div class="two-columns">
                     <p>
                         <label>
-                            <uimessage code="zl.socioEconomic.monthsLivingInHaiti"/>
-                        </label>
-                        <span class="small">
-                            <obs conceptId="PIH:14105"/>
-                        </span>
-                    </p>
-                    
-                    <p>
-                        <label>
                             <uimessage code="pihcore.socioEconomic.numPeople"/>
                         </label>
                         <span class="small">
@@ -225,6 +216,15 @@
                         <obs conceptId="PIH:1668" style="radio"
                              answerConceptIds="CIEL:1943,PIH:11939,PIH:2937,CIEL:159685,PIH:11938,CIEL:1944,CIEL:5622"
                              answerSeparator="&amp;nbsp;" />
+                    </p>
+                    
+                    <p>
+                        <label>
+                            <uimessage code="zl.socioEconomic.monthsLivingInHaiti"/>
+                        </label>
+                        <span class="small">
+                            <obs conceptId="PIH:14105"/>
+                        </span>
                     </p>
                 </div>
             </div>
