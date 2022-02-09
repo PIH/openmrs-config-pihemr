@@ -172,7 +172,7 @@
                 <span class="small">
                     <field>
                         <obs  id="sample-id" conceptId="CIEL:162086"
-                              placeholder="Enter Sample ID"/>
+                              placeholder="pihcore.lab.sample_id.placeholder" size="30"/>
                     </field>
                 </span>
             </div>
