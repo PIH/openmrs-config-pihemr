@@ -417,5 +417,33 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20220210-void-diagnosis-obs-whose-parents-are-voided" author="mogoodrich">
+        <comment>
+            Void child obs not voided due to UHM-6161: Diagnosis not voided correctly
+        </comment>
+        <sql>
+            create temporary table obs_to_void (obs int);
+            insert into obs_to_void
+                select obs_id from obs
+                where
+                    obs_group_id in (
+                        select obs_id
+                            from
+                                obs
+                            where
+                                concept_id = (select concept_id from concept where uuid='159947AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
+                                and voided=1
+                        )
+                    and voided=0;
+            update obs
+                set
+                    voided=1, voided_by=1, date_voided = NOW(),
+                    void_reason='20220210-void-obs-whose-parents-are-voided'
+                where obs_id in (select obs_id from obs_to_void);
+
+
+        </sql>
+    </changeSet>
+
 
 </databaseChangeLog>
