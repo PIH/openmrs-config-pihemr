@@ -5,7 +5,7 @@ select concept_id into @edd from concept where uuid = '3cee56a6-26fe-102b-80cb-0
 select concept_id into @add from concept where uuid = '5599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
 select relationship_type_id into @aParentToB from relationship_type  where uuid = '8d91a210-c2cc-11de-8d13-0010c6dffd0f' ;
 select person_attribute_type_id into @tele from person_attribute_type pat where pat.uuid =  '14d4f066-15f5-102d-96e4-000c29c2a5d7';
-SET @locale = ifnull(@locale, GLOBAL_PROPERTY_VALUE('default_locale', 'en'));
+SET @locale = 'en'; -- ifnull(@locale, GLOBAL_PROPERTY_VALUE('default_locale', 'en'));
 
 drop TEMPORARY TABLE IF EXISTS temp_J9_patients;
 
