@@ -1017,8 +1017,9 @@
                 </label>
 
                 <obs id="hiv-test-checkbox" conceptId="CIEL:164401" answerConceptId="CIEL:1065"
-                     toggle="hiv-test" style="checkbox"/>
+                     style="checkbox"/>
             </p>
+            <!-- Commented out this div/toggle
             <div id="hiv-test" class="side-by-side">
                 <obsgroup groupingConceptId="PIH:11522">
                     <p class="small-input">
@@ -1030,6 +1031,8 @@
                     </p>
                 </obsgroup>
             </div>
+            -->
+
             <p class="side-by-side">
                 <label>
                     <uimessage code="pihcore.ifHIVpatient" />, <uimessage code="pihcore.onARV"/>
