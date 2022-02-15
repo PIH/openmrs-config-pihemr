@@ -427,4 +427,13 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20220215-delete-old-noncodeddiagnosis-reports" author="PIH">
+        <comment>
+            Delete noncodeddiagnosis reports out of the serialized_object table
+        </comment>
+        <sql>
+            delete from serialized_object where name = 'noncodeddiagnoses';
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
