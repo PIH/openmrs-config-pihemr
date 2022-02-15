@@ -305,6 +305,12 @@
                 </orderTemplate>
             </drugOrder>
         </div>
+        <div class="section-container">
+            <label><b><uimessage code="pihcore.remarks"/></b></label>
+            <p>
+                <obs conceptId="PIH:10637" cols="50" rows="5" />
+            </p>
+        </div>
     </section>
 
     <section id="other-support" sectionTag="fieldset" headerStyle="title"
