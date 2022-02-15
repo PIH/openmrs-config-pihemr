@@ -417,13 +417,13 @@
         </sql>
     </changeSet>
 
-    <changeSet id="20220215-unvoid-obs-voided-in-error-1" author="ngoodrich">
+    <changeSet id="20220215-unvoid-obs-voided-in-error-1" author="mgoodrich">
         <comment>
             Remove obs unintentionally voided by bad changeset (see UHM-6161)
             (We will remove void_reason in a separate step after confirming this step works)
         </comment>
         <sql>
-            update obs set voided = null, date_voided = null, voided_by = null where void_reason = '20220210-void-obs-whose-parents-are-voided'
+            update obs set voided = 0, date_voided = null, voided_by = null where void_reason = '20220210-void-obs-whose-parents-are-voided'
         </sql>
     </changeSet>
 
