@@ -105,3 +105,4 @@ programs,patientStateStartDate,patient_state_id,state start date,returns the sta
 properties,global_property_value,"property, defaultValue",property value,"returns the global property of the property passed in, returning the default if the value is null or blank",
 properties,user_property_value,"user_id, property, defaultValue",property value,"returns the user property of the patient of the property passed in, returning the default if the value is null or blank",
 relationships,relation_type,name ,relation type id,relation type id of relation described by the name,
+users,username,user_id,username or systemid,username or system_id if username is null for the given user,

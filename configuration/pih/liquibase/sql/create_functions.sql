@@ -2713,3 +2713,20 @@ BEGIN
 
 END
 #
+
+-- The following function accepts user_id and returns the username or system_id if username is null
+#
+DROP FUNCTION IF EXISTS username;
+#
+CREATE FUNCTION username(
+    _user_id INT
+)
+    RETURNS VARCHAR(50)
+    DETERMINISTIC
+
+BEGIN
+    DECLARE ret VARCHAR(50);
+    SELECT IFNULL(username, system_id) into ret from users where user_id = _user_id;
+    RETURN ret;
+END
+#
