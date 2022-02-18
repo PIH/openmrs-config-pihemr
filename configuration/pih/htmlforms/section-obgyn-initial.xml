@@ -1011,27 +1011,62 @@
              headerStyle="title" headerCode="pihcore.hivTB">
         <div class="section-container">
             <!-- HIV test -->
-            <p>
-                <label>
-                    <uimessage code="pihcore.mch.hivTest"/>
-                </label>
+            <div class="two-columns">
+                <div>
+                    <label>
+                        <uimessage code="pihcore.mch.hivTest"/>
+                    </label>
+                    <obs id="hiv-test-checkbox" conceptId="CIEL:164401" answerConceptId="CIEL:1065"
+                         toggle="hiv-test" style="checkbox"/>
+                </div>
+                <div>
+                    <label>
+                        <i>
+                            <uimessage code="pihcore.hivTestMessage"/>
+                        </i>
+                    </label>
+                </div>
+            </div>
+            <br/>
 
-                <obs id="hiv-test-checkbox" conceptId="CIEL:164401" answerConceptId="CIEL:1065"
-                     style="checkbox"/>
+            <p class="side-by-side">
+                <label>
+                    <uimessage code="pihcore.hivTestPast3mo" />?
+                </label>
+                <obs conceptId="PIH:13256" style="radio"
+                     answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" />
+                <br/>
+                <label>
+                    <i>
+                        <uimessage code="pihcore.ifNoUnknownVCT" />
+                    </i>
+                </label>
             </p>
-            <!-- Commented out this div/toggle
-            <div id="hiv-test" class="side-by-side">
+
+            <p class="side-by-side">
+                <label>
+                    <uimessage code="pihcore.receivedPostTestCounsel" />?
+                </label>
+                <obs conceptId="CIEL:159382" style="radio"
+                     answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" />
+            </p>
+
+            <div id="hiv-test" class="side-by-side two-columns">
                 <obsgroup groupingConceptId="PIH:11522">
-                    <p class="small-input">
-                        <obs conceptId="CIEL:164400" labelCode="pihcore.hiv.testDate" size="10"/>
-                    </p>
-                    <p>
-                        <obs conceptId="CIEL:159427" answerConceptIds="CIEL:664,CIEL:703"
-                            labelCode="pihcore.hiv.testResult" style="radio"/>
-                    </p>
+                    <div>
+                        <p class="small-input">
+                            <obs conceptId="CIEL:164400" labelCode="pihcore.hiv.testDate" size="10"/>
+                        </p>
+                    </div>
+                    <div>
+                        <p>
+                            <br/>
+                            <obs conceptId="CIEL:159427" answerConceptIds="CIEL:664,CIEL:703"
+                                labelCode="pihcore.hiv.testResult" style="radio"/>
+                        </p>
+                    </div>
                 </obsgroup>
             </div>
-            -->
 
             <p class="side-by-side">
                 <label>
@@ -1056,38 +1091,6 @@
                         </label>
                         <obs conceptId="CIEL:166086" />
                     </div>
-                </div>
-            </p>
-
-            <p class="side-by-side">
-                <label>
-                    <uimessage code="pihcore.hivTestPast3mo" />?
-                </label>
-                <obs conceptId="PIH:13256" style="radio"
-                     answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" />
-                <br/>
-                <label>
-                    <i>
-                        <uimessage code="pihcore.ifNoUnknownVCT" />
-                    </i>
-                </label>
-            </p>
-
-            <p class="side-by-side">
-                <label>
-                    <uimessage code="pihcore.lab.viral_load"/>
-                </label>
-                <obs id="viral-load" conceptId="CIEL:1305" style="radio"
-                     answerConceptIds="CIEL:1301,CIEL:1306"
-                     answerCodes="pihcore.lab.detected,pihcore.lab.undetected" >
-                    <controls>
-                        <when value="CIEL:1301" thenDisplay="#viral-load-numeric"/>
-                    </controls>
-                </obs>
-
-                <div id="viral-load-numeric">
-                    <obs conceptId="CIEL:856" showUnits="true"
-                         placeholder="Enter value" />
                 </div>
             </p>
 
