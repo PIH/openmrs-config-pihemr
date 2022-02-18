@@ -11,7 +11,6 @@ fb9aaaf1-65e2-4c18-b53c-16b575f2f385,,PIH,Partners In Health concept dictionary 
 13ADDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD,,AMPATH,AMPATH concept dictionary,
 3f65bd34-26fe-102b-80cb-0017a47871b2,,ICD-10-WHO,ICD-10 WHO Version,
 2889f378-f287-40a5-ac9c-ce77ee963ed7,,LOINC,A universal code system for identifying laboratory and clinical observations.,
-947a1410-1987-4399-8017-c1ea70f242d1,true,org.openmrs.module.mirebalaisreports,Used to indicate concepts that are used and grouped to represent various notifiable diseases to the Haiti Ministry of Health (ie.  Tetanus),
 9b77b4cb-172b-49a5-b8b1-7d30bd1739e0,,FDA Route of Administration,"Description.  This standard provides for all routes of administration for drugs.  Source.  COMIS Reference table (which is used by the Drug Product Reference File to generate Approved Drug Products with Therapeutic Equivalence Evaluations (a.k.a. The Orange Book)), and the Drug Registration and Listing Database, Office of Epidemiology and Biosurveillance Database.  Also, the names (but not the definitions or the numeric codes) that are represented in blue have been harmonized with the E2B route of administration terms for the International Conference on Harmonization (ICH).",
 98e77229-19e7-45e0-88dd-e30214dd2fad,,HL7 2.x Route of Administration,Members of value set from HL7 for routes of administration,HL70162
 d82521a1-6b31-4fac-ad4f-492a91aefca5,,NDF-RT NUI,Unique numeric indicator from NDF-RT drug information database,
