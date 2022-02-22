@@ -450,4 +450,20 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20220222-void-diagnosis-obs-whose-parents-are-voided" author="mseaton">
+        <comment>
+            Void child obs not voided due to UHM-6161: Diagnosis not voided correctly
+        </comment>
+        <sql>
+            update      obs o
+            inner join  obs og on o.obs_group_id = og.obs_id and og.voided = 1
+            inner join  concept c on og.concept_id = c.concept_id and c.uuid = '159947AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+            set         o.voided = 1,
+                        o.voided_by = 1,
+                        o.date_voided = now(),
+                        o.void_reason='20220222-void-obs-whose-parents-are-voided'
+            where       o.voided = 0;
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
