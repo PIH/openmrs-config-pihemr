@@ -281,6 +281,12 @@
             <value></value>
         </globalProperty>
 
+        <!-- includes the two default concepts set up by the Attachments module (ATT IMAGE and ATT DEFAULT) and then adds "PDF FILE" (used by Pathology) -->
+        <globalProperty>
+            <property>attachments.conceptComplexUuidList</property>
+            <value>["7cac8397-53cd-4f00-a6fe-028e8d743f8e","42ed45fd-f3f6-44b6-bfc2-8bde1bb41e00","4cad2286-f66e-44c3-ba17-9665b569c13d"]</value>
+        </globalProperty>
+
         <!-- Growth Chart -->
         <globalProperty>
             <property>growthchart.headCircumferenceConceptUuid</property>
