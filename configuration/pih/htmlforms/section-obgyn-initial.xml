@@ -1043,14 +1043,6 @@
                 </label>
             </p>
 
-            <p class="side-by-side">
-                <label>
-                    <uimessage code="pihcore.receivedPostTestCounsel" />?
-                </label>
-                <obs conceptId="CIEL:159382" style="radio"
-                     answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067" />
-            </p>
-
             <div id="hiv-test" class="side-by-side two-columns">
                 <obsgroup groupingConceptId="PIH:11522">
                     <div>
@@ -1068,7 +1060,30 @@
                 </obsgroup>
             </div>
 
+            <div class="side-by-side two-columns">
+                <div>
+                    <label>
+                        <uimessage code="pihcore.receivedPostTestCounsel" />?
+                    </label>
+                    <br/>
+                    <obs id="hiv-post-counsel" conceptId="CIEL:159382" style="radio"
+                         answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067">
+                        <controls>
+                            <when value="CIEL:1065" thenDisplay="#hiv-post-counsel-date"/>
+                        </controls>
+                    </obs>
+                </div>
+                <div id="hiv-post-counsel-date">
+                    <label>
+                        <uimessage code="pihcore.lab.datePostTest" />
+                    </label>
+                    <obs conceptId="PIH:11525"/>
+                </div>
+
+            </div>
+
             <p class="side-by-side">
+                <br/>
                 <label>
                     <uimessage code="pihcore.ifHIVpatient" />, <uimessage code="pihcore.onARV"/>
                 </label>
