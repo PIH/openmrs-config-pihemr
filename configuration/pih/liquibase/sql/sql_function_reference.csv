@@ -39,6 +39,7 @@ encounters,encounterName,type_or_uuid,encounter name,returns encounter name of e
 encounters,encounter_type,name_or_uuid ,encounter type id,Returns the encounter_id of encounter described,
 encounters,hivEncounterLocationId,encounter_id,location id,"returns the encounter location unless it is unknown location, in which case, it will return the program enrollment location at the time of the encounter",
 encounters,encounter_location_name ,encounter_id,location name,location name of encounter,
+encounters,encounter_parent_location_name ,encounter_id,location name,"returns the parent location of the encounter.  It looks 3 levels deep - the encounter location, that location's parent and then that location's parent.  The first location it finds without another parent is returned.",
 encounters,provider ,encounter_id,provider name,"first and last name of provider of encounter, comma separated (this limits to 1 result, but with no sorting)",
 encounters,provider_type ,encounter_id,provider type,name of provider type of provider of the encounter (limits to 1 with no sorting),
 encounters,visit_date,encounter_id,visit date,date of visit of the encounter,
