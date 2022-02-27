@@ -536,6 +536,33 @@ BEGIN
 END
 #
 /*
+Encounter Parent Location
+  It accepts encounter id and returns the parent location of the encounter.  
+  It looks 3 levels deep - the encounter location, that location's parent and then that location's parent.
+  The first location it finds without another parent is returned.
+*/
+#
+DROP FUNCTION IF EXISTS encounter_parent_location_name;
+#
+CREATE FUNCTION encounter_parent_location_name (
+    _encounter_id int
+)
+    RETURNS varchar(255)
+    DETERMINISTIC
+BEGIN
+    DECLARE locName varchar(255);
+
+    select      if(l.parent_location is null, l.name, if(lp.parent_location is null, lp.name, lp2.name)) into locName
+    from        encounter e
+    inner join  location l on l.location_id = e.location_id
+    left outer join  location lp on lp.location_id = l.parent_location 
+    left outer join  location lp2 on lp2.location_id = lp.parent_location    
+    where       e.encounter_id = _encounter_id;
+
+    RETURN locName;
+END
+#
+/*
 Encounter Date
 */
 #
