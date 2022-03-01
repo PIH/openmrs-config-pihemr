@@ -31,7 +31,7 @@ diagnoses,diagnosis_noncoded,"encounter_id, offset",text,returns the text of the
 drugs,drugId,name or uuid,drug id,returns drug id of drug with that name or uuid,duplicate
 drugs,drugId,name_or_uuid,drug id,returns drug id of drug with that name or uuid,duplicate
 drugs,drugName,id_or_uuid ,drug name,returns drug name of drug with id or uuid,
-drugs,ActiveDrugConceptNameList,patient_id source term locale,returns concept name in the locale of the active drugs for that patient and order reason,
+drugs,ActiveDrugConceptNameList,patient_id source term locale,list of concept_names,returns concept name in the locale of the active drugs for that patient and order reason,
 encounters,encounter_creator,encounter_id,creator name,returns the name of the creator of the encounter,
 encounters,encounter_date ,encounter_id,encounter date,encounter date of encounter,
 encounters,encounter_type_name,encounter_id,encounter name,returns encounter name of that type,
