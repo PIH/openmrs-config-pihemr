@@ -2656,6 +2656,60 @@ and voided = 0
 
 END
 #
+/* 
+The following accepts a patient id, source and term of a concept to identify a drug concept 
+It will return the start date of that drug
+*/
+#
+DROP FUNCTION IF EXISTS DrugConceptStartDate;
+#
+CREATE FUNCTION DrugConceptStartDate(_patient_id int(11), _drug_source varchar(50), _drug_term varchar(255))
+    RETURNS datetime
+    DETERMINISTIC
+
+BEGIN
+
+  DECLARE ret datetime;
+
+
+select min(ifnull(o.scheduled_date, o.date_activated)) into ret
+from orders o
+where o.patient_id  = _patient_id
+and o.concept_id = concept_from_mapping(_drug_source,_drug_term)
+and voided = 0
+;
+
+  RETURN ret;
+
+END
+#
+/* 
+The following accepts a patient id, source and term of a concept to identify order reason and a locale 
+It will return a list of the concept names of the active drugs for that order reason
+*/
+#
+DROP FUNCTION IF EXISTS ActiveDrugConceptNameList;
+#
+CREATE FUNCTION ActiveDrugConceptNameList(_patient_id int(11), _source varchar(50), _term varchar(255), _locale varchar(50))
+    RETURNS text
+    DETERMINISTIC
+    
+BEGIN
+
+  DECLARE ret text;    
+
+select group_concat(concept_name(concept_id ,_locale )) into ret
+from orders o
+where o.patient_id = _patient_id 
+and o.order_reason = concept_from_mapping(_source,_term)
+and o.date_stopped is null
+and o.voided = 0
+group by patient_id;
+
+return ret;
+
+END
+#
 /*
  get boolean indicating if a given component is enabled
 */
