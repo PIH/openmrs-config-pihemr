@@ -2656,6 +2656,33 @@ and voided = 0
 
 END
 #
+/*
+ this function accepts patient_id, drug_source and drug_term
+ it will return the start date of the drug of that concept
+ */
+#
+DROP FUNCTION IF EXISTS DrugConceptStartDate;
+#
+CREATE FUNCTION DrugConceptStartDate(_patient_id int(11), _drug_source varchar(50), _drug_term varchar(255))
+    RETURNS datetime
+    DETERMINISTIC
+
+BEGIN
+
+  DECLARE ret datetime;
+
+
+select min(ifnull(o.scheduled_date, o.date_activated)) into ret
+from orders o
+where o.patient_id  = _patient_id
+and o.concept_id = concept_from_mapping(_drug_source,_drug_term)
+and voided = 0
+;
+
+  RETURN ret;
+
+END
+#
 /* 
 The following accepts a patient id, source and term of a concept to identify a drug concept 
 It will return the start date of that drug
