@@ -1,4 +1,4 @@
-Category,Function Name,Input,Output,Logic,Note
+ Category,Function Name,Input,Output,Logic,Note
 concepts,concept_in_set,"concept_id, concept_set_id",boolean,"returns 1 if the concept is in the set, 0 otherwise.  ",
 concepts,concept_class_id,concept_id,concept class id,returns the concept class id of the concept,
 concepts,concept_from_mapping,"source, code ",concept id,returns concept_id of that concept described,
@@ -93,6 +93,8 @@ obs values from visit,obs_from_visit_value_coded_list,"visit_id, source, term, l
 obs values from visit,obs_from_visit_value_numeric,"visit_id, source, term",value numeric,returns most recent value_numeric captured in the visit of the concept described,duplicate
 obs values from visit,obs_from_visit_value_numeric,"visit_id, source, term",value numeric,returns most recent value numeric of obs in that visit,duplicate
 orders,OrderReasonStartDate,"patient_id, _order_reasonsource, _order_reason, _term",date activated,returns the date that the patient started on the order reason of the concept described,
+orders,DrugConceptStartDate,"patient_id, drug_source,drug_term",date activated,returns the date that the patient started on the order of the drug concept of the concept described,
+orders,ActiveDrugConceptNameList,"patient_id, source, term, locale",concept name list,return a list of the concept names of the active drugs for the order reason,
 person attributes,person_attribute_value,"patient_id, att_type_name ",attribute value,person attribute value of the attribute for that person,
 programs,programStartDate,patient_program_id,date enrolled,returns the date enrolled of the patient program,
 programs,programLocationId,patient_program_id,location id,returns the location_id for that enrollment,
