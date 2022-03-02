@@ -2,35 +2,11 @@
 
 /*
   This file contains common functions that are useful writing reports
+  For documentation on available functions, please see the sql_function_reference.csv file in this directory
 */
 
 -- You should uncomment this line to check syntax in IDE.  Liquibase handles this internally.
 -- DELIMITER #
-
-/*
-How to use the fuctions
-concept_from_mapping('source', 'code')
-concept_name(concept_id, 'locale')
-encounter_type(encounter_uuid)
-age_at_enc(person_id, encounter_id)
-zlemr(patient_id)
-unknown_patient(patient_id)
-gender(patient_id)
-person_address(patient_id)
-loc_registered(patient)
-provider(patient_id)
-program(program_name)
-relationship_type(name)
-person_address_state_province(patient_id)
-person_address_city_village(patient_id)
-person_address_three(patient_id)
-person_address_two(patient_id)
-person_address_one(patient_id)
-encounter_creator(encounter_id)
-obs_creator(encounter_id)
-encounter_type_name(encounter_id)
-
-*/
 
 /*
  get concept_id from report_mapping table
@@ -1782,106 +1758,6 @@ BEGIN
     RETURN locName;
 END
 #
--- This function accepts visit_id, mapping source, mapping code
--- It will find a single (latest), best observation that matches this, and return the value_numeric
-#
-DROP FUNCTION IF EXISTS obs_from_visit_value_numeric;
-#
-CREATE FUNCTION obs_from_visit_value_numeric(_visitId int(11), _source varchar(50), _term varchar(255))
-RETURNS double
-DETERMINISTIC
-
-BEGIN
-
-DECLARE ret double;
-
-select      o.value_numeric into ret
-from        obs o
-inner join encounter e on o.encounter_id = e.encounter_id and e.voided = 0
-where       o.voided = 0
-and         e.visit_id = _visitId
-and         o.concept_id = concept_from_mapping(_source, _term)
-order by    o.date_created desc, o.obs_id desc
-limit 1;
-
-RETURN ret;
-
-END
-
-#
--- This function accepts visit_id, encounter_type (single or multiple, concatenated together) and a concept source and term
--- it will return the latest encounter in that visit of that type(s) with the obs
-#
-DROP FUNCTION IF EXISTS latestEncInVisitWithObs;
-#
-CREATE FUNCTION latestEncInVisitWithObs( _visit_id int(11),_encounterTypes varchar(255), _source varchar(50), _term varchar(255))
-    RETURNS int(11)
-    DETERMINISTIC
-
-BEGIN
-
-    DECLARE enc_id_out int(11);
-
-    select      enc.encounter_id into enc_id_out
-    from        encounter enc inner join encounter_type et on enc.encounter_type = et.encounter_type_id
-    inner join obs o on o.encounter_id = enc.encounter_id and o.voided = 0
-    where       enc.voided = 0
-      and       find_in_set(et.name, _encounterTypes)
-      and       (enc.visit_id = _visit_id or _visit_id is null)
-      and       o.concept_id = concept_from_mapping(_source, _term)
-    order by    enc.encounter_datetime desc
-    limit       1;
-
-    RETURN enc_id_out;
-
-END
-#
--- This function accepts the encounter type or uuid
--- it will return the encounter name of that encounter
-#
-DROP FUNCTION IF EXISTS encounterName;
-#
-CREATE FUNCTION encounterName(_type_or_uuid varchar(255) )
-    RETURNS varchar(255)
-    DETERMINISTIC
-
-BEGIN
-
-  DECLARE enc_name_out varchar(255);
-
-  select et.name into enc_name_out
-  from encounter_type et
-  where et.retired = 0
-  and (et.encounter_type_id = _type_or_uuid or et.uuid = _type_or_uuid)
-  ;
-
-  RETURN enc_name_out;
-
-END
-#
--- This function accepts drug name or drug uuid
--- It will return the drug_id of that drug
-#
-DROP FUNCTION IF EXISTS drugId;
-#
-CREATE FUNCTION drugId(_name_or_uuid varchar(255))
-    RETURNS int(11)
-    DETERMINISTIC
-
-BEGIN
-
-  DECLARE drug_id_out int(11);
-
-  select drug_id into drug_id_out
-  from drug
-  where retired = 0
-  and (name = _name_or_uuid or uuid = _name_or_uuid)
-  ;
-
-  RETURN drug_id_out;
-
-END
-#
 -- this function accepts and encounter_id and mappings of a question and coded answer of an observation
 -- it will return the obs_group_id of that observation				     
 #				
@@ -1908,52 +1784,6 @@ limit 1
 ) obs_group_id_of_value_coded;
 
 RETURN ret;
-
-END
-#
--- This function accepts encounter_id and drug_id
--- It will find the obs_id of the latest observation with the drug_id as an answer
-#
-DROP FUNCTION IF EXISTS obs_id_with_drug_answer;
-#
-CREATE FUNCTION obs_id_with_drug_answer(_encounter_id int(11), _drug_id int(11))
-    RETURNS int
-    DETERMINISTIC
-
-BEGIN
-
-    DECLARE ret_obs_id int;
-
-    select      obs_id into ret_obs_id
-    from        obs o
-    where       o.voided = 0
-      and       o.encounter_id = _encounter_id
-      and       o.value_drug = _drug_id
-      order by obs_datetime desc limit 1;
-
-    RETURN ret_obs_id;
-
-END
-#
--- This function accepts obs_id
--- It will find the obs_group_id of that observation, if there is one
-#
-DROP FUNCTION IF EXISTS obs_group_id_from_obs;
-#
-CREATE FUNCTION obs_group_id_from_obs(_obs_id int(11))
-    RETURNS int
-    DETERMINISTIC
-
-BEGIN
-
-    DECLARE ret_obs_group_id int;
-
-    select      obs_group_id into ret_obs_group_id
-    from        obs o
-    where       o.voided = 0
-      and       o.obs_id = _obs_id;
-
-    RETURN ret_obs_group_id;
 
 END
 #
@@ -2179,30 +2009,6 @@ BEGIN
     RETURN attVal;
 
 END
-#											      
-DROP FUNCTION IF EXISTS phone_number;
-#
-CREATE FUNCTION phone_number(
-    _patient_id int)
-    
-    RETURNS VARCHAR(50)
-    DETERMINISTIC
-
-BEGIN
-    DECLARE  attVal VARCHAR(50);
-
-    select      a.value into attVal
-    from        person_attribute a
-    where       person_attribute_type_id =
-        (select person_attribute_type_id from person_attribute_type where uuid = '14d4f066-15f5-102d-96e4-000c29c2a5d7')
-    and         a.voided = 0
-    and         a.person_id = _patient_id
-    order by    a.date_created desc
-    limit       1;
-
-    RETURN attVal;
-
-END
 #
 -- this function accepts patient_program_id, program_workflow_id and a locale
 -- it will return the name of the current state in the given locale if one exists in the given worflow
@@ -2326,7 +2132,7 @@ DECLARE ret varchar(255);
 
 select onc.value_text into ret from obs ogr 
  left outer join obs oo on oo.obs_group_id = ogr.obs_id and oo.concept_id = concept_from_mapping('PIH','7537') and oo.voided = 0
- left outer join obs onc on od.obs_group_id = ogr.obs_id and od.concept_id = concept_from_mapping('PIH','7416') and od.voided = 0
+ left outer join obs onc on onc.obs_group_id = ogr.obs_id and onc.concept_id = concept_from_mapping('PIH','7416') and onc.voided = 0
 where ogr.encounter_id = _encounter_id
 and ogr.concept_id = concept_from_mapping('PIH','7539')
 and ogr.voided = 0

@@ -19,8 +19,7 @@ demographics,current_age_in_months,person_id ,patient age,Returns the current ag
 demographics,current_age_in_years,person_id ,patient age,Returns the current age in years of the patient,
 demographics,age_at_enc,"person_id, encounter_id",patient age,age in years of the patient on the encounter date,
 demographics,unknown_patient,patient_id,person id,returns patient/person id of patient if the patient is an unknown patient,
-demographics,phone_number,patient_id,phone number,returns phone number of patient,duplicate
-demographics,phone_number,patient_id,phone number,returns phone number of patient,duplicate
+demographics,phone_number,patient_id,phone number,returns phone number of patient,
 demographics,person_address_state_province,patient_id,state province address level,state province address level of patient,
 diagnoses,diagnosis,"encounter_id, offset, locale",concept name,returns the coded diagnosis name (if exists) in that locale of the nth diagnosis of that encounter (n being the offset),
 diagnoses,diagnosis_certainty,"encounter_id, offset, locale",concept name,returns the diagnosis certainty in that locale of the nth diagnosis of that encounter (n being the offset),does this work properly?
@@ -28,14 +27,12 @@ diagnoses,diagnosis_order,"encounter_id, offset, locale",concept name,return the
 diagnoses,retrieveICD10 ,concept_id,mapping code,return ICD10 mapping of concept passed in,
 diagnoses,diagnosis_obs_group_id,"encounter_id, offset",obs group id,returns the obs_group_id of the construct of the nth diagnosis of that encounter (n being the offset),
 diagnoses,diagnosis_noncoded,"encounter_id, offset",text,returns the text of the noncoded diagnosis (if exists) of the nth diagnosis of that encounter (n being the offset),
-drugs,drugId,name or uuid,drug id,returns drug id of drug with that name or uuid,duplicate
-drugs,drugId,name_or_uuid,drug id,returns drug id of drug with that name or uuid,duplicate
+drugs,drugId,name_or_uuid,drug id,returns drug id of drug with that name or uuid,
 drugs,drugName,id_or_uuid ,drug name,returns drug name of drug with id or uuid,
 encounters,encounter_creator,encounter_id,creator name,returns the name of the creator of the encounter,
 encounters,encounter_date ,encounter_id,encounter date,encounter date of encounter,
 encounters,encounter_type_name,encounter_id,encounter name,returns encounter name of that type,
-encounters,encounterName,type_or_uuid,encounter name,returns the encounter name of of the encounter described by the encounter type or uuid ,duplicate
-encounters,encounterName,type_or_uuid,encounter name,returns encounter name of encounter of that type or uuid,duplicate
+encounters,encounterName,type_or_uuid,encounter name,returns the encounter name of of the encounter described by the encounter type or uuid ,
 encounters,encounter_type,name_or_uuid ,encounter type id,Returns the encounter_id of encounter described,
 encounters,hivEncounterLocationId,encounter_id,location id,"returns the encounter location unless it is unknown location, in which case, it will return the program enrollment location at the time of the encounter",
 encounters,encounter_location_name ,encounter_id,location name,location name of encounter,
@@ -47,20 +44,17 @@ find encounters,firstEnc,"patient_id, encounter_types, begin_date",encounter id,
 find encounters,latestEnc,"patient_id, encounter_types, begin_date",encounter id,"encounter id of most recent encounter out of the set of encounters described by the encounter names passed in, since the begin date, returning null if there are any",
 find encounters,latestEncBetweenDates,"patient_id, encounter_types, begin_date, end_date",encounter id,"encounter id of most recent encounter out of the set of encounters described by the encounter names passed in, between the begin date and end date, returning null if there are any",
 find encounters,latestEncForminVisit,"patientId, encounterTypes, _visitId, _formId, begin_date",encounter id,"returns the latest encounter for that patient, of one of those encounter types, in that visit of that form type since that date",
-find encounters,latestEncInVisitWithObs,"visit_id ,encounterTypes, source, term",encounter id,returns the latest encounter in that visit of that type(s) with the specified obs,duplicate
-find encounters,latestEncInVisitWithObs,"visit_id,encounterTypes, source, term",encounter id,returns most recent encounter in the visit with that obs,duplicate
-find obs,obs_id_with_drug_answer,"encounter_id, drug_id",obs id,returns obs_id of most recent obs with the drug described as the answer,duplicate
-find obs,obs_id_with_drug_answer,"encounter_id, drug_id",obs id,returns obs id of obs with the drug answer,duplicate
+find encounters,latestEncInVisitWithObs,"visit_id ,encounterTypes, source, term",encounter id,returns the latest encounter in that visit of that type(s) with the specified obs,
+find obs,obs_id_with_drug_answer,"encounter_id, drug_id",obs id,returns obs_id of most recent obs with the drug described as the answer,
 find obs,obs_id,"encounterId, source, term, offset",obs id,obs id of the nth observation in that encounter of that concept (based on offset n),
-find obs,latestObs ,"patient_id, concept_id, begin_date",obs id,"obs_id of most recent obs described by the concept since the begin date, returning null if there aren't any",duplicate
-find obs,latest_obs,"patient_id, source, term",obs id,obs id of most recent obs for that patient of that concept,duplicate
+find obs,latestObs ,"patient_id, concept_id, begin_date",obs id,"obs_id of most recent obs described by the concept since the begin date, returning null if there aren't any",
+find obs,latest_obs,"patient_id, source, term",obs id,obs id of most recent obs for that patient of that concept,
 find obs ,answerEverExists,"patient_id , source_question, term_question, source_answer, term_answer, _begin_datetime",boolean,"looks for the question and answer for that patient since the begin datetime.  Returns 1 if it exisits, else 0",
 find obs from group,obs_from_group_id_comment," obs group id, source, term",obs comment,returns most recent comment captured in that obs group of the concept described,
 find obs group,obs_group_id_with_drug_answer,"encounter_id, drug_id",obs group id,returns obs_group_id of most recent obs with the drug described as the answer,
 find obs group,obs_group_id_of_coded_answer,"encounterId, source, term",obs group id,returns obs group id of obs with in the encounter with the coded answer described,
 find obs group,obs_group_id_of_value_coded,"encounterId, source, term, source1, term1",obs group id,returns obs group id of most recent obs with that question and answer described,
-find obs group,obs_group_id_from_obs,obs_id,obs group id,returns obs group id of obs ,duplicate
-find obs group,obs_group_id_from_obs,obs_id,obs group id,returns the group id of the obs described if there is one,duplicate
+find obs group,obs_group_id_from_obs,obs_id,obs group id,returns the group id of the obs described if there is one,
 identifiers,dosId ,patient_id,patient identifier,"Dossier ID of the patient, prioritized by preferred, date created",
 identifiers,zlemr,patient_id    ,patient identifier,ZL EMR ID of the patient (using patient_identifier function),
 identifiers,patient_identifier,"patient_id, _name_or_uuid ",patient identifier,Returns the identifier of the patient described.  Prioritizes preferred and then the most recently created one,
@@ -90,8 +84,7 @@ obs values from group,obs_from_group_id_value_numeric," obs group id, source, te
 obs values from group,obs_from_group_id_value_text,"obs group id, source, term",value text,returns most recent value_text captured in that obs group of the concept described,
 obs values from visit,obs_from_visit_value_coded,"visit_id, source, term , _offset_value,locale",concept name,returns the concept name (in that locale) of the value_coded in that visit offset by the value passed in,
 obs values from visit,obs_from_visit_value_coded_list,"visit_id, source, term, locale","value coded (list, | separated)","returns a list, pipe delimited, of the coded values captured in that visit of the concept described, in that locale",
-obs values from visit,obs_from_visit_value_numeric,"visit_id, source, term",value numeric,returns most recent value_numeric captured in the visit of the concept described,duplicate
-obs values from visit,obs_from_visit_value_numeric,"visit_id, source, term",value numeric,returns most recent value numeric of obs in that visit,duplicate
+obs values from visit,obs_from_visit_value_numeric,"visit_id, source, term",value numeric,returns most recent value_numeric captured in the visit of the concept described,
 orders,OrderReasonStartDate,"patient_id, _order_reasonsource, _order_reason, _term",date activated,returns the date that the patient started on the order reason of the concept described,
 orders,DrugConceptStartDate,"patient_id, drug_source,drug_term",date activated,returns the date that the patient started on the order of the drug concept of the concept described,
 orders,ActiveDrugConceptNameList,"patient_id, source, term, locale",concept name list,return a list of the concept names of the active drugs for the order reason,
