@@ -81,22 +81,10 @@
     <ifMode mode="EDIT" include="true">
         <script type="text/javascript">
             jq(function() {
-
                 jq('.htmlform').show();
 
-                jq('#next').click(function() {
-                    window.htmlForm.getBeforeSubmit().push(function () {
-                        window.htmlForm.setReturnUrl(window.htmlForm.getReturnUrl() + "&amp;goToNextSection=encounter-info");
-                        return true;
-                    });
-
-                    window.htmlForm.submitHtmlForm();
-                })
-
-                jq('#submit').click(function() {
-                    window.htmlForm.submitHtmlForm();
-                })
-
+                // handlers for next and submit buttons, see nextAndSubmitButtons.js
+                setUpNextAndSubmitButtons();
             });
         </script>
     </ifMode>
