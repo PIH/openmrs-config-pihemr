@@ -175,6 +175,9 @@
                     jq('#disposition .field-error').first().html('').hide(); // hide any previous error if disposition is changed
                 });
 
+                // handlers for next and submit buttons, see nextAndSubmitButtons.js
+                setUpNextAndSubmitButtons();
+
             })
 
         </script>

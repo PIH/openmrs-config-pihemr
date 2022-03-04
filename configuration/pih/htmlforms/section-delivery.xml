@@ -188,14 +188,14 @@
                     return valid;
                 });
 
-                setUpNextButtonForSections('section-delivery');
-
                 setUpGestationalAgeAtBirth('<lookup expression="fn.latestObs('CIEL:1427').getValueDatetime().getTime()"/>');
 
                 jq('#disposition select:first').change(function() {
                     jq('#disposition .field-error').first().html('').hide(); // hide any previous error if disposition is changed
                 });
 
+                // handlers for next and submit buttons, see nextAndSubmitButtons.js
+                setUpNextAndSubmitButtons();
             });
         </script>
     </ifMode>
