@@ -68,7 +68,10 @@
             <!-- This allows entering drug orders without having to specify the amount to dispense at the time of order -->
             <value>false</value>
         </globalProperty>
-
+        <globalProperty>
+            <property>mail.default_content_type</property>
+            <value>text/html; charset=UTF-8</value>
+        </globalProperty>
 
         <!-- HTML Form Entry -->
         <globalProperty>
@@ -87,9 +90,6 @@
             <property>htmlformentry.restrictEncounterLocationToCurrentVisitLocation</property>
             <value>true</value>
         </globalProperty>
-
-
-
 
         <!-- Reporting -->
         <globalProperty>
@@ -140,9 +140,6 @@
             <property>emrapi.EmrApiVisitAssignmentHandler.encounterTypeToNewVisitTypeMap</property>
             <value>cc1720c9-3e4c-4fa8-a7ec-40eeaad1958c:f01c54cb-2225-471a-9cd5-d348552c337c,4d77916a-0620-11e5-a6c0-1697f925ec7b:f01c54cb-2225-471a-9cd5-d348552c337c</value>
         </globalProperty>
-
-
-
 
         <!-- EMR -->
         <globalProperty>
