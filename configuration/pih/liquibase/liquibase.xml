@@ -466,4 +466,28 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20220310-remove-obsolete-mapping" author="ball">
+    <comment>
+        Remove additional obsolete mappings and reference source
+    </comment>
+    <sql>
+        delete from concept_reference_map
+         where concept_reference_term_id IN
+                (select crt.concept_reference_term_id from concept_reference_term crt
+                  where crt.concept_source_id IN
+                        (select concept_source_id
+                           from concept_reference_source crs
+                          where name IN ('org.openmrs.module.hirifxray','MVP Amazon Server 174','Rwanda HMIS Report 2012 01 20','Mexico MoH SIS','Mexico MoH SUIVE')));
+
+        delete from concept_reference_term
+         where concept_source_id IN
+                (select concept_source_id
+                   from concept_reference_source crs
+                  where name IN ('org.openmrs.module.hirifxray','MVP Amazon Server 174','Rwanda HMIS Report 2012 01 20','Mexico MoH SIS','Mexico MoH SUIVE'));
+
+        delete from concept_reference_source
+         where name IN ('org.openmrs.module.hirifxray','MVP Amazon Server 174','Rwanda HMIS Report 2012 01 20','Mexico MoH SIS','Mexico MoH SUIVE');
+    </sql>
+</changeSet>
+
 </databaseChangeLog>
