@@ -12,7 +12,7 @@ Create table END_OF_MONTH_DATES that contains a row for each end-of-month date f
 #
 DROP PROCEDURE IF EXISTS load_end_of_month_dates;
 #
-CREATE PROCEDURE load_end_of_month_dates(
+CREATE PROCEDURE load_end_of_month_dates(_start_date datetime, _end_date datetime 
 )
 
 BEGIN
@@ -23,10 +23,10 @@ create table END_OF_MONTH_DATES
 reporting_date date
 );
 	
-set @month_counter = 1;
-set @year_counter = 2000;
+set @month_counter = MONTH(_start_date);
+set @year_counter = YEAR(_start_date);
  
-WHILE last_day(CONCAT(@year_counter,'-',@month_counter,'-','01')) < current_date DO
+WHILE last_day(CONCAT(@year_counter,'-',@month_counter,'-','01')) < _end_date DO
 
 	INSERT INTO END_OF_MONTH_DATES
  		SELECT last_day(CONCAT(@year_counter,'-',@month_counter,'-','01'));
