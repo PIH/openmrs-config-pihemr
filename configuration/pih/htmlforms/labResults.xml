@@ -204,57 +204,6 @@
 
         <fieldset class="multi-line-confirmation">
             <legend>
-                <uimessage code="COVID-19"/>
-            </legend>
-            <h3>
-                <uimessage code="COVID-19"/>
-            </h3>
-
-            <p>
-                <label for="covid-ab">
-                    <uimessage code="pihcore.antibodyTest"/>
-                </label>
-                <span>
-                    <field>
-                        <obs conceptId="CIEL:165853" id="covid-ab"
-                             answerConceptIds="CIEL:664,CIEL:165855,CIEL:165856,CIEL:165857,CIEL:163611" />
-                    </field>
-                </span>
-
-                <label for="covid-ag">
-                    <uimessage code="pihcore.antigenTest"/>
-                </label>
-                <span>
-                    <field>
-                        <obs conceptId="CIEL:165852" id="covid-ag"
-                             answerConceptIds="CIEL:664,CIEL:703,CIEL:163611"/>
-                    </field>
-                </span>
-
-                <label for="covid-pcr">
-                    <uimessage code="pihcore.rtPCR"/>
-                </label>
-                <span>
-                    <field>
-                        <obs conceptId="CIEL:165840" id="covid-pcr"
-                             answerConceptIds="CIEL:664,CIEL:703,CIEL:163611"/>
-                    </field>
-                </span>
-
-                <label for="covid-xpert">
-                    <uimessage code="GeneXpert"/>
-                </label>
-                <span>
-                    <field>
-                        <obs conceptId="CIEL:165865" id="covid-xpert"
-                             answerConceptIds="CIEL:664,CIEL:703,CIEL:163611"/>
-                    </field>
-                </span>
-            </p>
-        </fieldset>
-
-        <fieldset class="multi-line-confirmation">
-            <legend>
                 <uimessage code="pihcore.lab.hematology.title"/>
             </legend>
             <h3>
@@ -262,14 +211,6 @@
             </h3>
 
             <p>
-                <label for="white-blood-cell">
-                    <uimessage code="pihcore.lab.white_blood_cell"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="white-blood-cell" conceptId="PIH:WHITE BLOOD CELLS" showUnits="true"/>
-                    </field>
-                </span>
                 <label for="red-blood-cell">
                     <uimessage code="pihcore.lab.red_blood_cell"/>
                 </label>
@@ -285,15 +226,6 @@
                 <span class="small">
                     <field>
                         <obs id="hemoglobin" conceptId="PIH:HEMOGLOBIN" showUnits="true"/>
-                    </field>
-                </span>
-
-                <label for="hemoglobin-a1c">
-                    HbA1c
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="hemoglobin-a1c" conceptId="PIH:HbA1c" showUnits="true"/>
                     </field>
                 </span>
 
@@ -314,6 +246,7 @@
                         <obs id="mcv" conceptId="CIEL:851" showUnits="true"/>
                     </field>
                 </span>
+
                 <label for="mch">
                     <uimessage code="pihcore.lab.mch"/>
                 </label>
@@ -322,6 +255,7 @@
                         <obs id="mch" conceptId="CIEL:1018" showUnits="true"/>
                     </field>
                 </span>
+
                 <label for="mchc">
                     <uimessage code="pihcore.lab.mchc"/>
                 </label>
@@ -331,24 +265,12 @@
                     </field>
                 </span>
 
-                <label for="platelets">
-                    <uimessage code="pihcore.lab.platelets"/>
+                <label for="white-blood-cell">
+                    <uimessage code="pihcore.lab.white_blood_cell"/>
                 </label>
                 <span class="small">
                     <field>
-                        <obs id="platelets" conceptId="PIH:PLATELETS" showUnits="true"/>
-                    </field>
-                </span>
-
-                <label for="lymphocyte">
-                    <uimessage code="pihcore.lab.lymphocyte"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="lymphocyte" conceptId="PIH:ABSOLUTE LYMPHOCYTE COUNT" showUnits="true"/>
-                    </field>
-                    <field>
-                        (<obs conceptId="PIH:LYMPHOCYTES" showUnits="true"/>)
+                        <obs id="white-blood-cell" conceptId="PIH:WHITE BLOOD CELLS" showUnits="true"/>
                     </field>
                 </span>
 
@@ -364,6 +286,7 @@
                     </field>
                 </span>
 
+                <!-- Not on lab result form
                 <label for="mxd">
                     <uimessage code="pihcore.lab.mxd"/>
                 </label>
@@ -371,7 +294,7 @@
                     <field>
                         <obs id="mxd" conceptId="CIEL:165578" showUnits="true"/>
                     </field>
-                </span>
+                </span> -->
 
                 <label for="eos-pcent">
                     <uimessage code="pihcore.lab.eosinophil"/>
@@ -382,7 +305,6 @@
                     </field>
                 </span>
 
-
                 <label for="bas-pcent">
                     <uimessage code="pihcore.lab.basophil"/>
                 </label>
@@ -392,6 +314,17 @@
                     </field>
                 </span>
 
+                <label for="lymphocyte">
+                    <uimessage code="pihcore.lab.lymphocyte"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="lymphocyte" conceptId="PIH:ABSOLUTE LYMPHOCYTE COUNT" showUnits="true"/>
+                    </field>
+                    <field>
+                        (<obs conceptId="PIH:LYMPHOCYTES" showUnits="true"/>)
+                    </field>
+                </span>
 
                 <label for="mono-pcent">
                     <uimessage code="pihcore.lab.monocyte"/>
@@ -402,6 +335,7 @@
                     </field>
                 </span>
 
+                <!-- Not on lab result form
                 <label for="rdw-sd">
                     <uimessage code="pihcore.lab.rdwSd"/>
                 </label>
@@ -417,7 +351,14 @@
                     <field>
                         <obs id="rdw-cv" conceptId="CIEL:165579" showUnits="true"/>
                     </field>
-                </span>
+                </span> -->
+
+                <!-- ToDo:  Add CD4 -->
+                <label>
+                    <i>
+                        <uimessage code="pihcore.lab.cd4Serology" />
+                    </i>
+                </label>
 
                 <label for="esr">
                     <uimessage code="pihcore.lab.esr"/>
@@ -428,49 +369,21 @@
                     </field>
                 </span>
 
-                <label for="pt">
-                    <uimessage code="pihcore.lab.pt"/>
+                <label for="sickle-screen">
+                    <uimessage code="pihcore.lab.sickleScreen"/>
                 </label>
                 <span class="small">
                     <field>
-                        <obs id="pt" conceptId="CIEL:161481" showUnits="true"/>
+                        <obs id="sickle-screen" conceptId="CIEL:160225" />
                     </field>
                 </span>
 
-                <label for="inr">
-                    <uimessage code="pihcore.lab.inr"/>
+                <label for="sickle-hg-elec">
+                    <uimessage code="pihcore.lab.hgElectro"/>
                 </label>
                 <span class="small">
                     <field>
-                        <obs id="inr" conceptId="PIH:INTERNATIONAL NORMALIZED RATIO"
-                             placeholder="Enter value"/>
-                    </field>
-                </span>
-
-                <label for="ptt">
-                    <uimessage code="pihcore.lab.ptt"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="ptt" conceptId="CIEL:161153" showUnits="true"/>
-                    </field>
-                </span>
-
-                <label for="coag">
-                    <uimessage code="pihcore.lab.coagTime"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="coag" conceptId="CIEL:161435" showUnits="true"/>
-                    </field>
-                </span>
-
-                <label for="bleed-t">
-                    <uimessage code="pihcore.lab.bleedTime"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="bleed-t" conceptId="CIEL:161433" showUnits="true"/>
+                        <obs id="sickle-hg-elec" conceptId="CIEL:165544" />
                     </field>
                 </span>
 
@@ -495,21 +408,76 @@
                     </field>
                 </span>
 
-                <label for="sickle-screen">
-                    <uimessage code="pihcore.lab.sickleScreen"/>
+                <h4>
+                    <uimessage code="pihcore.lab.hemostatis" />
+                </h4>
+
+                <label for="bleed-t">
+                    <uimessage code="pihcore.lab.bleedTime"/>
                 </label>
                 <span class="small">
                     <field>
-                        <obs id="sickle-screen" conceptId="CIEL:160225" />
+                        <obs id="bleed-t" conceptId="CIEL:161433" showUnits="true"/>
                     </field>
                 </span>
 
-                <label for="sickle-hg-elec">
-                    <uimessage code="pihcore.lab.hgElectro"/>
+                <label for="coag">
+                    <uimessage code="pihcore.lab.coagTime"/>
                 </label>
                 <span class="small">
                     <field>
-                        <obs id="sickle-hg-elec" conceptId="CIEL:165544" />
+                        <obs id="coag" conceptId="CIEL:161435" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="platelets">
+                    <uimessage code="pihcore.lab.platelets"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="platelets" conceptId="PIH:PLATELETS" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="pt">
+                    <uimessage code="pihcore.lab.pt"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="pt" conceptId="CIEL:161481" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="ptt">
+                    <uimessage code="pihcore.lab.ptt"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="ptt" conceptId="CIEL:161153" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="inr">
+                    <uimessage code="pihcore.lab.inr"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="inr" conceptId="PIH:INTERNATIONAL NORMALIZED RATIO"
+                             placeholder="Enter value"/>
+                    </field>
+                </span>
+
+                <!-- ToDo:  Initiale de realisateur -->
+
+                <hr/>
+
+                <!-- Not on paper form -->
+                <label for="hemoglobin-a1c">
+                    HbA1c
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="hemoglobin-a1c" conceptId="PIH:HbA1c" showUnits="true"/>
                     </field>
                 </span>
 
@@ -525,6 +493,42 @@
             <h3>
                 <uimessage code="pihcore.lab.biochemistry.title"/>
             </h3>
+
+            <p id="iStat8">
+                <h4>
+                    <uimessage code="pihcore.lab.electrolyte.panel"/>
+                </h4>
+
+                <repeat>
+                    <template>
+                        <label for="{tag}">
+                            <uimessage code="{message}"/>
+                        </label>
+                        <span class="small">
+                            <field>
+                                <obs id="{tag}" conceptId="{concept}" showUnits="true" />
+                            </field>
+                        </span>
+                    </template>
+                    <render concept="CIEL:1132" message="pihcore.lab.sodium" tag="sodium" />
+                    <render concept="CIEL:1133" message="pihcore.lab.potassium" tag="potassium" />
+                    <render concept="CIEL:1134" message="pihcore.lab.chloride" tag="chloride" />
+                    <render concept="CIEL:1135" message="pihcore.lab.co2" tag="co2" />
+
+                    <render concept="PIH:BLOOD UREA NITROGEN" message="pihcore.lab.urea" tag="urea" />
+                    <render concept="PIH:12653" message="pihcore.lab.ureaMeasured" tag="ureaM" />
+                    <render concept="PIH:Creatinine mg per dL" message="pihcore.lab.creatinine" tag="creatinine" />
+
+                    <render concept="CIEL:166397" message="pihcore.lab.magnesium" tag="magnes" />
+                    <render concept="CIEL:163592" message="pihcore.lab.lithium" tag="lithium" />
+                    <render concept="CIEL:166038" message="pihcore.lab.calcium" tag="calcium" />
+                    <render concept="CIEL:161154" message="pihcore.lab.phosphorus" tag="phosphorus" />
+                </repeat>
+                <!-- Not on paper lab form
+                    <render concept="CIEL:166396" message="Fe" tag="iron" />
+                    <render concept="CIEL:1013" message="Lipase" tag="lipase" />
+                -->
+            </p>
 
             <p>
                 <label for="glucose">
@@ -551,6 +555,21 @@
                 <span class="small">
                     <field>
                         <obs id="glucose-fasting" conceptId="CIEL:160912" showUnits="true"/>
+                    </field>
+                </span>
+            </p>
+
+            <br/>
+            <h4>
+                <uimessage code="pihcore.lab.renal.panel"/>
+            </h4>
+            <p>
+                <label for="uric-acid">
+                    <uimessage code="pihcore.lab.uricAcid"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="uric-acid" conceptId="CIEL:159825" showUnits="true"/>
                     </field>
                 </span>
             </p>
@@ -612,66 +631,33 @@
 
             <br/>
             <h4>
-                <uimessage code="pihcore.lab.renal.panel"/>
-            </h4>
-            <p>
-                <label for="urea">
-                    <uimessage code="pihcore.lab.urea"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="urea" conceptId="PIH:BLOOD UREA NITROGEN" showUnits="true"/>
-                    </field>
-                </span>
-
-                <label for="urea-m">
-                    <uimessage code="pihcore.lab.ureaMeasured"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="urea-m" conceptId="PIH:12653" showUnits="true"/>
-                    </field>
-                </span>
-
-                <label for="creatinine-i-stat">
-                    <uimessage code="pihcore.lab.creatinine"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="creatinine-i-stat" conceptId="PIH:Creatinine mg per dL" showUnits="true"/>
-                    </field>
-                </span>
-
-                <label for="uric-acid">
-                    <uimessage code="pihcore.lab.uricAcid"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="uric-acid" conceptId="CIEL:159825" showUnits="true"/>
-                    </field>
-                </span>
-            </p>
-
-            <br/>
-            <h4>
                 <uimessage code="pihcore.lab.lipids.title"/>
             </h4>
             <p>
-                <label for="total-chol">
-                    <uimessage code="pihcore.lab.total_chol"/>
-                </label>
-                <span class="small">
-                    <field>
-                        <obs id="total-chol" conceptId="PIH:12991" showUnits="true"/>
-                    </field>
-                </span>
-
                 <label for="hdl">
                     <uimessage code="pihcore.lab.hdl"/>
                 </label>
                 <span class="small">
                     <field>
                         <obs id="hdl" conceptId="PIH:12993" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="trigly">
+                    <uimessage code="pihcore.lab.trigly"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="trigly" conceptId="PIH:12990" showUnits="true"/>
+                    </field>
+                </span>
+
+                <label for="total-chol">
+                    <uimessage code="pihcore.lab.total_chol"/>
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="total-chol" conceptId="PIH:12991" showUnits="true"/>
                     </field>
                 </span>
 
@@ -684,42 +670,16 @@
                     </field>
                 </span>
 
-                <label for="trigly">
-                    <uimessage code="pihcore.lab.trigly"/>
+                <label for="vldl">
+                    <uimessage code="pihcore.lab.vldl"/>
                 </label>
                 <span class="small">
                     <field>
-                        <obs id="trigly" conceptId="PIH:12990" showUnits="true"/>
+                        <obs id="vldl" conceptId="CIEL:166047" showUnits="true"/>
                     </field>
                 </span>
             </p>
 
-            <p id="iStat8">
-                <h4>
-                    <uimessage code="pihcore.lab.electrolyte.panel"/>
-                </h4>
-
-                <repeat>
-                    <template>
-                        <label for="{tag}">
-                            <uimessage code="{message}"/>
-                        </label>
-                        <span class="small">
-                            <field>
-                                <obs id="{tag}" conceptId="{concept}" showUnits="true" />
-                            </field>
-                        </span>
-                    </template>
-                    <render concept="CIEL:1132" message="pihcore.lab.sodium" tag="sodium" />
-                    <render concept="CIEL:1133" message="pihcore.lab.potassium" tag="potassium" />
-                    <render concept="CIEL:1134" message="pihcore.lab.chloride" tag="chloride" />
-                    <render concept="CIEL:166038" message="pihcore.lab.calcium" tag="calcium" />
-                    <render concept="CIEL:1135" message="pihcore.lab.co2" tag="co2" />
-                    <render concept="CIEL:166396" message="Fe" tag="iron" />
-                    <render concept="CIEL:166397" message="Mg" tag="magnes" />
-                    <render concept="CIEL:1013" message="Lipase" tag="lipase" />
-                </repeat>
-            </p>
 
         </fieldset>
 
@@ -1140,6 +1100,56 @@
 
         </fieldset>
 
+        <fieldset class="multi-line-confirmation">
+            <legend>
+                <uimessage code="COVID-19"/>
+            </legend>
+            <h3>
+                <uimessage code="COVID-19"/>
+            </h3>
+
+            <p>
+                <label for="covid-ab">
+                    <uimessage code="pihcore.antibodyTest"/>
+                </label>
+                <span>
+                    <field>
+                        <obs conceptId="CIEL:165853" id="covid-ab"
+                             answerConceptIds="CIEL:664,CIEL:165855,CIEL:165856,CIEL:165857,CIEL:163611" />
+                    </field>
+                </span>
+
+                <label for="covid-ag">
+                    <uimessage code="pihcore.antigenTest"/>
+                </label>
+                <span>
+                    <field>
+                        <obs conceptId="CIEL:165852" id="covid-ag"
+                             answerConceptIds="CIEL:664,CIEL:703,CIEL:163611"/>
+                    </field>
+                </span>
+
+                <label for="covid-pcr">
+                    <uimessage code="pihcore.rtPCR"/>
+                </label>
+                <span>
+                    <field>
+                        <obs conceptId="CIEL:165840" id="covid-pcr"
+                             answerConceptIds="CIEL:664,CIEL:703,CIEL:163611"/>
+                    </field>
+                </span>
+
+                <label for="covid-xpert">
+                    <uimessage code="GeneXpert"/>
+                </label>
+                <span>
+                    <field>
+                        <obs conceptId="CIEL:165865" id="covid-xpert"
+                             answerConceptIds="CIEL:664,CIEL:703,CIEL:163611"/>
+                    </field>
+                </span>
+            </p>
+        </fieldset>
     </section>
 
     <!-- To Do: What to do about retrospective entry?  Check the who? when? where? -->
