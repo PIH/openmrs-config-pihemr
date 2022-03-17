@@ -9,7 +9,7 @@
         <sqlFile endDelimiter=";" path="sql/create_views.sql" relativeToChangelogFile="true" stripComments="true" />
     </changeSet>
 
-    <changeSet id="20200713-pihcore-create-stored-procedures" author="mgoodrich" runAlways="true" runOnChange="true">
+    <changeSet id="20200713-pihcore-create-stored-procedures" author="PIH" runAlways="true" runOnChange="true">
         <sqlFile endDelimiter="#" path="sql/create_stored_procedures.sql" relativeToChangelogFile="true" stripComments="true" />
     </changeSet>
 
