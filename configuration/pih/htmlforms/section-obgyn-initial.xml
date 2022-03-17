@@ -15,6 +15,10 @@
 
     <style type="text/css">
 
+        #visit-reason .required {
+            display: none;
+        }
+
         form fieldset {
             min-width: 98%
         }
