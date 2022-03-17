@@ -102,3 +102,4 @@ properties,global_property_value,"property, defaultValue",property value,"return
 properties,user_property_value,"user_id, property, defaultValue",property value,"returns the user property of the patient of the property passed in, returning the default if the value is null or blank",
 relationships,relation_type,name ,relation type id,relation type id of relation described by the name,
 users,username,user_id,username or systemid,username or system_id if username is null for the given user,
+Monthly reporting,load_end_of_month_dates (procedure),,END_OF_MONTH_DATES table,creates a table with a row for every end of month date since 2000
