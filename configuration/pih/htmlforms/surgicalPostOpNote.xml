@@ -42,8 +42,8 @@
             <variant locale="fr" value="1° Chirurgien (demandé)"/>
         </code>
         <code name="assistants">
-            <variant locale="en" value="Assistants"/>
-            <variant locale="fr" value="2° Chirurgien"/>
+            <variant locale="en" value="Assistant surgeon / Resident"/>
+            <variant locale="fr" value="2° Chirurgien / Résidant"/>
         </code>
         <code name="other">
             <variant locale="en" value="other assistants"/>
