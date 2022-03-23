@@ -42,8 +42,8 @@
             <variant locale="fr" value="1° Chirurgien (demandé)"/>
         </code>
         <code name="assistants">
-            <variant locale="en" value="Assistant surgeon or resident"/>
-            <variant locale="fr" value="2° Chirurgien/Résident"/>
+            <variant locale="en" value="Assistant surgeon / Resident"/>
+            <variant locale="fr" value="2° Chirurgien / Résidant"/>
         </code>
         <code name="other">
             <variant locale="en" value="other assistants"/>
@@ -358,7 +358,7 @@
                 <div class="provider-grid">
                     <div>
                         <encounterProviderAndRole encounterRole="6e630e03-5182-4cb3-9a82-a5b1a85c09a7"
-                                                  providerRoles="3182ee51-b895-4804-a342-5f261e995222,556ceee6-d899-43d4-a98b-7973ebc85b75"
+                                                  providerRoles="3182ee51-b895-4804-a342-5f261e995222,556ceee6-d899-43d4-a98b-7973ebc85b75,e92792de-006a-4dea-b078-cf3776638b0c"
                                                   autocompleteProvider="true" required="false" count="2" providerWidgetSeparator="&lt;/div&gt;&lt;div&gt;"/>
                     </div>
                 </div>
