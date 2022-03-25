@@ -20,6 +20,15 @@
             top: 5px; /* added to offset the checkbox position to line up */
         }
 
+        .side-by-side label {
+            display: inline-block;
+        }
+
+        form input[type="radio"], .form input[type="radio"] {
+            float: none;
+            display: inline-block;
+        }
+
         #viral-load > * {
             display: inline !important;
             float: none !important;
@@ -341,22 +350,13 @@
             </span>
 
             <label for="sickle-screen">
-                <uimessage code="pihcore.lab.sickleScreen"/>
+                <uimessage code="SickleScan RDT"/>
             </label>
-            <span class="small">
-                <field>
-                    <obs id="sickle-screen" conceptId="CIEL:160225"/>
-                </field>
-            </span>
+            <p class="side-by-side small">
+                <obs id="sickle-screen" style="radio"
+                     conceptId="CIEL:160225" answerConceptIds="CIEL:703,CIEL:664"/>
+            </p>
 
-            <label for="sickle-hg-elec">
-                <uimessage code="pihcore.lab.hgElectro"/>
-            </label>
-            <span class="small">
-                <field>
-                    <obs id="sickle-hg-elec" conceptId="CIEL:165544"/>
-                </field>
-            </span>
 
             <label for="reticul">
                 <uimessage code="pihcore.lab.reticul"/>
@@ -373,11 +373,10 @@
             <label for="blood-type">
                 <uimessage code="pihcore.lab.blood_type"/>
             </label>
-            <span class="small">
-                <field>
-                    <obs id="blood-type" conceptId="PIH:BLOOD TYPING"/>
-                </field>
-            </span>
+            <p class="side-by-side small">
+                <obs id="blood-type" style="radio"
+                     conceptId="PIH:BLOOD TYPING"/>
+            </p>
 
             <hr/>
 
@@ -1068,53 +1067,55 @@
 
             <repeat>
                 <template>
-                    <label for="urine-{message}">
-                        <uimessage code="pihcore.lab.urine.{message}"/>
-                    </label>
-                    <span class="small">
-                        <field>
-                            <obs id="urine-{message}" conceptId="CIEL:{concept}" />
-                        </field>
-                    </span>
+                    <p class="side-by-side small">
+                        <label for="urine-{message}">
+                            <uimessage code="pihcore.lab.urine.{message}"/>
+                        </label>
+                        <obs id="urine-{message}" style="radio"
+                             conceptId="CIEL:{concept}"
+                             answerConceptIds="{answers}"/>
+                    </p>
                 </template>
-                <render concept="163684" message="leuko" />
-                <render concept="163683" message="eryth" />
-                <render concept="163685" message="epi" />
+                <render concept="163684" message="leuko" answers="CIEL:1408,CIEL:1499,CIEL:1160,CIEL:1107" />
+                <render concept="163683" message="eryth" answers="CIEL:1408,CIEL:1499,CIEL:1160,CIEL:1107" />
+                <render concept="163685" message="epi" answers="CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664"/>
                 <!-- <render concept="xx" message="renal" /> -->
-                <render concept="160735" message="bact" />
+                <render concept="160735" message="bact" answers="CIEL:703,CIEL:664,CIEL:1118,CIEL:1067"/>
                 <!-- <render concept="" message="pus" /> -->
             </repeat>
 
-            <div class="section-container">
+            <p class="small">
                 <label for="urine-crystals">
                     <uimessage code="pihcore.lab.urine.crystal" />
                 </label>
-                <repeat>
-                    <template>
 
-                        <obs id="urine-crystal-{message}" style="checkbox"
-                             conceptId="CIEL:163695" answerConceptId="CIEL:{concept}"
-                             answerCode="pihcore.lab.urine.crystal{message}" />
+                <div class="section-container small">
+                    <repeat>
+                        <template>
+                            <obs id="urine-crystal-{message}" style="checkbox"
+                                 conceptId="CIEL:163695" answerConceptId="CIEL:{concept}"
+                                 answerCode="pihcore.lab.urine.crystal{message}" />
 
-                    </template>
-                    <render concept="725"    message="CaOxalate" />
-                    <render concept="123505" message="UricAcid" />
-                    <render concept="79241"  message="MgPhosphate" />
-                    <render concept="163642" message="AmmonUrate" />
-                    <render concept="163643" message="AmorphUrate" />
-                </repeat>
-            </div>
+                        </template>
+                        <render concept="725"    message="CaOxalate" />
+                        <render concept="123505" message="UricAcid" />
+                        <render concept="79241"  message="MgPhosphate" />
+                        <render concept="163642" message="AmmonUrate" />
+                        <render concept="163643" message="AmorphUrate" />
+                    </repeat>
+                </div>
+            </p>
 
             <repeat>
                 <template>
-                    <label for="urine-{message}">
-                        <uimessage code="pihcore.lab.urine.{message}"/>
-                    </label>
-                    <span class="small">
-                        <field>
-                            <obs id="urine-{message}" conceptId="CIEL:{concept}" />
-                        </field>
-                    </span>
+                    <p class="side-by-side small">
+                        <label for="urine-{message}">
+                            <uimessage code="pihcore.lab.urine.{message}"/>
+                        </label>
+                        <obs id="urine-{message}" style="radio"
+                             conceptId="CIEL:{concept}"
+                             answerConceptIds="CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664"/>
+                    </p>
                 </template>
                 <render concept="165540" message="hyalineCasts" />
                 <render concept="163690" message="granularCasts" />
