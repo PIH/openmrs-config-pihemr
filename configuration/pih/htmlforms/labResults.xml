@@ -357,7 +357,6 @@
                      conceptId="CIEL:160225" answerConceptIds="CIEL:703,CIEL:664"/>
             </p>
 
-
             <label for="reticul">
                 <uimessage code="pihcore.lab.reticul"/>
             </label>
@@ -691,9 +690,10 @@
                     <label for="{tag}">
                         <uimessage code="{message}"/>
                     </label>
-                    <span class="small">
+                    <span class="small side-by-side">
                         <field>
-                            <obs id="{tag}" conceptId="{concept}" />
+                            <obs id="{tag}" style="radio" conceptId="{concept}"
+                                 answerConceptIds="CIEL:703,CIEL:664,CIEL:1138" />
                         </field>
                     </span>
                 </template>
@@ -725,16 +725,17 @@
                     <label for="{tag}">
                         <uimessage code="{message}"/>
                     </label>
-                    <span class="small">
+                    <span class="small side-by-side">
                         <field>
-                            <obs id="{tag}" conceptId="{concept}" />
+                            <obs id="{tag}" style="radio"
+                                 conceptId="{concept}" answerConceptIds="{answers}" />
                         </field>
                     </span>
                 </template>
-                <render concept="CIEL:165303" message="pihcore.lab.syphilisRT" tag="syphilis-rt" />
-                <render concept="CIEL:1619"   message="pihcore.lab.syphilis" tag="rpr-syphilis"/>
-                <render concept="CIEL:1643"   message="pihcore.lab.malariaRDT" tag="malarial-rdt" />
-                <render concept="CIEL:32"     message="pihcore.lab.malarial_smear" tag="malarial-smear" />
+                <render concept="CIEL:165303" message="pihcore.lab.syphilisRT" tag="syphilis-rt" answers="CIEL:703,CIEL:664,CIEL:1138" />
+                <render concept="CIEL:1619"   message="pihcore.lab.syphilis" tag="rpr-syphilis" answers="CIEL:1229,CIEL:1228" />
+                <render concept="CIEL:1643"   message="pihcore.lab.malariaRDT" tag="malarial-rdt" answers="CIEL:703,CIEL:664,CIEL:1138" />
+                <render concept="CIEL:32"     message="pihcore.lab.malarial_smear" tag="malarial-smear" answers="CIEL:703,CIEL:664,CIEL:1138" />
             </repeat>
 
             <label for="tb-skin-test">
@@ -756,13 +757,14 @@
                     <label for="{tag}">
                         <uimessage code="{message}"/>
                     </label>
-                    <span class="small">
+                    <span class="small side-by-side">
                         <field>
-                            <obs id="{tag}" conceptId="{concept}" />
+                            <obs id="{tag}" style="radio"
+                                 conceptId="{concept}" answerConceptIds="{answers}"/>
                         </field>
                     </span>
                 </template>
-                <render concept="CIEL:163654" message="pihcore.lab.choleraRT" tag="cholera-rt" />
+                <render concept="CIEL:163654" message="pihcore.lab.choleraRT" tag="cholera-rt" answers="CIEL:1229,CIEL:1228"/>
             </repeat>
 
             <label for="crag">
@@ -800,7 +802,8 @@
             <obsgroup groupingConceptId="PIH:HIV viral load construct">
                 <span class="small">
                     <field>
-                        <obs id="viral-load" conceptId="CIEL:1305" style="radio" answerConceptIds="CIEL:1301,CIEL:1306" answerCodes="pihcore.lab.detected,pihcore.lab.undetected" />
+                        <obs id="viral-load" conceptId="CIEL:1305" style="radio"
+                             answerConceptIds="CIEL:1301,CIEL:1306" answerCodes="pihcore.lab.detected,pihcore.lab.undetected" />
                     </field>
                 </span>
                 <br/>
@@ -832,15 +835,15 @@
                     &lt; <uimessage code="pihcore.lab.viralLoad.units"/>
                 </div>
 
-                <div class="small">
+                <div class="small side-by-side">
                     <label for="hiv-test-reason">
                         <uimessage code="pihcore.reason"/>
                     </label>
                     <field>
-                        <obs id="hiv-test-reason" conceptId="CIEL:164126"
-                            answerConceptIds="CIEL:166058,CIEL:166059"
-                            answerCodes="pihcore.routine,pihcore.targeted"
-                        />
+                    <obs id="hiv-test-reason" style="radio"
+                         conceptId="CIEL:164126"
+                         answerConceptIds="CIEL:166058,CIEL:166059"
+                         answerCodes="pihcore.routine,pihcore.targeted" />
                     </field>
                 </div>
             </obsgroup>
@@ -851,27 +854,33 @@
             <label for="tb-smear-test">
                 <uimessage code="pihcore.lab.tbSmear"/>
             </label>
-            <span class="small">
+            <span class="small side-by-side">
                 <field>
-                    <obs id="tb-smear-test" conceptId="CIEL:307" />
+                    <obs id="tb-smear-test" style="radio"
+                         conceptId="CIEL:307"
+                         answerConceptIds="CIEL:1364,CIEL:1363,CIEL:1362,PIH:SCANTY,CIEL:664"/>
                 </field>
             </span>
 
             <label for="tb-culture-test">
                 <uimessage code="pihcore.lab.tbCulture"/>
             </label>
-            <span class="small">
+            <span class="small side-by-side">
                 <field>
-                    <obs id="tb-culture-test" conceptId="CIEL:159982" />
+                    <obs id="tb-culture-test" style="radio"
+                         conceptId="CIEL:159982"
+                         answerConceptIds="CIEL:1364,CIEL:1363,CIEL:1362,PIH:SCANTY,CIEL:664" />
                 </field>
             </span>
 
             <label for="tb-xpert">
                 <uimessage code="pihcore.lab.genexpert"/>
             </label>
-            <span class="small">
+            <span class="small side-by-side">
                 <field>
-                    <obs id="tb-xpert" conceptId="CIEL:162202" />
+                    <obs id="tb-xpert" style="radio"
+                         conceptId="CIEL:162202"
+                         answerConceptIds="CIEL:1138,CIEL:1302,CIEL:1301,CIEL:163611"/>
                 </field>
             </span>
 
@@ -880,45 +889,29 @@
                 <uimessage code="COVID-19"/>
             </h4>
 
-            <label for="covid-ab">
-                <uimessage code="pihcore.antibodyTest"/>
-            </label>
-            <span>
-                <field>
-                    <obs conceptId="CIEL:165853" id="covid-ab"
-                         answerConceptIds="CIEL:664,CIEL:165855,CIEL:165856,CIEL:165857,CIEL:163611" />
-                </field>
-            </span>
+            <repeat>
+                <template>
+                    <label for="covid-{tag}">
+                        <uimessage code="pihcore.{code}"/>
+                    </label>
+                    <span class="small side-by-side">
+                        <field>
+                            <obs id="covid-{tag}" style="radio"
+                                 conceptId="{id}"
+                                 answerConceptIds="{answers}" />
+                        </field>
+                    </span>
 
-            <label for="covid-ag">
-                <uimessage code="pihcore.antigenTest"/>
-            </label>
-            <span>
-                <field>
-                    <obs conceptId="CIEL:165852" id="covid-ag"
-                         answerConceptIds="CIEL:664,CIEL:703,CIEL:163611"/>
-                </field>
-            </span>
-
-            <label for="covid-pcr">
-                <uimessage code="pihcore.rtPCR"/>
-            </label>
-            <span>
-                <field>
-                    <obs conceptId="CIEL:165840" id="covid-pcr"
-                         answerConceptIds="CIEL:664,CIEL:703,CIEL:163611"/>
-                </field>
-            </span>
-
-            <label for="covid-xpert">
-                <uimessage code="GeneXpert"/>
-            </label>
-            <span>
-                <field>
-                    <obs conceptId="CIEL:165865" id="covid-xpert"
-                         answerConceptIds="CIEL:664,CIEL:703,CIEL:163611"/>
-                </field>
-            </span>
+                </template>
+                <render id="CIEL:165853" code="antibodyTest" tag="ab"
+                        answers="CIEL:664,CIEL:165855,CIEL:165856,CIEL:165857,CIEL:163611" />
+                <render id="CIEL:165852" code="antigenTest" tag="ag"
+                        answers="CIEL:664,CIEL:703,CIEL:163611" />
+                <render id="CIEL:165840" code="rtPCR" tag="pcr"
+                        answers="CIEL:664,CIEL:703,CIEL:163611" />
+                <render id="CIEL:165865" code="lab.genexpert" tag="xpert"
+                        answers="CIEL:664,CIEL:703,CIEL:163611" />
+            </repeat>
 
             <br/>
             <h4 id="id-other-section">
@@ -1018,15 +1011,16 @@
                     <label for="urine-{message}">
                         <uimessage code="pihcore.lab.urine.{message}"/>
                     </label>
-                    <span class="small">
+                    <span class="small side-by-side">
                         <field>
-                            <obs id="urine-{message}" conceptId="CIEL:{concept}"
+                            <obs id="urine-{message}" style="{style}"
+                                 conceptId="CIEL:{concept}"
                                  showUnits="{units}"/>
                         </field>
                     </span>
                 </template>
-                <render concept="45"     message="pregnancy" units="false"/>
-                <render concept="159661" message="creatinine24Hr" units="true" />
+                <render concept="45"     message="pregnancy" units="false" style="radio"/>
+                <render concept="159661" message="creatinine24Hr" units="true" style=""/>
             </repeat>
             <hr/>
 
