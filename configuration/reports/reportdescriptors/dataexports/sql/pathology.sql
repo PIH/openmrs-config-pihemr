@@ -11,9 +11,9 @@ DROP TEMPORARY TABLE IF EXISTS temp_pathology;
 CREATE TEMPORARY TABLE temp_pathology
 (
 order_id                    INT(11),
-order_number 				        VARCHAR(50),
-encounter_id				        INT(11),
-patient_id					        INT(11),
+order_number                VARCHAR(50),
+encounter_id                INT(11),
+patient_id                  INT(11),
 zlemrid						          VARCHAR(50),
 loc_registered				      VARCHAR(255),
 patient_name				        VARCHAR(255),
