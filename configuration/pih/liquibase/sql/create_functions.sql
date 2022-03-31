@@ -482,6 +482,7 @@ select CONCAT(given_name, ' ', family_name) into providerName
 from person_name pn join provider pv on pn.person_id = pv.person_id AND pn.voided = 0
 inner join encounter_provider ep on pv.provider_id = ep.provider_id and ep.voided = 0 and ep.encounter_id = _encounter_id 
 	and ep.encounter_role_id = _provider_type 
+order by ep.date_created desc, ep.encounter_provider_id desc		
 limit 1 offset _offset_value;
 
     RETURN providerName;
