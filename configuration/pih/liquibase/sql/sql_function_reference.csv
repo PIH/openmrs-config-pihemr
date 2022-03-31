@@ -38,6 +38,7 @@ encounters,hivEncounterLocationId,encounter_id,location id,"returns the encounte
 encounters,encounter_location_name ,encounter_id,location name,location name of encounter,
 encounters,encounter_parent_location_name ,encounter_id,location name,"returns the parent location of the encounter.  It looks 3 levels deep - the encounter location, that location's parent and then that location's parent.  The first location it finds without another parent is returned.",
 encounters,provider ,encounter_id,provider name,"first and last name of provider of encounter, comma separated (this limits to 1 result, but with no sorting)",
+encounters,provider_name_of_type,"encounter_id, provider_type, offset", provider name,returns the name of the nth provider (based of offset) or the specified type,
 encounters,provider_type ,encounter_id,provider type,name of provider type of provider of the encounter (limits to 1 with no sorting),
 encounters,visit_date,encounter_id,visit date,date of visit of the encounter,
 find encounters,firstEnc,"patient_id, encounter_types, begin_date",encounter id,"encounter id of first encounter out of the set of encounters described by the encounter names passed in, since the begin date, returning null if there are any",

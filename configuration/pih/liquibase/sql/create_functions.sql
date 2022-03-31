@@ -463,6 +463,32 @@ limit 1;
 
 END
 #
+-- This function accepts encounter_id, provider_type, and offset
+-- It return the name of the nth provider (based of offset) or the specified type
+#
+DROP FUNCTION IF EXISTS provider_name_of_type;
+#
+CREATE FUNCTION provider_name_of_type (
+    _encounter_id int,
+    _provider_type varchar(255),
+    _offset_value int
+)
+	RETURNS varchar(255)
+    DETERMINISTIC
+BEGIN
+    DECLARE providerName varchar(255);
+
+select CONCAT(given_name, ' ', family_name) into providerName
+from person_name pn join provider pv on pn.person_id = pv.person_id AND pn.voided = 0
+inner join encounter_provider ep on pv.provider_id = ep.provider_id and ep.voided = 0 and ep.encounter_id = _encounter_id 
+	and ep.encounter_role_id = _provider_type 
+order by ep.date_created desc, ep.encounter_provider_id desc		
+limit 1 offset _offset_value;
+
+    RETURN providerName;
+
+END
+#
 /*
 This function accepts an encounter_id
 It will return the text of provider type for that encounter
