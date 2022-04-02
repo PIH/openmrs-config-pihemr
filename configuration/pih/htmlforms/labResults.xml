@@ -356,6 +356,14 @@
                 <obs id="sickle-screen" style="radio"
                      conceptId="CIEL:160225" answerConceptIds="CIEL:703,CIEL:664"/>
             </p>
+            <label for="sickle-hg-elec">
+                <uimessage code="pihcore.lab.hgElectro"/>
+            </label>
+            <span class="small">
+                <field>
+                    <obs id="sickle-hg-elec" conceptId="CIEL:165544"/>
+                </field>
+            </span>
 
             <label for="reticul">
                 <uimessage code="pihcore.lab.reticul"/>
@@ -486,8 +494,7 @@
                     <render concept="CIEL:1134" message="pihcore.lab.chloride" tag="chloride" />
                     <render concept="CIEL:1135" message="pihcore.lab.co2" tag="co2" />
 
-                    <render concept="PIH:BLOOD UREA NITROGEN" message="pihcore.lab.urea" tag="urea" />
-                    <render concept="PIH:12653" message="pihcore.lab.ureaMeasured" tag="ureaM" />
+                    <render concept="PIH:12653" message="pihcore.lab.urea" tag="urea" />
                     <render concept="PIH:Creatinine mg per dL" message="pihcore.lab.creatinine" tag="creatinine" />
 
                     <render concept="CIEL:166397" message="pihcore.lab.magnesium" tag="magnes" />
@@ -496,6 +503,7 @@
                     <render concept="CIEL:161154" message="pihcore.lab.phosphorus" tag="phosphorus" />
                 </repeat>
                 <!-- Not on paper lab form
+                    <render concept="PIH:BLOOD UREA NITROGEN" message="pihcore.lab.urea" tag="urea" />
                     <render concept="CIEL:166396" message="Fe" tag="iron" />
                     <render concept="CIEL:1013" message="Lipase" tag="lipase" />
                 -->
@@ -533,6 +541,18 @@
                 <field>
                     <obs id="glucose-fasting" conceptId="CIEL:160912" showUnits="true"/>
                 </field>
+                <field>
+                    T1<obs id="gf-1" conceptId="PIH:14230" />
+                </field>
+                <field>
+                    T2<obs id="gf-2" conceptId="PIH:14231" />
+                </field>
+                <field>
+                    T4<obs id="gf-3" conceptId="PIH:14232" />
+                </field>
+                <field>
+                    T4<obs id="gf-4" conceptId="PIH:14233" />
+                </field>
             </span>
 
             <label for="glucose-tolerance">
@@ -543,16 +563,17 @@
                     <obs id="glucose-tolerance" conceptId="CIEL:163594" showUnits="true"/>
                 </field>
                 <field>
-                    T1<obs id="gtt-1" conceptId="CIEL:163704" />
+                    T1<obs id="gtt-1" conceptId="CIEL:163703" />
                 </field>
                 <field>
-                    T2<obs id="gtt-2" conceptId="CIEL:163705" />
+                    T2<obs id="gtt-2" conceptId="CIEL:163704" />
+                </field>
+                <!-- ToDo:  Add new 90 minute glucose tolerance test -->
+                <field>
+                    T4<obs id="gtt-3" conceptId="PIH:14228" />
                 </field>
                 <field>
-                    T3<obs id="gtt-3" conceptId="CIEL:163706" />
-                </field>
-                <field>
-                    T4<obs id="gtt-4" conceptId="CIEL:163707" />
+                    T4<obs id="gtt-4" conceptId="CIEL:163705" />
                 </field>
             </span>
 
@@ -596,9 +617,9 @@
                     </span>
                 </template>
                 <render concept="CIEL:159825" message="uricAcid" tag="uric-acid" units="true"/>
-                <render concept="CIEL:717"  message="totalProtein" tag="total-protein" units="true"/>
-                <render concept="CIEL:849"   message="albumin" tag="urine-albumin" units="false" />
-                <render concept="CIEL:1014"  message="ldh" tag="ldh" units="true" />
+                <render concept="PIH:14226" message="totalProtein" tag="total-protein" units="true"/>
+                <render concept="PIH:14238" message="albumin" tag="serum-albumin" units="true" />
+                <render concept="PIH:14234" message="ldh" tag="ldh" units="true" />
                 <render concept="CIEL:1012" message="lacticAcid" tag="lactic-acid" units="true" />
                 <render concept="CIEL:1299" message="amylase" tag="amylase" units="false" />
                 <render concept="CIEL:1013" message="lipase" tag="lipase" units="true" />
@@ -651,6 +672,15 @@
             <span class="small">
                 <field>
                     <obs id="vldl" conceptId="CIEL:166047" showUnits="true"/>
+                </field>
+            </span>
+
+            <label for="t-lipid">
+                <uimessage code="pihcore.lab.totalLipid"/>
+            </label>
+            <span class="small">
+                <field>
+                    <obs id="t-lipid" conceptId="PIH:14235" />
                 </field>
             </span>
         </fieldset>
@@ -1020,7 +1050,7 @@
                     </span>
                 </template>
                 <render concept="45"     message="pregnancy" units="false" style="radio"/>
-                <render concept="159661" message="creatinine24Hr" units="true" style=""/>
+                <!-- <render concept="159661" message="creatinine24Hr" units="true" style=""/> -->
             </repeat>
             <hr/>
 
@@ -1040,7 +1070,7 @@
                 </template>
                 <render concept="162106" message="color" />
                 <render concept="162101" message="aspect" />
-                <render concept="161441" message="leukoEst" />
+                <render concept="161441" message="leuko" />
                 <render concept="161440" message="nitrite" />
                 <render concept="161438" message="pH" />
                 <render concept="1875"   message="protein" />
@@ -1065,17 +1095,29 @@
                         <label for="urine-{message}">
                             <uimessage code="pihcore.lab.urine.{message}"/>
                         </label>
-                        <obs id="urine-{message}" style="radio"
-                             conceptId="CIEL:{concept}"
+                        <obs id="urine-{message}" style="{fad}"
+                             conceptId="{concept}"
                              answerConceptIds="{answers}"/>
                     </p>
                 </template>
-                <render concept="163684" message="leuko" answers="CIEL:1408,CIEL:1499,CIEL:1160,CIEL:1107" />
-                <render concept="163683" message="eryth" answers="CIEL:1408,CIEL:1499,CIEL:1160,CIEL:1107" />
-                <render concept="163685" message="epi" answers="CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664"/>
-                <!-- <render concept="xx" message="renal" /> -->
-                <render concept="160735" message="bact" answers="CIEL:703,CIEL:664,CIEL:1118,CIEL:1067"/>
-                <!-- <render concept="" message="pus" /> -->
+                <render concept="CIEL:163684" message="leuko" answers="CIEL:1408,CIEL:1499,CIEL:1160,CIEL:1107" fad="radio"/>
+                <render concept="CIEL:163683" message="eryth" answers="CIEL:1408,CIEL:1499,CIEL:1160,CIEL:1107" fad="radio"/>
+                <render concept="CIEL:163685" message="epi" answers="CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664" fad="radio"/>
+                <render concept="CIEL:160735" message="bact" answers="CIEL:703,CIEL:664,CIEL:1118,CIEL:1067" fad="radio"/>
+            </repeat>
+
+            <repeat>
+                <template>
+                    <p class="side-by-side small">
+                        <label for="urine-{message}">
+                            <uimessage code="pihcore.lab.urine.{message}"/>
+                        </label>
+                        <obs id="urine-{message}" style="{fad}"
+                             conceptId="{concept}"/>
+                    </p>
+                </template>
+                <render concept="PIH:14237"   message="renal" fad="numeric"/>
+                <render concept="PIH:14236"   message="pus" fad="numeric"/>
             </repeat>
 
             <p class="small">
