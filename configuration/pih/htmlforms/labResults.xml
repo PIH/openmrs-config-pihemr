@@ -1050,9 +1050,10 @@
                     </span>
                 </template>
                 <render concept="45"     message="pregnancy" units="false" style="radio"/>
-                <!-- <render concept="159661" message="creatinine24Hr" units="true" style=""/> -->
             </repeat>
             <hr/>
+
+            <!-- ToDo: Add message about adding creatinine result to hematology section -->
 
             <h4>
                 <uimessage code="pihcore.lab.urine.dipstickMacro" />
