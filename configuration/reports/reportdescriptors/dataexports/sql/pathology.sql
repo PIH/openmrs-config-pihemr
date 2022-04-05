@@ -47,6 +47,7 @@ urgent_review               VARCHAR(255),
 suspected_cancer            VARCHAR(255),
 immunohistochemistry_needed VARCHAR(255),
 immunohistochemistry_sent   VARCHAR(255),
+date_sent                   DATETIME,
 results_date                DATETIME,
 results_note                TEXT,
 file_uploaded               VARCHAR(255)
@@ -153,7 +154,10 @@ update temp_pathology t
 set immunohistochemistry_needed = obs_value_coded_list(t.encounter_id, 'PIH','14209',@locale);
 
 update temp_pathology t
-set immunohistochemistry_sent = obs_value_coded_list(t.encounter_id, 'PIH','14210',@locale);
+set immunohistochemistry_sent = obs_value_coded_list(t.encounter_id, 'PIH','7818',@locale);
+
+update temp_pathology t
+set date_sent = obs_value_datetime(t.encounter_id, 'PIH','14239');
 
 update temp_pathology t
 set results_date = obs_value_datetime(t.encounter_id, 'PIH','10783');
@@ -202,6 +206,7 @@ urgent_review,
 suspected_cancer,
 immunohistochemistry_needed,
 immunohistochemistry_sent,
+date_sent,
 results_date,
 results_note,
 file_uploaded
