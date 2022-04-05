@@ -531,8 +531,20 @@
                 <field>
                     <obs id="glucose-prandial" conceptId="CIEL:160914" showUnits="true"/>
                 </field>
+                <!--  Add 2hr -->
+                <field>
+                    T1<obs id="gp-1" conceptId="PIH:14230" />
+                </field>
+                <field>
+                    T2<obs id="gp-2" conceptId="PIH:14231" />
+                </field>
+                <field>
+                    T4<obs id="gp-3" conceptId="PIH:14232" />
+                </field>
+                <field>
+                    T4<obs id="gp-4" conceptId="PIH:14233" />
+                </field>
             </span>
-            <!-- ToDo:  Add 2hr -->
 
             <label for="glucose-fasting">
                 <uimessage code="pihcore.lab.glucose-fasting"/>
@@ -540,18 +552,6 @@
             <span class="small">
                 <field>
                     <obs id="glucose-fasting" conceptId="CIEL:160912" showUnits="true"/>
-                </field>
-                <field>
-                    T1<obs id="gf-1" conceptId="PIH:14230" />
-                </field>
-                <field>
-                    T2<obs id="gf-2" conceptId="PIH:14231" />
-                </field>
-                <field>
-                    T4<obs id="gf-3" conceptId="PIH:14232" />
-                </field>
-                <field>
-                    T4<obs id="gf-4" conceptId="PIH:14233" />
                 </field>
             </span>
 
@@ -807,6 +807,16 @@
                 </field>
             </span>
 
+            <label for="c-neo">
+                <uimessage code="pihcore.lab.cFormans"/>
+            </label>
+            <span class="small side-by-side">
+                <field>
+                    <obs id="c-neo" conceptId="PIH:14240" style="radio"
+                         answerConceptIds="CIEL:703,CIEL:664,CIEL:1138" />
+                </field>
+            </span>
+
             <hr/>
             <h4 id="hiv-section">
                 <uimessage code="pihcore.lab.hiv.title"/>
@@ -1044,16 +1054,22 @@
                     <span class="small side-by-side">
                         <field>
                             <obs id="urine-{message}" style="{style}"
-                                 conceptId="CIEL:{concept}"
+                                 conceptId="{concept}"
                                  showUnits="{units}"/>
                         </field>
                     </span>
                 </template>
-                <render concept="45"     message="pregnancy" units="false" style="radio"/>
+                <render concept="CIEL:45" message="pregnancy" units="false" style="radio"/>
+                <render concept="PIH:14241" message="protein24H" units="true" style="numeric"/>
             </repeat>
             <hr/>
 
-            <!-- ToDo: Add message about adding creatinine result to hematology section -->
+            <!-- Add creatinine result to hematology section -->
+            <label>
+                <i>
+                    <uimessage code="pihcore.lab.creatinineMsg" />
+                </i>
+            </label>
 
             <h4>
                 <uimessage code="pihcore.lab.urine.dipstickMacro" />
