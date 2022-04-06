@@ -619,7 +619,7 @@
                 <render concept="CIEL:159825" message="uricAcid" tag="uric-acid" units="true"/>
                 <render concept="PIH:14226" message="totalProtein" tag="total-protein" units="true"/>
                 <render concept="PIH:14238" message="albumin" tag="serum-albumin" units="true" />
-                <render concept="PIH:14234" message="ldh" tag="ldh" units="true" />
+                <render concept="CIEL:1014" message="ldh" tag="ldh" units="true" />
                 <render concept="CIEL:1012" message="lacticAcid" tag="lactic-acid" units="true" />
                 <render concept="CIEL:1299" message="amylase" tag="amylase" units="false" />
                 <render concept="CIEL:1013" message="lipase" tag="lipase" units="true" />
