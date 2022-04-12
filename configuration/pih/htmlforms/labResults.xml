@@ -1112,13 +1112,29 @@
                         <label for="urine-{message}">
                             <uimessage code="pihcore.lab.urine.{message}"/>
                         </label>
+                        <obs id="urine-{message}"
+                             conceptId="{concept}" showUnits="units.count"/>
+                    </p>
+                </template>
+                <render concept="PIH:14284" message="leuko" />
+                <render concept="PIH:14285" message="eryth" />
+            </repeat>
+            <!-- Use count (quantatative) not qualitative
+            <render concept="CIEL:163684" message="leuko" answers="CIEL:1408,CIEL:1499,CIEL:1160,CIEL:1107" fad="radio"/>
+            <render concept="CIEL:163683" message="eryth" answers="CIEL:1408,CIEL:1499,CIEL:1160,CIEL:1107" fad="radio"/>
+            -->
+
+            <repeat>
+                <template>
+                    <p class="side-by-side small">
+                        <label for="urine-{message}">
+                            <uimessage code="pihcore.lab.urine.{message}"/>
+                        </label>
                         <obs id="urine-{message}" style="{fad}"
                              conceptId="{concept}"
                              answerConceptIds="{answers}"/>
                     </p>
                 </template>
-                <render concept="CIEL:163684" message="leuko" answers="CIEL:1408,CIEL:1499,CIEL:1160,CIEL:1107" fad="radio"/>
-                <render concept="CIEL:163683" message="eryth" answers="CIEL:1408,CIEL:1499,CIEL:1160,CIEL:1107" fad="radio"/>
                 <render concept="CIEL:163685" message="epi"   answers="CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664" fad="radio"/>
                 <render concept="PIH:14237"   message="renal" answers="CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664" fad="radio"/>
                 <render concept="CIEL:160735" message="bact"  answers="CIEL:703,CIEL:664,CIEL:1118,CIEL:1067" fad="radio"/>
