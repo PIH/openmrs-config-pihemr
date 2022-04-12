@@ -1054,14 +1054,29 @@
                     <span class="small side-by-side">
                         <field>
                             <obs id="urine-{message}" style="{style}"
+                                 conceptId="{concept}" answerConceptIds="{answers}" />
+                        </field>
+                    </span>
+                </template>
+                <render concept="CIEL:45" message="pregnancy" style="radio" answers="CIEL:703,CIEL:664,CIEL:1138"/>
+            </repeat>
+
+            <repeat>
+                <template>
+                    <label for="urine-{message}">
+                        <uimessage code="pihcore.lab.urine.{message}"/>
+                    </label>
+                    <span class="small side-by-side">
+                        <field>
+                            <obs id="urine-{message}" style="{style}"
                                  conceptId="{concept}"
                                  showUnits="{units}"/>
                         </field>
                     </span>
                 </template>
-                <render concept="CIEL:45" message="pregnancy" units="false" style="radio"/>
-                <render concept="PIH:14241" message="protein24H" units="true" style="numeric"/>
+                <render concept="PIH:14241" message="protein24H" units="true" />
             </repeat>
+
             <hr/>
 
             <!-- Add creatinine result to hematology section -->
@@ -1079,26 +1094,99 @@
                     <label for="urine-{message}">
                         <uimessage code="pihcore.lab.urine.{message}"/>
                     </label>
-                    <span class="small">
+                    <span class="small side-by-side">
                         <field>
-                            <obs id="urine-{message}" conceptId="CIEL:{concept}" />
+                            <obs id="urine-{message}" style="{selector}"
+                                 conceptId="CIEL:{concept}"
+                                 answerConceptIds="{answers}"/>
                         </field>
                     </span>
                 </template>
-                <render concept="162106" message="color" />
-                <render concept="162101" message="aspect" />
-                <render concept="161441" message="leuko" />
-                <render concept="161440" message="nitrite" />
-                <render concept="161438" message="pH" />
-                <render concept="1875"   message="protein" />
-                <render concept="159733" message="glucose" />
-                <render concept="161442" message="ketones" />
-                <render concept="163682" message="urobili" />
-                <render concept="163680" message="bili" />
-                <render concept="162096" message="blood" />
-                <render concept="161439" message="density" />
+                <render concept="162106" message="color" answers="CIEL:162099,CIEL:127778,CIEL:162097,CIEL:162105,CIEL:162098,CIEL:162100" selector="radio" />
+                <render concept="162101" message="aspect" answers="CIEL:162102,CIEL:162103,CIEL:162104" selector="radio" />
+                <render concept="161441" message="leuko" answers="CIEL:703,CIEL:664,CIEL:1138" selector="radio" />
+                <render concept="161440" message="nitrite" answers="CIEL:703,CIEL:664,CIEL:1138" selector="radio" />
+            </repeat>
 
+            <repeat>
+                <template>
+                    <label for="urine-{message}">
+                        <uimessage code="pihcore.lab.urine.{message}"/>
+                    </label>
+                    <span class="small side-by-side">
+                        <field>
+                            <obs id="urine-{message}"
+                                 conceptId="CIEL:{concept}"/>
+                        </field>
+                    </span>
+                </template>
+                <render concept="161438" message="pH" />
+            </repeat>
+
+            <repeat>
+                <template>
+                    <label for="urine-{message}">
+                        <uimessage code="pihcore.lab.urine.{message}"/>
+                    </label>
+                    <span class="small side-by-side">
+                        <field>
+                            <obs id="urine-{message}" style="{selector}"
+                                 conceptId="CIEL:{concept}"
+                                 answerConceptIds="{answers}"/>
+                        </field>
+                    </span>
+                </template>
+                <render concept="1875"   message="protein" answers="CIEL:1365,CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664" selector="radio" />
+            </repeat>
+
+            <repeat>
+                <template>
+                    <label for="urine-{message}">
+                        <uimessage code="pihcore.lab.urine.{message}"/>
+                    </label>
+                    <span class="small side-by-side">
+                        <field>
+                            <obs id="urine-{message}"
+                                 conceptId="CIEL:{concept}"/>
+                        </field>
+                    </span>
+                </template>
+                <render concept="159733" message="glucose"  />
+            </repeat>
+
+            <repeat>
+                <template>
+                    <label for="urine-{message}">
+                        <uimessage code="pihcore.lab.urine.{message}"/>
+                    </label>
+                    <span class="small side-by-side">
+                        <field>
+                            <obs id="urine-{message}" style="{selector}"
+                                 conceptId="CIEL:{concept}"
+                                 answerConceptIds="{answers}"/>
+                        </field>
+                    </span>
+                </template>
+                <render concept="161442" message="ketones" answers="CIEL:1365,CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664" selector="radio" />
+                <render concept="163682" message="urobili" answers="CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664" selector="radio" />
+                <render concept="163680" message="bili" answers="CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664" selector="radio" />
+                <render concept="162096" message="blood" answers="CIEL:1364,CIEL:1363,CIEL:1362,CIEL:165526,CIEL:165528,CIEL:165527,CIEL:159416" selector="radio" />
                 <!-- <render concept="163681" message="ascorbic" /> -->
+            </repeat>
+
+            <repeat>
+                <template>
+                    <label for="urine-{message}">
+                        <uimessage code="pihcore.lab.urine.{message}"/>
+                    </label>
+                    <span class="small side-by-side">
+                        <field>
+                            <obs id="urine-{message}"
+                                 conceptId="CIEL:{concept}"/>
+                        </field>
+                    </span>
+                </template>
+                <render concept="161439" message="density" />
             </repeat>
             <hr/>
 
@@ -1113,7 +1201,7 @@
                             <uimessage code="pihcore.lab.urine.{message}"/>
                         </label>
                         <obs id="urine-{message}"
-                             conceptId="{concept}" showUnits="units.count"/>
+                             conceptId="{concept}" showUnits="pihcore.units.count"/>
                     </p>
                 </template>
                 <render concept="PIH:14284" message="leuko" />
