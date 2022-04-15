@@ -186,9 +186,8 @@ SET t.units = cu.units
 ;
 
 -- select  all output:
-SELECT t.patient_id,
-       t.emr_id,
-	     t.loc_registered,
+SELECT t.emr_id,
+       t.loc_registered,
        t.unknown_patient,
        t.gender,
        t.age_at_enc,
