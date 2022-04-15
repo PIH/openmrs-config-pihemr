@@ -538,7 +538,6 @@ update temp_delivery set return_visit_date = obs_value_datetime(encounter_id,'PI
 
 -- select final output
 SELECT 
-patient_id,
 dossierId,
 zlemrid,
 loc_registered,
