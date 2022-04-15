@@ -1,13 +1,6 @@
 Uuid,Name,Description,Void/Retire,Program concept,Outcomes concept
-${program.anc.uuid},ANC,Antenatal Care Program,,CIEL:165475,PIH:MCH outcome
-${program.asthma.uuid},Asthma,Asthma Program,,PIH:Asthma Program,PIH:Generic outcome
 ${program.covid19.uuid},COVID-19,COVID-19 Program,,CIEL:166009,PIH:Generic outcome
-${program.diabetes.uuid},Diabetes,Diabetes Program,,PIH:Diabetes Program,PIH:Generic outcome
-${program.epilepsy.uuid},Epilepsy,Epilepsy Program,,PIH:Epilepsy program,PIH:Generic outcome
-${program.hypertension.uuid},Hypertension,Hypertension Program,,PIH:Hypertension program,PIH:Generic outcome
 ${program.hiv.uuid},HIV,HIV Program,,PIH:HIV PROGRAM,PIH:HIV outcome
-${program.malnutrition.uuid},Malnutrition,Malnutrition Program,,PIH:MALNUTRITION PROGRAM,PIH:Generic outcome
-${program.mentalHealth.uuid},Mental Health,Mental Health Program,,PIH:Mental Health Program,PIH:Mental Health outcome
 ${program.mch.uuid},MCH,Maternal and Child Health Program,,CIEL:159937,PIH:MCH outcome
 ${program.ncd.uuid},NCD,NCD Program,,PIH:NCD Program,PIH:NCD outcome
 ${program.ovc.uuid},OVC,USAID orphans and vulnerable children program,,PIH:OVC PROGRAM,PIH:OVC OUTCOMES
