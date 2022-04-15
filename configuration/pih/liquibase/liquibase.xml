@@ -492,6 +492,48 @@
         delete from concept_reference_source
          where name IN ('org.openmrs.module.hirifxray','MVP Amazon Server 174','Rwanda HMIS Report 2012 01 20','Mexico MoH SIS','Mexico MoH SUIVE');
     </sql>
-</changeSet>
+    </changeSet>
+
+    <changeSet id="20220414-migrate-pathology" author="mogoodrich">
+        <comment>
+            Migrate Pathology data for new Pathology workflow: https://pihemr.atlassian.net/browse/UHM-6381
+        </comment>
+        <sql>
+            -- set variables we will use
+            set @pathology_order_type = (select order_type_id from order_type where uuid='65c912c2-88cf-46c2-83ae-2b03b1f97d3a');
+            set @test_order_encounter_type = (select encounter_type_id from encounter_type where uuid='b3a0e3ad-b80c-4f3f-9626-ace1ced7e2dd');
+            set @pathology_specimen_collection_encounter_type = (select encounter_type_id from encounter_type where uuid='10db3139-07c0-4766-b4e5-a41b01363145');
+            set @order_number_obs_concept_id = (select concept_id from concept where uuid='393dec41-2fb5-428f-acfa-36ea85da6666');
+            set @procedure_performed_concept_id= (select concept_id from concept where uuid='d2a8e2d1-88f9-45f9-9511-4ac5df877340');
+            set @procedure_ordered_concept_id = (select concept_id from concept where uuid='d6d585b6-4887-4aac-8361-424c17b030f2');
+            set @creator = (select user_id from users where username='admin');
+
+            -- find all existing orders where there is an existing obs with the order number, and switch
+            -- the encounter linked to the the order to the encounter with the order number obs
+            -- (ie, change the order so instead of pointing to the Test Order encounter, it now points to the specimen collection encounter)
+            update orders ord, encounter e, obs o set ord.encounter_id = o.encounter_id where order_type_id=@pathology_order_type
+                      and e.encounter_id = ord.encounter_id and e.encounter_type = @test_order_encounter_type
+                      and o.concept_id=@order_number_obs_concept_id and o.value_text = ord.order_number;
+
+            -- find all remaining pathology orders still linked to test orders (these should be the ones without specimen collection encounters)
+            create temporary table encounters_to_convert (patient_id INT, encounter_id INT, encounter_datetime DATETIME, location_id INT, order_number text);
+
+            insert into encounters_to_convert (select e.patient_id, e.encounter_id, e.encounter_datetime, e.location_id, ord.order_number
+                    from orders ord, encounter e where order_type_id=@pathology_order_type
+                    and ord.encounter_id = e.encounter_id and e.encounter_type=@test_order_encounter_type);
+
+            -- add a order number obs to these encounters
+            insert into obs (person_id, concept_id, encounter_id, obs_datetime, location_id, value_text, creator, date_created, uuid)
+            select patient_id, @order_number_obs_concept_id, encounter_id, encounter_datetime, location_id, order_number, @creator, NOW(), UUID() from encounters_to_convert;
+
+            -- change the pathology procedure ordered obs to pathology procedure performed
+            update obs o, encounters_to_convert e set o.concept_id = @procedure_performed_concept_id  where o.encounter_id=e.encounter_id and o.concept_id=@procedure_ordered_concept_id;
+
+            -- change the encounter type
+            update encounter e, encounters_to_convert etc set e.encounter_type = @pathology_specimen_collection_encounter_type where e.encounter_id = etc.encounter_id;
+
+        </sql>
+    </changeSet>
+
 
 </databaseChangeLog>
