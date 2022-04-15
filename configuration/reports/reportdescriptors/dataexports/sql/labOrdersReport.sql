@@ -153,7 +153,6 @@ set collection_date_estimated = concept_name(o.value_coded, @locale);
 
 -- final output
 SELECT 
-patient_id, 
 emr_id, 
 loc_registered,
 unknown_patient, 
