@@ -947,7 +947,7 @@
                             </obsgroup>
                         </template>
                         <render fpMethod="CIEL:159783" comment="COC" tag="COC"/>
-                        <render fpMethod="CIEL:80784"  comment="COP" tag="COP"/>
+                        <render fpMethod="CIEL:80784"  comment="pihcore.fp.pop" tag="progestinOnlyPill"/>
                         <render fpMethod="CIEL:5277"   comment="pihcore.fp.rhythm" tag="rhythm"/>
                         <render fpMethod="CIEL:190"    comment="Condoms" tag="rubber"/>
                         <render fpMethod="CIEL:907"    comment="Depo-provera" tag="depo"/>
@@ -984,7 +984,7 @@
                 <obsgroup groupingConceptId="PIH:Family planning construct">
                     <obs conceptId="CIEL:374"
                          answerConceptIds="CIEL:159783,CIEL:80784,CIEL:5277,CIEL:190,CIEL:907,CIEL:5275,CIEL:1873,CIEL:1472,CIEL:136163"
-                         answerCodes="COC,COP,pihcore.fp.rhythm,Condoms,Depo-provera,pihcore.fp.iud,Implant,pihcore.fp.tubalLig,pihcore.fp.breast"
+                         answerCodes="COC,pihcore.fp.pop,pihcore.fp.rhythm,Condoms,Depo-provera,pihcore.fp.iud,Implant,pihcore.fp.tubalLig,pihcore.fp.breast"
                          style="radio" />
                     <div class="two-columns">
                         <div>
@@ -1008,6 +1008,12 @@
                     <uimessage code="pihcore.dateImplant"/>:
                 </label>
                 <obs conceptId="PIH:3203" />
+            </p>
+
+            <p>
+                <obs conceptId="CIEL:159777" style="checkbox"
+                     answerConceptId="CIEL:1066"
+                     answerCode="pihcode.fp.condomsProvided"/>
             </p>
         </div>
     </section>
