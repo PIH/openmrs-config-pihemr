@@ -184,6 +184,8 @@ Components are defined in [pihcore/.../config/Components.java](https://github.co
 - **visitNote**: A different UI for the visit dashboard, which supports form sections.
 - **vitals**: Enables the vitals htmlform as a visit action. Adds the cyclical Vitals app button to the
   home page. Adds Most Recent Vitals app to pt dashboard.
+- **vitalsHomepageApp**: Adds the cyclical Vitals app button to the
+    home page. Requires vitals component.
 - **waitingForConsult**: Adds the Consult Queues app button to the home page. List of patients who are
   checked in and have had their vitals taken, but have not yet had a consult. On ci.pih-emr.org
 - **wristbands**: Adds Print Wristbands to general actions.
