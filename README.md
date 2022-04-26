@@ -143,6 +143,7 @@ Components are defined in [pihcore/.../config/Components.java](https://github.co
 - **mch**: mchForms + mchProgram
 - **mchForms**: used by ZL (via "mch")
 - **mchProgram**: needs MCHProgramBundle[ZL], used by ZL (via "mch")
+- **medicationDispensing**: Future medication dispensing application (under development)
 - **mentalHealth**: mentalHealthForm + mentalHealthProgram
 - **mentalHealthForm**: used by ZL (via "mentalHealth")
 - **mentalHealthProgram**: needs MentalHealthProgram bundle, used by ZL and CES
