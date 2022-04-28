@@ -535,5 +535,18 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20220428-delete-bad-baptist-concept" author="ball">
+        <comment>
+            UHM-6445 Delete the Baptist concept with 37 character uuid
+        </comment>
+        <sql>
+            update obs
+               set value_coded = (select concept_id from concept where uuid = '162932AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
+             where value_coded = (select concept_id from concept where uuid = '1162932AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+
+            delete from concept
+             where uuid = '1162932AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+        </sql>
+    </changeSet>
 
 </databaseChangeLog>
