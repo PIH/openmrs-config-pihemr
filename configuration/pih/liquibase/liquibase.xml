@@ -541,8 +541,9 @@
         </comment>
         <sql>
             update obs
-               set value_coded = (select concept_id from concept where uuid = '162932AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
-             where value_coded = (select concept_id from concept where uuid = '1162932AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+               set value_coded = (select concept_id from concept where uuid = '162932AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' and concept_id is not NULL)
+             where value_coded = (select concept_id from concept where uuid = '1162932AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
+               and value_coded is not NULL ;
 
             delete from concept
              where uuid = '1162932AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
