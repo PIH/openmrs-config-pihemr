@@ -545,6 +545,10 @@
              where value_coded = (select concept_id from concept where uuid = '1162932AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
                and value_coded is not NULL ;
 
+            delete from concept_name
+             where concept_id = (select concept_id from concept where uuid = '1162932AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
+               and concept_id is NOT NULL;
+
             delete from concept
              where uuid = '1162932AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
         </sql>
