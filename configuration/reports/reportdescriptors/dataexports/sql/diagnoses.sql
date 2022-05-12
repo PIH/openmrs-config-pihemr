@@ -2,7 +2,7 @@
 -- set @endDate = '2021-06-01';
 
 SET @locale =   if(@startDate is null, 'en', GLOBAL_PROPERTY_VALUE('default_locale', 'en'));
-
+set @partition = '${partitionNum}';
 
 DROP TEMPORARY TABLE IF EXISTS temp_diagnoses;
 CREATE TEMPORARY TABLE temp_diagnoses
@@ -137,4 +137,48 @@ update temp_diagnoses set age_restricted = concept_in_set(diagnosis_concept, con
 update temp_diagnoses set oncology = concept_in_set(diagnosis_concept, concept_from_mapping('PIH','8934'));
     
 -- select final output
-select * from temp_diagnoses;
+select
+patient_id,
+dossierId,
+patient_primary_id,
+loc_registered,
+unknown_patient,
+gender,
+age_at_encounter,
+department,
+commune,
+section,
+locality,
+street_landmark,
+if(@partition > 0,concat(@partition,'-',encounter_id),encounter_id) "encounter_id",
+encounter_location,
+obs_id,
+obs_datetime,
+entered_by,
+provider,
+diagnosis_entered,
+dx_order,
+certainty,
+coded,
+diagnosis_concept,
+diagnosis_coded_fr,
+icd10_code,
+notifiable,
+urgent,
+santeFamn,
+psychological,
+pediatric,
+outpatient,
+ncd,
+non_diagnosis,
+ed,
+age_restricted,
+oncology,
+date_created,
+retrospective,
+visit_id,
+birthdate,
+birthdate_estimated,
+encounter_type,
+section_communale_CDC_ID
+from temp_diagnoses;
