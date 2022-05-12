@@ -1,5 +1,6 @@
 -- set @startDate = '2020-06-28';
--- set @endDate = '2022-01-28';
+-- set @endDate = '2022-08-28';
+set @partition = '${partitionNum}';
 
 SET @locale = ifnull(@locale, GLOBAL_PROPERTY_VALUE('default_locale', 'en'));
 
@@ -162,4 +163,39 @@ update temp_echo t inner join temp_heart_failure_final th on t.patient_id = th.p
 set heart_failure = 1;
 
 -- select final output
-select * from temp_echo;
+select 
+patient_id,
+dossierId,
+emrid,
+age,
+gender,
+loc_registered,
+encounter_datetime,
+encounter_location,
+provider,
+if(@partition >0 ,concat(@partition,'-',encounter_id),encounter_id) "encounter_id",
+-- encounter_id, concat(@partition,'-',encounter_id)),
+visit_id,
+systolic_bp,
+diastolic_bp,
+heart_failure,
+heart_rate,
+murmur,
+NYHA_class,
+left_ventricle_systolic_function,
+right_ventricle_dimension,
+mitral_valve,
+pericardium,
+inferior_vena_cava,
+left_ventricle_dimension,
+pulmonary_artery_systolic_pressure,
+disease_category,
+disease_category_other_comment,
+peripartum_cardiomyopathy_diagnosis,
+ischemic_cardiomyopathy_diagnosis,
+study_results_changed_treatment_plan,
+study_results_changed_treatment_plan_comment,
+date_created,
+index_asc,
+index_desc
+from temp_echo;
