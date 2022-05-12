@@ -1,6 +1,6 @@
 -- set @startDate = '2000-05-01';
 -- set @endDate = '2022-06-09';
-
+set @partition = '${partitionNum}';
 SET @locale = ifnull(@locale, GLOBAL_PROPERTY_VALUE('default_locale', 'en'));
 
 select encounter_type_id into @delivery_note from encounter_type where uuid = '00e5ebb2-90ec-11e8-9eb6-529269fb1459'; 
@@ -545,7 +545,7 @@ encounter_datetime,
 encounter_location,
 encounter_type,
 provider,
-encounter_id,
+if(@partition > 0,concat(@partition,'-',encounter_id),encounter_id) "encounter_id",
 delivery_datetime,
 dystocia,
 prolapsed_cord,
