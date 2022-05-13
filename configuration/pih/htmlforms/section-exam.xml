@@ -756,6 +756,13 @@
                             </obsgroup>
                         </p>
 
+                        <p>
+                            <!-- PAP test performed -->
+                            <obs conceptId="CIEL:163952" style="checkbox"
+                                 answerConceptId="CIEL:1267"
+                                 answerCode="pihcore.papTestPerformed" />
+                        </p>
+
                         <p class="comment-label">
                             <uimessage code="pihcore.exam.comment"/>
                         </p>
