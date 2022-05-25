@@ -38,6 +38,17 @@
         </repository>
     </repositories>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>openmrs-repo</id>
+            <name>OpenMRS Nexus Repository</name>
+            <url>https://openmrs.jfrog.io/artifactory/public</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
     <build>
         <filters>
             <filter>${project.build.directory}/openmrs-packager-config/configuration/constants.properties</filter>
