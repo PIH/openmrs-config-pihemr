@@ -2670,3 +2670,132 @@ BEGIN
     RETURN ret;
 END
 #
+-- This function accepts encounter_id, mapping source, mapping code
+-- It will find a single, best observation that matches this, and return the value_text
+-- from the temporary table temp_obs
+#
+DROP FUNCTION IF EXISTS obs_value_text_from_temp;
+#
+CREATE FUNCTION obs_value_text_from_temp(_encounterId int(11), _source varchar(50), _term varchar(255))
+    RETURNS text
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret text;
+
+    select      o.value_text into ret
+    from        temp_obs o
+    where       o.voided = 0
+    and         o.encounter_id = _encounterId
+    and         o.concept_id = concept_from_mapping(_source, _term)
+    order by    o.date_created desc, o.obs_id desc
+    limit 1;
+
+    RETURN ret;
+
+END
+/*  
+This function accepts an obs_id 
+It will return the value coded of that obs, translated into a boolean
+from the temporary table temp_obs
+*/    
+DROP FUNCTION IF EXISTS value_coded_as_boolean_from_temp;
+#
+CREATE FUNCTION value_coded_as_boolean_from_temp(_obs_id int(11))
+    RETURNS boolean
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret boolean;
+
+    select CASE o.value_coded
+		WHEN concept_from_mapping('PIH','YES') then 1
+		WHEN concept_from_mapping('PIH','NO') then 0
+	END into ret
+	from        temp_obs o
+    where       o.obs_id = _obs_id;
+
+    RETURN ret;
+
+END
+#
+-- This function accepts encounter_id, mapping source, mapping code
+-- It will find the obs_id of the matching observation
+-- from the temporary table temp_obs
+#
+DROP FUNCTION IF EXISTS obs_id_from_temp;
+#
+CREATE FUNCTION obs_id_from_temp(_encounterId int(11), _source varchar(50), _term varchar(255), _offset_value int)
+RETURNS int
+DETERMINISTIC
+
+BEGIN
+
+DECLARE ret int;
+
+select      o.obs_id into ret
+from        temp_obs o
+where       o.voided = 0
+and         o.encounter_id = _encounterId
+and         o.concept_id = concept_from_mapping(_source, _term)
+order by    o.date_created desc, o.obs_id desc
+limit 1
+offset _offset_value
+;
+
+RETURN ret;
+
+END
+#
+-- This function accepts encounter_id, mapping source, mapping code
+-- It will find a single, best observation that matches this, and return the value_datetime
+-- from the temporary table temp_obs
+#
+DROP FUNCTION IF EXISTS obs_value_datetime_from_temp;
+#
+CREATE FUNCTION obs_value_datetime_from_temp(_encounterId int(11), _source varchar(50), _term varchar(255))
+RETURNS datetime
+DETERMINISTIC
+
+BEGIN
+
+DECLARE ret datetime;
+
+select      o.value_datetime into ret
+from        temp_obs o
+where       o.voided = 0
+and         o.encounter_id = _encounterId
+and         o.concept_id = concept_from_mapping(_source, _term)
+order by    o.date_created desc, o.obs_id desc
+limit 1;
+
+RETURN ret;
+
+END
+#
+-- This function accepts encounter_id, mapping source, mapping code
+-- It will find a single, best observation that matches this, and return the concept name
+-- from the temporary table temp_obs
+#
+DROP FUNCTION IF EXISTS obs_value_coded_list_from_temp;
+#
+CREATE FUNCTION obs_value_coded_list_from_temp(_encounterId int(11), _source varchar(50), _term varchar(255), _locale varchar(50))
+    RETURNS text
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret text;
+
+    select      group_concat(distinct concept_name(o.value_coded, _locale) separator ' | ') into ret
+    from        temp_obs o
+    where       o.voided = 0
+      and       o.encounter_id = _encounterId
+      and       o.concept_id = concept_from_mapping(_source, _term);
+
+    RETURN ret;
+
+END
+#
