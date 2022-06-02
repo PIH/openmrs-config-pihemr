@@ -2695,11 +2695,13 @@ BEGIN
     RETURN ret;
 
 END
+#
 /*  
 This function accepts an obs_id 
 It will return the value coded of that obs, translated into a boolean
 from the temporary table temp_obs
 */    
+#
 DROP FUNCTION IF EXISTS value_coded_as_boolean_from_temp;
 #
 CREATE FUNCTION value_coded_as_boolean_from_temp(_obs_id int(11))
