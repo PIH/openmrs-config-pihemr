@@ -91,8 +91,6 @@ functions from temp_obs table,value_coded_as_boolean_from_temp,obs_id,boolean,"v
 functions from temp_obs table,obs_id_from_temp,"encounterId, source, term, offset",obs id,obs id of the nth observation in that encounter of that concept (based on offset n) from the temp_obs table,
 functions from temp_obs table,obs_value_datetime_from_temp,"encounterId, source, term",value datetime,returns most recent value_datetime captured in that encounter of the concept described from the temp_obs table,
 functions from temp_obs table,obs_value_coded_list_from_temp,"encounterId, source, term, locale","value coded (list, | separated)","returns a list, pipe delimited, of the coded values captured in that encounter of the concept described, in that locale  from the temp_obs table",
-functions from temp_obs table,,,,,
-functions from temp_obs table,,,,,
 orders,OrderReasonStartDate,"patient_id, _order_reasonsource, _order_reason, _term",date activated,returns the date that the patient started on the order reason of the concept described,
 orders,DrugConceptStartDate,"patient_id, drug_source,drug_term",date activated,returns the date that the patient started on the order of the drug concept of the concept described,
 orders,ActiveDrugConceptNameList,"patient_id, source, term, locale",concept name list,return a list of the concept names of the active drugs for the order reason,
