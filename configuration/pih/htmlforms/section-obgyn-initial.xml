@@ -1556,6 +1556,24 @@
     <section id="risk-factors" sectionTag="fieldset"
               headerStyle="title" headerCode="pihcore.mch.riskFactors">
         <div class="section-container">
+            <!-- High risk pregnancy due to previous pregnancy complications -->
+            <p>
+                <obs id="prev-hi-risk"
+                     conceptId="CIEL:163092" style="checkbox"
+                     answerConceptId="CIEL:1065"
+                     answerCode="pihcore.mch.hiRiskFromPrevious" >
+                    <controls>
+                        <when value="CIEL:1065" thenDisplay="#risk-message" />
+                    </controls>
+                </obs>
+
+                <div id="risk-message">
+                    <strong>
+                        <uimessage code="pihcore.mch.hiRiskMessage"/>
+                    </strong>
+                </div>
+            </p>
+
             <div class="two-columns">
                 <div>
                     <!-- Placental abruption -->
