@@ -10,7 +10,9 @@ parameters:
     type: "java.util.Date"
     label: "reporting.parameter.endDate"
 datasets:
-  - {key: "dispensing", type: "dispensingDataSetManager"}
+  - key: "dispensingdataexport"
+    type: "sql"
+    config: "sql/dispensingData.sql"
 designs:
   - type: "csv"
     properties:
@@ -18,15 +20,6 @@ designs:
       "characterEncoding": "ISO-8859-1"
       "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
       "dateFormat": "dd-MMM-yyyy HH:mm:ss"
-    processors:
-      - name: "saveToDisk"
-        type: "disk"
-        runOnSuccess: "true"
-        runOnError: "false"
-        processorMode: "AUTOMATIC"
-        configuration:
-          saveLocation: "{{application_data_directory}}reports"
-          compressOutput: "true"
 config:
   category: "dataExport"
   order: "6"
