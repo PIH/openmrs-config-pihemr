@@ -1,5 +1,5 @@
--- set @startDate = '2021-03-18';
--- set @endDate = '2021-03-20';
+-- set @startDate = '2022-06-05';
+-- set @endDate = '2022-06-05';
 
 CALL initialize_global_metadata();
 SET @locale = GLOBAL_PROPERTY_VALUE('default_locale', 'en');
@@ -44,6 +44,9 @@ CREATE TEMPORARY TABLE temp_exam
     Gynecology_exam       varchar(255),
     Gynecology_exam_Other varchar(255),
     Gynecology_exam_Comments text,
+    VIA					varchar(255),
+    cryotherapy_cervix	varchar(255),
+    pap_test_performed	BIT,
     Musculoskeletal_Exam  varchar(255),
     Musculoskeletal_Exam_Other varchar(255),
     Pitting_edema		varchar(255),			
@@ -133,6 +136,21 @@ update temp_exam set urogenital_exam_comments = obs_value_text(encounter_id,'CIE
 update temp_exam set Gynecology_exam  = obs_value_coded_list(encounter_id,'PIH','13229',@locale);
 update temp_exam set Gynecology_exam_other = obs_comments(encounter_id,'PIH','13229','PIH','OTHER');
 update temp_exam set Gynecology_exam_comments = obs_value_text(encounter_id,'CIEL','166364');
+update temp_exam set VIA = obs_value_coded_list(encounter_id,'PIH','9759',@locale);
+update temp_exam te
+        JOIN obs o ON te.encounter_id = o.encounter_id
+        AND concept_id = CONCEPT_FROM_MAPPING('PIH', '10484')
+        AND value_coded = CONCEPT_FROM_MAPPING('PIH', '9764')
+        AND o.voided = 0 
+SET 
+    cryotherapy_cervix = 1;
+update temp_exam te
+        JOIN obs o ON te.encounter_id = o.encounter_id
+        AND concept_id = CONCEPT_FROM_MAPPING('PIH', '11319')
+        AND value_coded = CONCEPT_FROM_MAPPING('PIH', '1267')
+        AND o.voided = 0 
+SET 
+    pap_test_performed = 1;
 
 update temp_exam set Musculoskeletal_Exam = obs_value_coded_list(encounter_id,'PIH','MUSCULOSKELETAL EXAM FINDINGS',@locale);
 update temp_exam set Musculoskeletal_Exam_other = obs_comments(encounter_id,'PIH','MUSCULOSKELETAL EXAM FINDINGS','PIH','OTHER');
