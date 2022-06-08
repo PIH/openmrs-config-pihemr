@@ -45,7 +45,7 @@ CREATE TEMPORARY TABLE temp_exam
     Gynecology_exam_Other varchar(255),
     Gynecology_exam_Comments text,
     VIA					varchar(255),
-    cryotherapy_cervix	varchar(255),
+    cryotherapy_cervix	BIT,
     pap_test_performed	BIT,
     Musculoskeletal_Exam  varchar(255),
     Musculoskeletal_Exam_Other varchar(255),
