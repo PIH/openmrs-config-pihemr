@@ -10,7 +10,9 @@ parameters:
     type: "java.util.Date"
     label: "reporting.parameter.endDate"
 datasets:
-  - {key: "dispensing", type: "dispensingDataSetManager"}
+  - key: "dispensing"
+    type: "sql"
+    config: "sql/dispensingData.sql"
 designs:
   - type: "csv"
     properties:
@@ -26,7 +28,7 @@ designs:
         processorMode: "AUTOMATIC"
         configuration:
           saveLocation: "{{application_data_directory}}reports"
-          compressOutput: "true"
+          compressOutput: "true"      
 config:
   category: "dataExport"
   order: "6"
