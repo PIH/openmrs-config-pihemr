@@ -67,7 +67,7 @@ set t.duration = value_numeric;
 
 update temp_meds t
 inner join temp_obs o on o.obs_group_id = t.obs_id and o.concept_id = concept_from_mapping( 'PIH','6412')
-set t.durationUnits = concept_name(o.value_coded, @locale);;
+set t.durationUnits = concept_name(o.value_coded, @locale);
 
 update temp_meds t
 inner join temp_obs o on o.obs_group_id = t.obs_id and o.concept_id = concept_from_mapping( 'PIH','9071')
