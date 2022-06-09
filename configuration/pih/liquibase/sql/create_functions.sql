@@ -2981,3 +2981,99 @@ BEGIN
 
 END
 #
+/*  
+This function accepts an obs_id
+It will return the value_text of that obs from temp_obs table
+*/  
+#
+DROP FUNCTION IF EXISTS value_text_from_temp;
+#
+CREATE FUNCTION value_text_from_temp(_obs_id int(11))
+    RETURNS text
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret text;
+
+    select      value_text into ret
+    from        temp_obs o
+    where       o.obs_id = _obs_id;
+
+    RETURN ret;
+
+END
+#
+/*  
+This function accepts an obs_id
+It will return the value_numeric of that obs from the table temp_obs
+*/    
+DROP FUNCTION IF EXISTS value_numeric_from_temp;
+#
+CREATE FUNCTION value_numeric_from_temp(_obs_id int(11))
+    RETURNS double
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret double;
+
+    select      value_numeric into ret
+    from        obs o
+    where       o.obs_id = _obs_id;
+
+    RETURN ret;
+
+END
+#
+/*  
+This function accepts an obs_id
+It will return the value_datetime of that obs from the table temp_obs
+*/    
+DROP FUNCTION IF EXISTS value_datetime_from_temp;
+#
+CREATE FUNCTION value_datetime_from_temp(_obs_id int(11))
+    RETURNS datetime
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret datetime;
+
+    select      value_datetime into ret
+    from        obs o
+    where       o.obs_id = _obs_id;
+
+    RETURN ret;
+
+END
+#
+/*
+This function accepts a patient id, source & code of a question concept and source &code of an answer concept
+It will return a boolean set to 1 if that question and answer has EVER been recorded for a patient since the datetime passed in.
+Null can be passed in as the datetime if it is to be disregarded.
+it looks at the temp_obs table created within a script for this
+*/
+#
+DROP FUNCTION IF EXISTS answerEverExists_from_temp;
+#
+CREATE FUNCTION answerEverExists_from_temp(_patient_id int(11), _source_question varchar(50), _term_question varchar(255), _source_answer varchar(50), _term_answer varchar(255), _begin_datetime datetime)
+    RETURNS boolean
+    DETERMINISTIC
+
+BEGIN
+
+  DECLARE ret boolean;
+
+
+select if(obs_id is null,0,1) into ret
+from temp_obs o where o.voided =0 
+	and o.person_id = _patient_id
+	and o.concept_id = concept_from_mapping(_source_question,_term_question)
+	and o.value_coded  = concept_from_mapping(_source_answer,_term_answer)
+	and (o.obs_datetime >= _begin_datetime or _begin_datetime is null)
+	limit 1;
+
+    RETURN ret;
+
+END
