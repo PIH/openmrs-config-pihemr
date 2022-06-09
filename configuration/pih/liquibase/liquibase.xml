@@ -40,7 +40,7 @@
     </changeSet>
 
     <changeSet id="20210405-restore-value-drug" author="ball">
-        <validCheckSum>3:60fc99e90700bdd6fff363fd5f9a1d02</validCheckSum>
+        <validCheckSum>8:bad63b2e0fbf0d146d0e063203d8937b</validCheckSum>
         <comment>
             UHM-5226 Restore obs.value_drug for meds
         </comment>
@@ -50,6 +50,7 @@
             create table temp_value_drug (
                 id INT not null auto_increment primary key,
                 obs_id int(11) default NULL,
+                obs_group_id int(11) default NULL,
                 value_coded int(11) default NULL,
                 value_drug int(11) default NULL,
                 encounter_name varchar(50) default NULL
@@ -57,8 +58,8 @@
 
             -- Add obs_id to temporary table
             --   when the value_drug is null
-            insert into temp_value_drug (obs_id,encounter_name)
-            select o.obs_id, et.name
+            insert into temp_value_drug (obs_id,obs_group_id,encounter_name)
+            select o.obs_id, o.obs_group_id, et.name
               from obs o, encounter e, encounter_type et
              where o.concept_id = (select concept_id from concept
                     where uuid = '3cd9491e-26fe-102b-80cb-0017a47871b2')
@@ -113,14 +114,31 @@
                    o1.obs_group_id, 'fixed value_drug', o1.creator,
                    now(), uuid()
               from temp_value_drug tvd, obs o1
-             where tvd.obs_id = o1.obs_id;
+             where tvd.obs_id = o1.obs_id
+               and tvd.value_coded is NOT NULL;
 
             -- Void old obs
             update obs, temp_value_drug
                set voided = 1,
                    voided_by = 1, date_voided = now(),
                    void_reason = 'value_drug is null'
-             where obs.obs_id = temp_value_drug.obs_id;
+             where obs.obs_id = temp_value_drug.obs_id
+               and temp_value_drug.value_coded is NOT NULL;
+
+            -- Void obs_group when value_coded is NULL
+            update obs, temp_value_drug
+               set voided = 1,
+                   voided_by = 1, date_voided = now(),
+                   void_reason = 'value_drug is null'
+            where obs.obs_group_id = temp_value_drug.obs_group_id
+              and temp_value_drug.value_coded is NULL;
+
+            update obs, temp_value_drug
+               set voided = 1,
+                   voided_by = 1, date_voided = now(),
+                   void_reason = 'value_drug is null'
+             where obs.obs_id = temp_value_drug.obs_group_id
+               and temp_value_drug.value_coded is NULL;
 
             drop table if exists temp_value_drug;
         </sql>
