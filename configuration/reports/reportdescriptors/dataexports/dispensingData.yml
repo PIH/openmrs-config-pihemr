@@ -1,4 +1,4 @@
-key: "dispensing"
+key: "dispensingdataexport"
 uuid: "8b2f46e0-5d13-11e3-949a-0800200c9a66"
 name: "mirebalaisreports.dispensingdataexport.name"
 description: "mirebalaisreports.dispensingdataexport.description"
@@ -10,7 +10,7 @@ parameters:
     type: "java.util.Date"
     label: "reporting.parameter.endDate"
 datasets:
-  - key: "dispensingdataexport"
+  - key: "dispensing"
     type: "sql"
     config: "sql/dispensingData.sql"
 designs:
