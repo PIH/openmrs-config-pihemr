@@ -2959,3 +2959,25 @@ RETURN ret;
 
 END
 #
+/*  
+This function accepts an obs_id and a locale
+It will return the concept name of that obs, in that locale from the temp_obs table
+*/    
+DROP FUNCTION IF EXISTS value_coded_name_from_temp;
+#
+CREATE FUNCTION value_coded_name(_obs_id int(11),  _locale varchar(50))
+    RETURNS varchar(255)
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret varchar(255);
+
+    select      concept_name(o.value_coded,@locale) into ret
+    from        temp_obs o
+    where       o.obs_id = _obs_id;
+
+    RETURN ret;
+
+END
+#
