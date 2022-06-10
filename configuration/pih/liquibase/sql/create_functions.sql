@@ -2965,7 +2965,7 @@ It will return the concept name of that obs, in that locale from the temp_obs ta
 */    
 DROP FUNCTION IF EXISTS value_coded_name_from_temp;
 #
-CREATE FUNCTION value_coded_name(_obs_id int(11),  _locale varchar(50))
+CREATE FUNCTION value_coded_name_from_temp(_obs_id int(11),  _locale varchar(50))
     RETURNS varchar(255)
     DETERMINISTIC
 
