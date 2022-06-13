@@ -40,6 +40,7 @@
     </changeSet>
 
     <changeSet id="20210405-restore-value-drug" author="ball">
+        <validCheckSum>3:60fc99e90700bdd6fff363fd5f9a1d02</validCheckSum>
         <validCheckSum>8:bad63b2e0fbf0d146d0e063203d8937b</validCheckSum>
         <comment>
             UHM-5226 Restore obs.value_drug for meds
