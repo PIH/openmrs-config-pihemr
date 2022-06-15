@@ -139,7 +139,7 @@ CREATE TEMPORARY TABLE temp_delivery
     diagnosis_10_confirmed          varchar(255),
     diagnosis_10_primary           varchar(255),
     disposition                     varchar(255),
-    disposition_comment             varchar(255),
+    disposition_comment             text,
     return_visit_date               datetime
     );
 
