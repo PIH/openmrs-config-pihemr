@@ -965,16 +965,23 @@
              headerStyle="title" headerCode="pihcore.familyPlanning.title">
 
         <div id="fp-area" class="section-container">
-            <div class="two-columns">
+           <div class="two-columns">
                 <div>
-                    <obs conceptId="CIEL:163560" style="checkbox"
-                         answerConceptId="CIEL:1382" answerCode="pihcore.mch.counselling.familyPlanning" />
+                    <obs conceptId="CIEL:165309" style="checkbox"
+                         answerConceptId="CIEL:1382" answerCode="pihcore.mch.counselling.familyPlanning"/>
                 </div>
-                <div>
-                    <obs conceptId="CIEL:965" style="checkbox"
-                         answerConceptId="CIEL:1065" answerCode="pihcore.currentlyUsing"/>
-                </div>
-            </div>
+            </div> <br/>
+            <p class="side-by-side">
+                <label>
+                    <uimessage code="pihcore.patientType"/>:
+                </label>
+                <br/>
+                    <obs conceptId="PIH:14321"
+                         answerConceptIds="CIEL:965,PIH:13958"
+                         answerCodes="pihcore.currently.using.birth.control,pihcore.accepted"
+                         style="radio" />
+            </p>
+            <br/>
 
             <h3>
                 <uimessage code="pihcore.fpMethod" />
