@@ -1,5 +1,5 @@
--- set @startDate = '2022-03-28';
--- set @endDate = '2022-04-01';
+-- set @startDate = '2000-03-28';
+-- set @endDate = '2022-07-01';
 
 CALL initialize_global_metadata();
 
@@ -39,6 +39,10 @@ specimen_details_1          TEXT,
 specimen_details_2          TEXT,
 specimen_details_3          TEXT,
 specimen_details_4          TEXT,
+specimen_details_5          TEXT,
+specimen_details_6          TEXT,
+specimen_details_7          TEXT,
+specimen_details_8          TEXT,
 attending_surgeon           VARCHAR(255),
 resident                    VARCHAR(255),
 md_to_notify                TEXT,
@@ -121,16 +125,28 @@ update temp_pathology t
 set post_op_diagnosis  = obs_from_group_id_value_coded_list(obs_id(t.encounter_id, 'PIH','10782',0), 'PIH','3064',@locale);
 
 update temp_pathology t
-set specimen_details_1 = obs_value_text(t.encounter_id, 'PIH','10775');  --  value_text(obs_id(t.encounter_id, 'PIH','10775',0));
+set specimen_details_1 = obs_value_text(t.encounter_id, 'PIH','10775'); 
 
 update temp_pathology t
-set specimen_details_2 = obs_value_text(t.encounter_id, 'PIH','10776');  --  value_text(obs_id(t.encounter_id, 'PIH','10775',0));
+set specimen_details_2 = obs_value_text(t.encounter_id, 'PIH','10776'); 
 
 update temp_pathology t
-set specimen_details_3 = obs_value_text(t.encounter_id, 'PIH','10777');  --  value_text(obs_id(t.encounter_id, 'PIH','10775',0));
+set specimen_details_3 = obs_value_text(t.encounter_id, 'PIH','10777'); 
 
 update temp_pathology t
-set specimen_details_4 = obs_value_text(t.encounter_id, 'PIH','10778');  --  value_text(obs_id(t.encounter_id, 'PIH','10775',0));
+set specimen_details_4 = obs_value_text(t.encounter_id, 'PIH','10778');  
+
+update temp_pathology t
+set specimen_details_5 = obs_value_text(t.encounter_id, 'PIH','14317');  
+
+update temp_pathology t
+set specimen_details_6 = obs_value_text(t.encounter_id, 'PIH','14318'); 
+
+update temp_pathology t
+set specimen_details_7 = obs_value_text(t.encounter_id, 'PIH','14319'); 
+
+update temp_pathology t
+set specimen_details_8 = obs_value_text(t.encounter_id, 'PIH','14320'); 
 
 update temp_pathology t
 set attending_surgeon  =  provider_name_of_type(t.encounter_id, @attending_surgeon, 0); 
@@ -198,6 +214,10 @@ specimen_details_1,
 specimen_details_2,
 specimen_details_3,
 specimen_details_4,
+specimen_details_5,
+specimen_details_6,
+specimen_details_7,
+specimen_details_8,
 attending_surgeon,
 resident,
 md_to_notify,
