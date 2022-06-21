@@ -975,7 +975,6 @@
                 <label>
                     <uimessage code="pihcore.patientType"/>:
                 </label>
-                <br/>
                     <obs conceptId="PIH:14321"
                          answerConceptIds="CIEL:965,PIH:13958"
                          answerCodes="pihcore.currently.using.birth.control,pihcore.accepted"
