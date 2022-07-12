@@ -238,17 +238,6 @@
                 <render concept="CIEL:678" message="pihcore.lab.white_blood_cell" tag="white-blood-cell"/>
             </repeat>
 
-            <!--
-                            <render concept="" message="" tag="" />
-                <render concept="" message="" tag="" />
-                <render concept="" message="" tag="" />
-                <render concept="" message="" tag="" />
-                <render concept="" message="" tag="" />
-                <render concept="" message="" tag="" />
-                <render concept="" message="" tag="" />
-                <render concept="" message="" tag="" />
-            -->
-
             <label for="neutrophil">
                 <uimessage code="pihcore.lab.neutrophil"/>
             </label>
