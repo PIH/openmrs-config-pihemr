@@ -1239,6 +1239,7 @@ angular.module("encounterTypeConfig", [])
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/pathologySpecimenCollectionLong.page",
+            editUrl: "labtrackingapp/labtrackingAddOrder.page?patientId={{patient.uuid}}&visitId={{visit.uuid}}&encounter={{encounter.uuid}}&returnUrl={{returnUrl}}",
             icon: "fas fa-fw fa-microscope"
         };
 
