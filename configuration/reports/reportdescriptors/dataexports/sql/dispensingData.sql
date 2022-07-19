@@ -10,7 +10,7 @@ CREATE TEMPORARY TABLE temp_meds
 (	encounter_id		int(11),
 	obs_id				int(11),
 	medication			varchar(255),	
-	dosage				int,
+	dosage				double,
 	dosageUnits			varchar(255),
 	frequency			varchar(255),
 	duration			int,
