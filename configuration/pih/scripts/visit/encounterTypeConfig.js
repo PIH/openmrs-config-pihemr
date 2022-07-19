@@ -1239,6 +1239,7 @@ angular.module("encounterTypeConfig", [])
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/pathologySpecimenCollectionLong.page",
+            editUrl: "labtrackingapp/labtrackingAddOrder.page?patientId={{patient.uuid}}&visitId={{visit.uuid}}&encounter={{encounter.uuid}}&returnUrl={{returnUrl}}",
             icon: "fas fa-fw fa-microscope"
         };
 
@@ -1502,7 +1503,7 @@ angular.module("encounterTypeConfig", [])
             editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("ultrasound.xml"),
             showOnVisitList: true
         };
-
+        
         // sierraLeoneOutpatientInitial
         encounterTypes["7d5853d4-67b7-4742-8492-fcf860690ed5"] = {
             defaultState: "short",

@@ -195,9 +195,6 @@ update temp_dx_concept set age_restricted = concept_in_set(diagnosis_concept, co
 update temp_dx_concept set oncology = concept_in_set(diagnosis_concept, concept_from_mapping('PIH','8934'));
     
 -- select final output
-select * from temp_diagnoses;
-
-
 select 
 p.patient_id,
 p.dossierId,
