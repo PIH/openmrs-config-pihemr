@@ -60,8 +60,8 @@ file_uploaded               VARCHAR(255)
 insert into temp_pathology (order_id,encounter_id, order_number, patient_id, prepath_dx)
 select o.order_id , o.encounter_id, o.order_number, patient_id, concept_name(order_reason,@locale)  from orders o
 where o.order_type_id = @pathologyTestOrder
-AND date(o.date_activated) >= @startDate
-AND date(o.date_activated) <= @endDate
+AND ((date(o.date_activated) >= @startDate) or  @startDate is null)
+AND ((date(o.date_activated) <= @endDate) or @endDate is null)
 ;
 
 update temp_pathology t
