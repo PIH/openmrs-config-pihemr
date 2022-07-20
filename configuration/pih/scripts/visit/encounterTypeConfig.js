@@ -1237,7 +1237,7 @@ angular.module("encounterTypeConfig", [])
         // pathologySpecimenCollection
         encounterTypes["10db3139-07c0-4766-b4e5-a41b01363145"] = {
             defaultState: "short",
-            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            shortTemplate: "templates/encounters/pathologySpecimenCollectionShort.page",
             longTemplate: "templates/encounters/pathologySpecimenCollectionLong.page",
             editUrl: "labtrackingapp/labtrackingAddOrder.page?patientId={{patient.uuid}}&visitId={{visit.uuid}}&encounter={{encounter.uuid}}&returnUrl={{returnUrl}}",
             icon: "fas fa-fw fa-microscope"
