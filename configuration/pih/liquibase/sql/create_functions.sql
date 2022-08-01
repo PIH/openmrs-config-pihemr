@@ -441,6 +441,31 @@ pid2.uuid = metadata_uuid('org.openmrs.module.emrapi', 'emr.primaryIdentifierTyp
 END
 #
 /*
+  returns the registration date of the given patient
+*/
+#
+DROP FUNCTION IF EXISTS registration_date;
+#
+CREATE FUNCTION registration_date(
+    _patient_id int
+)
+	RETURNS DATETIME
+    DETERMINISTIC
+
+BEGIN
+    DECLARE return_date datetime;
+
+select encounter_datetime into return_date from encounter 
+where patient_id = _patient_id
+and encounter_type = (select encounter_type_id from encounter_type et where uuid = '873f968a-73a8-4f9c-ac78-9f4778b751b6')
+and voided = 0
+limit 1
+;
+    RETURN return_date;
+
+END
+#
+/*
 Provider
 */
 #
