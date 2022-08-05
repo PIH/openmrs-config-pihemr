@@ -157,6 +157,8 @@
     const obGynEncounterType= 'd83e98fd-dc7b-420f-aa3f-36f648b4483d';
     const typeOfVisit = '164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
     const intakeVisit = '164180AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+    const whProcedurePerformed="1651AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+    const whProcedures="57755670-c183-494b-bd5e-723e0978c3e3";
 
     const lastPeriodDateConcept = '<lookup expression="fn.getConcept('CIEL:1427').uuid"/>';
     const dueDateConcept = '<lookup expression="fn.getConcept('CIEL:5596').uuid"/>';
@@ -245,6 +247,37 @@
                 }
               }
         }
+    });
+
+    let procedures = [];
+    // retrieve all Sterilization procedures for females concept UUIDs
+    jq.getJSON(apiBaseUrl + "/concept" + "/" + whProcedures, {
+          v: 'custom:(id,uuid,display,setMembers:(id,uuid,display)'
+        },
+        function( data ) {
+          if ( data &amp;&amp; data.setMembers.length > 0 ) {
+              for (let index = 0; index &lt; data.setMembers.length; index++) {
+                  let procedure = data.setMembers[index];
+                  procedures.push(procedure.uuid);
+              }
+          }
+          if ( procedures.length > 0 ) {
+              jq.getJSON(apiBaseUrl + "/obs", {
+                  patient: patientUuid,
+                  concept: whProcedurePerformed,
+                  answers: procedures.join(),
+                  v: 'custom:(uuid,display,obsDatetime,value:(uuid,display),concept:(uuid,display,name:(display))'
+              },
+              function ( data ) {
+                    if ( data.results.length > 0 ) {
+                        jq("#whProceduresDiv").show();
+                        for (let index = 0; index &lt; data.results.length; index++) {
+                            let procPerformed = data.results[index];
+                            jq("#whProceduresDiv ul").append('&lt;li&gt;').append(' - ').append(procPerformed.value.display).append(' on ').append(new Date(procPerformed.obsDatetime).toDateString()).append('&lt;/li&gt;');
+                        }
+                    }
+              });
+          }
     });
 
     // looking for OB/GYN encounters with an obs that indicates that it was an intake encounter
@@ -965,6 +998,13 @@
              headerStyle="title" headerCode="pihcore.familyPlanning.title">
 
         <div id="fp-area" class="section-container">
+            <div id="whProceduresDiv" class="two-columns" style="display: none;">
+                <h3>
+                    <uimessage code="Procedures performed"/>:
+                </h3>
+                <ul></ul>
+             <br/>
+            </div>
            <div class="two-columns">
                 <div>
                     <obs conceptId="CIEL:165309" style="checkbox"
