@@ -375,11 +375,11 @@ inner join temp_dx_dup tdd on tdd.obs_group_id = t.diagnosis_2_obs_group_id and 
 set t.diagnosis_2 = concept_name(tdd.value_coded,@locale)
 ;
 update temp_delivery t
-inner join temp_dx_dup tdd on tdd.obs_group_id = t.diagnosis_1_obs_group_id and tdd.concept_id =  concept_from_mapping('PIH','1379')
+inner join temp_dx_dup tdd on tdd.obs_group_id = t.diagnosis_2_obs_group_id and tdd.concept_id =  concept_from_mapping('PIH','1379')
 set t.diagnosis_2_confirmed = concept_name(tdd.value_coded,@locale)
 ;
 update temp_delivery t
-inner join temp_dx_dup tdd on tdd.obs_group_id = t.diagnosis_1_obs_group_id and tdd.concept_id =  concept_from_mapping('PIH','7537')
+inner join temp_dx_dup tdd on tdd.obs_group_id = t.diagnosis_2_obs_group_id and tdd.concept_id =  concept_from_mapping('PIH','7537')
 set t.diagnosis_2_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),@locale), concept_name(concept_from_mapping('PIH','NO'),@locale))
 ;
 
