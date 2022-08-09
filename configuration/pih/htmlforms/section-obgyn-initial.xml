@@ -1033,7 +1033,7 @@
         <div id="fp-area" class="section-container">
             <div id="whProceduresDiv" class="two-columns" style="display: none;">
                 <h3>
-                    <uimessage code="Procedures performed"/>:
+                    <uimessage code="pihcore.consult.procedure"/>:
                 </h3>
                 <ul></ul>
              <br/>
