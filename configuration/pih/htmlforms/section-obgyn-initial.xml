@@ -56,6 +56,9 @@
             width: 120px;
         }
 
+        .past-medical-history-item {
+        }
+
         .past-medical-history-item input[type=checkbox] {
             float: none;
             vertical-align: middle;
@@ -115,6 +118,13 @@
             margin: 0px;
         }
 
+        .section-container-color {
+            background: #F2F2F2;
+            box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+            padding: 10px 5px 10px 15px;
+            line-height: 1.5em; /*add this for vertical spacing between elements*/
+        }
+
         - .section {
             width: 98%;
         }
@@ -159,6 +169,7 @@
     const intakeVisit = '164180AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
     const whProcedurePerformed="1651AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
     const whProcedures="57755670-c183-494b-bd5e-723e0978c3e3";
+    const whSterilizationProcedures = "46cbbdd9-9cc2-42c6-8ecb-4dbe6ea01354";
 
     const lastPeriodDateConcept = '<lookup expression="fn.getConcept('CIEL:1427').uuid"/>';
     const dueDateConcept = '<lookup expression="fn.getConcept('CIEL:5596').uuid"/>';
@@ -251,7 +262,7 @@
 
     let procedures = [];
     // retrieve all Sterilization procedures for females concept UUIDs
-    jq.getJSON(apiBaseUrl + "/concept" + "/" + whProcedures, {
+    jq.getJSON(apiBaseUrl + "/concept" + "/" + whSterilizationProcedures, {
           v: 'custom:(id,uuid,display,setMembers:(id,uuid,display)'
         },
         function( data ) {
@@ -776,168 +787,190 @@
         </div>
     </section>
 
+    <section id="j9" sectionTag="fieldset"
+             headerStyle="title" headerCode="J9">
+        <div class="section-container">
+            <label>
+                <uimessage code="pihcore.mch.mothersGroupID"/>&amp;nbsp;(ie. A03, B12, etc)
+            </label>
+            <obs conceptId="PIH:11665"/>
+        </div>
+    </section>
+
     <div id="intake-only" class="hidden">
-        <section id="j9" sectionTag="fieldset"
-                 headerStyle="title" headerCode="J9">
+        <section id="habits" sectionTag="fieldset"
+                 headerStyle="title" headerCode="pihcore.habits">
             <div class="section-container">
-                <label>
-                    <uimessage code="pihcore.mch.mothersGroupID" />&amp;nbsp;(ie. A03, B12, etc)
-                </label>
-                <obs conceptId="PIH:11665"  />
+                <p class="side-by-side">
+                    <!-- Alcohol use -->
+                    <label>
+                        <uimessage code="pihcore.alcohol"/>:
+                    </label>
+                    <obs conceptId="CIEL:159449" answerConceptIds="CIEL:159450,CIEL:159452,CIEL:1090"
+                         style="radio"/>
+                    <br/>
+
+                    <!-- Tobacco -->
+                    <label position="left">
+                        <uimessage code="pihcore.tobacco"/>:
+                    </label>
+                    <obs conceptId="CIEL:163731"
+                         answerConceptIds="CIEL:159450,CIEL:159452,CIEL:1090"
+                         style="radio"/>
+                    <br/>
+
+                    <!-- Drug use -->
+                    <label>
+                        <uimessage code="pihcore.drugs"/>:
+                    </label>
+                    <obs conceptId="CIEL:162556" answerConceptIds="CIEL:159450,CIEL:159452,CIEL:1090"
+                         style="radio"/>
+                    <br/>
+
+                    <label>
+                        <uimessage code="pihcore.habits.drugName"/>
+                    </label>
+                    <span class="small">
+                        <obs conceptId="PIH:6489"/>
+                    </span>
+                    <br/>
+
+                    <!-- ToDo:  These 2 questions are only required during the J9 evaluation period -->
+                    <!-- Traditional healer -->
+                    <label>
+                        <uimessage code="pihcore.traditionalHealer"/>:
+                    </label>
+                    <obs conceptId="CIEL:166365" answerConceptIds="CIEL:159450,CIEL:159452,CIEL:1090,CIEL:1067"
+                         style="radio" required="false"/>
+                    <br/>
+                    <!-- Pregnancy tea -->
+                    <label>
+                        <uimessage code="pihcore.pregnancyTea"/>:
+                    </label>
+                    <obs conceptId="PIH:13737" answerConceptIds="CIEL:159450,CIEL:159452,CIEL:1090,CIEL:1067"
+                         style="radio" required="false"/>
+                    <br/>
+                </p>
             </div>
         </section>
 
-    <section id="habits" sectionTag="fieldset"
-             headerStyle="title" headerCode="pihcore.habits">
-        <div class="section-container">
-            <p class="side-by-side">
-                <!-- Alcohol use -->
-                <label>
-                    <uimessage code="pihcore.alcohol"/>:
-                </label>
-                <obs conceptId="CIEL:159449" answerConceptIds="CIEL:159450,CIEL:159452,CIEL:1090"
-                     style="radio"  />
-                <br/>
-
-                <!-- Tobacco -->
-                <label position="left">
-                    <uimessage code="pihcore.tobacco"/>:
-                </label>
-                <obs conceptId="CIEL:163731"
-                     answerConceptIds="CIEL:159450,CIEL:159452,CIEL:1090"
-                     style="radio"  />
-                <br/>
-
-                <!-- Drug use -->
-                <label>
-                    <uimessage code="pihcore.drugs"/>:
-                </label>
-                <obs conceptId="CIEL:162556" answerConceptIds="CIEL:159450,CIEL:159452,CIEL:1090"
-                     style="radio" />
-                <br/>
-
-                <label>
-                    <uimessage code="pihcore.habits.drugName"/>
-                </label>
-                <span class="small">
-                    <obs conceptId="PIH:6489"/>
-                </span>
-                <br/>
-
-                <!-- Traditional healer -->
-                <label>
-                    <uimessage code="pihcore.traditionalHealer"/>:
-                </label>
-                <obs conceptId="CIEL:166365" answerConceptIds="CIEL:159450,CIEL:159452,CIEL:1090"
-                     style="radio" />
-                <br/>
-                <!-- Pregnancy tea -->
-                <label>
-                    <uimessage code="pihcore.pregnancyTea"/>:
-                </label>
-                <obs conceptId="PIH:13737" answerConceptIds="CIEL:159450,CIEL:159452,CIEL:1090"
-                     style="radio" />
-                <br/>
-            </p>
-        </div>
-    </section>
-
-    <section id="current-medications" sectionTag="fieldset" headerStyle="title"
-             headerCode="zl.consultNote.currentMedications.title">
-        <div class="section-container two-columns">
-            <div>
-                <repeat>
-                    <template>
-                        <obs conceptId="CIEL:1193" answerConceptId="{drug}" />
-                    </template>
-                    <render drug="CIEL:76613" message="Folic acid" />
-                    <render drug="CIEL:104677" message="Folate/Iron" />
-                    <render drug="CIEL:71160" message="Amoxicillin" />
-                    <render drug="CIEL:450"   message="Augmentin" />
-                    <render drug="CIEL:71780" message="Azithromycin" />
-                    <render drug="CIEL:73006" message="Cefixine" />
-                    <render drug="CIEL:73624" message="Clotrimoazole" />
-                    <render drug="CIEL:493"   message="Calamine" /> <!-- CIEL:72621? -->
-                    <render drug="CIEL:79782" message="Metronidazole" />
-                    <render drug="CIEL:79723" message="AMD/Methyldopa" />
-                </repeat>
-            </div>
-            <div>
-                <repeat>
-                    <template>
-                        <obs conceptId="CIEL:1193" answerConceptId="{drug}" />
-                    </template>
-                    <render drug="CIEL:79831" message="Miconazole"/>
-                    <render drug="CIEL:70116" message="Paracetamol" />
-                    <render drug="CIEL:461"   message="Multivitamin" />
-                    <render drug="CIEL:86339" message="Vitamin A" />
-                    <render drug="CIEL:71589" message="Vitamin C"/>
-                    <render drug="CIEL:5622"  message="Other" />
-                </repeat>
-                <obs conceptId="PIH:CURRENT MEDICATIONS" style="textarea"/>
-            </div>
-        </div>
-    </section>
-
-    <section id="patient-history" sectionTag="fieldset" headerStyle="title"
-             headerCode="zl.consultNote.patientHistory.title">
-        <div class="section-container">
-            <div class="two-columns">
+        <section id="current-medications" sectionTag="fieldset" headerStyle="title"
+                 headerCode="zl.consultNote.currentMedications.title">
+            <div class="section-container two-columns">
                 <div>
-                    <pastMedicalHistoryCheckbox concept="CIEL:117703" name="sickle cell"/>
-                    <pastMedicalHistoryCheckbox concept="PIH:ASTHMA"/>
-                    <pastMedicalHistoryCheckbox concept="PIH:HEART DISEASE" specify="true"
-                                                class="medicalHistoryText patientHistory" />
-                    <pastMedicalHistoryCheckbox concept="PIH:SURGERY" specify="true" class="medicalHistoryText patientHistory"/>
+                    <repeat>
+                        <template>
+                            <obs conceptId="CIEL:1193" answerConceptId="{drug}"/>
+                        </template>
+                        <render drug="CIEL:76613" message="Folic acid"/>
+                        <render drug="CIEL:104677" message="Folate/Iron"/>
+                        <render drug="CIEL:71160" message="Amoxicillin"/>
+                        <render drug="CIEL:450" message="Augmentin"/>
+                        <render drug="CIEL:71780" message="Azithromycin"/>
+                        <render drug="CIEL:73006" message="Cefixine"/>
+                        <render drug="CIEL:73624" message="Clotrimoazole"/>
+                        <render drug="CIEL:493" message="Calamine"/> <!-- CIEL:72621? -->
+                        <render drug="CIEL:79782" message="Metronidazole"/>
+                        <render drug="CIEL:79723" message="AMD/Methyldopa"/>
+                    </repeat>
+                </div>
+                <div>
+                    <repeat>
+                        <template>
+                            <obs conceptId="CIEL:1193" answerConceptId="{drug}"/>
+                        </template>
+                        <render drug="CIEL:79831" message="Miconazole"/>
+                        <render drug="CIEL:70116" message="Paracetamol"/>
+                        <render drug="CIEL:461" message="Multivitamin"/>
+                        <render drug="CIEL:86339" message="Vitamin A"/>
+                        <render drug="CIEL:71589" message="Vitamin C"/>
+                        <render drug="CIEL:5622" message="Other"/>
+                    </repeat>
+                    <obs conceptId="PIH:CURRENT MEDICATIONS" style="textarea"/>
+                </div>
+            </div>
+        </section>
+
+        <section id="patient-history" sectionTag="fieldset" headerStyle="title"
+                 headerCode="zl.consultNote.patientHistory.title">
+            <div class="section-container-color">
+                <p class="side-by-side">
+                    <label>
+                        <uimessage code="pihcore.mch.historyComplicationsAffectingPreg"/>
+                    </label>
+                    <!-- ToDo: required -->
+                    <obs id="compicated-history" conceptId="PIH:14338" style="radio"
+                         answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067"/>
+                </p>
+                <div style="text-indent:5%">
                     <pastMedicalHistoryCheckbox concept="CIEL:142474" name="type 1 DM"/>
                     <pastMedicalHistoryCheckbox concept="CIEL:142473" name="type 2 DM"/>
-                    <pastMedicalHistoryCheckbox concept="CIEL:1449"   name="gestational DM"/>
-                    <pastMedicalHistoryCheckbox concept="PIH:Eclampsia" />
-                    <pastMedicalHistoryCheckbox concept="PIH:HYPERTENSION" label="pihcore.medicalhistory.hypertension"/>
-                    <pastMedicalHistoryCheckbox concept="CIEL:113859" name="gestational htn"/>
-                    <pastMedicalHistoryCheckbox concept="CIEL:230"    name="postpartum hemorrhage"/>
-                </div>
-                <div>
-                    <pastMedicalHistoryCheckbox concept="PIH:SEXUALLY TRANSMITTED INFECTION" label="pihcore.medicalhistory.sti"
-                                                specify="true" class="medicalHistoryText patientHistory"/>
-                    <pastMedicalHistoryCheckbox concept="CIEL:116128" name="malaria" />
+                    <pastMedicalHistoryCheckbox concept="CIEL:1449" name="gestational DM"/>
+                    <pastMedicalHistoryCheckbox concept="PIH:Eclampsia"/>
+                    <pastMedicalHistoryCheckbox concept="CIEL:230" name="postpartum hemorrhage"/>
                     <pastMedicalHistoryCheckbox concept="PIH:47" name="pre-eclampsia"/>
-                    <pastMedicalHistoryCheckbox concept="PIH:Traumatic Injury" specify="true"
-                                                class="medicalHistoryText patientHistory"/>
-                    <pastMedicalHistoryCheckbox concept="PIH:TUBERCULOSIS"/>
-                    <pastMedicalHistoryCheckbox concept="CIEL:138405" label="pihcore.lab.hiv.title"/>
                     <pastMedicalHistoryCheckbox concept="CIEL:165088"/>
-                    <pastMedicalHistoryCheckbox concept="PIH:OTHER" code="pihcore.other" specify="true"
-                                                class="medicalHistoryText patientHistory"/>
+                </div>
+
+                <br/>
+
+                <div class="two-columns">
+                    <div>
+                        <pastMedicalHistoryCheckbox concept="CIEL:117703" name="sickle cell"/>
+                        <pastMedicalHistoryCheckbox concept="PIH:ASTHMA"/>
+                        <pastMedicalHistoryCheckbox concept="PIH:HEART DISEASE" specify="true"
+                                                    class="medicalHistoryText patientHistory"/>
+                        <pastMedicalHistoryCheckbox concept="PIH:SURGERY" specify="true"
+                                                    class="medicalHistoryText patientHistory"/>
+                        <pastMedicalHistoryCheckbox concept="PIH:HYPERTENSION"
+                                                    label="pihcore.medicalhistory.hypertension"/>
+                        <pastMedicalHistoryCheckbox concept="CIEL:113859" name="gestational htn"/>
+                    </div>
+                    <div>
+                        <pastMedicalHistoryCheckbox concept="PIH:SEXUALLY TRANSMITTED INFECTION"
+                                                    label="pihcore.medicalhistory.sti"
+                                                    specify="true" class="medicalHistoryText patientHistory"/>
+                        <pastMedicalHistoryCheckbox concept="CIEL:116128" name="malaria"/>
+                        <pastMedicalHistoryCheckbox concept="PIH:Traumatic Injury" specify="true"
+                                                    class="medicalHistoryText patientHistory"/>
+                        <pastMedicalHistoryCheckbox concept="PIH:TUBERCULOSIS"/>
+                        <pastMedicalHistoryCheckbox concept="CIEL:138405" label="pihcore.lab.hiv.title"/>
+                        <pastMedicalHistoryCheckbox concept="PIH:OTHER" code="pihcore.other" specify="true"
+                                                    class="medicalHistoryText patientHistory"/>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="family-history" sectionTag="fieldset" headerStyle="title"
-             headerCode="zl.consultNote.familyHistory.title">
-        <div class="section-container">
-            <familyHistoryRelativeCheckboxes concept="PIH:ASTHMA" relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
-            <familyHistoryRelativeCheckboxes concept="PIH:HEART DISEASE" relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
-            <br/>
-            <familyHistoryRelativeCheckboxes id="familyCancer" class="medicalHistoryText famHistory"
-                                             concept="CIEL:116031" label="Cancer"
-                                             relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"
-                                             specify="true"/>
-            <familyHistoryRelativeCheckboxes concept="PIH:DIABETES" relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
-            <familyHistoryRelativeCheckboxes concept="PIH:EPILEPSY" relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
-            <familyHistoryRelativeCheckboxes concept="CIEL:117635" comment="Hémoglobinopathie"
-                                             relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
-            <familyHistoryRelativeCheckboxes concept="PIH:HYPERTENSION" label="pihcore.medicalhistory.hypertension"
-                                             relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
-            <familyHistoryRelativeCheckboxes concept="PIH:TUBERCULOSIS" relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
-            <br/>
-            <familyHistoryRelativeCheckboxes id="familyOther" class="medicalHistoryText famHistory"
-                                             concept="PIH:OTHER" code="pihcore.other"
-                                             relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"
-                                             specify="true"/>
-        </div>
-    </section>
+        <section id="family-history" sectionTag="fieldset" headerStyle="title"
+                 headerCode="zl.consultNote.familyHistory.title">
+            <div class="section-container">
+                <familyHistoryRelativeCheckboxes concept="PIH:ASTHMA"
+                                                 relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
+                <familyHistoryRelativeCheckboxes concept="PIH:HEART DISEASE"
+                                                 relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
+                <br/>
+                <familyHistoryRelativeCheckboxes id="familyCancer" class="medicalHistoryText famHistory"
+                                                 concept="CIEL:116031" label="Cancer"
+                                                 relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"
+                                                 specify="true"/>
+                <familyHistoryRelativeCheckboxes concept="PIH:DIABETES"
+                                                 relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
+                <familyHistoryRelativeCheckboxes concept="PIH:EPILEPSY"
+                                                 relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
+                <familyHistoryRelativeCheckboxes concept="CIEL:117635" comment="Hémoglobinopathie"
+                                                 relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
+                <familyHistoryRelativeCheckboxes concept="PIH:HYPERTENSION" label="pihcore.medicalhistory.hypertension"
+                                                 relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
+                <familyHistoryRelativeCheckboxes concept="PIH:TUBERCULOSIS"
+                                                 relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
+                <br/>
+                <familyHistoryRelativeCheckboxes id="familyOther" class="medicalHistoryText famHistory"
+                                                 concept="PIH:OTHER" code="pihcore.other"
+                                                 relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"
+                                                 specify="true"/>
+            </div>
+        </section>
 
         <section id="fp-history" sectionTag="fieldset"
                  headerStyle="title" headerCode="pihcore.familyPlanningHistory.title">
@@ -980,13 +1013,13 @@
                             </obsgroup>
                         </template>
                         <render fpMethod="CIEL:159783" comment="COC" tag="COC"/>
-                        <render fpMethod="CIEL:80784"  comment="pihcore.fp.pop" tag="progestinOnlyPill"/>
-                        <render fpMethod="CIEL:5277"   comment="pihcore.fp.rhythm" tag="rhythm"/>
-                        <render fpMethod="CIEL:190"    comment="Condoms" tag="rubber"/>
-                        <render fpMethod="CIEL:907"    comment="Depo-provera" tag="depo"/>
-                        <render fpMethod="CIEL:5275"   comment="pihcore.fp.iud" tag="iud"/>
-                        <render fpMethod="CIEL:1873"   comment="Implant" tag="implant"/>
-                        <render fpMethod="CIEL:1472"   comment="pihcore.fp.tubalLig" tag="tubal"/>
+                        <render fpMethod="CIEL:80784" comment="pihcore.fp.pop" tag="progestinOnlyPill"/>
+                        <render fpMethod="CIEL:5277" comment="pihcore.fp.rhythm" tag="rhythm"/>
+                        <render fpMethod="CIEL:190" comment="Condoms" tag="rubber"/>
+                        <render fpMethod="CIEL:907" comment="Depo-provera" tag="depo"/>
+                        <render fpMethod="CIEL:5275" comment="pihcore.fp.iud" tag="iud"/>
+                        <render fpMethod="CIEL:1873" comment="Implant" tag="implant"/>
+                        <render fpMethod="CIEL:1472" comment="pihcore.fp.tubalLig" tag="tubal"/>
                         <render fpMethod="CIEL:136163" comment="pihcore.fp.breast" tag="mama"/>
                     </repeat>
                 </table>
@@ -1191,154 +1224,204 @@
 
     <ifMode mode="VIEW" include="false">
         <div id="obgyn-initial-div" class="hidden">
-        <section id="obgyn-initial-section" sectionTag="fieldset"
-                 headerStyle="title" headerCode="OB/GYN Initial">
-            <div class="section-container">
-                <table style="color:grey">
-                <tr>
-                    <td>
-                        <label>
-                            <uimessage code="mirebalais.mostRecentObGynInitial.label"/>
-                            <span class="date-span ng-binding">
-                                <i class="icon-calendar"></i><span id="lastObGynInitialEncounterDate"></span>
-                            </span>
-                            <span class="time-span ng-binding">
-                                <i class="icon-time"></i><span id="lastObGynInitialEncounterTime"></span>
-                            </span>
-                        </label>
-                    </td>
-                </tr>
-
-                <tr><td>
-                <div class="two-columns">
-                    <!-- Last menstrual period (LMP or DDR) -->
-                    <div>
-                        <p class="side-by-side">
-                            <label>
-                                <uimessage code="pihcore.pregnancy.lastPeriod"/>
-                            </label>
-                            <span id="obgyn_initial_lastPeriodDate" class="emptyValue"></span>
-                        </p>
-                    </div>
-
-                    <!-- Due date (DPA) -->
-                    <div>
-                        <p class="side-by-side">
-                            <label><uimessage code="pihcore.pregnancy.dueDate"/></label>
-                            <span id="obgyn_initial_edd" class="emptyValue"></span>
-                        </p>
-                    </div>
-                </div>
-
-                <br/>
-
-                <p class="side-by-side">
-                    <label>
-                        <uimessage code="pihcore.mch.trimesterAtEnrollment" />
-                    </label>
-
-                    <span id="obgyn_initial_firstTrimester" class="emptyValue">[&amp;nbsp&amp;nbsp]&amp;nbsp First trimester</span>&amp;nbsp
-                    <span id="obgyn_initial_secondTrimester" class="emptyValue">[&amp;nbsp&amp;nbsp]&amp;nbspSecond trimester</span>&amp;nbsp
-                    <span id="obgyn_initial_thirdTrimester" class="emptyValue">[&amp;nbsp&amp;nbsp]&amp;nbspThird trimester</span>
-                </p>
-
-                <div class="four-columns">
-                    <div>
-                        <p class="side-by-side">
-                            <label><uimessage code="pihcore.mch.grava"/></label>
-                            <span class="obs-field"><span id="obgyn_initial_gravidaInput" class="emptyValue">____</span></span>
-                        </p>
-                    </div>
-                    <div>
-                        <p class="side-by-side">
-                            <label><uimessage code="pihcore.mch.para"/></label>
-                            <span class="obs-field"><span id="obgyn_initial_paraInput" class="emptyValue">____</span></span>
-                        </p>
-                    </div>
-                    <div>
-                        <p class="side-by-side">
-                            <label><uimessage code="pihcore.mch.abortus"/></label>
-                            <span class="obs-field"><span id="obgyn_initial_abortusInput" class="emptyValue">____</span></span>
-                        </p>
-                    </div>
-                    <div>
-                        <p class="side-by-side">
-                            <label><uimessage code="pihcore.mch.living"/></label>
-                            <span class="obs-field"><span id="obgyn_initial_livingInput" class="emptyValue">____</span></span>
-                        </p>
-                    </div>
-                </div>
-
-                <br/>
-                <div class="two-columns">
-                    <div>
-                        <p class="side-by-side">
-                            <label><uimessage code="Menstruation" /></label>
-                            <span id="obgyn_initial_regularMenstruation" class="emptyValue">[&amp;nbsp&amp;nbsp]&amp;nbsp Regular</span>&amp;nbsp
-                            <span id="obgyn_initial_irregularMenstruation" class="emptyValue">[&amp;nbsp&amp;nbsp]&amp;nbsp Irregular</span>
-                        </p>
-                    </div>
-                    <div>
-                        <span id="obgyn_initial_dysmenorrhea" class="emptyValue">[&amp;nbsp&amp;nbsp]&amp;nbsp Dysmenorrhea</span>
-                    </div>
-                </div>
-
-                <div class="two-columns">
-                    <div>
-                        <p class="side-by-side">
-                            <label><uimessage code="pihcore.durationMenstCycle"/></label>
-                            <span id="obgyn_initial_durationMenstCycle" class="emptyValue">____</span>
-                        </p>
-                    </div>
-                    <div>
-                        <p class="side-by-side">
-                            <label><uimessage code="pihcore.durationMenses"/></label>
-                            <span id="obgyn_initial_durationMenses" class="emptyValue">____</span>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="three-columns">
-                    <div>
-                        <p class="side-by-side">
-                            <label><uimessage code="pihcore.ageMenarche"/></label>
-                            <span id="obgyn_initial_ageMenarche" class="emptyValue">____</span>
-                        </p>
-                    </div>
-                    <div>
-                        <p class="side-by-side">
-                            <label><uimessage code="pihcore.age1stSexualInter"/></label>
-                            <span id="obgyn_initial_age1stSexualInter" class="emptyValue">____</span>
-                        </p>
-                    </div>
-                    <div>
-                        <p class="side-by-side">
-                            <label><uimessage code="pihcore.numSexPartners"/></label>
-                            <span id="obgyn_initial_numSexPartners" class="emptyValue">____</span>
-                        </p>
-                    </div>
-                </div>
-
-                <br/>
-
-                <table id="obgyn_initial_pregnancyHistoryTable">
-                    <tbody>
+            <section id="obgyn-initial-section" sectionTag="fieldset"
+                     headerStyle="title" headerCode="OB/GYN Initial">
+                <div class="section-container">
+                    <table style="color:grey">
                         <tr>
-                            <th colspan="3"><uimessage code="pihcore.mch.pregnancyHistory" /></th>
+                            <td>
+                                <label>
+                                    <uimessage code="mirebalais.mostRecentObGynInitial.label"/>
+                                    <span class="date-span ng-binding">
+                                        <i class="icon-calendar"></i>
+                                        <span id="lastObGynInitialEncounterDate"></span>
+                                    </span>
+                                    <span class="time-span ng-binding">
+                                        <i class="icon-time"></i>
+                                        <span id="lastObGynInitialEncounterTime"></span>
+                                    </span>
+                                </label>
+                            </td>
                         </tr>
-                        <tr>
-                            <th><uimessage code="pihcore.pregOrder" /></th>
-                            <th><uimessage code="pihcore.mch.deliveryType" /></th>
-                            <th><uimessage code="pihcore.outcome" /></th>
-                        </tr>
-                    </tbody>
-                </table>
 
-                </td>
-                </tr>
-                </table>
-            </div>
-        </section>
+                        <tr>
+                            <td>
+                                <div class="two-columns">
+                                    <!-- Last menstrual period (LMP or DDR) -->
+                                    <div>
+                                        <p class="side-by-side">
+                                            <label>
+                                                <uimessage code="pihcore.pregnancy.lastPeriod"/>
+                                            </label>
+                                            <span id="obgyn_initial_lastPeriodDate" class="emptyValue"></span>
+                                        </p>
+                                    </div>
+
+                                    <!-- Due date (DPA) -->
+                                    <div>
+                                        <p class="side-by-side">
+                                            <label>
+                                                <uimessage code="pihcore.pregnancy.dueDate"/>
+                                            </label>
+                                            <span id="obgyn_initial_edd" class="emptyValue"></span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <br/>
+
+                                <p class="side-by-side">
+                                    <label>
+                                        <uimessage code="pihcore.mch.trimesterAtEnrollment"/>
+                                    </label>
+
+                                    <span id="obgyn_initial_firstTrimester" class="emptyValue">[&amp;nbsp&amp;nbsp]&amp;nbsp
+                                        First trimester</span>&amp;nbsp
+                                    <span id="obgyn_initial_secondTrimester" class="emptyValue">[&amp;nbsp&amp;nbsp]&amp;nbspSecond
+                                        trimester</span>&amp;nbsp
+                                    <span id="obgyn_initial_thirdTrimester" class="emptyValue">[&amp;nbsp&amp;nbsp]&amp;nbspThird
+                                        trimester
+                                    </span>
+                                </p>
+
+                                <div class="four-columns">
+                                    <div>
+                                        <p class="side-by-side">
+                                            <label>
+                                                <uimessage code="pihcore.mch.grava"/>
+                                            </label>
+                                            <span class="obs-field">
+                                                <span id="obgyn_initial_gravidaInput" class="emptyValue">____</span>
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="side-by-side">
+                                            <label>
+                                                <uimessage code="pihcore.mch.para"/>
+                                            </label>
+                                            <span class="obs-field">
+                                                <span id="obgyn_initial_paraInput" class="emptyValue">____</span>
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="side-by-side">
+                                            <label>
+                                                <uimessage code="pihcore.mch.abortus"/>
+                                            </label>
+                                            <span class="obs-field">
+                                                <span id="obgyn_initial_abortusInput" class="emptyValue">____</span>
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="side-by-side">
+                                            <label>
+                                                <uimessage code="pihcore.mch.living"/>
+                                            </label>
+                                            <span class="obs-field">
+                                                <span id="obgyn_initial_livingInput" class="emptyValue">____</span>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <br/>
+                                <div class="two-columns">
+                                    <div>
+                                        <p class="side-by-side">
+                                            <label>
+                                                <uimessage code="Menstruation"/>
+                                            </label>
+                                            <span id="obgyn_initial_regularMenstruation" class="emptyValue">[&amp;nbsp&amp;nbsp]&amp;nbsp
+                                                Regular</span>&amp;nbsp
+                                            <span id="obgyn_initial_irregularMenstruation" class="emptyValue">[&amp;nbsp&amp;nbsp]&amp;nbsp
+                                                Irregular
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <span id="obgyn_initial_dysmenorrhea" class="emptyValue">[&amp;nbsp&amp;nbsp]&amp;nbsp
+                                            Dysmenorrhea
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="two-columns">
+                                    <div>
+                                        <p class="side-by-side">
+                                            <label>
+                                                <uimessage code="pihcore.durationMenstCycle"/>
+                                            </label>
+                                            <span id="obgyn_initial_durationMenstCycle" class="emptyValue">____</span>
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="side-by-side">
+                                            <label>
+                                                <uimessage code="pihcore.durationMenses"/>
+                                            </label>
+                                            <span id="obgyn_initial_durationMenses" class="emptyValue">____</span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="three-columns">
+                                    <div>
+                                        <p class="side-by-side">
+                                            <label>
+                                                <uimessage code="pihcore.ageMenarche"/>
+                                            </label>
+                                            <span id="obgyn_initial_ageMenarche" class="emptyValue">____</span>
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="side-by-side">
+                                            <label>
+                                                <uimessage code="pihcore.age1stSexualInter"/>
+                                            </label>
+                                            <span id="obgyn_initial_age1stSexualInter" class="emptyValue">____</span>
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="side-by-side">
+                                            <label>
+                                                <uimessage code="pihcore.numSexPartners"/>
+                                            </label>
+                                            <span id="obgyn_initial_numSexPartners" class="emptyValue">____</span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <br/>
+
+                                <table id="obgyn_initial_pregnancyHistoryTable">
+                                    <tbody>
+                                        <tr>
+                                            <th colspan="3">
+                                                <uimessage code="pihcore.mch.pregnancyHistory"/>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                <uimessage code="pihcore.pregOrder"/>
+                                            </th>
+                                            <th>
+                                                <uimessage code="pihcore.mch.deliveryType"/>
+                                            </th>
+                                            <th>
+                                                <uimessage code="pihcore.outcome"/>
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
         </div>
     </ifMode>
 
