@@ -44,47 +44,47 @@
         }
 
         .simple-form-ui input {
-        min-width: 90%
+            min-width: 90%
         }
 
         form fieldset {
-        min-width: 90%
+            min-width: 90%
         }
 
         #encounterDate input {
-        min-width: 15%
+            min-width: 15%
         }
 
         textarea {
-        overflow-y: hidden; /* fixes scrollbar flash - kudos to @brettjonesdev */
-        padding-top: 1.1em; /* fixes text jump on Enter keypress */
+            overflow-y: hidden; /* fixes scrollbar flash - kudos to @brettjonesdev */
+            padding-top: 1.1em; /* fixes text jump on Enter keypress */
         }
 
         @media print {
-        .print-form-datestamps { display: block !important }
-        button.cancel, button.submit { display: none }
-        label { font-weight: bold }
-        label[for] { font-weight: normal } /* refers to the radio set label */
+            .print-form-datestamps { display: block !important }
+            button.cancel, button.submit { display: none }
+            label { font-weight: bold }
+            label[for] { font-weight: normal } /* refers to the radio set label */
         }
 
         .section-container {
-        background: #F2F2F2;
-        box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-        padding: 10px 5px 10px 15px;
-        line-height: 1.5em; /*add this for vertical spacing between elements*/
+            background: #F2F2F2;
+            box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+            padding: 10px 5px 10px 15px;
+            line-height: 1.5em; /*add this for vertical spacing between elements*/
         }
 
         .section-container input[type="checkbox"] {
-        margin: 0px 5px; /*changed values to vertical, horizontal*/
-        top:5px; /*added to offset the checkbox position to line up*/
+            margin: 0px 5px; /*changed values to vertical, horizontal*/
+            top:5px; /*added to offset the checkbox position to line up*/
         }
 
         .section-container label { /*new definition to override labels inside section-containers*/
-        margin: 0px;
+            margin: 0px;
         }
 
         .section {
-        width: 100%;
+            width: 100%;
         }
 
         .diagnosis, .diagnosis-primary, .diagnosis-secondary, .diagnosis-confirmed {
@@ -99,6 +99,14 @@
             min-width: 15%;
         }
 
+        .side-by-side label {
+            display: inline-block;
+        }
+
+        form input[type="radio"], .form input[type="radio"] {
+            float: none;
+            display: inline-block;
+        }
     </style>
 
     <ifMode mode="VIEW" include="false">
@@ -327,12 +335,23 @@
                     </span>
                 </obsgroup>
             </p>
-            <p>
+            <p class="side-by-side">
                 <label>
                     <uimessage code="pihcore.oncologyIntake.cancer_stage"/>
                 </label>
-                <obs conceptId="CIEL:160786" answerConceptIds="CIEL:160769,CIEL:160771,CIEL:160774,CIEL:160778,CIEL:160782"/>
+                <obs conceptId="CIEL:160786"  style="radio"
+                     answerConceptIds="CIEL:160769,CIEL:160771,CIEL:160774,CIEL:160778,CIEL:160782"/>
             </p>
+
+            <p class="side-by-side">
+                <label>
+                    <uimessage code="pihcore.treatmentIntent"/>
+                </label>
+                <obs conceptId="CIEL:160846"  style="radio"
+                     answerConceptIds="CIEL:160847,CIEL:160849,CIEL:1067"
+                     answerCodes="curative,palliative,pihcore.unknown"/>
+            </p>
+
             <p>
                 <label>
                     <uimessage code="pihcore.oncologyIntake.patient_plan_details"/>
