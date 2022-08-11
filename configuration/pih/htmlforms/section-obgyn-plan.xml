@@ -9,13 +9,18 @@
             min-width: 98%
         }
 
-        .two-columns {
-            column-count: 2;
-            -webkit-column-count: 2;
-            -moz-column-count: 2;
+        .five-columns, .four-columns, .three-columns, .two-columns {
+            display: table;
+            height: 100%;
+            width: 100%;
         }
 
-        .three-columns {
+        .two-columns > div {
+            display: table-cell;
+            width: 50%;
+        }
+
+        .three-column {
             column-count: 3;
             -webkit-column-count: 3;
             -moz-column-count: 3;
@@ -189,6 +194,39 @@
         </h1>
     </ifMode>
 
+    <section id="consult-type" sectionTag="fieldset" headerStyle="title"
+             headerCode="pihcore.typeOfConsult">
+        <div class="section-container">
+            <div class="two-columns">
+                <div>
+                    <p class="side-by-side">
+                        <label>
+                            <uimessage code="pihcore.type_of_visit" />
+                        </label>
+                        <label style="color:red">
+                            [<uimessage code="pihcore.required" />]
+                        </label>
+                        <br/>
+                        <obs id="visit-reason-2" conceptId="PIH:8879" style="radio"
+                             answerConceptIds="CIEL:165013,CIEL:1622,PIH:6261,PIH:5483"
+                             answerCodes="pihcore.gyn,pihcore.prenatal,pihcore.postnatal,pihcore.familyPlanning.title"
+                             required="true" answerSeparator="&lt;br /&gt;" />
+                    </p>
+                </div>
+
+                <div>
+                    <p class="side-by-side">
+                        <obs id="intake-or-followup-2"  conceptId="CIEL:164181" style="radio"
+                             answerConceptIds="CIEL:164180,PIH:7383"
+                             answerCodes="pihcore.new,pihcore.followup"
+                             required="true"/>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
 
     <section id="procedures" sectionTag="fieldset"
              headerStyle="title"
@@ -323,7 +361,7 @@
             <label>
                 <uimessage code="Counseling" />
             </label>
-            <div class="three-columns">
+            <div class="three-column">
                 <repeat>
                     <template>
                         <p>
