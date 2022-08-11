@@ -24,6 +24,7 @@ Pain_Scale "Pain_Scale",
 Pain_Details "Pain_Details",
 Patient_Plan "Patient_Plan",
 Important_Visit_Info "Important_Visit_Info",
+Treatment_Intent "Treatment_Intent",
 disp.Outpatient_chemo "Outpatient_Chemo"
 FROM patient p
 -- Most recent ZL EMR ID
@@ -68,7 +69,8 @@ max(CASE when rm.source = 'CIEL' and rm.code = '163075' then o.comments end) 'Ot
 max(CASE when rm.source = 'PIH' and rm.code = 'PAIN SCALE OF 0 TO 10' then o.value_numeric end) 'Pain_Scale',
 max(CASE when rm.source = 'CIEL' and rm.code = '163077' then o.value_text end) 'Pain_Details',
 max(CASE when rm.source = 'CIEL' and rm.code = '163059' then cn.name end) 'Patient_Plan',
-max(CASE when rm.source = 'CIEL' and rm.code = '162749' then o.value_text end) 'Important_Visit_Info'
+max(CASE when rm.source = 'CIEL' and rm.code = '162749' then o.value_text end) 'Important_Visit_Info',
+max(CASE when rm.source = 'CIEL' and rm.code = '160846' then cn.name end) 'Treatment_Intent'
 from encounter e, report_mapping rm, obs o
 LEFT OUTER JOIN concept_name cn on o.value_coded = cn.concept_id and cn.locale = 'en' and cn.locale_preferred = '1'  and cn.voided = 0
 where 1=1
