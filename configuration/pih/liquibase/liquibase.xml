@@ -573,4 +573,15 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20220815-remove-old-labworkflowowa-gp" author="mgoodrich">
+        <comment>
+            UHM-6643: Lab OWA Assessments and Tweaks
+            Removes the labworkflowowa.labResultsToDisplayConceptSet as it is no longer used
+        </comment>
+        <sql>
+            delete from global_property where property='labworkflowowa.labResultsToDisplayConceptSet';
+        </sql>
+    </changeSet>
+
+
 </databaseChangeLog>
