@@ -456,6 +456,8 @@
         <script type="text/javascript">
             jq(function() {
 
+            var encounterDate = '<lookup expression="encounter.getEncounterDatetime().getTime()"/>';
+            console.log('encounterDate'+encounterDate);
                 setUpEdd(
                     '<lookup expression="encounter.getEncounterDatetime().getTime()"/>',
                     '<uimessage code="pihcore.weeks"/>'
@@ -1278,6 +1280,25 @@
                                     </div>
                                 </div>
 
+                                <div id="calculated-edd-and-gestational" class="two-columns hidden">
+                                    <div>
+                                        <span id="calculated-gestational-age-wrapper">
+                                            <span id="calculated-gestational-age-label">
+                                                <uimessage code="pihcore.calculatedGestationalAge"/>:&#160;
+                                            </span>
+                                            <span id='calculated-gestational-age-value' class="calculated-gestational-age-value value"></span>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span id="calculated-edd-wrapper">
+                                            <span id="calculated-edd-label">
+                                                <uimessage code="pihcore.calculatedEstimatedDeliveryDate"/>:&#160;
+                                            </span><br/>
+                                            <span id='calculated-edd' class="calculated-edd value"></span>
+                                        </span>
+                                    </div>
+                                </div>
+
                                 <br/>
 
                                 <p class="side-by-side">
@@ -1460,7 +1481,24 @@
                     </span>
                 </div>
             </div>
-
+            <div class="two-columns hidden calculated-edd-and-gestational" style="display: none;">
+                <div>
+                    <span id="calculated-gestational-age-wrapper">
+                        <span id="calculated-gestational-age-label">
+                            <uimessage code="pihcore.calculatedGestationalAge"/>:&#160;
+                        </span>
+                        <span id='calculated-gestational-age-value' class="calculated-gestational-age-value value"></span>
+                    </span>
+                </div>
+                <div>
+                    <span id="calculated-edd-wrapper">
+                        <span id="calculated-edd-label">
+                            <uimessage code="pihcore.calculatedEstimatedDeliveryDate"/>:&#160;
+                        </span><br/>
+                        <span id='calculated-edd' class="calculated-edd value"></span>
+                    </span>
+                </div>
+            </div>
             <br/>
 
             <p class="side-by-side">
