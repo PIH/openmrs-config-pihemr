@@ -29,13 +29,13 @@ function setUpEdd(currentEncounterDate, msgWeeks) {
       const gestAgeRemainderDays = gestAgeDays % 7;
       const locale = window.sessionContext.locale || navigator.language;
       const edd = new Date(lastPeriodDate.getTime() + 1000 * 60 * 60 * 24 * 280);
-      jq("#calculated-edd-and-gestational").show();
+      jq(".calculated-edd-and-gestational").show();
       getField("edd.value").datepicker("setDate", edd);
-      jq("#calculated-edd").text((Intl.DateTimeFormat(locale, { dateStyle: "full" })).format(edd));
+      jq(".calculated-edd").text((Intl.DateTimeFormat(locale, { dateStyle: "full" })).format(edd));
       const gestAgeText = gestAgeWeeks + " " +
         (gestAgeRemainderDays ? gestAgeRemainderDays + "/7 " : " ") +
         msgWeeks;
-      jq("#calculated-gestational-age-value").text(gestAgeText);
+      jq(".calculated-gestational-age-value").text(gestAgeText);
     } else {
       jq("#calculated-edd-and-gestational").hide();
     }
