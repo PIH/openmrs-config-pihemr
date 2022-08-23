@@ -335,18 +335,22 @@
                     </p>
                 </div>
 
-                <div id="calculated-edd-and-gestational" class="hidden">
-                    <div id="calculated-gestational-age-wrapper">
-                        <span id="calculated-gestational-age-label">
-                            <uimessage code="pihcore.calculatedGestationalAge"/>:&#160;
+                <div class="two-columns hidden calculated-edd-and-gestational" style="display: none;">
+                    <div>
+                        <span id="calculated-gestational-age-wrapper">
+                            <span id="calculated-gestational-age-label">
+                                <uimessage code="pihcore.calculatedGestationalAge"/>:&#160;
+                            </span>
+                            <span id='calculated-gestational-age-value' class="calculated-gestational-age-value value"></span>
                         </span>
-                        <span id='calculated-gestational-age-value' class="value"></span>
                     </div>
-                    <div id="calculated-edd-wrapper">
-                        <span id="calculated-edd-label">
-                            <uimessage code="pihcore.calculatedEstimatedDeliveryDate"/>:&#160;
+                    <div>
+                        <span id="calculated-edd-wrapper">
+                            <span id="calculated-edd-label">
+                                <uimessage code="pihcore.calculatedEstimatedDeliveryDate"/>:&#160;
+                            </span><br/>
+                            <span id='calculated-edd' class="calculated-edd value"></span>
                         </span>
-                        <span id='calculated-edd' class="value"></span>
                     </div>
                 </div>
 
