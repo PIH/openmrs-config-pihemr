@@ -539,7 +539,49 @@ limit 1;
     RETURN providerType;
 
 END
-#																	      
+#
+-- This function accepts an encounter_id
+-- It will return the date created of that encounter
+#
+DROP FUNCTION IF EXISTS encounter_date_created;
+#
+CREATE FUNCTION encounter_date_created (
+    _encounter_id int
+)
+    RETURNS datetime
+    DETERMINISTIC
+BEGIN
+    DECLARE dateCreated datetime;
+
+select e.date_created into dateCreated
+from encounter e 
+where e.encounter_id = _encounter_id;
+
+    RETURN dateCreated;
+END
+#
+-- This function accepts an encounter_id
+-- It will return the name of the creator of that encounter
+#
+DROP FUNCTION IF EXISTS encounter_creator_name;
+#
+CREATE FUNCTION encounter_creator_name (
+    _encounter_id int
+)
+    RETURNS VARCHAR(100)
+    DETERMINISTIC
+BEGIN
+    DECLARE creator VARCHAR(100);
+
+select concat(given_name, ' ', family_name) into creator
+from encounter e 
+inner join users u on e.creator  = u.user_id 
+inner join person_name pn on pn.person_id = u.person_id 
+where e.encounter_id = _encounter_id;
+
+    RETURN creator;
+END
+#
 /*
 Encounter Location
 */
@@ -2898,6 +2940,29 @@ BEGIN
     DECLARE ret text;
 
     select      comments into ret
+    from        temp_obs o
+    where       o.voided = 0
+      and       o.obs_group_id= _obsGroupId
+      and       o.concept_id = concept_from_mapping(_source, _term);
+
+    RETURN ret;
+
+END
+#
+-- This function accepts obs_group_id, mapping source, mapping code
+-- It will find the value_datetime entry that matches this from the temp_obs_
+#
+DROP FUNCTION IF EXISTS obs_from_group_id_value_datetime_from_temp;
+#
+CREATE FUNCTION obs_from_group_id_value_datetime_from_temp(_obsGroupId int(11), _source varchar(50), _term varchar(255))
+    RETURNS datetime
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret datetime;
+
+    select      value_datetime into ret
     from        temp_obs o
     where       o.voided = 0
       and       o.obs_group_id= _obsGroupId
