@@ -41,7 +41,6 @@ update temp_procedure t
 set emr_id = zlemr(patient_id);
 
 select 
-patient_id,
 emr_id,
 if(@partition REGEXP '^[0-9]+$' = 1,concat(@partition,'-',order_id),order_id) "order_id",
 if(@partition REGEXP '^[0-9]+$' = 1,concat(@partition,'-',order_number),order_number) "order_number",
