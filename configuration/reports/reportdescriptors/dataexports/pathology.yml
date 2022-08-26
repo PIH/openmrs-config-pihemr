@@ -13,7 +13,6 @@ datasets:
   - key: "pathologyencounters"
     type: "sql"
     config: "sql/pathology_encounters.sql"
-datasets:
   - key: "pathologyprocedures"
     type: "sql"
     config: "sql/pathology_procedures.sql"
