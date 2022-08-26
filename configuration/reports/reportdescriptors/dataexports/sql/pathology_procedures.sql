@@ -43,9 +43,9 @@ set emr_id = zlemr(patient_id);
 select 
 patient_id,
 emr_id,
-concat(@partition,'-',order_id),
-concat(@partition,'-',order_number) ,
-concat(@partition,'-',encounter_id),
+if(@partition REGEXP '^[0-9]+$' = 1,concat(@partition,'-',order_id),order_id) "order_id",
+if(@partition REGEXP '^[0-9]+$' = 1,concat(@partition,'-',order_number),order_number) "order_number",
+if(@partition REGEXP '^[0-9]+$' = 1,concat(@partition,'-',encounter_id),encounter_id) "encounter_id",
 coded_procedure,
 noncoded_procedure
 from temp_procedure;
