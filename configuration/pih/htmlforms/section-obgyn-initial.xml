@@ -804,8 +804,9 @@
             <obs conceptId="PIH:11665"/>
 
             <!-- stateLabel="Groupe prénatal (J9)"  -->
+            <!--
             <workflowState workflowId="PIH:11698" style="checkbox"
-                           stateId="PIH:11699" />
+                           stateId="PIH:11699" /> -->
         </div>
     </section>
 
