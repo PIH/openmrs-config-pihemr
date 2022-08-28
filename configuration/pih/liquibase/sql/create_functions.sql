@@ -956,7 +956,6 @@ END
 #
 -- This function accepts a patient_id and single encounter_type and a begin date
 -- will return the most recent encounter of that type since the begin date from the temp_encounter table
-*/
 #
 DROP FUNCTION IF EXISTS latest_enc_from_temp;
 #
