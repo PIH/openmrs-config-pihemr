@@ -1006,11 +1006,9 @@ BEGIN
 
 END
 #
-
-/**
+/*
   FUNCTIONS TO RETRIEVE OBSERVATION VALUES FROM A GIVEN ENCOUNTER
 */
-
 -- This function accepts encounter_id, mapping source, mapping code
 -- It will find a single, best observation that matches this, and return the value_text
 #
@@ -3193,11 +3191,11 @@ from temp_obs o where o.voided =0
 
 END
 #
-/* 
-This function accepts a patient_id and concept_id
-It will return the obs_id of the most recent observation by that patient of the concept
-	described by concept_id, from the temp_obs table
-*/
+-- This function accepts a patient_id and concept_id
+--  will return the obs_id of the most recent observation by that patient of the concept
+-- 	described  by concept_id, from the temp_obs table
+#
+DROP FUNCTION IF EXISTS latest_obs_from_temp_from_concept_id;
 #
 CREATE FUNCTION latest_obs_from_temp_from_concept_id(_patient_id int(11), _concept_id int(11))
     RETURNS int
