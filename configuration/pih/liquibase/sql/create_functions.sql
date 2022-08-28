@@ -954,12 +954,12 @@ BEGIN
 
 END
 #
-/* 
-This function accepts a patient_id and single encounter_type and a begin date
-It will return the most recent encounter of that type since the begin date from the temp_encounter table
+-- This function accepts a patient_id and single encounter_type and a begin date
+-- will return the most recent encounter of that type since the begin date from the temp_encounter table
 */
 #
 DROP FUNCTION IF EXISTS latest_enc_from_temp;
+#
 CREATE FUNCTION latest_enc_from_temp(_patientId int(11), _encounterTypeId int(11), _beginDate datetime)
     RETURNS int(11)
     DETERMINISTIC
