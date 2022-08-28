@@ -954,6 +954,32 @@ BEGIN
 
 END
 #
+/* 
+This function accepts a patient_id and single encounter_type and a begin date
+It will return the most recent encounter of that type since the begin date from the temp_encounter table
+*/
+#
+DROP FUNCTION IF EXISTS latest_enc_from_temp;
+CREATE FUNCTION latest_enc_from_temp(_patientId int(11), _encounterTypeId int(11), _beginDate datetime)
+    RETURNS int(11)
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE enc_id_out int(11);
+
+    select      encounter_id into enc_id_out
+    from        temp_encounter enc 
+    where       enc.patient_id = _patientId
+    and         enc.encounter_type = _encounterTypeId
+    and         (_beginDate is null or enc.encounter_datetime >= _beginDate)
+    order by    enc.encounter_datetime desc
+    limit       1;
+
+    RETURN enc_id_out;
+
+END
+#
 -- This function accepts patient_id, encounter_type and beginDate
 -- It will return the first encounter of the specified type that it finds for the patient after the passed beginDate
 -- if null is passed in as the beginDate, it will be disregarded
@@ -3167,3 +3193,28 @@ from temp_obs o where o.voided =0
     RETURN ret;
 
 END
+#
+/* 
+This function accepts a patient_id and concept_id
+It will return the obs_id of the most recent observation by that patient of the concept
+	described by concept_id, from the temp_obs table
+*/
+#
+CREATE FUNCTION latest_obs_from_temp_from_concept_id(_patient_id int(11), _concept_id int(11))
+    RETURNS int
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret int(11);
+
+    select      o.obs_id into ret
+    from        temp_obs o
+    where       o.voided = 0
+		and o.person_id = _patient_id    		
+      	and       o.concept_id = _concept_id
+    order by obs_datetime desc limit 1 ;
+
+    RETURN ret;
+    
+END   
