@@ -807,6 +807,19 @@
             <!--
             <workflowState workflowId="PIH:11698" style="checkbox"
                            stateId="PIH:11699" /> -->
+            <div class="dashboard clear row">
+                <div class="col-12 col-lg-9">
+                    <div class="row">
+                        <div class="col-12 col-lg-6">
+                            <uiInclude
+                                    provider="coreapps"
+                                    fragment="dashboardwidgets/dashboardWidget"
+                                    fragmentParams="app=pih.app.41a2715e-8a14-11e8-9a94-a6cf71072f73.patientProgramSummary&amp;id=fr4951&amp;patientId=$patient.id">
+                            </uiInclude>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
