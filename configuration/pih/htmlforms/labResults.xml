@@ -348,11 +348,9 @@
             <label for="sickle-hg-elec">
                 <uimessage code="pihcore.lab.hgElectro"/>
             </label>
-            <span class="small">
-                <field>
+            <p class="side-by-side small">
                     <obs id="sickle-hg-elec" conceptId="CIEL:165544"/>
-                </field>
-            </span>
+            </p>
 
             <label for="reticul">
                 <uimessage code="pihcore.lab.reticul"/>
@@ -967,8 +965,6 @@
                         answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE,PIH:POOR SAMPLE QUALITY" />
                 <render concept="CIEL:306"    message="pihcore.lab.typhoid" tag="widal"
                         answers="CIEL:1229,CIEL:1228" />
-                <render concept="CIEL:163620" message="H. Pylori" tag="h-pylori"
-                        answers="PIH:POSITIVE,PIH:NEGATIVE" />
             </repeat>
 
             <repeat>
@@ -1001,19 +997,17 @@
                 </template>
                 <render concept="PIH:13448"   message="pihcore.lab.psaQual" tag="psa-qual"
                         answers="PIH:POSITIVE,PIH:NEGATIVE" />
-                <render concept="CIEL:164920" message="pihcore.lab.zika_pcr" tag="zika-pcr"
-                        answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE" />
                 <render concept="CIEL:164924" message="pihcore.lab.chik_pcr" tag="chik-pcr"
                         answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE" />
                 <render concept="CIEL:164926" message="pihcore.lab.dengue_pcr" tag="dengue-pcr"
+                        answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE" />
+                <render concept="CIEL:164920" message="pihcore.lab.zika_pcr" tag="zika-pcr"
                         answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE" />
                 <render concept="CIEL:164934" message="pihcore.lab.zika_igg" tag="zika-igg"
                         answers="CIEL:164931,CIEL:164932,CIEL:164933,PIH:NEGATIVE" />
                 <render concept="CIEL:164930" message="pihcore.lab.zika_igm" tag="zika-igm"
                         answers="CIEL:164931,CIEL:164932,CIEL:164933,PIH:NEGATIVE" />
-                <render concept="CIEL:165539" message="pihcore.lab.filaria" tag="filaria"
-                        answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE" />
-            </repeat>
+             </repeat>
         </fieldset>
 
         <fieldset class="multi-line-confirmation">
@@ -1318,9 +1312,17 @@
                 <render concept="161454" message="gramStain" />
             </repeat>
 
-            <h4>
-                <uimessage code="pihcore.lab.stool.exam"/>
-            </h4>
+        </fieldset>
+
+        <fieldset class="multi-line-confirmation">
+            <legend>
+                <uimessage code="pihcore.lab.parasitology.title"/>
+            </legend>
+
+            <h3>
+                <uimessage code="pihcore.lab.parasitology.title"/>
+            </h3>
+
             <repeat>
                 <template>
                     <label for="stool-{message}">
@@ -1352,6 +1354,8 @@
                 </template>
                 <render concept="159362" message="occult"
                         answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE" />
+                <render concept="166401" message="rbc" tag="rbc-stool"
+                        answers="CIEL:1301,CIEL:1302"/>
             </repeat>
 
             <repeat>
@@ -1368,21 +1372,32 @@
                 </template>
                 <render concept="163634" message="leukocytes" />
             </repeat>
+
+            <repeat>
+                <template>
+                    <label for="{tag}">
+                        <uimessage code="{message}"/>
+                    </label>
+                    <span class="small side-by-side">
+                        <field>
+                            <obs id="{tag}" style="radio"
+                                 conceptId="{concept}" answerConceptIds="{answers}"/>
+                        </field>
+                    </span>
+                </template>
+                <render concept="CIEL:163620" message="H. Pylori" tag="h-pylori"
+                        answers="PIH:POSITIVE,PIH:NEGATIVE" />
+                <render concept="CIEL:165539" message="pihcore.lab.filaria" tag="filaria"
+                        answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE" />
+
+            </repeat>
+
         </fieldset>
 
     </section>
 
     <!-- To Do: What to do about retrospective entry?  Check the who? when? where? -->
     <div class="hidden" id="encounter-details" sectionTag="section" headerStyle="title" headerLabel="Encounter Details">
-        <!-- See above for specimen collection date
-        <fieldset>
-            <legend>When?</legend>
-            <label>When?</label>
-
-            <encounterDate default="now" showTime="false"/>
-        </fieldset>
-        -->
-
         <fieldset>
             <legend>Who?</legend>
             <label>Who?</label>
@@ -1390,11 +1405,7 @@
             <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05"
                                       required="true"/>
         </fieldset>
-
-
     </div>
 
-
     <submit/>
-
 </htmlform>
