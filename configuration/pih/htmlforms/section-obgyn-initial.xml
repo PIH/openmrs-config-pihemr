@@ -1122,20 +1122,30 @@
              headerStyle="title" headerCode="pihcore.hivTB">
         <div class="section-container">
             <!-- HIV test -->
-            <div class="two-columns">
+            <div class="two-columns side-by-side">
                 <div>
                     <label>
                         <uimessage code="pihcore.mch.hivTest"/>
                     </label>
+                    <br/>
                     <obs id="hiv-test-checkbox" conceptId="CIEL:164401" answerConceptId="CIEL:1065"
                          toggle="hiv-test" style="checkbox"/>
                 </div>
                 <div>
-                    <label>
-                        <i>
+                    <i>
+                        <label>
                             <uimessage code="pihcore.hivTestMessage"/>
-                        </i>
-                    </label>
+                        </label>
+                    </i>
+                    <br/><br/>
+
+                    <i style="border-width:2px; border-style:solid; border-color:#CCCCCC; padding: 1em;">
+                        <label>
+                            <uimessage code="pihcore.lab.lastHivRT" />:
+                        </label>
+                        <lookup complexExpression="$fn.latestObs('CIEL:163722').valueCoded.name"/>
+                        (<lookup expression="fn.latestObs('CIEL:163722').obsDatetime"/>)
+                    </i>
                 </div>
             </div>
             <br/>
