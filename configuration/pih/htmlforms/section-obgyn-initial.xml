@@ -803,13 +803,14 @@
             </label>
 
             <obs conceptId="PIH:11665"/>
+            <br/>
 
             <!-- stateLabel="Groupe prénatal (J9)"  -->
-            <includeIf velocityTest="$fn.currentProgramWorkflowStatus(8).state.concept.uuid.equals($fn.getConcept('PIH:11699').uuid)">
+            <includeIf velocityTest="$fn.currentProgramWorkflowStatus(8, $encounterDate).state.concept.uuid.equals($fn.getConcept('PIH:11699').uuid)">
                 <!-- patient is already enrolled yet in the J9 Prenatal group -->
                 <span class="value">[X] <lookup expression="fn.getConcept('PIH:11699').name"/></span>
             </includeIf>
-            <excludeIf velocityTest="$fn.currentProgramWorkflowStatus(8).state.concept.uuid.equals($fn.getConcept('PIH:11699').uuid)">
+            <excludeIf velocityTest="$fn.currentProgramWorkflowStatus(8, $encounterDate).state.concept.uuid.equals($fn.getConcept('PIH:11699').uuid)">
                 <!-- patient has not been enrolled yet in the J9 Prenatal group -->
                 <label><lookup expression="fn.getConcept('PIH:11699').name"/>
                     <obs conceptId="PIH:11698" answerConceptId="PIH:11699" style="checkbox" answerLabel=""/>
