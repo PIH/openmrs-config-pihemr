@@ -2,8 +2,8 @@
 
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
     <changeSet id="20211026-pihcore-create-views" author="mgoodrich" runAlways="true" runOnChange="true">
         <sqlFile endDelimiter=";" path="sql/create_views.sql" relativeToChangelogFile="true" stripComments="true" />
@@ -583,5 +583,27 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20220915-add-authentication-event-log" author="mseaton">
+        <preConditions onFail="MARK_RAN">
+            <not><tableExists tableName="authentication_event_log"/></not>
+        </preConditions>
+        <comment>
+            UHM-6501 - Track user logins in OpenMRS
+        </comment>
+        <createTable tableName="authentication_event_log">
+            <column name="authentication_session_id" type="char(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="event_datetime" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ip_address" type="varchar(40)"/>
+            <column name="http_session_id" type="varchar(32)"/>
+            <column name="event_type" type="varchar(50)"/>
+            <column name="username" type="varchar(50)"/>
+            <column name="user_id" type="int"/>
+            <column name="message" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
 
 </databaseChangeLog>

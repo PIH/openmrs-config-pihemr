@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    This Source Code Form is subject to the terms of the Mozilla Public License,
+    v. 2.0. If a copy of the MPL was not distributed with this file, You can
+    obtain one at http://mozilla.org/MPL/2.0/. OpenMRS is also distributed under
+    the terms of the Healthcare Disclaimer located at http://openmrs.org/license.
+
+    Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
+    graphic logo is a trademark of OpenMRS Inc.
+-->
+<Configuration xmlns="http://logging.apache.org/log4j/2.0/config">
+	<Properties>
+		<!-- Anything defined here can be referenced below -->
+		<Property name="defaultPattern">%p - %C{1}.%M(%L) |%d{ISO8601}| %m%n</Property>
+	</Properties>
+	<Appenders>
+		<!-- Console appender - writes to system out -->
+		<Console name="CONSOLE" target="SYSTEM_OUT">
+			<PatternLayout pattern="${defaultPattern}" />
+		</Console>
+		<!-- Memory appender - keeps most recent logging messages in memory to be displayed to the user -->
+		<Memory name="MEMORY_APPENDER" bufferSize="200"> <!-- bufferSize is how many messages are kept in memory -->
+			<PatternLayout pattern="${defaultPattern}" />
+		</Memory>
+		<!-- File appender - keeps an active openmrs.log in the application data directory.  Reset on restart -->
+		<File name="OPENMRS_LOG_FILE_APPENDER" fileName="${openmrs:applicationDirectory}/openmrs.log" append="false">
+			<PatternLayout pattern="${defaultPattern}" />
+		</File>
+
+		<!-- Logging of user session and authentication events to a file -->
+		<RollingFile name="AUTHENTICATION_LOG_FILE"
+					 fileName="${openmrs:applicationDirectory}/authentication.log"
+					 filePattern="${openmrs:applicationDirectory}/authentication.%i.log" >
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS z} | %X{ipAddress} | %X{authenticationSessionId} | | %X{httpSessionId} | %markerSimpleName | %X{username} | %m%n" />
+			<Policies>
+				<OnStartupTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="100 MB" />
+			</Policies>
+		</RollingFile>
+		<!-- Logging of user session and authentication events to the database.  TODO: Change to pooled connection -->
+		<JDBC name="AUTHENTICATION_EVENT_LOG" tableName="authentication_event_log">
+			<ConnectionFactory class="org.openmrs.api.context.Context" method="getDatabaseConnection" />
+			<Column name="authentication_session_id" pattern="%X{authenticationSessionId}" />
+			<Column name="event_datetime" isEventTimestamp="true" />
+			<Column name="ip_address" pattern="%X{ipAddress}" />
+			<Column name="http_session_id" pattern="%X{httpSessionId}" />
+			<Column name="event_type" pattern="%markerSimpleName" />
+			<Column name="username" pattern="%X{username}" />
+			<ColumnMapping name="user_id" pattern="%X{userId}" type="java.lang.Integer" />
+			<Column name="message" pattern="%m" />
+		</JDBC>
+
+	</Appenders>
+	<Loggers>
+		<!-- Framework class logging optimization -->
+		<Logger name="org.apache" level="WARN" />
+		<Logger name="org.apache.fop" level="ERROR" />
+		<Logger name="org.hibernate" level="ERROR" />
+		<Logger name="org.hibernate.orm.deprecation" additivity="false" level="ERROR"/>
+		<Logger name="net.sf.ehcache" level="ERROR" />
+		<Logger name="org.springframework" level="WARN" />
+		<Logger name="org.springframework.context.support.ResourceBundleMessageSource" level="ERROR" />
+		<Logger name="org.springframework.beans.factory.support.DefaultListableBeanFactory" level="ERROR" />
+		<Logger name="liquibase" level="INFO" />
+
+		<!-- Controls logging of all Service method access: INFO = setters, DEBUG = getters and timing -->
+		<Logger name="org.openmrs" level="WARN" />
+		<Logger name="org.openmrs.api" level="WARN" />
+
+		<!-- MFA Logging -->
+		<Logger name="org.openmrs.module.authentication.AuthenticationLogger" level="INFO">
+			<AppenderRef ref="AUTHENTICATION_LOG_FILE"/>
+			<AppenderRef ref="AUTHENTICATION_EVENT_LOG"/>
+		</Logger>
+
+		<Root level="WARN">
+			<AppenderRef ref="CONSOLE" />
+			<AppenderRef ref="MEMORY_APPENDER" />
+			<AppenderRef ref="OPENMRS_LOG_FILE_APPENDER" />
+		</Root>
+	</Loggers>
+</Configuration>
