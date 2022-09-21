@@ -1137,15 +1137,18 @@
                             <uimessage code="pihcore.hivTestMessage"/>
                         </label>
                     </i>
-                    <br/><br/>
 
-                    <i style="border-width:2px; border-style:solid; border-color:#CCCCCC; padding: 1em;">
-                        <label>
-                            <uimessage code="pihcore.lab.lastHivRT" />:
-                        </label>
-                        <lookup complexExpression="$fn.latestObs('CIEL:163722').valueCoded.name"/>
-                        (<lookup expression="fn.latestObs('CIEL:163722').obsDatetime"/>)
-                    </i>
+                    <includeIf velocityTest="$fn.latestObs('CIEL:163722')">
+                        <br/><br/>
+
+                        <i style="border-width:2px; border-style:solid; border-color:#CCCCCC; padding: 1em;">
+                            <label>
+                                <uimessage code="pihcore.lab.lastHivRT" />:
+                            </label>
+                            <lookup complexExpression="$fn.latestObs('CIEL:163722').valueCoded.name"/>
+                            (<lookup expression="fn.latestObs('CIEL:163722').obsDatetime"/>)
+                        </i>
+                    </includeIf>
                 </div>
             </div>
             <br/>
