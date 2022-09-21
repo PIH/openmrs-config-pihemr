@@ -37,7 +37,7 @@
 				<SizeBasedTriggeringPolicy size="100 MB" />
 			</Policies>
 		</RollingFile>
-		<!-- Logging of user session and authentication events to the database.  TODO: Change to pooled connection -->
+		<!-- Logging of user session and authentication events to the database. -->
 		<JDBC name="AUTHENTICATION_EVENT_LOG" tableName="authentication_event_log">
 			<ConnectionFactory class="org.openmrs.api.context.Context" method="getDatabaseConnection" />
 			<Column name="authentication_session_id" pattern="%X{authenticationSessionId}" />
