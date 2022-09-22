@@ -583,5 +583,72 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20220922-migrate-2-danger-signs-from-anc" author="ball">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">
+                select count(*) from address_hierarchy_entry where parent_id is NULL and name like 'Haiti';
+            </sqlCheck>
+        </preConditions>
+        <comment>
+            Migrate 2 danger signs on ANC form to newer definitions on OB-GYN form:
+               Premature uterine contractions to Epigastric pain;
+               Abdominal pain to Lower abdominal pain;
+            If the count is 1, this is a Haiti server
+        </comment>
+        <sql>
+            update obs,
+                (select encounter_id from encounter
+                  where encounter_type IN
+                            (select encounter_type_id from encounter_type
+                              where name like 'OB%GYN')
+                    and encounter_id NOT IN
+                            (select encounter_id from obs
+                              where voided = 0
+                                and concept_id =
+                                        (select concept_id from concept
+                                          where uuid like '226ed7ad-b776-4b99-966d-fd818d3302c2')
+                                and value_coded =
+                                        (select concept_id from concept
+                                          where uuid like '141128AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))) as enco
+              set value_coded =
+                    (select concept_id from concept
+                      where uuid like '141128AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
+            where obs.encounter_id = enco.encounter_id
+              and obs.concept_id =
+                    (select concept_id from concept
+                      where uuid like '226ed7ad-b776-4b99-966d-fd818d3302c2')
+              and obs.value_coded =
+                    (select concept_id from concept
+                      where uuid like 'e0b354d2-6006-4c16-bb05-367330762f05')
+              and obs.voided = 0;
+
+            update obs,
+                (select encounter_id from encounter
+                  where encounter_type IN
+                        (select encounter_type_id from encounter_type
+                          where name like 'OB%GYN')
+                            and encounter_id NOT IN
+                                    (select encounter_id from obs
+                                      where voided = 0
+                                        and concept_id =
+                                                (select concept_id from concept
+                                                  where uuid like '226ed7ad-b776-4b99-966d-fd818d3302c2')
+                                                    and value_coded =
+                                                            (select concept_id from concept
+                                                              where uuid like '157544AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))) as enco
+              set value_coded =
+                    (select concept_id from concept
+                      where uuid like '157544AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
+            where obs.encounter_id = enco.encounter_id
+              and obs.concept_id =
+                    (select concept_id from concept
+                      where uuid like '226ed7ad-b776-4b99-966d-fd818d3302c2')
+              and obs.value_coded =
+                    (select concept_id from concept
+                      where uuid like '3ccdf8d4-26fe-102b-80cb-0017a47871b2')
+              and obs.voided = 0;
+        </sql>
+    </changeSet>
+
 
 </databaseChangeLog>
