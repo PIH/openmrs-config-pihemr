@@ -23,7 +23,7 @@
 			<PatternLayout pattern="${defaultPattern}" />
 		</Memory>
 		<!-- File appender - keeps an active openmrs.log in the application data directory.  Reset on restart -->
-		<File name="OPENMRS_LOG_FILE_APPENDER" fileName="${openmrs:applicationDirectory}/openmrs.log" append="false">
+		<File name="OPENMRS FILE APPENDER" fileName="${openmrs:applicationDirectory}/openmrs.log" append="false">
 			<PatternLayout pattern="${defaultPattern}" />
 		</File>
 
@@ -52,7 +52,7 @@
 
 	</Appenders>
 	<Loggers>
-		<!-- Framework class logging optimization -->
+		<!-- Library logging -->
 		<Logger name="org.apache" level="WARN" />
 		<Logger name="org.apache.fop" level="ERROR" />
 		<Logger name="org.hibernate" level="ERROR" />
@@ -63,8 +63,9 @@
 		<Logger name="org.springframework.beans.factory.support.DefaultListableBeanFactory" level="ERROR" />
 		<Logger name="liquibase" level="INFO" />
 
-		<!-- Controls logging of all Service method access: INFO = setters, DEBUG = getters and timing -->
+		<!-- Core logging -->
 		<Logger name="org.openmrs" level="WARN" />
+		<!-- Controls logging of all Service method access: INFO = setters, DEBUG = getters and timing -->
 		<Logger name="org.openmrs.api" level="WARN" />
 
 		<!-- MFA Logging -->
@@ -76,7 +77,7 @@
 		<Root level="WARN">
 			<AppenderRef ref="CONSOLE" />
 			<AppenderRef ref="MEMORY_APPENDER" />
-			<AppenderRef ref="OPENMRS_LOG_FILE_APPENDER" />
+			<AppenderRef ref="OPENMRS FILE APPENDER" />
 		</Root>
 	</Loggers>
 </Configuration>
