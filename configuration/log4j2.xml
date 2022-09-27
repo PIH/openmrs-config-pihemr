@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-
     This Source Code Form is subject to the terms of the Mozilla Public License,
     v. 2.0. If a copy of the MPL was not distributed with this file, You can
     obtain one at http://mozilla.org/MPL/2.0/. OpenMRS is also distributed under
@@ -8,57 +7,73 @@
 
     Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
     graphic logo is a trademark of OpenMRS Inc.
-
 -->
-
 <Configuration xmlns="http://logging.apache.org/log4j/2.0/config">
 	<Properties>
-		<!-- The default pattern is stored as a property so that it's only defined once.
-		     It's also quite challenging to escape using Log4j2's variable substitution. -->
+		<!-- Anything defined here can be referenced below -->
 		<Property name="defaultPattern">%p - %C{1}.%M(%L) |%d{ISO8601}| %m%n</Property>
 	</Properties>
 	<Appenders>
-		<!-- the console appender is not required but usually a good idea -->
+		<!-- Console appender - writes to system out -->
 		<Console name="CONSOLE" target="SYSTEM_OUT">
-			<PatternLayout pattern="${openmrs:logLayout:-${defaultPattern}}" />
+			<PatternLayout pattern="${defaultPattern}" />
 		</Console>
-		<!-- OpenMRS should have an appender called "OPENMRS FILE APPENDER" that appends to a file -->
-		<RollingFile name="OPENMRS FILE APPENDER"
-					 fileName="${openmrs:logLocation:-${openmrs:applicationDirectory}}/openmrs.log"
-					 filePattern="${openmrs:logLocation:-${openmrs:applicationDirectory}}/openmrs.%i.log">
-			<PatternLayout pattern="${openmrs:logLayout:-${defaultPattern}}" />
+		<!-- Memory appender - keeps most recent logging messages in memory to be displayed to the user -->
+		<Memory name="MEMORY_APPENDER" bufferSize="200"> <!-- bufferSize is how many messages are kept in memory -->
+			<PatternLayout pattern="${defaultPattern}" />
+		</Memory>
+		<!-- File appender - keeps an active openmrs.log in the application data directory.  Reset on restart -->
+		<File name="OPENMRS FILE APPENDER" fileName="${openmrs:applicationDirectory}/openmrs.log" append="false">
+			<PatternLayout pattern="${defaultPattern}" />
+		</File>
+
+		<!-- Logging of user session and authentication events to a file -->
+		<RollingFile name="AUTHENTICATION_LOG_FILE"
+					 fileName="${openmrs:applicationDirectory}/authentication.log"
+					 filePattern="${openmrs:applicationDirectory}/authentication.%i.log" >
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS z} | %X{ipAddress} | %X{authenticationSessionId} | | %X{httpSessionId} | %markerSimpleName | %X{username} | %m%n" />
 			<Policies>
 				<OnStartupTriggeringPolicy />
-				<SizeBasedTriggeringPolicy size="10 MB" />
+				<SizeBasedTriggeringPolicy size="100 MB" />
 			</Policies>
-			<DefaultRolloverStrategy max="1" />
 		</RollingFile>
-		<!-- The MEMORY_APPENDER is used to keep a subset of logging messages in memory to be displayed to the user.
-		 	 If one is not configured here, it will be created automatically. -->
-		<Memory name="MEMORY_APPENDER"
-				bufferSize="200"> <!-- bufferSize is how many messages are kept in memory -->
-			<PatternLayout pattern="${openmrs:logLayout:-${defaultPattern}}" />
-		</Memory>
+		<!-- Logging of user session and authentication events to the database. -->
+		<JDBC name="AUTHENTICATION_EVENT_LOG" tableName="authentication_event_log">
+			<ConnectionFactory class="org.openmrs.api.context.Context" method="getDatabaseConnection" />
+			<Column name="authentication_session_id" pattern="%X{authenticationSessionId}" />
+			<Column name="event_datetime" isEventTimestamp="true" />
+			<Column name="ip_address" pattern="%X{ipAddress}" />
+			<Column name="http_session_id" pattern="%X{httpSessionId}" />
+			<Column name="event_type" pattern="%markerSimpleName" />
+			<Column name="username" pattern="%X{username}" />
+			<ColumnMapping name="user_id" pattern="%X{userId}" type="java.lang.Integer" />
+			<Column name="message" pattern="%m" />
+		</JDBC>
+
 	</Appenders>
 	<Loggers>
+		<!-- Library logging -->
 		<Logger name="org.apache" level="WARN" />
+		<Logger name="org.apache.fop" level="ERROR" />
 		<Logger name="org.hibernate" level="ERROR" />
+		<Logger name="org.hibernate.orm.deprecation" additivity="false" level="ERROR"/>
 		<Logger name="net.sf.ehcache" level="ERROR" />
 		<Logger name="org.springframework" level="WARN" />
-		<Logger name="org.openmrs" level="WARN" />
-		<Logger name="liquibase" level="INFO" />
-		<!-- 
-			This controls the LoggingAdvice class that wraps around the OpenMRS services 
-			WARN == don't log anything special for the services
-			INFO == log all setters
-			DEBUG == log all setters & log all getters & log execution time
-		-->
-		<Logger name="org.openmrs.api" level="INFO" />
-		<Logger name="org.apache.fop" level="ERROR" />
-		<!-- Hide the useless MissingResourceException -->
 		<Logger name="org.springframework.context.support.ResourceBundleMessageSource" level="ERROR" />
 		<Logger name="org.springframework.beans.factory.support.DefaultListableBeanFactory" level="ERROR" />
-		<Logger name="org.hibernate.orm.deprecation" additivity="false" level="ERROR"/>
+		<Logger name="liquibase" level="INFO" />
+
+		<!-- Core logging -->
+		<Logger name="org.openmrs" level="WARN" />
+		<!-- Controls logging of all Service method access: INFO = setters, DEBUG = getters and timing -->
+		<Logger name="org.openmrs.api" level="WARN" />
+
+		<!-- MFA Logging -->
+		<Logger name="org.openmrs.module.authentication.AuthenticationLogger" level="INFO">
+			<AppenderRef ref="AUTHENTICATION_LOG_FILE"/>
+			<AppenderRef ref="AUTHENTICATION_EVENT_LOG"/>
+		</Logger>
+
 		<Root level="WARN">
 			<AppenderRef ref="CONSOLE" />
 			<AppenderRef ref="MEMORY_APPENDER" />
