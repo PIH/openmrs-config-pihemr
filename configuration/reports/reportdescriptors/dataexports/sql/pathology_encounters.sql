@@ -1,6 +1,7 @@
 -- set @startDate = '2000-03-28';
 -- set @endDate = '2022-07-01';
 
+
 CALL initialize_global_metadata();
 set @partition = '${partitionNum}';
 
@@ -61,6 +62,7 @@ result_user_entered			VARCHAR(255),
 results_note				TEXT,
 file_uploaded				BIT,
 cancer_confirmed			BIT,
+post_result_dx_obs_group_id	INT(11),
 post_result_diagnosis		VARCHAR(255)
 );
 
@@ -186,7 +188,7 @@ set t.latest_processed_obs_id =
 	and o.voided= 0
 	and o.concept_id in (@process_date_id , @accession_number_id,  @specimen_sent_id,  @specimen_sent_date_id, @specimen_returned_date_id)
 	and o.date_created =t.process_date_entered
-	limit 1);
+limit 1);
 
 update temp_pathology t
 inner join temp_obs o on o.obs_id = t.latest_processed_obs_id
@@ -235,7 +237,7 @@ set specimen_returned_pap_date = obs_from_group_id_value_datetime_from_temp(t.sp
 
 set @results_note_id = concept_from_mapping('PIH','7907');
 set @results_date_id = concept_from_mapping('PIH','10783');
-set @post_result_dx_id = concept_from_mapping('PIH','1379');
+set @post_result_dx_id = concept_from_mapping('PIH','14314'); 
 set @file_uploaded_id = concept_from_mapping('PIH','10785');
 set @confirmed_cancer_id = concept_from_mapping('PIH','14313');
 
@@ -275,6 +277,12 @@ set file_uploaded = if(obs_id_from_temp(t.encounter_id,'PIH','10785',0) is null,
 
 update temp_pathology t
 set cancer_confirmed = value_coded_as_boolean(obs_id_from_temp(t.encounter_id, 'PIH','14313',0));
+
+update temp_pathology t
+set post_result_dx_obs_group_id = obs_id_from_temp(t.encounter_id,'PIH','14314',0);
+
+update temp_pathology t
+set post_result_diagnosis = obs_from_group_id_value_coded_list_from_temp(t.post_result_dx_obs_group_id, 'PIH','3064',@locale);
 
 select 
 emr_id,
