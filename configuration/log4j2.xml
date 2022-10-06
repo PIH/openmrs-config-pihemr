@@ -26,17 +26,6 @@
 		<File name="OPENMRS FILE APPENDER" fileName="${openmrs:applicationDirectory}/openmrs.log" append="false">
 			<PatternLayout pattern="${defaultPattern}" />
 		</File>
-
-		<!-- Logging of user session and authentication events to a file -->
-		<RollingFile name="AUTHENTICATION_LOG_FILE"
-					 fileName="${openmrs:applicationDirectory}/authentication.log"
-					 filePattern="${openmrs:applicationDirectory}/authentication.%i.log" >
-			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS z} | %X{ipAddress} | %X{authenticationSessionId} | | %X{httpSessionId} | %markerSimpleName | %X{username} | %m%n" />
-			<Policies>
-				<OnStartupTriggeringPolicy />
-				<SizeBasedTriggeringPolicy size="100 MB" />
-			</Policies>
-		</RollingFile>
 		<!-- Logging of user session and authentication events to the database. -->
 		<JDBC name="AUTHENTICATION_EVENT_LOG" tableName="authentication_event_log">
 			<ConnectionFactory class="org.openmrs.api.context.Context" method="getDatabaseConnection" />
@@ -49,7 +38,6 @@
 			<ColumnMapping name="user_id" pattern="%X{userId}" type="java.lang.Integer" />
 			<Column name="message" pattern="%m" />
 		</JDBC>
-
 	</Appenders>
 	<Loggers>
 		<!-- Library logging -->
@@ -70,7 +58,6 @@
 
 		<!-- MFA Logging -->
 		<Logger name="org.openmrs.module.authentication.AuthenticationLogger" level="INFO">
-			<AppenderRef ref="AUTHENTICATION_LOG_FILE"/>
 			<AppenderRef ref="AUTHENTICATION_EVENT_LOG"/>
 		</Logger>
 
