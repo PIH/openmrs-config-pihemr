@@ -35,6 +35,7 @@ encounters,encounter_date ,encounter_id,encounter date,encounter date of encount
 encounters,encounter_date_created ,encounter_id,encounter date created,encounter date created of encounter,
 encounters,encounter_creator_name ,encounter_id,creator name,first and last name of creator of encounter,
 encounters,encounter_type_name,encounter_id,encounter name,returns encounter name of that type,
+encounters,encounter_type_name_from_id,encounter_type_id,encounter_type_name,returns name of encounter type from the id, 
 encounters,encounterName,type_or_uuid,encounter name,returns the encounter name of of the encounter described by the encounter type or uuid ,
 encounters,encounter_type,name_or_uuid ,encounter type id,Returns the encounter_id of encounter described,
 encounters,hivEncounterLocationId,encounter_id,location id,"returns the encounter location unless it is unknown location, in which case, it will return the program enrollment location at the time of the encounter",

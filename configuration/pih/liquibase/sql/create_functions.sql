@@ -80,7 +80,30 @@ BEGIN
     RETURN ret;
 END
 #
+-- The following function accepts an encounter_type_id
+-- It will return the names of the encounter_type
+#
+DROP FUNCTION IF EXISTS encounter_type_name_from_id;
+#
+CREATE FUNCTION encounter_type_name_from_id(
+    _encounter_type_id INT
+)
+    RETURNS varchar(50)
+    DETERMINISTIC
 
+BEGIN
+    DECLARE encounterName varchar(50);
+
+    SELECT
+    et.name INTO encounterName
+FROM
+    encounter_type et
+where encounter_type_id = _encounter_type_id;
+
+    RETURN encounterName;
+
+END
+#
 /*
     return patient identifier type id
 */
