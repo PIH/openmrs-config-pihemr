@@ -88,11 +88,11 @@ DROP FUNCTION IF EXISTS encounter_type_name_from_id;
 CREATE FUNCTION encounter_type_name_from_id(
     _encounter_type_id INT
 )
-    RETURNS a
+    RETURNS varchar(50)
     DETERMINISTIC
 
 BEGIN
-    DECLARE encounterName TEXT;
+    DECLARE encounterName varchar(50);
 
     SELECT
     et.name INTO encounterName
