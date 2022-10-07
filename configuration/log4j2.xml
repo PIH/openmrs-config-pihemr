@@ -26,6 +26,16 @@
 		<File name="OPENMRS FILE APPENDER" fileName="${openmrs:applicationDirectory}/openmrs.log" append="false">
 			<PatternLayout pattern="${defaultPattern}" />
 		</File>
+		<RollingFile name="ACTIVITY_LOG_APPENDER"
+					 fileName="${openmrs:applicationDirectory}/activitylog/activity.log"
+					 append="true"
+					 filePattern="${openmrs:applicationDirectory}/activitylog/activity.%i.log">
+			<PatternLayout pattern="\{&quot;timestamp&quot;: &quot;%d{ISO8601}&quot;, &quot;sessionId&quot;: &quot;%X{sessionId}&quot;, &quot;user&quot;: &quot;%X{user}&quot;, &quot;loadTime&quot;: &quot;%X{loadTime}&quot;, &quot;method&quot;: &quot;%X{method}&quot;, &quot;requestPath&quot;: &quot;%X{requestURI}&quot;, &quot;queryParams&quot;: &quot;%X{queryParams}&quot;\}%n" />
+			<Policies>
+				<SizeBasedTriggeringPolicy size="10 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="5" />
+		</RollingFile>
 		<!-- Logging of user session and authentication events to the database. -->
 		<JDBC name="AUTHENTICATION_EVENT_LOG" tableName="authentication_event_log">
 			<ConnectionFactory class="org.openmrs.api.context.Context" method="getDatabaseConnection" />
@@ -59,6 +69,10 @@
 		<!-- MFA Logging -->
 		<Logger name="org.openmrs.module.authentication.AuthenticationLogger" level="INFO">
 			<AppenderRef ref="AUTHENTICATION_EVENT_LOG"/>
+		</Logger>
+
+		<Logger name="org.openmrs.module.pihcore.RequestMonitoringFilter" additivity="false" level="TRACE">
+			<AppenderRef ref="ACTIVITY_LOG_APPENDER" />
 		</Logger>
 
 		<Root level="WARN">
