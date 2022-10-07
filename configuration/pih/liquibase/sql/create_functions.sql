@@ -3237,4 +3237,63 @@ BEGIN
 
     RETURN ret;
     
-END   
+END
+#
+
+-- This function accepts a table name and returns true if the table exists in the current database
+DROP FUNCTION IF EXISTS table_exists;
+#
+CREATE FUNCTION table_exists(_table_name varchar(25))
+    RETURNS boolean
+    DETERMINISTIC
+BEGIN
+    DECLARE ret boolean;
+
+    SELECT  if(count(*) > 0, true, false) into ret
+    FROM    information_schema.tables
+    WHERE   table_schema = database()
+    AND     table_name = _table_name;
+
+    RETURN ret;
+END
+#
+
+-- This function accepts a user_id and returns the most recent login date
+DROP FUNCTION IF EXISTS user_latest_login;
+#
+CREATE FUNCTION user_latest_login(_user_id int(11))
+    RETURNS datetime
+    DETERMINISTIC
+BEGIN
+    DECLARE ret datetime;
+    IF (table_exists('authentication_event_log')) THEN
+        SELECT  max(event_datetime) into ret
+        FROM    authentication_event_log
+        WHERE   user_id = _user_id
+        AND     event_type = 'AUTHENTICATION_LOGIN_SUCCEEDED';
+    ELSE
+        SET ret = null;
+    END IF;
+    RETURN ret;
+END
+#
+
+-- This function accepts a user_id and returns the total number of logins recorded
+DROP FUNCTION IF EXISTS user_num_logins;
+#
+CREATE FUNCTION user_num_logins(_user_id int(11))
+    RETURNS int
+    DETERMINISTIC
+BEGIN
+    DECLARE ret int;
+    IF (table_exists('authentication_event_log')) THEN
+        SELECT  count(*) into ret
+        FROM    authentication_event_log
+        WHERE   user_id = _user_id
+        AND     event_type = 'AUTHENTICATION_LOGIN_SUCCEEDED';
+    ELSE
+        SET ret = 0;
+    END IF;
+    RETURN ret;
+END
+#
