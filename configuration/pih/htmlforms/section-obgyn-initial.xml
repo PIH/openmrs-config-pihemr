@@ -1142,15 +1142,48 @@
                         </label>
                     </i>
 
-                    <includeIf velocityTest="$fn.latestObs('CIEL:163722')">
+                    <!-- Past HIV tests:  RT, VL quant (CIEL:856), CD4 (CIEL:5497) -->
+                    <includeIf velocityTest="($fn.latestObs('CIEL:163722')) || ($fn.latestObs('CIEL:856')) || ($fn.latestObs('CIEL:5497')) || ($fn.latestObs('CIEL:159427')) ">
                         <br/><br/>
 
-                        <i style="border-width:2px; border-style:solid; border-color:#CCCCCC; padding: 1em;">
-                            <label>
-                                <uimessage code="pihcore.lab.lastHivRT" />:
-                            </label>
-                            <lookup complexExpression="$fn.latestObs('CIEL:163722').valueCoded.name"/>
-                            (<lookup expression="fn.latestObs('CIEL:163722').obsDatetime"/>)
+                        <i style="color:#BBBBBB">
+                            <!-- Rapid test -->
+                            <includeIf velocityTest="$fn.latestObs('CIEL:163722')">
+                                <label>
+                                    <uimessage code="pihcore.lab.lastHivRT" />:
+                                </label>
+                                <lookup complexExpression="$fn.latestObs('CIEL:163722').valueCoded.name"/>
+                                (<lookup expression="fn.latestObs('CIEL:163722').obsDatetime"/>)
+                                <br/>
+                            </includeIf>
+
+                            <!-- Viral load -->
+                            <includeIf velocityTest="$fn.latestObs('CIEL:856')">
+                                <label>
+                                    <uimessage code="pihcore.lab.lastHivVL" />:
+                                </label>
+                                <lookup complexExpression="$fn.latestObs('CIEL:856').valueNumeric"/>
+                                (<lookup expression="fn.latestObs('CIEL:856').obsDatetime"/>)
+                                <br/>
+                            </includeIf>
+
+                            <!-- CD4 count -->
+                            <includeIf velocityTest="$fn.latestObs('CIEL:5497')">
+                                <label>
+                                    <uimessage code="pihcore.lab.lastCD4" />:
+                                </label>
+                                <lookup complexExpression="$fn.latestObs('CIEL:5497').valueNumeric"/>
+                                (<lookup expression="fn.latestObs('CIEL:5497').obsDatetime"/>)
+                            </includeIf>
+
+                            <!-- Generic HIV test question -->
+                            <includeIf velocityTest="$fn.latestObs('CIEL:159427')">
+                                <label>
+                                    <uimessage code="pihcore.lab.lastHIVtest" />:
+                                </label>
+                                <lookup complexExpression="$fn.latestObs('CIEL:159427').valueCoded.name"/>
+                                (<lookup expression="fn.latestObs('CIEL:159427').obsDatetime"/>)
+                            </includeIf>
                         </i>
                     </includeIf>
                 </div>
@@ -1182,7 +1215,7 @@
                         <p>
                             <br/>
                             <obs conceptId="CIEL:159427" answerConceptIds="CIEL:664,CIEL:703"
-                                labelCode="pihcore.hiv.testResult" style="radio"/>
+                                labelCode="pihcore.lab.hivTestUnspec" style="radio"/>
                         </p>
                     </div>
                 </obsgroup>

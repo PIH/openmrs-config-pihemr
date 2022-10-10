@@ -704,6 +704,7 @@
                             <render finding="CIEL:1115"   name="Normal"     switch="normalObs" />
                             <render finding="CIEL:146512" name="GenCandid"  switch="abnormalObs" />
                             <render finding="CIEL:120147" name="Condyloma"  switch="abnormalObs" />
+                            <render finding="CIEL:118784" name="CervDyspl"  switch="abnormalObs" />
                             <render finding="CIEL:165162" name="BadSmell"   switch="abnormalObs" />
                         </repeat>
 
@@ -762,6 +763,32 @@
                                  answerConceptId="CIEL:1267"
                                  answerCode="pihcore.papTestPerformed" />
                         </p>
+
+                        <p class="in-line">
+                            <label>
+                                <uimessage code="pihcore.stiSuspected"/>?
+                            </label>
+                            <obs conceptId="CIEL:161558" style="radio"
+                                 answerConceptIds="CIEL:1065,CIEL:1066"
+                                 answerSeparator=""/>
+                        </p>
+
+                        <repeat>
+                            <template>
+                                <p>
+                                    <obs class="{switch}" conceptId="PIH:14365"
+                                         answerConceptId="{finding}"
+                                         style="checkbox"/>
+                                </p>
+                            </template>
+                            <render finding="CIEL:148002" name="Bacterial vaginosis (BV)"   />
+                            <render finding="CIEL:120733" name="Chlamydia" />
+                            <render finding="CIEL:117829" name="Genital herpes" />
+                            <render finding="CIEL:117767" name="Gonorrhea" />
+                            <render finding="CIEL:111759" name="hepB" />
+                            <render finding="CIEL:1213"   name="HPV"   />
+                            <render finding="CIEL:117146" name="Trichomoniasis"   />
+                        </repeat>
 
                         <p class="comment-label">
                             <uimessage code="pihcore.exam.comment"/>

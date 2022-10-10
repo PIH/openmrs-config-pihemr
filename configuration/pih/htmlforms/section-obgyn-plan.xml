@@ -395,6 +395,11 @@
                      answerCodes="pihcore.treatCompleted2,pihcore.treatDelayed,pihcore.treatContinue"/>
             </p>
 
+            <!-- STI treatment -->
+            <p>
+                <obs conceptId="CIEL:160742" answerConceptId="CIEL:167125" />
+            </p>
+
             <!-- Syphilis treatment -->
             <p class="side-by-side">
                 <label>
