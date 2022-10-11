@@ -29,6 +29,7 @@ CREATE TEMPORARY TABLE temp_laborders_spec
   concept_id INT(11),
   encounter_id INT(11),
   encounter_datetime  DATETIME,
+  encounter_location VARCHAR(255),
   patient_id INT(11),
   emr_id VARCHAR(50),
   loc_registered VARCHAR(255),
@@ -50,6 +51,7 @@ CREATE TEMPORARY TABLE temp_labresults
 (
   patient_id INT(11),
   emr_id VARCHAR(50),
+  encounter_location VARCHAR(255),
   loc_registered VARCHAR(255),
   unknown_patient VARCHAR(50),
   gender VARCHAR(50),
@@ -77,15 +79,18 @@ CREATE TEMPORARY TABLE temp_labresults
 );
  
  -- this loads all specimen encounters (from the lab application) into a temp table 
-INSERT INTO temp_laborders_spec (encounter_id,encounter_datetime,patient_id,emr_id)
+INSERT INTO temp_laborders_spec (encounter_id,encounter_datetime,patient_id,emr_id, encounter_location)
 SELECT e.encounter_id,
 e.encounter_datetime,
 e.patient_id,
-PATIENT_IDENTIFIER(e.patient_id, METADATA_UUID('org.openmrs.module.emrapi', 'emr.primaryIdentifierType'))
+PATIENT_IDENTIFIER(e.patient_id, METADATA_UUID('org.openmrs.module.emrapi', 'emr.primaryIdentifierType')),
+location_name(location_id)
 FROM encounter e
 WHERE e.encounter_type = @specimen_collection AND e.voided = 0
 AND (@startDate IS NULL OR DATE(e.encounter_datetime) >= DATE(@startDate))
 AND (@endDate IS NULL OR DATE(e.encounter_datetime) <= DATE(@endDate));
+
+
 
 -- updates order number 
 UPDATE temp_laborders_spec t
@@ -100,11 +105,12 @@ SET t.concept_id = o.concept_id,
 ;
 
  -- this adds the standalone lab results encounters into the temp table 
-INSERT INTO temp_laborders_spec (encounter_id,encounter_datetime,patient_id,emr_id)
+INSERT INTO temp_laborders_spec (encounter_id,encounter_datetime,patient_id,emr_id, encounter_location)
 SELECT e.encounter_id,
 e.encounter_datetime,
 e.patient_id,
-PATIENT_IDENTIFIER(e.patient_id, METADATA_UUID('org.openmrs.module.emrapi', 'emr.primaryIdentifierType'))
+PATIENT_IDENTIFIER(e.patient_id, METADATA_UUID('org.openmrs.module.emrapi', 'emr.primaryIdentifierType')),
+location_name(location_id)
 FROM encounter e
 WHERE e.encounter_type = @labResultEnc AND e.voided = 0
 AND (@startDate IS NULL OR DATE(e.encounter_datetime) >= DATE(@startDate))
@@ -112,9 +118,7 @@ AND (@endDate IS NULL OR DATE(e.encounter_datetime) <= DATE(@endDate));
 
 -- emr id location 
 UPDATE temp_laborders_spec ts 
-INNER JOIN patient_identifier pid ON pid.patient_id = ts.patient_id AND pid.identifier = ts.emr_id
-INNER JOIN location l ON l.location_id = pid.location_id
-SET ts.loc_registered = l.name
+SET ts.loc_registered =loc_registered(ts.patient_id)
 ;
 
 -- unknown patient
@@ -145,9 +149,10 @@ INNER JOIN obs res_date ON res_date.voided = 0 AND res_date.encounter_id = ts.en
 SET ts.results_date = res_date.value_datetime;
 
 -- This query loads all specimen encounter-level information from above and observations from results entered  
-INSERT INTO temp_labresults (patient_id,emr_id,loc_registered, unknown_patient, gender, age_at_enc, department, commune, section, locality, street_landmark,order_number,orderable,specimen_collection_date, results_date, results_entry_date,test_concept_id,test, lab_id, LOINC,result_coded_answer,result_numeric_answer,result_text_answer)
+INSERT INTO temp_labresults (patient_id,emr_id,encounter_location, loc_registered, unknown_patient, gender, age_at_enc, department, commune, section, locality, street_landmark,order_number,orderable,specimen_collection_date, results_date, results_entry_date,test_concept_id,test, lab_id, LOINC,result_coded_answer,result_numeric_answer,result_text_answer)
 SELECT ts.patient_id,
 ts.emr_id,
+ts.encounter_location,
 ts.loc_registered, 
 ts.unknown_patient, 
 ts.gender, 
@@ -176,41 +181,3 @@ INNER JOIN obs res ON res.encounter_id = ts.encounter_id
   AND res.voided = 0 AND res.concept_id NOT IN (@order_number,@result_date,@test_location,@test_status,@collection_date_estimated)
   AND (res.value_numeric IS NOT NULL OR res.value_text IS NOT NULL OR res.value_coded IS NOT NULL)
 ;
-
-
-
--- update test units (where they exist)
-UPDATE temp_labresults t
-INNER JOIN concept_numeric cu ON cu.concept_id = t.test_concept_id
-SET t.units = cu.units
-;
-
--- select  all output:
-SELECT t.emr_id,
-       t.loc_registered,
-       t.unknown_patient,
-       t.gender,
-       t.age_at_enc,
-       t.department,
-       t.commune,
-       t.section,
-       t.locality,
-       t.street_landmark,
-       t.order_number,
-       t.orderable,
-       -- only return test name is test was performed:
-       CASE WHEN t.test_concept_id  <> @not_performed THEN t.test END AS 'test',
-       t.lab_id,							   
-       t.LOINC,							   
-       DATE(t.specimen_collection_date) "specimen_collection_date",
-       DATE(t.results_date) "results_date",
-       t.results_entry_date,
-       -- only return the result if the test was performed:     
-       CASE 
-         WHEN t.test_concept_id  <> @not_performed  AND t.result_numeric_answer IS NOT NULL THEN t.result_numeric_answer
-         WHEN t.test_concept_id  <> @not_performed  AND t.result_text_answer IS NOT NULL THEN t.result_text_answer
-         WHEN t.test_concept_id  <> @not_performed  AND t.result_coded_answer  IS NOT NULL THEN t.result_coded_answer 
-       END AS 'result',
-       t.units,
-       CASE WHEN t.test_concept_id  = @not_performed  THEN t.result_coded_answer ELSE NULL END AS 'reason_not_performed'  
-FROM temp_labresults t;
