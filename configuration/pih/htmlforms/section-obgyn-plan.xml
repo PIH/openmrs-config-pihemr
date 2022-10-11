@@ -397,7 +397,7 @@
 
             <!-- STI treatment -->
             <p>
-                <obs conceptId="CIEL:160742" answerConceptId="CIEL:167125" />
+                <obs conceptId="CIEL:160742" answerConceptId="CIEL:167125" answerCode="pihcore.stiTreat"/>
             </p>
 
             <!-- Syphilis treatment -->
