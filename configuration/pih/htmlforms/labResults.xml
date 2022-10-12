@@ -189,17 +189,17 @@
             <br/>
             <div>
                 <label for="specimen-collection-date">
-                    <uimessage code="pihcore.lab.specimen_collection_date"/>
+                    <uimessage code="pihcore.lab.specimen_collection_date"/><font style="color:red">*</font>
                 </label>
                 <div class="small required">
                     <!-- The sputum collection date is stored as the encounter date. -->
                     <field class="required">
                         <encounterDate id="encounter-date" default="now" />
                     </field>
-                    <div class="section-container">
-                        <obs conceptId="PIH:11781" answerConceptId="PIH:YES"
-                             style="checkbox" answerCode="pihcore.date_estimated"/>
-                    </div>
+                </div>
+                <div class="section-container" style="color:black">
+                    <obs conceptId="PIH:11781" answerConceptId="PIH:YES"
+                         style="checkbox" answerCode="pihcore.date_estimated"/>
                 </div>
             </div>
             <br/>
