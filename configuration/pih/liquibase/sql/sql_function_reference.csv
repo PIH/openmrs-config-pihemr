@@ -15,6 +15,7 @@ demographics,loc_registered,patient_id ,location name,name of location where pat
 demographics,registration_date,patient_id ,registration date,date of the encounter the patient was registered,
 demographics,person_family_name,person_id,name,family name of person,
 demographics,person_given_name,person_id,name,given name of person,
+demographics,person_middle_name,person_id,name,middle name of person,
 demographics,person_name,person_id,name,first and last name of person comma separated,
 demographics,current_age_in_months,person_id ,patient age,Returns the current age in years as an integer of the patient,
 demographics,current_age_in_years,person_id ,patient age,Returns the current age in years of the patient,
