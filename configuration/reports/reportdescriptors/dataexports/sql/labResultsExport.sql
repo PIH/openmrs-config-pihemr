@@ -181,3 +181,40 @@ INNER JOIN obs res ON res.encounter_id = ts.encounter_id
   AND res.voided = 0 AND res.concept_id NOT IN (@order_number,@result_date,@test_location,@test_status,@collection_date_estimated)
   AND (res.value_numeric IS NOT NULL OR res.value_text IS NOT NULL OR res.value_coded IS NOT NULL)
 ;
+
+-- update test units (where they exist)
+UPDATE temp_labresults t
+INNER JOIN concept_numeric cu ON cu.concept_id = t.test_concept_id
+SET t.units = cu.units
+;
+
+-- select  all output:
+SELECT t.emr_id,
+       t.loc_registered,
+       t.encounter_location,
+       t.unknown_patient,
+       t.gender,
+       t.age_at_enc,
+       t.department,
+       t.commune,
+       t.section,
+       t.locality,
+       t.street_landmark,
+       t.order_number,
+       t.orderable,
+       -- only return test name is test was performed:
+       CASE WHEN t.test_concept_id  <> @not_performed THEN t.test END AS 'test',
+       t.lab_id,							   
+       t.LOINC,							   
+       DATE(t.specimen_collection_date) "specimen_collection_date",
+       DATE(t.results_date) "results_date",
+       t.results_entry_date,
+       -- only return the result if the test was performed:     
+       CASE 
+         WHEN t.test_concept_id  <> @not_performed  AND t.result_numeric_answer IS NOT NULL THEN t.result_numeric_answer
+         WHEN t.test_concept_id  <> @not_performed  AND t.result_text_answer IS NOT NULL THEN t.result_text_answer
+         WHEN t.test_concept_id  <> @not_performed  AND t.result_coded_answer  IS NOT NULL THEN t.result_coded_answer 
+       END AS 'result',
+       t.units,
+       CASE WHEN t.test_concept_id  = @not_performed  THEN t.result_coded_answer ELSE NULL END AS 'reason_not_performed'  
+FROM temp_labresults t;
