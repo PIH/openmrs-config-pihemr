@@ -441,6 +441,32 @@ BEGIN
 END
 #
 /*
+ person middle name
+*/
+#
+DROP FUNCTION IF EXISTS person_middle_name;
+#
+CREATE FUNCTION person_middle_name(
+    _person_id int
+)
+    RETURNS TEXT
+    DETERMINISTIC
+
+BEGIN
+    DECLARE personMiddleName TEXT;
+
+    select      middle_name into personMiddleName
+    from        person_name
+    where       voided = 0
+    and         person_id = _person_id
+    order by    preferred desc, date_created desc
+    limit       1;
+
+    RETURN personMiddleName;
+
+END
+#
+/*
   ZL EMR ID location
 */
 #
