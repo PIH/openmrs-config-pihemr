@@ -155,7 +155,7 @@
                 <uimessage code="pihcore.lab.overview"/>
             </legend>
             <h3>
-                <uimessage code="pihcore.lab.overview"/> - Hello
+                <uimessage code="pihcore.lab.overview"/>
             </h3>
 
             <!-- this is a super-hack to get around the fact that if the date is first field in a form, the
