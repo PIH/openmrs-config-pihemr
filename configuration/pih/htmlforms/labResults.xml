@@ -155,7 +155,7 @@
                 <uimessage code="pihcore.lab.overview"/>
             </legend>
             <h3>
-                <uimessage code="pihcore.lab.overview"/>
+                <uimessage code="pihcore.lab.overview"/> - Hello
             </h3>
 
             <!-- this is a super-hack to get around the fact that if the date is first field in a form, the
@@ -169,7 +169,9 @@
                     <uimessage code="emr.locationRequired"/>
                 </label>
                 <div class="required">
-                    <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Lab Results Location"/>
+                    <field class="required">
+                        <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Lab Results Location" required="true"/>
+                    </field>
                 </div>
             </div>
             <br/>
@@ -191,7 +193,9 @@
                 </label>
                 <div class="small required">
                     <!-- The sputum collection date is stored as the encounter date. -->
-                    <encounterDate id="encounter-date" default="now" />
+                    <field class="required">
+                        <encounterDate id="encounter-date" default="now" />
+                    </field>
                     <div class="section-container">
                         <obs conceptId="PIH:11781" answerConceptId="PIH:YES"
                              style="checkbox" answerCode="pihcore.date_estimated"/>
@@ -204,7 +208,9 @@
                     <uimessage code="pihcore.lab.test_date"/>
                 </label>
                 <div class="small">
-                    <obs id="test-date" conceptId="PIH:Date of test results" allowFutureDates="true" />
+                    <field class="required">
+                        <obs id="test-date" conceptId="PIH:Date of test results" allowFutureDates="true" required="true"/>
+                    </field>
                 </div>
             </div>
             
@@ -1189,8 +1195,10 @@
                         <label for="urine-{message}">
                             <uimessage code="pihcore.lab.urine.{message}"/>
                         </label>
+                        <field>
                         <obs id="urine-{message}"
                              conceptId="{concept}" showUnits="pihcore.units.count"/>
+                        </field>
                     </p>
                 </template>
                 <render concept="PIH:14284" message="leuko" />
