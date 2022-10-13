@@ -122,4 +122,5 @@ relationships,relation_type,name ,relation type id,relation type id of relation 
 users,username,user_id,username or systemid,username or system_id if username is null for the given user,
 users,user_latest_login,user_id,datetime,returns the date of the users most recent login or null if none recorded,
 users,user_num_logins,user_id,int,"returns the number of logins recorded for the given user id, or 0 if none recorded",
+users,person_name_of_user,user_id,person_name,returns person name of user,
 Monthly reporting,load_end_of_month_dates (procedure),"start_date, end_date",END_OF_MONTH_DATES table,creates a table with a row for every end of month date between the start date and end date,
