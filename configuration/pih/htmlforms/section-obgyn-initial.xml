@@ -1734,7 +1734,7 @@
                 </label>
                 <obs conceptId="CIEL:163774" style="radio"
                      answerConceptIds="PIH:8855,PIH:8856,CIEL:1536"
-                     answerCodes="pihcore.home,disposition.emrapi.transferOutOfHospital.sites.zlSite,disposition.emrapi.transferOutOfHospital.sites.nonZlSite"/>
+                     answerCodes="disposition.emrapi.transferOutOfHospital.sites.zlSite,disposition.emrapi.transferOutOfHospital.sites.nonZlSite,pihcore.home"/>
             </p>
 
             <p>
