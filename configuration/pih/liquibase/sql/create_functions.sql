@@ -650,7 +650,7 @@ BEGIN
     from        person_name pn
     inner join users u on u.person_id  = pn.person_id and u.user_id = _user_id
     where       voided = 0
-    order by    preferred desc, date_created desc
+    order by    pn.preferred desc, pn.date_created desc
     limit       1;
 
     RETURN personName;
