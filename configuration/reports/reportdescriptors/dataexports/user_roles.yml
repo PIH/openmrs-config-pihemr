@@ -5,7 +5,7 @@ description: "mirebalaisreports.userRoles.description"
 datasets:
   - key: "userRoles"
     type: "sql"
-    config: "sql/userRoles.sql"
+    config: "sql/user_roles.sql"
 designs:
   - type: "csv"
     properties:
