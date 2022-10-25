@@ -29,14 +29,14 @@
 		<!-- Logging of user session and authentication events to the database. -->
 		<JDBC name="AUTHENTICATION_EVENT_LOG" tableName="authentication_event_log">
 			<ConnectionFactory class="org.openmrs.api.context.Context" method="getDatabaseConnection" />
-			<Column name="authentication_session_id" pattern="%X{authenticationSessionId}" />
+			<Column name="login_id" pattern="%X{loginId}" />
 			<Column name="event_datetime" isEventTimestamp="true" />
 			<Column name="ip_address" pattern="%X{ipAddress}" />
 			<Column name="http_session_id" pattern="%X{httpSessionId}" />
-			<Column name="event_type" pattern="%markerSimpleName" />
+			<Column name="event_type" pattern="%X{event}" />
+			<Column name="scheme_id" pattern="%X{schemeId}" />
 			<Column name="username" pattern="%X{username}" />
 			<ColumnMapping name="user_id" pattern="%X{userId}" type="java.lang.Integer" />
-			<Column name="message" pattern="%m" />
 		</JDBC>
 	</Appenders>
 	<Loggers>
@@ -57,7 +57,7 @@
 		<Logger name="org.openmrs.api" level="WARN" />
 
 		<!-- MFA Logging -->
-		<Logger name="org.openmrs.module.authentication.AuthenticationLogger" level="INFO">
+		<Logger name="org.openmrs.module.authentication.UserLogin" level="INFO">
 			<AppenderRef ref="AUTHENTICATION_EVENT_LOG"/>
 		</Logger>
 

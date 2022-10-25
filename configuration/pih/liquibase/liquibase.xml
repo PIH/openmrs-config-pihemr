@@ -606,4 +606,34 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="20221024-change-authentication-event-log-1" author="mseaton">
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="authentication_event_log" columnName="authentication_session_id"/>
+        </preConditions>
+        <comment>Rename authentication_event_log.authentication_session_id to login_id</comment>
+        <renameColumn
+                tableName="authentication_event_log"
+                oldColumnName="authentication_session_id"
+                newColumnName="login_id"
+                columnDataType="char(36)"/>
+    </changeSet>
+
+    <changeSet id="20221024-change-authentication-event-log-2" author="mseaton">
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="authentication_event_log" columnName="message"/>
+        </preConditions>
+        <comment>Drop authentication_event_log.message</comment>
+        <dropColumn tableName="authentication_event_log" columnName="message"/>
+    </changeSet>
+
+    <changeSet id="20221024-change-authentication-event-log-3" author="mseaton">
+        <preConditions onFail="MARK_RAN">
+            <not><columnExists tableName="authentication_event_log" columnName="scheme_id"/></not>
+        </preConditions>
+        <comment>Add authentication_event_log.scheme_id</comment>
+        <addColumn tableName="authentication_event_log">
+            <column name="scheme_id" type="varchar(50)"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
