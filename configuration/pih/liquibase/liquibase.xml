@@ -636,4 +636,12 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="20221024-change-authentication-event-log-4" author="mseaton">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="authentication_event_log"/>
+        </preConditions>
+        <comment>Remove old authentication events following bug fixes</comment>
+        <delete tableName="authentication_event_log"/>
+    </changeSet>
+
 </databaseChangeLog>
