@@ -3322,7 +3322,7 @@ BEGIN
         SELECT  max(event_datetime) into ret
         FROM    authentication_event_log
         WHERE   user_id = _user_id
-        AND     event_type = 'AUTHENTICATION_LOGIN_SUCCEEDED';
+        AND     event_type = 'LOGIN_SUCCEEDED';
     ELSE
         SET ret = null;
     END IF;
@@ -3342,7 +3342,7 @@ BEGIN
         SELECT  count(*) into ret
         FROM    authentication_event_log
         WHERE   user_id = _user_id
-        AND     event_type = 'AUTHENTICATION_LOGIN_SUCCEEDED';
+        AND     event_type = 'LOGIN_SUCCEEDED';
     ELSE
         SET ret = 0;
     END IF;
