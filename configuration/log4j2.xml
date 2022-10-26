@@ -62,6 +62,13 @@
 			<AppenderRef ref="AUTHENTICATION_EVENT_LOG"/>
 		</Logger>
 
+		<!-- PIH Core Setup Logging -->
+		<Logger name="org.openmrs.module.pihcore.setup" level="INFO" />
+		<Logger name="org.openmrs.module.pihcore.PihCoreActivator" level="INFO" />
+
+		<!-- Set debug logging on AuthenticationFilter while this is in active testing -->
+		<Logger name="org.openmrs.module.authentication.web.AuthenticationFilter" level="DEBUG" />
+
 		<Root level="WARN">
 			<AppenderRef ref="CONSOLE" />
 			<AppenderRef ref="MEMORY_APPENDER" />
