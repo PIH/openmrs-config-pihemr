@@ -423,8 +423,8 @@ UPDATE temp_encounter SET analgesic_specified = OBS_VALUE_TEXT(encounter_id, 'CI
 ##### IVF
 -- This part returns 3 columns and in each column we have " | | "
 -- IV fluid details
-DROP TABLE IF EXISTS temp_stage1_ivf;
-CREATE TABLE temp_stage1_ivf (SELECT person_id,
+DROP TEMPORARY TABLE IF EXISTS temp_stage1_ivf;
+CREATE TEMPORARY TABLE temp_stage1_ivf (SELECT person_id,
 encounter_id,
 obs_id,
 concept_id,
