@@ -643,5 +643,19 @@
         <comment>Remove old authentication events following bug fixes</comment>
         <delete tableName="authentication_event_log"/>
     </changeSet>
-
+        
+    <changeSet id="20221101-initial-create-of-petl-load-times-table" author="ddesimone">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select table_exists("petl_load_times");
+            </sqlCheck>
+        </preConditions>            
+        <sql>
+                drop table if exists petl_load_times;
+                create table petl_load_times
+                (loaded_domain	        varchar(50),		
+                last_loaded_time	datetime);
+        </sql>
+    </changeSet>
+        
 </databaseChangeLog>
