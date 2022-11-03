@@ -26,7 +26,7 @@
             jq('fieldset.medication').each(function() {
                 var numEmptyFields = 0;
                 var numFilledFields = 0;
-                jq(this).find('input:not(:last), select').each(function() {
+                jq(this).find('input, select').each(function() {
                     jq(this).removeClass('emptyValue');
 
                     if (jq(this).val()) {
