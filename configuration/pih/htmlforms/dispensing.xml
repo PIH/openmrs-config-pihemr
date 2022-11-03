@@ -5,13 +5,14 @@
             var numErrors = 0;
             var numDispensed = 0;
             var scrolled = false;
-
+console.log("getBeforeValidation");
             var requiredAndEmpty = function(jqEl) {
                 // medication-instructions is optional
                 // duration and duration-units are optional if frequency = STAT
                 // everything else is required
                 var empty = !jqEl.val() &amp;&amp; jqEl.siblings('input[type="hidden"]').length == 0 || jqEl.siblings('input[type="hidden"]').attr("value") == "";
                 var optional = false;
+                console.log("empty: " + empty);
                 if (jqEl.closest('.medication-instructions').length) {
                     optional = true;
                 } else if (jqEl.closest('.duration').length || jqEl.closest('.duration-unit').length) {
@@ -26,7 +27,8 @@
             jq('fieldset.medication').each(function() {
                 var numEmptyFields = 0;
                 var numFilledFields = 0;
-                jq(this).find('input:not(:last), select').each(function() {
+
+                jq(this).find('input, select').each(function() {
                     jq(this).removeClass('emptyValue');
 
                     if (jq(this).val()) {
@@ -218,6 +220,17 @@
                     </label>
                     <obs id="amount{0}" conceptId="PIH:9071"/>
                 </p>
+                <!--
+                <p class="inline" style="min-width: 15%">
+                    <label>
+                        <uimessage code="pihcore.status"/>
+                    </label>
+                    <obs id="stockout{0}" class="medication-status"
+                         style="checkbox"
+                         conceptId="PIH:14368" answerConceptId="CIEL:1754"
+                         answerCode="pihcore.stockout"/>
+                </p>
+                -->
                 <p>
                     <label>
                         <uimessage code="mirebalais.dispensing.medicationInstructions"/>
