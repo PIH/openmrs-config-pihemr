@@ -7,12 +7,15 @@
             var scrolled = false;
 
             var requiredAndEmpty = function(jqEl) {
-                // medication-instructions is optional
+                // medication-instructions and out-of-stock are optional
                 // duration and duration-units are optional if frequency = STAT
                 // everything else is required
                 var empty = !jqEl.val() &amp;&amp; jqEl.siblings('input[type="hidden"]').length == 0 || jqEl.siblings('input[type="hidden"]').attr("value") == "";
+                if ( (jqEl.prop("type") == 'checkbox')  &amp;&amp; jqEl.prop("checked") == false) {
+                  empty = true;
+                }
                 var optional = false;
-                if (jqEl.closest('.medication-instructions').length) {
+                if (jqEl.closest('.medication-instructions').length || jqEl.closest('.medication-status').length) {
                     optional = true;
                 } else if (jqEl.closest('.duration').length || jqEl.closest('.duration-unit').length) {
                     var freq = jqEl.closest('.medication').find('.frequency select')[0];
@@ -28,8 +31,8 @@
                 var numFilledFields = 0;
                 jq(this).find('input, select').each(function() {
                     jq(this).removeClass('emptyValue');
-
-                    if (jq(this).val()) {
+                    // for checkbox the val returns the answerConceptId, so we have to check if the checkbox is checked
+                    if (( jq(this).prop("type") !== 'checkbox' &amp;&amp; jq(this).val() ) || ((jq(this).prop("type") == 'checkbox')  &amp;&amp; jq(this).prop("checked") == true) ) {
                         numFilledFields += 1;
                     } else {
                         numEmptyFields += 1;
@@ -39,6 +42,7 @@
                 var anyErrors = false;
                 if (numFilledFields > 0) {
                     jq(this).find('input, select').each(function () {
+                      debugger
                         if (requiredAndEmpty(jq(this))) {
                             if (!jq(this).hasClass('illegalValue')) {
                                 jq(this).addClass('emptyValue');
@@ -217,6 +221,15 @@
                         <uimessage code="mirebalais.dispensing.medicationAmount"/>
                     </label>
                     <obs id="amount{0}" conceptId="PIH:9071"/>
+                </p>
+                <p>
+                    <label>
+                        <uimessage code="pihcore.status"/>
+                    </label>
+                    <obs id="stockout{0}" class="medication-status"
+                         style="checkbox"
+                         conceptId="PIH:14368" answerConceptId="CIEL:1754"
+                         answerCode="pihcore.stockout"/>
                 </p>
                 <p>
                     <label>
