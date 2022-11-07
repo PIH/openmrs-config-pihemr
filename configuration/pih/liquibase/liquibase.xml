@@ -644,18 +644,21 @@
         <delete tableName="authentication_event_log"/>
     </changeSet>
         
-    <changeSet id="20221101-initial-create-of-petl-load-times-table" author="ddesimone">
+    <changeSet id="20221117-add-petl-load-times" author="ddesimone">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">
-                select table_exists("petl_load_times");
-            </sqlCheck>
-        </preConditions>            
-        <sql>
-                drop table if exists petl_load_times;
-                create table petl_load_times
-                (loaded_domain	        varchar(50),		
-                last_loaded_time	datetime);
-        </sql>
+            <not><tableExists tableName="petl_load_times"/></not>
+        </preConditions>
+        <comment>
+            UHM-6713 - add all_encounters table
+        </comment>
+        <createTable tableName="petl_load_times">
+            <column name="load_datetime" type="datetime"/>
+            <column name="loaded_domain" type="varchar(50)"/>
+            <column name="loaded_min_datetime" type="datetime"/>
+            <column name="loaded_max_datetime" type="datetime"/>
+            <column name="number_updated_rows" type="int"/>
+            <column name="status" type="varchar(50)"/>
+        </createTable>
     </changeSet>
         
 </databaseChangeLog>
