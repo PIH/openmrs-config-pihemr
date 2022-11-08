@@ -99,7 +99,12 @@ Systolic_BP double,
 Diastolic_BP double,
 puffs_week_salbutamol int,
 Number_seizures_since_last_visit int,
-Next_NCD_appointment datetime
+Next_NCD_appointment datetime,
+date_of_admission date,
+tobacco_product_type varchar(30),
+transport_to_clinic varchar(30),
+patient_has_income varchar(10),
+clinical_impression_summary text
 );
 
 insert into temp_ncd_section (patient_id, encounter_id, visit_id, encounter_location_id, encounter_type, encounter_datetime,visit_type)
@@ -539,7 +544,20 @@ inner join encounter e on e.encounter_id = tns.encounter_id
 inner join visit v on v.visit_id = e.visit_id
 set tns.visit_date = v.date_started;
  
+-- liberia changes
+-- date of admission
+update temp_ncd_section tns set date_of_admission = obs_value_datetime(tns.encounter_id, 'PIH', '12602');
+-- tobacco product
+update temp_ncd_section tns set tobacco_product_type = obs_value_coded_list(tns.encounter_id, 'CIEL', '159377', 'en');
+-- transport to clinic 
+update temp_ncd_section tns set transport_to_clinic =  obs_value_coded_list(tns.encounter_id, 'PIH', '975', 'en');
+-- patient has income
+update temp_ncd_section tns set patient_has_income =  obs_value_coded_list(tns.encounter_id, 'PIH', '12615', 'en');
+-- clinical impression summary
+update temp_ncd_section tns set clinical_impression_summary = obs_value_text(tns.encounter_id, 'CIEL', '159395');
 
+
+-- final query
 select
   patient_id,
   emr_id zlemr,
@@ -549,24 +567,24 @@ select
   visit_date,
   visit_type,
   enrolled_in_program,
-	program_state,
-	program_outcome,
+  program_state,
+  program_outcome,
   gender,
-	age_at_enc,
+  age_at_enc,
   department,
   commune,
   section,
   locality,
-	street_landmark,
+  street_landmark,
   encounter_location,
   provider,
   Weight_kg,
-	Height_cm,
+  Height_cm,
   ROUND(Weight_kg/((Height_cm/100)*(Height_cm/100)),1) "BMI",
-	Systolic_BP,
-	Diastolic_BP,
-	waist_circumference,
-	hip_size,
+  Systolic_BP,
+  Diastolic_BP,
+  waist_circumference,
+  hip_size,
   ROUND(waist_circumference/hip_size,2) "Waist_Hip_Ratio",
   disease_category,
   comments other_disease_category,
@@ -609,6 +627,10 @@ select
   respiratory_medication,
   endocrine_medication,
   other_medication,
-  Next_NCD_appointment
-from temp_ncd_section tns
-;
+  Next_NCD_appointment,
+  date_of_admission,
+  tobacco_product_type,
+  transport_to_clinic,
+  patient_has_income,
+  clinical_impression_summary
+from temp_ncd_section tns;
