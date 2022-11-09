@@ -1,5 +1,5 @@
-#set @startDate='2020-08-01';
-#set @endDate='2020-08-22';
+#set @startDate='2022-11-01';
+#set @endDate='2022-11-08';
 
 set sql_safe_updates = 0;
 
@@ -100,7 +100,7 @@ Diastolic_BP double,
 puffs_week_salbutamol int,
 Number_seizures_since_last_visit int,
 Next_NCD_appointment datetime,
-date_of_admission date,
+date_of_admission datetime,
 tobacco_product_type varchar(30),
 transport_to_clinic varchar(30),
 patient_has_income varchar(10),
@@ -117,27 +117,18 @@ AND DATE(encounter_datetime) >=  date(@startDate)
 AND DATE(encounter_datetime) <=  date(@endDate)
 GROUP BY visit_id;
 
-update temp_ncd_section tns
--- Most recent ZL EMR ID
-inner join (select patient_id, identifier, location_id from patient_identifier where identifier_type = @zlId
-            and voided = 0 and preferred = 1 order by date_created desc) zl on tns.patient_id = zl.patient_id
-set tns.emr_id = zl.identifier,
-	tns.location_id = zl.location_id;
+-- Most recent ZL EMR ID    
+update temp_ncd_section tns set tns.emr_id = patient_identifier(patient_id, metadata_uuid('org.openmrs.module.emrapi', 'emr.primaryIdentifierType'));    
+-- location registered
+update temp_ncd_section tns set tns.loc_registered = loc_registered(tns.patient_id);
+-- gender
+update temp_ncd_section tns set tns.gender = gender(tns.patient_id);
+-- age at encounter
+update temp_ncd_section tns set tns.age_at_enc = age_at_enc(tns.patient_id, tns.encounter_id);
+-- unknown patient
+update temp_ncd_section tns set tns.unknown_patient = unknown_patient(tns.patient_id);
 
 update temp_ncd_section tns
--- ZL EMR ID location
-inner join location zl_loc on tns.location_id = zl_loc.location_id
--- Unknown patient
-left outer join person_attribute un on tns.patient_id = un.person_id and un.person_attribute_type_id = @unknownPt and un.voided = 0
--- Gender
-inner join person pr on tns.patient_id = pr.person_id and pr.voided = 0
-set tns.loc_registered = zl_loc.name,
-	tns.unknown_patient =  un.value,
-    tns.gender = pr.gender,
-    tns.age_at_enc = round(DATEDIFF(tns.encounter_datetime, pr.birthdate) / 365.25,
-            1);
-
- update temp_ncd_section tns
 --  Most recent address
 left outer join (select person_id, state_province, city_village, address3, address1, address2 from person_address where voided = 0 order by date_created desc) pa on tns.patient_id = pa.person_id
 set tns.department = pa.state_province,
@@ -560,7 +551,7 @@ update temp_ncd_section tns set clinical_impression_summary = obs_value_text(tns
 -- final query
 select
   patient_id,
-  emr_id zlemr,
+  emr_id,
   loc_registered,
   unknown_patient,
   encounter_datetime,
