@@ -16,6 +16,7 @@ CREATE TEMPORARY TABLE temp_delivery
     encounter_location              varchar(255),
     encounter_type                  varchar(255),
     provider                        varchar(255),
+    date_entered					datetime,
     encounter_id                    int(11),
     delivery_datetime               datetime,
     dystocia                        varchar(255),
@@ -148,11 +149,13 @@ insert into temp_delivery (
   patient_id,
   encounter_id,
   encounter_datetime,
+  date_entered,
   encounter_type)
 select
   patient_id,
   encounter_id,
   encounter_datetime,
+  e.date_created, 
   et.name
 from encounter e
 inner join encounter_type et on et.encounter_type_id = e.encounter_type
@@ -556,6 +559,7 @@ loc_registered,
 encounter_datetime,
 encounter_location,
 encounter_type,
+date_entered,
 provider,
 if(@partition REGEXP '^[0-9]+$' = 1,concat(@partition,'-',encounter_id),encounter_id) "encounter_id",
 delivery_datetime,
