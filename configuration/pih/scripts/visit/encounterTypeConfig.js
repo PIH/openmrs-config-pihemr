@@ -1540,6 +1540,28 @@ angular.module("encounterTypeConfig", [])
             ]
         };
 
+        // sierraLeoneMchDeliveryRegister (GAIN project)
+        encounterTypes["9cc89b83-e32f-410a-947d-aeb3bda37571"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
+            icon: "fas fa-fw fa-baby",
+            editUrl: hfeSimpleEditUrl,
+            showOnVisitList: true
+        };
+
+        // sierraLeoneMchNewbornRegister (GAIN project)
+        encounterTypes["3790ecc6-bc63-48f8-9104-f81dc90ee21c"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
+            icon: "fas fa-fw fa-baby",
+            editUrl: hfeSimpleEditUrl,
+            showOnVisitList: true
+        };
+
         return {
           get: function(encounter, country, site) {
 
