@@ -844,6 +844,14 @@
                          style="radio"/>
                     <br/>
 
+                    <!-- Coffee use -->
+                    <label>
+                        <uimessage code="pihcore.coffee"/>:
+                    </label>
+                    <obs conceptId="PIH:2967" answerConceptIds="CIEL:159450,CIEL:159452,CIEL:1090"
+                         style="radio"/>
+                    <br/>
+
                     <!-- Drug use -->
                     <label>
                         <uimessage code="pihcore.drugs"/>:
