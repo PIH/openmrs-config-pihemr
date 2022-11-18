@@ -14,7 +14,7 @@
 
 <htmlform id="oncology-intake" class="simple-form-ui" formUuid="f55d57d3-aecb-4825-b45e-4220ceadf93f"
           htmlformUuid="4e6ddb34-dbf3-433d-a99d-1b9ca37efda1"
-          formName="Oncology Intake"
+          formName="Oncology Treatment Plan"
           formEncounterType="f9cfdf8b-d086-4658-9b9d-45a62896da03" formVersion="1.0">
 
     <style type="text/css">
@@ -178,7 +178,7 @@
     <ifMode mode="VIEW" include="false">
         <h2>
             <label>
-                <uimessage code="pihcore.oncologyIntake.title"/>
+                <uimessage code="pihcore.oncologyTreatmentPlan.title"/>
             </label>
         </h2>
 

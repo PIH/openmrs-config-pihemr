@@ -94,7 +94,7 @@ encounterType:
     uuid: "92fd09b4-5335-4f7e-9f63-b2a663fd09a6"
   ONCOLOGY_CONSULT:
     uuid: "035fb8da-226a-420b-8d8b-3904f3bedb25"
-  ONCOLOGY_INITIAL_VISIT:
+  ONCOLOGY_TREATMENT_PLAN:
     uuid: "f9cfdf8b-d086-4658-9b9d-45a62896da03"
   CHEMOTHERAPY_SESSION:
     uuid: "828964fa-17eb-446e-aba4-e940b0f4be5b"

@@ -7,7 +7,7 @@ ${encounterType.PRIMARY_CARE_VISIT.uuid},,Consultation soins de base,"Primary ca
 ${encounterType.CONSULTATION_INITIAL.uuid},,Initial Consultation,"Encounter where a full or abbreviated examination is done, leading to a presumptive or confirmed diagnosis"
 ${encounterType.CONSULTATION.uuid},,Consultation,"Encounter where a full or abbreviated examination is done, leading to a presumptive or confirmed diagnosis"
 ${encounterType.ONCOLOGY_CONSULT.uuid},,Oncology Consultation,Consultation for Oncology
-${encounterType.ONCOLOGY_INITIAL_VISIT.uuid},,Oncology Initial Visit,Intake for oncology patient
+${encounterType.ONCOLOGY_TREATMENT_PLAN.uuid},,Oncology Treatment Plan,Treatment plan for oncology patient
 ${encounterType.CHEMOTHERAPY_SESSION.uuid},,Chemotheraphy treatment session,Chemotheraphy treatment session for HUM and other places.
 ${encounterType.NCD_INITIAL_CONSULT.uuid},,NCD Initial Consult,Non-communicable disease initial consult
 ${encounterType.NCD_FOLLOWUP_CONSULT.uuid},,NCD Followup Consult,Non-communicable disease followup consult
