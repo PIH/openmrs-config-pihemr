@@ -178,7 +178,7 @@
     <ifMode mode="VIEW" include="false">
         <h2>
             <label>
-                <uimessage code="pihcore.oncologyTreatmentPlan.title"/>
+                <uimessage code="pih.task.oncologyTreatmentPlan.label"/>
             </label>
         </h2>
 
