@@ -1182,8 +1182,8 @@
                     </span>
                 </template>
                 <render concept="162096" message="blood" selector="radio"
-                        answers="CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664,CIEL:165526,CIEL:165528,CIEL:165527"
-                        aCodes="+++,++,1+,pihcore.rarely,pihcore.negative,pihcore.lab.traceHemolyzedBlood,pihcore.lab.modNonHemolyzedBlood,pihcore.lab.traceNonHemolyzedBlood" />
+                        answers="CIEL:1364,CIEL:1363,CIEL:1362,CIEL:1874,CIEL:664"
+                        aCodes="+++,++,1+,Trace,pihcore.negative" />
             </repeat>
 
             <repeat>
