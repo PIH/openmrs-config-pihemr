@@ -757,6 +757,7 @@
                 </template>
                 <render concept="CIEL:165303" message="pihcore.lab.syphilisRT" tag="syphilis-rt" answers="CIEL:703,CIEL:664,CIEL:1138" />
                 <render concept="CIEL:1619"   message="pihcore.lab.syphilis" tag="rpr-syphilis" answers="CIEL:1229,CIEL:1228" />
+                <render concept="CIEL:299"    message="VDRL" tag="syphilis-vdrl" answers="CIEL:1229,CIEL:1228" />
                 <render concept="CIEL:1643"   message="pihcore.lab.malariaRDT" tag="malarial-rdt" answers="CIEL:703,CIEL:664,CIEL:1138" />
                 <render concept="CIEL:32"     message="pihcore.lab.malarial_smear" tag="malarial-smear" answers="CIEL:703,CIEL:664,CIEL:1138" />
             </repeat>
@@ -973,6 +974,19 @@
                         answers="CIEL:1229,CIEL:1228" />
             </repeat>
 
+            <includeIf velocityTest="$patient.gender == 'F' || $patient.age &lt; 2 ">
+                <label for="b-hcg">
+                    <uimessage code="pihcore.lab.pregnancy"/>
+                </label>
+                <span class="small side-by-side">
+                    <field>
+                        <obs id="b-hcg" style="radio"
+                             conceptId="CIEL:1945"
+                             answerConceptIds="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE"/>
+                    </field>
+                </span>
+            </includeIf>
+
             <repeat>
                 <template>
                     <label for="{tag}">
@@ -980,11 +994,13 @@
                     </label>
                     <span class="small">
                         <field>
-                            <obs id="{tag}" conceptId="{concept}" />
+                            <obs id="{tag}" conceptId="{concept}"
+                                 answerConceptIds="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE"/>
                         </field>
                     </span>
                 </template>
                 <render concept="CIEL:161469" message="ASO" tag="aso-titer"/>
+                <render concept="CIEL:161500" message="C-reactive protein (CRP) (mg/L)" tag="crp" />
                 <render concept="CIEL:160913" message="pihcore.lab.psaQuant" tag="psa-quant"/>
             </repeat>
 
@@ -1115,6 +1131,7 @@
                     </span>
                 </template>
                 <render concept="1875"   message="protein" answers="CIEL:1365,CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664" selector="radio" />
+                <render concept="159734" message="glucoseQual" answers="CIEL:1365,CIEL:1364,CIEL:1363,CIEL:1362,CIEL:664" selector="radio" />
             </repeat>
 
             <repeat>
@@ -1165,14 +1182,14 @@
                     </span>
                 </template>
                 <render concept="162096" message="blood" selector="radio"
-                        answers="CIEL:1364,CIEL:1363,CIEL:1362,CIEL:165526,CIEL:165528,CIEL:165527,CIEL:159416"
-                        aCodes="+++,++,1+,pihcore.lab.traceHemolyzedBlood,pihcore.lab.modNonHemolyzedBlood,pihcore.lab.traceNonHemolyzedBlood,pihcore.rarely" />
+                        answers="CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664,CIEL:165526,CIEL:165528,CIEL:165527"
+                        aCodes="+++,++,1+,pihcore.rarely,pihcore.negative,pihcore.lab.traceHemolyzedBlood,pihcore.lab.modNonHemolyzedBlood,pihcore.lab.traceNonHemolyzedBlood" />
             </repeat>
 
             <repeat>
                 <template>
                     <label for="urine-{message}">
-                        <uimessage code="pihcore.lab.urine.{message}"/>
+                        <uimessage code="pihcore.lab.urine.{message}"/> (normal: 1.0000 - 1.030)
                     </label>
                     <span class="small side-by-side">
                         <field>
