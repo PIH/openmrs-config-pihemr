@@ -1186,19 +1186,20 @@
                         aCodes="+++,++,1+,Trace,pihcore.negative" />
             </repeat>
 
+            <!-- NOTE: ZL wanted to record without the decimal (ie. 1030 instead of 1.03) -->
             <repeat>
                 <template>
                     <label for="urine-{message}">
-                        <uimessage code="pihcore.lab.urine.{message}"/> (normal: 1.0000 - 1.030)
+                        <uimessage code="pihcore.lab.urine.{message}"/> 
                     </label>
                     <span class="small side-by-side">
                         <field>
                             <obs id="urine-{message}"
-                                 conceptId="CIEL:{concept}"/>
+                                 conceptId="{concept}" showUnits="normal: 1000 - 1030"/>
                         </field>
                     </span>
                 </template>
-                <render concept="161439" message="density" />
+                <render concept="PIH:14422" message="density" />
             </repeat>
             <hr/>
 
