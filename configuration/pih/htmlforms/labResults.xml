@@ -1000,7 +1000,7 @@
                     </span>
                 </template>
                 <render concept="CIEL:161469" message="ASO" tag="aso-titer"/>
-                <render concept="CIEL:161500" message="C-reactive protein (CRP) (mg/L)" tag="crp" />
+                <render concept="CIEL:161500" message="pihcore.lab.crp" tag="crp" />
                 <render concept="CIEL:160913" message="pihcore.lab.psaQuant" tag="psa-quant"/>
             </repeat>
 
@@ -1190,7 +1190,7 @@
             <repeat>
                 <template>
                     <label for="urine-{message}">
-                        <uimessage code="pihcore.lab.urine.{message}"/> 
+                        <uimessage code="pihcore.lab.urine.{message}"/>
                     </label>
                     <span class="small side-by-side">
                         <field>
