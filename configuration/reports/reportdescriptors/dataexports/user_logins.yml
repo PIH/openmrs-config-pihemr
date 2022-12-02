@@ -1,0 +1,22 @@
+key: "userLogins"
+uuid: "fc1a29e9-8ef4-12ec-bd73-0242ac110012"
+name: "mirebalaisreports.userLogins.name"
+description: "mirebalaisreports.userLogins.description"
+datasets:
+  - key: "userLogins"
+    type: "sql"
+    config: "sql/user_logins.sql"
+designs:
+  - type: "csv"
+    properties:
+      "filenameBase": "userLogins.{{ formatDate request.evaluateStartDatetime \"yyyyMMdd\" }}.{{ formatDate request.evaluateStartDatetime \"HHmm\" }}"
+      "characterEncoding": "ISO-8859-1"
+      "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
+      "dateFormat": "dd-MMM-yyyy HH:mm:ss"
+config:
+  category: "dataExport"
+  order: 1003
+  components:
+    - "dataExports"
+    - "allDataExports"
+  privilege: "Task: archive.reports"
