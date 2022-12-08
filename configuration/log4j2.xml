@@ -61,6 +61,7 @@
 		<Logger name="org.openmrs.module.authentication.UserLogin" level="INFO">
 			<AppenderRef ref="AUTHENTICATION_EVENT_LOG"/>
 		</Logger>
+		<Logger name="org.openmrs.module.authentication.web.AuthenticationFilter" level="INFO"/>
 
 		<!-- PIH Core Setup Logging -->
 		<Logger name="org.openmrs.module.pihcore.setup" level="INFO" />
