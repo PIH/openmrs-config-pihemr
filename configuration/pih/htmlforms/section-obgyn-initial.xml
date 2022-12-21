@@ -1109,7 +1109,7 @@
                             <label>
                                 <uimessage code="pihcore.endDate"/>:
                             </label>
-                            <obs conceptId="CIEL:163758" />
+                            <obs conceptId="CIEL:163758" allowFutureDates="true" />
                         </div>
                     </div>
                 </obsgroup>
