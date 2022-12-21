@@ -246,7 +246,6 @@
                     <uimessage code="pihcore.mch.deliveryDateTime"/>
                 </label>
 
-                <!-- ToDo:  UHM-5417 Show delivery time also -->
                 <obs id="deliveryDate" conceptId="CIEL:5599" defaultDatetime="today" />
             </p>
 
@@ -271,6 +270,17 @@
                 </div>
             </div>
             <br/>
+
+            <h4>
+                <uimessage code="pihcore.labor" />
+            </h4>
+            <p class="side-by-side">
+                <label>
+                    <uimessage code="pihcore.partogram" />
+                </label>
+                <obs conceptId="PIH:13964" style="radio"
+                     answerConceptIds="CIEL:1065,CIEL:1066" />
+            </p>
 
             <h4>
                 <uimessage code="pihcore.anc.delivery.title" />
