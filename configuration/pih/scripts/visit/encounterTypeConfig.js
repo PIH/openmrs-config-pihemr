@@ -44,7 +44,7 @@ angular.module("encounterTypeConfig", [])
 
         var pedsVaccinations = {
             type: "include-section",
-            id: "vaccinations",
+            id: "peds-vaccinations",
             template: "templates/vaccination/vaccinations.page",
             editUrl: "",
             require: "fullMonthsBetweenDates(visit.patient.person.birthdate, visit.startDatetime) < 15*12"
@@ -52,10 +52,17 @@ angular.module("encounterTypeConfig", [])
 
         var ancVaccinations = {
             type: "include-section",
-            id: "vaccinations",
+            id: "anc-vaccinations",
             template: "templates/vaccination/vaccinations.page",
             editUrl: "",
             require: "patient.person.gender == 'F'"
+        };
+
+        var generalVaccinations = {
+            type: "include-section",
+            id: "vaccinations",
+            template: "templates/vaccination/vaccinations.page",
+            editUrl: ""
         };
 
         var primaryCareHistory = {
@@ -957,7 +964,7 @@ angular.module("encounterTypeConfig", [])
             showOnVisitList: true,
             sections: [
                 oncologyHistory,
-                vaccinations,
+                generalVaccinations,
                 primaryCareExam,
                 primaryCareDx,
                 oncologyPlan
