@@ -155,6 +155,31 @@
             float: none;
         }
 
+        <ifMode mode="VIEW" include="false">
+            .date-one-line {
+            display: flex;
+            }
+
+            .date-one-line label {
+            align-self: center;
+            margin-right: 1em;
+            }
+
+            .date-one-line span {
+            display: flex;
+            }
+
+            .hasDatepicker {
+            min-width: 120px;
+            margin-top: 0px;
+            }
+
+            .hfe-hours, .hfe-minutes, .hfe-seconds {
+            width: 70px;
+            min-width: 70px;
+            margin: 0px 10px 0px 10px;
+            }
+        </ifMode>
     </style>
 
 <script type="text/javascript">
@@ -1743,6 +1768,24 @@
                 <obs conceptId="CIEL:163774" style="radio"
                      answerConceptIds="PIH:8855,PIH:8856,CIEL:1536"
                      answerCodes="disposition.emrapi.transferOutOfHospital.sites.zlSite,disposition.emrapi.transferOutOfHospital.sites.nonZlSite,pihcore.home"/>
+            </p>
+
+            <includeIf velocityTest="$fn.latestObs('CIEL:5599')">
+
+                <p class="side-by-side">
+                    <label style="color:grey">
+                        <i>
+                            <uimessage code="pihcore.previousDeliveryDate"/>:
+                            <lookup expression="fn.latestObs('CIEL:5599').valueDatetime"/>
+                        </i>
+                    </label>
+                </p>
+            </includeIf>
+            <p class="date-one-line">
+                <label>
+                    <uimessage code="pihcore.mch.deliveryDateTime"/>
+                </label>
+                <obs id="deliveryDate" conceptId="CIEL:5599" />
             </p>
 
             <p>
