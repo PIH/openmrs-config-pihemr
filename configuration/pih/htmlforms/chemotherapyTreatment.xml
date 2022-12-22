@@ -235,7 +235,7 @@
                     <obs conceptId="CIEL:163073" answerConceptId="CIEL:163064"/>
                     <obs conceptId="CIEL:163073" answerConceptId="CIEL:163067"/>
                     <obs conceptId="CIEL:163073" answerConceptId="CIEL:163071"/>
-                    <obs conceptId="CIEL:163073" answerConceptId="PIH:Paclitaxel"/>
+                    <obs conceptId="CIEL:163073" answerConceptId="CIEL:81410"/>
                     <obs conceptId="CIEL:163073" answerConceptId="CIEL:163072"/>
                     <obs conceptId="CIEL:163073" answerConceptId="CIEL:163066"/>
                     <obs conceptId="CIEL:163073" answerConceptId="CIEL:163069"/>
@@ -328,8 +328,6 @@
                     <uimessage code="pihcore.chemo.important_visit_info"/>
                 </label>
                 <obs conceptId="CIEL:162749"/>
-
-
             </p>
         </div>
     </section>

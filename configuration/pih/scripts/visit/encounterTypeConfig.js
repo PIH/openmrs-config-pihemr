@@ -418,7 +418,27 @@ angular.module("encounterTypeConfig", [])
           templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-return-visit-date.xml"),
         };
 
+        var oncologyHistory = {
+            type: "encounter-section",
+            id: "section-oncology-history",
+            label: "pihcore.history.label",
+            icon: "fas fa-fw fa-history",
+            shortTemplate: "templates/sections/defaultSectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-oncology-history.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-oncology-history.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+        };
 
+        var oncologyPlan = {
+            type: "encounter-section",
+            id: "section-oncology-plan",
+            label: "pihcore.visitNote.plan",
+            icon: "fas fa-fw fa-flag-checkered",
+            shortTemplate: "templates/sections/defaultSectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-oncology-plan.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-oncology-plan.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+        };
 
         /**
          * Define Encounter Types
@@ -936,9 +956,11 @@ angular.module("encounterTypeConfig", [])
             editUrl: hfeStandardEditUrl,
             showOnVisitList: true,
             sections: [
+                oncologyHistory,
                 vaccinations,
                 primaryCareExam,
-                primaryCareDx
+                primaryCareDx,
+                oncologyPlan
             ]
         };
 
