@@ -6,6 +6,7 @@ ${encounterType.VITALS.uuid},,Signes vitaux,"Encounter where vital signs were ca
 ${encounterType.PRIMARY_CARE_VISIT.uuid},,Consultation soins de base,"Primary care visit (In Kreyol, it&apos;s &apos;vizit swen primè&apos;)"
 ${encounterType.CONSULTATION_INITIAL.uuid},,Initial Consultation,"Encounter where a full or abbreviated examination is done, leading to a presumptive or confirmed diagnosis"
 ${encounterType.CONSULTATION.uuid},,Consultation,"Encounter where a full or abbreviated examination is done, leading to a presumptive or confirmed diagnosis"
+${encounterType.ONCOLOGY_INITIAL.uuid},,Oncology Initial Consult,Intake consultation for Oncology
 ${encounterType.ONCOLOGY_CONSULT.uuid},,Oncology Consultation,Consultation for Oncology
 ${encounterType.ONCOLOGY_TREATMENT_PLAN.uuid},,Oncology Treatment Plan,Treatment plan for oncology patient
 ${encounterType.CHEMOTHERAPY_SESSION.uuid},,Chemotheraphy treatment session,Chemotheraphy treatment session for HUM and other places.

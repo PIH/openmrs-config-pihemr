@@ -927,7 +927,22 @@ angular.module("encounterTypeConfig", [])
             showOnVisitList: true
         };
 
-        // oncologyInitialVisit
+        // oncologyInitial
+        encounterTypes["a936ae01-6d10-455d-befc-b2d1828dad04"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/defaultEncounterShort.page",
+            icon: "fas fa-fw fa-hand-holding-heart",
+            editUrl: hfeStandardEditUrl,
+            showOnVisitList: true,
+            sections: [
+                vaccinations,
+                primaryCareExam,
+                primaryCareDx
+            ]
+        };
+
+        // oncologyTreatmentPlan
         encounterTypes["f9cfdf8b-d086-4658-9b9d-45a62896da03"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
