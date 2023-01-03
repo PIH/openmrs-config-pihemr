@@ -84,7 +84,7 @@ obs values from encounter,obs_value_datetime,"encounterId, source, term",value d
 obs values from encounter,obs_value_numeric,"encounterId, source, term",value numeric,returns most recent value_numeric captured in that encounter of the concept described,
 obs values from encounter,obs_value_text,"encounterId, source, term",value text,returns most recent value_text captured in that encounter of the concept described,
 obs values from encounter,obs_single_value_coded,"encounterId, source, term, source1, term1",Yes/Null,"returns ""yes"" in default locale if the question/answer combination  (described by mappings) exists in that encounter.  Otherwise null.",
-obs values from encounter,obs_value_coded_as_boolean,"encounterId, source, term",boolean,"returns 1 if coded answer is yes, 0 if no,
+obs values from encounter,obs_value_coded_as_boolean,"encounterId, source, term",boolean,"returns 1 if coded answer is yes, 0 if no",
 obs values from group,obs_from_group_id_value_drug," obs group id, source, term",drug names,returns pipe-delimited list of names of drugs of obs in the obs group,
 obs values from group,obs_from_group_id_value_coded_list,"obs group id, source, term, locale","value coded (list, | separated)","returns a list, pipe delimited, of the coded values captured in that obs group of the concept described, in that locale",
 obs values from group,obs_from_group_id_value_datetime," obs group id, source, term",value datetime,returns most recent value_datetime captured in that obs group of the concept described,
