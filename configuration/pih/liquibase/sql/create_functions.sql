@@ -1378,6 +1378,37 @@ BEGIN
 
 END
 #
+/*
+ This function accepts encounter_id, mapping source, mapping code
+ It will find a single, best observation that matches this, translating yes/no answer into 1/0 boolean*/
+#
+DROP FUNCTION IF EXISTS obs_value_coded_as_boolean;
+#
+CREATE FUNCTION obs_value_coded_as_boolean(_encounterId int(11), _source varchar(50), _term varchar(255))
+    RETURNS boolean	
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret text;
+
+    select    
+    	CASE o.value_coded
+    		when concept_from_mapping('PIH','1065') then 1
+	    	when concept_from_mapping('PIH','1066') then 0
+		END    
+    into ret
+    from        obs o
+    where       o.voided = 0
+    and         o.encounter_id = _encounterId
+    and         o.concept_id = concept_from_mapping(_source, _term)
+    order by    o.date_created desc, o.obs_id desc
+    limit 1;
+
+    RETURN ret;
+
+END
+#
 /*  
 This function accepts an obs_id 
 It will return the value coded of that obs, translated into a boolean
