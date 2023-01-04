@@ -19,6 +19,7 @@ CREATE TEMPORARY TABLE temp_delivery
     date_entered					datetime,
     encounter_id                    int(11),
     delivery_datetime               datetime,
+    partogram_completed             bit,
     dystocia                        varchar(255),
     prolapsed_cord                  varchar(255),
     Postpartum_hemorrhage           varchar(10),
@@ -186,6 +187,7 @@ create index temp_obs_ci2 on temp_obs(encounter_id,concept_id);
 create index temp_obs_ci3 on temp_obs(obs_group_id,concept_id);
 
 update temp_delivery set delivery_datetime = obs_value_datetime_from_temp(encounter_id,'PIH','5599');
+UPDATE temp_delivery set partogram_completed = obs_value_coded_as_boolean(encounter_id, 'PIH', '13964');
 update temp_delivery set dystocia = obs_value_coded_list_from_temp(encounter_id,'CIEL','163449',@locale);
 update temp_delivery set prolapsed_cord = obs_value_coded_list_from_temp(encounter_id,'CIEL','113617',@locale);
 
@@ -563,6 +565,7 @@ date_entered,
 provider,
 if(@partition REGEXP '^[0-9]+$' = 1,concat(@partition,'-',encounter_id),encounter_id) "encounter_id",
 delivery_datetime,
+partogram_completed,
 dystocia,
 prolapsed_cord,
 Postpartum_hemorrhage,
