@@ -204,7 +204,7 @@
     let currentEncounterDate = new Date();
     let lookupEncDate = '<lookup expression="encounter.getEncounterDatetime().getTime()"/>';
     if ( lookupEncDate ) {
-    currentEncounterDate = new Date(+lookupEncDate);
+        currentEncounterDate = new Date(+lookupEncDate);
     }
 
     let serverEncounterDate = '<lookup complexExpression="#if ($encounter) #set ($encounterDate = $encounter.encounterDatetime) #else #set ($encounterDate = $visit.startDatetime) #end"/>';
@@ -733,19 +733,21 @@
                 </div>
             </p>
         </div>
-    </section>
 
-    <section id="patient-history" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="zl.consultNote.patientHistory.title">
         <div class="section-container-color">
-            <!-- ANTECEDENTS PERSONNELS / HABITUDES -->
+            <h3>
+                <uimessage code="zl.consultNote.patientHistory.title" />
+            </h3>
 
             <div class="two-columns-history">
                 <pastMedicalHistoryCheckbox concept="PIH:DIABETES"/>
                 <pastMedicalHistoryCheckbox concept="CIEL:142474" comment="Type 1 DM"/>
                 <pastMedicalHistoryCheckbox concept="CIEL:142473" comment="Type 2 DM"/>
-                <pastMedicalHistoryCheckbox concept="PIH:ASTHMA"/>
                 <pastMedicalHistoryCheckbox concept="PIH:HYPERTENSION" label="pihcore.medicalhistory.hypertension"/>
+                <pastMedicalHistoryCheckbox concept="PIH:ASTHMA"/>
+            </div>
+            <br/>
+            <div class="two-columns-history">
                 <pastMedicalHistoryCheckbox concept="PIH:HEART DISEASE" specify="true" class="medicalHistoryText patientHistory" />
                 <pastMedicalHistoryCheckbox concept="PIH:SURGERY" specify="true" class="medicalHistoryText patientHistory"/>
                 <pastMedicalHistoryCheckbox concept="PIH:Traumatic Injury" specify="true" class="medicalHistoryText patientHistory"/>
@@ -773,102 +775,11 @@
         </div>
     </section>
 
-    <!-- chief complaint -->
-    <section id="chiefComplaint" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="pihcore.chiefComplaint.title">
-        <div class="section-container">
-            <p>
-                <obs conceptId="CIEL:160531" style="textarea" id="chief-complaint"/>
-            </p>
-        </div>
-    </section>
-
-    <section id="complaint" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="pihcore.history.presentingHistory.title">
-        <div class="section-container">
-            <p>
-                <obs conceptId="PIH:PRESENTING HISTORY" style="textarea" id="presenting-history"/>
-            </p>
-        </div>
-    </section>
-
-    <section id="referralIn" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="pihcore.refer.title">
-        <div class="section-container">
-            <p>
-                <obs conceptId="PIH:Type of referring service"
-                     answerConceptId="PIH:SELF-REFER"
-                     answerCode="pihcore.selfRefer"
-                     style="checkbox"/>
-            </p>
-
-            <p>
-                <label>
-                    <uimessage code="pihcore.refer.date"/>
-                </label>
-                <obs conceptId="CIEL:163181" allowTime="false"/>
-            </p>
-
-            <div class="two-columns">
-                <div>
-                    <strong>
-                        <uimessage code="pihcore.refer.internal"/>
-                    </strong>
-
-                    <repeat>
-                        <template>
-                            <obs conceptId="PIH:Type of referring service"
-                                 style="checkbox"
-                                 answerConceptId="{point}" answerCode="{message}"/>
-                        </template>
-
-                        <render point="CIEL:165018" message="pihcore.location.idClinic" comment="ID clinic"/>
-                        <render point="PIH:ANTENATAL CLINIC" message="pihcore.location.maternal"
-                                comment="Womens Health clinic"/>
-                        <render point="PIH:PRIMARY CARE CLINIC" message="pihcore.location.primary"
-                                comment="Primary care"/>
-                        <render point="CIEL:163558" message="pihcore.location.mentalHealth"
-                                comment="Mental health clinic"/>
-                        <render point="CIEL:160449" message="pihcore.testLocation.surgery" comment="Surgery dept"/>
-                        <render point="CIEL:160448" message="pihcore.location.intMed" comment="Internal medicine"/>
-                        <render point="CIEL:165048" message="pihcore.testLocation.pedWard" comment="Pediatrics"/>
-                        <render point="CIEL:160473" message="pihcore.location.ed" comment="Emergency"/>
-                    </repeat>
-
-                    <obs conceptId="PIH:Type of referring service" style="checkbox"
-                         answerConceptId="PIH:OTHER" commentFieldLabel=""/>
-                </div>
-
-                <div>
-                    <p>
-                        <strong>
-                            <uimessage code="pihcore.refer.external"/>
-                        </strong>
-                        <obs conceptId="PIH:Type of referring service" style="checkbox"
-                             answerConceptId="PIH:11956" commentFieldLabel=""/>
-                        <obs conceptId="PIH:Type of referring service" style="checkbox"
-                             answerConceptId="PIH:Non-ZL supported site" commentFieldLabel=""/>
-                    </p>
-
-                    <p>
-                        <strong>
-                            <uimessage code="pihcore.refer.community"/>
-                        </strong>
-
-                        <obs conceptId="PIH:Type of referring service" style="checkbox"
-                             answerConceptId="CIEL:1555"/>
-                        <obs conceptId="PIH:Type of referring service" style="checkbox"
-                             answerConceptId="PIH:11965"/>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="family-history" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+     <section id="family-history" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="zl.consultNote.familyHistory.title">
         <div class="section-container">
             <!-- ANTECEDENTS HEREDO-COLLATERAUX -->
+            <p>
             <familyHistoryRelativeCheckboxes id="breastCancer" class="medicalHistoryText famHistory"
                                              concept="CIEL:116026" label="pihcore.breastCancer"
                                              relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER" />
@@ -885,8 +796,8 @@
                                              concept="CIEL:116031" label="Cancer"
                                              relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"
                                              specify="true"/>
-
-            <br/>
+            </p>
+            <br/><br/>
             <familyHistoryRelativeCheckboxes concept="PIH:ASTHMA" relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
             <familyHistoryRelativeCheckboxes concept="PIH:HEART DISEASE" relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
             <familyHistoryRelativeCheckboxes concept="PIH:DIABETES" relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
@@ -935,211 +846,210 @@
                 </div>
                 <br/>
 
-                <div class="two-columns">
-                    <div>
-                        <p class="side-by-side">
-                            <label>
-                                <uimessage code="Menstruation"/>
-                            </label>
-                            <obs conceptId="CIEL:160600" style="radio"
-                                 answerConceptIds="CIEL:1065,CIEL:1066"
-                                 answerCodes="pihcore.regular,pihcore.irregular"/>
-                        </p>
-                    </div>
-                    <div>
-                        <!-- Dysmenorrhea -->
-                        <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
-                            <obs conceptId="PIH:DIAGNOSIS" style="checkbox" answerConceptId="CIEL:127"/>
-                        </obsgroup>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-    </includeIf>
-
-    <!-- ToDo: Create one family planning section.  There is one for Outpatient and another for NCD (and HIV) -->
-    <!-- Show sexual activities if encounter type is Adult Intake (Followup?) -->
-        <section id="sexual-activities" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-                 headerCode="pihcore.sexualReproHistory.label">
-            <div class="section-container">
-                <p class="radio">
+                <p>
                     <label>
-                        <uimessage code="zl.sexuallyActive"/>:
+                        <uimessage code="Contraception"/>
                     </label>
-                    <obs conceptId="PIH:SEXUALLY ACTIVE"
-                         answerConceptIds="PIH:YES,PIH:NO" style="radio"/>
-                </p>
 
-                <p class="radio">
+                    <repeat>
+                        <template>
+                            <obsgroup groupingConceptId="PIH:Family planning construct">
+                                <obs conceptId="PIH:METHOD OF FAMILY PLANNING" style="checkbox"
+                                     answerConceptId="{fpMethod}" answerCode="{comment}"/>
+                            </obsgroup>
+                        </template>
+                        <render fpMethod="CIEL:780"    comment="pihcore.fp.oralContraception"/>
+                        <render fpMethod="CIEL:159783" comment="COC" />
+                        <render fpMethod="CIEL:80784"  comment="pihcore.fp.pop" />
+                        <render fpMethod="CIEL:5275"   comment="pihcore.fp.iud" />
+                        <render fpMethod="CIEL:165464" comment="pihcore.fp.hormonalIUD" />
+                        <render fpMethod="CIEL:162794" comment="pihcore.fp.nonHormonalIUD" />
+                    </repeat>
+
+                    <repeat>
+                        <template>
+                            <obsgroup groupingConceptId="PIH:Family planning construct">
+                                <obs conceptId="PIH:METHOD OF FAMILY PLANNING" style="checkbox"
+                                     answerConceptId="{fpMethod}"/>
+                            </obsgroup>
+                        </template>
+                        <render fpMethod="CIEL:190"    comment="Condoms"/>
+                        <render fpMethod="CIEL:159524" comment="Abstinence" />
+                        <render fpMethod="CIEL:907"   comment="Depo-provera"/>
+                        <render fpMethod="CIEL:78796" comment="Norplant"/>
+                        <render fpMethod="CIEL:1472"  comment="Tubal ligation"/>
+                        <render fpMethod="CIEL:1489"  comment="Vasectomy"/>
+                        <render fpMethod="CIEL:1107"  comment="none" />
+                        <render fpMethod="CIEL:5622"  comment="Other"/>
+                    </repeat>
                     <label>
-                        <uimessage code="pihcore.familyPlanningHistory.title"/>
-                    </label>
-                    <br/>
-                    <obs conceptId="PIH:METHOD OF FAMILY PLANNING"/>
-                    <label>,
                         <uimessage code="zl.ifOtherSpecify"/>
                     </label>
                     <obs conceptId="PIH:2996" size="30"/>
                 </p>
 
+                <p class="side-by-side">
+                    <label>
+                        <uimessage code="pihcore.menopause"/>
+                    </label>
+
+                    <obs conceptId="CIEL:160596" style="radio"
+                         answerConceptIds="CIEL:158493,CIEL:134346,CIEL:1067"
+                         answerCodes="pihcore.premenopause,pihcore.menopause,pihcore.unknown"/>
+                </p>
+
             </div>
-        </section>
+                <ifMode mode="VIEW" include="false">
+                    <script type="text/javascript">
+                        jq(function() {
+                            setUpEdd(
+                                '<lookup expression="encounter.getEncounterDatetime().getTime()"/>',
+                                '<uimessage code="pihcore.weeks"/>'
+                            );
+                        });
+                    </script>
+                </ifMode>
 
-        <section id="sexual-activities" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-                 headerCode="pihcore.sexualReproHistory.label">
-            <div class="section-container">
-                <includeIf velocityTest="$patient.gender == 'F' ">
-                        <ifMode mode="VIEW" include="false">
-                            <script type="text/javascript">
-                                jq(function() {
-                                    setUpEdd(
-                                        '<lookup expression="encounter.getEncounterDatetime().getTime()"/>',
-                                        '<uimessage code="pihcore.weeks"/>'
-                                    );
-                                });
-                            </script>
-                        </ifMode>
-                    <p>
-                        <!-- Pregnant -->
-                        <obs conceptId="CIEL:5272" toggle="pregnant"
-                             answerConceptId="CIEL:1065"
-                             answerCode="pihcore.pregnancy.status"
-                             style="checkbox"/>
+                <!-- Pregnant -->
+                <obs conceptId="CIEL:5272" toggle="pregnant"
+                     answerConceptId="CIEL:1065"
+                     answerCode="pihcore.pregnancy.status"
+                     style="checkbox"/>
 
-                        <div class="two-columns">
-                            <div id="pregnant">
-                                <div>
-                                    <!-- LMP -->
-                                    <label>
-                                        <uimessage code="pihcore.pregnancy.lastPeriod"/>
-                                    </label>
-                                    <obs id="lastPeriodDate" conceptId="CIEL:1427"/>
-                                </div>
-
-                                <div>
-                                    <!-- DPA -->
-                                    <label>
-                                        <uimessage code="pihcore.pregnancy.dueDate"/>
-                                    </label>
-                                    <obs id="edd" conceptId="CIEL:5596" allowFutureDates="true"/>
-                                </div>
-                            </div>
+                <div class="two-columns">
+                    <div id="pregnant">
+                        <div>
+                            <!-- LMP -->
+                            <label>
+                                <uimessage code="pihcore.pregnancy.lastPeriod"/>
+                            </label>
+                            <obs id="lastPeriodDate" conceptId="CIEL:1427"/>
                         </div>
 
-                        <div class="two-columns hidden calculated-edd-and-gestational" style="display: none;">
-                            <div>
-                                <span id="calculated-gestational-age-wrapper">
-                                    <span id="calculated-gestational-age-label">
-                                        <uimessage code="pihcore.calculatedGestationalAge"/>:&#160;
-                                    </span>
-                                    <span id='calculated-gestational-age-value' class="calculated-gestational-age-value value"></span>
-                                </span>
-                            </div>
-                            <div>
-                                <span id="calculated-edd-wrapper">
-                                    <span id="calculated-edd-label">
-                                        <uimessage code="pihcore.calculatedEstimatedDeliveryDate"/>:&#160;
-                                    </span><br/>
-                                    <span id='calculated-edd' class="calculated-edd value"></span>
-                                </span>
-                            </div>
+                        <div>
+                            <!-- DPA -->
+                            <label>
+                                <uimessage code="pihcore.pregnancy.dueDate"/>
+                            </label>
+                            <obs id="edd" conceptId="CIEL:5596" allowFutureDates="true"/>
                         </div>
+                    </div>
+                </div>
 
-                        <!-- Breastfeeding -->
-                        <obs conceptId="CIEL:5632"
-                             answerConceptId="PIH:YES" answerCode="pihcore.breastfeeding"
-                             style="checkbox"/>
-                    </p>
-                    <br/>
-                </includeIf>
+                <div class="two-columns hidden calculated-edd-and-gestational" style="display: none;">
+                    <div>
+                        <span id="calculated-gestational-age-wrapper">
+                            <span id="calculated-gestational-age-label">
+                                <uimessage code="pihcore.calculatedGestationalAge"/>:&#160;
+                            </span>
+                            <span id='calculated-gestational-age-value' class="calculated-gestational-age-value value"></span>
+                        </span>
+                    </div>
+                    <div>
+                        <span id="calculated-edd-wrapper">
+                            <span id="calculated-edd-label">
+                                <uimessage code="pihcore.calculatedEstimatedDeliveryDate"/>:&#160;
+                            </span><br/>
+                            <span id='calculated-edd' class="calculated-edd value"></span>
+                        </span>
+                    </div>
+                </div>
 
-                <table>
-                    <tr>
-                        <th>
-                            <label>
-                                <uimessage code="pihcore.familyPlanningHistory.title"/>:
-                                <uimessage code="pihcore.familyPlanning.method"/>
-                            </label>
-                        </th>
-                        <th>
-                            <label>
-                                <uimessage code="pihcore.startDate"/>
-                            </label>
-                        </th>
-                        <th>
-                            <label>
-                                <uimessage code="pihcore.endDate"/>
-                            </label>
-                        </th>
-                    </tr>
+            </section>
+    </includeIf>
 
-                    <repeat>
-                        <template>
-                            <obsgroup groupingConceptId="PIH:Family planning history construct">
-                                <tr>
-                                    <td id="{comment}-fp">
-                                        <obs conceptId="CIEL:374"
-                                             answerConceptId="{fpMethod}"
-                                             style="checkbox"
-                                             toggle="{id: '{comment}-date', style: 'dim'}"
-                                        />
-                                    </td>
-                                    <td class="{comment}-date">
-                                        <obs conceptId="CIEL:163757"/>
-                                    </td>
-                                    <td class="{comment}-date">
-                                        <obs conceptId="CIEL:163758" allowFutureDates="true"/>
-                                    </td>
-                                </tr>
-                            </obsgroup>
-                        </template>
-                        <render fpMethod="CIEL:780" comment="Pill"/>
-                        <render fpMethod="CIEL:907" comment="Depo-provera"/>
-                        <render fpMethod="CIEL:190" comment="Condoms"/>
-                        <render fpMethod="CIEL:78796" comment="Norplant"/>
-                        <render fpMethod="CIEL:5275" comment="IUD"/>
-                        <render fpMethod="CIEL:1472" comment="Tubal ligation"/>
-                        <render fpMethod="CIEL:1489" comment="Vasectomy"/>
-                        <render fpMethod="CIEL:5622" comment="Other"/>
-                    </repeat>
-
-                    <tr>
-                        <td align="right">
-                            <label>
-                                <uimessage code="zl.ifOtherSpecify"/>
-                            </label>
-                            <obs conceptId="PIH:2996" size="30"/>
-                        </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
-            </div>
-        </section>
-
-       <section id="current-medications" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="zl.consultNote.currentMedications.title">
+    <section id="chiefComplaint" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.currentIllness">
         <div class="section-container">
-            <!-- Médicaments actuels -->
             <p>
+                <label>
+                    <uimessage code="pihcore.chiefComplaint.title" />
+                </label>
+                <obs conceptId="CIEL:160531" style="textarea" id="chief-complaint"/>
+            </p>
+
+            <p>
+                <label>
+                    <uimessage code="pihcore.history.presentingHistory.title" />
+                </label>
+                <obs conceptId="PIH:PRESENTING HISTORY" style="textarea" id="presenting-history"/>
+            </p>
+
+            <p>
+                <label>
+                    <uimessage code="zl.consultNote.currentMedications.long" />
+                </label>
                 <obs conceptId="PIH:CURRENT MEDICATIONS" style="textarea"/>
             </p>
         </div>
-    </section>
 
-    <section id="diagnostic-tests-history" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="zl.consultNote.diagnosticTestsHistory.title">
         <div class="section-container">
-            <!-- Examens paracliniques déjà effectués, Résultats, Date -->
+            <h3>
+                <uimessage code="pihcore.refer.title" />
+            </h3>
             <p>
-                <label>
-                    <uimessage code="zl.consultNote.diagnosticTestsHistory.comment"/>
-                </label>
-                <obs conceptId="PIH:DIAGNOSTIC TESTS HISTORY" style="textarea"/>
+                <obs conceptId="PIH:Type of referring service"
+                     answerConceptId="PIH:SELF-REFER"
+                     answerCode="pihcore.selfRefer"
+                     style="checkbox"/>
             </p>
+
+            <div class="two-columns">
+                <div>
+                    <label>
+                        <uimessage code="pihcore.refer.internal"/>
+                    </label>
+
+                    <repeat>
+                        <template>
+                            <obs conceptId="PIH:Type of referring service"
+                                 style="checkbox"
+                                 answerConceptId="{point}" answerCode="{message}"/>
+                        </template>
+
+                        <render point="CIEL:165018" message="pihcore.location.idClinic" comment="ID clinic"/>
+                        <render point="PIH:ANTENATAL CLINIC" message="pihcore.location.maternal"
+                                comment="Womens Health clinic"/>
+                        <render point="PIH:PRIMARY CARE CLINIC" message="pihcore.location.primary"
+                                comment="Primary care"/>
+                        <render point="CIEL:163558" message="pihcore.location.mentalHealth"
+                                comment="Mental health clinic"/>
+                        <render point="CIEL:160449" message="pihcore.testLocation.surgery" comment="Surgery dept"/>
+                        <render point="CIEL:160448" message="pihcore.location.intMed" comment="Internal medicine"/>
+                        <render point="CIEL:165048" message="pihcore.testLocation.pedWard" comment="Pediatrics"/>
+                        <render point="CIEL:160473" message="pihcore.location.ed" comment="Emergency"/>
+                    </repeat>
+
+                    <obs conceptId="PIH:Type of referring service" style="checkbox"
+                         answerConceptId="PIH:OTHER" commentFieldLabel=""/>
+                </div>
+
+                <div>
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.refer.external"/>
+                        </label>
+                        <obs conceptId="PIH:Type of referring service" style="checkbox"
+                             answerConceptId="PIH:11956" commentFieldLabel=""/>
+                        <obs conceptId="PIH:Type of referring service" style="checkbox"
+                             answerConceptId="PIH:Non-ZL supported site" commentFieldLabel=""/>
+                    </p>
+
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.refer.community"/>
+                        </label>
+
+                        <obs conceptId="PIH:Type of referring service" style="checkbox"
+                             answerConceptId="CIEL:1555"/>
+                        <obs conceptId="PIH:Type of referring service" style="checkbox"
+                             answerConceptId="PIH:11965"/>
+                    </p>
+                </div>
+            </div>
         </div>
     </section>
+
 
     <ifMode mode="VIEW" include="false">
         <div id="buttons">
