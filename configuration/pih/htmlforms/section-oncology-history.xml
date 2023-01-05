@@ -152,6 +152,8 @@
     jq(document).ready(function() {
 
     const vitalsSignsEncounterType = '4fb47712-34a6-40d2-8ed3-e153abbd25b7';
+    const weightConceptUuid = '3ce93b62-26fe-102b-80cb-0017a47871b2';
+    const heightConceptUuid = '3ce93cf2-26fe-102b-80cb-0017a47871b2';
     const systolicBPConceptUuid = '3ce934fa-26fe-102b-80cb-0017a47871b2';
     const diastolicBPConceptUuid = '3ce93694-26fe-102b-80cb-0017a47871b2';
     const hrConceptUuid = '3ce93824-26fe-102b-80cb-0017a47871b2';
@@ -224,30 +226,36 @@
     jq("#lastVitalsEncounterTime").text(encounterDate.toLocaleTimeString());
 
     if (encounter.obs &amp;&amp; encounter.obs.length &gt; 0) {
-    jq('#lastVitals').show();
-    for (let j=0; j &lt; encounter.obs.length; ++j) {
-    let obs = encounter.obs[j];
-    if (obs.concept.uuid === systolicBPConceptUuid) {
-    jq("#last_bp_systolic").text(obs.value);
-    jq("#last_bp_systolic").removeClass("emptyValue").addClass("value");
-    } else if (obs.concept.uuid === diastolicBPConceptUuid) {
-    jq("#last_bp_diastolic").text(obs.value);
-    jq("#last_bp_diastolic").removeClass("emptyValue").addClass("value");
-    } else if (obs.concept.uuid === hrConceptUuid) {
-    jq("#last_heart_rate").text(obs.value);
-    jq("#last_heart_rate").removeClass("emptyValue").addClass("value");
-    } else if (obs.concept.uuid === temperatureConceptUuid) {
-    jq("#last_temperature_c").text(obs.value);
-    jq("#last_temperature_c").removeClass("emptyValue").addClass("value");
-    } else if (obs.concept.uuid === respiratoryRateConceptUuid) {
-    jq("#last_respiratory_rate").text(obs.value);
-    jq("#last_respiratory_rate").removeClass("emptyValue").addClass("value");
-    } else if (obs.concept.uuid === o2SatConceptUuid) {
-    jq("#last_o2_sat").text(obs.value);
-    jq("#last_o2_sat").removeClass("emptyValue").addClass("value");
-    }
-    }
-    break;
+        jq('#lastVitals').show();
+        for (let j=0; j &lt; encounter.obs.length; ++j) {
+            let obs = encounter.obs[j];
+            if (obs.concept.uuid === systolicBPConceptUuid) {
+                jq("#last_bp_systolic").text(obs.value);
+                jq("#last_bp_systolic").removeClass("emptyValue").addClass("value");
+            } else if (obs.concept.uuid === diastolicBPConceptUuid) {
+                jq("#last_bp_diastolic").text(obs.value);
+                jq("#last_bp_diastolic").removeClass("emptyValue").addClass("value");
+            } else if (obs.concept.uuid === hrConceptUuid) {
+                jq("#last_heart_rate").text(obs.value);
+                jq("#last_heart_rate").removeClass("emptyValue").addClass("value");
+            } else if (obs.concept.uuid === temperatureConceptUuid) {
+                jq("#last_temperature_c").text(obs.value);
+                jq("#last_temperature_c").removeClass("emptyValue").addClass("value");
+            } else if (obs.concept.uuid === respiratoryRateConceptUuid) {
+                jq("#last_respiratory_rate").text(obs.value);
+                jq("#last_respiratory_rate").removeClass("emptyValue").addClass("value");
+            } else if (obs.concept.uuid === o2SatConceptUuid) {
+                jq("#last_o2_sat").text(obs.value);
+                jq("#last_o2_sat").removeClass("emptyValue").addClass("value");
+            } else if (obs.concept.uuid === weightConceptUuid) {
+                jq("#last_weight").text(obs.value);
+                jq("#last_weight").removeClass("emptyValue").addClass("value");
+            } else if (obs.concept.uuid === heightConceptUuid) {
+                jq("#last_height").text(obs.value);
+                jq("#last_height").removeClass("emptyValue").addClass("value");
+            }
+        }
+        break;
     }
     }
     }
@@ -334,10 +342,12 @@
                         <label>
                             <uimessage code="mirebalais.mostRecentVitals.label"/>
                             <span class="date-span ng-binding">
-                                <i class="icon-calendar"></i><span id="lastVitalsEncounterDate"></span>
+                                <i class="icon-calendar"></i>
+                                <span id="lastVitalsEncounterDate"></span>
                             </span>
                             <span class="time-span ng-binding">
-                                <i class="icon-time"></i><span id="lastVitalsEncounterTime"></span>
+                                <i class="icon-time"></i>
+                                <span id="lastVitalsEncounterTime"></span>
                             </span>
                         </label>
                     </td>
@@ -345,10 +355,57 @@
 
                 <tr>
                     <td>
-                        <div class="five-columns">
+                        <div class="three-columns">
                             <div>
                                 <label>
-                                    <uimessage code="mirebalais.vitals.bloodPressure.short.title"/>&amp;nbsp;
+                                    <uimessage code="mirebalais.vitals.height.title"/>
+                                </label>
+                                <span class="small">
+                                    <span id="last_height" class="obs-field">
+                                        <span class="emptyValue">____</span>
+                                    </span>
+                                    <span class="append-to-value">cm</span>
+                                </span>
+                            </div>
+                            <div>
+                                <label>
+                                    <uimessage code="mirebalais.vitals.weight.title"/>
+                                </label>
+                                <span class="small">
+                                    <span id="last_weight" class="obs-field">
+                                        <span class="emptyValue">____</span>
+                                    </span>
+                                    <span class="append-to-value">kg</span>
+                                </span>
+                            </div>
+                            <div>
+                                <label>
+                                    <uimessage code="mirebalais.vitals.bmi.title"/>
+                                </label>
+                                <!-- TodDo:  Add calculated BMI -->
+
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div class="three-columns">
+                            <div>
+                                <label>
+                                    <uimessage code="mirebalais.vitals.temperature.title"/>
+                                </label>
+                                <span class="small">
+                                    <span id="last_temperature_c" class="obs-field">
+                                        <span class="emptyValue">____</span>
+                                    </span>
+                                    <span class="append-to-value">°C</span>
+                                </span>
+                            </div>
+                            <div>
+                                <label>
+                                    <uimessage code="mirebalais.vitals.bloodPressure.title"/>&amp;nbsp;
                                 </label>
                                 <span class="small">
                                     <span id="last_bp_systolic" class="obs-field">
@@ -363,7 +420,7 @@
                             </div>
                             <div>
                                 <label>
-                                    <uimessage code="mirebalais.vitals.short.heartRate.title"/>
+                                    <uimessage code="mirebalais.vitals.heartRate.title"/>
                                 </label>
                                 <span class="small">
                                     <span id="last_heart_rate" class="obs-field">
@@ -372,10 +429,27 @@
                                     <span class="append-to-value">/min</span>
                                 </span>
                             </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="three-columns">
 
                             <div>
                                 <label>
-                                    <uimessage code="mirebalais.vitals.respiratoryRate.short.title"/>
+                                    <uimessage code="mirebalais.vitals.o2sat.title"/>
+                                </label>
+                                <span class="small">
+                                    <span id="last_o2_sat" class="obs-field">
+                                        <span class="emptyValue">____</span>
+                                    </span>
+                                    <span class="append-to-value">%</span>
+                                </span>
+                            </div>
+                            <div>
+                                <label>
+                                    <uimessage code="mirebalais.vitals.respiratoryRate.title"/>
                                 </label>
                                 <span class="small">
                                     <span id="last_respiratory_rate" class="obs-field">
@@ -384,30 +458,8 @@
                                     <span class="append-to-value">/min</span>
                                 </span>
                             </div>
+                            <div></div>
 
-                            <div>
-                                <label>
-                                    <uimessage code="Temp"/>
-                                </label>
-                                <span class="small">
-                                    <span id="last_temperature_c" class="obs-field">
-                                        <span class="emptyValue">____</span>
-                                    </span>
-                                    <span class="append-to-value">°C</span>
-                                </span>
-                            </div>
-
-                            <p>
-                                <label>
-                                    <uimessage code="o2Sat"/>
-                                </label>
-                                <span class="small">
-                                    <span id="last_o2_sat" class="obs-field">
-                                        <span class="emptyValue">____</span>
-                                    </span>
-                                    <span class="append-to-value">%</span>
-                                </span>
-                            </p>
                         </div>
                     </td>
                 </tr>
@@ -415,13 +467,48 @@
         </div>
 
         <div class="section-container">
-            <table>
-                <tr>
-                    <td>
-                        <div class="five-columns">
+                        <div class="three-columns">
                             <div>
                                 <label>
-                                    <uimessage code="mirebalais.vitals.bloodPressure.short.title"/>
+                                    <uimessage code="mirebalais.vitals.height.title"/>
+                                </label>
+                                <span class="small">
+                                    <obs conceptId="CIEL:5090" id="height"
+                                         showUnits="cm" unitsCssClass="append-to-value"/>
+                                </span>
+                            </div>
+                            <div>
+                                <label>
+                                    <uimessage code="mirebalais.vitals.weight.title"/>
+                                </label>
+                                <span class="small">
+                                    <obs conceptId="CIEL:5089" id="height"
+                                         showUnits="kg" unitsCssClass="append-to-value"/>
+                                </span>
+                            </div>
+                            <div>
+                                <label>
+                                    <uimessage code="mirebalais.vitals.bmi.title"/>
+                                </label>
+                                <!-- TodDo:  Add calculated BMI -->
+
+                            </div>
+
+                        </div>
+
+                        <div class="three-columns">
+                            <div>
+                                <label>
+                                    <uimessage code="mirebalais.vitals.temperature.title"/>
+                                </label>
+                                <span class="small">
+                                    <obs conceptId="CIEL:5088" id="temperature_c"
+                                         showUnits="emr.units.degreesCelsius" unitsCssClass="append-to-value"/>
+                                </span>
+                            </div>
+                            <div>
+                                <label>
+                                    <uimessage code="mirebalais.vitals.bloodPressure.title"/>
                                 </label>
                                 <span class="small">
                                     <ifMode mode="VIEW" include="true">
@@ -449,17 +536,30 @@
 
                             <div>
                                 <label>
-                                    <uimessage code="mirebalais.vitals.short.heartRate.title"/>
+                                    <uimessage code="mirebalais.vitals.heartRate.title"/>
                                 </label>
                                 <span class="small">
                                     <obs conceptId="CIEL:5087" id="heart_rate"
                                          showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
                                 </span>
                             </div>
+                        </div>
+
+                    <div class="three-columns">
+
+                        <div>
+                            <label>
+                                <uimessage code="mirebalais.vitals.o2sat.title"/>
+                            </label>
+                            <span class="small">
+                                <obs conceptId="CIEL:5092" id="o2_sat"
+                                     showUnits="emr.units.percent" unitsCssClass="append-to-value"/>
+                            </span>
+                        </div>
 
                             <div>
                                 <label>
-                                    <uimessage code="mirebalais.vitals.respiratoryRate.short.title"/>
+                                    <uimessage code="mirebalais.vitals.respiratoryRate.title"/>
                                 </label>
                                 <span class="small">
                                     <obs conceptId="CIEL:5242" id="respiratory_rate"
@@ -467,29 +567,9 @@
                                 </span>
                             </div>
 
-                            <div>
-                                <label>
-                                    <uimessage code="Temp"/>
-                                </label>
-                                <span class="small">
-                                    <obs conceptId="CIEL:5088" id="temperature_c"
-                                         showUnits="emr.units.degreesCelsius" unitsCssClass="append-to-value"/>
-                                </span>
-                            </div>
-
-                            <div>
-                                <label>
-                                    <uimessage code="o2Sat"/>
-                                </label>
-                                <span class="small">
-                                    <obs conceptId="CIEL:5092" id="o2_sat"
-                                         showUnits="emr.units.percent" unitsCssClass="append-to-value"/>
-                                </span>
-                            </div>
+                            <div></div>
                         </div>
-                    </td>
-                </tr>
-            </table>
+
         </div>
     </section>
 
@@ -497,9 +577,18 @@
              headerStyle="title" headerCode="pihcore.riskFactors">
         <div class="section-container">
             <!-- Tobacco use -->
+            <h3>
+                <uimessage code="pihcore.smoking"/>
+            </h3>
             <p class="radio">
                 <label><uimessage code="pihcore.habits.smoking"/>:</label>
-                <obs conceptId="CIEL:163731" answerConceptIds="CIEL:159450,CIEL:1090,CIEL:159452" style="radio"/>
+                <obs conceptId="CIEL:163731" style="radio"
+                     answerConceptIds="CIEL:159450,CIEL:1090,CIEL:159452,CIEL:1067" />
+
+                <br/>
+                <label><uimessage code="pihcore.numYears" /></label>
+                <obs conceptId="CIEL:159931" />
+
                 <br/>
                 <label><uimessage code="pihcore.habits.packsPerYear" /></label>
                 <obs conceptId="PIH:11949" />
@@ -514,14 +603,21 @@
 
         <div class="section-container">
             <!-- Alcohol use -->
+            <h3>
+                <uimessage code="pihcore.alcohol"/>
+            </h3>
             <p class="radio">
                 <label><uimessage code="pihcore.habits.alcohol"/>:</label>
-                <obs conceptId="CIEL:159449" answerConceptIds="CIEL:159450,CIEL:1090,CIEL:159452" style="radio"/>
+                <obs conceptId="CIEL:159449" style="radio"
+                     answerConceptIds="CIEL:159450,CIEL:1090,CIEL:159452,CIEL:1067" />
             </p>
         </div>
 
         <div class="section-container">
             <!-- Drug use -->
+            <h3>
+                <uimessage code="pihcore.drugs"/>
+            </h3>
             <p class="radio">
                 <label><uimessage code="pihcore.habits.drugs"/>:</label>
                 <obs conceptId="CIEL:162556" answerConceptIds="CIEL:159450,CIEL:1090,CIEL:159452" style="radio"/>
@@ -530,19 +626,162 @@
                 <obs conceptId="PIH:6489" />
             </p>
         </div>
+
+        <div class="section-container">
+            <h3>
+                <uimessage code="pihcore.lab.hiv.title"/>
+            </h3>
+            <!-- HIV test -->
+            <div class="two-columns side-by-side">
+                <div>
+                    <label>
+                        <uimessage code="pihcore.mch.hivTest"/>
+                    </label>
+                    <br/>
+                    <obs id="hiv-test-checkbox" conceptId="CIEL:164401" answerConceptId="CIEL:1065"
+                         toggle="hiv-test" style="checkbox"/>
+                </div>
+                <div>
+                    <!-- Past HIV tests:  RT, VL quant (CIEL:856), CD4 (CIEL:5497) -->
+                    <includeIf velocityTest="($fn.latestObs('CIEL:163722')) || ($fn.latestObs('CIEL:856')) || ($fn.latestObs('CIEL:5497')) || ($fn.latestObs('CIEL:159427')) ">
+                        <br/><br/>
+
+                        <i style="color:#BBBBBB">
+                            <!-- Rapid test -->
+                            <includeIf velocityTest="$fn.latestObs('CIEL:163722')">
+                                <label>
+                                    <uimessage code="pihcore.lab.lastHivRT" />:
+                                </label>
+                                <lookup complexExpression="$fn.latestObs('CIEL:163722').valueCoded.name"/>
+                                (<lookup expression="fn.latestObs('CIEL:163722').obsDatetime"/>)
+                                <br/>
+                            </includeIf>
+
+                            <!-- Viral load -->
+                            <includeIf velocityTest="$fn.latestObs('CIEL:856')">
+                                <label>
+                                    <uimessage code="pihcore.lab.lastHivVL" />:
+                                </label>
+                                <lookup complexExpression="$fn.latestObs('CIEL:856').valueNumeric"/>
+                                (<lookup expression="fn.latestObs('CIEL:856').obsDatetime"/>)
+                                <br/>
+                            </includeIf>
+
+                            <!-- CD4 count -->
+                            <includeIf velocityTest="$fn.latestObs('CIEL:5497')">
+                                <label>
+                                    <uimessage code="pihcore.lab.lastCD4" />:
+                                </label>
+                                <lookup complexExpression="$fn.latestObs('CIEL:5497').valueNumeric"/>
+                                (<lookup expression="fn.latestObs('CIEL:5497').obsDatetime"/>)
+                            </includeIf>
+
+                            <!-- Generic HIV test question -->
+                            <includeIf velocityTest="$fn.latestObs('CIEL:159427')">
+                                <label>
+                                    <uimessage code="pihcore.lab.lastHIVtest" />:
+                                </label>
+                                <lookup complexExpression="$fn.latestObs('CIEL:159427').valueCoded.name"/>
+                                (<lookup expression="fn.latestObs('CIEL:159427').obsDatetime"/>)
+                            </includeIf>
+                        </i>
+                    </includeIf>
+                </div>
+            </div>
+
+            <div id="hiv-test" class="side-by-side two-columns">
+                <obsgroup groupingConceptId="PIH:11522">
+                    <div>
+                        <p class="small-input">
+                            <obs conceptId="CIEL:164400" labelCode="pihcore.hiv.testDate" size="10"/>
+                        </p>
+                    </div>
+                    <div>
+                        <p>
+                            <br/>
+                            <obs conceptId="CIEL:159427" answerConceptIds="CIEL:664,CIEL:703"
+                                 labelCode="pihcore.lab.hivTestUnspec" style="radio"/>
+                        </p>
+                    </div>
+                </obsgroup>
+            </div>
+
+            <p class="side-by-side">
+                <br/>
+                <label>
+                    <uimessage code="pihcore.ifHIVpatient" />, <uimessage code="pihcore.onARV"/>
+                </label>
+                <obs id="on-arv" conceptId="CIEL:160119" style="radio"
+                     answerConceptIds="CIEL:1065,CIEL:1066">
+                    <controls>
+                        <when value="CIEL:1065" thenDisplay="#art-startdate"/>
+                    </controls>
+                </obs>
+                <div id="art-startdate" class="two-columns">
+                    <div>
+                        <label>
+                            <uimessage code="pihcore.hiv.startDateARV" />
+                        </label>
+                        <obs conceptId="CIEL:159599" />
+                    </div>
+                    <div>
+                        <label>
+                            <uimessage code="pihcore.regimen" />
+                        </label>
+                        <obs conceptId="CIEL:166086" />
+                    </div>
+                </div>
+            </p>
+        </div>
     </section>
 
-    <!-- Show chief complaint if encounter type is NOT NCD Intake -->
-    <includeIf velocityTest="$encounter.encounterType.uuid != 'ae06d311-1866-455b-8a64-126a9bd74171'" >
-        <section id="chiefComplaint" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-                 headerCode="pihcore.chiefComplaint.title">
-            <div class="section-container">
-                <p>
-                    <obs conceptId="CIEL:160531" style="textarea" id="chief-complaint"/>
-                </p>
+    <section id="patient-history" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="zl.consultNote.patientHistory.title">
+        <div class="section-container-color">
+            <!-- ANTECEDENTS PERSONNELS / HABITUDES -->
+
+            <div class="two-columns-history">
+                <pastMedicalHistoryCheckbox concept="PIH:DIABETES"/>
+                <pastMedicalHistoryCheckbox concept="CIEL:142474" comment="Type 1 DM"/>
+                <pastMedicalHistoryCheckbox concept="CIEL:142473" comment="Type 2 DM"/>
+                <pastMedicalHistoryCheckbox concept="PIH:ASTHMA"/>
+                <pastMedicalHistoryCheckbox concept="PIH:HYPERTENSION" label="pihcore.medicalhistory.hypertension"/>
+                <pastMedicalHistoryCheckbox concept="PIH:HEART DISEASE" specify="true" class="medicalHistoryText patientHistory" />
+                <pastMedicalHistoryCheckbox concept="PIH:SURGERY" specify="true" class="medicalHistoryText patientHistory"/>
+                <pastMedicalHistoryCheckbox concept="PIH:Traumatic Injury" specify="true" class="medicalHistoryText patientHistory"/>
+                <pastMedicalHistoryCheckbox concept="PIH:EPILEPSY"/>
+                <pastMedicalHistoryCheckbox concept="CIEL: 117635" comment="Hemoglobinopathy" specify="true"
+                                            class="medicalHistoryText patientHistory"/>
+                <pastMedicalHistoryCheckbox concept="PIH:SEXUALLY TRANSMITTED INFECTION" label="pihcore.medicalhistory.sti"
+                                            specify="true" class="medicalHistoryText patientHistory"/>
+                <pastMedicalHistoryCheckbox concept="PIH:MALNUTRITION"/>
+                <pastMedicalHistoryCheckbox concept="PIH:MEASLES"/>
+                <pastMedicalHistoryCheckbox concept="PIH:TUBERCULOSIS"/>
+                <pastMedicalHistoryCheckbox concept="PIH:VARICELLA"/>
+                <pastMedicalHistoryCheckbox concept="PIH:Diphtheria"/>
+                <pastMedicalHistoryCheckbox concept="PIH:ACUTE RHEUMATIC FEVER" label="pihcore.acuteRheumaticFever.abbrev"/>
+                <pastMedicalHistoryCheckbox concept="CIEL:117703" />
+                <pastMedicalHistoryCheckbox concept="CIEL:165623" label="COVID-19" />
+                <pastMedicalHistoryCheckbox concept="PIH:OTHER" code="pihcore.other" specify="true" class="medicalHistoryText patientHistory"/>
             </div>
-        </section>
-    </includeIf>
+
+            <includeIf velocityTest="$patient.gender == 'F' ">
+                <pastMedicalHistoryCheckbox concept="CIEL:113859" />
+                <pastMedicalHistoryCheckbox concept="PIH:47" />
+                <pastMedicalHistoryCheckbox concept="PIH:Eclampsia" />
+            </includeIf>
+        </div>
+    </section>
+
+    <!-- chief complaint -->
+    <section id="chiefComplaint" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.chiefComplaint.title">
+        <div class="section-container">
+            <p>
+                <obs conceptId="CIEL:160531" style="textarea" id="chief-complaint"/>
+            </p>
+        </div>
+    </section>
 
     <section id="complaint" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.history.presentingHistory.title">
@@ -553,81 +792,78 @@
         </div>
     </section>
 
-    <!-- only show these sections if encounter type is NCD Intake -->
-    <includeIf velocityTest="$encounter.encounterType.uuid == 'ae06d311-1866-455b-8a64-126a9bd74171'">
-        <section id="referralIn" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-                 headerCode="pihcore.refer.title">
-            <div class="section-container">
-                <p>
-                    <obs conceptId="PIH:Type of referring service"
-                         answerConceptId="PIH:SELF-REFER"
-                         answerCode="pihcore.selfRefer"
-                         style="checkbox"/>
-                </p>
+    <section id="referralIn" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.refer.title">
+        <div class="section-container">
+            <p>
+                <obs conceptId="PIH:Type of referring service"
+                     answerConceptId="PIH:SELF-REFER"
+                     answerCode="pihcore.selfRefer"
+                     style="checkbox"/>
+            </p>
 
-                <p>
-                    <label>
-                        <uimessage code="pihcore.refer.date"/>
-                    </label>
-                    <obs conceptId="CIEL:163181" allowTime="false"/>
-                </p>
+            <p>
+                <label>
+                    <uimessage code="pihcore.refer.date"/>
+                </label>
+                <obs conceptId="CIEL:163181" allowTime="false"/>
+            </p>
 
-                <div class="two-columns">
-                    <div>
+            <div class="two-columns">
+                <div>
+                    <strong>
+                        <uimessage code="pihcore.refer.internal"/>
+                    </strong>
+
+                    <repeat>
+                        <template>
+                            <obs conceptId="PIH:Type of referring service"
+                                 style="checkbox"
+                                 answerConceptId="{point}" answerCode="{message}"/>
+                        </template>
+
+                        <render point="CIEL:165018" message="pihcore.location.idClinic" comment="ID clinic"/>
+                        <render point="PIH:ANTENATAL CLINIC" message="pihcore.location.maternal"
+                                comment="Womens Health clinic"/>
+                        <render point="PIH:PRIMARY CARE CLINIC" message="pihcore.location.primary"
+                                comment="Primary care"/>
+                        <render point="CIEL:163558" message="pihcore.location.mentalHealth"
+                                comment="Mental health clinic"/>
+                        <render point="CIEL:160449" message="pihcore.testLocation.surgery" comment="Surgery dept"/>
+                        <render point="CIEL:160448" message="pihcore.location.intMed" comment="Internal medicine"/>
+                        <render point="CIEL:165048" message="pihcore.testLocation.pedWard" comment="Pediatrics"/>
+                        <render point="CIEL:160473" message="pihcore.location.ed" comment="Emergency"/>
+                    </repeat>
+
+                    <obs conceptId="PIH:Type of referring service" style="checkbox"
+                         answerConceptId="PIH:OTHER" commentFieldLabel=""/>
+                </div>
+
+                <div>
+                    <p>
                         <strong>
-                            <uimessage code="pihcore.refer.internal"/>
+                            <uimessage code="pihcore.refer.external"/>
+                        </strong>
+                        <obs conceptId="PIH:Type of referring service" style="checkbox"
+                             answerConceptId="PIH:11956" commentFieldLabel=""/>
+                        <obs conceptId="PIH:Type of referring service" style="checkbox"
+                             answerConceptId="PIH:Non-ZL supported site" commentFieldLabel=""/>
+                    </p>
+
+                    <p>
+                        <strong>
+                            <uimessage code="pihcore.refer.community"/>
                         </strong>
 
-                        <repeat>
-                            <template>
-                                <obs conceptId="PIH:Type of referring service"
-                                     style="checkbox"
-                                     answerConceptId="{point}" answerCode="{message}"/>
-                            </template>
-
-                            <render point="CIEL:165018" message="pihcore.location.idClinic" comment="ID clinic"/>
-                            <render point="PIH:ANTENATAL CLINIC" message="pihcore.location.maternal"
-                                    comment="Womens Health clinic"/>
-                            <render point="PIH:PRIMARY CARE CLINIC" message="pihcore.location.primary"
-                                    comment="Primary care"/>
-                            <render point="CIEL:163558" message="pihcore.location.mentalHealth"
-                                    comment="Mental health clinic"/>
-                            <render point="CIEL:160449" message="pihcore.testLocation.surgery" comment="Surgery dept"/>
-                            <render point="CIEL:160448" message="pihcore.location.intMed" comment="Internal medicine"/>
-                            <render point="CIEL:165048" message="pihcore.testLocation.pedWard" comment="Pediatrics"/>
-                            <render point="CIEL:160473" message="pihcore.location.ed" comment="Emergency"/>
-                        </repeat>
-
                         <obs conceptId="PIH:Type of referring service" style="checkbox"
-                             answerConceptId="PIH:OTHER" commentFieldLabel=""/>
-                    </div>
-
-                    <div>
-                        <p>
-                            <strong>
-                                <uimessage code="pihcore.refer.external"/>
-                            </strong>
-                            <obs conceptId="PIH:Type of referring service" style="checkbox"
-                                 answerConceptId="PIH:11956" commentFieldLabel=""/>
-                            <obs conceptId="PIH:Type of referring service" style="checkbox"
-                                 answerConceptId="PIH:Non-ZL supported site" commentFieldLabel=""/>
-                        </p>
-
-                        <p>
-                            <strong>
-                                <uimessage code="pihcore.refer.community"/>
-                            </strong>
-
-                            <obs conceptId="PIH:Type of referring service" style="checkbox"
-                                 answerConceptId="CIEL:1555"/>
-                            <obs conceptId="PIH:Type of referring service" style="checkbox"
-                                 answerConceptId="PIH:11965"/>
-                        </p>
-                    </div>
+                             answerConceptId="CIEL:1555"/>
+                        <obs conceptId="PIH:Type of referring service" style="checkbox"
+                             answerConceptId="PIH:11965"/>
+                    </p>
                 </div>
             </div>
-        </section>
-    </includeIf>
+        </div>
+    </section>
 
     <section id="family-history" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="zl.consultNote.familyHistory.title">
@@ -667,51 +903,62 @@
         </div>
     </section>
 
-    <section id="patient-history" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="zl.consultNote.patientHistory.title">
-        <div class="section-container-color">
-            <!-- ANTECEDENTS PERSONNELS / HABITUDES -->
+    <includeIf velocityTest="$patient.gender == 'F' ">
+        <section id="obgyn-section" sectionTag="fieldset" headerStyle="title" headerCode="OB/GYN">
+            <div class="section-container">
 
-            <div class="two-columns-history">
-                <!-- Allergy is intentionally ommitted because it should be handled in more detail through the Allergy UI -->
-                <pastMedicalHistoryCheckbox concept="PIH:ASTHMA"/>
-                <pastMedicalHistoryCheckbox concept="PIH:HEART DISEASE" specify="true" class="medicalHistoryText patientHistory" />
-                <pastMedicalHistoryCheckbox concept="PIH:SURGERY" specify="true" class="medicalHistoryText patientHistory"/>
-                <pastMedicalHistoryCheckbox concept="PIH:Traumatic Injury" specify="true" class="medicalHistoryText patientHistory"/>
-                <!-- TODO paper form has Surgery/Trauma. verify splitting okay -->
-                <pastMedicalHistoryCheckbox concept="PIH:EPILEPSY"/>
-                <pastMedicalHistoryCheckbox concept="CIEL: 117635" comment="Hemoglobinopathy" specify="true"
-                                            class="medicalHistoryText patientHistory"/>
-                <pastMedicalHistoryCheckbox concept="PIH:HYPERTENSION" label="pihcore.medicalhistory.hypertension"/>
-                <pastMedicalHistoryCheckbox concept="PIH:DIABETES"/>
-                <pastMedicalHistoryCheckbox concept="CIEL:142474" comment="Type 1 DM"/>
-                <pastMedicalHistoryCheckbox concept="CIEL:142473" comment="Type 2 DM"/>
-                <pastMedicalHistoryCheckbox concept="CIEL:138405" label="pihcore.lab.hiv.title"/>
-                <pastMedicalHistoryCheckbox concept="PIH:SEXUALLY TRANSMITTED INFECTION" label="pihcore.medicalhistory.sti"
-                                            specify="true" class="medicalHistoryText patientHistory"/>
-                <!-- TODO explicit options for common STIs -->
-                <pastMedicalHistoryCheckbox concept="CIEL:143849" comment="Congenital malformations"
-                                            specify="true" class="medicalHistoryText patientHistory"/>
-                <pastMedicalHistoryCheckbox concept="PIH:MALNUTRITION"/>
-                <pastMedicalHistoryCheckbox concept="PIH:MEASLES"/>
-                <pastMedicalHistoryCheckbox concept="PIH:TUBERCULOSIS"/>
-                <pastMedicalHistoryCheckbox concept="PIH:VARICELLA"/>
-                <pastMedicalHistoryCheckbox concept="PIH:Diphtheria"/>
-                <pastMedicalHistoryCheckbox concept="PIH:ACUTE RHEUMATIC FEVER" label="pihcore.acuteRheumaticFever.abbrev"/>
-                <pastMedicalHistoryCheckbox concept="CIEL:117703" />
-                <pastMedicalHistoryCheckbox concept="CIEL:165623" label="COVID-19" />
-                <pastMedicalHistoryCheckbox concept="PIH:OTHER" code="pihcore.other" specify="true" class="medicalHistoryText patientHistory"/>
+                <div id="gpal" class="four-columns">
+                    <div>
+                        <label>
+                            <uimessage code="pihcore.mch.grava"/>
+                        </label>
+                        <obs conceptId="CIEL:5624" required="false" id="gravidaInput"/>
+                    </div>
+                    <div>
+                        <label>
+                            <uimessage code="pihcore.mch.para"/>
+                        </label>
+                        <obs conceptId="CIEL:1053" required="false" id="paraInput"/>
+                    </div>
+                    <div>
+                        <label>
+                            <uimessage code="pihcore.mch.abortus"/>
+                        </label>
+                        <obs conceptId="CIEL:1823" required="false" id="abortusInput"/>
+                    </div>
+                    <div>
+                        <label>
+                            <uimessage code="pihcore.mch.living"/>
+                        </label>
+                        <obs conceptId="CIEL:1825" required="false" id="livingInput"/>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="two-columns">
+                    <div>
+                        <p class="side-by-side">
+                            <label>
+                                <uimessage code="Menstruation"/>
+                            </label>
+                            <obs conceptId="CIEL:160600" style="radio"
+                                 answerConceptIds="CIEL:1065,CIEL:1066"
+                                 answerCodes="pihcore.regular,pihcore.irregular"/>
+                        </p>
+                    </div>
+                    <div>
+                        <!-- Dysmenorrhea -->
+                        <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
+                            <obs conceptId="PIH:DIAGNOSIS" style="checkbox" answerConceptId="CIEL:127"/>
+                        </obsgroup>
+                    </div>
+                </div>
+
             </div>
-            <!-- only show these diseases if encounter type is NCD Intake -->
-            <includeIf velocityTest="$patient.gender == 'F' ">
-                <pastMedicalHistoryCheckbox concept="CIEL:113859" />
-                <pastMedicalHistoryCheckbox concept="PIH:47" />
-                <pastMedicalHistoryCheckbox concept="PIH:Eclampsia" />
-            </includeIf>
-        </div>
-    </section>
+        </section>
+    </includeIf>
 
-     <!-- ToDo: Create one family planning section.  There is one for Outpatient and another for NCD (and HIV) -->
+    <!-- ToDo: Create one family planning section.  There is one for Outpatient and another for NCD (and HIV) -->
     <!-- Show sexual activities if encounter type is Adult Intake (Followup?) -->
         <section id="sexual-activities" sectionTag="fieldset" headerTag="legend" headerStyle="title"
                  headerCode="pihcore.sexualReproHistory.label">
