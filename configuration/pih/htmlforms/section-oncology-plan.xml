@@ -27,13 +27,29 @@
             vertical-align: middle;
         }
 
-        .two-columns {
+        .five-columns, .four-columns, .three-columns, .two-columns {
+            display: table;
+            height: 100%;
+            width: 100%;
+        }
+
+        .two-columns > div {
+            display: table-cell;
+            width: 50%;
+        }
+
+        .three-columns > div {
+            display: table-cell;
+            width: 33%;
+        }
+
+        .two-column-old {
             column-count: 2;
             -webkit-column-count: 2;
             -moz-column-count: 2;
         }
 
-        .three-columns {
+        .three-columns-old {
             column-count: 3;
             -webkit-column-count: 3;
             -moz-column-count: 3;
@@ -185,6 +201,34 @@
         </h1>
     </ifMode>
 
+    <div class="column_narrow">
+        <label>
+            <uimessage code="pihcore.oncologyConsult.ecog_perf_status"/>
+        </label>
+        <span class="small">
+            <obs conceptId="CIEL:160379"/>
+        </span>
+        <!-- ToDo:  Add date and not evaluated -->
+    </div>
+
+    <div>
+        <label>
+            <uimessage code="pihcore.mentalhealth.zldsi"/>:
+        </label>
+
+        <span class="small">
+            <obs conceptId="CIEL:163225"/>
+        </span>
+        <!-- ToDo:  Add date and not evaluated -->
+    </div>
+
+    <p class="side-by-side" >
+        <label>
+            <uimessage code="pihcore.psychoSocialReferral"/>:
+        </label>
+        <obs conceptId="PIH:PSYCHOSOCIAL COUNSELING"/>
+    </p>
+
     <section id="clinical-management-plan" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.consult.clinicalManagementPlan">
         <div class="section-container-color">
@@ -194,12 +238,114 @@
         </div>
     </section>
 
+    <style type="text/css">
+
+        <!-- Hide the label for the drug field in view mode -->
+        .orderwidget-history-section .order-field-label.order-drug {
+            display:none;
+        }
+        <!-- Add a colon after the Dose label in view mode -->
+        .orderwidget-history-section .order-field-label.order-dose:after {
+            content: ": ";
+            white-space: pre;
+        }
+
+        .order-field {
+            display: inline-block;
+            padding: 0px;
+        }
+        .order-field.action {
+            display: block;
+        }
+        .order-field.dateActivated {
+            padding-right: 20px;
+        }
+        .order-field-label {
+            display: inline-block;
+            padding-right: 5px;
+            vertical-align: middle;
+        }
+        .order-field-label:after {
+            content: "";
+            white-space: pre;
+        }
+        .order-field-widget {
+            display: inline-block;
+        }
+
+    </style>
+
+    <section id="drug-orders" sectionTag="fieldset" headerStyle="title"
+             headerCode="pihcore.visitNote.orders.medications">
+        <div class="section-container">
+            <drugOrder format="select" selectLabel="pihcore.drugOrder.addAnotherDrug">
+                <orderTemplate>
+                    <orderProperty name="action" label="pihcore.action">
+                        <option value="NEW" label="pihcore.new"/>
+                        <option value="REVISE" label="pihcore.revise"/>
+                        <option value="RENEW" label="pihcore.renew"/>
+                        <option value="DISCONTINUE" label="pihcore.discontinue"/>
+                    </orderProperty>
+
+                    <div style="padding:0px;font-weight:bold;">
+                        <orderProperty name="drug" label="pihcore.visitNote.plan.medication" style="autocomplete"/>
+                    </div>
+
+                    <div style="padding:0px;font-weight:bold;">
+                        <orderProperty name="dose" label="pihcore.visitNote.plan.dose"/>
+                        <orderProperty name="doseUnits" value="1513AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label=" "/>
+                        <orderProperty name="frequency" label=" "/>
+                        <orderProperty name="route" value="CIEL:160240" label=" ">
+                            <option value="CIEL:160240" /> <!-- Oral -->
+                            <option value="CIEL:162797" /> <!-- Topical -->
+                            <option value="CIEL:162392" /> <!-- Vaginally -->
+                        </orderProperty>
+                    </div>
+                    <div style="padding:0px;">
+                        <orderProperty name="dateActivated" label="pihcore.starting"/>
+                        <orderProperty name="duration" label="pihcore.visitNote.for"/>
+                        <orderProperty name="durationUnits" label=" "/>
+                    </div>
+                    <div style="padding:0px;">
+                        <orderProperty name="quantity" label="pihcore.quantity"/>
+                        <orderProperty name="quantityUnits" value="1513AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label=" "/>
+                        <orderProperty name="numRefills" value="0" label="pihcore.refills"/>
+                    </div>
+                    <div style="display:none;">
+                        <orderProperty name="urgency" value="ROUTINE"/>
+                        <orderProperty name="dosingType" value="org.openmrs.SimpleDosingInstructions"/>
+                        <orderProperty name="previousOrder"/>
+                        <orderProperty name="careSetting" value="OUTPATIENT"/>
+                    </div>
+                    <orderProperty name="discontinueReason" label="pihcore.discontinueReason">
+                        <option value="CIEL:843"/>
+                        <option value="CIEL:102"/>
+                        <option value="CIEL:127750"/>
+                        <option value="CIEL:1754"/>
+                        <option value="CIEL:162853"/>
+                        <option value="CIEL:1434"/>
+                        <option value="CIEL:987"/>
+                        <option value="CIEL:1253"/>
+                        <option value="CIEL:1067"/>
+                        <option value="CIEL:5622"/>
+                    </orderProperty>
+                </orderTemplate>
+            </drugOrder>
+        </div>
+        <div class="section-container">
+            <label><b><uimessage code="pihcore.remarks"/></b></label>
+            <p>
+                <obs conceptId="PIH:10637" cols="50" rows="5" />
+            </p>
+        </div>
+    </section>
+
     <!-- ToDo: This section is duplicated by the section-lab-order.xml and should be replace
          with including forms within htmlforms.  Formlets? -->
     <section id="test-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.lab.lab_tests.title">
         <div class="section-container-color">
-            <div class="three-columns">
+            <div class="three-columns-old">
                 <p>
                     <label>
                         <uimessage code="pihcore.lab.hematology.title"/>
@@ -449,7 +595,6 @@
                 </includeIf>
             </div>
         </div>
-
     </section>
 
     <section id="radiology-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
@@ -485,94 +630,9 @@
         </div>
     </section>
 
-    <!-- Stolen from the dispensing module, but using prescription construct instead of dispensing -->
-    <section id="drug-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="pihcore.visitNote.orders.medications">
-
-        <!-- UHM-3782 For NCDs only, show list of meds entered previously in old data model -->
-        <!-- ToDo: This might be confusing to show this here
-        <includeIf velocityTest="$encounter.encounterType.uuid == 'ae06d311-1866-455b-8a64-126a9bd74171' || $encounter.encounterType.uuid == '5cbfd6a2-92d9-4ad0-b526-9d29bfe1d10c'" >
-            Past NCD medications:
-            <lookup complexExpression="#foreach($med in $fn.allObs('PIH:Medications prescribed at end of visit')) $med.valueCoded.name,  #end"/>
-        </includeIf>
-        -->
-
+    <section id="assistance" sectionTag="fieldset" headerTag="legend"
+             headerStyle="title" headerCode="pihcore.socioEconomic.assistance">
         <div class="section-container-color">
-            <repeat with="['1'],['2'],['3'],['4'],['5'],['6'],['7'],['8']">
-                <span id="medication-{0}" class="medication">
-                    <obsgroup groupingConceptId="PIH:Prescription construct" showIfEmpty="false">
-                        <h3>
-                            <uimessage code="pihcore.visitNote.plan.medication"/>
-                            {0}
-                        </h3>
-                        <fieldset class="medication">
-                            <p class="field-error" style="display:none"></p>
-                            <p>
-                                <label>
-                                    <uimessage code="pihcore.visitNote.plan.name"/>
-                                </label>
-                                <obs id="name{0}" class="medication-name" conceptId="PIH:MEDICATION ORDERS"
-                                     answerDrugs="true"/>
-                            </p>
-                            <p class="inline">
-                                <label>
-                                    <uimessage code="pihcore.visitNote.plan.dose"/>
-                                </label>
-                                <obs id="dose{0}" class="dose doseInput" conceptId="CIEL:160856"/>
-                                <obs id="doseUnit{0}" class="dose-unit doseInput select-arrow"
-                                     conceptId="PIH:Dosing units coded"
-                                     answerConceptIds="CIEL:161553,CIEL:161554,CIEL:162263,PIH:APPLICATION,CIEL:1608,CIEL:1513,CIEL:162356,CIEL:162366,CIEL:162370,PIH:Pump,PIH:SACHET,CIEL:162264"
-                                     answerCodes="pihcore.visitNote.plan.medication.units.mg,pihcore.visitNote.plan.medication.units.g,pihcore.visitNote.plan.medication.units.mL,pihcore.visitNote.plan.medication.units.application,pihcore.visitNote.plan.medication.units.capsule,pihcore.visitNote.plan.medication.units.tablet,pihcore.visitNote.plan.medication.units.drop,pihcore.visitNote.plan.medication.units.mcg,pihcore.visitNote.plan.medication.units.patch,pihcore.visitNote.plan.medication.units.pump,pihcore.visitNote.plan.medication.units.sachet,pihcore.visitNote.plan.medication.units.IU"/>
-                                <!-- answers="mg,g,mL,Application,Capsule,Comprimé,Goutte,Microgramme,Patch,Pompe,Sachet,Unités internationals" -->
-
-                            </p>
-                            <p class="inline">
-                                <label>
-                                    <uimessage code="pihcore.visitNote.plan.frequency"/>
-                                </label>
-
-
-                                <obs id="frequencyCoded{0}" class="frequency select-arrow"
-                                     conceptId="PIH:Drug frequency for HUM"
-                                     answerConceptIds=
-                                             "PIH:OD,PIH:BID,PIH:TID,PIH:QID,PIH:5D,PIH:6D,PIH:7D,PIH:8D,PIH:9D,PIH:OM,PIH:ON,PIH:PRN,PIH:STAT,PIH:Q2H,PIH:Q3H,PIH:Q4H,PIH:Q6H,PIH:Q12H,PIH:5622"
-                                     answerCodes="OD,BID,TID,QID,5D,6D,7D,8D,9D,OM,ON,SOS,STAT,Q2H,Q3H,Q4H,Q6H,Q12H,pihcore.visitNote.plan.other"/>
-                            </p>
-
-                            <p class="inline">
-                                <label>
-                                    <uimessage code="pihcore.visitNote.plan.duration"/>
-                                </label>
-                                <obs id="duration{0}" class="duration doseInput" conceptId="CIEL:159368"/>
-                                <obs id="durationUnit{0}" class="duration-unit select-arrow" conceptId="PIH:TIME UNITS"
-                                     answerConceptIds="PIH:Days,PIH:1073,PIH:Months"/>
-                            </p>
-
-                            <p>
-                                <label>
-                                    <uimessage code="pihcore.visitNote.plan.instructions"/>
-                                </label>
-                                <obs id="instructions{0}" class="medication-instructions"
-                                     conceptId="PIH:Prescription instructions non-coded"/>
-                            </p>
-                        </fieldset>
-                    </obsgroup>
-                </span>
-            </repeat>
-            <button id="show-more-medications-button" type="button" style="display:none">
-                <uimessage code="pihcore.showMore"/>
-            </button>
-            <button id="show-less-medications-button" type="button" style="display:none">
-                <uimessage code="pihcore.showLess"/>
-            </button>
-        </div>
-
-    </section>
-
-    <!-- For NCD followup only, add socio-economic assistance -->
-    <includeIf velocityTest="$encounter.encounterType.uuid == '5cbfd6a2-92d9-4ad0-b526-9d29bfe1d10c'">
-        <section id="assistance" sectionTag="fieldset" headerTag="legend"
-                 headerStyle="title" headerCode="pihcore.socioEconomic.assistance">
             <table>
                 <tr>
                     <td></td>
@@ -638,8 +698,8 @@
                 </label>
                 <obs conceptId="PIH:SOCIO-ECONOMIC ASSISTANCE COMMENT" style="text"/>
             </p>
-        </section>
-    </includeIf>
+        </div>
+    </section>
 
     <section id="disposition-section" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="coreapps.consult.disposition">

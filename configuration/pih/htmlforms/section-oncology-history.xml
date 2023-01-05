@@ -331,6 +331,8 @@
         </h2>
     </ifMode>
 
+    <enrollInProgram programId="Oncology" locationTag="Program Location" />
+
     <section id="vitals" sectionTag="fieldset"
              headerStyle="title" headerCode="pihcore.vitalSigns">
 
