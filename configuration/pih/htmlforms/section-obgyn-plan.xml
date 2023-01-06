@@ -59,7 +59,6 @@
             display: inline-block;
         }
 
-
         form input[type="radio"], .form input[type="radio"] {
             float: none;
             display: inline-block;

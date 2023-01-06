@@ -13,6 +13,19 @@
         }
 
 
+        .side-by-side label {
+            display: inline-block;
+        }
+
+        label {
+            padding: 0px 3px 0px 0px
+        }
+
+        form input[type="radio"], .form input[type="radio"] {
+            float: none;
+            display: inline-block;
+        }
+
         #test-orders input[type=checkbox] {
             float: none;
             vertical-align: middle;
@@ -74,6 +87,16 @@
 
         label {
             padding: 0px 3px 0px 0px
+        }
+
+        #encounter-diagnoses-target {
+            display: inline-block;
+            width: 40%;
+            vertical-align: top;
+        }
+
+        #encounter-diagnoses-app {
+            margin-bottom: 20px;
         }
 
     </style>
@@ -201,33 +224,104 @@
         </h1>
     </ifMode>
 
-    <div class="column_narrow">
-        <label>
-            <uimessage code="pihcore.oncologyConsult.ecog_perf_status"/>
-        </label>
-        <span class="small">
-            <obs conceptId="CIEL:160379"/>
-        </span>
-        <!-- ToDo:  Add date and not evaluated -->
-    </div>
+    <section id="radiology-pathology.orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.radiology-pathology">
+        <div class="section-container-color">
+            <includeIf velocityTest="!$config.isComponentEnabled('radiology')">
+                <p>
+                    <obs conceptId="PIH:Radiology image ordered"
+                         answerConceptId="PIH:Chest 1 view (XRay)"
+                         style="checkbox"/>
+                </p>
+                <p>
+                    <label>
+                        <uimessage code="zl.ifOtherSpecify"/>
+                    </label>
+                </p>
+                <p>
+                    <obs conceptId="PIH:Radiology image ordered"
+                         answerClasses="Radiology/Imaging Procedure"
+                         style="autocomplete"/>
+                </p>
 
-    <div>
-        <label>
-            <uimessage code="pihcore.mentalhealth.zldsi"/>:
-        </label>
+            </includeIf>
+            <includeIf velocityTest="$config.isComponentEnabled('radiology')">
+                <p>
+                    <uimessage code="pihcore.rad-path.message"/>
+                </p>
+            </includeIf>
+        </div>
+    </section>
 
-        <span class="small">
-            <obs conceptId="CIEL:163225"/>
-        </span>
-        <!-- ToDo:  Add date and not evaluated -->
-    </div>
+    <section id="misc" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="">
+        <div class="section-container-color">
+            <div class="three-columns">
+                <div>
+                    <label>
+                        <uimessage code="pihcore.oncologyConsult.ecog_performance_status"/> (0-5)
+                    </label>
+                    <obsgroup groupingConceptId="CIEL:163726">
+                        <obs conceptId="CIEL:160379" />
+                        <label>
+                            <uimessage code="zl.date"/>
+                        </label>
+                        <obs conceptId="CIEL:163724" allowTime="false"/>
+                        <p>
+                            <obs conceptId="CIEL:163725" style="checkbox"
+                                 answerConceptId="CIEL:1118" answerCode="pihcore.notEvaluated"/>
+                        </p>
+                    </obsgroup>
+                </div>
 
-    <p class="side-by-side" >
-        <label>
-            <uimessage code="pihcore.psychoSocialReferral"/>:
-        </label>
-        <obs conceptId="PIH:PSYCHOSOCIAL COUNSELING"/>
-    </p>
+                <div>
+                    <label>
+                        <uimessage code="pihcore.mentalhealth.zldsi.long"/>
+                    </label>
+
+                    <obsgroup groupingConceptId="CIEL:163726">
+                        <obs conceptId="CIEL:163225"  />
+                        <label>
+                            <uimessage code="zl.date"/>
+                        </label>
+                        <obs conceptId="CIEL:163724" allowTime="false"/>
+                        <p>
+                            <obs conceptId="CIEL:163725" style="checkbox"
+                                 answerConceptId="CIEL:1118" answerCode="pihcore.notEvaluated"/>
+                        </p>
+                    </obsgroup>
+                </div>
+
+                <div>
+                    <p class="side-by-side">
+                        <label>
+                            <uimessage code="pihcore.psychoSocialReferral"/>?
+                        </label>
+                        <br/>
+                        <obs conceptId="PIH:PSYCHOSOCIAL COUNSELING" style="radio" answerConceptIds="CIEL:1065,CIEL:1066"/>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="diagnosis" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.diagnosis.label">
+        <div class="section-container-color">
+            <div id="data-collection">
+                <encounterDiagnosesByObs selectedDiagnosesTarget="#encounter-diagnoses-target"/>
+            </div>
+
+            <p class="side-by-side">
+                <label>
+                    <uimessage code="pihcore.status.alt"/>
+                </label>
+                <obs conceptId="CIEL:163050" style="radio"
+                     answerConceptIds="CIEL:161636,CIEL:163051,CIEL:1688"
+                     answerCodes="pihcore.active,pihcore.remission,pihcore.recurrence"/>
+            </p>
+        </div>
+
+    </section>
 
     <section id="clinical-management-plan" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.consult.clinicalManagementPlan">
@@ -275,8 +369,8 @@
 
     </style>
 
-    <section id="drug-orders" sectionTag="fieldset" headerStyle="title"
-             headerCode="pihcore.visitNote.orders.medications">
+    <section id="drug-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.visitNote.orders.medications.full">
         <div class="section-container">
             <drugOrder format="select" selectLabel="pihcore.drugOrder.addAnotherDrug">
                 <orderTemplate>
@@ -340,8 +434,6 @@
         </div>
     </section>
 
-    <!-- ToDo: This section is duplicated by the section-lab-order.xml and should be replace
-         with including forms within htmlforms.  Formlets? -->
     <section id="test-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.lab.lab_tests.title">
         <div class="section-container-color">
@@ -597,39 +689,6 @@
         </div>
     </section>
 
-    <section id="radiology-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="pihcore.rad_order.title">
-        <div class="section-container-color">
-            <includeIf velocityTest="!$config.isComponentEnabled('radiology')">
-
-                <!-- ToDo: This is different from the Radiology app which uses encounter
-                     and order.  This uses  'Radiology procedure performed'.
-                     Add interpretation and date -->
-                <p>
-                    <obs conceptId="PIH:Radiology image ordered"
-                         answerConceptId="PIH:Chest 1 view (XRay)"
-                         style="checkbox"/>
-                </p>
-                <p>
-                    <label>
-                        <uimessage code="zl.ifOtherSpecify"/>
-                    </label>
-                </p>
-                <p>
-                    <obs conceptId="PIH:Radiology image ordered"
-                         answerClasses="Radiology/Imaging Procedure"
-                         style="autocomplete"/>
-                </p>
-
-            </includeIf>
-            <includeIf velocityTest="$config.isComponentEnabled('radiology')">
-                <p>At HUM, use
-                    <uimessage code="pihcore.rad_order.title"/>
-                </p>
-            </includeIf>
-        </div>
-    </section>
-
     <section id="assistance" sectionTag="fieldset" headerTag="legend"
              headerStyle="title" headerCode="pihcore.socioEconomic.assistance">
         <div class="section-container-color">
@@ -667,12 +726,8 @@
                         </tr>
                     </template>
                     <render aid="PIH:ASSISTANCE WITH TRANSPORT" aidLabel="pihcore.aid.transport"/>
-                    <render aid="PIH:NUTRITIONAL AID" aidLabel="pihcore.aid.food"/>
                     <render aid="PIH:1847" aidLabel="pihcore.aid.foodPackage"/>
-                    <render aid="PIH:SCHOOL EXPENSES" aidLabel="pihcore.aid.school"/>
-                    <render aid="PIH:HOUSING EXPENSES" aidLabel="pihcore.aid.home"/>
-                    <render aid="PIH:12886" aidLabel="pihcore.aid.homeKit"/>
-                    <render aid="PIH:12885" aidLabel="pihcore.aid.cashTransfer"/>
+                    <render aid="PIH:FINANCIAL AID" aidLabel="pihcore.aid.money" />
                 </repeat>
 
                 <tr>

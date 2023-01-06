@@ -966,7 +966,6 @@ angular.module("encounterTypeConfig", [])
                 oncologyHistory,
                 generalVaccinations,
                 primaryCareExam,
-                primaryCareDx,
                 oncologyPlan
             ]
         };
