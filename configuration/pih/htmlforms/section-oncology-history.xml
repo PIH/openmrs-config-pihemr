@@ -900,7 +900,6 @@
                          answerCodes="pihcore.premenopause,pihcore.menopause,pihcore.unknown"/>
                 </p>
 
-            </div>
                 <ifMode mode="VIEW" include="false">
                     <script type="text/javascript">
                         jq(function() {
@@ -956,7 +955,7 @@
                         </span>
                     </div>
                 </div>
-
+            </div>
             </section>
     </includeIf>
 
