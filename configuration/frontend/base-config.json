@@ -8,6 +8,16 @@
       "loginSuccess": "${openmrsBase}/pihcore/home.page"
     }
   },
+  "@openmrs/esm-api": {
+    "redirectAuthFailure": {
+      "url": "/pihcore/login.htm"
+    }
+  },
+  "@openmrs/esm-styleguide": {
+    "Brand color #1": "#FF9800",
+    "Brand color #2": "#FFC166",
+    "Brand color #3": "#FFD699"
+  },
   "@openmrs/esm-patient-vitals-app": {
     "concepts": {
       "systolicBloodPressureUuid": "3ce934fa-26fe-102b-80cb-0017a47871b2",
