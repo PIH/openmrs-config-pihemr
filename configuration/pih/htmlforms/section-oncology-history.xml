@@ -918,25 +918,26 @@
                      style="checkbox"/>
 
                 <div class="two-columns">
-                    <div id="pregnant">
-                        <div>
-                            <!-- LMP -->
-                            <label>
-                                <uimessage code="pihcore.pregnancy.lastPeriod"/>
-                            </label>
-                            <obs id="lastPeriodDate" conceptId="CIEL:1427"/>
-                        </div>
+                    <!-- Last menstrual period (LMP or DDR) -->
+                    <div>
+                        <label>
+                            <uimessage code="pihcore.pregnancy.lastPeriod"/>
+                        </label>
+                        <span class="small">
+                            <obs id="lastPeriodDate" conceptId="CIEL:1427" allowFutureDates="false"/>
+                        </span>
+                    </div>
 
-                        <div>
-                            <!-- DPA -->
-                            <label>
-                                <uimessage code="pihcore.pregnancy.dueDate"/>
-                            </label>
+                    <!-- Due date (DPA) -->
+                    <div>
+                        <label>
+                            <uimessage code="pihcore.pregnancy.dueDate"/>
+                        </label>
+                        <span class="small">
                             <obs id="edd" conceptId="CIEL:5596" allowFutureDates="true"/>
-                        </div>
+                        </span>
                     </div>
                 </div>
-
                 <div class="two-columns hidden calculated-edd-and-gestational" style="display: none;">
                     <div>
                         <span id="calculated-gestational-age-wrapper">
