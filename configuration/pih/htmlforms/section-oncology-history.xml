@@ -480,112 +480,6 @@
                 </tr>
             </table>
         </div>
-
-        <div class="section-container">
-                        <div class="three-columns">
-                            <div>
-                                <label>
-                                    <uimessage code="mirebalais.vitals.height.title"/>
-                                </label>
-                                <span class="small">
-                                    <obs conceptId="CIEL:5090" id="height"
-                                         showUnits="cm" unitsCssClass="append-to-value"/>
-                                </span>
-                            </div>
-                            <div>
-                                <label>
-                                    <uimessage code="mirebalais.vitals.weight.title"/>
-                                </label>
-                                <span class="small">
-                                    <obs conceptId="CIEL:5089" id="height"
-                                         showUnits="kg" unitsCssClass="append-to-value"/>
-                                </span>
-                            </div>
-                            <div>
-                                <label>
-                                    <uimessage code="mirebalais.vitals.bmi.title"/>
-                                </label>
-                                <!-- TodDo:  Add calculated BMI -->
-
-                            </div>
-
-                        </div>
-
-                        <div class="three-columns">
-                            <div>
-                                <label>
-                                    <uimessage code="mirebalais.vitals.temperature.title"/>
-                                </label>
-                                <span class="small">
-                                    <obs conceptId="CIEL:5088" id="temperature_c"
-                                         showUnits="emr.units.degreesCelsius" unitsCssClass="append-to-value"/>
-                                </span>
-                            </div>
-                            <div>
-                                <label>
-                                    <uimessage code="mirebalais.vitals.bloodPressure.title"/>
-                                </label>
-                                <span class="small">
-                                    <ifMode mode="VIEW" include="true">
-                                        <span class="append-to-value">
-                                            <obs conceptId="CIEL:5085" id="bp_systolic"/>
-                                        </span>
-                                        <span class="append-to-value">/</span>
-                                        <span class="append-to-value">
-                                            <obs conceptId="CIEL:5086" id="bp_diastolic" />
-                                        </span>
-                                        <span class="append-to-value">mm/Hg</span>
-                                    </ifMode>
-                                    <ifMode mode="VIEW" include="false">
-                                        <span class="append-to-value left">
-                                            <obs conceptId="CIEL:5085" id="bp_systolic"/>
-                                        </span>
-                                        <span class="append-to-value left">/</span>
-                                        <span class="append-to-value left">
-                                            <obs conceptId="CIEL:5086" id="bp_diastolic" />
-                                        </span>
-                                        <span class="append-to-value">mm/Hg</span>
-                                    </ifMode>
-                                </span>
-                            </div>
-
-                            <div>
-                                <label>
-                                    <uimessage code="mirebalais.vitals.heartRate.title"/>
-                                </label>
-                                <span class="small">
-                                    <obs conceptId="CIEL:5087" id="heart_rate"
-                                         showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
-                                </span>
-                            </div>
-                        </div>
-
-                    <div class="three-columns">
-
-                        <div>
-                            <label>
-                                <uimessage code="mirebalais.vitals.o2sat.title"/>
-                            </label>
-                            <span class="small">
-                                <obs conceptId="CIEL:5092" id="o2_sat"
-                                     showUnits="emr.units.percent" unitsCssClass="append-to-value"/>
-                            </span>
-                        </div>
-
-                            <div>
-                                <label>
-                                    <uimessage code="mirebalais.vitals.respiratoryRate.title"/>
-                                </label>
-                                <span class="small">
-                                    <obs conceptId="CIEL:5242" id="respiratory_rate"
-                                         showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
-                                </span>
-                            </div>
-
-                            <div></div>
-                        </div>
-
-        </div>
     </section>
 
     <section id="risk-factors" sectionTag="fieldset"
@@ -760,41 +654,14 @@
                 <pastMedicalHistoryCheckbox concept="CIEL:142473" comment="Type 2 DM"/>
                 <pastMedicalHistoryCheckbox concept="PIH:HYPERTENSION" label="pihcore.medicalhistory.hypertension"/>
                 <pastMedicalHistoryCheckbox concept="PIH:ASTHMA"/>
-            </div>
-            <br/>
-            <div class="two-columns-history">
-                <pastMedicalHistoryCheckbox concept="PIH:HEART DISEASE" specify="true" class="medicalHistoryText patientHistory" />
-                <pastMedicalHistoryCheckbox concept="PIH:SURGERY" specify="true" class="medicalHistoryText patientHistory"/>
-                <pastMedicalHistoryCheckbox concept="PIH:Traumatic Injury" specify="true" class="medicalHistoryText patientHistory"/>
-                <pastMedicalHistoryCheckbox concept="PIH:EPILEPSY"/>
-                <pastMedicalHistoryCheckbox concept="CIEL: 117635" comment="Hemoglobinopathy" specify="true"
-                                            class="medicalHistoryText patientHistory"/>
-                <pastMedicalHistoryCheckbox concept="PIH:SEXUALLY TRANSMITTED INFECTION" label="pihcore.medicalhistory.sti"
-                                            specify="true" class="medicalHistoryText patientHistory"/>
-                <pastMedicalHistoryCheckbox concept="PIH:MALNUTRITION"/>
-                <pastMedicalHistoryCheckbox concept="PIH:MEASLES"/>
-                <pastMedicalHistoryCheckbox concept="PIH:TUBERCULOSIS"/>
-                <pastMedicalHistoryCheckbox concept="PIH:VARICELLA"/>
-                <pastMedicalHistoryCheckbox concept="PIH:Diphtheria"/>
-                <pastMedicalHistoryCheckbox concept="PIH:ACUTE RHEUMATIC FEVER" label="pihcore.acuteRheumaticFever.abbrev"/>
-                <pastMedicalHistoryCheckbox concept="CIEL:117703" />
-                <pastMedicalHistoryCheckbox concept="CIEL:165623" label="COVID-19" />
                 <pastMedicalHistoryCheckbox concept="PIH:OTHER" code="pihcore.other" specify="true" class="medicalHistoryText patientHistory"/>
             </div>
-
-            <includeIf velocityTest="$patient.gender == 'F' ">
-                <pastMedicalHistoryCheckbox concept="CIEL:113859" />
-                <pastMedicalHistoryCheckbox concept="PIH:47" />
-                <pastMedicalHistoryCheckbox concept="PIH:Eclampsia" />
-            </includeIf>
         </div>
     </section>
 
      <section id="family-history" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="zl.consultNote.familyHistory.title">
         <div class="section-container">
-            <!-- ANTECEDENTS HEREDO-COLLATERAUX -->
-            <p>
             <familyHistoryRelativeCheckboxes id="breastCancer" class="medicalHistoryText famHistory"
                                              concept="CIEL:116026" label="pihcore.breastCancer"
                                              relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER" />
@@ -811,17 +678,6 @@
                                              concept="CIEL:116031" label="Cancer"
                                              relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"
                                              specify="true"/>
-            </p>
-            <br/><br/>
-            <familyHistoryRelativeCheckboxes concept="PIH:ASTHMA" relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
-            <familyHistoryRelativeCheckboxes concept="PIH:HEART DISEASE" relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
-            <familyHistoryRelativeCheckboxes concept="PIH:DIABETES" relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
-            <familyHistoryRelativeCheckboxes concept="PIH:EPILEPSY" relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
-            <familyHistoryRelativeCheckboxes concept="CIEL:117635" comment="Hémoglobinopathie"
-                                             relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
-            <familyHistoryRelativeCheckboxes concept="PIH:HYPERTENSION" label="pihcore.medicalhistory.hypertension"
-                                             relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
-            <familyHistoryRelativeCheckboxes concept="PIH:TUBERCULOSIS" relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"/>
             <familyHistoryRelativeCheckboxes id="familyOther" class="medicalHistoryText famHistory"
                                              concept="PIH:OTHER" code="pihcore.other"
                                              relatives="PIH:FATHER,PIH:MOTHER,PIH:SIBLING,PIH:OTHER"
