@@ -225,6 +225,9 @@
     jq("#lastVitalsEncounterDate").text(encounterDate.getDate() + "-" + month + "-" + encounterDate.getFullYear());
     jq("#lastVitalsEncounterTime").text(encounterDate.toLocaleTimeString());
 
+    let last_weight = null;
+    let last_height = null;
+    let last_bmi = null;
     if (encounter.obs &amp;&amp; encounter.obs.length &gt; 0) {
         jq('#lastVitals').show();
         for (let j=0; j &lt; encounter.obs.length; ++j) {
@@ -249,13 +252,19 @@
                 jq("#last_o2_sat").removeClass("emptyValue").addClass("value");
             } else if (obs.concept.uuid === weightConceptUuid) {
                 jq("#last_weight").text(obs.value);
+                last_weight = obs.value;
                 jq("#last_weight").removeClass("emptyValue").addClass("value");
             } else if (obs.concept.uuid === heightConceptUuid) {
                 jq("#last_height").text(obs.value);
+                last_height = obs.value;
                 jq("#last_height").removeClass("emptyValue").addClass("value");
             }
         }
         break;
+    }
+    if (last_weight &amp;&amp; last_height) {
+        last_bmi = last_weight / ((last_height/100) * (last_height/100));
+        jq("#last_bmi").text(last_bmi);
     }
     }
     }
@@ -385,7 +394,11 @@
                                     <uimessage code="mirebalais.vitals.bmi.title"/>
                                 </label>
                                 <!-- TodDo:  Add calculated BMI -->
-
+                                <span class="small">
+                                    <span id="last_bmi" class="obs-field">
+                                        <span class="emptyValue">____</span>
+                                    </span>                                    
+                                </span>
                             </div>
                         </div>
                     </td>
