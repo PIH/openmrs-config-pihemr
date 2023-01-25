@@ -1770,13 +1770,13 @@
                      answerCodes="disposition.emrapi.transferOutOfHospital.sites.zlSite,disposition.emrapi.transferOutOfHospital.sites.nonZlSite,pihcore.home"/>
             </p>
 
-            <includeIf velocityTest="$fn.latestObs('CIEL:5599')">
+            <includeIf velocityTest="$fn.latestObs('CIEL:5599', $encounterDate)">
 
                 <p class="side-by-side">
                     <label style="color:grey">
                         <i>
                             <uimessage code="pihcore.previousDeliveryDate"/>:
-                            <lookup expression="fn.latestObs('CIEL:5599').valueDatetime"/>
+                            <lookup expression="fn.latestObs('CIEL:5599', $encounterDate).valueDatetime"/>
                         </i>
                     </label>
                 </p>
