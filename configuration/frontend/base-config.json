@@ -31,5 +31,13 @@
       "generalPatientNoteUuid": "3cd9d956-26fe-102b-80cb-0017a47871b2",
       "midUpperArmCircumferenceUuid": "4326b04b-3158-417a-bb8d-ad022295b0f4"
     }
+  },
+  "@openmrs/esm-patient-medications-app": {
+    "daysDurationUnit": {
+      "uuid": "3cd706b8-26fe-102b-80cb-0017a47871b2"
+    },
+    "clinicianEncounterRole": "${encounterRole.orderingProvider.uuid}",
+    "drugOrderEncounterType": "${encounterType.DRUG_ORDER_DOCUMENTATION.uuid}",
+    "_comment": "TODO: drug order encounter type refers to Drug Order Documentation encounter; we likely will need another encounter type, or, better yet, none at all"
   }
 }
