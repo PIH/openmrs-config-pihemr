@@ -80,15 +80,28 @@
         }
 
         .section {
-        width: 100%;
+            width: 100%;
         }
 
-        .two-columns {
-            column-count: 2;
-            -webkit-column-count: 2;
-            -moz-column-count: 2;
+        .five-columns, .four-columns, .three-columns, .two-columns {
+            display: table;
+            height: 100%;
+            width: 100%;
         }
 
+        .two-columns > div {
+            display: table-cell;
+            width: 50%;
+        }
+
+        .side-by-side label {
+            display: inline-block;
+        }
+
+        form input[type="radio"], .form input[type="radio"] {
+            float: none;
+            display: inline-block;
+        }
     </style>
 
 
@@ -219,86 +232,113 @@
         </includeIf>
     </ifMode>
 
+    <enrollInProgram programId="Oncology" locationTag="Program Location" />
+
     <section id="treatment" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.chemo.treatment">
         <div class="section-container">
             <p>
                 <obs conceptId="PIH:Type of oncology visit" answerConceptId="PIH:11578" />
             </p>
-            <p>
+            <div>
                 <label>
                     <uimessage code="pihcore.chemo.chemotherapy_protocol"/>
                 </label>
                 <div class="two-columns">
-                    <obs conceptId="CIEL:163073" answerConceptId="CIEL:163061"/>
-                    <obs conceptId="CIEL:163073" answerConceptId="CIEL:163062"/>
-                    <obs conceptId="CIEL:163073" answerConceptId="CIEL:163063"/>
-                    <obs conceptId="CIEL:163073" answerConceptId="CIEL:163064"/>
-                    <obs conceptId="CIEL:163073" answerConceptId="CIEL:163067"/>
-                    <obs conceptId="CIEL:163073" answerConceptId="CIEL:163071"/>
-                    <obs conceptId="CIEL:163073" answerConceptId="CIEL:81410"/>
-                    <obs conceptId="CIEL:163073" answerConceptId="CIEL:163072"/>
-                    <obs conceptId="CIEL:163073" answerConceptId="CIEL:163066"/>
-                    <obs conceptId="CIEL:163073" answerConceptId="CIEL:163069"/>
-                    <obs conceptId="CIEL:163073" answerConceptId="CIEL:163065"/>
-                    <obs conceptId="CIEL:163073" answerConceptId="CIEL:163068"/>
+                    <div>
+                        <obs conceptId="CIEL:163073" answerConceptId="CIEL:163061"/>
+                        <obs conceptId="CIEL:163073" answerConceptId="CIEL:163062"/>
+                        <obs conceptId="CIEL:163073" answerConceptId="CIEL:163063"/>
+                        <obs conceptId="CIEL:163073" answerConceptId="CIEL:163064"/>
+                        <obs conceptId="CIEL:163073" answerConceptId="CIEL:163067"/>
+                        <obs conceptId="CIEL:163073" answerConceptId="CIEL:163071"/>
+                    </div>
+                    <div>
+                        <obs conceptId="CIEL:163073" answerConceptId="CIEL:81410"/>
+                        <obs conceptId="CIEL:163073" answerConceptId="CIEL:163072"/>
+                        <obs conceptId="CIEL:163073" answerConceptId="CIEL:163066"/>
+                        <obs conceptId="CIEL:163073" answerConceptId="CIEL:163069"/>
+                        <obs conceptId="CIEL:163073" answerConceptId="CIEL:163065"/>
+                        <obs conceptId="CIEL:163073" answerConceptId="CIEL:163068"/>
+                    </div>
                 </div>
                 <obs conceptId="CIEL:163073" answerConceptId="CIEL:163070"/>
-                <obs conceptId="CIEL:163073" answerConceptId="PIH:OTHER" answerCode="other" showCommentField="true"
+                <obs conceptId="CIEL:163073" answerConceptId="PIH:OTHER"
+                     answerCode="pihcore.other" showCommentField="true"
                      commentFieldLabel=" "/>
-                <label>
-                    <uimessage code="pihcore.chemo.chemo_cycle_number"/>
-                </label>
-                <span class="small">
-                    <obs conceptId="PIH:CHEMOTHERAPY CYCLE NUMBER"/>
-                    of&amp;nbsp;
-                    <obs conceptId="PIH:Total number of planned chemotherapy cycles"/>
-                </span>
                 <br/>
 
+                <p>
+                    <span>
+                        <uimessage code="pihcore.chemo.chemo_cycle_number"/>:
+                    </span>
+                    <span class="small">
+                        <obs conceptId="PIH:CHEMOTHERAPY CYCLE NUMBER"/>
+                        <uimessage code="pihcore.of"/>
+                        <obs conceptId="PIH:Total number of planned chemotherapy cycles"/>
+                    </span>
+                </p>
+
                 <div class="two-columns">
-                    <label>
-                        <uimessage code="pihcore.chemo.tx_received"/>
-                    </label>
-                    <obs conceptId="PIH:Chemotherapy treatment received" style="radio"
-                         answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no"
-                         answerSeparator="" />
-                    <label>
-                        <uimessage code="pihcore.chemo.reason_no_tx"/>
-                    </label>
-                    <obs conceptId="CIEL:160582"
-                         answerConceptIds="PIH:PATIENT MISSED VISIT,CIEL:160585,PIH:Abnormal laboratory result,CIEL:1754,PIH:Material supply or equipment unavailable"
-                         style="dropdown" />
+                    <div>
+                        <p class="side-by-side">
+                            <label>
+                                <uimessage code="pihcore.chemo.tx_received"/>
+                            </label>
+                            <obs id="chemo-treatment"
+                                 conceptId="PIH:Chemotherapy treatment received" style="radio"
+                                 answerConceptIds="PIH:YES,PIH:NO" answerCodes="emr.yes,emr.no"
+                                 answerSeparator="" >
+                                <controls>
+                                    <when value="CIEL:1066" thenDisplay="#no-treatment"/>
+                                </controls>
+                            </obs>
+                        </p>
+                    </div>
+                    <div id="no-treatment">
+                        <label>
+                            <uimessage code="pihcore.chemo.reason_no_tx"/>
+                        </label>
+                        <obs conceptId="CIEL:160582" style="dropdown"
+                             answerConceptIds="PIH:PATIENT MISSED VISIT,CIEL:160585,PIH:Abnormal laboratory result,CIEL:1754,PIH:Material supply or equipment unavailable" />
+                    </div>
                 </div>
 
                 <br/>
-                <label>
-                    <uimessage code="pihcore.chemo.tx_tolerated"/>
-                </label>
-                <obs conceptId="PIH:Chemotherapy treatment tolerated" style="radio"
-                     answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no"
-                     answerSeparator="" showCommentField="true" commentFieldLabel="If no, explain:"/>
+                <div class="side-by-side">
+                    <label>
+                        <uimessage code="pihcore.chemo.tx_tolerated"/>
+                    </label>
+                    <obs conceptId="PIH:Chemotherapy treatment tolerated" style="radio"
+                         answerConceptIds="PIH:YES,PIH:NO" answerCodes="emr.yes,pihcore.noAndSpecify"
+                         answerSeparator="" showCommentField="true" commentFieldLabel=""/>
+                </div>
+                <br/>
 
                 <label>
                     <uimessage code="pihcore.chemo.chemo_side_effects"/>
                 </label>
                 <div class="two-columns">
-                    <obs conceptId="CIEL:163075" answerConceptId="PIH:NONE"/>
-                    <obs conceptId="CIEL:163075" answerConceptId="PIH:FATIGUE"/>
-                    <obs conceptId="CIEL:163075" answerConceptId="CIEL:163074"/>
-                    <obs conceptId="CIEL:163075" answerConceptId="CIEL:115476"/>
-                    <obs conceptId="CIEL:163075" answerConceptId="CIEL:122936"/>
-                    <obs conceptId="CIEL:163075" answerConceptId="PIH:CONSTIPATION"/>
-                    <obs conceptId="CIEL:163075" answerConceptId="PIH:DIARRHEA"/>
-                    <obs conceptId="CIEL:163075" answerConceptId="PIH:FEVER"/>
-                    <obs conceptId="CIEL:163075" answerConceptId="PIH:Hemorrhage, not elsewhere classified"/>
-                    <obs conceptId="CIEL:163075" answerConceptId="PIH:POOR APPETITE	"/>
-                    <obs conceptId="CIEL:163075" answerConceptId="PIH:NAUSEA"/>
-                    <obs conceptId="CIEL:163075" answerConceptId="PIH:VOMITING"/>
-                    <obs conceptId="CIEL:163075" answerConceptId="PIH:RASH"/>
-                    <obs conceptId="CIEL:163075" answerConceptId="PIH:ULCER, ORAL"/>
-                    <obs conceptId="CIEL:163075" answerConceptId="CIEL:141597"/>
+                    <div>
+                        <obs conceptId="CIEL:163075" answerConceptId="PIH:NONE"/>
+                        <obs conceptId="CIEL:163075" answerConceptId="PIH:FATIGUE"/>
+                        <obs conceptId="CIEL:163075" answerConceptId="CIEL:163074"/>
+                        <obs conceptId="CIEL:163075" answerConceptId="CIEL:115476"/>
+                        <obs conceptId="CIEL:163075" answerConceptId="CIEL:122936"/>
+                        <obs conceptId="CIEL:163075" answerConceptId="PIH:CONSTIPATION"/>
+                        <obs conceptId="CIEL:163075" answerConceptId="PIH:DIARRHEA"/>
+                        <obs conceptId="CIEL:163075" answerConceptId="PIH:FEVER"/>
+                    </div>
+                    <div>
+                        <obs conceptId="CIEL:163075" answerConceptId="PIH:Hemorrhage, not elsewhere classified"/>
+                        <obs conceptId="CIEL:163075" answerConceptId="PIH:POOR APPETITE	"/>
+                        <obs conceptId="CIEL:163075" answerConceptId="PIH:NAUSEA"/>
+                        <obs conceptId="CIEL:163075" answerConceptId="PIH:VOMITING"/>
+                        <obs conceptId="CIEL:163075" answerConceptId="PIH:RASH"/>
+                        <obs conceptId="CIEL:163075" answerConceptId="PIH:ULCER, ORAL"/>
+                        <obs conceptId="CIEL:163075" answerConceptId="CIEL:141597"/>
+                    </div>
                 </div>
-                <obs conceptId="CIEL:163075" answerConceptId="PIH:OTHER" answerCode="other" showCommentField="true"
+                <obs conceptId="CIEL:163075" answerConceptId="PIH:OTHER" answerCode="pihcore.other" showCommentField="true"
                      commentFieldLabel=" "/>
                 <br/>
 
@@ -313,22 +353,23 @@
                     </label>
                     <obs conceptId="CIEL:163077" style="textarea" rows="2" cols="40"/>
                 </div>
+                <br/>
 
-                <label>
-                    <uimessage code="pihcore.chemo.patient_plan"/>
-                </label>
-                <p class="radio">
+                <p class="side-by-side">
+                    <label>
+                        <uimessage code="pihcore.chemo.patient_plan"/>
+                    </label>
+                    <br/>
                     <obs conceptId="CIEL:163059" style="radio"
                          answerConceptIds="CIEL:163057,CIEL:160016,CIEL:163058,PIH:OTHER"
-                         answerCodes="Continue previous treatment,Planned treatment interruption,Follow-up with oncologist prior to continuing chemotherapy,Other"
-                         answerSeparator=""/>
+                         answerSeparator="&lt;br /&gt;"/>
                 </p>
 
                 <label>
                     <uimessage code="pihcore.chemo.important_visit_info"/>
                 </label>
                 <obs conceptId="CIEL:162749"/>
-            </p>
+            </div>
         </div>
     </section>
 
