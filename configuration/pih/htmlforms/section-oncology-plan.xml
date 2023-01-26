@@ -311,6 +311,14 @@
                 <encounterDiagnosesByObs selectedDiagnosesTarget="#encounter-diagnoses-target"/>
             </div>
 
+            <div>
+                <label>
+                    <uimessage code="pihcore.programEnroll" />
+                </label>
+                <enrollInProgram programId="Oncology" locationTag="Program Location" showCheckbox="true"/>
+                <uimessage code="ui.i18n.Program.name.5bdbf9f6-690c-11e8-adc0-fa7ae01bbebc"/>
+            </div>
+
             <p class="side-by-side">
                 <label>
                     <uimessage code="pihcore.status.alt"/>
