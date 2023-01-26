@@ -260,11 +260,13 @@
                 jq("#last_height").removeClass("emptyValue").addClass("value");
             }
         }
+
+        if (last_weight &amp;&amp; last_height) {
+            last_bmi = last_weight / ((last_height/100) * (last_height/100));
+            jq("#last_bmi").text(last_bmi.toFixed(1));
+            jq("#last_bmi").removeClass("emptyValue").addClass("value");
+        }
         break;
-    }
-    if (last_weight &amp;&amp; last_height) {
-        last_bmi = last_weight / ((last_height/100) * (last_height/100));
-        jq("#last_bmi").text(last_bmi);
     }
     }
     }
