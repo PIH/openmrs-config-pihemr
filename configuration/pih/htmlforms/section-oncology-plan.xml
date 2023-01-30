@@ -444,6 +444,75 @@
 
     <section id="test-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.lab.lab_tests.title">
+
+        <div class="section-container">
+            <order orderType="52a447d3-a64a-11e3-9aeb-50e549534c5e" format="select"
+                   selectLabel="pihcore.labOrder.addAnotherLab">
+                <orderTemplate>
+                    <orderProperty name="action" label="pihcore.action">
+                        <option value="NEW" label="pihcore.new"/>
+                        <option value="REVISE" label="pihcore.revise"/>
+                        <option value="RENEW" label="pihcore.renew"/>
+                        <option value="DISCONTINUE" label="pihcore.discontinue"/>
+                    </orderProperty>
+
+                    <div style="padding:0px;font-weight:bold;">
+                        <orderProperty name="concept" label="pihcore.lab.lab_tests.title" style="radio">
+                            <option value="3ce44134-26fe-102b-80cb-0017a47871b2" label="B-hCG (pregnancy)" />
+                            <option value="3ccc94a8-26fe-102b-80cb-0017a47871b2" label="Urine hCG (pregnancy)" />
+
+                            <option value="3cd6c946-26fe-102b-80cb-0017a47871b2" label="HIV rapid test (RDT)" />
+                            <option value="1305AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label="HIV VL (qual)" />
+                            <option value="3cd4a882-26fe-102b-80cb-0017a47871b2" label="pihcore.hivintake.hivViralLoadQuant" />
+
+                            <option value="165303AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label="Syphilis RT" />
+                            <option value="3cdb36f2-26fe-102b-80cb-0017a47871b2" label="Syphilis (RPR)" />
+                            <option value="299AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label="VDRL" />
+
+                            <option value="1322AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label="Hepatitis B (qual)" />
+                            <option value="3ce406c4-26fe-102b-80cb-0017a47871b2" label="Hepatitis B (HBsAg surface)" />
+                            <option value="161472AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label="Hepatitis B (HBsAg spot)" />
+                            <option value="161471AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label="Hepatitis C (HBsAg spot)" />
+                            <option value="1325AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label="Hepatitis C (qual)" />
+
+                            <option value="3cd275d0-26fe-102b-80cb-0017a47871b2" label="AST/SGOT" />
+                            <option value="3cd27760-26fe-102b-80cb-0017a47871b2" label="ALT/SGPT" />
+                            <option value="3cd42f4c-26fe-102b-80cb-0017a47871b2" label="ALP" />
+                            <option value="3cd278fa-26fe-102b-80cb-0017a47871b2" label="Total bilirubin" />
+                            <option value="b01f4fd2-7632-4c94-9481-9ed0d1da1f9a" label="Direct bilirubin" />
+
+                            <option value="161433AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label="Bleeding time (TS)" />
+                            <option value="161435AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label="Coagulation time (TC)" />
+                            <option value="16e928e5-bdfb-4ec8-a9c2-9d64c78a0ce5" label="INR" />
+
+                            <option value="4f2c0162-0a34-4d12-8361-c7c5a3489cf0" label="Total cholesterol" />
+                            <option value="ccead4fe-b998-412d-b6bb-9e92bb02d33d" label="Triglycerides" />
+                            <option value="600135ed-08d9-4791-8faa-94b13f1e095a" label="HDL" />
+                            <option value="ec10a67f-913f-4a62-a0ed-43fb335ff5af" label="LDL" />
+
+                            <option value="3cd76b58-26fe-102b-80cb-0017a47871b2" label="Na" />
+                            <option value="3cd76e82-26fe-102b-80cb-0017a47871b2" label="Cl" />
+                            <option value="3cd76ce8-26fe-102b-80cb-0017a47871b2" label="K" />
+                            <option value="3cd77012-26fe-102b-80cb-0017a47871b2" label="CO2" />
+                            <option value="3cd4e194-26fe-102b-80cb-0017a47871b2" label="Glucose" />
+
+                            <option value="3cd4374e-26fe-102b-80cb-0017a47871b2" label="Creatinine" />
+                            <option value="7033707c-f555-4b9f-8291-e1466c54c36e" label="BUN (mg/dL)" />
+                            <option value="4521d6e3-524c-4e76-9efb-3fb06eb1f932" label="Urea measured (mg/dL)" />
+                            <option value="159825AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label="Uric acid" />
+
+                        </orderProperty>
+
+                        <div style="display:none;">
+                            <orderProperty name="urgency" value="ROUTINE"/>
+                            <orderProperty name="previousOrder"/>
+                            <orderProperty name="careSetting" value="OUTPATIENT"/>
+                        </div>
+                    </div>
+                </orderTemplate>
+            </order>
+        </div>
+
         <div class="section-container-color">
             <div class="three-columns-old">
                 <p>
