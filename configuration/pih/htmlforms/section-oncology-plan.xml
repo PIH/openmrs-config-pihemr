@@ -451,13 +451,10 @@
                 <orderTemplate>
                     <orderProperty name="action" label="pihcore.action">
                         <option value="NEW" label="pihcore.new"/>
-                        <option value="REVISE" label="pihcore.revise"/>
-                        <option value="RENEW" label="pihcore.renew"/>
-                        <option value="DISCONTINUE" label="pihcore.discontinue"/>
                     </orderProperty>
 
                     <div style="padding:0px;font-weight:bold;">
-                        <orderProperty name="concept" label="pihcore.lab.lab_tests.title" style="radio">
+                        <orderProperty name="concept" label="" style="dropdown">
                             <option value="3ce44134-26fe-102b-80cb-0017a47871b2" label="B-hCG (pregnancy)" />
                             <option value="3ccc94a8-26fe-102b-80cb-0017a47871b2" label="Urine hCG (pregnancy)" />
 
