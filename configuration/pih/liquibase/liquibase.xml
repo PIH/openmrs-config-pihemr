@@ -643,5 +643,53 @@
         <comment>Remove old authentication events following bug fixes</comment>
         <delete tableName="authentication_event_log"/>
     </changeSet>
+    
+    <changeSet id="20230131-enroll-missed-patients-in-J9" author="dmdesimone">
+	    <preConditions onFail="MARK_RAN">
+			<not><sqlCheck expectedResult="0">
+				select count(*) from obs o
+				inner join patient_program pp on pp.patient_id  = o.person_id 
+					and pp.program_id = (select program_id from program where uuid = '41a2715e-8a14-11e8-9a94-a6cf71072f73') and pp.date_completed is null
+				where o.concept_id = concept_from_mapping('PIH',11665)
+				and not EXISTS 	
+					(select 1
+					from patient_state ps 
+					where ps.patient_program_id = pp.patient_program_id 
+					and (ps.end_date is null or ps.end_date > o.obs_datetime));
+			</sqlCheck></not>
+	    </preConditions>
+	    <comment> UHM-6757 automatically enroll patients in J9 who were missed </comment>
+		<sql>
+			 -- variables
+			select program_id into @mchProgramId from program where uuid = '41a2715e-8a14-11e8-9a94-a6cf71072f73';
+			select pws.program_workflow_state_id into @prenatalStateId from program_workflow_state pws where concept_id = concept_from_mapping('PIH','11699');
+			set @momsGroupConceptId = concept_from_mapping('PIH',11665);
+			select user_id into @adminUser from users where system_id = 'admin';
+			
+			-- select all patients with mother's group indicated without being in any treatment status
+			-- include the earliest instance of the mothers group obs (which will be used as the start date)
+			-- note that if they have a mothers group indicated they will be enrolled in MCH program
+			-- only include patients still in the mch program
+			drop temporary table if exists temp_mothers_groups_without_J9;
+			create temporary table temp_mothers_groups_without_J9
+			select o.person_id , pp.patient_program_id , min(o.obs_datetime) "moms_group_obs_datetime" 
+			from obs o
+			inner join patient_program pp on pp.patient_id  = o.person_id 
+				and pp.program_id = @mchProgramId and pp.date_completed is null
+			where o.concept_id = @momsGroupConceptId
+			and not EXISTS 	
+				(select 1
+				from patient_state ps 
+				where ps.patient_program_id = pp.patient_program_id 
+				and (ps.end_date is null or ps.end_date > o.obs_datetime))	-- any state that overlaps with the mother's group obs
+			group by o.person_id , pp.patient_program_id;
+			
+			
+			-- add those patients to J9 workflow by adding patient_state rows for them with state = prenatal group
+			insert into patient_state (patient_program_id , state, start_date, creator, date_created,voided, uuid) 
+			select patient_program_id, @prenatalStateId, moms_group_obs_datetime, @adminUser, now(),0, uuid()
+			from temp_mothers_groups_without_J9;
+	    </sql>
+    </changeSet>
 
 </databaseChangeLog>
