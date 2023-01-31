@@ -461,6 +461,15 @@
         </div>
     </section>
 
+    <style type="text/css">
+
+        .orderwidget-orderable-section {
+            padding-top padding-bottom: 0px;
+            border-bottom: none;
+            line-height: 0.5;
+        }
+    </style>
+
     <section id="test-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.lab.lab_tests.title">
 
