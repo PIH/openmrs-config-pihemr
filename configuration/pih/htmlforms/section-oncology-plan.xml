@@ -227,29 +227,48 @@
     <section id="radiology-pathology.orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.radiology-pathology">
         <div class="section-container-color">
-            <includeIf velocityTest="!$config.isComponentEnabled('radiology')">
-                <p>
-                    <obs conceptId="PIH:Radiology image ordered"
-                         answerConceptId="PIH:Chest 1 view (XRay)"
-                         style="checkbox"/>
-                </p>
-                <p>
-                    <label>
-                        <uimessage code="zl.ifOtherSpecify"/>
-                    </label>
-                </p>
-                <p>
-                    <obs conceptId="PIH:Radiology image ordered"
-                         answerClasses="Radiology/Imaging Procedure"
-                         style="autocomplete"/>
-                </p>
+            <div class="three-columns">
+                <div>
+                    <includeIf velocityTest="!$config.isComponentEnabled('radiology')">
+                        <p>
+                            <obs conceptId="PIH:Radiology image ordered"
+                                 answerConceptId="PIH:Chest 1 view (XRay)"
+                                 style="checkbox"/>
+                        </p>
+                        <p>
+                            <label>
+                                <uimessage code="zl.ifOtherSpecify"/>
+                            </label>
+                        </p>
+                        <p>
+                            <obs conceptId="PIH:Radiology image ordered"
+                                 answerClasses="Radiology/Imaging Procedure"
+                                 style="autocomplete"/>
+                        </p>
 
-            </includeIf>
-            <includeIf velocityTest="$config.isComponentEnabled('radiology')">
-                <p>
-                    <uimessage code="pihcore.rad-path.message"/>
-                </p>
-            </includeIf>
+                    </includeIf>
+                    <includeIf velocityTest="$config.isComponentEnabled('radiology')">
+                        <p>
+                            <uimessage code="pihcore.radiologyApp.message"/>
+                        </p>
+                    </includeIf>
+                </div>
+
+                <div>
+                    <includeIf velocityTest="$config.isComponentEnabled('pathologyTracking')">
+                        <p>
+                            <uimessage code="pihcore.pathologyApp.message"/>
+                        </p>
+                    </includeIf>
+                </div>
+
+                <div>
+                    <label>
+                        <uimessage code="pihcore.otherTests"/>
+                    </label>
+                    <obs conceptId="CIEL:165398" rows="2" dateLabel="Date"/>
+                </div>
+            </div>
         </div>
     </section>
 
