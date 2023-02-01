@@ -461,11 +461,19 @@
 
         #test-orders {
             padding-top padding-bottom: 0px;
-            line-height: 0.5;
+            line-height: 0.1;
         }
 
         #test-orders .orderwidget-orderable-section {
             border-bottom: none;
+        }
+
+        #test-orders .orderwidget-existing-order-section {
+            display:none;
+        }
+
+        #test-orders .orderwidget-section-header {
+            padding-bottom: 25px;
         }
     </style>
     <br/>
