@@ -340,8 +340,8 @@
                     <uimessage code="pihcore.oncologyIntake.cancer_stage"/>
                 </label>
                 <obs conceptId="CIEL:160786"  style="radio"
-                     answerConceptIds="CIEL:160771,CIEL:160774,CIEL:160778,CIEL:160782,CIEL:1067"
-                     answerCodes="pihcore.stageI,pihcore.stageIi,pihcore.stageIii,pihcore.stageIv,pihcore.unknown"/>
+                     answerConceptIds="CIEL:160771,CIEL:160774,CIEL:160778,CIEL:160782,CIEL:1067,CIEL:1175"
+                     answerCodes="pihcore.stageI,pihcore.stageIi,pihcore.stageIii,pihcore.stageIv,pihcore.unknown,pihcore.na"/>
             </p>
 
             <p class="side-by-side">

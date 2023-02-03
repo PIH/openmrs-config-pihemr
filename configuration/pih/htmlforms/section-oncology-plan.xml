@@ -334,6 +334,7 @@
                 <uimessage code="ui.i18n.Program.name.5bdbf9f6-690c-11e8-adc0-fa7ae01bbebc"/>
             </div>
 
+            <!-- Removed Feb 2023 per Lormil
             <p class="side-by-side">
                 <label>
                     <uimessage code="pihcore.status.alt"/>
@@ -341,7 +342,7 @@
                 <obs conceptId="CIEL:163050" style="radio"
                      answerConceptIds="CIEL:161636,CIEL:163051,CIEL:1688"
                      answerCodes="pihcore.active,pihcore.remission,pihcore.recurrence"/>
-            </p>
+            </p> -->
         </div>
 
     </section>
