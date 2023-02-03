@@ -174,6 +174,30 @@ angular.module("encounterTypeConfig", [])
             editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-ncd.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
         }
 
+        var ncdHistory = {
+            type: "encounter-section",
+            id: "pihcore-ncd-history",
+            label: "pihcore.history.label",
+            icon: "fas fa-fw fa-history",
+            classes: "indent",
+            shortTemplate: "templates/sections/primaryCareHistorySectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-ncd-history.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-ncd-history.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+        };
+
+        var ncdFollowupHeader = {
+            type: "encounter-section",
+            id: "pihcore-ncd-followup",
+            label: "pihcore.ncd.plan.title",
+            icon: "fas fa-fw fa-heart",
+            classes: "indent",
+            shortTemplate: "templates/sections/defaultSectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-ncd-followup.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-ncd-followup.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+        };
+
         var hivHistory = {
             type: "encounter-section",
             id: "hiv-history",
@@ -776,7 +800,24 @@ angular.module("encounterTypeConfig", [])
                 icon: "fas fa-fw fa-user",
                 editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("ncd-adult-initial.xml"),
                 showOnVisitList: true
-            }
+            },
+            "sierra_leone": {
+                defaultState: "short",
+                shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                longTemplate: "templates/encounters/defaultEncounterShort.page",
+                icon: "fas fa-fw fa-heart",
+                editUrl: hfeStandardEditUrl,
+                showOnVisitList: true,
+                sections: [
+                    ncdHistory,
+                    primaryCareExam,
+                    pedsVaccinations,
+                    pedsFoodAndSupplements,
+                    ncd,
+                    primaryCareDx,
+                    primaryCarePlan
+                ]
+            },
         };
 
         // ncdFollowupConsult
@@ -804,6 +845,22 @@ angular.module("encounterTypeConfig", [])
                 icon: "fas fa-fw fa-user",
                 editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("ncd-adult-followup.xml"),
                 showOnVisitList: true
+            },
+            "sierra_leone": {
+                defaultState: "short",
+                shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                longTemplate: "templates/encounters/defaultEncounterShort.page",
+                icon: "fas fa-fw fa-heart",
+                editUrl: hfeStandardEditUrl,
+                showOnVisitList: true,
+                sections: [
+                    ncdFollowupHeader,
+                    primaryCareExam,
+                    pedsVaccinations,
+                    ncd,
+                    primaryCareDx,
+                    primaryCarePlan
+                ]
             }
         };
 
