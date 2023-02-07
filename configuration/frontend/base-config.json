@@ -18,6 +18,14 @@
     "Brand color #2": "#FFC166",
     "Brand color #3": "#FFD699"
   },
+  "@openmrs/esm-dispensing-app": {
+    "substitutionReason": {
+      "uuid": "de8671b8-ed2e-4f7e-a9f8-dcd00878f2eb"
+    },
+    "substitutionType": {
+      "uuid": "4c3a6b5c-9014-4d2a-8502-a74f4ae582f6"
+    }
+  },
   "@openmrs/esm-patient-vitals-app": {
     "concepts": {
       "systolicBloodPressureUuid": "3ce934fa-26fe-102b-80cb-0017a47871b2",
