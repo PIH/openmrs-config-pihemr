@@ -651,6 +651,7 @@
 				inner join patient_program pp on pp.patient_id  = o.person_id 
 					and pp.program_id = (select program_id from program where uuid = '41a2715e-8a14-11e8-9a94-a6cf71072f73') and pp.date_completed is null
 				where o.concept_id = concept_from_mapping('PIH',11665)
+				and o.obs_datetime >= pp.date_enrolled 
 				and not EXISTS 	
 					(select 1
 					from patient_state ps 
@@ -677,6 +678,7 @@
 			inner join patient_program pp on pp.patient_id  = o.person_id 
 				and pp.program_id = @mchProgramId and pp.date_completed is null
 			where o.concept_id = @momsGroupConceptId
+			and o.obs_datetime >= pp.date_enrolled 
 			and not EXISTS 	
 				(select 1
 				from patient_state ps 
