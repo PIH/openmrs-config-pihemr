@@ -198,6 +198,18 @@ angular.module("encounterTypeConfig", [])
             editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-ncd-followup.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
         };
 
+        var ncdPlan = {
+            type: "encounter-section",
+            id: "pihcore-ncd-plan",
+            label: "pihcore.visitNote.plan",
+            icon: "fas fa-fw fa-flag-checkered",
+            classes: "indent",
+            shortTemplate: "templates/sections/defaultSectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-ncd-plan.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-ncd-plan.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+        };
+
         var hivHistory = {
             type: "encounter-section",
             id: "hiv-history",
@@ -814,8 +826,7 @@ angular.module("encounterTypeConfig", [])
                     pedsVaccinations,
                     pedsFoodAndSupplements,
                     ncd,
-                    primaryCareDx,
-                    primaryCarePlan
+                    ncdPlan
                 ]
             },
         };
@@ -859,7 +870,7 @@ angular.module("encounterTypeConfig", [])
                     pedsVaccinations,
                     ncd,
                     primaryCareDx,
-                    primaryCarePlan
+                    ncdPlan
                 ]
             }
         };
