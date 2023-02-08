@@ -344,6 +344,7 @@
                      answerCodes="pihcore.stageI,pihcore.stageIi,pihcore.stageIii,pihcore.stageIv,pihcore.unknown,pihcore.na"/>
             </p>
 
+            <!-- Replaced with program workflow on 8 Feb 2023 UHM-7020
             <p class="side-by-side">
                 <label>
                     <uimessage code="pihcore.treatmentIntent"/>
@@ -351,6 +352,15 @@
                 <obs conceptId="CIEL:160846"  style="radio"
                      answerConceptIds="CIEL:160847,CIEL:160849,CIEL:1067"
                      answerCodes="pihcore.curative.m,pihcore.palliative.m,pihcore.unknown"/>
+            </p>
+            -->
+
+            <p>
+                <workflowState workflowId="45ffa97a-684e-11e8-adc0-fa7ae01bbebc"
+                               labelCode="pihcore.treatmentIntent"
+                               stateIds="CIEL:160847,CIEL:160849"
+                               stateLabels="curatif,palliatif"
+                               style="dropdown" />
             </p>
 
             <p>
