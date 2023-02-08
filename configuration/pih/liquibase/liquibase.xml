@@ -155,7 +155,7 @@
                and EXISTS ( select 1 from person p where p.person_id = pp.patient_id and p.dead = 1); 
             </sqlCheck>
         </preConditions>
-        <comment>If the count is 0, then remove these programs (Hypertension program, Diabetes program, Epilepsy program)</comment>
+        <comment>If the count is greater than zero, then we need to close programs for these dead patients</comment>
         <sql>
          UPDATE patient_program pp2, (
             SELECT patient_id , max(encounter_datetime) AS encounter_date
