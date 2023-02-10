@@ -144,7 +144,36 @@
             drop table if exists temp_value_drug;
         </sql>
     </changeSet>
-
+<changeSet id="20230201-update-programs-for-dead-patients-aali" author="aali">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">
+               select CASE WHEN count(*) > 0 THEN 1 ELSE 0 END AS cnt
+               from patient_program pp
+               inner join program p2 on p2.program_id = pp.program_id
+               where voided = 0
+               and date_completed  is null
+               and EXISTS ( select 1 from person p where p.person_id = pp.patient_id and p.dead = 1); 
+            </sqlCheck>
+        </preConditions>
+        <comment>If the count is greater than zero, then we need to close programs for these dead patients</comment>
+        <sql>
+         UPDATE patient_program pp2, (
+            SELECT patient_id , max(encounter_datetime) AS encounter_date
+            FROM encounter e WHERE patient_id IN (
+               select pp.patient_id
+               from patient_program pp
+               inner join program p2 on p2.program_id = pp.program_id
+               where voided = 0
+               and date_completed  is null
+               and EXISTS
+                ( select 1 from person p where p.person_id = pp.patient_id
+                and p.dead = 1)
+            )
+            GROUP BY patient_id ) AS plist
+            SET pp2.date_completed = plist.encounter_date
+            WHERE pp2.patient_id=plist.patient_id;
+        </sql>
+    </changeSet>
     <changeSet id="20210602-delete-unused-ces-programs" author="jmbabazi">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">
