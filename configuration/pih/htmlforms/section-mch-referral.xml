@@ -102,7 +102,7 @@
             <p class="radio">
                 <strong>
                     <label>
-                        CommCare&amp;nbsp;<uimessage code="mirebalais.login.username"/>
+                        CommCare&amp;nbsp;<uimessage code="pihcore.username"/>
                     </label>
                 </strong>
                 <obs conceptId="CIEL:164141" />
