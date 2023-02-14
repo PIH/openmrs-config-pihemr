@@ -48,7 +48,7 @@ order_id,
 concept_id,
 date(date_created),
 date(date_activated)
-from orders  where voided = 0;
+from orders  where voided = 0 and order_type_id = (select order_type_id from order_type ot where ot.name = "Drug Order" and retired = 0);
 
 UPDATE temp_medication_orders SET emr_id = PATIENT_IDENTIFIER(patient_id, METADATA_UUID('org.openmrs.module.emrapi', 'emr.primaryIdentifierType')); 
 
