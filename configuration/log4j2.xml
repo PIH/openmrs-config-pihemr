@@ -67,6 +67,9 @@
 		<Logger name="org.openmrs.module.pihcore.setup" level="INFO" />
 		<Logger name="org.openmrs.module.pihcore.PihCoreActivator" level="INFO" />
 
+		<!-- Debezium Logging -->
+		<Logger name="io.debezium.connector.mysql" level="INFO"/>
+
 		<Root level="WARN">
 			<AppenderRef ref="CONSOLE" />
 			<AppenderRef ref="MEMORY_APPENDER" />
