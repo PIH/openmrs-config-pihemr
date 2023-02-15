@@ -19,6 +19,8 @@ FROM    authentication_event_log
 WHERE   event_type = 'LOGIN_SUCCEEDED'
 ;
 
+create index temp_user_loginx_login_idx on temp_user_logins(login_id);
+
 -- Update date_expired
 UPDATE temp_user_logins s inner join authentication_event_log l on s.login_id = l.login_id
     SET s.date_expired = l.event_datetime
