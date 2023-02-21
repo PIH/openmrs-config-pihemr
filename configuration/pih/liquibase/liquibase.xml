@@ -170,7 +170,9 @@
                 and p.dead = 1)
             )
             GROUP BY patient_id ) AS plist
-            SET pp2.date_completed = plist.encounter_date
+            SET pp2.date_completed = plist.encounter_date,
+            pp2.date_changed=now(),
+            pp2.changed_by  = (select user_id from users where system_id = 'admin')
             WHERE pp2.patient_id=plist.patient_id;
         </sql>
     </changeSet>
