@@ -145,6 +145,8 @@
         </sql>
     </changeSet>
 <changeSet id="20230201-update-programs-for-dead-patients-aali" author="aali">
+    <validCheckSum>8:a1c6b5015fda7ac530636b7bb25f11d3</validCheckSum>
+    <validCheckSum>8:eac342776a3d851102ad0fff67dfc21e</validCheckSum>
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">
                select CASE WHEN count(*) > 0 THEN 1 ELSE 0 END AS cnt
