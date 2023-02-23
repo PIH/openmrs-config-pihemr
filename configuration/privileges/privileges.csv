@@ -94,7 +94,7 @@ b0791308-22dd-4a64-ac9c-8dbb4d1be245,${privilege.task_radiologyapp_tab},Ability 
 9cfcc88d-9ed5-4eff-bbe8-301173f84f48,${privilege.task_archive_reports},Ability to view archive reports
 3cd0cbef-cde7-4819-92fd-c108dce23ea1,${privilege.task_lab_reports},Ability to view lab reports
 eba24ae0-d3e3-4083-84bf-5c4d7eb97e3d,${privilege.task_dispensing_create_dispense},Allows user to Dispense Medication
-58f14517-6635-42d3-b1ca-99f464eaea2b,${privilege.task_dispensing_create_dispense_and_modify_details},Allows user to modify the Quantity, Drug, Formulation and Dose Instructions
+58f14517-6635-42d3-b1ca-99f464eaea2b,${privilege.task_dispensing_create_dispense_and_modify_details},"Allows user to modify the Quantity, Drug, Formulation and Dose Instructions"
 cde0218e-c3e8-465a-85fd-ef478abbb696,${privilege.task_dispensing_edit_dispense},Allows user to edit an existing Medication Dispense
 d0e540c6-619b-4943-9431-fd1fbf494d74,${privilege.task_dispensing_delete_dispense},Allows user to delete an existing Medication Dispense
-3c788e2a-a1ec-442a-a1ed-f5d27d8392b5,${privilege.task_dispensing_delete_dispense_if_creator},Allows user to delete an existing Medication Dispense, *but only* if they created it originally
+3c788e2a-a1ec-442a-a1ed-f5d27d8392b5,${privilege.task_dispensing_delete_dispense_if_creator},"Allows user to delete an existing Medication Dispense, *but only* if they created it originally"
