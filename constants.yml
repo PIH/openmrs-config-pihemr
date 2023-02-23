@@ -362,3 +362,9 @@ privilege:
   task_clinical_reports: "Task: clinical.reports"
   task_archive_reports: "Task: archive.reports"
   task_lab_reports: "Task: lab.reports"
+  task_dispensing_create_dispense: "Task: dispensing.create.dispense"
+  task_dispensing_create_dispense_allow_substitutions: "Task: dispensing.create.dispense.allowSubstitutions"
+  task_dispensing_edit_dispense: "Task: dispensing.edit.dispense"
+  task_dispensing_delete_dispense: "Task: dispensing.delete.dispense"
+  task_dispensing_delete_dispense_if_creator: "Task: dispensing.delete.dispense.ifCreator"
+
