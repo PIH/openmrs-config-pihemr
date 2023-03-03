@@ -1188,6 +1188,17 @@ angular.module("encounterTypeConfig", [])
           }
         };
 
+        // Additional mental health form for followup (Sierra Leone)
+        encounterTypes["9d701a81-bb83-40ea-9efc-af50f05575f2"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("mentalHealthFollowup.xml"),
+            icon: "fas fa-fw fa-user",
+            editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("mentalHealthFollowup.xml"),
+            showOnVisitList: true
+        };
+
         // artAdherence
         // HIV forms from MSPP and iSantePlus
         encounterTypes["c45d7299-ad08-4cb5-8e5d-e0ce40532939"] = {
