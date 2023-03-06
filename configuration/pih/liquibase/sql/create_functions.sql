@@ -3380,3 +3380,29 @@ BEGIN
     RETURN ret;
 END
 #
+-- The following function accepts drug_id and returns the correponding OpenBoxes product code
+#
+DROP FUNCTION IF EXISTS openboxesCode;
+#
+CREATE FUNCTION openboxesCode (
+    _drug_id int
+)
+    RETURNS varchar(255)
+    DETERMINISTIC
+
+BEGIN
+    DECLARE mapping varchar(255);
+
+    select  crt.code into mapping
+    from concept_reference_term crt
+             inner join drug_reference_map drm on drm.term_id = crt.concept_reference_term_id
+             inner join concept_reference_source crs on crt.concept_source_id = crs.concept_source_id and crs.name = 'OpenBoxes'
+             inner join concept_map_type cmt on cmt.concept_map_type_id = drm.concept_map_type and cmt.name = 'SAME-AS'
+    where  crt.retired = 0
+      and  drm.drug_id = _drug_id
+    limit 1;
+
+    RETURN mapping;
+
+END
+#
