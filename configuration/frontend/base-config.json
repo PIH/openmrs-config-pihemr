@@ -19,6 +19,15 @@
     "Brand color #3": "#FFD699"
   },
   "@openmrs/esm-dispensing-app": {
+    "locationBehavior": {
+      "locationColumn": {
+        "enabled": true
+      },
+      "locationFilter": {
+        "enabled": true,
+        "tag": "Login Location"
+      }
+    },
     "substitutionReason": {
       "uuid": "de8671b8-ed2e-4f7e-a9f8-dcd00878f2eb"
     },
