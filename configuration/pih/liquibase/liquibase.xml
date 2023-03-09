@@ -778,6 +778,7 @@
 				obs_datetime,
 				location_id,
 				obs_group_id,
+				comments 
 				creator,
 				date_created,
 				voided,
@@ -791,6 +792,7 @@
 				tmc.obs_datetime,
 				tmc.location_id,
 				tmc.Dispensing_construct_obs_group_id,
+				'added with script for uhm-7028',
 				tmc.creator,
 				tmc.date_created,
 				0,
