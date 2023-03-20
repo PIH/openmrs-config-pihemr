@@ -822,9 +822,7 @@ angular.module("encounterTypeConfig", [])
                 showOnVisitList: true,
                 sections: [
                     ncdHistory,
-                    primaryCareExam,
-                    pedsVaccinations,
-                    pedsFoodAndSupplements,
+                    generalVaccinations,
                     ncd,
                     ncdPlan
                 ]
@@ -866,8 +864,7 @@ angular.module("encounterTypeConfig", [])
                 showOnVisitList: true,
                 sections: [
                     ncdFollowupHeader,
-                    primaryCareExam,
-                    pedsVaccinations,
+                    generalVaccinations,
                     ncd,
                     primaryCareDx,
                     ncdPlan
