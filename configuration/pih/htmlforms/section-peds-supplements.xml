@@ -111,71 +111,31 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <obsgroup groupingConceptId="PIH:SUPPLEMENT HISTORY CONSTRUCT">
-                        <tr>
-                            <td>
-                                <span>
-                                    <obs conceptId="PIH:SUPPLEMENT RECEIVED" answerConceptId="PIH:VITAMIN A" style="checkbox" id="vitamin-a" class="supplement"/>
-                                </span>
-                            </td>
+                    <repeat>
+                        <template>
+                            <obsgroup groupingConceptId="PIH:SUPPLEMENT HISTORY CONSTRUCT">
+                                <tr>
+                                    <td>
+                                        <span>
+                                            <obs conceptId="PIH:SUPPLEMENT RECEIVED"
+                                                 style="checkbox" id="{desc}" class="supplement"
+                                                 answerConceptId="{aConceptId}" />
+                                        </span>
+                                    </td>
 
-                            <td>
-                                <obs conceptId="PIH:AGE SUPPLEMENT RECEIVED" placeholder="Specify" class="ageReceived"/>
-                            </td>
-                        </tr>
-                    </obsgroup>
-                    <obsgroup groupingConceptId="PIH:SUPPLEMENT HISTORY CONSTRUCT">
-                        <tr>
-                            <td>
-                                <span>
-                                    <obs conceptId="PIH:SUPPLEMENT RECEIVED" answerConceptId="PIH:FERROUS SULFATE" style="checkbox" class="supplement"/>
-                                </span>
-                            </td>
-
-                            <td>
-                                <obs conceptId="PIH:AGE SUPPLEMENT RECEIVED" class="ageReceived" placeholder="Specify" />
-                            </td>
-                        </tr>
-                    </obsgroup>
-                    <obsgroup groupingConceptId="PIH:SUPPLEMENT HISTORY CONSTRUCT">
-                        <tr>
-                            <td>
-                                <span>
-                                    <obs conceptId="PIH:SUPPLEMENT RECEIVED" answerConceptId="PIH:IODINE" style="checkbox" class="supplement" />
-                                </span>
-                            </td>
-
-                            <td>
-                                <obs conceptId="PIH:AGE SUPPLEMENT RECEIVED" placeholder="Specify" class="ageReceived"/>
-                            </td>
-                        </tr>
-                    </obsgroup>
-                    <obsgroup groupingConceptId="PIH:SUPPLEMENT HISTORY CONSTRUCT">
-                        <tr>
-                            <td>
-                                <span>
-                                    <obs conceptId="PIH:SUPPLEMENT RECEIVED" answerConceptId="PIH:DEWORMING" style="checkbox" class="supplement" />
-                                </span>
-                            </td>
-
-                            <td>
-                                <obs conceptId="PIH:AGE SUPPLEMENT RECEIVED" placeholder="Specify" class="ageReceived"/>
-                            </td>
-                        </tr>
-                    </obsgroup>
-                    <obsgroup groupingConceptId="PIH:SUPPLEMENT HISTORY CONSTRUCT">
-                        <tr>
-                            <td>
-                                <span>
-                                    <obs conceptId="PIH:SUPPLEMENT RECEIVED" answerConceptId="PIH:ZINC" style="checkbox" class="supplement" />
-                                </span>
-                            </td>
-
-                            <td>
-                                <obs conceptId="PIH:AGE SUPPLEMENT RECEIVED" placeholder="Specify" class="ageReceived"/>
-                            </td>
-                        </tr>
-                    </obsgroup>
+                                    <td>
+                                        <obs conceptId="PIH:AGE SUPPLEMENT RECEIVED" placeholder="Specify" class="ageReceived"/>
+                                    </td>
+                                </tr>
+                            </obsgroup>
+                        </template>
+                        <render aConceptId="CIEL:86339" desc="vitamin-a"/>
+                        <render aConceptId="CIEL:86353" desc="vitamin-k"/>
+                        <render aConceptId="PIH:FERROUS SULFATE" desc="ferrous-sulfate"/>
+                        <render aConceptId="PIH:IODINE" desc="iodine"/>
+                        <render aConceptId="PIH:DEWORMING" desc="deworming"/>
+                        <render aConceptId="PIH:ZINC" desc="zinc"/>
+                    </repeat>
                 </tbody>
             </table>
         </div>
