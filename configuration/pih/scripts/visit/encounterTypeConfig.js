@@ -680,7 +680,7 @@ angular.module("encounterTypeConfig", [])
             editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("outpatientConsultInitial.xml"),
             showOnVisitList: true
         },
-        peru: {
+        "peru": {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/defaultEncounterShort.page",
@@ -917,7 +917,7 @@ angular.module("encounterTypeConfig", [])
                   }
                 }
             },
-            peru: {
+            "peru": {
                 ...encounterTypes.DEFAULT,
                 icon: "fas fa-fw fa-ribbon",
                 editUrl: hfeStandardEditUrl
@@ -1389,7 +1389,7 @@ angular.module("encounterTypeConfig", [])
               primaryCareDx
             ]
           },
-          'sierra_leone': {
+          "sierra_leone": {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/defaultEncounterShort.page",
@@ -1398,12 +1398,12 @@ angular.module("encounterTypeConfig", [])
             showOnVisitList: true,
             sections: [
               ancInitial,
-              ancVaccinations,
+              generalVaccinations,
               primaryCareDx,
               primaryCarePlanMedication,
             ]
           },
-            "liberia": {
+          "liberia": {
                 defaultState: "short",
                 shortTemplate: "templates/encounters/defaultEncounterShort.page",
                 longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
@@ -1442,7 +1442,7 @@ angular.module("encounterTypeConfig", [])
               primaryCareDx
             ]
           },
-          'sierra_leone': {
+          "sierra_leone": {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/defaultEncounterShort.page",
@@ -1451,12 +1451,12 @@ angular.module("encounterTypeConfig", [])
             showOnVisitList: true,
             sections: [
               ancFollowup,
-              ancVaccinations,
+              generalVaccinations,
               primaryCareDx,
               primaryCarePlanMedication,
             ]
           },
-            "liberia": {
+          "liberia": {
                 defaultState: "short",
                 shortTemplate: "templates/encounters/defaultEncounterShort.page",
                 longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
@@ -1485,7 +1485,7 @@ angular.module("encounterTypeConfig", [])
               primaryCareDx
             ]
           },
-          'sierra_leone': {
+          "sierra_leone": {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/defaultEncounterShort.page",
@@ -1498,7 +1498,7 @@ angular.module("encounterTypeConfig", [])
               primaryCarePlanMedication,
             ]
           },
-            "liberia": {
+          "liberia": {
                 defaultState: "short",
                 shortTemplate: "templates/encounters/defaultEncounterShort.page",
                 longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
