@@ -372,6 +372,7 @@
                                 <label>
                                     <uimessage code="pihcore.{name}" />
                                 </label>
+                                <br/>
                                 <obs conceptId="{concept}"
                                      answerConceptIds="{answers}" answerCodes="{codes}"
                                      style="radio" answerSeparator="" />
