@@ -35,6 +35,24 @@
       "uuid": "4c3a6b5c-9014-4d2a-8502-a74f4ae582f6"
     }
   },
+  "@openmrs/esm-patient-biometrics-app": {
+    "concepts": {
+      "heightUuid": "3ce93cf2-26fe-102b-80cb-0017a47871b2",
+      "weightUuid": "3ce93b62-26fe-102b-80cb-0017a47871b2",
+      "midUpperArmCircumferenceUuid": "4326b04b-3158-417a-bb8d-ad022295b0f4"
+    },
+    "vitals": {
+      "encounterTypeUuid": "${encounterType.VITALS.uuid}"
+    }
+  },
+  "@openmrs/esm-patient-medications-app": {
+    "daysDurationUnit": {
+      "uuid": "3cd706b8-26fe-102b-80cb-0017a47871b2"
+    },
+    "clinicianEncounterRole": "${encounterRole.orderingProvider.uuid}",
+    "drugOrderEncounterType": "${encounterType.DRUG_ORDER_DOCUMENTATION.uuid}",
+    "_comment": "TODO: drug order encounter type refers to Drug Order Documentation encounter; we likely will need another encounter type, or, better yet, none at all"
+  },
   "@openmrs/esm-patient-vitals-app": {
     "concepts": {
       "systolicBloodPressureUuid": "3ce934fa-26fe-102b-80cb-0017a47871b2",
@@ -45,16 +63,11 @@
       "heightUuid": "3ce93cf2-26fe-102b-80cb-0017a47871b2",
       "weightUuid": "3ce93b62-26fe-102b-80cb-0017a47871b2",
       "respiratoryRateUuid": "3ceb11f8-26fe-102b-80cb-0017a47871b2",
-      "generalPatientNoteUuid": "3cd9d956-26fe-102b-80cb-0017a47871b2",
+      "generalPatientNoteUuid": "160531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
       "midUpperArmCircumferenceUuid": "4326b04b-3158-417a-bb8d-ad022295b0f4"
-    }
-  },
-  "@openmrs/esm-patient-medications-app": {
-    "daysDurationUnit": {
-      "uuid": "3cd706b8-26fe-102b-80cb-0017a47871b2"
     },
-    "clinicianEncounterRole": "${encounterRole.orderingProvider.uuid}",
-    "drugOrderEncounterType": "${encounterType.DRUG_ORDER_DOCUMENTATION.uuid}",
-    "_comment": "TODO: drug order encounter type refers to Drug Order Documentation encounter; we likely will need another encounter type, or, better yet, none at all"
+    "vitals": {
+      "encounterTypeUuid": "${encounterType.VITALS.uuid}"
+    }
   }
 }
