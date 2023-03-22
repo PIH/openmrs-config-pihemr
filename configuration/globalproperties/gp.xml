@@ -72,6 +72,11 @@
             <property>mail.default_content_type</property>
             <value>text/html; charset=UTF-8</value>
         </globalProperty>
+        <globalProperty>
+            <property>conditionList.nonCodedUuid</property>
+            <!-- Concept: Other non-coded -->
+            <value>3cee7fb4-26fe-102b-80cb-0017a47871b2</value>
+        </globalProperty>
 
         <!-- HTML Form Entry -->
         <globalProperty>
