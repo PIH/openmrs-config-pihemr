@@ -16,6 +16,23 @@ concept:
     uuid: "3ce93cf2-26fe-102b-80cb-0017a47871b2"
   weightKG:
     uuid: "3ce93b62-26fe-102b-80cb-0017a47871b2"
+  systolicBloodPressure:
+    uuid: "3ce934fa-26fe-102b-80cb-0017a47871b2"
+  diastolicBloodPressure:
+    uuid: "3ce93694-26fe-102b-80cb-0017a47871b2"
+  pulse:
+    uuid: "3ce93824-26fe-102b-80cb-0017a47871b2"
+  temperature:
+    uuid: "3ce939d2-26fe-102b-80cb-0017a47871b2"
+  oxygenSaturation:
+    uuid: "3ce9401c-26fe-102b-80cb-0017a47871b2"
+  respiratoryRate:
+    uuid: "3ceb11f8-26fe-102b-80cb-0017a47871b2"
+  chiefComplaint:
+    uuid: "160531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  midUpperArmCircumference:
+    uuid: "4326b04b-3158-417a-bb8d-ad022295b0f4"
+
   otherNonCoded:
     uuid: "3cee7fb4-26fe-102b-80cb-0017a47871b2"
   unknown:
