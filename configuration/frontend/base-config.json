@@ -35,11 +35,32 @@
       "uuid": "4c3a6b5c-9014-4d2a-8502-a74f4ae582f6"
     }
   },
+  "@openmrs/esm-outpatient-app": {
+    "concepts": {
+      "systolicBloodPressureUuid": "${concept.systolicBloodPressure.uuid}",
+      "diastolicBloodPressureUuid": "${concept.diastolicBloodPressure.uuid}",
+      "pulseUuid": "${concept.pulse.uuid}",
+      "temperatureUuid": "${concept.temperature.uuid}",
+      "oxygenSaturationUuid": "${concept.oxygenSaturation.uuid}",
+      "heightUuid": "${concept.heightCM.uuid}",
+      "weightUuid": "${concept.weightKG.uuid}",
+      "respiratoryRateUuid": "${concept.respiratoryRate.uuid}",
+      "generalPatientNoteUuid": "${concept.chiefComplaint.uuid}",
+      "midUpperArmCircumferenceUuid": "${concept.midUpperArmCircumference.uuid}",
+      "historicalObsConceptUuid": [ "${concept.heightCM.uuid}", "${concept.weightKG.uuid}" ]
+    },
+    "contactAttributeType": ["${personAttributeType.TELEPHONE_NUMBER.uuid}"],
+    "vitals": {
+      "encounterTypeUuid": "${encounterType.VITALS.uuid}"
+    },
+    "showQueueTableTab": true,
+    "showRecommendedVisitTypeTab": false
+  },
   "@openmrs/esm-patient-biometrics-app": {
     "concepts": {
-      "heightUuid": "3ce93cf2-26fe-102b-80cb-0017a47871b2",
-      "weightUuid": "3ce93b62-26fe-102b-80cb-0017a47871b2",
-      "midUpperArmCircumferenceUuid": "4326b04b-3158-417a-bb8d-ad022295b0f4"
+      "heightUuid": "${concept.heightCM.uuid}",
+      "weightUuid": "${concept.weightKG.uuid}",
+      "muacUuid": "${concept.midUpperArmCircumference.uuid}"
     },
     "vitals": {
       "encounterTypeUuid": "${encounterType.VITALS.uuid}"
@@ -55,16 +76,16 @@
   },
   "@openmrs/esm-patient-vitals-app": {
     "concepts": {
-      "systolicBloodPressureUuid": "3ce934fa-26fe-102b-80cb-0017a47871b2",
-      "diastolicBloodPressureUuid": "3ce93694-26fe-102b-80cb-0017a47871b2",
-      "pulseUuid": "3ce93824-26fe-102b-80cb-0017a47871b2",
-      "temperatureUuid": "3ce939d2-26fe-102b-80cb-0017a47871b2",
-      "oxygenSaturationUuid": "3ce9401c-26fe-102b-80cb-0017a47871b2",
-      "heightUuid": "3ce93cf2-26fe-102b-80cb-0017a47871b2",
-      "weightUuid": "3ce93b62-26fe-102b-80cb-0017a47871b2",
-      "respiratoryRateUuid": "3ceb11f8-26fe-102b-80cb-0017a47871b2",
-      "generalPatientNoteUuid": "160531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-      "midUpperArmCircumferenceUuid": "4326b04b-3158-417a-bb8d-ad022295b0f4"
+      "systolicBloodPressureUuid": "${concept.systolicBloodPressure.uuid}",
+      "diastolicBloodPressureUuid": "${concept.diastolicBloodPressure.uuid}",
+      "pulseUuid": "${concept.pulse.uuid}",
+      "temperatureUuid": "${concept.temperature.uuid}",
+      "oxygenSaturationUuid": "${concept.oxygenSaturation.uuid}",
+      "heightUuid": "${concept.heightCM.uuid}",
+      "weightUuid": "${concept.weightKG.uuid}",
+      "respiratoryRateUuid": "${concept.respiratoryRate.uuid}",
+      "generalPatientNoteUuid": "${concept.chiefComplaint.uuid}",
+      "midUpperArmCircumferenceUuid": "${concept.midUpperArmCircumference.uuid}"
     },
     "vitals": {
       "encounterTypeUuid": "${encounterType.VITALS.uuid}"
