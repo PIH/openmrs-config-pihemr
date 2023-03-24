@@ -63,6 +63,10 @@
       "otherConceptUuid": "${concept.otherNonCoded.uuid}"
     }
   },
+
+  "@openmrs/esm-patient-banner": {
+    "contactAttributeType": ["${personAttributeType.TELEPHONE_NUMBER.uuid}"]
+  },
   "@openmrs/esm-patient-biometrics-app": {
     "concepts": {
       "heightUuid": "${concept.heightCM.uuid}",
@@ -72,6 +76,18 @@
     "vitals": {
       "encounterTypeUuid": "${encounterType.VITALS.uuid}"
     }
+  },
+  "@openmrs/esm-patient-forms-app": {
+    "htmlFormEntryForms": [
+      {
+        "formUuid": "6058e2e0-7428-11e5-a837-0800200c9a66",
+        "formName": "Check-In",
+        "formUiResource": "file:configuration/pih/htmlforms/checkin.xml",
+        "formUiPage": "enterHtmlFormWithSimpleUi",
+        "_comment": "Sierra Leone specific"
+      }
+    ],
+    "showHtmlFormEntryForms": true
   },
   "@openmrs/esm-patient-medications-app": {
     "daysDurationUnit": {
