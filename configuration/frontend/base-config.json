@@ -1,22 +1,8 @@
 {
-  "@openmrs/esm-login-app": {
-    "logo": {
-      "src": "/openmrs/spa/site/pih-logo.png",
-      "alt": "Partners in Health"
-    },
-    "links": {
-      "loginSuccess": "${openmrsBase}/pihcore/home.page"
-    }
-  },
   "@openmrs/esm-api": {
     "redirectAuthFailure": {
       "url": "/pihcore/login.htm"
     }
-  },
-  "@openmrs/esm-styleguide": {
-    "Brand color #1": "#FF9800",
-    "Brand color #2": "#FFC166",
-    "Brand color #3": "#FFD699"
   },
   "@openmrs/esm-dispensing-app": {
     "locationBehavior": {
@@ -33,6 +19,15 @@
     },
     "substitutionType": {
       "uuid": "4c3a6b5c-9014-4d2a-8502-a74f4ae582f6"
+    }
+  },
+  "@openmrs/esm-login-app": {
+    "logo": {
+      "src": "/openmrs/spa/site/pih-logo.png",
+      "alt": "Partners in Health"
+    },
+    "links": {
+      "loginSuccess": "${openmrsBase}/pihcore/home.page"
     }
   },
   "@openmrs/esm-outpatient-app": {
@@ -90,5 +85,10 @@
     "vitals": {
       "encounterTypeUuid": "${encounterType.VITALS.uuid}"
     }
+  },
+  "@openmrs/esm-styleguide": {
+    "Brand color #1": "#FF9800",
+    "Brand color #2": "#FFC166",
+    "Brand color #3": "#FFD699"
   }
 }
