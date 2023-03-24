@@ -51,6 +51,18 @@
     "showQueueTableTab": true,
     "showRecommendedVisitTypeTab": false
   },
+  "@openmrs/esm-patient-allergies-app": {
+    "concepts": {
+      "drugAllergenUuid": "${concept.drugAllergens.uuid}",
+      "environmentalAllergenUuid": "${concept.environmentalAllergens.uuid}",
+      "foodAllergenUuid": "${concept.foodAllergens.uuid}",
+      "mildReactionUuid": "${concept.mild.uuid}",
+      "moderateReactionUuid": "${concept.moderate.uuid}",
+      "severeReactionUuid": "${concept.severe.uuid}",
+      "allergyReactionUuid": "${concept.allergyReaction.uuid}",
+      "otherConceptUuid": "${concept.otherNonCoded.uuid}"
+    }
+  },
   "@openmrs/esm-patient-biometrics-app": {
     "concepts": {
       "heightUuid": "${concept.heightCM.uuid}",

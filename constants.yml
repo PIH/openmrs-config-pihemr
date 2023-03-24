@@ -12,6 +12,19 @@ location:
     uuid: "AF939782-898B-409A-99A4-D1653484EDBD"
 
 concept:
+  otherNonCoded:
+    uuid: "3cee7fb4-26fe-102b-80cb-0017a47871b2"
+  unknown:
+    uuid: "3cd6fac4-26fe-102b-80cb-0017a47871b2"
+  yes:
+    uuid: "3cd6f600-26fe-102b-80cb-0017a47871b2"
+  mild:
+    uuid: "3cdef9ae-26fe-102b-80cb-0017a47871b2"
+  moderate:
+    uuid: "3cdef832-26fe-102b-80cb-0017a47871b2"
+  severe:
+    uuid: "3cdefc92-26fe-102b-80cb-0017a47871b2"
+
   heightCM:
     uuid: "3ce93cf2-26fe-102b-80cb-0017a47871b2"
   weightKG:
@@ -33,12 +46,15 @@ concept:
   midUpperArmCircumference:
     uuid: "4326b04b-3158-417a-bb8d-ad022295b0f4"
 
-  otherNonCoded:
-    uuid: "3cee7fb4-26fe-102b-80cb-0017a47871b2"
-  unknown:
-    uuid: "3cd6fac4-26fe-102b-80cb-0017a47871b2"
-  yes:
-    uuid: "3cd6f600-26fe-102b-80cb-0017a47871b2"
+  drugAllergens:
+    uuid: "4c886e88-04c1-11e5-8418-1697f925ec7b"
+  environmentalAllergens:
+    uuid: "4c887806-04c1-11e5-8418-1697f925ec7b"
+  foodAllergens:
+    uuid: "4c887216-04c1-11e5-8418-1697f925ec7b"
+  allergyReaction:
+    uuid: "4c8865b4-04c1-11e5-8418-1697f925ec7b"
+
 
 providerAttributeType:
   households:
