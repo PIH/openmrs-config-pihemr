@@ -58,9 +58,14 @@
         }
 
         .two-columns {
-        column-count: 2;
-        -webkit-column-count: 2;
-        -moz-column-count: 2;
+            display: table;
+            height: 100%;
+            width: 100%;
+        }
+
+        .two-columns > div {
+            display: table-cell;
+            width: 50%;
         }
 
         .simple-form-ui input {
@@ -295,7 +300,7 @@
              headerCode="pihcore.ncd.vitals">
         <div class="section-container">
             <div class="two-columns">
-                <p>
+                <div>
                     <label>
                         <uimessage code="pihcore.ncd.vitals.waist_cm"/>
                         (<uimessage code="pihcore.ncd.vitals.waist_cm.instructions"/>)
@@ -303,16 +308,16 @@
                     <span class="small">
                         <obs conceptId="CIEL:163080" id="waist_cm" showUnits="true"/>
                     </span>
-                </p>
-                <br/>
-                <p>
+                </div>
+
+                <div>
                     <label>
                         <uimessage code="pihcore.ncd.vitals.hip_cm"/>
                     </label>
                     <span class="small">
                         <obs conceptId="CIEL:163081" id="hip_cm" showUnits="true"/>
                     </span>
-                </p>
+                </div>
             </div>
 
             <p>
@@ -797,54 +802,63 @@
                     <br/>
 
                     <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
-                        <obs conceptId="PIH:DIAGNOSIS"
-                             answerConceptIds="CIEL:5016,CIEL:134082,PIH:3071,PIH:12231,PIH:4000,CIEL:130562,CIEL:5622"
-                             style="radio" answerSeparator=""/>
+                        <obs id="cardigan" conceptId="PIH:DIAGNOSIS" style="checkbox"
+                             answerConceptId="CIEL:5016">
+                            <controls>
+                                <when value="CIEL:5016" thenDisplay="#cardiomyo"/>
+                            </controls>
+                        </obs>
                     </obsgroup>
+
+                    <div id="cardiomyo">
+                        <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
+                            <obs conceptId="PIH:DIAGNOSIS"
+                                 answerConceptIds="CIEL:113918,CIEL:163712,CIEL:142317,CIEL:139529,CIEL:5016"
+                                 answerCodes="pihcore.ncd.ppCardioMy,pihcore.ncd.hivCardioMy,pihcore.ncd.alcCardioMy,pihcore.ncd.iscCardioMy,pihcore.ncd.otherCardioMy"
+                                 style="radio" answerSeparator=""/>
+                        </obsgroup>
+                        <br/>
+                    </div>
+
+                    <repeat>
+                        <template>
+                            <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
+                                <obs conceptId="PIH:DIAGNOSIS" style="checkbox"
+                                     answerConceptId="{hfId}"
+                                     answerSeparator=""/>
+                            </obsgroup>
+                        </template>
+                        <render hfId="CIEL:134082" name="Mitral stenosis" />
+                        <render hfId="PIH:3071" name="Hypertensive cardiopathy" />
+                        <render hfId="CIEL:113227" name="Rheumatic heart failure" />
+                        <render hfId="PIH:12231" name="Other valve or congenital cardiopathy" />
+                        <render hfId="PIH:4000" name="Insufficant left isolated valve" />
+                        <render hfId="CIEL:130562" name="Pericardiac epanch" />
+                        <render hfId="CIEL:5622" name="other" />
+                    </repeat>
 
                 </div>
 
-                <br/>
                 <div>
-                    <label>
-                        <uimessage code="pihcore.ncd.cardiomyopathy"/>
-                    </label>
-                    <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
-                        <obs conceptId="PIH:DIAGNOSIS"
-                             answerConceptIds="CIEL:113918,CIEL:163712,CIEL:142317,CIEL:139529,CIEL:5016"
-                             answerCodes="pihcore.ncd.ppCardioMy,pihcore.ncd.hivCardioMy,pihcore.ncd.alcCardioMy,pihcore.ncd.iscCardioMy,pihcore.ncd.otherCardioMy"
-                             style="radio" answerSeparator=""/>
-                    </obsgroup>
+                    <strong>
+                        <uimessage code="pihcore.ncd.hf.nyhaClassification"/>
+                    </strong>
                     <br/>
-                </div>
-
-                <div>
-                    <label>
-                        <uimessage code="pihcore.ncd.hf.severity"/>
-                    </label>
                     <obs conceptId="PIH:NYHA CLASS"
                          answerConceptIds="PIH:NYHA CLASS 1,PIH:NYHA CLASS 2,PIH:NYHA CLASS 3,PIH:NYHA CLASS 4"
                          style="radio" answerSeparator=""/>
                     <br/>
-                </div>
-                <div>
 
-                    <label>
+                    <strong>
                         <uimessage code="pihcore.ncd.hf.vol_status"/>
-                    </label>
+                    </strong>
+                    <br/>
                     <obs conceptId="PIH:PATIENTS FLUID MANAGEMENT"
                          answerConceptIds="PIH:HYPERVOLEMIC,PIH:EUVOLEMIC,PIH:HYPOVOLEMIC"
                          style="radio" answerSeparator=""/>
-                    <br/>
                 </div>
-                <div>
-                    <obs conceptId="PIH:11926" answerConceptId="PIH:YES"
-                         answerCode="pihcore.ncd.improbable"/>
-                </div>
-                <br/><br/><br/>
             </div>
 
-            <br/>
             <div>
                 <label>
                     <uimessage code="pihcore.remarks"/>:
@@ -1003,7 +1017,8 @@
                               ['Lisinopril, 5mg tablet','tablet','d0876723-9087-4ea5-b26d-d46cf914835f'],
                               ['Lisinopril, 20mg tablet','tablet','4534a926-8dc4-440b-bdf9-f9e96d282a28'],
                               ['Methyldopa, 250 mg film coated tablet','tablet','70123af9-a72a-4f6e-a188-140d905a84be'],
-                              ['Metoprolol succinate tartrate, 25 mg extended release tablet','tablet','819b83c0-e218-4ffe-854c-75c941feb948'],
+                              ['Metoprolol succinate, 25 mg extended release tablet','tablet','819b83c0-e218-4ffe-854c-75c941feb948'],
+                              ['Metoprolol tartrate, 50 mg immediate release tablet','tablet','01bf21ba-3505-4221-ad41-d81e9aa5cc6e'],
                               ['Nifedipine, 20 mg extended release tablet','tablet','d7937a60-a75b-42f6-9200-cd0e895606c0'],
                               ['Propranolol hydrochloride, 40 mg, tablet','tablet','405dfa6c-ebaa-4a51-857f-b4df3788e7dd'],
                               ['Simvastatin, 20mg tablet','tablet','01f14854-8305-4b12-8a52-3e01555fd66e'],
