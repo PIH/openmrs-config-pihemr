@@ -55,6 +55,10 @@ concept:
   allergyReaction:
     uuid: "4c8865b4-04c1-11e5-8418-1697f925ec7b"
 
+  clinicalImpressionComments:
+    uuid: "3cd9d956-26fe-102b-80cb-0017a47871b2"
+  visitDiagnosesConstruct:
+    uuid: "159947AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 
 providerAttributeType:
   households:

@@ -97,6 +97,15 @@
     "drugOrderEncounterType": "${encounterType.DRUG_ORDER_DOCUMENTATION.uuid}",
     "_comment": "TODO: drug order encounter type refers to Drug Order Documentation encounter; we likely will need another encounter type, or, better yet, none at all"
   },
+  "@openmrs/esm-patient-notes-app": {
+    "visitNoteConfig": {
+      "clinicianEncounterRole": "${encounterRole.orderingProvider.uuid}",
+      "encounterTypeUuid": "${encounterType.CONSULTATION.uuid}",
+      "encounterNoteTextConceptUuid": "${concept.clinicalImpressionComments.uuid}",
+      "visitDiagnosesConceptUuid": "${concept.visitDiagnosesConstruct.uuid}",
+      "formConceptUuid": ""
+    }
+  },
   "@openmrs/esm-patient-vitals-app": {
     "concepts": {
       "systolicBloodPressureUuid": "${concept.systolicBloodPressure.uuid}",
