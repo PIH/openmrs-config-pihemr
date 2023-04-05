@@ -110,7 +110,7 @@
     "concepts": [
       {
         "conceptUuid": "${concept.laboratoryCategories.uuid}",
-        "defaultOpen": "true"
+        "defaultOpen": true
       }
     ]
 
