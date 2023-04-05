@@ -106,6 +106,15 @@
       "formConceptUuid": ""
     }
   },
+  "@openmrs/esm-patient-test-results-app": {
+    "concepts": [
+      {
+        "conceptUuid": "${concept.laboratoryCategories.uuid}",
+        "defaultOpen": "true"
+      }
+    ]
+
+  },
   "@openmrs/esm-patient-vitals-app": {
     "concepts": {
       "systolicBloodPressureUuid": "${concept.systolicBloodPressure.uuid}",

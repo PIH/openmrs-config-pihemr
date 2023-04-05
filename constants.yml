@@ -60,6 +60,9 @@ concept:
   visitDiagnosesConstruct:
     uuid: "159947AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 
+  laboratoryCategories:
+    uuid: "517d25f7-2e68-4da4-912b-76090fbfe0fd"
+
 providerAttributeType:
   households:
     uuid: "0c267ae8-f793-4cf8-9b27-93accaa45d86"
