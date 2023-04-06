@@ -63,6 +63,55 @@ concept:
   laboratoryCategories:
     uuid: "517d25f7-2e68-4da4-912b-76090fbfe0fd"
 
+  occupation:
+    uuid: "3cd97286-26fe-102b-80cb-0017a47871b2"
+  civilServant:
+    uuid: "162944AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  commerce:
+    uuid: "3cd9740c-26fe-102b-80cb-0017a47871b2"
+  motorcycletaxi:
+    uuid: "cb9da4fc-cd1e-4d30-9000-1cefa26cd323"
+  cowherd:
+    uuid: "f03e4898-ab3c-4fa5-8d7f-6cbfeee79c42"
+  driver:
+    uuid: "f15d07f0-be62-44d4-89ef-0e17e0aa480e"
+  factoryWorker:
+    uuid: "3cdcbe78-26fe-102b-80cb-0017a47871b2"
+  farmer:
+    uuid: "3cd9757e-26fe-102b-80cb-0017a47871b2"
+  fisherman:
+    uuid: "159674AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  fruitOrVegetableVendor:
+    uuid: "3cdcbff4-26fe-102b-80cb-0017a47871b2"
+  healthCareWorker:
+    uuid: "3cdbc91e-26fe-102b-80cb-0017a47871b2"
+  housework:
+    uuid: "3cda14e8-26fe-102b-80cb-0017a47871b2"
+  houseworkFieldwork:
+    uuid: "3ce40fca-26fe-102b-80cb-0017a47871b2"
+  manualLaborer:
+    uuid: "3cd995ae-26fe-102b-80cb-0017a47871b2"
+  marketVendor:
+    uuid: "162945AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  military:
+    uuid: "a82a7a36-a7a4-4462-aa1c-b00d4e7ddb78"
+  miner:
+    uuid: "3cdcbd06-26fe-102b-80cb-0017a47871b2"
+  police:
+    uuid: "a1e44baf-c82f-4d4f-ac09-232da84c8a28"
+  professional:
+    uuid: "907716b4-1852-404a-9ee1-beff998f9461"
+  retired:
+    uuid: "3ce4113c-26fe-102b-80cb-0017a47871b2"
+  shopOwner:
+    uuid: "3cdcc468-26fe-102b-80cb-0017a47871b2"
+  student:
+    uuid: "3cd976f0-26fe-102b-80cb-0017a47871b2"
+  teacher:
+    uuid: "d192f132-999a-4666-8725-028f9fcb8df4"
+  unemployed:
+    uuid: "3cd979de-26fe-102b-80cb-0017a47871b2"
+
 providerAttributeType:
   households:
     uuid: "0c267ae8-f793-4cf8-9b27-93accaa45d86"
