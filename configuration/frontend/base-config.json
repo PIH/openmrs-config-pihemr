@@ -30,6 +30,22 @@
       "loginSuccess": "${openmrsBase}/pihcore/home.page"
     }
   },
+  "@openmrs/esm-fast-data-entry-app": {
+    "formCategories": [
+      {
+        "name": "Check-In",
+        "forms": [
+          {
+            "name": "Check-In",
+            "formUUID": "6058e2e0-7428-11e5-a837-0800200c9a66"
+          }
+        ]
+      }
+    ],
+    "formCategoriesToShow": [
+      "Check-In"
+    ]
+  },
   "@openmrs/esm-outpatient-app": {
     "concepts": {
       "systolicBloodPressureUuid": "${concept.systolicBloodPressure.uuid}",
