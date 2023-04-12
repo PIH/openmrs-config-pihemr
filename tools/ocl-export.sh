@@ -71,8 +71,8 @@ export_concepts_to_json() {
   popd
 }
 
-#setup_sdk
-#install_config
-#run_sdk
-#export_openmrs_db
+setup_sdk
+install_config
+run_sdk
+export_openmrs_db
 export_concepts_to_json
