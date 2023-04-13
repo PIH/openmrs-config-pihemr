@@ -94,18 +94,44 @@ export_openmrs_db() {
   docker exec ${MYSQL_DOCKER_CONTAINER_NAME} mysqldump -u root --password=root --routines ${PROJECT_NAME} > ${SDK_DIR}/${PROJECT_NAME}.sql
 }
 
-# TODO: Here, we need to ensure there is an OpenBoxes source in the PIH organization
+delete_existing_from_ocl() {
+  echo "Deleting the PIH source"
+  curl --silent -H "Authorization: Token $OCL_API_TOKEN" --request DELETE $OCL_API_URL/orgs/PIH/sources/PIH/?async=true > ${SDK_DIR}/delete_pih_source.json
+  echo "Deleting the PIH collection"
+  curl --silent -H "Authorization: Token $OCL_API_TOKEN" --request DELETE $OCL_API_URL/orgs/PIH/collections/PIH/?async=true > ${SDK_DIR}/delete_pih_collection.json
+  echo "Deleting the OpenBoxes source"
+  curl --silent -H "Authorization: Token $OCL_API_TOKEN" --request DELETE $OCL_API_URL/orgs/PIH/sources/OpenBoxes/?async=true > ${SDK_DIR}/delete_openboxes_source.json
+  wait_for_task_completion ${SDK_DIR}/delete_pih_collection.json
+  wait_for_task_completion ${SDK_DIR}/delete_pih_source.json
+  wait_for_task_completion ${SDK_DIR}/delete_openboxes_source.json
+}
 
-# TODO: There are a few PIH-specific changes to the ocl_omrs project we'll need to commit to github and pull down.  See below.
+create_openboxes_source_in_ocl() {
+  curl --silent \
+      -H "Authorization: Token $OCL_API_TOKEN" \
+      -H "Accept: application/json" \
+      -H "Content-Type: application/json" \
+      --request POST \
+      --data '{"id":"OpenBoxes","short_code":"OpenBoxes","name":"OpenBoxes","full_name":"OpenBoxes","description":"OpenBoxes Product Code for Drug Mappings","source_type":"reference","default_locale":"en","supported_locales":"en"}' \
+      $OCL_API_URL/orgs/PIH/sources/
+  echo "OpenBoxes Source Created"
+}
 
 export_concepts_to_json() {
   pushd ${CODE_DIR}
   rm -fR ocl_omrs
-  cp -a ~/code/github/openconceptlab/ocl_omrs/ .
-  #git clone https://github.com/OpenConceptLab/ocl_omrs.git
+  git clone https://github.com/OpenConceptLab/ocl_omrs.git
   popd
   pushd ${CODE_DIR}/ocl_omrs
+
+  # For OpenMRS 2.5, we do not name the allow_decimal as precise, remove this
   sed -i "s/db_column='precise'//g" omrs/models.py
+  # Add custom source mappings
+  TO_REPLACE="# Added for AMPATH dictionary import"
+  DISPENSE_STATUS=",{'owner_type': 'org', 'owner_id': 'HL7', 'omrs_id': 'HL7-MedicationDispenseStatus','ocl_id': 'HL7-MedicationDispenseStatus'}"
+  OPENBOXES=",{'omrs_id': 'OpenBoxes', 'ocl_id': 'OpenBoxes', 'owner_type': 'org', 'owner_id': 'PIH'}"
+  sed -i "s/${TO_REPLACE}/${DISPENSE_STATUS}${OPENBOXES}/g" omrs/management/commands/__init__.py
+
   cp ${SDK_DIR}/${PROJECT_NAME}.sql local/
   export USE_GOLD_MAPPINGS=1
   ./sql-to-json.sh local/${PROJECT_NAME}.sql PIH PIH staging
@@ -128,16 +154,7 @@ wait_for_task_completion() {
     echo $DATA | jq
 }
 
-delete_existing_from_ocl() {
-  echo "Deleting the PIH source"
-  curl --silent -H "Authorization: Token $OCL_API_TOKEN" --request DELETE $OCL_API_URL/orgs/PIH/sources/PIH/?async=true > ${SDK_DIR}/delete_source.json
-  echo "Deleting the PIH collection"
-  curl --silent -H "Authorization: Token $OCL_API_TOKEN" --request DELETE $OCL_API_URL/orgs/PIH/collections/PIH/?async=true > ${SDK_DIR}/delete_collection.json
-  wait_for_task_completion ${SDK_DIR}/delete_collection.json
-  wait_for_task_completion ${SDK_DIR}/delete_source.json
-}
-
-create_source_in_ocl() {
+create_pih_source_in_ocl() {
   curl --silent \
       -H "Authorization: Token $OCL_API_TOKEN" \
       -H "Accept: application/json" \
@@ -159,7 +176,7 @@ bulk_import_into_ocl() {
   wait_for_task_completion ${SDK_DIR}/bulk_import.json
 }
 
-create_collection_in_ocl() {
+create_pih_collection_in_ocl() {
   curl --silent \
       -H "Authorization: Token $OCL_API_TOKEN" \
       -H "Accept: application/json" \
@@ -187,9 +204,10 @@ make_pih_references() {
 #install_config
 #run_sdk
 #export_openmrs_db
-#export_concepts_to_json
 #delete_existing_from_ocl
-#create_source_in_ocl
+#create_openboxes_source_in_ocl
+#export_concepts_to_json
+#create_pih_source_in_ocl
 #bulk_import_into_ocl
-#create_collection_in_ocl
+#create_pih_collection_in_ocl
 #make_pih_references
