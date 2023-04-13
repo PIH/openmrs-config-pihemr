@@ -31,7 +31,7 @@ diagnoses,diagnosis_obs_group_id,"encounter_id, offset",obs group id,returns the
 diagnoses,diagnosis_noncoded,"encounter_id, offset",text,returns the text of the noncoded diagnosis (if exists) of the nth diagnosis of that encounter (n being the offset),
 drugs,drugId,name_or_uuid,drug id,returns drug id of drug with that name or uuid,
 drugs,drugName,id_or_uuid ,drug name,returns drug name of drug with id or uuid,
-drugs,openboxesCode,id,openboxes code,returns the openboxes code associated with the drug with the given drug id
+drugs,openboxesCode,id,openboxes code,returns the openboxes code associated with the drug with the given drug id,
 encounters,encounter_creator,encounter_id,creator name,returns the name of the creator of the encounter,
 encounters,encounter_date ,encounter_id,encounter date,encounter date of encounter,
 encounters,encounter_date_created ,encounter_id,encounter date created,encounter date created of encounter,
