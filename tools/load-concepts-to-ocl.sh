@@ -94,6 +94,22 @@ export_openmrs_db() {
   docker exec ${MYSQL_DOCKER_CONTAINER_NAME} mysqldump -u root --password=root --routines ${PROJECT_NAME} > ${SDK_DIR}/${PROJECT_NAME}.sql
 }
 
+wait_for_task_completion() {
+    TASK_ID=$(jq -r '.task' $1)
+    echo "Waiting for task completion $1: $TASK_ID"
+    STATUS=UNKNOWN
+    while [[ "$STATUS" != "SUCCESS" ]]
+    do
+      STATUS=$(curl --silent -H "Authorization: Token $OCL_API_TOKEN" --request GET $OCL_API_URL/tasks/$TASK_ID/ | jq -r '.state')
+      echo "Task $TASK_ID Status: $STATUS"
+      if [ "$STATUS" != "SUCCESS" ]; then
+        sleep 10
+      fi
+    done
+    DATA=$(curl --silent -H "Authorization: Token $OCL_API_TOKEN" --request GET $OCL_API_URL/tasks/$TASK_ID/)
+    echo $DATA | jq
+}
+
 delete_existing_from_ocl() {
   echo "Deleting the PIH source"
   curl --silent -H "Authorization: Token $OCL_API_TOKEN" --request DELETE $OCL_API_URL/orgs/PIH/sources/PIH/?async=true > ${SDK_DIR}/delete_pih_source.json
@@ -106,6 +122,17 @@ delete_existing_from_ocl() {
   wait_for_task_completion ${SDK_DIR}/delete_openboxes_source.json
 }
 
+create_pih_source_in_ocl() {
+  curl --silent \
+      -H "Authorization: Token $OCL_API_TOKEN" \
+      -H "Accept: application/json" \
+      -H "Content-Type: application/json" \
+      --request POST \
+      --data '{"id":"PIH","short_code":"PIH","name":"PIH","full_name":"Partners In Health","description":"Partners In Health Dictionary","custom_validation_schema":"OpenMRS","default_locale":"en","supported_locales":"en,es,fr,ht"}' \
+      $OCL_API_URL/orgs/PIH/sources/
+  echo "PIH Source Created"
+}
+
 create_openboxes_source_in_ocl() {
   curl --silent \
       -H "Authorization: Token $OCL_API_TOKEN" \
@@ -115,6 +142,17 @@ create_openboxes_source_in_ocl() {
       --data '{"id":"OpenBoxes","short_code":"OpenBoxes","name":"OpenBoxes","full_name":"OpenBoxes","description":"OpenBoxes Product Code for Drug Mappings","source_type":"reference","default_locale":"en","supported_locales":"en"}' \
       $OCL_API_URL/orgs/PIH/sources/
   echo "OpenBoxes Source Created"
+}
+
+create_pih_collection_in_ocl() {
+  curl --silent \
+      -H "Authorization: Token $OCL_API_TOKEN" \
+      -H "Accept: application/json" \
+      -H "Content-Type: application/json" \
+      --request POST \
+      --data '{ "id":"PIH","short_code":"PIH","name":"PIH","full_name":"PIH","preferred_source":"CIEL","collection_type":"Dictionary","custom_validation_schema":"OpenMRS","supported_locales":"en,es,fr,ht","extras":{"source":"/orgs/PIH/sources/PIH/"} }' \
+      $OCL_API_URL/orgs/PIH/collections/ > ${SDK_DIR}/create_collection.json
+  echo "PIH Collection Created"
 }
 
 export_concepts_to_json() {
@@ -138,33 +176,6 @@ export_concepts_to_json() {
   popd
 }
 
-wait_for_task_completion() {
-    TASK_ID=$(jq -r '.task' $1)
-    echo "Waiting for task completion $1: $TASK_ID"
-    STATUS=UNKNOWN
-    while [[ "$STATUS" != "SUCCESS" ]]
-    do
-      STATUS=$(curl --silent -H "Authorization: Token $OCL_API_TOKEN" --request GET $OCL_API_URL/tasks/$TASK_ID/ | jq -r '.state')
-      echo "Task $TASK_ID Status: $STATUS"
-      if [ "$STATUS" != "SUCCESS" ]; then
-        sleep 10
-      fi
-    done
-    DATA=$(curl --silent -H "Authorization: Token $OCL_API_TOKEN" --request GET $OCL_API_URL/tasks/$TASK_ID/)
-    echo $DATA | jq
-}
-
-create_pih_source_in_ocl() {
-  curl --silent \
-      -H "Authorization: Token $OCL_API_TOKEN" \
-      -H "Accept: application/json" \
-      -H "Content-Type: application/json" \
-      --request POST \
-      --data '{"id":"PIH","short_code":"PIH","name":"PIH","full_name":"Partners In Health","description":"Partners In Health Dictionary","custom_validation_schema":"OpenMRS","default_locale":"en","supported_locales":"en,es,fr,ht"}' \
-      $OCL_API_URL/orgs/PIH/sources/
-  echo "PIH Source Created"
-}
-
 bulk_import_into_ocl() {
   curl --silent \
       -H "Authorization: Token $OCL_API_TOKEN" \
@@ -174,17 +185,6 @@ bulk_import_into_ocl() {
       -F file=@"$CODE_DIR/ocl_omrs/local/oclexport.json;type=application/json"  \
       $OCL_API_URL/importers/bulk-import-parallel-inline/custom-queue/ > ${SDK_DIR}/bulk_import.json
   wait_for_task_completion ${SDK_DIR}/bulk_import.json
-}
-
-create_pih_collection_in_ocl() {
-  curl --silent \
-      -H "Authorization: Token $OCL_API_TOKEN" \
-      -H "Accept: application/json" \
-      -H "Content-Type: application/json" \
-      --request POST \
-      --data '{ "id":"PIH","short_code":"PIH","name":"PIH","full_name":"PIH","preferred_source":"CIEL","collection_type":"Dictionary","custom_validation_schema":"OpenMRS","supported_locales":"en,es,fr,ht","extras":{"source":"/orgs/PIH/sources/PIH/"} }' \
-      $OCL_API_URL/orgs/PIH/collections/ > ${SDK_DIR}/create_collection.json
-  echo "PIH Collection Created"
 }
 
 make_pih_references() {
@@ -205,9 +205,11 @@ make_pih_references() {
 #run_sdk
 #export_openmrs_db
 #delete_existing_from_ocl
-#create_openboxes_source_in_ocl
-#export_concepts_to_json
 #create_pih_source_in_ocl
-#bulk_import_into_ocl
+#create_openboxes_source_in_ocl
 #create_pih_collection_in_ocl
+#export_concepts_to_json
+#bulk_import_into_ocl
 #make_pih_references
+
+echo "Concept loading to OCL complete"
