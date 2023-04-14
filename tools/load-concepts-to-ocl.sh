@@ -37,7 +37,7 @@ setup_mysql_docker_container() {
     --collation-server=utf8_general_ci \
     --max_allowed_packet=1G \
     --innodb-buffer-pool-size=2G
-  sleep 5
+  sleep 10
 }
 
 setup_mysql_db() {
@@ -139,7 +139,7 @@ create_openboxes_source_in_ocl() {
       -H "Accept: application/json" \
       -H "Content-Type: application/json" \
       --request POST \
-      --data '{"id":"OpenBoxes","short_code":"OpenBoxes","name":"OpenBoxes","full_name":"OpenBoxes","description":"OpenBoxes Product Code for Drug Mappings","source_type":"reference","default_locale":"en","supported_locales":"en"}' \
+      --data '{"id":"OpenBoxes","short_code":"OpenBoxes","name":"OpenBoxes","full_name":"OpenBoxes","description":"OpenBoxes Product Code for Drug Mappings","source_type":"External","default_locale":"en","supported_locales":"en"}' \
       $OCL_API_URL/orgs/PIH/sources/
   echo "OpenBoxes Source Created"
 }
