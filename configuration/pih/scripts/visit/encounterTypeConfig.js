@@ -1196,6 +1196,28 @@ angular.module("encounterTypeConfig", [])
             showOnVisitList: true
         };
 
+        // Additional mental health form for INTAKE (Liberia)
+        encounterTypes["fccd53c2-f802-439b-a7a2-2d680bd8b81b"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("mentalHealthIntake.xml"),
+            icon: "fas fa-fw fa-user",
+            editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("mentalHealthIntake.xml"),
+            showOnVisitList: true
+        };
+
+        // Epilepsy follow-up form (Liberia)
+        encounterTypes["74e06462-243e-4fad-8d7c-0bb3921322f1"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("epilepsy.xml"),
+            icon: "fas fa-fw fa-brain",
+            editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("epilepsy.xml"),
+            showOnVisitList: true
+        };
+
         // artAdherence
         // HIV forms from MSPP and iSantePlus
         encounterTypes["c45d7299-ad08-4cb5-8e5d-e0ce40532939"] = {
