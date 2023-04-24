@@ -811,4 +811,12 @@
 	    </sql>
     </changeSet>
 
+    <changeSet id="20230420-remove-old-close-stale-visits-task" author="mgoodrich">
+        <comment>UHM-7160: Close Stale Visits error on startup</comment>
+        <sql>
+            delete from scheduler_task_config_property where task_config_id in (select task_config_id from scheduler_task_config where name='EMR module - Close Stale Visits');
+            delete from scheduler_task_config where name='EMR module - Close Stale Visits';
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
