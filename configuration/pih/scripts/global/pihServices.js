@@ -42,17 +42,20 @@ class PihServices {
     }
 
     /**
-     * Returns a promise of an array of uuids for all concepts contained in the sets identified by the conceptSetReferences
-     * @param conceptSetReferences a comma-delimited string of uuids or mappings in source:code format
+     * Returns a promise of an array of uuids for all concepts passed.  this will include the passed concepts, and if they are sets, the member concepts
+     * @param conceptReferences a comma-delimited string of uuids or mappings in source:code format
      * @returns {Promise<*>}
      */
-    async getUuidsOfConceptsInSets(conceptSetReferences) {
+    async getUuidsOfConceptsAndSetMembers(conceptReferences) {
         let results = new Set();
-        const setConcepts = await this.getConceptsByReferences(conceptSetReferences, 'custom:(id,uuid,setMembers:(uuid))');
-        setConcepts.forEach(function(conceptSet) {
-            conceptSet.setMembers.forEach(function(setMember) {
-                results.add(setMember.uuid);
-            });
+        const concepts = await this.getConceptsByReferences(conceptReferences, 'custom:(id,uuid,setMembers:(uuid))');
+        concepts.forEach(function(concept) {
+            results.add(concept.uuid);
+            if (concept.setMembers) {
+                concept.setMembers.forEach(function (setMember) {
+                    results.add(setMember.uuid);
+                });
+            }
         });
         return Array.from(results);
     }
@@ -80,19 +83,19 @@ class PihServices {
      * Return promise of all conditions for the patient that matches the given arguments
      * @param patientUuid - the uuid of the patient
      * @param clinicalStatus - if specified, will limit the results to only conditions with this status.  if null, does not limit
-     * @param conceptSetReferences - a comma-delimited string of uuids or mappings in source:code format to restrict conditions to only those with a coded condition in one of those sets
+     * @param conceptReferences - a comma-delimited string of uuids or mappings in source:code format to restrict conditions to only those with a coded condition that matches these or a set member
      * @param representation - the object representation to return for each condition
      * @returns {Promise<*>}
      */
-    async getMatchingConditions(patientUuid, clinicalStatus, conceptSetReferences, representation) {
+    async getMatchingConditions(patientUuid, clinicalStatus, conceptReferences, representation) {
         const status = clinicalStatus;
         const conditionsForPatient = await this.getConditionsForPatient(patientUuid, representation);
-        const conceptsInSet = await this.getUuidsOfConceptsInSets(conceptSetReferences);
+        const concepts = await this.getUuidsOfConceptsAndSetMembers(conceptReferences);
         let matches = [];
         conditionsForPatient.forEach(function(condition) {
             if (!status || status === condition.clinicalStatus) {
                 const conditionCodedUuid = condition.condition?.coded?.uuid;
-                if (!conceptSetReferences || (conditionCodedUuid && conceptsInSet.includes(conditionCodedUuid))) {
+                if (!conceptReferences || (conditionCodedUuid && concepts.includes(conditionCodedUuid))) {
                     matches.push(condition);
                 }
             }
