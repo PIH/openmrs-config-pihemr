@@ -638,11 +638,26 @@
                                 </obs>
                             </p>
 
-                            <p id="baby-alive-{0}" class="side-by-side">
+                            <p id="baby-alive-{0}" class="side-by-side narrow">
+                                <label>
+                                    <uimessage code="pihcore.gender" />
+                                </label>
+                                <obs conceptId="CIEL:1587" style="radio"
+                                     answerConceptIds="CIEL:1534,CIEL:1535" />
+
+                                <br/>
+                                <br/>
                                 <label>
                                     <uimessage code="pihcore.birthweight"/>
                                 </label>
                                 <obs conceptId="CIEL:5916" showUnits="true"/>
+
+                                <br/>
+                                <br/>
+                                <label>
+                                    <uimessage code="mirebalais.vitals.height.title" />
+                                </label>
+                                <obs conceptId="CIEL:163554" showUnits="true" />
 
                                 <!-- APGAR -->
                                 <br/>
