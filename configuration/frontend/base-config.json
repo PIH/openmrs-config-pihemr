@@ -14,11 +14,19 @@
         "tag": "Login Location"
       }
     },
-    "substitutionReason": {
-      "uuid": "de8671b8-ed2e-4f7e-a9f8-dcd00878f2eb"
-    },
-    "substitutionType": {
-      "uuid": "4c3a6b5c-9014-4d2a-8502-a74f4ae582f6"
+    "valueSets": {
+      "reasonForPause": {
+        "uuid": "2dd3e5c0-3d3f-4f3d-9860-19b3f9ab26ff"
+      },
+      "reasonForClose": {
+        "uuid": "bd6c1fc2-7cfc-4562-94a0-e4765e5e977e"
+      },
+      "substitutionReason": {
+        "uuid": "de8671b8-ed2e-4f7e-a9f8-dcd00878f2eb"
+      },
+      "substitutionType": {
+        "uuid": "4c3a6b5c-9014-4d2a-8502-a74f4ae582f6"
+      }
     }
   },
   "@openmrs/esm-login-app": {
