@@ -30,4 +30,25 @@ class HtmlFormFunctions {
         }
         return encDate;
     }
+
+    async showSectionBasedOnCondition(conceptOrSet, sectionSelector, showIfActive, showIfInactive, showIfInEncounter) {
+        const encDateYmd = this.getEncounterDateYmd();
+        const conditionRep = 'custom:(uuid,display,clinicalStatus,onsetDate,endDate,encounter:(id,uuid),condition:(coded:(uuid)))';
+        await this.pihemr.getMatchingConditions(this.patientUuid, null, conceptOrSet, conditionRep).then(matchingConditions => {
+            let foundInEncounter = false;
+            let foundActiveAtEncounter = false;
+            let hfe = this;
+            matchingConditions.forEach(function(condition) {
+                if (hfe.encounterUuid && hfe.encounterUuid === condition?.encounter?.uuid) {
+                    foundInEncounter = true;
+                }
+                if (hfe.pihemr.isConditionActiveOnDate(condition, encDateYmd)) {
+                    foundActiveAtEncounter = true;
+                }
+            });
+            if ((foundActiveAtEncounter && showIfActive) || (!foundActiveAtEncounter && showIfInactive) || (foundInEncounter && showIfInEncounter)) {
+                jq(sectionSelector).show();
+            }
+        });
+    }
 }
