@@ -3452,9 +3452,10 @@ BEGIN
     select      concept_name(o.value_coded, _locale) into ret
     from        obs o
     where       o.voided = 0
-      and       o.obs_group_id= _obsGroupId
-      and       o.concept_id = concept_from_mapping(_source, _term);
-
+    and       o.obs_group_id= _obsGroupId
+    and       o.concept_id = concept_from_mapping(_source, _term);
+    order by    o.date_created desc, o.obs_id desc
+	limit 1;
     RETURN ret;
 
 END
