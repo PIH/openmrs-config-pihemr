@@ -3410,7 +3410,7 @@ END
 -- This function accepts encounter_id, mapping source, mapping code (for both the concept_id and value_coded) and returns
 -- True or false if we have answer to this question on the form or not
 #
-DROP FUNCTION answer_exists_in_encounter;
+DROP FUNCTION IF EXISTS answer_exists_in_encounter;
 #
 CREATE FUNCTION answer_exists_in_encounter(_encounterId int(11), _source varchar(50), _term varchar(255), _source1 varchar(50), _term1 varchar(255))
 RETURNS boolean
