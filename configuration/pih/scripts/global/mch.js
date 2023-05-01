@@ -18,24 +18,18 @@
  * });
  */
 function setUpEdd(currentEncounterDate, msgWeeks) {
+
   function updateEdd() {
     const lastPeriodDateValue = htmlForm.getValueIfLegal("lastPeriodDate.value");
     if (lastPeriodDateValue) {
       const lastPeriodDate = new Date(lastPeriodDateValue);
-      const today = currentEncounterDate ? new Date(+currentEncounterDate) : new Date();
-      const gestAgeMs = today.getTime() - lastPeriodDate.getTime();
-      const gestAgeDays = Math.floor(gestAgeMs / (1000 * 3600 * 24))
-      const gestAgeWeeks = Math.floor(gestAgeDays / 7);
-      const gestAgeRemainderDays = gestAgeDays % 7;
+      const gestAgeText = calculateGestationalDays(lastPeriodDate, currentEncounterDate, msgWeeks);
+      const edd = calculateExpectedDeliveryDate(lastPeriodDate);
       const locale = window.sessionContext.locale || navigator.language;
-      const edd = new Date(lastPeriodDate.getTime() + 1000 * 60 * 60 * 24 * 280);
-      jq(".calculated-edd-and-gestational").show();
+      jq("#calculated-edd-and-gestational").show();
       getField("edd.value").datepicker("setDate", edd);
-      jq(".calculated-edd").text((Intl.DateTimeFormat(locale, { dateStyle: "full" })).format(edd));
-      const gestAgeText = gestAgeWeeks + " " +
-        (gestAgeRemainderDays ? gestAgeRemainderDays + "/7 " : " ") +
-        msgWeeks;
-      jq(".calculated-gestational-age-value").text(gestAgeText);
+      jq("#calculated-edd").text((Intl.DateTimeFormat(locale, { dateStyle: "medium" })).format(edd));
+      jq("#calculated-gestational-age-value").text(gestAgeText);
     } else {
       jq("#calculated-edd-and-gestational").hide();
     }
@@ -47,6 +41,25 @@ function setUpEdd(currentEncounterDate, msgWeeks) {
   });
 
   updateEdd();
+}
+
+/**
+ * return a string representation of the gestational age as of the passed currentEncounterDate
+ */
+function calculateGestationalDays(lastPeriodDate, currentEncounterDate, msgWeeks) {
+  const today = currentEncounterDate ? new Date(+currentEncounterDate) : new Date();
+  const gestAgeMs = today.getTime() - lastPeriodDate.getTime();
+  const gestAgeDays = Math.floor(gestAgeMs / (1000 * 3600 * 24))
+  const gestAgeWeeks = Math.floor(gestAgeDays / 7);
+  const gestAgeRemainderDays = gestAgeDays % 7;
+  return gestAgeWeeks + " " + (gestAgeRemainderDays ? gestAgeRemainderDays + "/7 " : " ") + msgWeeks;
+}
+
+/**
+ * takes lastPeriodDate:Date as input, returns Date as output
+ */
+function calculateExpectedDeliveryDate(lastPeriodDate) {
+  return new Date(lastPeriodDate.getTime() + 1000 * 60 * 60 * 24 * 280);
 }
 
 /**

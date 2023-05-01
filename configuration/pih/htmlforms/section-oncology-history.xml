@@ -806,7 +806,7 @@
                         </span>
                     </div>
                 </div>
-                <div class="two-columns hidden calculated-edd-and-gestational" style="display: none;">
+                <div id="calculated-edd-and-gestational" class="two-columns hidden calculated-edd-and-gestational" style="display: none;">
                     <div>
                         <span id="calculated-gestational-age-wrapper">
                             <span id="calculated-gestational-age-label">
