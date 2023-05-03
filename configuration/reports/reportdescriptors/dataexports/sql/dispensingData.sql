@@ -10,6 +10,7 @@ CREATE TEMPORARY TABLE temp_meds
 (	encounter_id		int(11),
 	obs_id				int(11),
 	medication			varchar(255),	
+	drug_name			varchar(255),
 	dosage				double,
 	dosageUnits			varchar(255),
 	frequency			varchar(255),
@@ -38,7 +39,7 @@ create index temp_meds_ei on temp_meds(encounter_id);
 
 DROP TEMPORARY TABLE IF EXISTS temp_obs;
 create temporary table temp_obs 
-select o.obs_id, o.voided ,o.obs_group_id , o.encounter_id, o.person_id, o.concept_id, o.value_coded, o.value_numeric, o.value_text,o.value_datetime, o.value_coded_name_id ,o.comments 
+select o.obs_id, o.voided ,o.obs_group_id , o.encounter_id, o.person_id, o.concept_id, o.value_coded, o.value_numeric, o.value_text,o.value_datetime, o.value_coded_name_id ,o.value_drug ,o.comments 
 from obs o
 inner join temp_meds t on t.obs_id = o.obs_group_id
 where o.voided = 0;
@@ -48,6 +49,10 @@ create index temp_obs_ci1 on temp_obs(obs_group_id, concept_id);
 update temp_meds t
 inner join temp_obs o on o.obs_group_id = t.obs_id and o.concept_id = concept_from_mapping( 'PIH','1282')
 set t.medication = concept_name(o.value_coded, @locale);
+
+update temp_meds t
+inner join temp_obs o on o.obs_group_id = t.obs_id and o.concept_id = concept_from_mapping( 'PIH','1282')
+set t.drug_name = drugName(o.value_drug);
 
 update temp_meds t
 inner join temp_obs o on o.obs_group_id = t.obs_id and o.concept_id = concept_from_mapping( 'PIH','9073')
@@ -140,6 +145,7 @@ select
 e.visit_id,
 e.encounter_id,
 m.medication,
+m.drug_name,
 m.dosage,
 m.dosageUnits,
 m.frequency,
