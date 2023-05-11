@@ -5,6 +5,10 @@
     }
   },
   "@openmrs/esm-dispensing-app": {
+    "dispenseBehavior": {
+      "allowModifyingPrescription": false,
+      "restrictTotalQuantityDispensed": true
+    },
     "locationBehavior": {
       "locationColumn": {
         "enabled": true
