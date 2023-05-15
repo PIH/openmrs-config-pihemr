@@ -144,7 +144,8 @@ set test_location = concept_name(o.value_coded, @locale);
 update temp_report t 
   inner join obs o on o.encounter_id = t.specimen_encounter_id and o.voided  = 0 
     and o.concept_id = concept_from_mapping('PIH','Date of test results')
-set result_date = o.value_datetime;
+-- if the date of the value_datetime is the same as the date created, assume real-time entry and use date_created so we get full timestamp of when the results were entered
+set result_date = IF(DATE(o.value_datetime) = DATE(o.date_created), o.date_created, o.value_datetime);
 
 update temp_report t 
   inner join obs o on o.encounter_id = t.specimen_encounter_id and o.voided  = 0 
