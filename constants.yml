@@ -111,6 +111,22 @@ concept:
     uuid: "d192f132-999a-4666-8725-028f9fcb8df4"
   unemployed:
     uuid: "3cd979de-26fe-102b-80cb-0017a47871b2"
+  birthplace:
+    uuid: "0b192340-3eb5-4597-8cea-d33c182fc79c"
+  civilStatus:
+    uuid: "3cd6df26-26fe-102b-80cb-0017a47871b2"
+  singleOrChild:
+    uuid: "df488243-d1d5-4b50-ae04-40b4ffdcf934"
+  married:
+    uuid: "3cee0aca-26fe-102b-80cb-0017a47871b2"
+  livingWithPartner:
+    uuid: "3cd6e96c-26fe-102b-80cb-0017a47871b2"
+  separated:
+    uuid: "3cd6e246-26fe-102b-80cb-0017a47871b2"
+  divorced:
+    uuid: "3cd6e55c-26fe-102b-80cb-0017a47871b2"
+  widowed:
+    uuid: "3cd6e6f6-26fe-102b-80cb-0017a47871b2"
 
 providerAttributeType:
   households:
