@@ -1,3 +1,4 @@
+drop table if exists report_mapping;
 create or replace view report_mapping as
 select crm.concept_id, crs.name "source", crt.code
 from concept_reference_map crm,
@@ -9,7 +10,7 @@ where crm.concept_reference_term_id = crt.concept_reference_term_id
   and crs.retired = 0
   and crs.name in ('PIH', 'CIEL');
 
-
+drop table if exists current_name_address;
 create or replace view current_name_address as
 select p.person_id,
        p.gender,
