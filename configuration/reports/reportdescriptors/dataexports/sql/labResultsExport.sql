@@ -1,5 +1,5 @@
-#set @startDate='2020-01-20';
-#set @endDate='2020-05-20';
+#set @startDate='2023-05-01';
+#set @endDate='2023-05-20';
 #a541af1e-105c-40bf-b345-ba1fd6a59b85 ZL
 #1a2acce0-7426-11e5-a837-0800200c9a66 Wellbody
 #0bc545e0-f401-11e4-b939-0800200c9a66 Liberia
@@ -31,6 +31,7 @@ CREATE TEMPORARY TABLE temp_laborders_spec
   encounter_datetime  DATETIME,
   encounter_location VARCHAR(255),
   patient_id INT(11),
+  date_created DATETIME,
   emr_id VARCHAR(50),
   loc_registered VARCHAR(255),
   unknown_patient VARCHAR(50),
@@ -67,6 +68,7 @@ CREATE TEMPORARY TABLE temp_labresults
   lab_id VARCHAR(255),	
   LOINC VARCHAR(255),	
   specimen_collection_date DATETIME,
+  specimen_collection_entry_date DATETIME,
   results_date DATETIME,
   results_entry_date DATETIME,
   result VARCHAR(255),
@@ -79,12 +81,13 @@ CREATE TEMPORARY TABLE temp_labresults
 );
  
  -- this loads all specimen encounters (from the lab application) into a temp table 
-INSERT INTO temp_laborders_spec (encounter_id,encounter_datetime,patient_id,emr_id, encounter_location)
+INSERT INTO temp_laborders_spec (encounter_id,encounter_datetime,patient_id,emr_id, encounter_location, date_created)
 SELECT e.encounter_id,
 e.encounter_datetime,
 e.patient_id,
 PATIENT_IDENTIFIER(e.patient_id, METADATA_UUID('org.openmrs.module.emrapi', 'emr.primaryIdentifierType')),
-location_name(location_id)
+location_name(location_id),
+e.date_created
 FROM encounter e
 WHERE e.encounter_type = @specimen_collection AND e.voided = 0
 AND (@startDate IS NULL OR DATE(e.encounter_datetime) >= DATE(@startDate))
@@ -149,7 +152,7 @@ INNER JOIN obs res_date ON res_date.voided = 0 AND res_date.encounter_id = ts.en
 SET ts.results_date = res_date.value_datetime;
 
 -- This query loads all specimen encounter-level information from above and observations from results entered  
-INSERT INTO temp_labresults (patient_id,emr_id,encounter_location, loc_registered, unknown_patient, gender, age_at_enc, department, commune, section, locality, street_landmark,order_number,orderable,specimen_collection_date, results_date, results_entry_date,test_concept_id,test, lab_id, LOINC,result_coded_answer,result_numeric_answer,result_text_answer)
+INSERT INTO temp_labresults (patient_id,emr_id,encounter_location, loc_registered, unknown_patient, gender, age_at_enc, department, commune, section, locality, street_landmark,order_number,orderable,specimen_collection_date, specimen_collection_entry_date, results_date, results_entry_date,test_concept_id,test, lab_id, LOINC,result_coded_answer,result_numeric_answer,result_text_answer)
 SELECT ts.patient_id,
 ts.emr_id,
 ts.encounter_location,
@@ -164,10 +167,10 @@ ts.locality,
 ts.street_landmark,
 ts.order_number, 
 IFNULL(CONCEPT_NAME(ts.concept_id,@locale),CONCEPT_NAME(ts.concept_id,'en')), 
-res.obs_datetime, 
+ts.encounter_datetime,
+ts.date_created,
 ts.results_date,
--- ts.results_entry_date,
-res.obs_datetime,
+res.date_created,
 res.concept_id, 
 IFNULL(CONCEPT_NAME(res.concept_id, @locale),CONCEPT_NAME(res.concept_id,'en')), 
 ts.lab_id,							  
@@ -208,6 +211,7 @@ SELECT t.emr_id,
        t.LOINC,							   
        DATE(t.specimen_collection_date) "specimen_collection_date",
        DATE(t.results_date) "results_date",
+       t.specimen_collection_entry_date,
        t.results_entry_date,
        -- only return the result if the test was performed:     
        CASE 
