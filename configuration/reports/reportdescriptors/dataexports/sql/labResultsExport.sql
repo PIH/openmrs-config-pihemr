@@ -97,8 +97,6 @@ WHERE e.encounter_type = @specimen_collection AND e.voided = 0
 AND (@startDate IS NULL OR DATE(e.encounter_datetime) >= DATE(@startDate))
 AND (@endDate IS NULL OR DATE(e.encounter_datetime) <= DATE(@endDate));
 
-select * from temp_laborders_spec;
-
 -- updates order number 
 UPDATE temp_laborders_spec t
 INNER JOIN obs sco ON sco.encounter_id = t.encounter_id AND sco.concept_id = @test_order AND sco.voided = 0
