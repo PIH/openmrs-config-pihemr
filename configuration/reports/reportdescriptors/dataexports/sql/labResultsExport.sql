@@ -6,6 +6,7 @@
  
 SET @locale = GLOBAL_PROPERTY_VALUE('default_locale', 'en');
 SET sql_safe_updates = 0;
+set @partition = '${partitionNum}';
  
 SELECT patient_identifier_type_id INTO @zlId FROM patient_identifier_type WHERE uuid IN ('a541af1e-105c-40bf-b345-ba1fd6a59b85' ,'1a2acce0-7426-11e5-a837-0800200c9a66','0bc545e0-f401-11e4-b939-0800200c9a66');
 SELECT person_attribute_type_id INTO @unknownPt FROM person_attribute_type WHERE uuid='8b56eac7-5c76-4b9c-8c6f-1deab8d3fc47';
@@ -28,6 +29,7 @@ CREATE TEMPORARY TABLE temp_laborders_spec
   lab_id VARCHAR(255),	
   concept_id INT(11),
   encounter_id INT(11),
+  visit_id INT(11),
   encounter_datetime  DATETIME,
   encounter_location VARCHAR(255),
   patient_id INT(11),
@@ -52,6 +54,7 @@ CREATE TEMPORARY TABLE temp_labresults
 (
   patient_id INT(11),
   emr_id VARCHAR(50),
+  visit_id INT(11),
   encounter_location VARCHAR(255),
   loc_registered VARCHAR(255),
   unknown_patient VARCHAR(50),
@@ -81,8 +84,9 @@ CREATE TEMPORARY TABLE temp_labresults
 );
  
  -- this loads all specimen encounters (from the lab application) into a temp table 
-INSERT INTO temp_laborders_spec (encounter_id,encounter_datetime,patient_id,emr_id, encounter_location, date_created)
+INSERT INTO temp_laborders_spec (encounter_id,visit_id,encounter_datetime,patient_id,emr_id, encounter_location, date_created)
 SELECT e.encounter_id,
+e.visit_id,
 e.encounter_datetime,
 e.patient_id,
 PATIENT_IDENTIFIER(e.patient_id, METADATA_UUID('org.openmrs.module.emrapi', 'emr.primaryIdentifierType')),
@@ -93,7 +97,7 @@ WHERE e.encounter_type = @specimen_collection AND e.voided = 0
 AND (@startDate IS NULL OR DATE(e.encounter_datetime) >= DATE(@startDate))
 AND (@endDate IS NULL OR DATE(e.encounter_datetime) <= DATE(@endDate));
 
-
+select * from temp_laborders_spec;
 
 -- updates order number 
 UPDATE temp_laborders_spec t
@@ -108,8 +112,9 @@ SET t.concept_id = o.concept_id,
 ;
 
  -- this adds the standalone lab results encounters into the temp table 
-INSERT INTO temp_laborders_spec (encounter_id,encounter_datetime,patient_id,emr_id, encounter_location)
+INSERT INTO temp_laborders_spec (encounter_id,visit_id,encounter_datetime,patient_id,emr_id, encounter_location)
 SELECT e.encounter_id,
+e.visit_id,
 e.encounter_datetime,
 e.patient_id,
 PATIENT_IDENTIFIER(e.patient_id, METADATA_UUID('org.openmrs.module.emrapi', 'emr.primaryIdentifierType')),
@@ -152,9 +157,10 @@ INNER JOIN obs res_date ON res_date.voided = 0 AND res_date.encounter_id = ts.en
 SET ts.results_date = res_date.value_datetime;
 
 -- This query loads all specimen encounter-level information from above and observations from results entered  
-INSERT INTO temp_labresults (patient_id,emr_id,encounter_location, loc_registered, unknown_patient, gender, age_at_enc, department, commune, section, locality, street_landmark,order_number,orderable,specimen_collection_date, specimen_collection_entry_date, results_date, results_entry_date,test_concept_id,test, lab_id, LOINC,result_coded_answer,result_numeric_answer,result_text_answer)
+INSERT INTO temp_labresults (patient_id,emr_id,visit_id,encounter_location, loc_registered, unknown_patient, gender, age_at_enc, department, commune, section, locality, street_landmark,order_number,orderable,specimen_collection_date, specimen_collection_entry_date, results_date, results_entry_date,test_concept_id,test, lab_id, LOINC,result_coded_answer,result_numeric_answer,result_text_answer)
 SELECT ts.patient_id,
 ts.emr_id,
+ts.visit_id,
 ts.encounter_location,
 ts.loc_registered, 
 ts.unknown_patient, 
@@ -193,6 +199,7 @@ SET t.units = cu.units
 
 -- select  all output:
 SELECT t.emr_id,
+       if(@partition REGEXP '^[0-9]+$' = 1,concat(@partition,'-',t.visit_id),t.visit_id) "visit_id",
        t.loc_registered,
        t.encounter_location,
        t.unknown_patient,
