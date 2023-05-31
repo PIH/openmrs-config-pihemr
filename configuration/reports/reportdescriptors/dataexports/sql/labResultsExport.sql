@@ -215,8 +215,8 @@ SELECT t.emr_id,
        t.lab_id,							   
        t.LOINC,							   
        DATE(t.specimen_collection_date) "specimen_collection_date",
-       DATE(t.results_date) "results_date",
        t.specimen_collection_entry_date,
+       DATE(t.results_date) "results_date",
        t.results_entry_date,
        -- only return the result if the test was performed:     
        CASE 
