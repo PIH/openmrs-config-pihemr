@@ -33,15 +33,6 @@
       }
     }
   },
-  "@openmrs/esm-login-app": {
-    "logo": {
-      "src": "/openmrs/spa/site/pih-logo.png",
-      "alt": "Partners in Health"
-    },
-    "links": {
-      "loginSuccess": "${openmrsBase}/pihcore/home.page"
-    }
-  },
   "@openmrs/esm-fast-data-entry-app": {
     "formCategories": [
       {
@@ -57,6 +48,18 @@
     "formCategoriesToShow": [
       "Check-In"
     ]
+  },
+  "@openmrs/esm-form-builder": {
+    "showSchemaSaveWarning": false
+  },
+  "@openmrs/esm-login-app": {
+    "logo": {
+      "src": "/openmrs/spa/site/pih-logo.png",
+      "alt": "Partners in Health"
+    },
+    "links": {
+      "loginSuccess": "${openmrsBase}/pihcore/home.page"
+    }
   },
   "@openmrs/esm-outpatient-app": {
     "concepts": {
