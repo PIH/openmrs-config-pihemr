@@ -49,7 +49,7 @@
       "Check-In"
     ]
   },
-  "@openmrs/esm-form-builder": {
+  "@openmrs/esm-form-builder-app": {
     "showSchemaSaveWarning": false
   },
   "@openmrs/esm-login-app": {
