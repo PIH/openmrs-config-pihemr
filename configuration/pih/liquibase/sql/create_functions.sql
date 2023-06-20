@@ -658,6 +658,33 @@ BEGIN
 END
 #
 /*
+ returns provider name of provider_id
+*/
+#
+DROP FUNCTION IF EXISTS provider_name_from_provider_id;
+#
+CREATE FUNCTION provider_name_from_provider_id(
+    _provider_id int
+)
+    RETURNS TEXT
+    DETERMINISTIC
+
+BEGIN
+    DECLARE personName TEXT;
+
+    select      concat(given_name, ' ', family_name)  into personName
+    from        provider p
+    INNER JOIN person_name pn ON p.person_id =pn.person_id AND p.provider_id= _provider_id
+    INNER JOIN users u on u.person_id  = pn.person_id
+    where       voided = 0
+    order by    pn.preferred desc, pn.date_created desc
+    limit       1;
+
+    RETURN personName;
+
+END
+#
+/*
 Encounter Location
 */
 #
@@ -3403,59 +3430,6 @@ BEGIN
     limit 1;
 
     RETURN mapping;
-
-END
-#
--- this function accepts encounter id and mapping source, and returns a boolean to -- indicate if a mapping exists or not in the answer
-#
-DROP FUNCTION IF EXISTS answer_exists_in_encounter;
-#
-CREATE FUNCTION answer_exists_in_encounter(_encounterId int(11), _source varchar(50), _term varchar(255), _source1 varchar(50), _term1 varchar(255))
-RETURNS boolean
-DETERMINISTIC
-
-BEGIN
-
-DECLARE ret boolean;
-
-select      CASE WHEN count(*) = 0 THEN FALSE ELSE TRUE END into ret FROM
-(
-select      obs_id
-from        obs o
-where       o.voided = 0
-and         o.encounter_id = _encounterId
-and         o.concept_id = concept_from_mapping(_source, _term)
-and         o.value_coded = concept_from_mapping(_source1, _term1)
-order by    o.date_created desc, o.obs_id desc
-limit 1
-) obs_single_question_answer;
-
-RETURN ret;
-
-END
-#
-
--- This function accepts obs group Id, and a mpping source, and returns the coded answer
-#
-DROP FUNCTION IF EXISTS obs_from_group_id_value_coded;
-#
-CREATE FUNCTION obs_from_group_id_value_coded(_obsGroupId int(11), _source varchar(50), _term varchar(255), _locale varchar(255))
-    RETURNS text
-    DETERMINISTIC
-
-BEGIN
-
-    DECLARE ret text;
-
-    select      concept_name(o.value_coded, _locale) into ret
-    from        obs o
-    where       o.voided = 0
-    and       o.obs_group_id= _obsGroupId
-    and       o.concept_id = concept_from_mapping(_source, _term)
-    order by    o.date_created desc, o.obs_id desc
-	limit 1;
-
-    RETURN ret;
 
 END
 #
