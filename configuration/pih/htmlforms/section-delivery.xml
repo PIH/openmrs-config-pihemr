@@ -702,17 +702,36 @@
                                 <obs conceptId="CIEL:5916" showUnits="true"/>
 
                                 <!-- APGAR -->
-                                <br/>
-                                <br/>
+                                <br/><br/>
                                 <label>
-                                    <uimessage code="pihcore.mch.apgarScore"/>
+                                    <uimessage code="pihcore.mch.apgarScores" />
                                 </label>
-                                <obs conceptId="CIEL:1504"/>
-                                <!-- Replaced APGAR coded with numeric.  This was on J9 and not migrated.
-                                     Leave this on the report, but add numeric
-                                <obs conceptId="PIH:11932" answerConceptIds="PIH:11933,PIH:11934,PIH:11935"
-                                     answerCodes="pihcore.mch.lessThan4,pihcore.mch.between4and8,pihcore.mch.greaterThan8"
-                                     style="radio" answerSeparator="" /> -->
+                                <div class="three-columns">
+                                    <div>
+                                        <label>
+                                            <uimessage code="1 minute"/>
+                                        </label>
+                                        <obs conceptId="PIH:14419"/>
+                                    </div>
+                                    <div>
+                                        <label>
+                                            <uimessage code="5 minutes"/>
+                                        </label>
+                                        <obs conceptId="CIEL:1504"/>
+                                        <!-- Replaced APGAR coded with numeric.  This was on J9 and not migrated.
+                                             Leave this on the report, but add numeric
+                                        <obs conceptId="PIH:11932" answerConceptIds="PIH:11933,PIH:11934,PIH:11935"
+                                             answerCodes="pihcore.mch.lessThan4,pihcore.mch.between4and8,pihcore.mch.greaterThan8"
+                                             style="radio" answerSeparator="" /> -->
+                                    </div>
+                                    <div>
+                                        <label>
+                                            <uimessage code="10 minutes"/>
+                                        </label>
+                                        <obs conceptId="PIH:14785"/>
+                                    </div>
+                                </div>
+
 
                                 <br/>
                                 <label>
