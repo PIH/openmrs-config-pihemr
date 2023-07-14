@@ -208,7 +208,7 @@
                 var hasValue = function(element) {
                     return jq(element).find('.baby-name input').val();
                 };
-                restrictInputOnlyNumber("head-circumference ")
+               
             
 
                 var hideOtherBabies = function() {
