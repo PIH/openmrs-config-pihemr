@@ -293,7 +293,7 @@
                     <uimessage code="pihcore.mch.deliveryDateTime"/>
                 </label>
 
-                <obs id="deliveryDate" conceptId="CIEL:5599" defaultDatetime="today" />
+                <obs id="deliveryDate" conceptId="CIEL:5599" defaultDatetime="today" allowFutureDates="false" allowFutureTimes="true" />
             </p>
 
             <div class="two-columns">
