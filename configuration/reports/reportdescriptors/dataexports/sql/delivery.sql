@@ -1,9 +1,9 @@
 -- set @startDate = '2000-05-01';
 -- set @endDate = '2022-06-09';
 set @partition = '${partitionNum}';
-SET @locale = ifnull(@locale, GLOBAL_PROPERTY_VALUE('default_locale', 'en'));
+SET @locale = 'en'; -- ifnull(@locale, GLOBAL_PROPERTY_VALUE('default_locale', 'en'));
 
-select encounter_type_id into @delivery_note from encounter_type where uuid = '00e5ebb2-90ec-11e8-9eb6-529269fb1459'; 
+select encounter_type_id into @delivery_note from encounter_type where uuid='00e5ebb2-90ec-11e8-9eb6-529269fb1459'; 
 
 DROP TEMPORARY TABLE IF EXISTS temp_delivery;
 CREATE TEMPORARY TABLE temp_delivery
@@ -77,22 +77,30 @@ CREATE TEMPORARY TABLE temp_delivery
     Mental_health_assessment        varchar(1000),
     Birth_1_outcome                 varchar(255),
     Birth_1_weight                  double,
-    Birth_1_APGAR                   int,
+    Birth_1_APGAR_5_minute                int,
+    Birth_1_APGAR_1_minute                   int,
+    Birth_1_APGAR_10_minute                   int,
     Birth_1_neonatal_resuscitation  varchar(255),
     Birth_1_macerated_fetus         varchar(255),
     Birth_2_outcome                 varchar(255),
     Birth_2_weight                  double,
-    Birth_2_APGAR                   int,
+    Birth_2_APGAR_5_minute                int,
+    Birth_2_APGAR_1_minute                   int,
+    Birth_2_APGAR_10_minute                   int,
     Birth_2_neonatal_resuscitation  varchar(255),
     Birth_2_macerated_fetus         varchar(255),
     Birth_3_outcome                 varchar(255),
     Birth_3_weight                  double,
-    Birth_3_APGAR                   int,
+    Birth_3_APGAR_5_minute                int,
+    Birth_3_APGAR_1_minute                   int,
+    Birth_3_APGAR_10_minute                   int,
     Birth_3_neonatal_resuscitation  varchar(255),
     Birth_3_macerated_fetus         varchar(255),
     Birth_4_outcome                 varchar(255),
     Birth_4_weight                  double,
-    Birth_4_APGAR                   int,
+    Birth_4_APGAR_5_minute                int,
+    Birth_4_APGAR_1_minute                   int,
+    Birth_4_APGAR_10_minute                   int,
     Birth_4_neonatal_resuscitation  varchar(255),
     Birth_4_macerated_fetus         varchar(255),
     number_prenatal_visits          int,
@@ -297,25 +305,33 @@ update temp_delivery set Mental_health_assessment = obs_value_coded_list_from_te
 -- birth details (1 to 3)
 update temp_delivery set Birth_1_outcome = obs_from_group_id_value_coded_list_from_temp(obs_id(encounter_id,'CIEL','1585', 0),'CIEL','161033',@locale);
 update temp_delivery set Birth_1_weight = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 0),'CIEL','5916');
-update temp_delivery set Birth_1_APGAR = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 0),'CIEL','1504');
+update temp_delivery set Birth_1_APGAR_5_minute = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 0),'CIEL','1504');
+update temp_delivery set Birth_1_APGAR_1_minute = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 0),'PIH','14419');
+update temp_delivery set Birth_1_APGAR_10_minute = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 0),'PIH','14785');
 update temp_delivery set Birth_1_neonatal_resuscitation = obs_from_group_id_value_coded_list_from_temp(obs_id(encounter_id,'CIEL','1585', 0),'CIEL','162131',@locale);
 update temp_delivery set Birth_1_macerated_fetus = obs_from_group_id_value_coded_list_from_temp(obs_id(encounter_id,'CIEL','1585', 0),'CIEL','135437',@locale);
 
 update temp_delivery set Birth_2_outcome = obs_from_group_id_value_coded_list_from_temp(obs_id(encounter_id,'CIEL','1585', 1),'CIEL','161033',@locale);
 update temp_delivery set Birth_2_weight = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 1),'CIEL','5916');
-update temp_delivery set Birth_2_APGAR = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 1),'CIEL','1504');
+update temp_delivery set Birth_2_APGAR_5_minute = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 1),'CIEL','1504');
+update temp_delivery set Birth_2_APGAR_1_minute = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 1),'PIH','14419');
+update temp_delivery set Birth_2_APGAR_10_minute = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 1),'PIH','14785');
 update temp_delivery set Birth_2_neonatal_resuscitation = obs_from_group_id_value_coded_list_from_temp(obs_id(encounter_id,'CIEL','1585', 1),'CIEL','162131',@locale);
 update temp_delivery set Birth_2_macerated_fetus = obs_from_group_id_value_coded_list_from_temp(obs_id(encounter_id,'CIEL','1585', 1),'CIEL','135437',@locale);
 
 update temp_delivery set Birth_3_outcome = obs_from_group_id_value_coded_list_from_temp(obs_id(encounter_id,'CIEL','1585', 2),'CIEL','161033',@locale);
 update temp_delivery set Birth_3_weight = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 2),'CIEL','5916');
-update temp_delivery set Birth_3_APGAR = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 2),'CIEL','1504');
+update temp_delivery set Birth_3_APGAR_5_minute = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 2),'CIEL','1504');
+update temp_delivery set Birth_3_APGAR_1_minute = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 2),'PIH','14419');
+update temp_delivery set Birth_3_APGAR_10_minute = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 2),'PIH','14785');
 update temp_delivery set Birth_3_neonatal_resuscitation = obs_from_group_id_value_coded_list_from_temp(obs_id(encounter_id,'CIEL','1585', 2),'CIEL','162131',@locale);
 update temp_delivery set Birth_3_macerated_fetus = obs_from_group_id_value_coded_list_from_temp(obs_id(encounter_id,'CIEL','1585', 2),'CIEL','135437',@locale);
 
 update temp_delivery set Birth_4_outcome = obs_from_group_id_value_coded_list_from_temp(obs_id(encounter_id,'CIEL','1585', 3),'CIEL','161033',@locale);
 update temp_delivery set Birth_4_weight = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 3),'CIEL','5916');
-update temp_delivery set Birth_4_APGAR = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 3),'CIEL','1504');
+update temp_delivery set Birth_4_APGAR_5_minute = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 3),'CIEL','1504');
+update temp_delivery set Birth_4_APGAR_1_minute = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 3),'PIH','14419');
+update temp_delivery set Birth_4_APGAR_10_minute = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 3),'PIH','14785');
 update temp_delivery set Birth_4_neonatal_resuscitation = obs_from_group_id_value_coded_list_from_temp(obs_id(encounter_id,'CIEL','1585', 3),'CIEL','162131',@locale);
 update temp_delivery set Birth_4_macerated_fetus = obs_from_group_id_value_coded_list_from_temp(obs_id(encounter_id,'CIEL','1585', 3),'CIEL','135437',@locale);
 
@@ -623,22 +639,30 @@ mom_Other_finding_details,
 Mental_health_assessment,
 Birth_1_outcome,
 Birth_1_weight,
-Birth_1_APGAR,
+Birth_1_APGAR_5_minute,
+Birth_1_APGAR_1_minute,
+Birth_1_APGAR_10_minute,
 Birth_1_neonatal_resuscitation,
 Birth_1_macerated_fetus,
 Birth_2_outcome,
 Birth_2_weight,
-Birth_2_APGAR,
+Birth_2_APGAR_5_minute,
+Birth_2_APGAR_1_minute,
+Birth_2_APGAR_10_minute,
 Birth_2_neonatal_resuscitation,
 Birth_2_macerated_fetus,
 Birth_3_outcome,
 Birth_3_weight,
-Birth_3_APGAR,
+Birth_3_APGAR_5_minute,
+Birth_3_APGAR_1_minute,
+Birth_3_APGAR_10_minute,
 Birth_3_neonatal_resuscitation,
 Birth_3_macerated_fetus,
 Birth_4_outcome,
 Birth_4_weight,
-Birth_4_APGAR,
+Birth_4_APGAR_5_minute,
+Birth_4_APGAR_1_minute,
+Birth_4_APGAR_10_minute,
 Birth_4_neonatal_resuscitation,
 Birth_4_macerated_fetus,
 number_prenatal_visits,
