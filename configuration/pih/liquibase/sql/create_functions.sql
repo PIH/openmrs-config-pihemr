@@ -2107,6 +2107,60 @@ BEGIN
 
 END
 #
+/*
+ The following accepts an obs group id, concept mapping and a locale
+  it returns the coded value in that locale of the latest obs in that group 
+*/
+#
+DROP FUNCTION IF EXISTS obs_from_group_id_value_coded;
+#
+CREATE FUNCTION obs_from_group_id_value_coded(_obsGroupId int(11), _source varchar(50), _term varchar(255), _locale varchar(255)) RETURNS text
+    DETERMINISTIC
+BEGIN
+
+    DECLARE ret text;
+
+    select      concept_name(o.value_coded, _locale) into ret
+    from        obs o
+    where       o.voided = 0
+    and       o.obs_group_id= _obsGroupId
+    and       o.concept_id = concept_from_mapping(_source, _term)
+    order by    o.date_created desc, o.obs_id desc
+	limit 1;
+
+    RETURN ret;
+
+END
+#
+/*
+ The following accepts an encounter id, and concept mappings for a question and an answer
+  it returns a boolean (1/0) of whether that question/answer combo exists in that encounter 
+*/
+#
+DROP FUNCTION IF EXISTS answer_exists_in_encounter
+#
+CREATE FUNCTION answer_exists_in_encounter(_encounterId int(11), _source varchar(50), _term varchar(255), _source1 varchar(50), _term1 varchar(255)) RETURNS boolean
+    DETERMINISTIC
+BEGIN
+
+DECLARE ret boolean;
+
+select      CASE WHEN count(*) = 0 THEN FALSE ELSE TRUE END into ret FROM
+(
+select      obs_id
+from        obs o
+where       o.voided = 0
+and         o.encounter_id = _encounterId
+and         o.concept_id = concept_from_mapping(_source, _term)
+and         o.value_coded = concept_from_mapping(_source1, _term1)
+order by    o.date_created desc, o.obs_id desc
+limit 1
+) obs_single_question_answer;
+
+RETURN ret;
+
+END
+#
 -- This function accepts:
 --   encounter_id
 --   a list of encounter types
