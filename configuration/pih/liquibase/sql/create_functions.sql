@@ -3182,6 +3182,29 @@ BEGIN
 
 END
 #
+-- This function accepts obs_group_id, mapping source, mapping code
+-- It will find the value_text entry that matches this from the temp_obs_
+#
+DROP FUNCTION IF EXISTS obs_from_group_id_value_text_from_temp;
+#
+CREATE FUNCTION obs_from_group_id_value_text_from_temp(_obsGroupId int(11), _source varchar(50), _term varchar(255))
+    RETURNS text
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret text;
+
+    select      o.value_text into ret
+    from        temp_obs o
+    where       o.voided = 0
+      and       o.obs_group_id= _obsGroupId
+      and       o.concept_id = concept_from_mapping(_source, _term);
+
+    RETURN ret;
+
+END
+#
 -- This function accepts encounter_id, mapping source, mapping code
 -- It will find a single, best observation that matches this, and return the comment
 -- this function runs against the temp_obs table

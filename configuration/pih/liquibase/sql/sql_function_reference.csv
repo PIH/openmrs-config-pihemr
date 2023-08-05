@@ -105,6 +105,7 @@ functions from temp_obs table,obs_from_group_id_value_datetime_from_temp," obs g
 functions from temp_obs table,obs_comments_from_temp,"encounterId, source,  term, source1, term1",obs comment,returns most recent comment captured in that obs from the temp_obs table with the question and answer of the concepts described,
 functions from temp_obs table,obs_from_group_id_value_coded_list_from_temp,"obs group id, source, term, locale","value coded (list, | separated)","returns a list, pipe delimited, of the coded values captured in that obs group from the temp_obs table of the concept described, in that locale",
 functions from temp_obs table,obs_value_numeric_from_temp,"encounterId, source, term",value numeric,returns most recent value_numeric captured in that encounter from the temp_obs table of the concept described,
+functions from temp_obs table,obs_from_group_id_value_text_from_temp,"encounterId, source, term",text,returns most recent value_text captured in that encounter from the temp_obs table of the concept described,
 orders,OrderReasonStartDate,"patient_id, _order_reasonsource, _order_reason, _term",date activated,returns the date that the patient started on the order reason of the concept described,
 orders,DrugConceptStartDate,"patient_id, drug_source,drug_term",date activated,returns the date that the patient started on the order of the drug concept of the concept described,
 orders,ActiveDrugConceptNameList,"patient_id, source, term, locale",concept name list,return a list of the concept names of the active drugs for the order reason,
