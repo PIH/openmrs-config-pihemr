@@ -12,7 +12,9 @@ CREATE TEMPORARY TABLE temp_users (
     created_by          varchar(50),
     provider_type       varchar(255),
     last_login_date     datetime,
-    num_logins_recorded int
+    num_logins_recorded int,
+    mfa_enabled         bit,
+    mfa_type            varchar(20)
 );
 
 INSERT INTO temp_users(user_id, username, first_name, last_name, account_enabled, created_date, created_by, provider_type)
@@ -29,6 +31,10 @@ FROM        users u
 
 UPDATE temp_users u SET u.last_login_date = user_latest_login(u.user_id);
 UPDATE temp_users u SET u.num_logins_recorded = user_num_logins(u.user_id);
+UPDATE temp_users u SET u.mfa_type = user_property_value(u.user_id, 'authentication.secondaryType', null);
+UPDATE temp_users u SET u.mfa_type = 'question' where u.mfa_type = 'secret';
+UPDATE temp_users u SET u.mfa_type = 'authenticator' where u.mfa_type = 'totp';
+UPDATE temp_users u SET u.mfa_enabled = u.mfa_type is not null;
 
 ALTER TABLE temp_users DROP COLUMN user_id;
 
