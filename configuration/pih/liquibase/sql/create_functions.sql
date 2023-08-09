@@ -2051,8 +2051,7 @@ BEGIN
 
   select name into drug_name_out
   from drug
-  where retired = 0
-  and (drug_id = _id_or_uuid or uuid = _id_or_uuid)
+  where (drug_id = _id_or_uuid or uuid = _id_or_uuid)
   ;
 
   RETURN drug_name_out;
