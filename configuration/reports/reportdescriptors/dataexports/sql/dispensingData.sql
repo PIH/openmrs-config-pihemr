@@ -9,8 +9,10 @@ DROP TEMPORARY TABLE IF EXISTS temp_meds;
 CREATE TEMPORARY TABLE temp_meds
 (	encounter_id		int(11),
 	obs_id				int(11),
-	medication			varchar(255),	
+	medication			varchar(255),
+	drug_id             int(11),
 	drug_name			varchar(255),
+	product_code        varchar(25),
 	dosage				double,
 	dosageUnits			varchar(255),
 	frequency			varchar(255),
@@ -51,8 +53,11 @@ inner join temp_obs o on o.obs_group_id = t.obs_id and o.concept_id = concept_fr
 set t.medication = concept_name(o.value_coded, @locale);
 
 update temp_meds t
-inner join temp_obs o on o.obs_group_id = t.obs_id and o.concept_id = concept_from_mapping( 'PIH','1282')
-set t.drug_name = drugName(o.value_drug);
+    inner join temp_obs o on o.obs_group_id = t.obs_id and o.concept_id = concept_from_mapping( 'PIH','1282')
+set t.drug_id = o.value_drug;
+
+update temp_meds t set t.drug_name = drugName(t.drug_id);
+update temp_meds t set t.product_code = openboxesCode(t.drug_id);
 
 update temp_meds t
 inner join temp_obs o on o.obs_group_id = t.obs_id and o.concept_id = concept_from_mapping( 'PIH','9073')
@@ -146,6 +151,7 @@ e.visit_id,
 e.encounter_id,
 m.medication,
 m.drug_name,
+m.product_code,
 m.dosage,
 m.dosageUnits,
 m.frequency,
