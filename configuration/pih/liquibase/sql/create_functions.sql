@@ -3341,7 +3341,7 @@ BEGIN
     DECLARE ret double;
 
     select      value_numeric into ret
-    from        obs o
+    from        temp_obs o
     where       o.obs_id = _obs_id;
 
     RETURN ret;
@@ -3363,7 +3363,7 @@ BEGIN
     DECLARE ret datetime;
 
     select      value_datetime into ret
-    from        obs o
+    from        temp_obs o
     where       o.obs_id = _obs_id;
 
     RETURN ret;
@@ -3507,5 +3507,191 @@ BEGIN
 
     RETURN mapping;
 
+END
+#
+
+-- This function accepts obs_group_id, mapping source, mapping code
+-- It will find the value_numeric entry that matches this from the temp_obs
+#
+DROP FUNCTION IF EXISTS obs_from_group_id_value_numeric_from_temp;
+#
+CREATE FUNCTION obs_from_group_id_value_numeric_from_temp(_obsGroupId int(11), _source varchar(50), _term varchar(255))
+    RETURNS int
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret int;
+
+    select      value_numeric into ret
+    from        temp_obs o
+    where       o.voided = 0
+      and       o.obs_group_id= _obsGroupId
+      and       o.concept_id = concept_from_mapping(_source, _term);
+
+    RETURN ret;
+
+END
+#
+
+-- This function accepts person_id and return boolean to represent if patient is dead or not
+#
+DROP FUNCTION IF EXISTS dead;
+#
+CREATE FUNCTION dead(
+    _person_id int)
+
+    RETURNS Boolean
+    DETERMINISTIC
+
+BEGIN
+    DECLARE dead_flag Boolean;
+
+	select  CASE WHEN dead=0 THEN FALSE WHEN dead=1 THEN TRUE ELSE FALSE END into dead_flag
+	from    person p 
+	where 	p.person_id = _person_id;
+
+    RETURN dead_flag;
+END
+#
+
+-- This function accepts person_id and return death_date
+#
+DROP FUNCTION IF EXISTS death_date;
+#
+CREATE FUNCTION death_date(
+    _person_id int)
+
+    RETURNS date
+    DETERMINISTIC
+
+BEGIN
+    DECLARE deathDate date;
+
+	select  death_date  into deathDate
+	from    person p 
+	where 	p.person_id = _person_id;
+
+    RETURN deathDate;
+END
+#
+
+-- This function accepts patient_id, and source concept and returns the first value_numeric for that concept from temp_obs
+#
+DROP FUNCTION IF EXISTS first_value_numeric_from_temp;
+#
+CREATE FUNCTION first_value_numeric_from_temp(_patient_id int(11), _source varchar(50), _term varchar(255))
+    RETURNS int
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret int(11);
+
+    select      o.value_numeric into ret
+    from        temp_obs o
+    where       o.voided = 0
+		and o.person_id = _patient_id    		
+      	and       o.concept_id = concept_from_mapping(_source, _term)
+    order by obs_datetime asc limit 1 ;
+
+    RETURN ret;
+    
+END 
+#
+
+-- This function accepts patient_id, and source concept and returns the last value_numeric for that concept from temp_obs
+#
+DROP FUNCTION IF EXISTS last_value_numeric_from_temp;
+#
+CREATE FUNCTION last_value_numeric_from_temp(_patient_id int(11), _source varchar(50), _term varchar(255))
+    RETURNS int
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret int(11);
+
+    select      o.value_numeric into ret
+    from        temp_obs o
+    where       o.voided = 0
+		and o.person_id = _patient_id    		
+      	and       o.concept_id = concept_from_mapping(_source, _term)
+    order by obs_datetime desc limit 1 ;
+
+    RETURN ret;
+    
+END 
+#
+
+-- This function accepts patient_id, and source concept and returns the first obs_datetime for that concept from temp_obs
+#        
+DROP FUNCTION IF EXISTS first_obs_datetime_from_temp;
+#
+CREATE FUNCTION first_obs_datetime_from_temp(_patient_id int(11), _source varchar(50), _term varchar(255))
+    RETURNS datetime
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret datetime;
+
+    select      o.obs_datetime into ret
+    from        temp_obs o
+    where       o.voided = 0
+		and o.person_id = _patient_id    		
+      	and       o.concept_id = concept_from_mapping(_source, _term)
+    order by obs_datetime asc limit 1 ;
+
+    RETURN ret;
+    
+END 
+#
+
+-- This function accepts patient_id, and source concept and returns the last obs_datetime for that concept from temp_obs
+#
+DROP FUNCTION IF EXISTS last_obs_datetime_from_temp;
+#
+CREATE FUNCTION last_obs_datetime_from_temp(_patient_id int(11), _source varchar(50), _term varchar(255))
+    RETURNS datetime
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret datetime;
+
+    select      o.obs_datetime into ret
+    from        temp_obs o
+    where       o.voided = 0
+		and o.person_id = _patient_id    		
+      	and       o.concept_id = concept_from_mapping(_source, _term)
+    order by obs_datetime desc limit 1 ;
+
+    RETURN ret;
+    
+END 
+#
+
+-- This function accepts patient_id and concept_id and returns the latest value_coded of that concept from temp_obs
+#
+DROP FUNCTION IF EXISTS latest_value_coded_from_temp_of_concept_id;
+#
+CREATE FUNCTION latest_value_coded_from_temp_of_concept_id(_patient_id int(11), _concept_id int(11))
+    RETURNS int
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret int(11);
+
+    select      o.value_coded into ret
+    from        temp_obs o
+    where       o.voided = 0
+		and o.person_id = _patient_id    		
+      	and       o.concept_id = _concept_id
+    order by obs_datetime desc limit 1 ;
+
+    RETURN ret;
+    
 END
 #
