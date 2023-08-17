@@ -404,5 +404,11 @@
             <value>configuration/frontend</value>
         </globalProperty>
 
+        <!-- OWA -->
+        <globalProperty>
+            <property>owa.appFolderPath</property>
+            <value>/home/tomcat9/.OpenMRS/owa</value>
+        </globalProperty>
+
     </globalProperties>
 </config>
