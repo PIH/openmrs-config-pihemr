@@ -407,7 +407,7 @@
         <!-- OWA -->
         <globalProperty>
             <property>owa.appFolderPath</property>
-            <value>/home/tomcat9/.OpenMRS/owa</value>
+            <value>/home/tomcat/.OpenMRS/owa</value>
         </globalProperty>
 
     </globalProperties>
