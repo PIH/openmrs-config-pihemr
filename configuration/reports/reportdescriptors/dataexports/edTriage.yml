@@ -21,6 +21,8 @@ designs:
       "dateFormat": "dd-MMM-yyyy HH:mm:ss"
 config:
   category: "dataExport"
+  countries:
+    - "HAITI"  
   order: 80
   components:
     - "edTriage"
