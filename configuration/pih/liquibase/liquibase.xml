@@ -819,4 +819,11 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20230907-rename-default-owa-directory" author="mgoodrich">
+        <comment>UHM-7368: Remaining Tomcat9 Tasks (rename owa directory if necessary)</comment>
+        <sql>
+            update global_property set property_value = '/home/tomcat/.OpenMRS/owa' where property = 'owa.appFolderPath' and property_value='/home/tomcat7/.OpenMRS/owa';
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
