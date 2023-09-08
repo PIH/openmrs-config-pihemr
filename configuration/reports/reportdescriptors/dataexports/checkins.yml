@@ -36,7 +36,6 @@ config:
     - "allDataExports"
   countries:
     - "SIERRA_LEONE"
-    - "LIBERIA"
     - "MEXICO"
     - "PERU"
     - "OTHER"
