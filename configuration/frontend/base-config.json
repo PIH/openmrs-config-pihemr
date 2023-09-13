@@ -1,7 +1,7 @@
 {
   "@openmrs/esm-api": {
     "redirectAuthFailure": {
-      "url": "${openmrsBase}/authenticationui/login/login.page"
+      "url": "${openmesBase}/index.htm"
     }
   },
   "@openmrs/esm-dispensing-app": {
@@ -54,16 +54,16 @@
   },
   "@openmrs/esm-login-app": {
     "logo": {
-      "src": "/openmrs/spa/site/pih-logo.png",
+      "src": "${openmrsSpaBase}/site/pih-logo.png",
       "alt": "Partners In Health"
     },
     "links": {
-      "loginSuccess": "${openmrsBase}/pihcore/home.page"
+      "loginSuccess": "${openmrsBase}/index.htm"
     },
     "provider": {
       "type": "oauth2",
-      "loginUrl": "${openmrsBase}/authenticationui/login/login.page",
-      "logoutUrl": "${openmrsBase}/authenticationui/login/login.page"
+      "loginUrl": "${openmrsBase}/index.htm",
+      "logoutUrl": "${openmrsBase}/appui/header/logout.action"
     }
   },
   "@openmrs/esm-outpatient-app": {
