@@ -1,7 +1,7 @@
 {
   "@openmrs/esm-api": {
     "redirectAuthFailure": {
-      "url": "/pihcore/login.htm"
+      "url": "${openmesBase}/index.htm"
     }
   },
   "@openmrs/esm-dispensing-app": {
@@ -54,11 +54,16 @@
   },
   "@openmrs/esm-login-app": {
     "logo": {
-      "src": "/openmrs/spa/site/pih-logo.png",
-      "alt": "Partners in Health"
+      "src": "${openmrsSpaBase}/site/pih-logo.png",
+      "alt": "Partners In Health"
     },
     "links": {
-      "loginSuccess": "${openmrsBase}/pihcore/home.page"
+      "loginSuccess": "${openmrsBase}/index.htm"
+    },
+    "provider": {
+      "type": "oauth2",
+      "loginUrl": "${openmrsBase}/index.htm",
+      "logoutUrl": "${openmrsBase}/appui/header/logout.action"
     }
   },
   "@openmrs/esm-outpatient-app": {
@@ -161,6 +166,30 @@
     },
     "vitals": {
       "encounterTypeUuid": "${encounterType.VITALS.uuid}"
+    }
+  },
+  "@openmrs/esm-primary-navigation-app": {
+    "extensionSlots": {
+      "app-menu-slot": {
+        "remove": [
+          "dispensing-link",
+          "forms-app-link",
+          "offline-tools-link",
+          "system-administration-app-menu-link"
+        ]
+      },
+      "top-nav-actions-slot": {
+        "remove": [
+          "add-patient-action",
+          "implementer-tools-button",
+          "patient-search-icon"
+        ]
+      },
+      "user-panel-slot": {
+        "remove": [
+          "offline-tools-opt-in-offline-mode-button"
+        ]
+      }
     }
   }
 }
