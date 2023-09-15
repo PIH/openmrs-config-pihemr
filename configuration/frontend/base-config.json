@@ -1,7 +1,7 @@
 {
   "@openmrs/esm-api": {
     "redirectAuthFailure": {
-      "url": "${openmesBase}/index.htm"
+      "url": "${openmrsBase}/index.htm"
     }
   },
   "@openmrs/esm-dispensing-app": {
