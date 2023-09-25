@@ -101,7 +101,20 @@
   },
 
   "@openmrs/esm-patient-banner": {
-    "contactAttributeType": ["${personAttributeType.TELEPHONE_NUMBER.uuid}"]
+    "contactAttributeType": ["${personAttributeType.TELEPHONE_NUMBER.uuid}"],
+    "extensionSlots": {
+      "patient-actions-slot": {
+        "remove": [
+          "start-visit-button",
+          "stop-visit-button",
+          "cancel-visit-button",
+          "mark-alive-button",
+          "mark-patient-deceased-button",
+          "add-patient-to-patient-list-button",
+          "edit-patient-details-button"
+        ]
+      }
+    }
   },
   "@openmrs/esm-patient-biometrics-app": {
     "concepts": {
@@ -140,6 +153,21 @@
       "encounterNoteTextConceptUuid": "${concept.clinicalImpressionComments.uuid}",
       "visitDiagnosesConceptUuid": "${concept.visitDiagnosesConstruct.uuid}",
       "formConceptUuid": ""
+    }
+  },
+  "@openmrs/esm-patient-search-app": {
+    "extensionSlots": {
+      "start-visit-button-slot": {
+        "remove": [
+          "start-visit-button-patient-search"
+        ]
+      },
+      "patient-search-actions-slot": {
+        "remove": [
+          "stop-visit-button-patient-search",
+          "cancel-visit-button"
+        ]
+      }
     }
   },
   "@openmrs/esm-patient-test-results-app": {
