@@ -52,6 +52,16 @@
   "@openmrs/esm-form-builder-app": {
     "showSchemaSaveWarning": false
   },
+  "@openmrs/esm-home-app": {
+    "extensionSlots": {
+      "homepage-dashboard-slot": {
+        "remove": [
+          "patient-lists-dashboard-link",
+          "home-widget-db-link"
+        ]
+      }
+    }
+  },
   "@openmrs/esm-login-app": {
     "logo": {
       "src": "${openmrsSpaBase}/site/pih-logo.png",
