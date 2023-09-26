@@ -19,7 +19,7 @@ drug_openboxes_code int,
 duration int,
 duration_unit varchar(20),
 quantity_per_dose double,
-dose_unit varchar(50),
+dose_unit text,
 frequency varchar(50),
 quantity_dispensed int,
 instructions text
@@ -137,7 +137,7 @@ set @doseUnit = concept_from_mapping('PIH','9074');
 UPDATE all_medication_dispensing tgt 
 INNER JOIN temp_obs o ON o.obs_group_id=tgt.obs_group_id
 AND o.concept_id=@doseUnit
-SET dose_unit= concept_name(value_coded,@locale);
+SET dose_unit= value_text;
 
 set @frequency = concept_from_mapping('PIH','9363');
 UPDATE all_medication_dispensing tgt 
