@@ -1,8 +1,8 @@
 Uuid,Void/Retire,Name,Description
-${encounterType.PATIENT_REGISTRATION.uuid},,Enregistrement de patient,Patient registration -- normally a new patient
-${encounterType.CHECK_IN.uuid},,Inscription,"Check-in encounter, formerly known as Primary care reception"
+${encounterType.PATIENT_REGISTRATION.uuid},,${encounterType.PATIENT_REGISTRATION.name},Patient registration -- normally a new patient
+${encounterType.CHECK_IN.uuid},,${encounterType.CHECK_IN.name},"Check-in encounter, formerly known as Primary care reception"
 ${encounterType.PAYMENT.uuid},,Rencontre de paiement,Encounter used to capture patient payments
-${encounterType.VITALS.uuid},,Signes vitaux,"Encounter where vital signs were captured, and triage may have been done, possibly for triage purposes, but a complete exam was not done."
+${encounterType.VITALS.uuid},,${encounterType.VITALS.name},"Encounter where vital signs were captured, and triage may have been done, possibly for triage purposes, but a complete exam was not done."
 ${encounterType.PRIMARY_CARE_VISIT.uuid},,Consultation soins de base,"Primary care visit (In Kreyol, it&apos;s &apos;vizit swen primè&apos;)"
 ${encounterType.CONSULTATION_INITIAL.uuid},,Initial Consultation,"Encounter where a full or abbreviated examination is done, leading to a presumptive or confirmed diagnosis"
 ${encounterType.CONSULTATION.uuid},,Consultation,"Encounter where a full or abbreviated examination is done, leading to a presumptive or confirmed diagnosis"
@@ -12,7 +12,7 @@ ${encounterType.ONCOLOGY_TREATMENT_PLAN.uuid},,Oncology Treatment Plan,Treatment
 ${encounterType.CHEMOTHERAPY_SESSION.uuid},,Chemotheraphy treatment session,Chemotheraphy treatment session for HUM and other places.
 ${encounterType.NCD_INITIAL_CONSULT.uuid},,NCD Initial Consult,Non-communicable disease initial consult
 ${encounterType.NCD_FOLLOWUP_CONSULT.uuid},,NCD Followup Consult,Non-communicable disease followup consult
-${encounterType.MEDICATION_DISPENSED.uuid},,Médicaments administrés,When someone gets medicine from the pharmacy
+${encounterType.MEDICATION_DISPENSED.uuid},,${encounterType.MEDICATION_DISPENSED.name},When someone gets medicine from the pharmacy
 ${encounterType.POST_OPERATIVE_NOTE.uuid},,Note de chirurgie,The surgeons&apos; notes after performing surgery
 ${encounterType.TRANSFER.uuid},,Transfert,Indicates that a patient is being transferred into a different department within the hospital. (Transfers out of the hospital should not use this encounter type.)
 ${encounterType.ADMISSION.uuid},,Admission aux soins hospitaliers,"Indicates that the patient has been admitted for inpatient care, and is not expected to leave the hospital unless discharged."
