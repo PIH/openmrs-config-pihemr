@@ -265,7 +265,7 @@
             <div id="who-when-where">
                 <p id="who">
                     <label>
-                        <uimessage code="emr.patientDashBoard.providerRequired"/>
+                        <uimessage code="emr.dataClerk.required"/>
                     </label>
                     <span>
                         <!-- ToDo:  Add and change encounter_role -->
