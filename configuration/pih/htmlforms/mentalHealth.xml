@@ -265,12 +265,32 @@
             <div id="who-when-where">
                 <p id="who">
                     <label>
-                        <uimessage code="emr.patientDashBoard.providerRequired"/>
+                        <uimessage code="emr.dataClerk.required"/>
                     </label>
                     <span>
                         <!-- ToDo:  Add and change encounter_role -->
                         <encounterProviderAndRole default="currentUser"
                                                   encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
+                    </span>
+                </p>
+                <p id="who">
+                    <label>
+                        <uimessage code="ui.i18n.ProviderRole.name.62fbeae3-4e6f-4c35-8705-f3de10ab5b87"/>
+                    </label>
+                    <span>
+                        <!-- ToDo:  Add and change encounter_role -->
+                        <encounterProviderAndRole  encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05"
+                                                    providerRoles="62fbeae3-4e6f-4c35-8705-f3de10ab5b87"/>
+                    </span>
+                </p> 
+                <p id="who">
+                    <label>
+                        <uimessage code="ui.i18n.ProviderRole.name.556ceee6-d899-43d4-a98b-7973ebc85b75"/>
+                    </label>
+                    <span>
+                        <!-- ToDo:  Add and change encounter_role -->
+                        <encounterProviderAndRole  encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05"
+                                                    providerRoles="556ceee6-d899-43d4-a98b-7973ebc85b75"/>
                     </span>
                 </p>
                 <p id="where">
