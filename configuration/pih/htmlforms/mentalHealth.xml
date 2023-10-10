@@ -399,34 +399,40 @@
         <enrollInProgram programId="Mental Health" locationTag="Program Location" />
 
         <div class="section-container">
-            <div class="two-columns">
+            
+         <div class="two-columns" id="radio_button_container">
                 <p>
                     <label>
-                        <uimessage code="pihcore.mentalhealth.referredBy" />:
+                        <uimessage code="pihcore.mentalhealth.referredBy"/>
                     </label>
-                    <repeat with="['PIH:Teacher'],['PIH:TRADITIONAL HEALER'],['PIH:VILLAGE HEALTH WORKER'],['PIH:11783'],['CIEL:978'],['PIH:Other medical service']">
-                            <obs conceptId="PIH:Role of referring person" answerConceptId="{0}"
-                                 style="checkbox"/>
-                    </repeat>
-                    <obs conceptId="PIH:Role of referring person" answerConceptId="PIH:OTHER"
-                        style="checkbox" commentFieldLabel=" " />
-                </p>
 
+                    <obs id="referral" conceptId="PIH:Role of referring person" style="radio"
+                         answerConceptIds="PIH:Teacher,PIH:TRADITIONAL HEALER,PIH:VILLAGE HEALTH WORKER,PIH:11783,CIEL:978,PIH:Other medical service,PIH:OTHER"
+                     answerSeparator="">
+                        <controls>
+                            <when value="PIH:OTHER" thenDisplay="#other_refferal"/>
+                        </controls>
+                    </obs>
+                    <div id="other_refferal">
+                        <obs conceptId="PIH:6421"/>
+                    </div>
+                </p>
                 <p>
                     <label>
                         <uimessage code="pihcore.mentalhealth.internalReferredBy" />:
                     </label>
-
-                    <repeat with="['PIH:DOCTOR'],['PIH:NURSE'],['PIH:SOCIAL WORKER SERVICE	']">
-                        <obs conceptId="PIH:Type of referral role" answerConceptId="{0}"
-                                 style="checkbox"/>
-                    </repeat>
-                    <obs conceptId="PIH:Type of referral role" answerConceptId="PIH:OTHER"
-                         style="checkbox" commentFieldLabel=" " />
+                        <obs id="role" conceptId="PIH:Type of referral role" style="radio" answerConceptIds="PIH:DOCTOR,PIH:NURSE,PIH:SOCIAL WORKER SERVICE,PIH:OTHER"
+                             answerSeparator="">
+                            <controls>
+                                <when value="PIH:OTHER" thenDisplay="#other_role"/>
+                            </controls>
+                        </obs>
+                    <div id="other_role">
+                        <obs conceptId="PIH:14415"/>
+                    </div>
                 </p>
                 <br/><br/>
             </div>
-
             <hr/>
             <div class="two-columns">
 
