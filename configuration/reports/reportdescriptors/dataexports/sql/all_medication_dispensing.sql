@@ -6,6 +6,7 @@ CREATE TEMPORARY TABLE all_medication_dispensing
 (
 patient_id int,
 obs_group_id int,
+form varchar(10),
 emr_id varchar(50),
 encounter_id int,
 encounter_datetime date,
@@ -29,12 +30,14 @@ instructions text
 insert into all_medication_dispensing
 (patient_id,
 encounter_id,
-obs_group_id
+obs_group_id,
+form
 )
 select 
 o.person_id,
 o.encounter_id,
-o.obs_id
+o.obs_id,
+'Old'
 from obs o 
 where concept_id = concept_from_mapping('PIH','9070')
 AND o.voided = 0;
@@ -187,8 +190,30 @@ inner join temp_drug_ids t on t.drug_id = tgt.drug_id
 set tgt.drug_name = t.drug_name,
 	tgt.drug_openboxes_code = t.drug_openboxes_code;
 
+-- New Form --------
+INSERT INTO all_medication_dispensing(form, emr_id,encounter_datetime, user_entered,drug_name, drug_openboxes_code,
+quantity_per_dose,dose_unit, frequency,quantity_dispensed, instructions)
+SELECT 
+'New' AS form,
+PATIENT_IDENTIFIER(patient_id, METADATA_UUID('org.openmrs.module.emrapi', 'emr.primaryIdentifierType')) emr_id,
+md.date_created date_entered,
+u.username user_entered,
+drugName(drug_id) drug_name,
+openboxesCode(drug_id) drug_openboxes_code,
+dose quantity_per_dose,
+concept_name(dose_units,'en') dose_units,
+concept_name(of2.concept_id ,'en') frequency,
+quantity quantity_dispensed,
+dosing_instructions prescription
+FROM medication_dispense md 
+LEFT OUTER JOIN users u ON md.creator=u.user_id
+LEFT OUTER JOIN order_frequency of2 ON of2.order_frequency_id = md.frequency;
+
+
+
 -- final select of the data
 SELECT 
+form,
 emr_id,
 CONCAT(@partition,'-',encounter_id) "encounter_id",
 encounter_datetime,
