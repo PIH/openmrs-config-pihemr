@@ -275,12 +275,12 @@
                 </p>
                 <p id="who">
                     <label>
-                        <uimessage code="ui.i18n.ProviderRole.name.62fbeae3-4e6f-4c35-8705-f3de10ab5b87"/>
+                        <uimessage code="emr.psychologue.required"/>
                     </label>
                     <span>
                         <!-- ToDo:  Add and change encounter_role -->
                         <encounterProviderAndRole  encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05"
-                                                    providerRoles="62fbeae3-4e6f-4c35-8705-f3de10ab5b87"/>
+                                                    providerRoles="62fbeae3-4e6f-4c35-8705-f3de10ab5b87" required="true"/>
                     </span>
                 </p> 
                 <p id="who">
