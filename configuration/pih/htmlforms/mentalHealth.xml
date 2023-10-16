@@ -441,10 +441,12 @@
                         <uimessage code="pihcore.mentalhealth.visitType"/>
                         
                     </label>
-
+                    <br/>
+                    
                     <obs id="visit_type" conceptId="CIEL:164181" style="radio"
                          answerConceptIds="CIEL:164180,PIH:7383,PIH:14988"
-                     answerSeparator=""/>
+                         answerCodes=" pihcore.mentalhealth.newVisit,pihcore.mentalhealth.ReEvaluation,pihcore.mentalhealth.MedicationRenewal"
+                         answerSeparator=""/>
                       
                     </p>
             
