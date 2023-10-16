@@ -434,6 +434,22 @@
                 <br/><br/>
             </div>
             <hr/>
+              <!-- Visit Type  -->
+            <div>
+                <p>
+                    <label>
+                        <uimessage code="pihcore.mentalhealth.visitType"/>
+                        
+                    </label>
+
+                    <obs id="visit_type" conceptId="CIEL:164181" style="radio"
+                         answerConceptIds="CIEL:164180,PIH:7383,PIH:14988"
+                     answerSeparator=""/>
+                      
+                    </p>
+            
+            </div>
+            <hr/>
             <div class="two-columns">
 
                 <!-- Hospitalization -->
