@@ -421,7 +421,7 @@
                     <label>
                         <uimessage code="pihcore.mentalhealth.internalReferredBy" />:
                     </label>
-                        <obs id="role" conceptId="PIH:Type of referral role" style="radio" answerConceptIds="PIH:DOCTOR,PIH:NURSE,PIH:SOCIAL WORKER SERVICE,PIH:OTHER"
+                        <obs id="role" conceptId="PIH:Type of referral role" style="radio" answerConceptIds="PIH:DOCTOR,PIH:NURSE,PIH:SOCIAL WORKER SERVICE,PIH:13439,PIH:OTHER"
                              answerSeparator="">
                             <controls>
                                 <when value="PIH:OTHER" thenDisplay="#other_role"/>
@@ -435,13 +435,13 @@
             </div>
             <hr/>
               <!-- Visit Type  -->
-            <div>
+            <div class="two-columns">
                 <p>
                     <label>
                         <uimessage code="pihcore.mentalhealth.visitType"/>
                         
                     </label>
-                    <br/>
+                    
                     
                     <obs id="visit_type" conceptId="CIEL:164181" style="radio"
                          answerConceptIds="CIEL:164180,PIH:7383,PIH:14988"
@@ -449,8 +449,27 @@
                          answerSeparator=""/>
                       
                     </p>
+                 <p>
+                    <label>
+                        <uimessage code="pih.app.mental.health.consultationMethod"/>
+                        
+                    </label>
+                    <obs conceptId="PIH:3589" style="radio"
+                         answerConceptIds="CIEL:166997,CIEL:167410"
+                         answerCodes="pih.app.mental.health.phoneCon,pih.app.mental.health.clinicalCon"
+                         answerSeparator=""/>
+                      
+                    </p>
             
-            </div>
+                </div>
+                <br/>
+                    <p>
+                        <label>
+                            <uimessage code=" pihcore.chiefComplaint.title"/>
+                        </label>
+                        <obs conceptId="PIH:10137"/>
+                    </p>
+
             <hr/>
             <div class="two-columns">
 
