@@ -445,7 +445,7 @@
                     
                     <obs id="visit_type" conceptId="CIEL:164181" style="radio"
                          answerConceptIds="CIEL:164180,PIH:7383,PIH:14988"
-                         answerCodes=" pihcore.mentalhealth.newVisit,pihcore.mentalhealth.ReEvaluation,pihcore.mentalhealth.MedicationRenewal"
+                         answerCodes="pihcore.mentalhealth.newVisit,pihcore.mentalhealth.ReEvaluation,pihcore.mentalhealth.MedicationRenewal"
                          answerSeparator=""/>
                       
                     </p>
@@ -465,11 +465,32 @@
                 <br/>
                     <p>
                         <label>
-                            <uimessage code=" pihcore.chiefComplaint.title"/>
+                            <uimessage code="pihcore.chiefComplaint.title"/>
                         </label>
                         <obs conceptId="PIH:10137"/>
                     </p>
+            <hr/>
 
+            <div class="one-columns">
+
+              <p>
+                <label>
+                    <uimessage code="pihcore.mentalhealth.if.other.service"/>
+                </label>
+                    <obs conceptId="PIH:7454" style="radio"
+                         answerConceptIds="CIEL:160473,CIEL:160449,CIEL:165019,CIEL:5622"
+                         answerCodes="pih.app.mental.health.emergencyRoom,pih.app.mental.health.surgery,pih.app.mental.health.internal,pih.app.mental.health.other"
+                         answerSeparator=""/>  
+            </p>
+          
+            <p>
+                <label>
+                    <uimessage code="pih.app.mental.health.new.patient"/>
+                </label>
+                <obs conceptId="CIEL:164144"
+                        style="radio" answerConceptIds="CIEL:1065,CIEL:1066" answerSeparator=""/>
+            </p>
+            </div>
             <hr/>
             <div class="two-columns">
 
