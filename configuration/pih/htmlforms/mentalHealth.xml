@@ -479,7 +479,7 @@
                 </label>
                     <obs conceptId="PIH:7454" style="radio"
                          answerConceptIds="CIEL:160473,CIEL:160449,CIEL:165019,CIEL:5622"
-                         answerCodes="pih.app.mental.health.emergencyRoom,pih.app.mental.health.surgery,pih.app.mental.health.internal,pih.app.mental.health.other"
+                         answerCodes="pihcore.location.ed,pihcore.location.surgery,pihcore.location.intMed,pihcore.other"
                          answerSeparator=""/>  
             </p>
           
