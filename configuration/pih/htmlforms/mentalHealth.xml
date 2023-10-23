@@ -493,6 +493,25 @@
             </div>
             <hr/>
             <div class="two-columns">
+                <p>
+                    <label>
+                        <uimessage code="pih.app.chw.for.mental.health"/>
+                    </label>
+                    <obs conceptId="PIH:14991"
+                            style="radio" answerConceptIds="CIEL:1065,CIEL:1066" answerSeparator=""/>
+                </p>
+               
+                <p>
+                    <label>
+                        <uimessage code="pih.app.mental.health.patient.relapse"/>
+                    </label>
+                    <obs conceptId="CIEL:1688"
+                            style="radio" answerConceptIds="CIEL:1065,CIEL:1066" answerSeparator=""/>
+                </p>
+               
+            </div>
+            <hr/>
+            <div class="two-columns">
 
                 <!-- Hospitalization -->
                 <p>
