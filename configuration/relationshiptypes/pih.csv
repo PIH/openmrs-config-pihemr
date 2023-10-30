@@ -3,4 +3,4 @@ ${relationshipType.spousePartner.uuid},,Spouse/Partner,Spouse/Partner,Spouse/Par
 ${relationshipType.chwToPatient.uuid},,Community Health Worker,Patient,CHW to Patient relationship
 ${relationshipType.nurseChwToPatient.uuid},,Nurse accompagnateur,Patient,Nurse accompagnateur to Patient relationship
 ${relationshipType.clinicianToPatient.uuid},,Clinician,Patient,Clinician/Patient relationship
-${relationshipType.motherToPatient.uuid},,Mother,Child,Mother to Child relationship
+${relationshipType.motherToChild.uuid},,Mother,Child,Mother to Child relationship
