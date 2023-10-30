@@ -379,8 +379,8 @@ relationshipType:
     uuid: "9a4b3eea-8a9f-11e8-9a94-a6cf71072f73"
   clinicianToPatient:
     uuid: "2fa6fcea-aa58-11e8-98d0-529269fb1459"
-  motherToPatient:
-    uuid: "C2CBCF50-FB86-497C-9B07-C905C467BF26"
+  motherToChild:
+    uuid: "c2cbcf50-fb86-497c-9b07-c905c467bf26"
 
 privilege:
   app_appointmentschedulingui_appointment_types: "App: appointmentschedulingui.appointmentTypes"
