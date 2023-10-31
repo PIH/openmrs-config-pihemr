@@ -23,6 +23,10 @@ quantity_per_dose double,
 dose_unit text,
 frequency varchar(50),
 quantity_dispensed int,
+quantity_unit varchar(30),
+order_id int, 
+dispensing_status varchar(50),
+status_reason varchar(50),
 instructions text
 );
 
@@ -124,6 +128,12 @@ INNER JOIN temp_obs o ON o.obs_group_id=tgt.obs_group_id
 AND o.concept_id= @duration 
 SET duration= value_numeric;
 
+set @qunits = concept_from_mapping('PIH','9074');
+UPDATE all_medication_dispensing tgt 
+INNER JOIN temp_obs o ON o.obs_group_id=tgt.obs_group_id
+AND o.concept_id= @qunits 
+SET quantity_unit= value_text;
+
 set @duration_unit = concept_from_mapping('PIH','6412');
 UPDATE all_medication_dispensing tgt 
 INNER JOIN temp_obs o ON o.obs_group_id=tgt.obs_group_id
@@ -192,7 +202,7 @@ set tgt.drug_name = t.drug_name,
 
 -- New Form --------
 INSERT INTO all_medication_dispensing(form, emr_id,encounter_datetime, user_entered,drug_name, drug_openboxes_code,
-quantity_per_dose,dose_unit, frequency,quantity_dispensed, instructions)
+quantity_per_dose,dose_unit, frequency,quantity_dispensed, quantity_unit, order_id, dispensing_status, status_reason,instructions)
 SELECT 
 'New' AS form,
 PATIENT_IDENTIFIER(patient_id, METADATA_UUID('org.openmrs.module.emrapi', 'emr.primaryIdentifierType')) emr_id,
@@ -204,6 +214,10 @@ dose quantity_per_dose,
 concept_name(dose_units,'en') dose_units,
 concept_name(of2.concept_id ,'en') frequency,
 quantity quantity_dispensed,
+concept_name(quantity_units,'en') AS quantity_unit, 
+drug_order_id AS order_id, 
+concept_name(status, 'en') AS dispensing_status,
+concept_name(status_reason, 'en') AS status_reason,
 dosing_instructions prescription
 FROM medication_dispense md 
 LEFT OUTER JOIN users u ON md.creator=u.user_id
@@ -228,5 +242,9 @@ quantity_per_dose,
 dose_unit,
 frequency,
 quantity_dispensed,
+quantity_unit,
+order_id,
+dispensing_status,
+status_reason
 instructions
 FROM all_medication_dispensing;
