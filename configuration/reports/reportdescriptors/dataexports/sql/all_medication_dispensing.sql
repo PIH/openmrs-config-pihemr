@@ -245,6 +245,6 @@ quantity_dispensed,
 quantity_unit,
 order_id,
 dispensing_status,
-status_reason
+status_reason,
 instructions
 FROM all_medication_dispensing;
