@@ -248,4 +248,5 @@ p.section_communale_CDC_ID
 from temp_diagnoses d
 inner join temp_dx_patient p on p.patient_id = d.patient_id
 inner join temp_dx_encounter e on e.encounter_id = d.encounter_id
-inner join temp_dx_concept dc on dc.diagnosis_concept = d.diagnosis_concept;
+inner join temp_dx_concept dc on dc.diagnosis_concept = d.diagnosis_concept
+;
