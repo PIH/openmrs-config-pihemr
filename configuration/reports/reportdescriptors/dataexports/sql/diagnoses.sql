@@ -6,18 +6,18 @@ SET @locale =   if(@startDate is null, 'en', GLOBAL_PROPERTY_VALUE('default_loca
 DROP TEMPORARY TABLE IF EXISTS temp_diagnoses;
 CREATE TEMPORARY TABLE temp_diagnoses
 (
-    	patient_id                      int(11),
- 	encounter_id			int(11),
-	obs_id				int(11),
-	obs_datetime			datetime,
-	diagnosis_entered		text,
-	dx_order			varchar(255),
-	certainty			varchar(255),
-	coded				varchar(255),
-	diagnosis_concept		int(11),
-	diagnosis_coded_fr		varchar(255),
- 	date_created			datetime
-    );
+ patient_id         int(11),      
+ encounter_id       int(11),      
+ obs_id             int(11),      
+ obs_datetime       datetime,     
+ diagnosis_entered  text,         
+ dx_order           varchar(255), 
+ certainty          varchar(255), 
+ coded              varchar(255), 
+ diagnosis_concept  int(11),      
+ diagnosis_coded_fr varchar(255), 
+ date_created       datetime      
+ );
 
 insert into temp_diagnoses (
 patient_id,
@@ -47,20 +47,20 @@ create index temp_diagnoses_p on temp_diagnoses(patient_id);
 DROP TEMPORARY TABLE IF EXISTS temp_dx_patient;
 CREATE TEMPORARY TABLE temp_dx_patient
 (
-patient_id                      int(11),
-dossierId                       varchar(50),
-patient_primary_id              varchar(50),
-loc_registered                  varchar(255),
-unknown_patient			varchar(50),
-gender				varchar(50),
-department			varchar(255),
-commune				varchar(255),
-section				varchar(255),	
-locality			varchar(255),
-street_landmark			varchar(255),
-birthdate			datetime,
-birthdate_estimated		boolean,
-section_communale_CDC_ID	varchar(11)	
+patient_id               int(11),      
+dossierId                varchar(50),  
+patient_primary_id       varchar(50),  
+loc_registered           varchar(255), 
+unknown_patient          varchar(50),  
+gender                   varchar(50),  
+department               varchar(255), 
+commune                  varchar(255), 
+section                  varchar(255),  
+locality                 varchar(255), 
+street_landmark          varchar(255), 
+birthdate                datetime,     
+birthdate_estimated      boolean,      
+section_communale_CDC_ID varchar(11)    
     );
    
 insert into temp_dx_patient(patient_id)
@@ -91,39 +91,45 @@ update temp_dx_patient set section_communale_CDC_ID = cdc_id(patient_id);
 DROP TEMPORARY TABLE IF EXISTS temp_dx_encounter;
 CREATE TEMPORARY TABLE temp_dx_encounter
 (
-    	patient_id					int(11),
-	encounter_id					int(11),
-	encounter_location				varchar(255),
-    	age_at_encounter				int(3),
-	entered_by					varchar(255),
-	provider					varchar(255),
-	date_created					datetime,
-	retrospective					int(1),
-	visit_id					int(11),
-	birthdate					datetime,
-	birthdate_estimated				boolean,
-	encounter_type					varchar(255)
-    );
-   
-insert into temp_dx_encounter(patient_id,encounter_id)
-select distinct patient_id, encounter_id from temp_diagnoses;
+ patient_id          int(11),      
+ encounter_id        int(11),   
+ encounter_location_id int(11),
+ encounter_location  varchar(255),
+ encounter_type_id   int(11),
+ encounter_type      varchar(255),
+ age_at_encounter    int(3),
+ entered_by_user_id  int(11),
+ entered_by          varchar(255), 
+ provider            varchar(255), 
+ date_created        datetime,     
+ visit_id            int(11),      
+ birthdate           datetime,     
+ birthdate_estimated boolean     
+);
 
-create index temp_dx_encounter_ei on temp_dx_encounter(encounter_id);
+insert into temp_dx_encounter(encounter_id)
+select distinct encounter_id from temp_diagnoses;
 
-update temp_dx_encounter set encounter_location = encounter_location_name(encounter_id);
-update temp_dx_encounter set provider = provider(encounter_id);
-update temp_dx_encounter set age_at_encounter = age_at_enc(patient_id, encounter_id);
-
+create index temp_dx_encounter_ei on temp_dx_encounter(encounter_id);   
 
 update temp_dx_encounter t
 inner join encounter e on e.encounter_id  = t.encounter_id
-inner join users u on u.user_id = e.creator 
-set t.entered_by = person_name(u.person_id),
+set t.entered_by_user_id = e.creator,
 	t.visit_id = e.visit_id,
-	t.encounter_type = encounterName(e.encounter_type);
+	t.encounter_type_id = e.encounter_type,
+	t.patient_id = e.patient_id,
+	t.encounter_location_id = e.location_id,
+	t.date_created = e.date_created 
+;
 
+update temp_dx_encounter set encounter_location = location_name(encounter_location_id);
+update temp_dx_encounter set entered_by = person_name_of_user(entered_by_user_id);
+update temp_dx_encounter set encounter_type = encounter_type_name_from_id(encounter_type_id);
 
-       
+update temp_dx_encounter set provider = provider(encounter_id);
+update temp_dx_encounter set age_at_encounter = age_at_enc(patient_id, encounter_id);
+      
+
  -- diagnosis info
 DROP TEMPORARY TABLE IF EXISTS temp_obs;
 create temporary table temp_obs 
@@ -158,19 +164,19 @@ set t.certainty = concept_name(o.value_coded, @locale);
 DROP TEMPORARY TABLE IF EXISTS temp_dx_concept;
 CREATE TEMPORARY TABLE temp_dx_concept
 (
-	diagnosis_concept				int(11),				
-	icd10_code					varchar(255),
-	notifiable					int(1),
-	urgent						int(1),
-	santeFamn					int(1),
-	psychological					int(1),
-	pediatric					int(1),
-	outpatient					int(1),
-	ncd						int(1),
-	non_diagnosis					int(1),	
-	ed						int(1),	
-	age_restricted					int(1),
-	oncology					int(1)
+ diagnosis_concept int(11),       
+ icd10_code        varchar(255), 
+ notifiable        int(1),       
+ urgent            int(1),       
+ santeFamn         int(1),       
+ psychological     int(1),       
+ pediatric         int(1),       
+ outpatient        int(1),       
+ ncd               int(1),       
+ non_diagnosis     int(1),        
+ ed                int(1),        
+ age_restricted    int(1),       
+ oncology          int(1)        
     );
    
 insert into temp_dx_concept(diagnosis_concept)
@@ -242,5 +248,4 @@ p.section_communale_CDC_ID
 from temp_diagnoses d
 inner join temp_dx_patient p on p.patient_id = d.patient_id
 inner join temp_dx_encounter e on e.encounter_id = d.encounter_id
-inner join temp_dx_concept dc on dc.diagnosis_concept = d.diagnosis_concept
-;
+inner join temp_dx_concept dc on dc.diagnosis_concept = d.diagnosis_concept;
