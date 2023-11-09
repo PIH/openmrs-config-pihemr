@@ -75,6 +75,7 @@ create temporary table temp_obgyn
     viral_load_quantitative int,
     TB_treatment_status varchar(50),
     TB_treatment_end_date datetime,
+    patient_type varchar(50),
     currently_using_birth_control varchar(50),
     COC_FP_method varchar(50),
     COC_FP_Start_Date datetime,
@@ -406,6 +407,7 @@ update temp_obgyn t set Tubal_Ligation_FP_End_Date = obs_from_group_id_value_dat
 
 -- Family Planning
 
+update temp_obgyn t set patient_type = obs_value_coded_list(t.encounter_id,'PIH','14321',@locale);
 update temp_obgyn t set currently_using_birth_control = obs_value_coded_list(t.encounter_id,'CIEL','965',@locale);
 update temp_obgyn t set received_FP_counseling =obs_single_value_coded(t.encounter_id,'CIEL','163560','CIEL','1382');
 
@@ -597,6 +599,7 @@ Condoms_FP_End_Date,
 Tubal_Ligation_FP_method,
 Tubal_Ligation_FP_Start_Date,
 Tubal_Ligation_FP_End_Date,
+patient_type,
 currently_using_birth_control,
 received_FP_counseling,
 current_family_planning_method,
