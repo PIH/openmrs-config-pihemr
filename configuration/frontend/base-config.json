@@ -115,13 +115,14 @@
     "extensionSlots": {
       "patient-actions-slot": {
         "remove": [
+          "add-past-visit-button",
+          "add-patient-to-patient-list-button",
+          "cancel-visit-button",
+          "edit-patient-details-button",
           "start-visit-button",
           "stop-visit-button",
-          "cancel-visit-button",
           "mark-alive-button",
-          "mark-patient-deceased-button",
-          "add-patient-to-patient-list-button",
-          "edit-patient-details-button"
+          "mark-patient-deceased-button"
         ]
       }
     }
@@ -174,8 +175,10 @@
       },
       "patient-search-actions-slot": {
         "remove": [
-          "stop-visit-button-patient-search",
-          "cancel-visit-button"
+          "add-past-visit-button",
+          "cancel-visit-button",
+          "edit-patient-details-button",
+          "stop-visit-button-patient-search"
         ]
       }
     }
