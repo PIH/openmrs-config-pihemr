@@ -826,4 +826,11 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20231115-update-openconeptlab-gp-after-tomcat-update" author="mgoodrich">
+        <comment>UHM-7571: Fix OCL load at startup variable</comment>
+        <sql>
+            update global_property set property_value = '/home/tomcat/.OpenMRS/ocl/configuration/loadAtStartup' where property = 'openconceptlab.oclLoadAtStartupPath' and property_value LIKE '/home/tomcat7/.OpenMRS/%';
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
