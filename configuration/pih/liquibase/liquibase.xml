@@ -826,4 +826,11 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20231115-delete-openconeptlab-gp-after-tomcat-update" author="mgoodrich">
+        <comment>UHM-7571: Fix OCL load at startup variable</comment>
+        <sql>
+            delete from global_property where property = 'openconceptlab.oclLoadAtStartupPath';
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
