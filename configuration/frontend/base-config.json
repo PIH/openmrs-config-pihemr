@@ -1,7 +1,7 @@
 {
   "@openmrs/esm-api": {
     "redirectAuthFailure": {
-      "url": "/pihcore/login.htm"
+      "url": "${openmrsBase}/index.htm"
     }
   },
   "@openmrs/esm-dispensing-app": {
@@ -52,13 +52,28 @@
   "@openmrs/esm-form-builder-app": {
     "showSchemaSaveWarning": false
   },
+  "@openmrs/esm-home-app": {
+    "extensionSlots": {
+      "homepage-dashboard-slot": {
+        "remove": [
+          "patient-lists-dashboard-link",
+          "home-widget-db-link"
+        ]
+      }
+    }
+  },
   "@openmrs/esm-login-app": {
     "logo": {
-      "src": "/openmrs/spa/site/pih-logo.png",
-      "alt": "Partners in Health"
+      "src": "${openmrsSpaBase}/site/pih-logo.png",
+      "alt": "Partners In Health"
     },
     "links": {
-      "loginSuccess": "${openmrsBase}/pihcore/home.page"
+      "loginSuccess": "${openmrsBase}/index.htm"
+    },
+    "provider": {
+      "type": "oauth2",
+      "loginUrl": "${openmrsBase}/index.htm",
+      "logoutUrl": "${openmrsBase}/appui/header/logout.action"
     }
   },
   "@openmrs/esm-outpatient-app": {
@@ -96,7 +111,21 @@
   },
 
   "@openmrs/esm-patient-banner": {
-    "contactAttributeType": ["${personAttributeType.TELEPHONE_NUMBER.uuid}"]
+    "contactAttributeType": ["${personAttributeType.TELEPHONE_NUMBER.uuid}"],
+    "extensionSlots": {
+      "patient-actions-slot": {
+        "remove": [
+          "add-past-visit-button",
+          "add-patient-to-patient-list-button",
+          "cancel-visit-button",
+          "edit-patient-details-button",
+          "start-visit-button",
+          "stop-visit-button",
+          "mark-alive-button",
+          "mark-patient-deceased-button"
+        ]
+      }
+    }
   },
   "@openmrs/esm-patient-biometrics-app": {
     "concepts": {
@@ -137,6 +166,23 @@
       "formConceptUuid": ""
     }
   },
+  "@openmrs/esm-patient-search-app": {
+    "extensionSlots": {
+      "start-visit-button-slot": {
+        "remove": [
+          "start-visit-button-patient-search"
+        ]
+      },
+      "patient-search-actions-slot": {
+        "remove": [
+          "add-past-visit-button",
+          "cancel-visit-button",
+          "edit-patient-details-button",
+          "stop-visit-button-patient-search"
+        ]
+      }
+    }
+  },
   "@openmrs/esm-patient-test-results-app": {
     "concepts": [
       {
@@ -161,6 +207,30 @@
     },
     "vitals": {
       "encounterTypeUuid": "${encounterType.VITALS.uuid}"
+    }
+  },
+  "@openmrs/esm-primary-navigation-app": {
+    "extensionSlots": {
+      "app-menu-slot": {
+        "remove": [
+          "dispensing-link",
+          "forms-app-link",
+          "offline-tools-link",
+          "system-administration-app-menu-link"
+        ]
+      },
+      "top-nav-actions-slot": {
+        "remove": [
+          "add-patient-action",
+          "implementer-tools-button",
+          "patient-search-icon"
+        ]
+      },
+      "user-panel-slot": {
+        "remove": [
+          "offline-tools-opt-in-offline-mode-button"
+        ]
+      }
     }
   }
 }

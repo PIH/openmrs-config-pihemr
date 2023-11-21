@@ -822,8 +822,8 @@ angular.module("encounterTypeConfig", [])
                 showOnVisitList: true,
                 sections: [
                     ncdHistory,
-                    generalVaccinations,
                     ncd,
+                    generalVaccinations,
                     ncdPlan
                 ]
             },
@@ -864,9 +864,9 @@ angular.module("encounterTypeConfig", [])
                 showOnVisitList: true,
                 sections: [
                     ncdFollowupHeader,
-                    generalVaccinations,
                     ncd,
                     primaryCareDx,
+                    generalVaccinations,
                     ncdPlan
                 ]
             }
@@ -1204,6 +1204,17 @@ angular.module("encounterTypeConfig", [])
             templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("mentalHealthIntake.xml"),
             icon: "fas fa-fw fa-user",
             editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("mentalHealthIntake.xml"),
+            showOnVisitList: true
+        };
+
+        // Epilepsy intake form (Liberia)
+        encounterTypes["7336a05e-4bd1-4e52-81c1-207697afc868"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("epilepsyIntake.xml"),
+            icon: "fas fa-fw fa-brain",
+            editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("epilepsyIntake.xml"),
             showOnVisitList: true
         };
 

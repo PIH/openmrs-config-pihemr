@@ -265,12 +265,32 @@
             <div id="who-when-where">
                 <p id="who">
                     <label>
-                        <uimessage code="emr.patientDashBoard.providerRequired"/>
+                        <uimessage code="emr.dataClerk.required"/>
                     </label>
                     <span>
                         <!-- ToDo:  Add and change encounter_role -->
                         <encounterProviderAndRole default="currentUser"
                                                   encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
+                    </span>
+                </p>
+                <p id="who">
+                    <label>
+                        <uimessage code="emr.psychologue.required"/>
+                    </label>
+                    <span>
+                        <!-- ToDo:  Add and change encounter_role -->
+                        <encounterProviderAndRole  encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05"
+                                                    providerRoles="62fbeae3-4e6f-4c35-8705-f3de10ab5b87" required="true"/>
+                    </span>
+                </p> 
+                <p id="who">
+                    <label>
+                        <uimessage code="ui.i18n.ProviderRole.name.556ceee6-d899-43d4-a98b-7973ebc85b75"/>
+                    </label>
+                    <span>
+                        <!-- ToDo:  Add and change encounter_role -->
+                        <encounterProviderAndRole  encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05"
+                                                    providerRoles="556ceee6-d899-43d4-a98b-7973ebc85b75"/>
                     </span>
                 </p>
                 <p id="where">
@@ -379,34 +399,117 @@
         <enrollInProgram programId="Mental Health" locationTag="Program Location" />
 
         <div class="section-container">
-            <div class="two-columns">
+            
+         <div class="two-columns" id="radio_button_container">
                 <p>
                     <label>
-                        <uimessage code="pihcore.mentalhealth.referredBy" />:
+                        <uimessage code="pihcore.mentalhealth.referredBy"/>
                     </label>
-                    <repeat with="['PIH:Teacher'],['PIH:TRADITIONAL HEALER'],['PIH:VILLAGE HEALTH WORKER'],['PIH:11783'],['CIEL:978'],['PIH:Other medical service']">
-                            <obs conceptId="PIH:Role of referring person" answerConceptId="{0}"
-                                 style="checkbox"/>
-                    </repeat>
-                    <obs conceptId="PIH:Role of referring person" answerConceptId="PIH:OTHER"
-                        style="checkbox" commentFieldLabel=" " />
-                </p>
 
+                    <obs id="referral" conceptId="PIH:Role of referring person" style="radio"
+                         answerConceptIds="PIH:Teacher,PIH:TRADITIONAL HEALER,PIH:VILLAGE HEALTH WORKER,PIH:11783,CIEL:978,PIH:Other medical service,PIH:OTHER"
+                     answerSeparator="">
+                        <controls>
+                            <when value="PIH:OTHER" thenDisplay="#other_refferal"/>
+                        </controls>
+                    </obs>
+                    <div id="other_refferal">
+                        <obs conceptId="PIH:6421"/>
+                    </div>
+                </p>
                 <p>
                     <label>
                         <uimessage code="pihcore.mentalhealth.internalReferredBy" />:
                     </label>
-
-                    <repeat with="['PIH:DOCTOR'],['PIH:NURSE'],['PIH:SOCIAL WORKER SERVICE	']">
-                        <obs conceptId="PIH:Type of referral role" answerConceptId="{0}"
-                                 style="checkbox"/>
-                    </repeat>
-                    <obs conceptId="PIH:Type of referral role" answerConceptId="PIH:OTHER"
-                         style="checkbox" commentFieldLabel=" " />
+                        <obs id="role" conceptId="PIH:Type of referral role" style="radio" answerConceptIds="PIH:DOCTOR,PIH:NURSE,PIH:SOCIAL WORKER SERVICE,PIH:13439,PIH:OTHER"
+                             answerSeparator="">
+                            <controls>
+                                <when value="PIH:OTHER" thenDisplay="#other_role"/>
+                            </controls>
+                        </obs>
+                    <div id="other_role">
+                        <obs conceptId="PIH:14415"/>
+                    </div>
                 </p>
                 <br/><br/>
             </div>
+            <hr/>
+              <!-- Visit Type  -->
+            <div class="two-columns">
+                <p>
+                    <label>
+                        <uimessage code="pihcore.mentalhealth.visitType"/>
+                        
+                    </label>
+                    
+                    
+                    <obs id="visit_type" conceptId="CIEL:164181" style="radio"
+                         answerConceptIds="CIEL:164180,PIH:7383,PIH:14988"
+                         answerCodes="pihcore.mentalhealth.newVisit,pihcore.mentalhealth.ReEvaluation,pihcore.mentalhealth.MedicationRenewal"
+                         answerSeparator=""/>
+                      
+                    </p>
+                 <p>
+                    <label>
+                        <uimessage code="pih.app.mental.health.consultationMethod"/>
+                        
+                    </label>
+                    <obs conceptId="PIH:3589" style="radio"
+                         answerConceptIds="CIEL:166997,CIEL:167410"
+                         answerCodes="pih.app.mental.health.phoneCon,pih.app.mental.health.clinicalCon"
+                         answerSeparator=""/>
+                      
+                    </p>
+            
+                </div>
+                <br/>
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.chiefComplaint.title"/>
+                        </label>
+                        <obs conceptId="PIH:10137"/>
+                    </p>
+            <hr/>
 
+            <div class="one-columns">
+
+              <p>
+                <label>
+                    <uimessage code="pihcore.mentalhealth.if.other.service"/>
+                </label>
+                    <obs conceptId="PIH:7454" style="radio"
+                         answerConceptIds="CIEL:160473,CIEL:160449,CIEL:165019,CIEL:5622"
+                         answerCodes="pihcore.location.ed,pihcore.location.surgery,pihcore.location.intMed,pihcore.other"
+                         answerSeparator=""/>  
+            </p>
+          
+            <p>
+                <label>
+                    <uimessage code="pih.app.mental.health.new.patient"/>
+                </label>
+                <obs conceptId="CIEL:164144"
+                        style="radio" answerConceptIds="CIEL:1065,CIEL:1066" answerSeparator=""/>
+            </p>
+            </div>
+            <hr/>
+            <div class="two-columns">
+                <p>
+                    <label>
+                        <uimessage code="pih.app.chw.for.mental.health"/>
+                    </label>
+                    <obs conceptId="PIH:14991"
+                            style="radio" answerConceptIds="CIEL:1065,CIEL:1066" answerSeparator=""/>
+                </p>
+               
+                <p>
+                    <label>
+                        <uimessage code="pih.app.mental.health.patient.relapse"/>
+                    </label>
+                    <obs conceptId="CIEL:1688"
+                            style="radio" answerConceptIds="CIEL:1065,CIEL:1066" answerSeparator=""/>
+                </p>
+               
+            </div>
             <hr/>
             <div class="two-columns">
 
