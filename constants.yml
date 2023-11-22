@@ -175,6 +175,8 @@ encounterRole:
     uuid: "8f4d96e2-c97c-4285-9319-e56b9ba6029c"
   principalResultsInterpreter:
     uuid: "08f73be2-9452-44b5-801b-bdf7418c2f71"
+  psychologist:
+    uuid: "deb99a5a-1cab-44d4-8a4c-631186ba863d"
 
 visitType:
   CLINIC_OR_HOSPITAL_VISIT:

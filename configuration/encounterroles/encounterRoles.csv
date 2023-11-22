@@ -13,3 +13,4 @@ ${encounterRole.labTechnician.uuid},,Lab Technician,Staff member performing lab 
 ${encounterRole.commCareProvider.uuid},,CommCare Provider,CommCare integration provider
 ${encounterRole.radiologyTechnician.uuid},,Radiology Technician,Radiology Technician - person who performs radiology studies
 ${encounterRole.principalResultsInterpreter.uuid},,Principal Results Interpreter,Principal Results Interpreter - the provider responsible for interpreting the results of a radiology study
+${encounterRole.psychologist.uuid},,Psychologist,Psychologist and/or mental health provider
