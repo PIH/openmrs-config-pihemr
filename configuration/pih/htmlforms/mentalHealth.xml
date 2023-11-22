@@ -270,7 +270,7 @@
                     <span>
                         <!-- ToDo:  Add and change encounter_role -->
                         <encounterProviderAndRole default="currentUser"
-                                                  encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
+                                                  encounterRole="cbfe0b9d-9923-404c-941b-f048adc8cdc0" required="true"/>
                     </span>
                 </p>
                 <p id="who">
@@ -279,7 +279,7 @@
                     </label>
                     <span>
                         <!-- ToDo:  Add and change encounter_role -->
-                        <encounterProviderAndRole  encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05"
+                        <encounterProviderAndRole  encounterRole="deb99a5a-1cab-44d4-8a4c-631186ba863d"
                                                     providerRoles="62fbeae3-4e6f-4c35-8705-f3de10ab5b87" required="true"/>
                     </span>
                 </p> 
