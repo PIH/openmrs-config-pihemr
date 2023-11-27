@@ -337,6 +337,8 @@ program:
     uuid: "d830a5c1-30a2-4943-93a0-f918772496ec"
   asthma:
     uuid: "2639449c-8764-4003-be5f-dba522b4b680"
+  ayfs:
+    uuid: "3f257581-7e3a-4cf9-8a22-9a1dbd2a8c10"
   covid19:
     uuid: "dc227c44-d68e-431b-a20d-a60bb3496543"
   diabetes:
@@ -345,10 +347,16 @@ program:
     uuid: "7e06bf82-9f1a-4218-b68f-823082ef519b"
   epilepsy:
     uuid: "69e6a46d-674e-4281-99a0-4004f293ee57"
+  familyPlanning:
+    uuid: "bfc32f7d-6e2b-48c2-aa43-9d4f7c87a8e4"
+  gynecology:
+    uuid: "a932f5d2-9f2b-4eab-823d-8d6a561e9d8c"
   hypertension:
     uuid: "6959057e-9a5c-40ba-a878-292ba4fc35bc"
   hiv:
     uuid: "b1cb1fc1-5190-4f7a-af08-48870975dafc"
+  infant:
+    uuid: "dc1b588a-9b94-45e4-8346-71b7c9a24845"
   malnutrition:
     uuid: "61e38de2-44f2-470e-99da-3e97e93d388f"
   mentalHealth:
@@ -361,6 +369,12 @@ program:
     uuid: "e1b2f0b5-6d56-4500-8523-0ba71e75d897"
   oncology:
     uuid: "5bdbf9f6-690c-11e8-adc0-fa7ae01bbebc"
+  pmtct:
+    uuid: "2e9a4c7d-8257-4e1d-ae8f-51b29e3e7cfa"
+  pregnancy:
+    uuid: "6a5713c2-3fd5-46e7-8f25-36a0f7871e12"
+  pregnancyMentalHealth:
+    uuid: "8d7f6e9c-d2c9-4a7f-9ddc-23a8a5e9fc92"
   tb:
     uuid: "5682f919-a43b-4d4a-bcc3-ef0426162e23"
   zika:
@@ -371,6 +385,16 @@ programWorkflow:
     # this is referred to by UUID in configs because some servers have a
     # retired workflow with the same concept
     uuid: "aba55bfe-9490-4362-9841-0c476e379889"
+  eidProgramEidTreatmentStatus:
+    # this is referred to by UUID because both eid and infant programs have the workflow with the same concepts
+    uuid: "7e35b35e-5f40-4652-b2f2-b4afcb8e683a"
+  infantProgramEidTreatmentStatus:
+    # this is referred to by UUID because both eid and infant programs have the workflow with the same concepts
+    uuid: "29aba153-4f1e-4c28-bd36-0332b30fe4b5"
+  pregnancyProgramTypeOfTreatment:
+    # this is referred to by UUID because the concept used it fairly generic (and likely to be reused elsewhere?)
+    uuid: "9a3f8252-1588-4f7b-b02c-9e99c437d4ef"
+
 
 relationshipType:
   spousePartner:
