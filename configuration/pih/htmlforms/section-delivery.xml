@@ -437,11 +437,39 @@
                                 name="placenta" codes="pihcore.complete,pihcore.incomplete" />
                         <render concept="CIEL:164900" answers="CIEL:164899,CIEL:127244"
                                 name="intactMembranes" codes="emr.yes,emr.no" />
-                        <render concept="CIEL:127592" answers="CIEL:1065,CIEL:1066"
-                                name="retainedPlacenta" codes="emr.yes,emr.no" />
-                        <render concept="CIEL:114244" answers="CIEL:1065,CIEL:1066"
-                                name="perinealLac" codes="emr.yes,emr.no" />
                     </repeat>
+
+                    <p class="side-by-side">
+                        <label>
+                            <uimessage code="pihcore.retainedPlacenta" />
+                        </label>
+                        <br/>
+                        <obs id="retainedPlacQ" conceptId="CIEL:127592"
+                             answerConceptIds="CIEL:1065,CIEL:1066" answerCodes="emr.yes,emr.no"
+                             style="radio" answerSeparator="">
+                            <controls>
+                                <when value="CIEL:1065" thenDisplay="#abNormRetainedPlac" />
+                            </controls>
+                        </obs>
+
+                        <div id="abNormRetainedPlac">
+                            <p class="side-by-side">
+                                <obs conceptId="PIH:15026"
+                                     answerConceptIds="CIEL:130135,CIEL:130128,CIEL:130123"
+                                     style="radio" answerSeparator="&lt;br /&gt;"/>
+                            </p>
+                        </div>
+                    </p>
+
+                    <p class="side-by-side">
+                        <label>
+                            <uimessage code="pihcore.perinealLac" />
+                        </label>
+                        <br/>
+                        <obs conceptId="CIEL:114244"
+                             answerConceptIds="CIEL:1065,CIEL:1066" answerCodes="emr.yes,emr.no"
+                             style="radio" answerSeparator="" />
+                    </p>
 
                     <label>
                         <uimessage code="pihcore.consult.procedure" />
