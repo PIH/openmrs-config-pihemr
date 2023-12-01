@@ -345,6 +345,17 @@ angular.module("encounterTypeConfig", [])
             editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-delivery.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
         }
 
+        var cSection = {
+            type: "encounter-section",
+            id: "section-cs-surgery",
+            label: "pihcore.c-section",
+            icon: "icon-cut",
+            shortTemplate: "templates/sections/defaultSectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-cs-surgery.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-cs-surgery.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+        }
+
         var obgynInitial = {
             type: "encounter-section",
             id: "section-obgyn-initial",
@@ -1515,7 +1526,8 @@ angular.module("encounterTypeConfig", [])
             showOnVisitList: true,
             sections: [
               delivery,
-              primaryCareDx
+              primaryCareDx,
+              cSection
             ]
           },
           "sierra_leone": {

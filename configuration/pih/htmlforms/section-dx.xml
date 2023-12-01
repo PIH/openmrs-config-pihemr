@@ -50,8 +50,9 @@
     <ifMode mode="VIEW" include="false">
         <div id="buttons">
             <includeIf velocityTest="$encounter.encounterType.uuid != '00e5ebb2-90ec-11e8-9eb6-529269fb1459'">
-                <button id="next" type="button" class="submitButton confirm right"><uimessage code="emr.next"/><i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i></button>
+                // If there's no next button on the section
             </includeIf>
+            <button id="next" type="button" class="submitButton confirm right"><uimessage code="emr.next"/><i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i></button>
             <button id="submit" class="submitButton confirm right"><uimessage code="mirebalais.save"/><i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i></button>
             <button id="cancel" type="button" class="cancel"><uimessage code="emr.cancel"/></button>
         </div>
