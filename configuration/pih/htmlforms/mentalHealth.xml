@@ -36,15 +36,20 @@
     </translations>
 
     <style type="text/css">
-
+        <!--    My custom css -->
+        #radio_button_container{
+        display:flex;
+        gap:50px;
+        justify-content:space-between;
+        }
         #who-when-where {
-            margin-bottom: 6px;
-            border-bottom: 1px solid #ccc;
+        margin-bottom: 6px;
+        border-bottom: 1px solid #ccc;
         }
 
         #who-when-where p {
-            display: inline-block;
-            padding-right: 20px;
+        display: inline-block;
+        padding-right: 20px;
         }
 
         #where > input[type=text] {
@@ -61,16 +66,16 @@
         display: block;
         }
 
-        .two-columns {
-        column-count: 2;
-        -webkit-column-count: 2;
-        -moz-column-count: 2;
-        }
+        <!--        .two-columns {-->
+        <!--        column-count: 2;-->
+        <!--        -webkit-column-count: 2;-->
+        <!--        -moz-column-count: 2;-->
+        <!--        }-->
 
         .three-columns {
-            column-count: 3;
-            -webkit-column-count: 3;
-            -moz-column-count: 3;
+        column-count: 3;
+        -webkit-column-count: 3;
+        -moz-column-count: 3;
         }
 
         .simple-form-ui input {
@@ -118,7 +123,7 @@
         margin: 0px;
         }
 
-       - .section {
+        - .section {
         width: 100%;
         }
 
@@ -166,10 +171,10 @@
         }
 
         .simple-form-ui input {
-            min-width: unset;
+        min-width: unset;
         }
         .simple-form-ui select {
-            min-width: unset;
+        min-width: unset;
         }
     </style>
 
@@ -178,62 +183,67 @@
 
             // add validation handler to the HTML form
             htmlForm.getBeforeValidation().push(function() {
-                var valid = true;
+            var valid = true;
 
-                // validate that if a disposition has been selected, all the fields associated with that disposition have also been filled out
-                jq('#disposition .field-error').first().html('').hide(); // hide any previous error
+            // validate that if a disposition has been selected, all the fields associated with that disposition have
+            also been filled out
+            jq('#disposition .field-error').first().html('').hide(); // hide any previous error
 
-                if (jq('#disposition select:first').val() != '' &amp;&amp;
-                    (jq('#disposition select:visible').is(function() { return jq(this).val() == ''; })
-                    || jq('#disposition input:visible').is(function() { return jq(this).val() == ''; }))) {
-                        jq('#disposition .field-error').first().append('<uimessage code="pihcore.errors.fieldsAssociatedWithDisposition"/>').show();
-                        valid = false;
-                }
-                return valid;
+            if (jq('#disposition select:first').val() != '' &amp;&amp;
+            (jq('#disposition select:visible').is(function() { return jq(this).val() == ''; })
+            || jq('#disposition input:visible').is(function() { return jq(this).val() == ''; }))) {
+            jq('#disposition .field-error').first().append('<uimessage
+                code="pihcore.errors.fieldsAssociatedWithDisposition"/>').show();
+            valid = false;
+            }
+            return valid;
             });
 
             jq(function() {
 
-                // return appointment date can never be before encounter date
-                var setMinReturnVisitDate = function () {
+            // return appointment date can never be before encounter date
+            var setMinReturnVisitDate = function () {
 
-                    var returnVisitDate = getValue('return-visit-date.value');
+            var returnVisitDate = getValue('return-visit-date.value');
 
-                    getField('return-visit-date.value').datepicker('option', 'minDate', getField('encounterDate.value').datepicker('getDate'));
+            getField('return-visit-date.value').datepicker('option', 'minDate',
+            getField('encounterDate.value').datepicker('getDate'));
 
-                    if (returnVisitDate  &amp;&amp; returnVisitDate != getValue('return-visit-date.value')) {
-                        setValue('return-visit-date.value','');  // reset return visit date if change to encounter date makes it invalid
-                        alert('<uimessage code="pihcore.mentalhealth.returnVisitDateResetWarning"/>');
-                    }
-                }
+            if (returnVisitDate &amp;&amp; returnVisitDate != getValue('return-visit-date.value')) {
+            setValue('return-visit-date.value',''); // reset return visit date if change to encounter date makes it
+            invalid
+            alert('<uimessage code="pihcore.mentalhealth.returnVisitDateResetWarning"/>');
+            }
+            }
 
-                getField('encounterDate.value').change(setMinReturnVisitDate);
+            getField('encounterDate.value').change(setMinReturnVisitDate);
 
-                setMinReturnVisitDate();
+            setMinReturnVisitDate();
 
-                jq('.medication-checkbox > input:checkbox').each(function(idx, it){
-                    if(jq(it).not(':checked')){
-                        jq(it).closest("td").siblings().find(":input").each(function(i, el){
-                            jq(el).attr("disabled", "disabled");
-                        });
-                    }
+            jq('.medication-checkbox > input:checkbox').each(function(idx, it){
+            if(jq(it).not(':checked')){
+            jq(it).closest("td").siblings().find(":input").each(function(i, el){
+            jq(el).attr("disabled", "disabled");
+            });
+            }
 
-                    jq(it).change(function(){
-                        if(jq(this).is(':checked')){
-                            jq(this).closest("td").siblings().find(":input").each(function(i, el){
-                                jq(el).removeAttr("disabled");
-                            });
-                        } else {
-                            jq(this).closest("td").siblings().find(":input").each(function(i, el){
-                                jq(el).val('').attr("disabled", "disabled");
-                            });
-                        }
-                    });
-                });
+            jq(it).change(function(){
+            if(jq(this).is(':checked')){
+            jq(this).closest("td").siblings().find(":input").each(function(i, el){
+            jq(el).removeAttr("disabled");
+            });
+            } else {
+            jq(this).closest("td").siblings().find(":input").each(function(i, el){
+            jq(el).val('').attr("disabled", "disabled");
+            });
+            }
+            });
+            });
 
-                jq('#disposition select:first').change(function() {
-                    jq('#disposition .field-error').first().html('').hide(); // hide any previous error if disposition is changed
-                });
+            jq('#disposition select:first').change(function() {
+            jq('#disposition .field-error').first().html('').hide(); // hide any previous error if disposition is
+            changed
+            });
 
             });
 
@@ -279,18 +289,18 @@
                     </label>
                     <span>
                         <!-- ToDo:  Add and change encounter_role -->
-                        <encounterProviderAndRole  encounterRole="deb99a5a-1cab-44d4-8a4c-631186ba863d"
-                                                    providerRoles="62fbeae3-4e6f-4c35-8705-f3de10ab5b87" required="true"/>
+                        <encounterProviderAndRole encounterRole="deb99a5a-1cab-44d4-8a4c-631186ba863d"
+                                                  providerRoles="62fbeae3-4e6f-4c35-8705-f3de10ab5b87" required="true"/>
                     </span>
-                </p> 
+                </p>
                 <p id="who">
                     <label>
                         <uimessage code="ui.i18n.ProviderRole.name.556ceee6-d899-43d4-a98b-7973ebc85b75"/>
                     </label>
                     <span>
                         <!-- ToDo:  Add and change encounter_role -->
-                        <encounterProviderAndRole  encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05"
-                                                    providerRoles="556ceee6-d899-43d4-a98b-7973ebc85b75"/>
+                        <encounterProviderAndRole encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05"
+                                                  providerRoles="556ceee6-d899-43d4-a98b-7973ebc85b75"/>
                     </span>
                 </p>
                 <p id="where">
@@ -351,7 +361,8 @@
 
         </includeIf>
         <!-- all users that don't have either retro privilege, or those with retro-this-provider-only but with an active visit, can only edit location -->
-        <includeIf velocityTest="(!$user.hasPrivilege('Task: emr.retroConsultNoteThisProviderOnly') and !$user.hasPrivilege('Task: emr.retroConsultNote')) or ($user.hasPrivilege('Task: emr.retroConsultNoteThisProviderOnly') and !$user.hasPrivilege('Task: emr.retroConsultNote') and $visit.open)">
+        <includeIf
+                velocityTest="(!$user.hasPrivilege('Task: emr.retroConsultNoteThisProviderOnly') and !$user.hasPrivilege('Task: emr.retroConsultNote')) or ($user.hasPrivilege('Task: emr.retroConsultNoteThisProviderOnly') and !$user.hasPrivilege('Task: emr.retroConsultNote') and $visit.open)">
             <div style="display:none">
                 <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05"
                                           required="true"/>
@@ -396,158 +407,184 @@
              headerCode="pihcore.mentalhealth.referral">
 
         <!-- Program enrollment -->
-        <enrollInProgram programId="Mental Health" locationTag="Program Location" />
+        <enrollInProgram programId="Mental Health" locationTag="Program Location"/>
 
         <div class="section-container">
-            
-         <div class="two-columns" id="radio_button_container">
-                <p>
-                    <label>
-                        <uimessage code="pihcore.mentalhealth.referredBy"/>
-                    </label>
 
-                    <obs id="referral" conceptId="PIH:Role of referring person" style="radio"
-                         answerConceptIds="PIH:Teacher,PIH:TRADITIONAL HEALER,PIH:VILLAGE HEALTH WORKER,PIH:11783,CIEL:978,PIH:Other medical service,PIH:OTHER"
-                     answerSeparator="">
-                        <controls>
-                            <when value="PIH:OTHER" thenDisplay="#other_refferal"/>
-                        </controls>
-                    </obs>
-                    <div id="other_refferal">
-                        <obs conceptId="PIH:6421"/>
-                    </div>
-                </p>
-                <p>
-                    <label>
-                        <uimessage code="pihcore.mentalhealth.internalReferredBy" />:
-                    </label>
-                        <obs id="role" conceptId="PIH:Type of referral role" style="radio" answerConceptIds="PIH:DOCTOR,PIH:NURSE,PIH:SOCIAL WORKER SERVICE,PIH:13439,PIH:OTHER"
+            <div class="two-columns" id="radio_button_container">
+                <div class="col">
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.mentalhealth.referredBy"/>
+                        </label>
+
+                        <obs id="referral" conceptId="PIH:Role of referring person" style="radio"
+                             answerConceptIds="PIH:Teacher,PIH:TRADITIONAL HEALER,PIH:VILLAGE HEALTH WORKER,PIH:11783,CIEL:978,PIH:Other medical service,PIH:OTHER"
+                             answerSeparator="">
+                            <controls>
+                                <when value="PIH:OTHER" thenDisplay="#other_refferal"/>
+                            </controls>
+                        </obs>
+                        <div id="other_refferal">
+                            <obs conceptId="PIH:6421"/>
+                        </div>
+                    </p>
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.mentalhealth.if.other.service"/>
+                        </label>
+                        <obs id="if_other" conceptId="PIH:7454" style="radio"
+                             answerConceptIds="CIEL:160473,CIEL:160449,CIEL:165019,CIEL:5622"
+                             answerCodes="pihcore.location.ed,pihcore.location.surgery,pihcore.location.intMed,pihcore.other"
+                             answerSeparator="">
+                            <controls>
+                                <when value="CIEL:5622" thenDisplay="#other"/>
+                            </controls>
+                        </obs>
+                        <div id="other">
+                            <obs conceptId="PIH:15027"/>
+                        </div>
+                    </p>
+                </div>
+                <div class="col">
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.mentalhealth.internalReferredBy"/>:
+                        </label>
+                        <obs id="role" conceptId="PIH:Type of referral role" style="radio"
+                             answerConceptIds="PIH:DOCTOR,PIH:NURSE,PIH:SOCIAL WORKER SERVICE,PIH:13439,PIH:OTHER"
                              answerSeparator="">
                             <controls>
                                 <when value="PIH:OTHER" thenDisplay="#other_role"/>
                             </controls>
                         </obs>
-                    <div id="other_role">
-                        <obs conceptId="PIH:14415"/>
-                    </div>
-                </p>
-                <br/><br/>
+                        <div id="other_role">
+                            <obs conceptId="PIH:14415"/>
+                        </div>
+                    </p>
+                </div>
+
+                <br/>
+                <br/>
             </div>
             <hr/>
-              <!-- Visit Type  -->
-            <div class="two-columns">
-                <p>
-                    <label>
-                        <uimessage code="pihcore.mentalhealth.visitType"/>
-                        
-                    </label>
-                    
-                    
-                    <obs id="visit_type" conceptId="CIEL:164181" style="radio"
-                         answerConceptIds="CIEL:164180,PIH:7383,PIH:14988"
-                         answerCodes="pihcore.mentalhealth.newVisit,pihcore.mentalhealth.ReEvaluation,pihcore.mentalhealth.MedicationRenewal"
-                         answerSeparator=""/>
-                      
-                    </p>
-                 <p>
-                    <label>
-                        <uimessage code="pih.app.mental.health.consultationMethod"/>
-                        
-                    </label>
-                    <obs conceptId="PIH:3589" style="radio"
-                         answerConceptIds="CIEL:166997,CIEL:167410"
-                         answerCodes="pih.app.mental.health.phoneCon,pih.app.mental.health.clinicalCon"
-                         answerSeparator=""/>
-                      
-                    </p>
-            
-                </div>
-                <br/>
+            <!-- Visit Type  -->
+            <div class="two-columns" id="radio_button_container">
+                <div class="col">
                     <p>
                         <label>
-                            <uimessage code="pihcore.chiefComplaint.title"/>
+                            <uimessage code="pihcore.mentalhealth.visitType"/>
+
                         </label>
-                        <obs conceptId="PIH:10137"/>
+
+
+                        <obs id="visit_type" conceptId="CIEL:164181" style="radio"
+                             answerConceptIds="CIEL:164180,PIH:7383,PIH:14988"
+                             answerCodes="pihcore.mentalhealth.newVisit,pihcore.mentalhealth.ReEvaluation,pihcore.mentalhealth.MedicationRenewal"
+                             answerSeparator=""/>
+
                     </p>
-            <hr/>
+                </div>
+                <div class="col">
+                    <p>
+                        <label>
+                            <uimessage code="pih.app.mental.health.consultationMethod"/>
 
-            <div class="one-columns">
+                        </label>
+                        <obs conceptId="PIH:3589" style="radio"
+                             answerConceptIds="CIEL:166997,CIEL:167410"
+                             answerCodes="pih.app.mental.health.phoneCon,pih.app.mental.health.clinicalCon"
+                             answerSeparator=""/>
 
-              <p>
-                <label>
-                    <uimessage code="pihcore.mentalhealth.if.other.service"/>
-                </label>
-                    <obs conceptId="PIH:7454" style="radio"
-                         answerConceptIds="CIEL:160473,CIEL:160449,CIEL:165019,CIEL:5622"
-                         answerCodes="pihcore.location.ed,pihcore.location.surgery,pihcore.location.intMed,pihcore.other"
-                         answerSeparator=""/>  
-            </p>
-          
-            <p>
-                <label>
-                    <uimessage code="pih.app.mental.health.new.patient"/>
-                </label>
-                <obs conceptId="CIEL:164144"
-                        style="radio" answerConceptIds="CIEL:1065,CIEL:1066" answerSeparator=""/>
-            </p>
-            </div>
-            <hr/>
-            <div class="two-columns">
-                <p>
-                    <label>
-                        <uimessage code="pih.app.chw.for.mental.health"/>
-                    </label>
-                    <obs conceptId="PIH:14991"
-                            style="radio" answerConceptIds="CIEL:1065,CIEL:1066" answerSeparator=""/>
-                </p>
-               
-                <p>
-                    <label>
-                        <uimessage code="pih.app.mental.health.patient.relapse"/>
-                    </label>
-                    <obs conceptId="CIEL:1688"
-                            style="radio" answerConceptIds="CIEL:1065,CIEL:1066" answerSeparator=""/>
-                </p>
-               
-            </div>
-            <hr/>
-            <div class="two-columns">
+                    </p>
+                </div>
 
-                <!-- Hospitalization -->
-                <p>
-                    <label>
-                        <uimessage code="pihcore.ncd.plan.hospitalized"/>
-                    </label>
-                    <obs conceptId="CIEL:976"
-                         style="radio" answerConceptIds="PIH:YES,PIH:NO"
-                         answerCodes="yes,no"  answerSeparator=""/>
-
-                    <obs conceptId="CIEL:162879" labelCode="pihcore.reasonHospitalized" />
-                </p>
-
-                <p>
-                    <obs conceptId="PIH:TYPE OF PATIENT" answerConceptId="PIH:INPATIENT HOSPITALIZATION"
-                         style="checkbox" answerCode="pihcore.currentHospitalization"  answerSeparator="" />
-                </p>
-
-                <p>
-                    <obs conceptId="PIH:12362"
-                         style="checkbox" answerConceptId="PIH:YES"
-                         answerCode="pihcore.traumaticEvent" />
-                </p>
             </div>
             <br/>
-            <div>
-                <p class="radio">
+            <div class="col">
+                <p>
                     <label>
-                        <uimessage code="pihcore.ncd.plan.appt"/>
+                        <uimessage code="pihcore.chiefComplaint.title"/>
                     </label>
-                    <obs conceptId="PIH:Appearance at appointment time" style="radio"
-                         answerConceptIds="PIH:12718,PIH:YES,PIH:Between 1 and 7,PIH:More than 7"
-                         answerCodes="pihcore.meds.7DaysorMoreEarly,yes,pihcore.meds.late1to7Days,pihcore.meds.late7orMoreDays"
-                         answerSeparator=""/>
+                    <obs conceptId="PIH:10137"/>
                 </p>
             </div>
+            <hr/>
+
+            <div class="one-columns" id="radio_button_container">
+                <div class="col">
+                    <p>
+                        <label>
+                            <uimessage code="pih.app.mental.health.new.patient"/>
+                        </label>
+                        <obs conceptId="CIEL:164144"
+                             style="radio" answerConceptIds="CIEL:1065,CIEL:1066" answerSeparator=""/>
+                    </p>
+                </div>
+            </div>
+            <hr/>
+            <div class="two-columns" id="radio_button_container">
+                <div class="col">
+                    <p>
+                        <label>
+                            <uimessage code="pih.app.chw.for.mental.health"/>
+                        </label>
+                        <obs conceptId="PIH:14991"
+                             style="radio" answerConceptIds="CIEL:1065,CIEL:1066" answerSeparator=""/>
+                    </p>
+
+                </div>
+                <div class="col">
+                    <p>
+                        <label>
+                            <uimessage code="pih.app.mental.health.patient.relapse"/>
+                        </label>
+                        <obs conceptId="CIEL:1688"
+                             style="radio" answerConceptIds="CIEL:1065,CIEL:1066" answerSeparator=""/>
+                    </p>
+                </div>
+
+            </div>
+            <hr/>
+            <div class="two-columns" id="radio_button_container">
+
+                <!-- Hospitalization -->
+                <div class="col">
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.ncd.plan.hospitalized"/>
+                        </label>
+                        <obs conceptId="CIEL:976"
+                             style="radio" answerConceptIds="PIH:YES,PIH:NO"
+                             answerCodes="yes,no" answerSeparator=""/>
+
+                        <obs conceptId="CIEL:162879" labelCode="pihcore.reasonHospitalized"/>
+                    </p>
+                    <p>
+                        <obs conceptId="PIH:TYPE OF PATIENT" answerConceptId="PIH:INPATIENT HOSPITALIZATION"
+                             style="checkbox" answerCode="pihcore.currentHospitalization" answerSeparator=""/>
+                    </p>
+                    <p>
+                        <obs conceptId="PIH:12362"
+                             style="checkbox" answerConceptId="PIH:YES"
+                             answerCode="pihcore.traumaticEvent"/>
+                    </p>
+                </div>
+
+                <div class="col">
+                    <p class="radio">
+                        <label>
+                            <uimessage code="pihcore.ncd.plan.appt"/>
+                        </label>
+                        <obs conceptId="PIH:Appearance at appointment time" style="radio"
+                             answerConceptIds="PIH:12718,PIH:YES,PIH:Between 1 and 7,PIH:More than 7"
+                             answerCodes="pihcore.meds.7DaysorMoreEarly,yes,pihcore.meds.late1to7Days,pihcore.meds.late7orMoreDays"
+                             answerSeparator=""/>
+                    </p>
+                </div>
+            </div>
+            <br/>
+
         </div>
     </section>
 
@@ -574,15 +611,14 @@
             <br/>
             -->
 
-            <label>
-                <uimessage code="pihcore.mentalhealth.zldsi"/>:
-            </label>
+            <div class="col">
+                <label>
+                    <uimessage code="pihcore.mentalhealth.zldsi"/>:
+                </label>
 
-            <span class="small">
-                <obs conceptId="CIEL:163225"/>
-            </span>
-
-            <div class="two-columns">
+                <span class="small">
+                    <obs conceptId="CIEL:163225"/>
+                </span>
                 <label>
                     <uimessage code="pihcore.mentalhealth.cesd"/>:
                 </label>
@@ -632,51 +668,54 @@
 
         <div class="section-container">
             <!-- NOTE:  WHODAS required for 18+ -->
-            <p>
-                <includeIf velocityTest="$patient.age &gt; 17" >
+            <div class="col">
+                <p>
+                    <includeIf velocityTest="$patient.age &gt; 17">
+                        <label>
+                            <uimessage code="pihcore.mentalhealth.whodas"/>
+                            (<uimessage code="emr.formValidation.messages.requiredField.label"/>):
+                        </label>
+                        <span class="small">
+                            <obs conceptId="CIEL:163226" required="true"/>
+                        </span>
+                    </includeIf>
+                    <includeIf velocityTest="$patient.age &lt; 18 || (! $patient.age)">
+                        <label>
+                            <uimessage code="pihcore.mentalhealth.whodas"/>:
+                        </label>
+                        <span class="small">
+                            <obs conceptId="CIEL:163226"/>
+                        </span>
+                    </includeIf>
+                </p>
+
+                <p>
                     <label>
-                        <uimessage code="pihcore.mentalhealth.whodas"/> (<uimessage code="emr.formValidation.messages.requiredField.label"/>):
+                        <uimessage code="pihcore.mentalhealth.difficultDays"/>:
                     </label>
                     <span class="small">
-                        <obs conceptId="CIEL:163226" required="true" />
+                        <obs conceptId="PIH:Days with difficulties in past month"/>
                     </span>
-                </includeIf>
-                <includeIf velocityTest="$patient.age &lt; 18 || (! $patient.age)" >
+                </p>
+
+                <p>
                     <label>
-                        <uimessage code="pihcore.mentalhealth.whodas"/>:
+                        <uimessage code="pihcore.mentalhealth.nonFunctioningDays"/>:
                     </label>
                     <span class="small">
-                        <obs conceptId="CIEL:163226" />
+                        <obs conceptId="PIH:Days without usual activity in past month"/>
                     </span>
-                </includeIf>
-            </p>
+                </p>
 
-            <p>
-                <label>
-                    <uimessage code="pihcore.mentalhealth.difficultDays"/>:
-                </label>
-                <span class="small">
-                    <obs conceptId="PIH:Days with difficulties in past month"/>
-                </span>
-            </p>
-
-            <p>
-                <label>
-                    <uimessage code="pihcore.mentalhealth.nonFunctioningDays"/>:
-                </label>
-                <span class="small">
-                    <obs conceptId="PIH:Days without usual activity in past month"/>
-                </span>
-            </p>
-
-            <p>
-                <label>
-                    <uimessage code="pihcore.mentalhealth.reducedFunctionDays"/>:
-                </label>
-                <span class="small">
-                    <obs conceptId="PIH:Days with less activity in past month"/>
-                </span>
-            </p>
+                <p>
+                    <label>
+                        <uimessage code="pihcore.mentalhealth.reducedFunctionDays"/>:
+                    </label>
+                    <span class="small">
+                        <obs conceptId="PIH:Days with less activity in past month"/>
+                    </span>
+                </p>
+            </div>
         </div>
         <br/>
 
@@ -709,14 +748,22 @@
                 <tr>
                     <th></th>
                     <th>
-                        <label><uimessage code="pihcore.mentalhealth.suicideIdea"/></label>
+                        <label>
+                            <uimessage code="pihcore.mentalhealth.suicideIdea"/>
+                        </label>
                     </th>
                     <th>
-                        <label><uimessage code="pihcore.mentalhealth.suicideAttempt"/></label>
+                        <label>
+                            <uimessage code="pihcore.mentalhealth.suicideAttempt"/>
+                        </label>
                     </th>
                 </tr>
                 <tr>
-                    <th><label><uimessage code="pihcore.past.label"/></label></th>
+                    <th>
+                        <label>
+                            <uimessage code="pihcore.past.label"/>
+                        </label>
+                    </th>
                     <td>
                         <obs conceptId="CIEL:1628" style="checkbox"
                              answerConceptId="CIEL:125562" answerCode=""/>
@@ -728,16 +775,20 @@
                     </td>
                 </tr>
                 <tr>
-                    <th><label><uimessage code="pihcore.current.label"/></label></th>
+                    <th>
+                        <label>
+                            <uimessage code="pihcore.current.label"/>
+                        </label>
+                    </th>
                     <td>
                         <!-- Suicidal ideation -->
                         <obs conceptId="PIH:Mental health diagnosis" style="checkbox"
-                             answerConceptId="CIEL:125562" answerCode="" />
+                             answerConceptId="CIEL:125562" answerCode=""/>
                     </td>
                     <td>
                         <!-- Suicide attempt -->
                         <obs conceptId="PIH:Mental health diagnosis" style="checkbox"
-                             answerConceptId="CIEL:148143" answerCode="" />
+                             answerConceptId="CIEL:148143" answerCode=""/>
                     </td>
                 </tr>
                 <tr>
@@ -776,7 +827,8 @@
                     </label>
 
                     <obs conceptId="CIEL:165531" answerConceptId="CIEL:165532"/>
-                    <obs conceptId="PIH:Mental health intervention" answerConceptId="PIH:10646" answerCode="pihcore.mentalhealth.safetyPlan" />
+                    <obs conceptId="PIH:Mental health intervention" answerConceptId="PIH:10646"
+                         answerCode="pihcore.mentalhealth.safetyPlan"/>
                     <obs conceptId="CIEL:165531" answerConceptId="CIEL:165533"/>
                 </div>
             </div>
@@ -795,8 +847,8 @@
                      style="autocomplete"/>
             </p>
             <p>
-            <obs conceptId="PIH:Mental health diagnosis" answerConceptSetIds="PIH:HUM Psychological diagnosis"
-                 style="autocomplete"/>
+                <obs conceptId="PIH:Mental health diagnosis" answerConceptSetIds="PIH:HUM Psychological diagnosis"
+                     style="autocomplete"/>
             </p>
 
         </div>
@@ -807,7 +859,7 @@
         <div class="section-container">
             <obs conceptId="PIH:Mental health intervention"
                  answerConceptId="PIH:Interpersonal Therapy"
-                 toggle="interpersonal" />
+                 toggle="interpersonal"/>
 
             <!-- ToDo:  Indent these -->
             <div id="interpersonal">
@@ -842,7 +894,7 @@
                               ['CIEL:165485','Progressive muscle relaxation'],
                               ['CIEL:165328','HIV/AIDS counseling'],
                               ['CIEL:165973','Psychological first aid']">
-                        <obs conceptId="PIH:Mental health intervention" answerConceptId="{0}"/>
+                    <obs conceptId="PIH:Mental health intervention" answerConceptId="{0}"/>
                 </repeat>
                 <br/>
 
@@ -858,26 +910,26 @@
         <div class="section-container">
 
             <!-- ToDo:  Introduce the new modelling in the next release -->
-                <table style="table-layout:fixed">
-                    <tr>
-                        <th colspan="2">
-                            <uimessage code="pihcore.visitNote.plan.dose"/>
-                        </th>
-                        <th>
-                            <uimessage code="pihcore.visitNote.plan.frequency"/>
-                        </th>
-                        <th colspan="2">
-                            <uimessage code="pihcore.visitNote.plan.duration"/>
-                        </th>
-                        <th>
-                            <uimessage code="pihcore.drug.route"/>
-                        </th>
-                    </tr>
+            <table style="table-layout:fixed">
+                <tr>
+                    <th colspan="2">
+                        <uimessage code="pihcore.visitNote.plan.dose"/>
+                    </th>
+                    <th>
+                        <uimessage code="pihcore.visitNote.plan.frequency"/>
+                    </th>
+                    <th colspan="2">
+                        <uimessage code="pihcore.visitNote.plan.duration"/>
+                    </th>
+                    <th>
+                        <uimessage code="pihcore.drug.route"/>
+                    </th>
+                </tr>
 
-                    <!-- ToDo: Improve formatting; Add placeholders/suggestions for un-entered inputs; Fix toggles -->
-                    <repeat>
-                        <template>
-                            <obsgroup groupingConceptId="PIH:Prescription construct">
+                <!-- ToDo: Improve formatting; Add placeholders/suggestions for un-entered inputs; Fix toggles -->
+                <repeat>
+                    <template>
+                        <obsgroup groupingConceptId="PIH:Prescription construct">
                             <tr>
                                 <td id="{name}-rx" colspan="6">
                                     <obs conceptId="PIH:Mental health medication"
@@ -887,52 +939,52 @@
                                 </td>
                             </tr>
                             <tr>
-                                    <td id="{name}-rx-dose" align="right">
-                                        <obs id="dose-{name}" class="doseInput" conceptId="CIEL:160856" placeholder="dose"/>
-                                    </td>
-                                    <td id="{name}-rx-dose-unit">
-                                        <obs id="doseUnit-{name}" class="doseInput select-arrow" placeholder="unit"
-                                             conceptId="PIH:Dosing units coded"
-                                             answerConceptIds="CIEL:161553,CIEL:161554"
-                                             answerCodes="mg,g"/>
-                                        <!-- tablet, capsule, ampule, bottle, vial, mg, mL -->
-                                    </td>
-                                    <td id="{name}-rx-frequency">
-                                        <obs id="frequencyCoded-{name}" class="frequency select-arrow"
-                                             conceptId="PIH:Drug frequency for HUM"
-                                             answerConceptIds=
-                                                     "PIH:OD,PIH:BID,PIH:TID,PIH:QID,PIH:OM,PIH:ON"
-                                             answerCodes="OD,BID,TID,QID,OM,ON"/>
-                                    </td>
-                                    <td id="{name}-rx-duration" align="right">
-                                        <obs id="duration-{name}" class="duration doseInput" conceptId="CIEL:159368"/>
-                                    </td>
-                                    <td id="{name}-rx-duration-unit">
-                                        <obs id="durationUnit-{name}" class="duration-unit select-arrow"
-                                             conceptId="PIH:TIME UNITS"
-                                             answerConceptIds="PIH:Days,PIH:1073,PIH:Months"/>
-                                    </td>
-                                    <td id="{name}-rx-route">
-                                        <obs id="route-{name}" class="route select-arrow"
-                                             conceptId="PIH:12651"
-                                             answerConceptIds="CIEL:160240,CIEL:160242,CIEL:160243"/>
-                                    </td>
+                                <td id="{name}-rx-dose" align="right">
+                                    <obs id="dose-{name}" class="doseInput" conceptId="CIEL:160856" placeholder="dose"/>
+                                </td>
+                                <td id="{name}-rx-dose-unit">
+                                    <obs id="doseUnit-{name}" class="doseInput select-arrow" placeholder="unit"
+                                         conceptId="PIH:Dosing units coded"
+                                         answerConceptIds="CIEL:161553,CIEL:161554"
+                                         answerCodes="mg,g"/>
+                                    <!-- tablet, capsule, ampule, bottle, vial, mg, mL -->
+                                </td>
+                                <td id="{name}-rx-frequency">
+                                    <obs id="frequencyCoded-{name}" class="frequency select-arrow"
+                                         conceptId="PIH:Drug frequency for HUM"
+                                         answerConceptIds=
+                                                 "PIH:OD,PIH:BID,PIH:TID,PIH:QID,PIH:OM,PIH:ON"
+                                         answerCodes="OD,BID,TID,QID,OM,ON"/>
+                                </td>
+                                <td id="{name}-rx-duration" align="right">
+                                    <obs id="duration-{name}" class="duration doseInput" conceptId="CIEL:159368"/>
+                                </td>
+                                <td id="{name}-rx-duration-unit">
+                                    <obs id="durationUnit-{name}" class="duration-unit select-arrow"
+                                         conceptId="PIH:TIME UNITS"
+                                         answerConceptIds="PIH:Days,PIH:1073,PIH:Months"/>
+                                </td>
+                                <td id="{name}-rx-route">
+                                    <obs id="route-{name}" class="route select-arrow"
+                                         conceptId="PIH:12651"
+                                         answerConceptIds="CIEL:160240,CIEL:160242,CIEL:160243"/>
+                                </td>
                             </tr>
-                            </obsgroup>
-                        </template>
+                        </obsgroup>
+                    </template>
 
-                    <render drug="PIH:AMITRYPTILINE" name="amitrypilineHCl" />
-                    <render drug="PIH:CARBAMAZEPINE" name="carbamaepine" />
-                    <render drug="PIH:LEVODOPA + CARBIDOPA" name="carbidLevoDopa" />
-                    <render drug="PIH:DIAZEPAM" name="diazepam" />
-                    <render drug="PIH:DIPHENHYDRAMINE" name="diphen" />
-                    <render drug="CIEL:76553" name="fluoxetineHCl" />
-                    <render drug="PIH:HALOPERIDOL" name="haloperidol" />
-                    <render drug="PIH:PHENOBARBITAL" name="phenobarb" />
-                    <render drug="PIH:PHENYTOIN" name="phenytoin" />
-                    <render drug="CIEL:83405" name="risperidone" />
-                    <render drug="PIH:SODIUM VALPROATE" name="NaValproate" />
-                    <render drug="PIH:TRIHEXYPHENIDYL" name="trihex" />
+                    <render drug="PIH:AMITRYPTILINE" name="amitrypilineHCl"/>
+                    <render drug="PIH:CARBAMAZEPINE" name="carbamaepine"/>
+                    <render drug="PIH:LEVODOPA + CARBIDOPA" name="carbidLevoDopa"/>
+                    <render drug="PIH:DIAZEPAM" name="diazepam"/>
+                    <render drug="PIH:DIPHENHYDRAMINE" name="diphen"/>
+                    <render drug="CIEL:76553" name="fluoxetineHCl"/>
+                    <render drug="PIH:HALOPERIDOL" name="haloperidol"/>
+                    <render drug="PIH:PHENOBARBITAL" name="phenobarb"/>
+                    <render drug="PIH:PHENYTOIN" name="phenytoin"/>
+                    <render drug="CIEL:83405" name="risperidone"/>
+                    <render drug="PIH:SODIUM VALPROATE" name="NaValproate"/>
+                    <render drug="PIH:TRIHEXYPHENIDYL" name="trihex"/>
 
                     <!-- Using concepts (class=drug), not OpenMRS drugs
                     <render drug="7f7178bd-a1f8-44dd-85a9-02e49065e56b" name="FluoxetineHCl20mgt"/>
@@ -959,8 +1011,8 @@
                         <render drug="ed2ebd08-2f59-4f74-80ad-d69d123035ee" name="Carbidopa25mg-Levodopa250mgt"/>
                         <render drug="c18e751c-1ec5-420b-8ba7-68a22c5d1acc" name="Trihexyphenidyl5mgt"/>
                         -->
-                    </repeat>
-                </table>
+                </repeat>
+            </table>
 
 
             <br/>
@@ -1053,31 +1105,31 @@
 
             <includeIf velocityTest="$patient.gender == 'F' ">
 
-                    <!-- Pregnant -->
-                    <obs conceptId="CIEL:5272" toggle="pregnant"
-                         answerConceptId="CIEL:1065"
-                         answerCode="pihcore.pregnancy.status"
-                         style="checkbox"/>
+                <!-- Pregnant -->
+                <obs conceptId="CIEL:5272" toggle="pregnant"
+                     answerConceptId="CIEL:1065"
+                     answerCode="pihcore.pregnancy.status"
+                     style="checkbox"/>
 
-                    <div class="two-columns">
-                        <div id="pregnant">
-                            <p>
-                                <!-- DPR? -->
-                                <label>
-                                    <uimessage code="pihcore.pregnancy.lastPeriod"/>
-                                </label>
-                                <obs conceptId="CIEL:1427"/>
-                            </p>
+                <div class="two-columns">
+                    <div id="pregnant">
+                        <p>
+                            <!-- DPR? -->
+                            <label>
+                                <uimessage code="pihcore.pregnancy.lastPeriod"/>
+                            </label>
+                            <obs conceptId="CIEL:1427"/>
+                        </p>
 
-                            <p>
-                                <!-- DPA -->
-                                <label>
-                                    <uimessage code="pihcore.pregnancy.dueDate"/>
-                                </label>
-                                <obs conceptId="CIEL:5596" allowFutureDates="true"/>
-                            </p>
-                        </div>
+                        <p>
+                            <!-- DPA -->
+                            <label>
+                                <uimessage code="pihcore.pregnancy.dueDate"/>
+                            </label>
+                            <obs conceptId="CIEL:5596" allowFutureDates="true"/>
+                        </p>
                     </div>
+                </div>
                 <br/>
             </includeIf>
 
@@ -1097,7 +1149,7 @@
                         <uimessage code="pihcore.referredTo"/>:
                     </label>
                     <repeat with="['PIH:DOCTOR'],['PIH:NURSE'],['PIH:SOCIAL WORKER SERVICE'],['PIH:MENTAL HEALTH SPECIALIST'],['PIH:VILLAGE HEALTH WORKER']">
-                            <obs conceptId="PIH:Role of referral out provider" answerConceptId="{0}" style="checkbox"/>
+                        <obs conceptId="PIH:Role of referral out provider" answerConceptId="{0}" style="checkbox"/>
                     </repeat>
                 </p>
             </div>
@@ -1118,7 +1170,8 @@
                     <uimessage code="pihcore.consult.returnVisitDate"/>:
                 </label>
                 <span class="small">
-                    <obs id="return-visit-date" conceptId="PIH:RETURN VISIT DATE" allowFutureDates="true" allowPastDates="false" />
+                    <obs id="return-visit-date" conceptId="PIH:RETURN VISIT DATE" allowFutureDates="true"
+                         allowPastDates="false"/>
                 </span>
             </p>
 
