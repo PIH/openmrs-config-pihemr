@@ -7,6 +7,7 @@ CREATE TEMPORARY TABLE temp_users (
     username            varchar(50),
     first_name          varchar(50),
     last_name           varchar(50),
+    email               varchar(500),
     account_enabled     bit,
     created_date        datetime,
     created_by          varchar(50),
@@ -16,7 +17,7 @@ CREATE TEMPORARY TABLE temp_users (
     mfa_status          varchar(50)
 );
 
-INSERT INTO temp_users(user_id, username, first_name, last_name, account_enabled, created_date, created_by, provider_type)
+INSERT INTO temp_users(user_id, username, first_name, last_name, account_enabled, created_date, created_by, provider_type, email)
 SELECT      u.user_id,
             username(u.user_id),
             person_given_name(u.person_id),
@@ -24,7 +25,8 @@ SELECT      u.user_id,
             if(u.retired, false, true),
             u.date_created,
             username(u.creator),
-            (select group_concat(pp.name) from provider p inner join providermanagement_provider_role pp on p.provider_role_id = pp.provider_role_id where p.person_id = u.person_id)
+            (select group_concat(pp.name) from provider p inner join providermanagement_provider_role pp on p.provider_role_id = pp.provider_role_id where p.person_id = u.person_id),
+            u.email
 FROM        users u
 ;
 
