@@ -591,6 +591,7 @@
         <div class="section-container">
             <p class="side-by-side">
                 <obs conceptId="PIH:Complications from surgery" style="radio"
+                     answerConceptIds="CIEL:115432,CIEL:146192,PIH:7882,PIH:7883,CIEL:1107,CIEL:5622"
                      answerSeparator="&lt;br /&gt;"/>
             </p>
         </div>
