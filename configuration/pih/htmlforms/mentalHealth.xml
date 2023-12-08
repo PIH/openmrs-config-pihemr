@@ -547,7 +547,6 @@
             </div>
             <hr/>
             <div class="two-columns" id="radio_button_container">
-
                 <!-- Hospitalization -->
                 <div class="col">
                     <p>
@@ -737,6 +736,63 @@
                     <uimessage code="permonth"/>
                 </span>
             </obsgroup>
+        </div>
+    </section>
+    <!--   Mental Status-->
+    <section id="mh_scores" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.mentalhealth.status">
+
+
+        <div class="section-container" id="radio_button_container">
+            <div class="col">
+                <p>
+                    <label>
+                        <uimessage code="pihcore.mentalhealth.generalAppearance"/>
+                    </label>
+                    <obs  conceptId="CIEL:167092" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator=""/>
+                </p>
+
+            </div>
+            <div class="col">
+                <p>
+                    <label>
+                        <uimessage code="pihcore.mentalhealth.speech"/>
+                    </label>
+                    <obs conceptId="CIEL:167200" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator=""/>
+                </p>
+
+            </div>
+        </div>
+        <div class="section-container" id="radio_button_container">
+            <div class="col">
+                <p>
+                    <label>
+                        <uimessage code="pihcore.mentalhealth.cognitive"/>
+                    </label>
+                    <obs conceptId="CIEL:110434" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator=""/>
+                </p>
+
+            </div>
+
+            <div class="col">
+                <p>
+                    <label>
+                        <uimessage code="pihcore.mentalhealth.mood"/>
+                    </label>
+                    <obs conceptId="PIH:9527" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator=""/>
+                </p>
+
+            </div>
+        </div>
+        <div class="section-container" id="radio_button_container">
+            <div class="col">
+                <p>
+                    <label>
+                        <uimessage code="pihcore.mentalhealth.muscleTone"/>
+                    </label>
+                    <obs conceptId="PIH:15034" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator=""/>
+                </p>
+
+            </div>
         </div>
     </section>
 
