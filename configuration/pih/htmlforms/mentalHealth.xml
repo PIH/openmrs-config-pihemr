@@ -748,7 +748,7 @@
                     <label>
                         <uimessage code="pihcore.mentalhealth.generalAppearance"/>
                     </label>
-                    <obs  conceptId="CIEL:167092" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator=""/>
+                    <obs  conceptId="CIEL:167092" style="radio" answerConceptIds="PIH:NORMAL,PIH:ABNORMAL"  answerSeparator=""/>
                 </p>
 
             </div>
