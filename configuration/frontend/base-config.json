@@ -4,6 +4,9 @@
       "url": "${openmrsBase}/index.htm"
     }
   },
+  "@openmrs/esm-appointments-app": {
+    "customPatientChartUrl": "${openmrsBase}/coreapps/clinicianfacing/patient.page?patientId=${patientUuid}&app=pih.app.clinicianDashboard"
+  },
   "@openmrs/esm-dispensing-app": {
     "dispenseBehavior": {
       "allowModifyingPrescription": false,
