@@ -11,7 +11,7 @@ dea8febf-0bbe-4111-8152-a9cf7df622b6,,Consult Note Location,A location where a c
 fe742fba-840a-4155-bfc4-a5b35ac1bb03,,ED Note Location,A location where an ED note can be written
 a0cc8ad0-e53e-11e4-b571-0800200c9a66,,Admission Note Location,A location where an Admission note can be written
 c42b7bc3-b34d-4b8f-9796-09208f9dfd72,,Dispensing Location,A location where a pharmacist or pharmacist aide can dispensed medication.
-2b5c7110-d571-4f5f-b84e-500070b40ef8,,Appointment Location,Signifies a Location where appointments can be scheduled
+,,Appointment Location,Signifies a Location where appointments can be scheduled
 d9865139-dfb4-11e4-bccc-56847afe9799,,Vitals Location,Signifies a Location where the vitals app and note should be available
 5e824f3a-dfb8-11e4-bccc-56847afe9799,,Inpatients App Location,Signifies a Location where the inpatients app should be available
 24ffeea6-dfbb-11e4-bccc-56847afe9799,,Check-In Location,Signifies a Location where the check-in app and form should be available
