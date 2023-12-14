@@ -789,7 +789,7 @@
                     <label>
                         <uimessage code="pihcore.mentalhealth.muscleTone"/>
                     </label>
-                    <obs conceptId="PIH:15034" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator=""/>
+                    <obs conceptId="PIH:15034" style="radio" answerConceptIds="PIH:NORMAL,PIH:ABNORMAL"  answerSeparator=""/>
                 </p>
 
             </div>
