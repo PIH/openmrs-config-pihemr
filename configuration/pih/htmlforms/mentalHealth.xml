@@ -739,7 +739,7 @@
         </div>
     </section>
     <!--   Mental Status-->
-    <section id="mh_scores" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.mentalhealth.status">
+    <section id="mh_scores" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.status">
 
 
         <div class="section-container" id="radio_button_container">
