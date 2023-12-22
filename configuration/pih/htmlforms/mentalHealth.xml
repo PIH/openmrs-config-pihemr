@@ -809,9 +809,9 @@
             <div class="col">
                 <p>
                     <label>
-                        <uimessage code="pihcore.mentalhealth.PoorIntrospection"/>
+                        <uimessage code="pihcore.mentalhealth.introspection"/>
                     </label>
-                    <obs conceptId="CIEL:166051" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator=""/>
+                    <obs conceptId="CIEL:166051" style="radio" answerConceptIds="PIH:NORMAL,PIH:ABNORMAL" answerSeparator=""/>
                 </p>
 
             </div>
@@ -820,7 +820,7 @@
                     <label>
                         <uimessage code="pihcore.mentalhealth.ThoughtContent"/>
                     </label>
-                    <obs conceptId="PIH:15034" style="radio" answerConceptIds="PIH:NORMAL,PIH:ABNORMAL"  answerSeparator=""/>
+                    <obs conceptId="CIEL:167112" style="radio" answerConceptIds="PIH:NORMAL,PIH:ABNORMAL"  answerSeparator=""/>
                 </p>
 
             </div>
@@ -833,7 +833,7 @@
                     <label>
                         <uimessage code="pihcore.mentalhealth.suicidal"/>
                     </label>
-                    <obs conceptId="PIH:14157" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator=""/>
+                    <obs conceptId="CIEL:125562" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator=""/>
                 </p>
 
             </div>
