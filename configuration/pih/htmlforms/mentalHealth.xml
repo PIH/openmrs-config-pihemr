@@ -820,7 +820,7 @@
                     <label>
                         <uimessage code="pihcore.mentalhealth.ThoughtContent"/>
                     </label>
-                    <obs conceptId="CIEL:167112" style="radio" answerConceptIds="PIH:NORMAL,PIH:ABNORMAL"  answerSeparator=""/>
+                    <obs conceptId="CIEL:167112" style="checkbox"  answerSeparator=""/>
                 </p>
 
             </div>
