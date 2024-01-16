@@ -1714,6 +1714,17 @@ angular.module("encounterTypeConfig", [])
             showOnVisitList: true
         };
 
+        // sierraLeoneNewbornAssessment
+        encounterTypes["6444b8d4-407d-444d-aa15-d6dff204ed83"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
+            icon: "fas fa-fw fa-baby",
+            editUrl: hfeStandardEditUrl,
+            showOnVisitList: true
+        };
+
         return {
           get: function(encounter, country, site) {
 
