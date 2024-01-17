@@ -815,15 +815,15 @@
                 </p>
 
             </div>
-            <div class="col">
-                <p>
-                    <label>
-                        <uimessage code="pihcore.mentalhealth.ThoughtContent"/>
-                    </label>
-                    <obs conceptId="CIEL:167112" style="checkbox"  answerSeparator=""/>
-                </p>
+<!--            <div class="col">-->
+<!--                <p>-->
+<!--                    <label>-->
+<!--                        <uimessage code="pihcore.mentalhealth.ThoughtContent"/>-->
+<!--                    </label>-->
+<!--                    <obs conceptId="CIEL:167112" style="checkbox"  answerSeparator=""/>-->
+<!--                </p>-->
 
-            </div>
+<!--            </div>-->
         </div>
 
         <div class="section-container" id="radio_button_container">
