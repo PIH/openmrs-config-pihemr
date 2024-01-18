@@ -26,4 +26,8 @@ config:
     - "consult"
     - "primaryCare"
     - "allDataExports"
+  countries:
+    - "HAITI"
+    - "SIERRA_LEONE"
+    - "MEXICO"    
   privilege: "Task: clinical.reports"
