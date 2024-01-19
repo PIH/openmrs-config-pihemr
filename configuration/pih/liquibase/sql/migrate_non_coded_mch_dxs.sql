@@ -65,18 +65,18 @@ values
 -- create table of all obs to void and recreate
 drop temporary table if exists non_coded_obs;
 create temporary table non_coded_obs
-(obs_id int(11),
-person_id int(11),
-concept_id int(11),
-encounter_id int(11),
-obs_datetime datetime,
-location_id int(11),
-obs_group_id int(11),
-value_text text,
-creator int(11),
-date_created datetime,
-status varchar(16),
-destination_coded_value int(11)
+(obs_id                 int(11),     
+person_id               int(11),     
+concept_id              int(11),     
+encounter_id            int(11),     
+obs_datetime            datetime,    
+location_id             int(11),     
+obs_group_id            int(11),     
+value_text              text,        
+creator                 int(11),     
+date_created            datetime,    
+status                  varchar(16), 
+destination_coded_value int(11)      
 );
 
 -- insert all obs to void and recreate based on non-coded dxs (ignoring case and spacing)
@@ -112,3 +112,38 @@ from obs o
 where o.concept_id = concept_from_mapping('CIEL','161602')
 and voided = 0
 ;
+
+-- void non-coded obs
+update obs o
+inner join non_coded_obs n on n.obs_id = o.obs_id 
+set o.voided = 1,
+	voided_by = 1,
+	date_voided = now(),
+	void_reason = 'migrated to coded mch dx';
+	
+-- insert coded obs
+insert into obs (
+	person_id,
+	concept_id,
+	encounter_id,
+	obs_datetime,
+	location_id,
+	obs_group_id,
+	creator,
+	date_created,
+	status,
+	value_coded,
+	uuid)
+select 
+	person_id,
+	concept_from_mapping('CIEL','1284'),
+	encounter_id,
+	obs_datetime,
+	location_id,
+	obs_group_id,
+	creator,
+	date_created,
+	status,
+	destination_coded_value,
+	uuid()
+from non_coded_obs;
