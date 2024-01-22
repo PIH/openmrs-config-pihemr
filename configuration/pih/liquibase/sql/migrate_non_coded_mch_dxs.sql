@@ -4,7 +4,7 @@
  */
 
 -- set up translation table for diagnoses
-drop table if exists dx_translations;
+drop temporary table if exists dx_translations;
 create temporary table dx_translations
 (non_coded_dx text,
 code_dx       int(11)
@@ -133,6 +133,7 @@ insert into obs (
 	date_created,
 	status,
 	value_coded,
+	previous_version,
 	uuid)
 select 
 	person_id,
@@ -145,5 +146,6 @@ select
 	date_created,
 	status,
 	destination_coded_value,
+	obs_id,
 	uuid()
 from non_coded_obs;
