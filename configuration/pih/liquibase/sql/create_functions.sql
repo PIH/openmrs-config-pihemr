@@ -3757,3 +3757,25 @@ RETURN ret;
 
 END
 #
+
+
+-- This function accepts person_id and return cause_of_death
+#
+DROP FUNCTION IF EXISTS cause_of_death;
+#
+CREATE FUNCTION cause_of_death(
+    _person_id int)
+
+    RETURNS varchar(100)
+    DETERMINISTIC
+
+BEGIN
+    DECLARE causeOfdeath varchar(100);
+
+	select  cause_of_death  into causeOfdeath
+	from    person p 
+	where 	p.person_id = _person_id;
+
+    RETURN causeOfdeath;
+END
+#
