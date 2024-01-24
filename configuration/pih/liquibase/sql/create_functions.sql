@@ -3779,3 +3779,78 @@ BEGIN
     RETURN causeOfdeath;
 END
 #
+
+-- This function accepts patient_id, and source concept and returns the last value_numeric for that concept from temp_obs
+#
+DROP FUNCTION IF EXISTS last_value_coded_list_from_temp;
+#
+CREATE FUNCTION last_value_coded_list_from_temp(_patient_id int(11), _source varchar(50), _term varchar(255), _locale varchar(50))
+    RETURNS text
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret text;
+
+    select      group_concat(distinct concept_name(o.value_coded, _locale) separator ' | ') into ret -- o.value_numeric into ret
+    from        temp_obs o
+    where       o.voided = 0
+	and         o.person_id = _patient_id    		
+    and         o.concept_id = concept_from_mapping(_source, _term)
+    order by obs_datetime desc limit 1 ;
+
+    RETURN ret;
+    
+END 
+#
+
+
+
+-- This function accepts patient_id, and source concept and returns the last value_numeric for that concept from temp_obs
+#
+DROP FUNCTION IF EXISTS last_value_datetime_from_temp;
+#
+CREATE FUNCTION last_value_datetime_from_temp(_patient_id int(11), _source varchar(50), _term varchar(255))
+    RETURNS datetime
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret datetime;
+
+    select      o.value_datetime into ret
+    from        temp_obs o
+    where       o.voided = 0
+	and         o.person_id = _patient_id    		
+    and         o.concept_id = concept_from_mapping(_source, _term)
+    order by obs_datetime desc limit 1 ;
+
+    RETURN ret;
+    
+END 
+#
+
+
+-- This function accepts patient_id, and source concept and returns the last value_numeric for that concept from temp_obs
+#
+DROP FUNCTION IF EXISTS last_value_text_from_temp;
+#
+CREATE FUNCTION last_value_text_from_temp(_patient_id int(11), _source varchar(50), _term varchar(255))
+    RETURNS text
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret text;
+
+    select      o.value_text into ret
+    from        temp_obs o
+    where       o.voided = 0
+	and         o.person_id = _patient_id    		
+    and         o.concept_id = concept_from_mapping(_source, _term)
+    order by obs_datetime desc limit 1 ;
+
+    RETURN ret;
+    
+END 
+#
