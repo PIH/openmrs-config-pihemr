@@ -842,4 +842,31 @@
         <comment>UHM-7593: Migrate ZL MCH non-coded to coded diagnoses (January 2024)</comment>
         <sqlFile endDelimiter=";" path="sql/migrate_non_coded_mch_dxs.sql" relativeToChangelogFile="true" stripComments="true"/>
     </changeSet>
+
+    <changeSet id="20240124-update-queue-priority-normal-concept" author="cioan">
+        <preConditions onFail="MARK_RAN">
+            <not><sqlCheck expectedResult="0">
+                SELECT count(*) FROM queue_entry q, concept c where q.priority = c.concept_id and c.uuid='161236AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'; -- Normal priority (status)
+            </sqlCheck></not>
+        </preConditions>
+        <comment> UHM-7649 fix queue normal priorities </comment>
+        <sql>
+            update queue_entry
+            set priority = (select concept_id from concept where uuid='3cd750a0-26fe-102b-80cb-0017a47871b2') -- Normal
+            where  priority = (select concept_id from concept where uuid='161236AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA') ; -- Normal priority (status)
+        </sql>
+    </changeSet>
+    <changeSet id="20240124-update-queue-priority-emergency-concept" author="cioan">
+        <preConditions onFail="MARK_RAN">
+            <not><sqlCheck expectedResult="0">
+                SELECT count(*) FROM queue_entry q, concept c where q.priority = c.concept_id and c.uuid='1882AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'; -- Emergency (status)
+            </sqlCheck></not>
+        </preConditions>
+        <comment> UHM-7649 fix queue emergency priorities </comment>
+        <sql>
+            update queue_entry
+            set priority = (select concept_id from concept where uuid='9e4b6acc-ab97-4ecd-a48c-b3d67e5ef778') -- Emergency
+            where  priority = (select concept_id from concept where uuid='1882AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA') ; -- Emergency (status)
+        </sql>
+    </changeSet>
 </databaseChangeLog>
