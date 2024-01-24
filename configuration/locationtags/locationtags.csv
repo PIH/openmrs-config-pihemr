@@ -15,6 +15,7 @@ c42b7bc3-b34d-4b8f-9796-09208f9dfd72,,Dispensing Location,A location where a pha
 d9865139-dfb4-11e4-bccc-56847afe9799,,Vitals Location,Signifies a Location where the vitals app and note should be available
 5e824f3a-dfb8-11e4-bccc-56847afe9799,,Inpatients App Location,Signifies a Location where the inpatients app should be available
 24ffeea6-dfbb-11e4-bccc-56847afe9799,,Check-In Location,Signifies a Location where the check-in app and form should be available
+8cff42e5-f03b-461d-b693-65bdf10c4bba,,Check-In Maternal Location,Location where the maternal check-in app and form is available
 8fa112e0-e506-11e4-b571-0800200c9a66,,Registration Location,Signifies a Location where the registration app should be available
 a6f68610-e53c-11e4-b571-0800200c9a66,,Registration and Check-In Location,Signifies a Location where the combined registration/check-in app should be available
 0ba7b0d0-e1ef-11e4-b571-0800200c9a66,,Order Radiology Study Location,Signifies a Location where a radiology study can be ordered
