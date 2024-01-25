@@ -1725,6 +1725,17 @@ angular.module("encounterTypeConfig", [])
             showOnVisitList: true
         };
 
+        // sierraLeoneLaborProgress
+        encounterTypes["ac5ec970-31b7-4659-9141-284bfbc13c69"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
+            icon: "fas fa-fw fa-baby",
+            editUrl: hfeStandardEditUrl,
+            showOnVisitList: true
+        };
+
         return {
           get: function(encounter, country, site) {
 
