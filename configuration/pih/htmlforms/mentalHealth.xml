@@ -890,7 +890,7 @@
                     <label>
                         <uimessage code="pihcore.mentalhealth.affect"/>
                     </label>
-                    <obs conceptId="CIEL:167101" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator=""/>
+                    <obs conceptId="CIEL:167101" style="radio" answerConceptIds="PIH:NORMAL,PIH:ABNORMAL"  answerCodes="yes,no" answerSeparator=""/>
                 </p>
 
             </div>
