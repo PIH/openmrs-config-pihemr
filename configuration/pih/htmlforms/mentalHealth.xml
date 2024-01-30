@@ -864,9 +864,9 @@
             <div class="col">
                 <p>
                     <label>
-                        <uimessage code="pihcore.mentalhealth.poorJudgement"/>
+                        <uimessage code="pihcore.mentalhealth.judgement"/>
                     </label>
-                    <obs conceptId="CIEL:166051" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator=""/>
+                    <obs conceptId="CIEL:167116" style="radio" answerConceptIds="PIH:1897,CIEL:159406,CIEL:159407" answerCodes="good,fair,poor" answerSeparator=""/>
                 </p>
 
             </div>
