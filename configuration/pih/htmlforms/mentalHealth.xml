@@ -866,7 +866,7 @@
                     <label>
                         <uimessage code="pihcore.mentalhealth.judgement"/>
                     </label>
-                    <obs conceptId="CIEL:167116" style="radio" answerConceptIds="PIH:1897,CIEL:159406,CIEL:159407" answerCodes="good,fair,poor" answerSeparator=""/>
+                    <obs conceptId="CIEL:167116" style="radio" answerConceptIds="PIH:1897,CIEL:159406,CIEL:159407"  answerSeparator=""/>
                 </p>
 
             </div>
@@ -880,7 +880,7 @@
                     <label>
                         <uimessage code="pihcore.mentalhealth.danger"/>
                     </label>
-                    <obs conceptId="PIH:15106" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator=""/>
+                    <obs conceptId="PIH:15106" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerSeparator=""/>
                 </p>
 
             </div>
@@ -890,7 +890,7 @@
                     <label>
                         <uimessage code="pihcore.mentalhealth.affect"/>
                     </label>
-                    <obs conceptId="CIEL:167101" style="radio" answerConceptIds="PIH:NORMAL,PIH:ABNORMAL"  answerCodes="yes,no" answerSeparator=""/>
+                    <obs conceptId="CIEL:167101" style="radio" answerConceptIds="PIH:NORMAL,PIH:ABNORMAL"   answerSeparator=""/>
                 </p>
 
             </div>
