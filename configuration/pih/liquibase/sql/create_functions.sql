@@ -2366,6 +2366,68 @@ limit 1;
     RETURN ret;
 
 END
+/*
+ this function accepts patient_id and program_id and return the initial program enrollment date
+*/
+DROP FUNCTION IF EXISTS initialEnrollmentDate;
+#
+CREATE FUNCTION initialEnrollmentDate(_patient_id INT, _program_id INT)
+	RETURNS DATE
+    DETERMINISTIC
+
+BEGIN
+	DECLARE enrollmentDate DATE;
+
+    SELECT date(date_enrolled) INTO enrollmentDate FROM patient_program
+    WHERE patient_id = _patient_id
+    AND program_id = _program_id
+    AND voided = 0
+    ORDER BY date_enrolled ASC, IFNULL(date_completed,'9999-12-31') ASC LIMIT 1;
+
+    RETURN enrollmentDate;
+
+END
+#
+/*
+ this function accepts patient_program_id and returns the completion date
+*/
+DROP FUNCTION IF EXISTS programCompletionDate;
+#
+CREATE FUNCTION programCompletionDate(_patient_program_id INT)
+	RETURNS DATE
+    DETERMINISTIC
+
+BEGIN
+	DECLARE completionDate DATE;
+
+    SELECT date(date_completed) INTO completionDate FROM patient_program
+    WHERE patient_program_id = _patient_program_id
+    AND voided = 0;
+
+    RETURN completionDate;
+
+END
+#
+/*
+ this function accepts patient_program_id and returns the outcome
+*/
+DROP FUNCTION IF EXISTS programOutcome;
+#
+CREATE FUNCTION programOutcome(_patient_program_id INT, _locale varchar(50))
+	RETURNS VARCHAR(255)
+    DETERMINISTIC
+
+BEGIN
+	DECLARE outcome VARCHAR(255);
+
+    SELECT concept_name(outcome_concept_id, _locale) INTO outcome
+    FROM patient_program
+    WHERE patient_program_id = _patient_program_id
+    AND voided = 0;
+
+    RETURN outcome;
+
+END
 #
 -- The following diagnosis functions can work together to provide all of the details of diagnoses entered in encounters
 -- they each accept encounter_id and offset and will return the details of the nth (based on offset) encounter,
