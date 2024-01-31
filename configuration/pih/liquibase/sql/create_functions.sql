@@ -2366,9 +2366,11 @@ limit 1;
     RETURN ret;
 
 END
+#	
 /*
  this function accepts patient_id and program_id and return the initial program enrollment date
 */
+#	
 DROP FUNCTION IF EXISTS initialEnrollmentDate;
 #
 CREATE FUNCTION initialEnrollmentDate(_patient_id INT, _program_id INT)
@@ -2391,6 +2393,7 @@ END
 /*
  this function accepts patient_program_id and returns the completion date
 */
+#	
 DROP FUNCTION IF EXISTS programCompletionDate;
 #
 CREATE FUNCTION programCompletionDate(_patient_program_id INT)
@@ -2411,6 +2414,7 @@ END
 /*
  this function accepts patient_program_id and returns the outcome
 */
+#	
 DROP FUNCTION IF EXISTS programOutcome;
 #
 CREATE FUNCTION programOutcome(_patient_program_id INT, _locale varchar(50))
