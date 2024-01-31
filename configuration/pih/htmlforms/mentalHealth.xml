@@ -815,15 +815,16 @@
                 </p>
 
             </div>
-<!--            <div class="col">-->
-<!--                <p>-->
-<!--                    <label>-->
-<!--                        <uimessage code="pihcore.mentalhealth.ThoughtContent"/>-->
-<!--                    </label>-->
-<!--                    <obs conceptId="CIEL:167112" style="checkbox"  answerSeparator=""/>-->
-<!--                </p>-->
+            <div class="col">
+                <p>
+                    <label>
+                        <uimessage code="pihcore.mentalhealth.ThoughtContent"/>
+                    </label>
+                    <obs conceptId="CIEL:167112" style="radio"  answerSeparator=""/>
+                </p>
 
-<!--            </div>-->
+            </div>
+
         </div>
 
         <div class="section-container" id="radio_button_container">
@@ -860,9 +861,55 @@
 
             </div>
 
+            <div class="col">
+                <p>
+                    <label>
+                        <uimessage code="pihcore.mentalhealth.judgement"/>
+                    </label>
+                    <obs conceptId="CIEL:167116" style="radio" answerConceptIds="PIH:1897,CIEL:159406,CIEL:159407"  answerSeparator=""/>
+                </p>
+
+            </div>
+
+        </div>
+        <!-- No Concept Yet-->
+        <div class="section-container" id="radio_button_container">
+
+            <div class="col">
+                <p>
+                    <label>
+                        <uimessage code="pihcore.mentalhealth.danger"/>
+                    </label>
+                    <obs conceptId="PIH:15106" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerSeparator=""/>
+                </p>
+
+            </div>
+
+            <div class="col">
+                <p>
+                    <label>
+                        <uimessage code="pihcore.mentalhealth.affect"/>
+                    </label>
+                    <obs conceptId="CIEL:167101" style="radio" answerConceptIds="PIH:NORMAL,PIH:ABNORMAL"   answerSeparator=""/>
+                </p>
+
+            </div>
+
         </div>
 
+        <div class="section-container" id="radio_button_container">
 
+            <div class="col">
+                <p>
+                    <label>
+                        <uimessage code="pihcore.mentalhealth.examination"/>
+                    </label>
+                    <obs conceptId="CIEL:163044" type="textarea"/>
+                </p>
+
+            </div>
+
+        </div>
     </section>
 
     <section id="mh-suicide" sectionTag="fieldset" headerTag="legend" headerStyle="title"
