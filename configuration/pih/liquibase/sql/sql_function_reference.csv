@@ -119,6 +119,7 @@ programs,mostRecentPatientStateId,"patient_program_id, state",patient state id,r
 programs,program,name ,program id,program id of the program with the given name,
 programs,currentProgramState,"patient_program_id, program_workflow_id, locale",program state name,returns the name of the current state in the locale if one exists in the given worflow of that patient program,
 programs,patientStateStartDate,patient_state_id,state start date,returns the start date of the patient state,
+programs,initialEnrollmentDate,"patient_id, program_id",initial enrollment date,returns the date of the first enrollment for that patient in that program,
 properties,global_property_value,"property, defaultValue",property value,"returns the global property of the property passed in, returning the default if the value is null or blank",
 properties,user_property_value,"user_id, property, defaultValue",property value,"returns the user property of the patient of the property passed in, returning the default if the value is null or blank",
 relationships,relation_type,name ,relation type id,relation type id of relation described by the name,
