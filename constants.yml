@@ -261,6 +261,8 @@ encounterType:
     uuid: "616b66fe-f189-11e7-8c3f-9a214cf093ae"
   HIV_DISPENSING:
     uuid: "cc1720c9-3e4c-4fa8-a7ec-40eeaad1958c"
+  HIV_PSYCHOSOCIAL:
+    uuid: "83081f7d-ffd7-4d43-9571-a86e1bc19d7f"
   DRUG_ORDER_DOCUMENTATION:
     uuid: "0b242b71-5b60-11eb-8f5a-0242ac110002"
   SOCIO_ECONOMICS:
