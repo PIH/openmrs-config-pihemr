@@ -58,7 +58,34 @@ BEGIN
     RETURN conceptName;
 END
 #
+/*
+get short name from the concept_name table
+*/
+#
+DROP FUNCTION IF EXISTS concept_short_name;
+#
+CREATE FUNCTION concept_short_name(
+    _conceptID INT,
+    _locale varchar(50)
+)
+	RETURNS VARCHAR(255)
+    DETERMINISTIC
 
+BEGIN
+    DECLARE conceptName varchar(255);
+
+	SELECT name INTO conceptName
+	FROM concept_name
+	WHERE voided = 0
+	  AND concept_id = _conceptID
+	order by if(_locale = locale, 0, 1), if(locale = 'en', 0, 1),
+	  field(concept_name_type,'FULLY_SPECIFIED','SHORT') desc,
+	  locale_preferred desc, ISNULL(concept_name_type) asc
+	limit 1;
+
+    RETURN conceptName;
+END
+#
 /*
     return encounter type id given name or uuid
 */
