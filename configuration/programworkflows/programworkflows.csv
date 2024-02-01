@@ -1,7 +1,6 @@
 Uuid,Void/Retire,Program,Workflow concept
 ${programWorkflow.hivTreatmentStatus.uuid},,${program.hiv.uuid},PIH:HIV TREATMENT STATUS
 39270921-4ee3-4655-978d-745b68bdef5f,,${program.hiv.uuid},PIH:PMTCT status
-51579bce-bf3a-11e7-abc4-cec278b6b50a,,${program.ncd.uuid},PIH:NCD clinical status
 ee228c4f-f898-494a-9740-213f757cb10c,,${program.ovc.uuid},PIH:OVC program status
 ${programWorkflow.eidProgramEidTreatmentStatus.uuid},,${program.eid.uuid},PIH:EID treatment status
 ${programWorkflow.infantProgramEidTreatmentStatus.uuid},,${program.infant.uuid},PIH:EID treatment status
