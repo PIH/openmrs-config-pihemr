@@ -3,6 +3,7 @@ concepts,concept_in_set,"concept_id, concept_set_id",boolean,"returns 1 if the c
 concepts,concept_class_id,concept_id,concept class id,returns the concept class id of the concept,
 concepts,concept_from_mapping,"source, code ",concept id,returns concept_id of that concept described,
 concepts,concept_name,"concept_id, locale",concept name,Returns concept name of the concept in that locale.  Prioritizes preferred and fully_specified names.  Defaults to english if there is no name in that locale.,
+concepts,concept_short_name,"concept_id, locale",concept name,Returns concept short name of the concept in that locale.  Defaults to english if there is no name in that locale.,
 demographics,person_address,patient_id ,address,"entire person address with levels separated by commas.  Prioritized by preferred, date created",
 demographics,person_address_one,patient_id,address one level,address one level of patient,
 demographics,person_address_three,patient_id,address three level,address three level of patient,
