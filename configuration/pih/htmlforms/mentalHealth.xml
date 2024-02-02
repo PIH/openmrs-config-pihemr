@@ -820,7 +820,7 @@
                     <label>
                         <uimessage code="pihcore.mentalhealth.ThoughtContent"/>
                     </label>
-                    <obs conceptId="CIEL:167112" style="radio"  answerSeparator=""/>
+                    <obs conceptId="CIEL:167112" style="radio"  answerSeparator="" answerCodes="pihcore.thoughtcontent.delusion,pihcore.thoughtcontent.homicidal,pihcore.thoughtcontent.suicidal,pihcore.thoughtcontent.negativism,pihcore.thoughtcontent.paranoid"/>
                 </p>
 
             </div>
@@ -905,6 +905,15 @@
                         <uimessage code="pihcore.mentalhealth.examination"/>
                     </label>
                     <obs conceptId="CIEL:163044" type="textarea"/>
+                </p>
+            </div>
+
+            <div class="col">
+                <p>
+                    <label>
+                        <uimessage code="pihcore.mentalhealth.thoughtProcess"/>
+                    </label>
+                    <obs conceptId="CIEL:167106" style="checkbox" answerCodes="pihcore.thoughtprocess.looseness,pihcore.thoughtprocess.circonf,pihcore.thoughtprocess.flight,pihcore.thoughtprocess.goal,pihcore.thoughtprocess.linearthought,pihcore.thoughtprocess.tangential,pihcore.thoughtprocess.blocking"/>
                 </p>
 
             </div>
