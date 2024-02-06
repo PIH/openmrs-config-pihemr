@@ -5,8 +5,7 @@
     }
   },
   "@openmrs/esm-appointments-app": {
-    "customPatientChartUrl": "${openmrsBase}/coreapps/clinicianfacing/patient.page?patientId=${patientUuid}&app=pih.app.clinicianDashboard",
-    "allowAllDayAppointments": false
+    "customPatientChartUrl": "${openmrsBase}/coreapps/clinicianfacing/patient.page?patientId=${patientUuid}&app=pih.app.clinicianDashboard"
   },
   "@openmrs/esm-dispensing-app": {
     "dispenseBehavior": {
@@ -60,8 +59,7 @@
     "extensionSlots": {
       "homepage-dashboard-slot": {
         "remove": [
-          "patient-lists-dashboard-link",
-          "home-widget-db-link"
+          "patient-lists-dashboard-link"
         ]
       }
     }
