@@ -592,6 +592,7 @@
                 <render concept="CIEL:1297" message="pihcore.lab.dBili" tag="dBili" units="false" />
                 <render concept="CIEL:163001" message="pihcore.lab.iBili" tag="iBili" units="false" />
                 <render concept="CIEL:785" message="pihcore.lab.alk_phos" tag="alk-phos" units="false" />
+                <render concept="CIEL:168288" message="APRI" tag="apri" units="false" />
             </repeat>
 
             <h5>
