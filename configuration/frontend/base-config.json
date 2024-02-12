@@ -5,6 +5,7 @@
     }
   },
   "@openmrs/esm-appointments-app": {
+    "allowAllDayAppointments": false,
     "customPatientChartUrl": "${openmrsBase}/coreapps/clinicianfacing/patient.page?patientId=${patientUuid}&app=pih.app.clinicianDashboard"
   },
   "@openmrs/esm-dispensing-app": {
