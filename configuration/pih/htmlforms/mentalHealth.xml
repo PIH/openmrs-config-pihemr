@@ -906,9 +906,16 @@
                     </label>
                     <obs conceptId="CIEL:163044" type="textarea"/>
                 </p>
+            </div>
+            <div class="col">
+                <p>
+                    <label>
+                        <uimessage code="pihcore.mentalhealth.thoughtProcess"/>
+                    </label>
+                    <obs conceptId="CIEL:167106" style="radio" answerSeparator=""/>
+                </p>
 
             </div>
-
         </div>
     </section>
 
