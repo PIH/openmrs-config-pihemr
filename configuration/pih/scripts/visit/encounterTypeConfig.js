@@ -648,6 +648,17 @@ angular.module("encounterTypeConfig", [])
             showOnVisitList: false
         };
 
+        // Maternal checkIn (used for SL MCOE triage, but could be used beyond SL and MCOE)
+        encounterTypes["251c03fa-a9dc-4157-855f-b016f4fae9ab"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/checkInShort.page",
+            longTemplate: "templates/encounters/defaultHtmlFormEncounterLong.page",
+            templateModelUrl: "/module/htmlformentry/encounter.json?encounter={{encounter.uuid}}",
+            icon: "fas fa-fw icon-check-in",
+            editUrl: hfeSimpleEditUrl,
+            showOnVisitList: false
+        };
+
         // vitals
         encounterTypes["4fb47712-34a6-40d2-8ed3-e153abbd25b7"] = {
             defaultState: "short",
