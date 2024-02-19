@@ -86,6 +86,34 @@ BEGIN
     RETURN conceptName;
 END
 #
+
+/*
+ returns person name of user_id
+*/
+#
+DROP FUNCTION IF EXISTS person_name_of_user;
+#
+CREATE FUNCTION person_name_of_user(
+    _user_id int
+)
+    RETURNS TEXT
+    DETERMINISTIC
+
+BEGIN
+    DECLARE personName TEXT;
+
+    select      concat(given_name, ' ', family_name) into personName
+    from        person_name pn
+    inner join users u on u.person_id  = pn.person_id and u.user_id = _user_id
+    where       voided = 0
+    order by    pn.preferred desc, pn.date_created desc
+    limit       1;
+
+    RETURN personName;
+
+END
+#
+
 /*
     return encounter type id given name or uuid
 */
@@ -649,39 +677,17 @@ CREATE FUNCTION encounter_creator_name (
 BEGIN
     DECLARE creator VARCHAR(100);
 
-select concat(given_name, ' ', family_name) into creator
+    select person_name_of_user(e.creator) into creator
+    from encounter e
+    where encounter_id = _encounter_id;
+
+/*select concat(given_name, ' ', family_name) into creator
 from encounter e 
 inner join users u on e.creator  = u.user_id 
 inner join person_name pn on pn.person_id = u.person_id 
-where e.encounter_id = _encounter_id;
+where e.encounter_id = _encounter_id;*/
 
     RETURN creator;
-END
-#
-/*
- returns person name of user_id
-*/
-#
-DROP FUNCTION IF EXISTS person_name_of_user;
-#
-CREATE FUNCTION person_name_of_user(
-    _user_id int
-)
-    RETURNS TEXT
-    DETERMINISTIC
-
-BEGIN
-    DECLARE personName TEXT;
-
-    select      concat(given_name, ' ', family_name) into personName
-    from        person_name pn
-    inner join users u on u.person_id  = pn.person_id and u.user_id = _user_id
-    where       voided = 0
-    order by    pn.preferred desc, pn.date_created desc
-    limit       1;
-
-    RETURN personName;
-
 END
 #
 /*
@@ -2604,11 +2610,15 @@ CREATE FUNCTION encounter_creator(
 BEGIN
     DECLARE creatorName TEXT;
 
+    select person_name_of_user(e.creator) into creatorName
+    from encounter e
+    where encounter_id = _encounter_id;
+/*
     SELECT CONCAT(given_name, ' ', family_name) creator_names INTO creatorName
     FROM person_name pn
     JOIN users u ON pn.voided = 0 AND u.retired = 0 AND pn.person_id = u.person_id AND pn.preferred = 1
     JOIN encounter e ON e.creator = u.user_id AND e.voided = 0 AND e.encounter_id = _encounter_id;
-
+*/
     RETURN creatorName;
 
 END
