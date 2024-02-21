@@ -974,6 +974,28 @@ BEGIN
 
 END
 #
+/*
+ patient address - country district component
+*/
+#
+DROP FUNCTION IF EXISTS person_address_county_district;
+#
+CREATE FUNCTION person_address_county_district(
+    _patient_id int
+)
+	RETURNS TEXT
+    DETERMINISTIC
+
+BEGIN
+    DECLARE personAddressCountyDistrict TEXT;
+
+	select county_district into personAddressCountyDistrict
+    from person_address where voided = 0 and person_id =  _patient_id order by preferred desc, date_created desc limit 1;
+
+    RETURN personAddressCountyDistrict;
+
+END
+#
 -- This function accepts patient_id
 -- it returns the cdc_id of the patient's address
 #
