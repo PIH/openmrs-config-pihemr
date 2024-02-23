@@ -95,6 +95,10 @@
             <property>htmlformentry.restrictEncounterLocationToCurrentVisitLocation</property>
             <value>true</value>
         </globalProperty>
+        <globalProperty>
+            <property>htmlformenty.timeWidgetHideSecondsDefault</property>
+            <value>true</value>
+        </globalProperty>
 
         <!-- Reporting -->
         <globalProperty>
