@@ -96,7 +96,7 @@
             <value>true</value>
         </globalProperty>
         <globalProperty>
-            <property>htmlformenty.timeWidgetHideSecondsDefault</property>
+            <property>htmlformentry.timeWidgetHideSecondsDefault</property>
             <value>true</value>
         </globalProperty>
 
