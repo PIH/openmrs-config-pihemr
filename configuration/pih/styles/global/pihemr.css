@@ -8,3 +8,23 @@
     font-weight: bold;
     color: red;
 }
+
+/* Ensure datetime picker is on one line */
+#dateOfDeath {
+    display: flex;
+}
+
+#dateOfDeath > .hasDatepicker {
+    min-width: 120px;
+    margin-top: 0px;
+}
+
+#dateOfDeath > .hfe-hours, .hfe-minutes, .hfe-seconds {
+    width: 70px;
+    min-width: 70px;
+    margin: 0px 10px 0px 10px;
+}
+
+#dateOfDeath > .value {
+    padding-right: 5px;
+}
