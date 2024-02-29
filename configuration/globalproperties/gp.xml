@@ -38,11 +38,21 @@
             <property>concept.weight</property>
             <value>${concept.weightKG.uuid}</value>
         </globalProperty>
+
         <globalProperty>
             <property>concept.causeOfDeath</property>
             <!-- Concept: 	CAUSE OF DEATH FROM DEATH CERTIFICATE, CIEL:1814 -->
             <value>1814AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</value>
         </globalProperty>
+        <globalProperty>
+            <property>coreapps.deceasedDateUsingTime</property>
+            <value>true</value>
+        </globalProperty>
+        <globalProperty>
+            <property>coreapps.deceasedDateUsingTimeMinuteStep</property>
+            <value>1</value>
+        </globalProperty>
+
         <globalProperty>
             <property>order.drugRoutesConceptUuid</property>
             <!-- Concept: Routes of administration, CIEL:162394 -->
