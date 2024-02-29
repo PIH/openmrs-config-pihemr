@@ -869,4 +869,18 @@
             where  priority = (select concept_id from concept where uuid='1882AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA') ; -- Emergency (status)
         </sql>
     </changeSet>
+
+    <changeSet id="20240228-migrate-to-datetime-death" author="ball">
+        <comment>
+            Migrate date of death to datetime concept.  No change of time (00:00:00).
+        </comment>
+        <sql>
+            update obs
+            set concept_id = (select concept_id from concept where uuid='8d36db2c-e39c-4029-92f3-c85959f6f2e1')  -- Datetime of death (datetime)
+            where concept_id = (select concept_id from concept where uuid='3cde64e4-26fe-102b-80cb-0017a47871b2')  -- Date of death (date)
+              and voided = 0;
+        </sql>
+    </changeSet>
+
+
 </databaseChangeLog>
