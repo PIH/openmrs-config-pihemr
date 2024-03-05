@@ -834,6 +834,7 @@ angular.module("encounterTypeConfig", [])
                 sections: [
                     ncdHistory,
                     ncd,
+                    primaryCareDx,
                     generalVaccinations,
                     ncdPlan
                 ]
