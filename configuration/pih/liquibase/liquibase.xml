@@ -882,5 +882,26 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20240305-retire-++-+++-duplicate-concepts" author="ball">
+        <comment>
+            Retire 2 concepts that are unused and their 4 mappings (including PIH:1408 and PIH:1409).
+        </comment>
+        <sql>
+            -- Retire these old concepts
+            update concept
+            set retired = 1, date_retired = now(),
+                retired_by = (select user_id from users where username='admin'),
+                retire_reason = 'Unused STRONGLY and MODERATELY POSITIVE concepts'
+            where uuid IN ('3cda1ad8-26fe-102b-80cb-0017a47871b2','3cda1c54-26fe-102b-80cb-0017a47871b2');
+
+            -- Remove these old mappings
+            delete from concept_reference_map
+            where concept_id IN
+                  (select concept_id from concept
+                    where uuid IN ('3cda1ad8-26fe-102b-80cb-0017a47871b2','3cda1c54-26fe-102b-80cb-0017a47871b2'));
+
+        </sql>
+    </changeSet>
+
 
 </databaseChangeLog>
