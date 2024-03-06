@@ -318,6 +318,18 @@ angular.module("encounterTypeConfig", [])
             editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-palliative.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
         };
 
+        var otherNCDs = {
+            type: "encounter-section",
+            id: "pihcore-other-ncds",
+            label: "pihcore.ncd.other",
+            icon: "fas fa-fw fa-plus-circle",
+            classes: "indent",
+            shortTemplate: "templates/sections/defaultSectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-other-ncd.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-other-ncd.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+        };
+
         var hivHistory = {
             type: "encounter-section",
             id: "hiv-history",
@@ -951,6 +963,7 @@ angular.module("encounterTypeConfig", [])
                     liver,
                     sickleCell,
                     palliative,
+                    otherNCDs,
                     primaryCareDx,
                     generalVaccinations,
                     ncdPlan
@@ -1003,6 +1016,7 @@ angular.module("encounterTypeConfig", [])
                     liver,
                     sickleCell,
                     palliative,
+                    otherNCDs,
                     primaryCareDx,
                     generalVaccinations,
                     ncdPlan
