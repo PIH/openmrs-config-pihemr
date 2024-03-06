@@ -210,6 +210,114 @@ angular.module("encounterTypeConfig", [])
             editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-ncd-plan.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
         };
 
+        var ncdHospital = {
+            type: "encounter-section",
+            id: "pihcore-hospital",
+            label: "pihcore.hospitalized",
+            icon: "fas fa-fw fa-hospital-symbol",
+            classes: "indent",
+            shortTemplate: "templates/sections/defaultSectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-hospital.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-hospital.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+        };
+
+        var diabetes = {
+            type: "encounter-section",
+            id: "pihcore-diabetes",
+            label: "pihcore.ncd.diabetes",
+            icon: "icon-circle-blank",
+            classes: "indent",
+            shortTemplate: "templates/sections/defaultSectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-diabetes.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-diabetes.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+        };
+
+        var hypertension = {
+            type: "encounter-section",
+            id: "pihcore-hypertension",
+            label: "pihcore.ncd.htn",
+            icon: "fas fa-fw fa-heartbeat",
+            classes: "indent",
+            shortTemplate: "templates/sections/defaultSectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-hypertension.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-hypertension.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+        };
+
+        var heartFailure = {
+            type: "encounter-section",
+            id: "pihcore-heart-failure",
+            label: "pihcore.ncd.heart_failure",
+            icon: "fas fa-fw fa-heart-broken",
+            classes: "indent",
+            shortTemplate: "templates/sections/defaultSectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-heart-failure.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-heart-failure.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+        };
+
+        var kidney = {
+            type: "encounter-section",
+            id: "pihcore-kidney",
+            label: "pihcore.ncd.kidney.disease",
+            icon: "fas fa-fw fa-palette",
+            classes: "indent",
+            shortTemplate: "templates/sections/defaultSectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-kidney.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-kidney.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+        };
+
+        var liver = {
+            type: "encounter-section",
+            id: "pihcore-liver",
+            label: "pihcore.ncd.liver.disease",
+            icon: "icon-leaf",
+            classes: "indent",
+            shortTemplate: "templates/sections/defaultSectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-liver.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-liver.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+        };
+
+        var lung = {
+            type: "encounter-section",
+            id: "pihcore-lung",
+            label: "pihcore.ncd.lung.disease",
+            icon: "fas fa-fw fa-wind",
+            classes: "indent",
+            shortTemplate: "templates/sections/defaultSectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-lung.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-lung.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+        };
+
+        var sickleCell = {
+            type: "encounter-section",
+            id: "pihcore-sickle-cell",
+            label: "pihcore.ncd.sickleCell",
+            icon: "fas fa-fw fa-eye",
+            classes: "indent",
+            shortTemplate: "templates/sections/defaultSectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-sickle-cell.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-sickle-cell.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+        };
+
+        var palliative = {
+            type: "encounter-section",
+            id: "pihcore-palliative",
+            label: "pihcore.ncd.palliativeCare",
+            icon: "fas fa-fw fa-hand-holding-heart",
+            classes: "indent",
+            shortTemplate: "templates/sections/defaultSectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-palliative.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-palliative.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+        };
+
         var hivHistory = {
             type: "encounter-section",
             id: "hiv-history",
@@ -833,7 +941,16 @@ angular.module("encounterTypeConfig", [])
                 showOnVisitList: true,
                 sections: [
                     ncdHistory,
+                    ncdHospital,
                     ncd,
+                    diabetes,
+                    hypertension,
+                    heartFailure,
+                    lung,
+                    kidney,
+                    liver,
+                    sickleCell,
+                    palliative,
                     primaryCareDx,
                     generalVaccinations,
                     ncdPlan
@@ -876,7 +993,16 @@ angular.module("encounterTypeConfig", [])
                 showOnVisitList: true,
                 sections: [
                     ncdFollowupHeader,
+                    ncdHospital,
                     ncd,
+                    diabetes,
+                    hypertension,
+                    heartFailure,
+                    lung,
+                    kidney,
+                    liver,
+                    sickleCell,
+                    palliative,
                     primaryCareDx,
                     generalVaccinations,
                     ncdPlan
