@@ -954,7 +954,6 @@ angular.module("encounterTypeConfig", [])
                 sections: [
                     ncdHistory,
                     ncdHospital,
-                    ncd,
                     diabetes,
                     hypertension,
                     heartFailure,
@@ -1007,7 +1006,6 @@ angular.module("encounterTypeConfig", [])
                 sections: [
                     ncdFollowupHeader,
                     ncdHospital,
-                    ncd,
                     diabetes,
                     hypertension,
                     heartFailure,
