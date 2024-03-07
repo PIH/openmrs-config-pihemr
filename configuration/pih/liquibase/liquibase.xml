@@ -903,5 +903,25 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20240307-retire-warts-and-all-duplicate-concepts" author="ball">
+        <comment>
+            Retire replaced wart concept and associated PIH:3788 mapping
+        </comment>
+        <sql>
+            -- Retire this old concept
+            update concept
+            set retired = 1, date_retired = now(),
+                retired_by = (select user_id from users where username='admin'),
+                retire_reason = 'Unused wart concept'
+            where uuid IN ('55a4cf2d-8e9b-4ef2-bda4-c6ab084bb611');
+
+            -- Remove these old mappings
+            delete from concept_reference_map
+            where concept_id IN
+                  (select concept_id from concept
+                   where uuid IN ('55a4cf2d-8e9b-4ef2-bda4-c6ab084bb611'));
+
+        </sql>
+    </changeSet>
 
 </databaseChangeLog>
