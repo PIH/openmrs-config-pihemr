@@ -481,6 +481,7 @@ privilege:
   task_emr_retro_clinical_note: "Task: emr.retroConsultNote"
   task_emr_retro_clinical_note_this_provider_only: "Task: emr.retroConsultNoteThisProviderOnly"
   task_emr_check_in: "Task: mirebalais.checkinForm"
+  task_emr_triage_patients: "Task: emr.triage"
   task_emr_death_certificate_form: "Task: mirebalais.enterDeathCertificate"
   task_dispensing_dispense: "Task: mirebalais.dispensing"
   task_dispensing_edit: "Task: mirebalaisDispensingEditProviderAndLocation"
