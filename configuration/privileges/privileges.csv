@@ -98,3 +98,4 @@ eba24ae0-d3e3-4083-84bf-5c4d7eb97e3d,${privilege.task_dispensing_create_dispense
 cde0218e-c3e8-465a-85fd-ef478abbb696,${privilege.task_dispensing_edit_dispense},Allows user to edit an existing Medication Dispense
 d0e540c6-619b-4943-9431-fd1fbf494d74,${privilege.task_dispensing_delete_dispense},Allows user to delete an existing Medication Dispense
 3c788e2a-a1ec-442a-a1ed-f5d27d8392b5,${privilege.task_dispensing_delete_dispense_if_creator},"Allows user to delete an existing Medication Dispense, *but only* if they created it originally"
+19db0d47-b7b2-426a-bb37-d0dc2d607920,${privilege.task_emr_triage_patients},Allows user to triage patients
