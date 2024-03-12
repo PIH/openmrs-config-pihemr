@@ -60,7 +60,16 @@
     "extensionSlots": {
       "homepage-dashboard-slot": {
         "remove": [
-          "patient-lists-dashboard-link"
+          "patient-lists-dashboard-link",
+          "service-queues-dashboard-link"
+        ],
+        "add": [
+          "queue-table-by-status-menu-dashboard-link"
+        ],
+        "order": [
+          "home-widget-db-link",
+          "queue-table-by-status-menu-dashboard-link",
+          "clinical-appointments-dashboard-link"
         ]
       }
     }
