@@ -149,6 +149,10 @@
       "encounterTypeUuid": "${encounterType.VITALS.uuid}"
     }
   },
+  "@openmrs/esm-patient-chart-app": {
+      "showUpcomingAppointments": true,
+      "visitAttributeTypes": []
+  },
   "@openmrs/esm-patient-forms-app": {
     "htmlFormEntryForms": [
       {
