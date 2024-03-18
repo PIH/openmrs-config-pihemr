@@ -44,7 +44,10 @@
         "label": "disposition.emrapi.death.deathDate",
         "conceptCode": "org.openmrs.module.emrapi: Date of Death",
         "params": {
-          "id": "dateOfDeath"
+          "id": "dateOfDeath",
+          "allowFutureDates": "false",
+          "allowFutureTimes": "true"
+
         }
       }
     ]
