@@ -30,11 +30,17 @@ SELECT      u.user_id,
 FROM        users u
 ;
 
-UPDATE temp_users u SET u.last_login_date = user_latest_login(u.user_id);
-UPDATE temp_users u SET u.num_logins_recorded = user_num_logins(u.user_id);
 UPDATE temp_users u SET u.mfa_status = user_property_value(u.user_id, 'authentication.secondaryType', 'disabled');
 UPDATE temp_users u SET u.mfa_status = 'question' where u.mfa_status = 'secret';
 UPDATE temp_users u SET u.mfa_status = 'authenticator' where u.mfa_status = 'totp';
+
+call create_temp_aggregate_login_data();
+
+UPDATE temp_users u
+inner join temp_aggregate_login_data al on al.user_id = u.user_id
+SET u.last_login_date = al.max_datetime,
+	u.num_logins_recorded = al.counts;
+
 
 ALTER TABLE temp_users DROP COLUMN user_id;
 
