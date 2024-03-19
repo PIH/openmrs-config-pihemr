@@ -51,8 +51,12 @@ SET
     ur.created_by = username(u.creator)
 ;
 
-UPDATE temp_user_roles ur SET ur.last_login_date = user_latest_login(ur.user_id);
-UPDATE temp_user_roles ur SET ur.num_logins_recorded = user_num_logins(ur.user_id);
+call create_temp_aggregate_login_data();
+
+UPDATE temp_user_roles ur 
+inner join temp_aggregate_login_data al on al.user_id = ur.user_id
+SET ur.last_login_date = al.max_datetime,
+	ur.num_logins_recorded = al.counts;
 
 ALTER TABLE temp_user_roles DROP COLUMN user_id;
 
