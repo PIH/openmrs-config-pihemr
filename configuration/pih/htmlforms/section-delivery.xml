@@ -1,5 +1,5 @@
 <htmlform id="section-delivery"
-          formUuid="14ebad5e-d7dc-11e8-9f8b-f2801f1b9fd1"
+          formUuid="ba7d705c-f818-44ea-8488-237d43d23d4f"
           formName="MCH Delivery section"
           formVersion="3.0">
 
@@ -587,7 +587,7 @@
             <repeat with="['1'],['2'],['3'],['4']">
                 <span id="baby-{0}" class="baby">
                     <obsgroup groupingConceptId="CIEL:1585">
-                        <h5>~~~~~ <uimessage code="pihcore.newborn" #{0} ~~~~~</h5>
+                        <h5>~~~~~ <uimessage code="pihcore.newborn" /> #{0} ~~~~~</h5>
                         <p class="side-by-side">
                             <obs id="baby-live-or-death-{0}" style="radio"
                                  conceptId="CIEL:161033"
