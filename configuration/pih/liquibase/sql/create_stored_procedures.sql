@@ -44,3 +44,24 @@ END WHILE;
 
 END
 #
+/*
+Create temporary table temp_aggregate_login_data for use in retrieving latest login datetime and counts of each login
+*/
+#
+DROP PROCEDURE IF EXISTS create_temp_aggregate_login_data;
+#
+CREATE PROCEDURE create_temp_aggregate_login_data()
+
+BEGIN
+
+drop temporary table if exists temp_aggregate_login_data;
+
+create temporary table temp_aggregate_login_data
+	select user_id, count(*) "counts", max(event_datetime) "max_datetime" 
+	FROM  authentication_event_log
+	group by user_id;
+
+create index temp_aggregate_login_data_ui on temp_aggregate_login_data(user_id);
+
+END
+#
