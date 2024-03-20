@@ -481,6 +481,13 @@
                         <render concept="CIEL:164157" name="suture perineum" />
                         <render concept="CIEL:5577"   name="episiotomy" />
                     </repeat>
+                    
+                    <p class="side-by-side">
+                        <!-- C-section with hysterectomy or tubal ligation -->
+                        <obs conceptId="CIEL:1651" style="radio"
+                             answerConceptIds="CIEL:161848,CIEL:161890"
+                             answerSeparator="&lt;br /&gt;"/>
+                    </p>
                 </div>
             </div>
             <br/>
@@ -566,18 +573,6 @@
                     </div>
                 </div>
             </div>
-
-            <br/>
-            <p class="side-by-side">
-                <!-- C-section with hysterectomy or tubal ligation -->
-                <label>
-                    <uimessage code="pihcore.consult.procedure"/>
-                </label>
-                <br/>
-                <obs conceptId="CIEL:1651" style="radio"
-                     answerConceptIds="CIEL:161848,CIEL:161890"
-                     answerSeparator="&lt;br /&gt;"/>
-            </p>
         </div>
     </section>
 
@@ -697,10 +692,10 @@
                                     </label>
                                     <br/>
                                     <obs id="delivery-type-{0}" conceptId="PIH:11663" style="radio"
-                                         answerConceptIds="CIEL:162595,CIEL:161631,CIEL:155884"
+                                         answerConceptIds="CIEL:162595,CIEL:155884"
                                          answerSeparator="&lt;br /&gt;">
                                         <controls>
-                                            <when value="CIEL:161631" thenDisplay="#vacuum-{0}" />
+                                            <when value="CIEL:162595" thenDisplay="#delivery-instrument-{0}" />
                                             <when value="CIEL:155884" thenDisplay="#c-section-reason-{0}" />
                                         </controls>
                                     </obs>
@@ -708,11 +703,14 @@
                             </div>
 
                             <div>
-                                <div id="vacuum-{0}">
+                                <div id="delivery-instrument-{0}">
                                     <br/>
                                     <!-- Vacuum -->
                                     <obs conceptId="PIH:11663" style="checkbox"
                                          answerConceptId="CIEL:159902"  />
+                                    <!-- Forceps delivery-->
+                                    <obs conceptId="PIH:11663" style="checkbox"
+                                         answerConceptId="CIEL:159901"  />
                                 </div>
                             </div>
                         </div>
