@@ -924,4 +924,25 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20240321-change-authentication-event-log-5" author="mseaton">
+        <preConditions onFail="MARK_RAN">
+            <not><indexExists indexName="authentication_event_log_ui"/></not>
+        </preConditions>
+        <comment>Add index to authentication_event_log on user_id</comment>
+        <createIndex indexName="authentication_event_log_ui" tableName="authentication_event_log">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="20240321-change-authentication-event-log-6" author="mseaton">
+        <preConditions onFail="MARK_RAN">
+            <not><indexExists indexName="authentication_event_log_ui_et"/></not>
+        </preConditions>
+        <comment>Add composite index to authentication_event_log on user_id and event_type</comment>
+        <createIndex indexName="authentication_event_log_ui_et" tableName="authentication_event_log">
+            <column name="user_id"/>
+            <column name="event_type"/>
+        </createIndex>
+    </changeSet>
+
 </databaseChangeLog>
