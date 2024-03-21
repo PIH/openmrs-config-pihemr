@@ -778,6 +778,16 @@ angular.module("encounterTypeConfig", [])
             editUrl: hfeSimpleEditUrl,
             showOnVisitList: false
         };
+        // MCOE OB Triage
+        encounterTypes["41911448-71a1-43d7-bba8-dc86339850da"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/defaultHtmlFormEncounterLong.page",
+            templateModelUrl: "/module/htmlformentry/encounter.json?encounter={{encounter.uuid}}",
+            icon: "fas fa-fw fa-ambulance",
+            editUrl: hfeStandardEditUrl,
+            showOnVisitList: true
+        };
 
         // vitals
         encounterTypes["4fb47712-34a6-40d2-8ed3-e153abbd25b7"] = {
