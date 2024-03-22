@@ -1,5 +1,5 @@
-<htmlform formUuid="5e1b0c3a-3acf-4e50-aab1-738a3a282dea" formName="Lab results"
-          formEncounterType="4d77916a-0620-11e5-a6c0-1697f925ec7b" formVersion="2.0">
+<htmlform formUuid="4d778ef4-0620-11e5-a6c0-1697f925ec7b" formName="Lab results"
+          formEncounterType="4d77916a-0620-11e5-a6c0-1697f925ec7b" formVersion="1.0">
 
     <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.SetObsDatesToSpecimenCollectionDateAction"/>
 
@@ -296,15 +296,6 @@
                 </field>
             </span>
 
-            <label for="mxd">
-                <uimessage code="pihcore.lab.mxd"/>
-            </label>
-            <span class="small">
-                <field>
-                    <obs id="mxd" conceptId="CIEL:163426" showUnits="true"/>
-                </field>
-            </span>
-
             <label for="mono-pcent">
                 <uimessage code="pihcore.lab.monocyte"/>
             </label>
@@ -354,29 +345,17 @@
             </span>
 
             <label for="sickle-screen">
-                <uimessage code="pihcore.lab.Sickling.exam"/>
-            </label>
-            <p class="side-by-side small">
-                <obs id="sickle-screen" style="radio"
-                     conceptId="CIEL:160225"
-                     answerConceptIds="CIEL:703,CIEL:664"/>
-            </p>
-
-            <label for="sickleScan">
                 <uimessage code="SickleScan RDT"/>
             </label>
             <p class="side-by-side small">
-                <obs id="sickleScan" style="radio"
-                     conceptId="CIEL:168105"
-                     answerConceptIds="CIEL:168106,CIEL:126513,CIEL:117703,CIEL:168107"
-                     answerCodes="AA,AS,SS,SC"/>
+                <obs id="sickle-screen" style="radio"
+                     conceptId="CIEL:160225" answerConceptIds="CIEL:703,CIEL:664"/>
             </p>
-
             <label for="sickle-hg-elec">
                 <uimessage code="pihcore.lab.hgElectro"/>
             </label>
             <p class="side-by-side small">
-                    <obs id="sickle-hg-elec" conceptId="CIEL:165544" style="radio"/>
+                    <obs id="sickle-hg-elec" conceptId="CIEL:165544"/>
             </p>
 
             <label for="reticul">
@@ -457,25 +436,6 @@
                 <field>
                     <obs id="inr" conceptId="PIH:INTERNATIONAL NORMALIZED RATIO"
                          placeholder="Enter value"/>
-                </field>
-            </span>
-
-            <label for="fibrinogen">
-                <uimessage code="pihcore.lab.fibrinogen"/>
-            </label>
-            <span class="small">
-                <field>
-                    <obs id="fibrinogen" conceptId="CIEL:166377" showUnits="true"/>
-                </field>
-            </span>
-
-            <label for="d-dimer">
-                <uimessage code="pihcore.lab.ddimer"/>
-            </label>
-            <span class="small">
-                <field>
-                    <!-- ToDo:  PIH:20041 -->
-                    <obs id="d-dimer" conceptId="PIH:14350" showUnits="true"/>
                 </field>
             </span>
 

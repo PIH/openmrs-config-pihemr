@@ -581,7 +581,7 @@
         <div class="section-container">
             <repeat with="['1'],['2'],['3'],['4']">
                 <span id="baby-{0}" class="baby">
-                    <obsgroup groupingConceptId="CIEL:1585">
+                    <obsgroup groupingConceptId="CIEL:1585" showIfEmpty="false">
                         <h5>~~~~~ <uimessage code="pihcore.newborn" /> #{0} ~~~~~</h5>
                         <p class="side-by-side">
                             <obs id="baby-live-or-death-{0}" style="radio"
@@ -705,12 +705,13 @@
                             <div>
                                 <div id="delivery-instrument-{0}">
                                     <br/>
-                                    <!-- Vacuum -->
-                                    <obs conceptId="PIH:11663" style="checkbox"
-                                         answerConceptId="CIEL:159902"  />
-                                    <!-- Forceps delivery-->
-                                    <obs conceptId="PIH:11663" style="checkbox"
-                                         answerConceptId="CIEL:159901"  />
+                                    <p class="side-by-side">
+                                        <!-- Vacuum or forceps delivery-->
+                                        <!-- ToDo:  Change conceptId to PIH:20040 -->
+                                        <obs conceptId="CIEL:5630" style="radio"
+                                             answerConceptIds="CIEL:159902,CIEL:159901"
+                                             answerSeparator="&lt;br /&gt;" />
+                                    </p>
                                 </div>
                             </div>
                         </div>
