@@ -583,6 +583,12 @@
                 <span id="baby-{0}" class="baby">
                     <obsgroup groupingConceptId="CIEL:1585" showIfEmpty="false">
                         <h5>~~~~~ <uimessage code="pihcore.newborn" /> #{0} ~~~~~</h5>
+
+                        <!-- ToDo:  birth order -->
+                        <span class="small hidden">
+                            <obs id="birth-order-{0}" conceptId="CIEL:163460" defaultValue="{0}"></obs>
+                        </span>
+
                         <p class="side-by-side">
                             <obs id="baby-live-or-death-{0}" style="radio"
                                  conceptId="CIEL:161033"
@@ -707,8 +713,7 @@
                                     <br/>
                                     <p class="side-by-side">
                                         <!-- Vacuum or forceps delivery-->
-                                        <!-- ToDo:  Change conceptId to PIH:20040 -->
-                                        <obs conceptId="CIEL:5630" style="radio"
+                                        <obs conceptId="PIH:20040" style="radio"
                                              answerConceptIds="CIEL:159902,CIEL:159901"
                                              answerSeparator="&lt;br /&gt;" />
                                     </p>
