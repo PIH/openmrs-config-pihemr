@@ -786,6 +786,7 @@
                 <render concept="CIEL:168214" message="T3" tag="t3" units="true" />
                 <render concept="CIEL:168215" message="T4" tag="t4" units="true" />
                 <render concept="CIEL:168213" message="tsh" tag="tsh" units="true" />
+                <render concept="CIEL:160913" message="psaQuant" tag="psa-quant" units="true"/>
             </repeat>
 
             <repeat>
@@ -801,8 +802,34 @@
                     </span>
                 </template>
                 <render concept="CIEL:166423" message="psaQual" tag="psa-qual"  />
-                <render concept="CIEL:1945"   message="pregnancy" tag="bHCG"  />
             </repeat>
+
+            <includeIf velocityTest="$patient.gender == 'F' || $patient.age &lt; 2 ">
+                <label for="b-hcg">
+                    <uimessage code="pihcore.lab.pregnancy"/>
+                </label>
+                <span class="small side-by-side">
+                    <field>
+                        <obs id="b-hcg" style="radio"
+                             conceptId="CIEL:1945"
+                             answerConceptIds="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE"/>
+                    </field>
+                </span>
+
+                <repeat>
+                    <template>
+                        <label for="{message}">
+                            <uimessage code="pihcore.lab.{message}"/>
+                        </label>
+                        <span class="small">
+                            <field>
+                                <obs id="{message}" conceptId="{concept}" showUnits="{units}"/>
+                            </field>
+                        </span>
+                    </template>
+                    <render concept="CIEL:160922" message="bhCGnum" tag="bhCGnum" units="true" />
+                </repeat>
+            </includeIf>
 
             <repeat>
                 <template>
@@ -815,8 +842,6 @@
                         </field>
                     </span>
                 </template>
-                <!-- ToDo: Add CIEL:160922 b-hCG numeric -->
-                <!-- <render concept="CIEL:160922" message="bhCGnum" tag="bhCGnum" units="true" /> -->
                 <render concept="CIEL:160919" message="ca125" tag="ca-125" units="true" />
                 <render concept="CIEL:160917" message="afp" tag="afp" units="true" />
             </repeat>
@@ -884,20 +909,9 @@
                 </div>
             </ifMode>
 
-            <repeat>
-                <template>
-                    <label for="{tag}">
-                        <uimessage code="{message}"/>
-                    </label>
-                    <span class="small side-by-side">
-                        <field>
-                            <obs id="{tag}" style="radio" conceptId="{concept}"
-                                 answerConceptIds="CIEL:703,CIEL:664,CIEL:1138" />
-                        </field>
-                    </span>
-                </template>
-                <render concept="CIEL:159430" message="pihcore.lab.hepBSurface" tag="hep-b-ag"/>
-            </repeat>
+            <h4 id="hiv-section">
+                <uimessage code="pihcore.lab.hiv.title"/>
+            </h4>
 
             <label for="hiv-rapid-test">
                 <uimessage code="pihcore.lab.hivRapid"/>
@@ -919,79 +933,6 @@
                 </div>
             </obsgroup>
 
-            <repeat>
-                <template>
-                    <label for="{tag}">
-                        <uimessage code="{message}"/>
-                    </label>
-                    <span class="small side-by-side">
-                        <field>
-                            <obs id="{tag}" style="radio"
-                                 conceptId="{concept}" answerConceptIds="{answers}" />
-                        </field>
-                    </span>
-                </template>
-                <render concept="CIEL:165303" message="pihcore.lab.syphilisRT" tag="syphilis-rt" answers="CIEL:703,CIEL:664,CIEL:1138" />
-                <render concept="CIEL:1619"   message="pihcore.lab.syphilis" tag="rpr-syphilis" answers="CIEL:1229,CIEL:1228" />
-                <render concept="CIEL:299"    message="VDRL" tag="syphilis-vdrl" answers="CIEL:1229,CIEL:1228" />
-                <render concept="CIEL:1643"   message="pihcore.lab.malariaRDT" tag="malarial-rdt" answers="CIEL:703,CIEL:664,CIEL:1138" />
-                <render concept="CIEL:32"     message="pihcore.lab.malarial_smear" tag="malarial-smear" answers="CIEL:703,CIEL:664,CIEL:1138" />
-            </repeat>
-
-            <label for="tb-skin-test">
-                <uimessage code="pihcore.lab.tbSkin"/>
-            </label>
-            <span class="small">
-                <field>
-                    <obs id="tb-skin-test-qual" conceptId="PIH:1435" style="radio"
-                         answerConceptIds="CIEL:703,CIEL:664,CIEL:1138" />
-                </field>
-                <field>
-                    (<obs id="tb-skin-test-quant" conceptId="CIEL:5475"
-                         showUnits="true"/>)
-                </field>
-            </span>
-
-            <repeat>
-                <template>
-                    <label for="{tag}">
-                        <uimessage code="{message}"/>
-                    </label>
-                    <span class="small side-by-side">
-                        <field>
-                            <obs id="{tag}" style="radio"
-                                 conceptId="{concept}" answerConceptIds="{answers}"/>
-                        </field>
-                    </span>
-                </template>
-                <render concept="CIEL:163654" message="pihcore.lab.choleraRT" tag="cholera-rt" answers="CIEL:1229,CIEL:1228"/>
-            </repeat>
-
-            <label for="crag">
-                <uimessage code="pihcore.lab.CrAg.long"/>
-            </label>
-            <span class="small">
-                <field>
-                    <obs id="crag" conceptId="CIEL:163613" style="text"
-                         cols="60" rows="2"/>
-                </field>
-            </span>
-
-            <label for="c-neo">
-                <uimessage code="pihcore.lab.cFormans"/>
-            </label>
-            <span class="small side-by-side">
-                <field>
-                    <obs id="c-neo" conceptId="PIH:14240" style="radio"
-                         answerConceptIds="CIEL:703,CIEL:664,CIEL:1138" />
-                </field>
-            </span>
-
-            <hr/>
-            <h4 id="hiv-section">
-                <uimessage code="pihcore.lab.hiv.title"/>
-            </h4>
-
             <!-- For children only -->
             <includeIf velocityTest="$patient.getAge($encounter.getEncounterDatetime()) &lt; 5">
                 <label for="hiv-pcr">
@@ -1006,13 +947,13 @@
                 </span>
             </includeIf>
 
-            <label for="viral-load">
-                <uimessage code="pihcore.lab.viral_load"/>
+            <label for="hiv-viral-load">
+                <uimessage code="pihcore.lab.hivVL"/>
             </label>
             <obsgroup groupingConceptId="PIH:HIV viral load construct">
-                <span class="small">
+                <span class="small side-by-side">
                     <field>
-                        <obs id="viral-load" conceptId="CIEL:1305" style="radio"
+                        <obs id="hiv-viral-load" conceptId="CIEL:1305" style="radio"
                              answerConceptIds="CIEL:1301,CIEL:1306" answerCodes="pihcore.lab.detected,pihcore.lab.undetected" />
                     </field>
                 </span>
@@ -1061,6 +1002,20 @@
             <hr/>
             <h4 id="tb-section">TB</h4>
 
+            <label for="tb-skin-test">
+                <uimessage code="pihcore.lab.tbSkin"/>
+            </label>
+            <span class="small">
+                <field>
+                    <obs id="tb-skin-test-qual" conceptId="PIH:1435" style="radio"
+                         answerConceptIds="CIEL:703,CIEL:664,CIEL:1138" />
+                </field>
+                <field>
+                    (<obs id="tb-skin-test-quant" conceptId="CIEL:5475"
+                          showUnits="true"/>)
+                </field>
+            </span>
+
             <label for="tb-smear-test">
                 <uimessage code="pihcore.lab.tbSmear"/>
             </label>
@@ -1098,7 +1053,6 @@
             <h4 id="hep-section">
                 <uimessage code="pihcore.lab.hep" />
             </h4>
-
             <repeat>
                 <template>
                     <label for="{tag}">
@@ -1123,6 +1077,59 @@
                         answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:NOT DONE" / -->
                 <render concept="CIEL:168968" message="pihcore.lab.hepBcAb" tag="hep-b-c-ab"
                         answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:NOT DONE" />
+            </repeat>
+            <br/>
+
+            <obsgroup groupingConceptId="PIH:20048">
+                <label for="hepb-viral-load">
+                    <uimessage code="pihcore.lab.hepBvl"/>
+                </label>
+                <span class="side-by-side small">
+                    <field>
+                        <obs id="hepb-viral-load" conceptId="PIH:20049" style="radio"
+                             answerConceptIds="CIEL:1301,CIEL:1306"
+                             answerCodes="pihcore.lab.detected,pihcore.lab.undetected" />
+                    </field>
+                </span>
+                <br/>
+                <div class="small">
+                    <label for="hepb-viral-load-numeric">
+                        <uimessage code="pihcore.lab.viral_load"/>
+                    </label>
+                    <field>
+                        <obs
+                                id="hepb-viral-load-numeric"
+                                conceptId="CIEL:168323"
+                                showUnits="emr.units.iuPermL"
+                                placeholder="Enter value" />
+                    </field>
+                </div>
+
+                <div class="small" >
+                    <label for="hepb-detected-lower-limit">
+                        <uimessage code="pihcore.lab.viralLoadLowerLimitOfDetection"/>
+                    </label>
+                    <field>
+                        <obs id="hepb-detected-lower-limit"
+                             conceptId="PIH:11548"
+                             showUnits="emr.units.iuPermL"
+                             placeholder="Enter value" />
+                    </field>
+                </div>
+            </obsgroup>
+
+            <repeat>
+                <template>
+                    <label for="{tag}">
+                        <uimessage code="{message}"/>
+                    </label>
+                    <span class="small side-by-side">
+                        <field>
+                            <obs id="{tag}" style="radio"
+                                 conceptId="{concept}" answerConceptIds="{answers}"/>
+                        </field>
+                    </span>
+                </template>
                 <render concept="CIEL:1325"   message="pihcore.lab.hepC" tag="hep-c"
                         answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE,PIH:POOR SAMPLE QUALITY" />
             </repeat>
@@ -1169,6 +1176,60 @@
                     <span class="small side-by-side">
                         <field>
                             <obs id="{tag}" style="radio"
+                                 conceptId="{concept}" answerConceptIds="{answers}" />
+                        </field>
+                    </span>
+                </template>
+                <render concept="CIEL:165303" message="pihcore.lab.syphilisRT" tag="syphilis-rt" answers="CIEL:703,CIEL:664,CIEL:1138" />
+                <render concept="CIEL:1619"   message="pihcore.lab.syphilis" tag="rpr-syphilis" answers="CIEL:1229,CIEL:1228" />
+                <render concept="CIEL:299"    message="VDRL" tag="syphilis-vdrl" answers="CIEL:1229,CIEL:1228" />
+                <render concept="CIEL:1643"   message="pihcore.lab.malariaRDT" tag="malarial-rdt" answers="CIEL:703,CIEL:664,CIEL:1138" />
+                <render concept="CIEL:32"     message="pihcore.lab.malarial_smear" tag="malarial-smear" answers="CIEL:703,CIEL:664,CIEL:1138" />
+            </repeat>
+
+            <repeat>
+                <template>
+                    <label for="{tag}">
+                        <uimessage code="{message}"/>
+                    </label>
+                    <span class="small side-by-side">
+                        <field>
+                            <obs id="{tag}" style="radio"
+                                 conceptId="{concept}" answerConceptIds="{answers}"/>
+                        </field>
+                    </span>
+                </template>
+                <render concept="CIEL:163654" message="pihcore.lab.choleraRT" tag="cholera-rt" answers="CIEL:1229,CIEL:1228"/>
+            </repeat>
+
+            <label for="crag">
+                <uimessage code="pihcore.lab.CrAg.long"/>
+            </label>
+            <span class="small">
+                <field>
+                    <obs id="crag" conceptId="CIEL:163613" style="text"
+                         cols="60" rows="2"/>
+                </field>
+            </span>
+
+            <label for="c-neo">
+                <uimessage code="pihcore.lab.cFormans"/>
+            </label>
+            <span class="small side-by-side">
+                <field>
+                    <obs id="c-neo" conceptId="PIH:14240" style="radio"
+                         answerConceptIds="CIEL:703,CIEL:664,CIEL:1138" />
+                </field>
+            </span>
+
+            <repeat>
+                <template>
+                    <label for="{tag}">
+                        <uimessage code="{message}"/>
+                    </label>
+                    <span class="small side-by-side">
+                        <field>
+                            <obs id="{tag}" style="radio"
                                  conceptId="{concept}" answerConceptIds="{answers}"/>
                         </field>
                     </span>
@@ -1176,19 +1237,6 @@
                 <render concept="CIEL:306"    message="pihcore.lab.typhoid" tag="widal"
                         answers="CIEL:1229,CIEL:1228" />
             </repeat>
-
-            <includeIf velocityTest="$patient.gender == 'F' || $patient.age &lt; 2 ">
-                <label for="b-hcg">
-                    <uimessage code="pihcore.lab.pregnancy"/>
-                </label>
-                <span class="small side-by-side">
-                    <field>
-                        <obs id="b-hcg" style="radio"
-                             conceptId="CIEL:1945"
-                             answerConceptIds="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE"/>
-                    </field>
-                </span>
-            </includeIf>
 
             <repeat>
                 <template>
@@ -1204,7 +1252,6 @@
                 </template>
                 <render concept="CIEL:161469" message="ASO" tag="aso-titer"/>
                 <render concept="CIEL:161500" message="pihcore.lab.crp" tag="crp" />
-                <render concept="CIEL:160913" message="pihcore.lab.psaQuant" tag="psa-quant"/>
             </repeat>
 
             <repeat>
@@ -1220,8 +1267,6 @@
                         </field>
                     </span>
                 </template>
-                <render concept="PIH:13448"   message="pihcore.lab.psaQual" tag="psa-qual"
-                        answers="PIH:POSITIVE,PIH:NEGATIVE" />
                 <render concept="CIEL:164924" message="pihcore.lab.chik_pcr" tag="chik-pcr"
                         answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE" />
                 <render concept="CIEL:164926" message="pihcore.lab.dengue_pcr" tag="dengue-pcr"
