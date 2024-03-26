@@ -405,7 +405,7 @@
 
             <span class="side-by-side">
                 <label for="blood-type-group">
-                    <uimessage code="pihcore.lab.bloodTypeGroup" />
+                    <uimessage code="pihcore.lab.bloodTypeGroup" />:
                 </label>
                 <obs id="blood-type-group" style="radio"
                      conceptId="CIEL:163126"
@@ -416,7 +416,7 @@
 
             <span class="side-by-side">
                 <label for="blood-rh">
-                    <uimessage code="pihcore.lab.bloodRh" />
+                    <uimessage code="pihcore.lab.bloodRh" />:
                 </label>
                 <obs id="blood-rh" style="radio"
                      conceptId="CIEL:160232"
@@ -436,9 +436,8 @@
                     <obs id="bleed-t" conceptId="CIEL:161433" showUnits="true"/>
                 </field>
                 <field>
-                    <!-- ToDo:  uncomment
+                    <!-- ToDo:  uncomment -->
                     <obs id="bleed-t-sec" conceptId="PIH:20042" showUnits="pihcore.units.seconds"/>
-                    -->
                 </field>
             </span>
 
@@ -450,9 +449,8 @@
                     <obs id="coag" conceptId="CIEL:161435" showUnits="true"/>
                 </field>
                 <field>
-                    <!-- ToDo:  uncomment
+                    <!-- ToDo:  uncomment -->
                     <obs id="coag-sec" conceptId="PIH:20043" showUnits="pihcore.units.seconds"/>
-                    -->
                 </field>
             </span>
 
@@ -538,9 +536,47 @@
                 <uimessage code="pihcore.lab.biochemistry.title"/>
             </h3>
 
+            <ifMode mode="VIEW" include="false">
+                <div class="shortcuts">
+                    |
+                    <a href="#glucose">
+                        <uimessage code="pihcore.lab.glucose"/>
+                    </a>
+                    |
+                    <a href="#iStat8">
+                        <uimessage code="pihcore.lab.ionogram"/>
+                    </a>
+                    |
+                    <a href="#renal-panel">
+                        <uimessage code="pihcore.lab.renal.panel"/>
+                    </a>
+                    |
+                    <a href="#liver">
+                        <uimessage code="pihcore.lab.liver.panel"/>
+                    </a>
+                    |
+                    <a href="#lipids">
+                        <uimessage code="pihcore.lab.lipids.title"/>
+                    </a>
+                    |
+                    <a href="#protein">
+                        <uimessage code="pihcore.lab.protein.panel"/>
+                    </a>
+                    |
+                    <a href="#hormone">
+                        <uimessage code="pihcore.lab.hormone.panel"/>
+                    </a>
+                    |
+                    <a href="#enzyme">
+                        <uimessage code="pihcore.lab.enzyme.panel"/>
+                    </a>
+                    |
+                </div>
+            </ifMode>
+
 
             <hr/>
-            <h4>
+            <h4 id="glucose">
                 <uimessage code="pihcore.lab.glucose" />
             </h4>
 
@@ -661,7 +697,7 @@
             </p>
 
             <hr/>
-            <h4>
+            <h4 id="liver">
                 <uimessage code="pihcore.lab.liver.panel"/>
             </h4>
 
@@ -686,7 +722,7 @@
             </repeat>
 
             <hr/>
-            <h4>
+            <h4 id="lipids">
                 <uimessage code="pihcore.lab.lipids.title"/>
             </h4>
 
@@ -710,7 +746,7 @@
             </repeat>
 
             <hr/>
-            <h4>
+            <h4 id="protein">
                 <uimessage code="pihcore.lab.protein.panel"/>
             </h4>
 
@@ -727,12 +763,12 @@
                 </template>
                 <render concept="PIH:14226" message="totalProtein" tag="total-protein" units="true"/>
                 <render concept="PIH:14238" message="albumin" tag="serum-albumin" units="true" />
-                <!-- ToDo:  Add globulin test
-                <render concept="PIH:20046" message="globulin" tag="globulin" units="true" /> -->
+                <!-- ToDo:  Add globulin test -->
+                <render concept="PIH:20046" message="globulin" tag="globulin" units="true" />
             </repeat>
             <hr/>
 
-            <h4>
+            <h4 id="hormone">
                 <uimessage code="pihcore.lab.hormone.panel"/>
             </h4>
 
@@ -747,8 +783,8 @@
                         </field>
                     </span>
                 </template>
-                <render concept="CIEL:168214" message="t3" tag="t3" units="true" />
-                <render concept="CIEL:168215" message="t4" tag="t4" units="true" />
+                <render concept="CIEL:168214" message="T3" tag="t3" units="true" />
+                <render concept="CIEL:168215" message="T4" tag="t4" units="true" />
                 <render concept="CIEL:168213" message="tsh" tag="tsh" units="true" />
             </repeat>
 
@@ -779,12 +815,14 @@
                         </field>
                     </span>
                 </template>
+                <!-- ToDo: Add CIEL:160922 b-hCG numeric -->
+                <!-- <render concept="CIEL:160922" message="bhCGnum" tag="bhCGnum" units="true" /> -->
                 <render concept="CIEL:160919" message="ca125" tag="ca-125" units="true" />
                 <render concept="CIEL:160917" message="afp" tag="afp" units="true" />
             </repeat>
             <hr/>
 
-            <h4>
+            <h4 id="enzyme">
                 <uimessage code="pihcore.lab.enzyme.panel"/>
             </h4>
 
@@ -802,10 +840,9 @@
                 <render concept="CIEL:1014" message="ldh" tag="ldh" units="true" />
                 <render concept="CIEL:1012" message="lacticAcid" tag="lactic-acid" units="true" />
                 <render concept="CIEL:1299" message="amylase" tag="amylase" units="true" />
-                <render concept="CIEL:1013" message="lipase" tag="lipase" units="true" />
-                <!-- ToDo:  uncomment with new ocl
-                <render concept="CIEL:1011" message="ck" tag="ck" units="true" />
-                <render concept="CIEL:159829" message="ggt" tag="ggt" units="true" /> -->
+                <render concept="CIEL:1013" message="lipase" tag="lipase" units="emr.units.iuPerL" />
+                <render concept="CIEL:1011" message="ck" tag="ck" units="emr.units.iuPerL" />
+                <render concept="CIEL:159829" message="ggt" tag="ggt" units="true" />
             </repeat>
 
             <!-- ToDo:  Possible additions
