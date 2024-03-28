@@ -525,6 +525,18 @@
                 </field>
             </span>
 
+            <!-- Free-text -->
+            <label for="hematology-comment">
+                <uimessage code="pihcore.lab.hematology.comment" />
+            </label>
+            <span class="small">
+                <!-- ToDo:  uncomment with new OCL
+                <field>
+                    <obs id="hematology-comment" conceptId="PIH:20055" />
+                </field> -->
+            </span>
+
+
         </fieldset>
 
         <fieldset class="multi-line-confirmation">
@@ -569,6 +581,10 @@
                     |
                     <a href="#enzyme">
                         <uimessage code="pihcore.lab.enzyme.panel"/>
+                    </a>
+                    |
+                    <a href="#other-biochem">
+                        <uimessage code="pihcore.exam.other_exam"/>
                     </a>
                     |
                 </div>
@@ -869,10 +885,42 @@
                 <render concept="CIEL:1011" message="ck" tag="ck" units="emr.units.iuPerL" />
                 <render concept="CIEL:159829" message="ggt" tag="ggt" units="true" />
             </repeat>
+            <br/><br/>
 
-            <!-- ToDo:  Possible additions
-            <render concept="CIEL:166396" message="Fe" tag="iron" />
-            -->
+            <h4 id="other-biochem">
+                <uimessage code="pihcore.exam.other_exam"/>
+            </h4>
+            <repeat>
+                <template>
+                    <label for="{message}">
+                        <uimessage code="{message}"/>
+                    </label>
+                    <span class="small">
+                        <field>
+                            <obs id="{message}" conceptId="{concept}" showUnits="{units}"/>
+                        </field>
+                    </span>
+                </template>
+                <render concept="CIEL:166396" message="Fe" tag="iron" units="true" />
+                <render concept="CIEL:159654" message="pihcore.lab.troponinI" tag="troponinI" units="true" />
+                <render concept="CIEL:159655" message="pihcore.lab.troponinT" tag="troponinT" units="true" />
+            </repeat>
+
+            <repeat>
+                <template>
+                    <label for="{tag}">
+                        <uimessage code="{message}"/>
+                    </label>
+                    <span class="small">
+                        <field>
+                            <obs id="{tag}" conceptId="{concept}" style="radio"
+                            answerConceptIds="CIEL:703,CIEL:664"/>
+                        </field>
+                    </span>
+                </template>
+                <render concept="CIEL:159654" message="pihcore.lab.troponinIrt" tag="troponinIrt" />
+                <render concept="CIEL:159655" message="pihcore.lab.troponinTrt" tag="troponinTrt" />
+            </repeat>
         </fieldset>
 
         <fieldset class="multi-line-confirmation">
@@ -962,7 +1010,8 @@
                     <label for="viral-load-numeric">
                         <uimessage code="pihcore.lab.viral_load"/>
                     </label>
-                    <field class="required">
+                    <!-- ToDo: removed class="required" -->
+                    <field>
                         <obs
                             id="viral-load-numeric"
                             conceptId="CIEL:856"
@@ -1008,7 +1057,7 @@
             <span class="small">
                 <field>
                     <obs id="tb-skin-test-qual" conceptId="PIH:1435" style="radio"
-                         answerConceptIds="CIEL:703,CIEL:664,CIEL:1138" />
+                         answerConceptIds="CIEL:703,CIEL:664" />
                 </field>
                 <field>
                     (<obs id="tb-skin-test-quant" conceptId="CIEL:5475"
@@ -1044,8 +1093,9 @@
             <span class="small side-by-side">
                 <field>
                     <obs id="tb-xpert" style="radio"
-                         conceptId="CIEL:162202"
-                         answerConceptIds="CIEL:1301,CIEL:1302,CIEL:1138,CIEL:163611"/>
+                         conceptId="CIEL:164937"
+                         answerConceptIds="CIEL:162203,CIEL:162204,CIEL:164104,CIEL:1302,CIEL:163611"
+                         answerSeparator="&lt;br /&gt;"/>
                 </field>
             </span>
 
@@ -1154,13 +1204,13 @@
 
                 </template>
                 <render id="CIEL:165853" code="antibodyTest" tag="ab"
-                        answers="CIEL:165857,CIEL:165855,CIEL:165856,CIEL:664,CIEL:163611" />
+                        answers="CIEL:165857,CIEL:165855,CIEL:165856,CIEL:664" />
                 <render id="CIEL:165852" code="antigenTest" tag="ag"
-                        answers="CIEL:703,CIEL:664,CIEL:163611" />
+                        answers="CIEL:703,CIEL:664" />
                 <render id="CIEL:165840" code="rtPCR" tag="pcr"
-                        answers="CIEL:703,CIEL:664,CIEL:163611" />
+                        answers="CIEL:703,CIEL:664" />
                 <render id="CIEL:165865" code="lab.genexpert" tag="xpert"
-                        answers="CIEL:703,CIEL:664,CIEL:163611" />
+                        answers="CIEL:703,CIEL:664" />
             </repeat>
 
             <hr/>
@@ -1180,11 +1230,11 @@
                         </field>
                     </span>
                 </template>
-                <render concept="CIEL:165303" message="pihcore.lab.syphilisRT" tag="syphilis-rt" answers="CIEL:703,CIEL:664,CIEL:1138" />
+                <render concept="CIEL:165303" message="pihcore.lab.syphilisRT" tag="syphilis-rt" answers="CIEL:703,CIEL:664" />
                 <render concept="CIEL:1619"   message="pihcore.lab.syphilis" tag="rpr-syphilis" answers="CIEL:1229,CIEL:1228" />
                 <render concept="CIEL:299"    message="VDRL" tag="syphilis-vdrl" answers="CIEL:1229,CIEL:1228" />
-                <render concept="CIEL:1643"   message="pihcore.lab.malariaRDT" tag="malarial-rdt" answers="CIEL:703,CIEL:664,CIEL:1138" />
-                <render concept="CIEL:32"     message="pihcore.lab.malarial_smear" tag="malarial-smear" answers="CIEL:703,CIEL:664,CIEL:1138" />
+                <render concept="CIEL:1643"   message="pihcore.lab.malariaRDT" tag="malarial-rdt" answers="CIEL:703,CIEL:664" />
+                <render concept="CIEL:32"     message="pihcore.lab.malarial_smear" tag="malarial-smear" answers="CIEL:703,CIEL:664" />
             </repeat>
 
             <repeat>
