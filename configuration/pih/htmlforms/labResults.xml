@@ -525,6 +525,18 @@
                 </field>
             </span>
 
+            <!-- Free-text -->
+            <label for="hematology-comment">
+                <uimessage code="pihcore.lab.hematology.comment" />
+            </label>
+            <span class="small">
+                <!-- ToDo:  uncomment with new OCL
+                <field>
+                    <obs id="hematology-comment" conceptId="PIH:20055" />
+                </field> -->
+            </span>
+
+
         </fieldset>
 
         <fieldset class="multi-line-confirmation">
@@ -998,7 +1010,8 @@
                     <label for="viral-load-numeric">
                         <uimessage code="pihcore.lab.viral_load"/>
                     </label>
-                    <field class="required">
+                    <!-- ToDo: removed class="required" -->
+                    <field>
                         <obs
                             id="viral-load-numeric"
                             conceptId="CIEL:856"
