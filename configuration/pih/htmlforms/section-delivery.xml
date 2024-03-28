@@ -581,16 +581,20 @@
         <div class="section-container">
             <repeat with="['1'],['2'],['3'],['4']">
                 <span id="baby-{0}" class="baby">
-                    <obsgroup groupingConceptId="CIEL:1585" showIfEmpty="false">
+                    <obsgroup groupingConceptId="CIEL:1585" controlId="newborn-group-{0}" showIfEmpty="false">
                         <h5>~~~~~ <uimessage code="pihcore.newborn" /> #{0} ~~~~~</h5>
 
-                        <!-- ToDo:  birth order -->
+                        <!-- ToDo:  birth order
                         <span class="small hidden">
-                            <obs id="birth-order-{0}" conceptId="CIEL:163460" defaultValue="{0}"></obs>
+                            <obs id="birth-order-{0}" controlId="newborn-order-{0}"
+                                 conceptId="CIEL:163460" defaultValue="{0}">
+
+                            </obs>
                         </span>
+                        -->
 
                         <p class="side-by-side">
-                            <obs id="baby-live-or-death-{0}" style="radio"
+                            <obs id="baby-live-or-death-{0}" style="radio" controlId="newborn-lod-{0}"
                                  conceptId="CIEL:161033"
                                  answerConceptIds="CIEL:151849,CIEL:140399,CIEL:154223">
                                 <controls>
@@ -606,7 +610,7 @@
                                     <label>
                                         <uimessage code="pihcore.gender" />
                                     </label>
-                                    <obs conceptId="CIEL:1587" style="radio"
+                                    <obs conceptId="CIEL:1587" style="radio" controlId="newborn-gender-{0}"
                                          answerConceptIds="CIEL:1534,CIEL:1535"
                                          answerCodes="zl.registration.patient.IdentityGender.Male,zl.registration.patient.IdentityGender.Female"/>
                                 </p>
@@ -614,7 +618,7 @@
                                 <label>
                                     <uimessage code="pihcore.birthweight"/>
                                 </label>
-                                <obs conceptId="CIEL:5916" showUnits="true"/>
+                                <obs conceptId="CIEL:5916" showUnits="true" controlId="newborn-wt-{0}"/>
 
                                 <!-- APGAR -->
                                 <br/>
@@ -628,19 +632,19 @@
                                         <label>
                                             <uimessage code="1 minute"/>
                                         </label>
-                                        <obs conceptId="PIH:14419"/>
+                                        <obs conceptId="PIH:14419" controlId="newborn-apgar1-{0}"/>
                                     </div>
                                     <div>
                                         <label>
                                             <uimessage code="5 minutes"/>
                                         </label>
-                                        <obs conceptId="CIEL:1504"/>
+                                        <obs conceptId="CIEL:1504" controlId="newborn-apgar5-{0}"/>
                                     </div>
                                     <div>
                                         <label>
                                             <uimessage code="10 minutes"/>
                                         </label>
-                                        <obs conceptId="PIH:14785"/>
+                                        <obs conceptId="PIH:14785" controlId="newborn-apgar10-{0}"/>
                                     </div>
                                 </div>
 
@@ -648,7 +652,7 @@
                                 <label>
                                     <uimessage code="mirebalais.vitals.height.title" />
                                 </label>
-                                <obs conceptId="CIEL:163554" showUnits="true" />
+                                <obs conceptId="CIEL:163554" controlId="newborn-ht-{0}" showUnits="true" />
                                   <br/>
                                 <br/>
 
@@ -656,14 +660,14 @@
                                     <uimessage code="mirebalais.vitals.head.navigation.title" />
                                     <!-- Head Circumference -->
                                 </label>
-                                <obs conceptId="CIEL:5314" showUnits="true"  id="head-circumference"/>
+                                <obs conceptId="CIEL:5314" controlId="newborn-hc-{0}" showUnits="true"  id="head-circumference"/>
                                 <br/>
                                 <br/>
                              </div>
 
                             <!-- Vitamin K received -->
                             <div>
-                                <obs conceptId="CIEL:1282" style="checkbox"
+                                <obs conceptId="CIEL:1282" style="checkbox" controlId="newborn-vitk-{0}"
                                      answerConceptId="CIEL:86353" answerCode="pihcore.receivedVitK"/>
                             </div>
                         </div>
@@ -673,7 +677,7 @@
                                 <uimessage code="pihcore.ifFetalDeath"/>
                             </label>
                             <br/>
-                            <obs conceptId="CIEL:135437" style="radio"
+                            <obs conceptId="CIEL:135437" style="radio" controlId="newborn-mac-{0}"
                                  answerConceptIds="CIEL:1065,CIEL:1066"
                                  answerCodes="pihcore.macerated,pihcore.notMacerated"
                                  answerSeparator=""/>
@@ -684,7 +688,7 @@
                             <label>
                                 <uimessage code="pihcore.neoResusc"/>
                             </label>
-                            <obs conceptId="CIEL:162131"
+                            <obs conceptId="CIEL:162131" controlId="newborn-resusc-{0}"
                                  answerConceptIds="CIEL:1065,CIEL:1066"
                                  style="radio" answerSeparator=""/>
                         </p>
@@ -698,6 +702,7 @@
                                     </label>
                                     <br/>
                                     <obs id="delivery-type-{0}" conceptId="PIH:11663" style="radio"
+                                         controlId="newborn-d-type-{0}"
                                          answerConceptIds="CIEL:162595,CIEL:155884"
                                          answerSeparator="&lt;br /&gt;">
                                         <controls>
@@ -713,7 +718,7 @@
                                     <br/>
                                     <p class="side-by-side">
                                         <!-- Vacuum or forceps delivery-->
-                                        <obs conceptId="PIH:20040" style="radio"
+                                        <obs conceptId="PIH:20040" style="radio" controlId="newborn-d-instru-{0}"
                                              answerConceptIds="CIEL:159902,CIEL:159901"
                                              answerSeparator="&lt;br /&gt;" />
                                     </p>
@@ -732,7 +737,8 @@
                                     </label>
                                     <repeat>
                                         <template>
-                                            <obs conceptId="PIH:13571" answerConceptId="{concept}" style="checkbox"/>
+                                            <obs conceptId="PIH:13571" controlId="newborn-reason-c-{0}"
+                                                 answerConceptId="{concept}" style="checkbox"/>
                                         </template>
                                         <render concept="CIEL:113814" name="previous c-section"/>
                                         <render concept="CIEL:118744" name="eclampsia"/>
@@ -753,7 +759,8 @@
                                     </repeat>
 
                                     <!-- other maternal problem -->
-                                    <obs conceptId="PIH:13571" answerConceptId="CIEL:5622" style="checkbox"
+                                    <obs conceptId="PIH:13571" controlId="newborn-other-{0}"
+                                         answerConceptId="CIEL:5622" style="checkbox"
                                          commentFieldLabel=""/>
                                     <br/>
                                 </div>
@@ -764,7 +771,8 @@
 
                                     <repeat>
                                         <template>
-                                            <obs conceptId="PIH:13572" answerConceptId="{concept}" style="checkbox"/>
+                                            <obs conceptId="PIH:13572" controlId="newborn-fetal-r-{0}"
+                                                 answerConceptId="{concept}" style="checkbox"/>
                                         </template>
                                         <render concept="CIEL:118256" name="acute fetal distress"/>
                                         <render concept="CIEL:115939" name="malpresentation of fetus"/>
@@ -774,7 +782,8 @@
                                     </repeat>
 
                                     <!-- other fetal problem -->
-                                    <obs conceptId="PIH:13572" answerConceptId="CIEL:5622" style="checkbox"
+                                    <obs conceptId="PIH:13572" controlId="newborn-fetal-rother-{0}"
+                                         answerConceptId="CIEL:5622" style="checkbox"
                                          commentFieldLabel=""/>
                                 </div>
                                 <div>
@@ -784,7 +793,8 @@
                                     </label>
                                     <repeat>
                                         <template>
-                                            <obs conceptId="PIH:13573" answerConceptId="{concept}" style="checkbox"/>
+                                            <obs conceptId="PIH:13573" controlId="newborn-ob-r-{0}"
+                                                 answerConceptId="{concept}" style="checkbox"/>
                                         </template>
                                         <render concept="CIEL:145935" name="cephalopelvic disproportion"/>
                                         <render concept="CIEL:130108" name="placenta abruption"/>
@@ -797,7 +807,8 @@
                                     </repeat>
 
                                     <!-- other obstetrical problem -->
-                                    <obs conceptId="PIH:13573" answerConceptId="CIEL:5622" style="checkbox"
+                                    <obs conceptId="PIH:13573" controlId="newborn-ob-rother-{0}"
+                                         answerConceptId="CIEL:5622" style="checkbox"
                                          commentFieldLabel=""/>
                                 </div>
                             </div>
