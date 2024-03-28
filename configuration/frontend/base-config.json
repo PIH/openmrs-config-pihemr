@@ -12,6 +12,9 @@
         "configure": {
           "expected-appointments-panel": {
             "showForPastDate": true
+          },
+          "checked-in-appointments-panel": {
+            "showForPastDate": true
           }
         }
       }
