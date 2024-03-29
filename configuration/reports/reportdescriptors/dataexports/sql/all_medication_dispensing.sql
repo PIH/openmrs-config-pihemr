@@ -30,6 +30,7 @@ status_reason varchar(50),
 instructions text
 );
 
+set @dispensing_construct =  concept_from_mapping('PIH','9070');
 -- add a row for every dispensing obs group construct
 insert into all_medication_dispensing
 (patient_id,
@@ -43,7 +44,7 @@ o.encounter_id,
 o.obs_id,
 'Old'
 from obs o 
-where concept_id = concept_from_mapping('PIH','9070')
+where concept_id =  @dispensing_construct
 AND o.voided = 0;
 
 create index med_encounter_id on all_medication_dispensing(encounter_id);
@@ -122,59 +123,45 @@ where o.voided = 0;
 
 create index temp_obs_obs_ci on temp_obs(obs_group_id, concept_id);
 
-set @duration = concept_from_mapping('PIH','9075');
-UPDATE all_medication_dispensing tgt 
-INNER JOIN temp_obs o ON o.obs_group_id=tgt.obs_group_id
-AND o.concept_id= @duration 
-SET duration= value_numeric;
-
-set @qunits = concept_from_mapping('PIH','9074');
-UPDATE all_medication_dispensing tgt 
-INNER JOIN temp_obs o ON o.obs_group_id=tgt.obs_group_id
-AND o.concept_id= @qunits 
-SET quantity_unit= value_text;
-
-set @duration_unit = concept_from_mapping('PIH','6412');
-UPDATE all_medication_dispensing tgt 
-INNER JOIN temp_obs o ON o.obs_group_id=tgt.obs_group_id
-AND o.concept_id= @duration_unit 
-SET duration_unit= concept_name(value_coded,@locale);
-
+-- collate and decode observations to each obs_group
 set @dose = concept_from_mapping('PIH','9073');
-UPDATE all_medication_dispensing tgt 
-INNER JOIN temp_obs o ON o.obs_group_id=tgt.obs_group_id
-AND o.concept_id=@dose
-SET quantity_per_dose= value_numeric;
-
 set @doseUnit = concept_from_mapping('PIH','9074');
-UPDATE all_medication_dispensing tgt 
-INNER JOIN temp_obs o ON o.obs_group_id=tgt.obs_group_id
-AND o.concept_id=@doseUnit
-SET dose_unit= value_text;
-
-set @frequency = concept_from_mapping('PIH','9363');
-UPDATE all_medication_dispensing tgt 
-INNER JOIN temp_obs o ON o.obs_group_id=tgt.obs_group_id
-AND o.concept_id= @frequency 
-SET frequency= concept_name(value_coded,@locale);
-
-set @quantity = concept_from_mapping('PIH','9071');
-UPDATE all_medication_dispensing tgt 
-INNER JOIN temp_obs o ON o.obs_group_id=tgt.obs_group_id
-AND o.concept_id=@quantity
-SET quantity_dispensed= value_numeric;
-
 set @drug = concept_from_mapping('PIH','1282');
-UPDATE all_medication_dispensing tgt 
-INNER JOIN temp_obs o ON o.obs_group_id=tgt.obs_group_id
-AND o.concept_id=@drug
-SET drug_id= value_drug;
-
+set @duration = concept_from_mapping('PIH','9075');
+set @duration_unit = concept_from_mapping('PIH','6412');
+set @frequency = concept_from_mapping('PIH','9363');
 set @inxs = concept_from_mapping('PIH','9072');
-UPDATE all_medication_dispensing tgt 
-INNER JOIN temp_obs o ON o.obs_group_id=tgt.obs_group_id
-AND o.concept_id=@inxs
-SET instructions= value_text;
+set @quantity = concept_from_mapping('PIH','9071');
+set @qunits = concept_from_mapping('PIH','9074');
+drop temporary table if exists temp_obs_collated;
+create temporary table temp_obs_collated 
+select 
+obs_group_id,
+max(case when concept_id = @dose then value_numeric end) "dose",
+max(case when concept_id = @doseUnit then value_text end) "doseUnit",
+max(case when concept_id = @drug then value_drug end) "drugId",
+max(case when concept_id = @duration then value_numeric end) "duration",
+max(case when concept_id = @duration_unit then concept_name(value_coded,@locale) end) "duration_unit",
+max(case when concept_id = @frequency then concept_name(value_coded,@locale) end) "frequency",
+max(case when concept_id = @quantity then value_numeric end) "quantity",
+max(case when concept_id = @qunits then value_text end) "qunits",
+max(case when concept_id = @inxs then value_text end) "inxs"
+from temp_obs 
+group by obs_group_id;
+
+create index temp_obs_collated_ogi on temp_obs_collated(obs_group_id);
+
+update all_medication_dispensing t
+inner join  temp_obs_collated o on o.obs_group_id = t.obs_group_id
+set t.duration = o.duration,
+	t.quantity_unit = o.qunits,
+	t.duration_unit = o.duration_unit,
+	t.quantity_per_dose = o.quantity,
+	t.dose_unit = o.doseUnit,
+	t.frequency= o.frequency,
+	t.quantity_dispensed = o.quantity,
+	t.drug_id = o.drugId,
+	t.instructions = o.inxs;
 
 -- -- copy all distinct drugs to a row-per-drug table to update the drug level columns
 DROP TABLE IF EXISTS temp_drug_ids;
@@ -222,8 +209,6 @@ dosing_instructions prescription
 FROM medication_dispense md 
 LEFT OUTER JOIN users u ON md.creator=u.user_id
 LEFT OUTER JOIN order_frequency of2 ON of2.order_frequency_id = md.frequency;
-
-
 
 -- final select of the data
 SELECT 
