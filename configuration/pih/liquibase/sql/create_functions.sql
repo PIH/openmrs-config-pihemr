@@ -3979,3 +3979,20 @@ BEGIN
     
 END 
 #
+-- This function is designed to operate on a temp table that has already been created mapping patient_ids to emr_ids
+-- it accepts patient_id and will return emr_id  
+#
+DROP FUNCTION IF EXISTS zlemrid_from_temp;
+#
+CREATE FUNCTION zlemrid_from_temp(
+    _patient_id int(11)
+)
+	RETURNS varchar(50)
+    DETERMINISTIC
+
+BEGIN
+    DECLARE  return_value text;
+    SELECT emr_id into return_value from temp_emrids where patient_id = _patient_id;
+    RETURN return_value;
+END
+#
