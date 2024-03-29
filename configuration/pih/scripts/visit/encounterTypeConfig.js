@@ -800,6 +800,17 @@ angular.module("encounterTypeConfig", [])
             showOnVisitList: true
         };
 
+        // vitals with glucose
+        encounterTypes["2fd151a2-fbef-43e3-b82d-c3f70f1d7333"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/vitalsShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
+            icon: "fas fa-fw fa-heartbeat",
+            editUrl: hfeSimpleEditUrl,
+            showOnVisitList: true
+        };
+
         // consultation / outpatientConsult
         encounterTypes["92fd09b4-5335-4f7e-9f63-b2a663fd09a6"] = {
                 defaultState: "short",
