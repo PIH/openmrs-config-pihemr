@@ -530,13 +530,11 @@
                 <uimessage code="pihcore.lab.hematology.comment" />
             </label>
             <span class="small">
-                <!-- ToDo:  uncomment with new OCL
                 <field>
-                    <obs id="hematology-comment" conceptId="PIH:20055" />
-                </field> -->
+                    <obs id="hematology-comment" conceptId="PIH:20055"
+                         style="textarea" rows="2" cols="70"/>
+                </field>
             </span>
-
-
         </fieldset>
 
         <fieldset class="multi-line-confirmation">
@@ -921,6 +919,17 @@
                 <render concept="CIEL:159654" message="pihcore.lab.troponinIrt" tag="troponinIrt" />
                 <render concept="CIEL:159655" message="pihcore.lab.troponinTrt" tag="troponinTrt" />
             </repeat>
+
+            <!-- Free-text -->
+            <label for="biochemistry-comment">
+                <uimessage code="pihcore.lab.biochemistry.comment" />
+            </label>
+            <span class="small">
+                <field>
+                    <obs id="biochemistry-comment" conceptId="PIH:20056"
+                         style="textarea" rows="2" cols="70"/>
+                </field>
+            </span>
         </fieldset>
 
         <fieldset class="multi-line-confirmation">
@@ -1010,7 +1019,6 @@
                     <label for="viral-load-numeric">
                         <uimessage code="pihcore.lab.viral_load"/>
                     </label>
-                    <!-- ToDo: removed class="required" -->
                     <field>
                         <obs
                             id="viral-load-numeric"
@@ -1117,14 +1125,16 @@
                 </template>
                 <render concept="CIEL:1322"   message="pihcore.lab.hepB" tag="hep-b"
                         answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE,PIH:POOR SAMPLE QUALITY" />
+                <render concept="PIH:20065" message="pihcore.lab.hepBsAb" tag="hep-b-s-ab"
+                        answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:NOT DONE" />
                 <render concept="CIEL:161472" message="pihcore.lab.hepBSurfaceSpot" tag="hep-b-ag-spot"
-                        answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE" />
+                        answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:NOT DONE" />
                 <render concept="CIEL:159430" message="pihcore.lab.hepBsAg" tag="hep-b-s-ag"
                         answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:NOT DONE" />
                 <render concept="CIEL:167785" message="pihcore.lab.hepBeAg" tag="hep-b-e-ag"
                         answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:NOT DONE" />
-                <!-- render concept="CIEL:" message="pihcore.lab.hepBeAb" tag="hep-b-e-ab"
-                        answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:NOT DONE" / -->
+                <render concept="PIH:20064" message="pihcore.lab.hepBeAb" tag="hep-b-e-ab"
+                        answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:NOT DONE" />
                 <render concept="CIEL:168968" message="pihcore.lab.hepBcAb" tag="hep-b-c-ab"
                         answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:NOT DONE" />
             </repeat>
@@ -1183,6 +1193,44 @@
                 <render concept="CIEL:1325"   message="pihcore.lab.hepC" tag="hep-c"
                         answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE,PIH:POOR SAMPLE QUALITY" />
             </repeat>
+
+            <obsgroup groupingConceptId="PIH:20062">
+                <label for="hepc-viral-load">
+                    <uimessage code="pihcore.lab.hepCvl"/>
+                </label>
+                <span class="side-by-side small">
+                    <field>
+                        <obs id="hepc-viral-load" conceptId="PIH:20063" style="radio"
+                             answerConceptIds="CIEL:1301,CIEL:1306"
+                             answerCodes="pihcore.lab.detected,pihcore.lab.undetected" />
+                    </field>
+                </span>
+                <br/>
+                <div class="small">
+                    <label for="hepc-viral-load-numeric">
+                        <uimessage code="pihcore.lab.viral_load"/>
+                    </label>
+                    <field>
+                        <obs
+                                id="hepc-viral-load-numeric"
+                                conceptId="PIH:20005"
+                                showUnits="emr.units.iuPermL"
+                                placeholder="Enter value" />
+                    </field>
+                </div>
+
+                <div class="small" >
+                    <label for="hepc-detected-lower-limit">
+                        <uimessage code="pihcore.lab.viralLoadLowerLimitOfDetection"/>
+                    </label>
+                    <field>
+                        <obs id="hepc-detected-lower-limit"
+                             conceptId="PIH:11548"
+                             showUnits="emr.units.iuPermL"
+                             placeholder="Enter value" />
+                    </field>
+                </div>
+            </obsgroup>
 
             <hr/>
             <h4 id="covid-section">
@@ -1328,6 +1376,17 @@
                 <render concept="CIEL:164930" message="pihcore.lab.zika_igm" tag="zika-igm"
                         answers="CIEL:164931,CIEL:164932,CIEL:164933,PIH:NEGATIVE" />
              </repeat>
+
+            <!-- Free-text -->
+            <label for="iDisease-comment">
+                <uimessage code="pihcore.lab.iDisease.comment" />
+            </label>
+            <span class="small">
+                <field>
+                    <obs id="iDisease-comment" conceptId="PIH:20057"
+                         style="textarea" rows="2" cols="70"/>
+                </field>
+            </span>
         </fieldset>
 
         <fieldset class="multi-line-confirmation">
@@ -1588,6 +1647,17 @@
                 <render concept="163691" message="fattyCasts" />
                 <render concept="163694" message="waxyCasts" /> -->
             </repeat>
+
+            <!-- Free-text -->
+            <label for="urinalysis-comment">
+                <uimessage code="pihcore.lab.urinalysis.comment" />
+            </label>
+            <span class="small">
+                <field>
+                    <obs id="urinalysis-comment" conceptId="PIH:20058"
+                         style="textarea" rows="2" cols="70"/>
+                </field>
+            </span>
         </fieldset>
 
         <fieldset class="multi-line-confirmation">
@@ -1636,6 +1706,16 @@
                 <render concept="161454" message="gramStain" />
             </repeat>
 
+            <!-- Free-text -->
+            <label for="microbiology-comment">
+                <uimessage code="pihcore.lab.microbiology.comment" />
+            </label>
+            <span class="small">
+                <field>
+                    <obs id="microbiology-comment" conceptId="PIH:20059"
+                         style="textarea" rows="2" cols="70"/>
+                </field>
+            </span>
         </fieldset>
 
         <fieldset class="multi-line-confirmation">
@@ -1716,6 +1796,16 @@
 
             </repeat>
 
+            <!-- Free-text -->
+            <label for="parasitology-comment">
+                <uimessage code="pihcore.lab.parasitology.comment" />
+            </label>
+            <span class="small">
+                <field>
+                    <obs id="parasitology-comment" conceptId="PIH:20060"
+                         style="textarea" rows="2" cols="70"/>
+                </field>
+            </span>
         </fieldset>
 
     </section>
