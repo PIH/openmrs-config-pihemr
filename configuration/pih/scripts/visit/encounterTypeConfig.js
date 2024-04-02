@@ -1612,7 +1612,6 @@ angular.module("encounterTypeConfig", [])
             sections: [
               ancInitial,
               generalVaccinations,
-              primaryCareDx,
               primaryCarePlanMedication,
             ]
           },
@@ -1665,7 +1664,6 @@ angular.module("encounterTypeConfig", [])
             sections: [
               ancFollowup,
               generalVaccinations,
-              primaryCareDx,
               primaryCarePlanMedication,
             ]
           },
