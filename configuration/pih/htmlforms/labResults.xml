@@ -1126,17 +1126,17 @@
                 <render concept="CIEL:1322"   message="pihcore.lab.hepB" tag="hep-b"
                         answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE,PIH:POOR SAMPLE QUALITY" />
                 <render concept="PIH:20065" message="pihcore.lab.hepBsAb" tag="hep-b-s-ab"
-                        answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:NOT DONE" />
+                        answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE" />
                 <render concept="CIEL:161472" message="pihcore.lab.hepBSurfaceSpot" tag="hep-b-ag-spot"
-                        answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:NOT DONE" />
+                        answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE" />
                 <render concept="CIEL:159430" message="pihcore.lab.hepBsAg" tag="hep-b-s-ag"
-                        answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:NOT DONE" />
+                        answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE" />
                 <render concept="CIEL:167785" message="pihcore.lab.hepBeAg" tag="hep-b-e-ag"
-                        answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:NOT DONE" />
+                        answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE" />
                 <render concept="PIH:20064" message="pihcore.lab.hepBeAb" tag="hep-b-e-ab"
-                        answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:NOT DONE" />
+                        answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE" />
                 <render concept="CIEL:168968" message="pihcore.lab.hepBcAb" tag="hep-b-c-ab"
-                        answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:NOT DONE" />
+                        answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE" />
             </repeat>
             <br/>
 
