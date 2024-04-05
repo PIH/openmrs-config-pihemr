@@ -1190,7 +1190,7 @@
                         </field>
                     </span>
                 </template>
-                <render concept="CIEL:1325"   message="pihcore.lab.hepC" tag="hep-c"
+                <render concept="CIEL:1325"   message="pihcore.lab.hepCAb" tag="hep-c"
                         answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE,PIH:POOR SAMPLE QUALITY" />
             </repeat>
 
