@@ -1123,8 +1123,8 @@
                         </field>
                     </span>
                 </template>
-                <render concept="CIEL:1322"   message="pihcore.lab.hepB" tag="hep-b"
-                        answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE,PIH:POOR SAMPLE QUALITY" />
+                <!-- <render concept="CIEL:1322"   message="pihcore.lab.hepB" tag="hep-b"
+                        answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE,PIH:POOR SAMPLE QUALITY" /> -->
                 <render concept="PIH:20065" message="pihcore.lab.hepBsAb" tag="hep-b-s-ab"
                         answers="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE" />
                 <render concept="CIEL:161472" message="pihcore.lab.hepBSurfaceSpot" tag="hep-b-ag-spot"
