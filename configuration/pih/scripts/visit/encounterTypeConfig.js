@@ -781,9 +781,9 @@ angular.module("encounterTypeConfig", [])
         // MCOE OB Triage
         encounterTypes["41911448-71a1-43d7-bba8-dc86339850da"] = {
             defaultState: "short",
-            shortTemplate: "templates/encounters/defaultEncounterShort.page",
-            longTemplate: "templates/encounters/defaultHtmlFormEncounterLong.page",
-            templateModelUrl: "/module/htmlformentry/encounter.json?encounter={{encounter.uuid}}",
+            shortTemplate: "templates/encounters/mchTriageShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
             icon: "fas fa-fw fa-ambulance",
             editUrl: hfeStandardEditUrl,
             showOnVisitList: true
