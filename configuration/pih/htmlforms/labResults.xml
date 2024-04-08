@@ -436,7 +436,6 @@
                     <obs id="bleed-t" conceptId="CIEL:161433" showUnits="true"/>
                 </field>
                 <field>
-                    <!-- ToDo:  uncomment -->
                     <obs id="bleed-t-sec" conceptId="PIH:20042" showUnits="pihcore.units.seconds"/>
                 </field>
             </span>
@@ -449,7 +448,6 @@
                     <obs id="coag" conceptId="CIEL:161435" showUnits="true"/>
                 </field>
                 <field>
-                    <!-- ToDo:  uncomment -->
                     <obs id="coag-sec" conceptId="PIH:20043" showUnits="pihcore.units.seconds"/>
                 </field>
             </span>
@@ -777,7 +775,6 @@
                 </template>
                 <render concept="PIH:14226" message="totalProtein" tag="total-protein" units="true"/>
                 <render concept="PIH:14238" message="albumin" tag="serum-albumin" units="true" />
-                <!-- ToDo:  Add globulin test -->
                 <render concept="PIH:20046" message="globulin" tag="globulin" units="true" />
             </repeat>
             <hr/>
@@ -953,6 +950,18 @@
                     |
                     <a href="#hep-section">
                         <uimessage code="pihcore.lab.hep"/>
+                    </a>
+                    |
+                    <a href="#malaria-section">
+                        <uimessage code="pihcore.malaria"/>
+                    </a>
+                    |
+                    <a href="#syph-section">
+                        <uimessage code="pihcore.syphilis"/>
+                    </a>
+                    |
+                    <a href="#typhoid-section">
+                        <uimessage code="pihcore.typhoid"/>
                     </a>
                     |
                     <a href="#covid-section">
@@ -1237,6 +1246,138 @@
             </obsgroup>
 
             <hr/>
+            <h4 id="malaria-section">
+                <uimessage code="pihcore.malaria" />
+            </h4>
+            <repeat>
+                <template>
+                    <label for="{tag}">
+                        <uimessage code="{message}"/>
+                    </label>
+                    <span class="small side-by-side">
+                        <field>
+                            <obs id="{tag}" style="radio"
+                                 conceptId="{concept}" answerConceptIds="{answers}" />
+                        </field>
+                    </span>
+                </template>
+                <render concept="CIEL:1643" message="pihcore.lab.malariaRDT" tag="malarial-rdt"
+                        answers="CIEL:703,CIEL:664" />
+                <render concept="CIEL:32"   message="pihcore.lab.malarial_smear" tag="malarial-smear"
+                        answers="CIEL:703,CIEL:664" />
+            </repeat>
+
+            <repeat>
+                <template>
+                    <label for="{tag}">
+                        <uimessage code="{message}"/>
+                    </label>
+                    <span class="small side-by-side">
+                        <field>
+                            <obs id="{tag}" style="radio"
+                                 conceptId="{concept}"
+                                 answerConceptIds="{answers}" answerCodes="{aNames}"/>
+                        </field>
+                    </span>
+                </template>
+                <render concept="PIH:20079" message="pihcore.lab.malaria_species" tag="malaria-species"
+                        answers="CIEL:161246,CIEL:161247,CIEL:161248,PIH:20082,PIH:20083"
+                        aNames="Falciparum,Vivax,Falciparum + Vivax,Malariae,Ovale"/>
+            </repeat>
+
+            <repeat>
+                <template>
+                    <label for="{tag}">
+                        <uimessage code="{message}"/>
+                    </label>
+                    <span class="small side-by-side">
+                        <field>
+                            <obs id="{tag}" style="radio"
+                                 conceptId="{concept}" answerConceptIds="{answers}" />
+                        </field>
+                    </span>
+                </template>
+                <render concept="PIH:20085" message="pihcore.lab.malaria_form" tag="malaria-form"
+                        answers="CIEL:719,PIH:20086,PIH:20087" />
+                <render concept="PIH:20081" message="pihcore.lab.malaria_density" tag="malaria-density"
+                        answers="CIEL:1365,CIEL:1364,CIEL:1363,CIEL:1362,CIEL:664" />
+            </repeat>
+            <label for="parasitemia">
+                <uimessage code="pihcore.lab.parasitemia"/>
+            </label>
+            <obs conceptId="PIH:20080" style="text" cols="70"/>
+
+            <hr/>
+            <h4 id="syph-section">
+                <uimessage code="pihcore.syphilis" />
+            </h4>
+            <repeat>
+                <template>
+                    <label for="{tag}">
+                        <uimessage code="{message}"/>
+                    </label>
+                    <span class="small side-by-side">
+                        <field>
+                            <obs id="{tag}" style="radio"
+                                 conceptId="{concept}" answerConceptIds="{answers}" />
+                        </field>
+                    </span>
+                </template>
+                <!-- Swapped answers for RT syphilis and RPR per ZL request -->
+                <render concept="CIEL:165303" message="pihcore.lab.syphilisRT" tag="syphilis-rt" answers="CIEL:1229,CIEL:1228" />
+                <render concept="CIEL:1619"   message="pihcore.lab.syphilis" tag="rpr-syphilis" answers="CIEL:703,CIEL:664" />
+                <render concept="CIEL:299"    message="VDRL" tag="syphilis-vdrl" answers="CIEL:1229,CIEL:1228" />
+            </repeat>
+
+            <label for="auto-syph">
+                <uimessage code="pihcore.lab.autoSyphilisRPR" />
+            </label>
+            <span class="small side-by-side">
+                <field>
+                    <obs id="auto-syph" style="radio"
+                         conceptId="PIH:20076"
+                         answers="2,4,6,8" answerCodes="2,4,6,pihcore.lab.8units"/>
+                </field>
+            </span>
+
+            <hr/>
+            <h4 id="typhoid-section">
+                <uimessage code="pihcore.typhoid"/>
+            </h4>
+            <repeat>
+                <template>
+                    <label for="{tag}">
+                        <uimessage code="{message}"/>
+                    </label>
+                    <span class="small side-by-side">
+                        <field>
+                            <obs id="{tag}" style="radio"
+                                 conceptId="{concept}" answerConceptIds="{answers}"/>
+                        </field>
+                    </span>
+                </template>
+                <render concept="CIEL:306"    message="pihcore.lab.typhoid" tag="widal"
+                        answers="CIEL:1229,CIEL:1228" />
+            </repeat>
+
+            <repeat>
+                <template>
+                    <label for="{tag}">
+                        <uimessage code="{message}"/>
+                    </label>
+                    <span class="small side-by-side">
+                        <field>
+                            <obs id="{tag}" style="radio"
+                                 conceptId="{concept}" answers="20,40,80,160,320"
+                                 answerCodes="1/20,1/40,1/80,1/160,1/320"/>
+                        </field>
+                    </span>
+                </template>
+                <render concept="PIH:20077" message="pihcore.lab.widalO" tag="widalO" />
+                <render concept="PIH:20078" message="pihcore.lab.widalH" tag="widalH" />
+            </repeat>
+
+            <hr/>
             <h4 id="covid-section">
                 <uimessage code="COVID-19"/>
             </h4>
@@ -1278,25 +1419,6 @@
                     <span class="small side-by-side">
                         <field>
                             <obs id="{tag}" style="radio"
-                                 conceptId="{concept}" answerConceptIds="{answers}" />
-                        </field>
-                    </span>
-                </template>
-                <render concept="CIEL:165303" message="pihcore.lab.syphilisRT" tag="syphilis-rt" answers="CIEL:703,CIEL:664" />
-                <render concept="CIEL:1619"   message="pihcore.lab.syphilis" tag="rpr-syphilis" answers="CIEL:1229,CIEL:1228" />
-                <render concept="CIEL:299"    message="VDRL" tag="syphilis-vdrl" answers="CIEL:1229,CIEL:1228" />
-                <render concept="CIEL:1643"   message="pihcore.lab.malariaRDT" tag="malarial-rdt" answers="CIEL:703,CIEL:664" />
-                <render concept="CIEL:32"     message="pihcore.lab.malarial_smear" tag="malarial-smear" answers="CIEL:703,CIEL:664" />
-            </repeat>
-
-            <repeat>
-                <template>
-                    <label for="{tag}">
-                        <uimessage code="{message}"/>
-                    </label>
-                    <span class="small side-by-side">
-                        <field>
-                            <obs id="{tag}" style="radio"
                                  conceptId="{concept}" answerConceptIds="{answers}"/>
                         </field>
                     </span>
@@ -1329,31 +1451,14 @@
                     <label for="{tag}">
                         <uimessage code="{message}"/>
                     </label>
-                    <span class="small side-by-side">
-                        <field>
-                            <obs id="{tag}" style="radio"
-                                 conceptId="{concept}" answerConceptIds="{answers}"/>
-                        </field>
-                    </span>
-                </template>
-                <render concept="CIEL:306"    message="pihcore.lab.typhoid" tag="widal"
-                        answers="CIEL:1229,CIEL:1228" />
-            </repeat>
-
-            <repeat>
-                <template>
-                    <label for="{tag}">
-                        <uimessage code="{message}"/>
-                    </label>
                     <span class="small">
                         <field>
-                            <obs id="{tag}" conceptId="{concept}"
-                                 answerConceptIds="PIH:POSITIVE,PIH:NEGATIVE,PIH:INDETERMINATE"/>
+                            <obs id="{tag}" conceptId="{concept}" showUnits="{units}"/>
                         </field>
                     </span>
                 </template>
-                <render concept="CIEL:161469" message="ASO" tag="aso-titer"/>
-                <render concept="CIEL:161500" message="pihcore.lab.crp" tag="crp" />
+                <render concept="CIEL:161469" message="ASO" tag="aso-titer" units="false"/>
+                <render concept="CIEL:161500" message="pihcore.lab.crp" tag="crp" units="true"/>
             </repeat>
 
             <repeat>
@@ -1683,7 +1788,7 @@
                         <field>
                             <obs id="micro-{message}" style="radio"
                                  conceptId="CIEL:{concept}"
-                                 answerConceptIds="CIEL:1364,CIEL:1363,CIEL:1362,CIEL:664"/>
+                                 answerConceptIds="CIEL:1365,CIEL:1364,CIEL:1363,CIEL:1362,CIEL:664"/>
                         </field>
                     </span>
                 </template>
