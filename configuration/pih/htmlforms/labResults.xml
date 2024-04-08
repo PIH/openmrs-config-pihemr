@@ -1165,6 +1165,7 @@
                     </field>
                 </div>
 
+                <!-- Lower detection level always 10 IU/mL (according to Marta)
                 <div class="small" >
                     <label for="hepb-detected-lower-limit">
                         <uimessage code="pihcore.lab.viralLoadLowerLimitOfDetection"/>
@@ -1176,6 +1177,7 @@
                              placeholder="Enter value" />
                     </field>
                 </div>
+                -->
             </obsgroup>
 
             <repeat>
@@ -1219,6 +1221,7 @@
                     </field>
                 </div>
 
+                <!-- Lower detection level always 10 IU/mL?
                 <div class="small" >
                     <label for="hepc-detected-lower-limit">
                         <uimessage code="pihcore.lab.viralLoadLowerLimitOfDetection"/>
@@ -1230,6 +1233,7 @@
                              placeholder="Enter value" />
                     </field>
                 </div>
+                -->
             </obsgroup>
 
             <hr/>
