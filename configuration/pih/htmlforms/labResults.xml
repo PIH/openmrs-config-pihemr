@@ -1013,13 +1013,13 @@
                 </span>
             </includeIf>
 
-            <label for="hiv-viral-load">
+            <label for="viral-load">
                 <uimessage code="pihcore.lab.hivVL"/>
             </label>
             <obsgroup groupingConceptId="PIH:HIV viral load construct">
                 <span class="small side-by-side">
                     <field>
-                        <obs id="hiv-viral-load" conceptId="CIEL:1305" style="radio"
+                        <obs id="viral-load" conceptId="CIEL:1305" style="radio"
                              answerConceptIds="CIEL:1301,CIEL:1306" answerCodes="pihcore.lab.detected,pihcore.lab.undetected" />
                     </field>
                 </span>
