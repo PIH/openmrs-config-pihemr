@@ -1284,6 +1284,9 @@
                 <render concept="PIH:20079" message="pihcore.lab.malaria_species" tag="malaria-species"
                         answers="CIEL:161246,CIEL:161247,CIEL:161248,PIH:20082,PIH:20083"
                         aNames="Falciparum,Vivax,Falciparum + Vivax,Malariae,Ovale"/>
+                <render concept="PIH:20085" message="pihcore.lab.malaria_form" tag="malaria-form"
+                        answers="CIEL:168989,CIEL:168990,CIEL:168991"
+                        aNames="pihcore.lab.trophozoite,pihcore.lab.gametocyte,pihcore.lab.schizont"/>
             </repeat>
 
             <repeat>
@@ -1298,8 +1301,6 @@
                         </field>
                     </span>
                 </template>
-                <render concept="PIH:20085" message="pihcore.lab.malaria_form" tag="malaria-form"
-                        answers="CIEL:719,PIH:20086,PIH:20087" />
                 <render concept="PIH:20081" message="pihcore.lab.malaria_density" tag="malaria-density"
                         answers="CIEL:1365,CIEL:1364,CIEL:1363,CIEL:1362,CIEL:664" />
             </repeat>
