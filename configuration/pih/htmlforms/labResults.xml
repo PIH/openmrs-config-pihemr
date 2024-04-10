@@ -1264,8 +1264,10 @@
                 </template>
                 <render concept="CIEL:1643" message="pihcore.lab.malariaRDT" tag="malarial-rdt"
                         answers="CIEL:703,CIEL:664" />
-                <render concept="CIEL:32"   message="pihcore.lab.malarial_smear" tag="malarial-smear"
-                        answers="CIEL:703,CIEL:664" />
+                <!-- Removed and replaced +/- with ++++/+++/++/+/-
+                <render concept="CIEL:32" /> -->
+                <render concept="PIH:20081"   message="pihcore.lab.malaria_density" tag="malarial-smear"
+                        answers="CIEL:1365,CIEL:1364,CIEL:1363,CIEL:1362,CIEL:664" />
             </repeat>
 
             <repeat>
@@ -1289,21 +1291,6 @@
                         aNames="pihcore.lab.trophozoite,pihcore.lab.gametocyte,pihcore.lab.schizont"/>
             </repeat>
 
-            <repeat>
-                <template>
-                    <label for="{tag}">
-                        <uimessage code="{message}"/>
-                    </label>
-                    <span class="small side-by-side">
-                        <field>
-                            <obs id="{tag}" style="radio"
-                                 conceptId="{concept}" answerConceptIds="{answers}" />
-                        </field>
-                    </span>
-                </template>
-                <render concept="PIH:20081" message="pihcore.lab.malaria_density" tag="malaria-density"
-                        answers="CIEL:1365,CIEL:1364,CIEL:1363,CIEL:1362,CIEL:664" />
-            </repeat>
             <label for="parasitemia">
                 <uimessage code="pihcore.lab.parasitemia"/>
             </label>
