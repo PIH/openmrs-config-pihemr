@@ -627,7 +627,7 @@
                     T2<obs id="gp-2" conceptId="PIH:14231" />
                 </field>
                 <field>
-                    T4<obs id="gp-3" conceptId="PIH:14232" />
+                    T3<obs id="gp-3" conceptId="CIEL:167176" />
                 </field>
                 <field>
                     T4<obs id="gp-4" conceptId="PIH:14233" />
@@ -647,9 +647,8 @@
                 <field>
                     T2<obs id="gtt-2" conceptId="CIEL:163704" />
                 </field>
-                <!-- ToDo:  Add new 90 minute glucose tolerance test -->
                 <field>
-                    T4<obs id="gtt-3" conceptId="PIH:14228" />
+                    T3<obs id="gtt-3" conceptId="CIEL:167173" />
                 </field>
                 <field>
                     T4<obs id="gtt-4" conceptId="CIEL:163705" />
@@ -783,6 +782,30 @@
                 <uimessage code="pihcore.lab.hormone.panel"/>
             </h4>
 
+            <!-- T3 and T4 -->
+            <repeat>
+                <template>
+                    <label for="{message}">
+                        <uimessage code="pihcore.lab.{message}"/>
+                    </label>
+                    <span class="small">
+                        <field>
+                            <obs id="{message}1" conceptId="{concept1}" showUnits="{units}"/>
+                        </field>
+                        <field>
+                            <label>
+                                <uimessages code="mirebalais.vitals.or" />
+                            </label>
+                        </field>
+                        <field>
+                            <obs id="{message}2" conceptId="{concept2}" showUnits="{units2}"/>
+                        </field>
+                    </span>
+                </template>
+                <render concept1="CIEL:168214" concept2="PIH:20111" message="T3" tag="t3" units="true" units2="ng/dL"/>
+                <render concept1="CIEL:168215" concept2="PIH:20112" message="T4" tag="t4" units="true" units2="emr.units.ugPerdL"/>
+            </repeat>
+
             <repeat>
                 <template>
                     <label for="{message}">
@@ -794,8 +817,6 @@
                         </field>
                     </span>
                 </template>
-                <render concept="CIEL:168214" message="T3" tag="t3" units="true" />
-                <render concept="CIEL:168215" message="T4" tag="t4" units="true" />
                 <render concept="CIEL:168213" message="tsh" tag="tsh" units="true" />
                 <render concept="CIEL:160913" message="psaQuant" tag="psa-quant" units="true"/>
             </repeat>
@@ -875,7 +896,7 @@
                 </template>
                 <render concept="CIEL:1014" message="ldh" tag="ldh" units="true" />
                 <render concept="CIEL:1012" message="lacticAcid" tag="lactic-acid" units="true" />
-                <render concept="CIEL:1299" message="amylase" tag="amylase" units="true" />
+                <render concept="CIEL:1299" message="amylase" tag="amylase" units="emr.units.iuPerL" />
                 <render concept="CIEL:1013" message="lipase" tag="lipase" units="emr.units.iuPerL" />
                 <render concept="CIEL:1011" message="ck" tag="ck" units="emr.units.iuPerL" />
                 <render concept="CIEL:159829" message="ggt" tag="ggt" units="true" />
@@ -1264,8 +1285,28 @@
                 </template>
                 <render concept="CIEL:1643" message="pihcore.lab.malariaRDT" tag="malarial-rdt"
                         answers="CIEL:703,CIEL:664" />
-                <!-- Removed and replaced +/- with ++++/+++/++/+/-
-                <render concept="CIEL:32" /> -->
+            </repeat>
+
+            <h5>
+                <uimessage code="pihcore.lab.malarial_smear" />
+            </h5>
+
+            <!-- TdDo: Add obsgroup for malaria smear -->
+            <repeat>
+                <template>
+                    <label for="{tag}">
+                        <uimessage code="{message}"/>
+                    </label>
+                    <span class="small side-by-side">
+                        <field>
+                            <obs id="{tag}" style="radio"
+                                 conceptId="{concept}" answerConceptIds="{answers}" />
+                        </field>
+                    </span>
+                </template>
+                <render concept="CIEL:32" message="pihcore.lab.malarial_smear" tag="malarial-32"
+                        answers="CIEL:703,CIEL:664" />
+                <!-- Removed and replaced +/- with ++++/+++/++/+/- -->
                 <render concept="PIH:20081"   message="pihcore.lab.malaria_density" tag="malarial-smear"
                         answers="CIEL:1365,CIEL:1364,CIEL:1363,CIEL:1362,CIEL:664" />
             </repeat>
