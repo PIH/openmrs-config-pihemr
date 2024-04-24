@@ -1110,7 +1110,19 @@
                 <field>
                     <obs id="tb-smear-test" style="radio"
                          conceptId="CIEL:307"
-                         answerConceptIds="CIEL:1364,CIEL:1363,CIEL:1362,PIH:SCANTY,CIEL:664"/>
+                         answerConceptIds="CIEL:1364,CIEL:1363,CIEL:1362,PIH:SCANTY,CIEL:664"
+                         answerCodes="+++,++,1+,pihcore.scanty,pihcore.negative">
+                        <controls>
+                            <when value="PIH:SCANTY" thenDisplay="#tb-scanty"/>
+                        </controls>
+                    </obs>
+
+                    <div id="tb-scanty">
+                        <label>
+                            <uimessage code="pihcore.afbNumber" />
+                        </label>
+                        <obs conceptId="PIH:20123" showUnits="false" />
+                    </div>
                 </field>
             </span>
 
