@@ -384,7 +384,7 @@
                      commentFieldCode="zl.ifOtherSpecify" />
             </p>
 
-            <!-- Treatment status -->
+            <!-- General treatment status -->
             <p class="side-by-side">
                 <label>
                     <uimessage code="pihcore.oncology.programWorkflow.treatmentStatus" />
@@ -394,23 +394,8 @@
                      answerCodes="pihcore.treatCompleted2,pihcore.treatDelayed,pihcore.treatContinue"/>
             </p>
 
-            <!-- STI treatment -->
-            <p>
-                <obs conceptId="CIEL:160742" answerConceptId="CIEL:167125" answerCode="pihcore.stiTreat"/>
-            </p>
-
-            <!-- Syphilis treatment -->
-            <p class="side-by-side">
-                <label>
-                    <uimessage code="Syphilis" />:
-                </label>
-                <obs conceptId="CIEL:165331" style="radio"
-                     answerConceptIds="PIH:13274,CIEL:1267"
-                     answerCodes="pihcore.startSyphTreat,pihcore.stopSyphTreat"/>
-            </p>
-
             <label>
-                <uimessage code="zl.ifOtherSpecify" />
+                <uimessage code="pihcore.otherSupport" />
             </label>
             <obs conceptId="PIH:13273" style="text" rows="2" cols="40" />
         </div>

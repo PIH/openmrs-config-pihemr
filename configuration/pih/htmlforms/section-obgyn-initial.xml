@@ -1155,9 +1155,14 @@
         </div>
     </section>
 
-    <section id="hiv" sectionTag="fieldset"
-             headerStyle="title" headerCode="pihcore.hivTB">
+    <section id="infectious-diseases" sectionTag="fieldset"
+             headerStyle="title" headerCode="pihcore.lab.iDisease">
         <div class="section-container">
+            <h3>
+                <label>
+                    <uimessage code="pihcore.lab.hiv.title" />
+                </label>
+            </h3>
             <!-- HIV test -->
             <div class="two-columns side-by-side">
                 <div>
@@ -1257,23 +1262,14 @@
             <div class="side-by-side two-columns">
                 <div>
                     <label>
-                        <uimessage code="pihcore.receivedPostTestCounsel" />?
+                        <uimessage code="pihcore.receivedPostHivTestCounsel" />?
                     </label>
                     <br/>
                     <obs id="hiv-post-counsel" conceptId="CIEL:159382" style="radio"
                          answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1067">
-                        <controls>
-                            <when value="CIEL:1065" thenDisplay="#hiv-post-counsel-date"/>
-                        </controls>
                     </obs>
                 </div>
-                <div id="hiv-post-counsel-date">
-                    <label>
-                        <uimessage code="pihcore.lab.datePostTest" />
-                    </label>
-                    <obs conceptId="PIH:11525"/>
-                </div>
-
+                <div></div>
             </div>
 
             <p class="side-by-side">
@@ -1289,10 +1285,12 @@
                 </obs>
                 <div id="art-startdate" class="two-columns">
                     <div>
-                        <label>
-                            <uimessage code="pihcore.hiv.startDateARV" />
-                        </label>
-                        <obs conceptId="CIEL:159599" />
+                        <p class="date-one-line">
+                            <label>
+                                <uimessage code="pihcore.hiv.startDateARV" />
+                            </label>
+                            <obs conceptId="CIEL:159599" />
+                        </p>
                     </div>
                     <div>
                         <label>
@@ -1303,6 +1301,12 @@
                 </div>
             </p>
 
+            <br/>
+            <h3>
+                <label>
+                    <uimessage code="pihcore.tbTreatment" />
+                </label>
+            </h3>
             <p class="side-by-side">
                 <label>
                     <uimessage code="pihcore.ifTbTreatment" />
@@ -1321,6 +1325,89 @@
                     </label>
                     <obs conceptId="CIEL:159431" />
                 </div>
+            </p>
+
+            <br/>
+            <h3>
+                <label>
+                    <uimessage code="Syphilis" />
+                </label>
+            </h3>
+            <obsgroup groupingConceptId="PIH:11523" showIfEmpty="false">
+                <div class="two-columns">
+                    <div>
+                        <p class="date-one-line">
+                            <label>
+                                <uimessage code="pihcore.lab.testDate" />
+                            </label>
+                            <obs conceptId="PIH:3267" />
+                        </p>
+
+                        <p class="date-one-line">
+                            <label>
+                                <uimessage code="pihcore.lab.resultDate" />
+                            </label>
+                            <obs conceptId="PIH:10783" />
+                        </p>
+                    </div>
+                    <div>
+                        <repeat>
+                            <template>
+                                <label for="{tag}">
+                                    <uimessage code="{message}"/>
+                                </label>
+                                <span class="small side-by-side">
+                                    <field>
+                                        <obs id="{tag}" style="radio"
+                                             conceptId="{concept}" answerConceptIds="{answers}" />
+                                    </field>
+                                </span>
+                            </template>
+                            <!-- Swapped answers for RT syphilis and RPR per ZL request -->
+                            <render concept="CIEL:165303" message="pihcore.lab.syphilisRT" tag="syphilis-rt" answers="CIEL:1229,CIEL:1228" />
+                            <render concept="CIEL:1619"   message="pihcore.lab.syphilis" tag="rpr-syphilis" answers="CIEL:703,CIEL:664" />
+                            <render concept="CIEL:299"    message="VDRL" tag="syphilis-vdrl" answers="CIEL:1229,CIEL:1228" />
+                        </repeat>
+                    </div>
+                </div>
+
+            </obsgroup>
+
+            <!-- Syphilis treatment -->
+            <p class="side-by-side">
+                <label>
+                    <uimessage code="Syphilis" />:
+                </label>
+                <obs conceptId="CIEL:165331" style="radio"
+                     answerConceptIds="PIH:13274,CIEL:1267"
+                     answerCodes="pihcore.startSyphTreat,pihcore.stopSyphTreat"/>
+            </p>
+
+            <!-- STI treatment -->
+            <br/>
+            <h3>
+                <label>
+                    <uimessage code="pihcore.stiTreat" />
+                </label>
+            </h3>
+
+            <p>
+                <obs conceptId="CIEL:160742" answerConceptId="CIEL:167125"
+                     answerCode="pihcore.stiTreat"/>
+            </p>
+
+            <br/>
+            <h3>
+                <label>
+                    <uimessage code="pihcore.counselSupport" />
+                </label>
+            </h3>
+
+            <p id="post-counsel-date" class="date-one-line">
+                <label>
+                    <uimessage code="pihcore.lab.datePostTest" />
+                </label>
+                <obs conceptId="PIH:11525"/>
             </p>
 
         </div>
