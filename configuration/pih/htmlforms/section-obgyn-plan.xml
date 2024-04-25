@@ -364,9 +364,13 @@
                 <repeat>
                     <template>
                         <p>
-                            <obs conceptId="CIEL:165309" style="checkbox"
+                            <obs id="counsel" conceptId="CIEL:165309" style="checkbox"
                                  answerConceptId="{answer}"
-                                 answerCode="pihcore.{name}"/>
+                                 answerCode="pihcore.{name}">
+                                <controls>
+                                    <when value="CIEL:5622" thenDisplay="#support-freetext" />
+                                </controls>
+                            </obs>
                         </p>
                     </template>
                     <render answer="CIEL:161651" name="mch.breastfeeding" />
@@ -375,16 +379,20 @@
                     <render answer="CIEL:1382" name="familyPlanning.title" />
                     <render answer="CIEL:161069" name="deliveryPrep" />
                     <render answer="CIEL:164480" name="mch.dangerSigns" />
+                    <render answer="CIEL:5622"   name="other" />
                 </repeat>
             </div>
 
-            <p>
-                <obs conceptId="CIEL:165309" style="checkbox"
-                     answerConceptId="CIEL:5622" answerCode="pihcore.other"
-                     commentFieldCode="zl.ifOtherSpecify" />
-            </p>
+            <br/>
+            <div>
+                <label>
+                    <uimessage code="pihcore.otherSupport" />
+                </label>
+                <obs conceptId="PIH:13273" style="text" rows="2" cols="40" />
+            </div>
 
             <!-- General treatment status -->
+            <br/><br/>
             <p class="side-by-side">
                 <label>
                     <uimessage code="pihcore.oncology.programWorkflow.treatmentStatus" />
@@ -393,11 +401,6 @@
                      answerConceptIds="CIEL:160035,PIH:7262,CIEL:163057"
                      answerCodes="pihcore.treatCompleted2,pihcore.treatDelayed,pihcore.treatContinue"/>
             </p>
-
-            <label>
-                <uimessage code="pihcore.otherSupport" />
-            </label>
-            <obs conceptId="PIH:13273" style="text" rows="2" cols="40" />
         </div>
     </section>
 
