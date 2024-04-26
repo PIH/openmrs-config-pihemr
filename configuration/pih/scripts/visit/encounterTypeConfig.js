@@ -1903,6 +1903,17 @@ angular.module("encounterTypeConfig", [])
             showOnVisitList: true
         };
 
+        // sierraLeoneNewbornDischarge
+        encounterTypes["153d3182-c76f-4047-b7f2-d83cf967b206"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
+            icon: "fas fa-fw fa-baby",
+            editUrl: hfeStandardEditUrl,
+            showOnVisitList: true
+        };
+
         // sierraLeoneNewbornExam
         encounterTypes["7e42e652-89e7-4559-80fd-41f42826c98c"] = {
             defaultState: "short",
@@ -1932,6 +1943,17 @@ angular.module("encounterTypeConfig", [])
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
             templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
             icon: "fas fa-fw fa-baby",
+            editUrl: hfeStandardEditUrl,
+            showOnVisitList: true
+        };
+
+        // sierraLeonePostpartumProgress
+        encounterTypes["37f04ddf-9653-4a02-98b4-1c23734c2f15"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
+            icon: "fas fa-fw fa-arrow-circle-right",
             editUrl: hfeStandardEditUrl,
             showOnVisitList: true
         };
