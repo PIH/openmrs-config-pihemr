@@ -878,9 +878,6 @@
                  headerCode="pihcore.exam.postpartum_exam.title">
 
             <div id="postpartum" class="section-container-color">
-                <b>
-                    <uimessage code=""/>
-                </b>
 
                 <div class="two-columns-n exam">
                     <div>
