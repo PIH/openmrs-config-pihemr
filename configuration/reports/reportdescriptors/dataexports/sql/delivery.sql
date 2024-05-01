@@ -40,15 +40,6 @@ CREATE TEMPORARY TABLE temp_delivery
     Episiotomy                      varchar(255),
     Postpartum_blood_loss           varchar(255),
     Transfusion                     varchar(255),
-    Type_of_delivery                varchar(500),
-    c_section_maternal_reasons      varchar(500),
-    other_c_section_maternal_reasons    text,
-    c_section_fetal_reasons         varchar(255),
-    other_c_section_fetal_reason        text,
-    c_section_obstetrical_reasons   varchar(255),
-    other_c_section_obstetrical_reason  text,
-    Caesarean_hysterectomy          varchar(10),
-    C_section_with_tubal_ligation   varchar(10),
     baby_Malpresentation_of_fetus        varchar(10),
     baby_Cephalopelvic_disproportion     varchar(10),
     baby_Extreme_premature               varchar(10),
@@ -223,53 +214,6 @@ update temp_delivery set Episiotomy = obs_single_value_coded_from_temp(encounter
 
 update temp_delivery set Postpartum_blood_loss = obs_value_coded_list_from_temp(encounter_id,'CIEL','162092',@locale);
 update temp_delivery set Transfusion = obs_value_coded_list_from_temp(encounter_id,'CIEL','1063',@locale);
-
-update temp_delivery set Type_of_delivery = obs_value_coded_list_from_temp(encounter_id,'PIH','11663',@locale);
-
--- - c - section
--- maternal
-update temp_delivery t set c_section_maternal_reasons = (select group_concat(concept_name(value_coded, @locale) separator " | ")
-from temp_obs o where t.encounter_id = o.encounter_id and concept_id = concept_from_mapping("PIH", "13527") and voided = 0 and value_coded in
-(
-concept_from_mapping("CIEL", "113017"),
-concept_from_mapping("CIEL", "113858"),
-concept_from_mapping("CIEL", "117703"),
-concept_from_mapping("CIEL", "113918"),
-concept_from_mapping("CIEL", "113006"),
-concept_from_mapping("CIEL", "118744"),
-concept_from_mapping("CIEL", "111491"),
-concept_from_mapping("CIEL", "162185"),
-concept_from_mapping("CIEL", "158060")
-));
-
-update temp_delivery t set other_c_section_maternal_reasons = obs_comments_from_temp(encounter_id, "PIH", "13527" , "PIH", "13571");
-
--- fetal
-update temp_delivery t set c_section_fetal_reasons = (select group_concat(concept_name(value_coded, @locale) separator " | ")
-from temp_obs o where t.encounter_id = o.encounter_id and concept_id = concept_from_mapping("PIH", "13527") and voided = 0 and value_coded in
-(
-concept_from_mapping("CIEL", "115939"),
-concept_from_mapping("CIEL", "143849"),
-concept_from_mapping("CIEL", "118256"),
-concept_from_mapping("CIEL", "115491")
-));
-update temp_delivery t set other_c_section_fetal_reason = obs_comments_from_temp(encounter_id, "PIH", "13527" , "PIH", "13572");
-
--- obsterical
-update temp_delivery t set c_section_obstetrical_reasons   = (select group_concat(concept_name(value_coded, @locale) separator " | ")
-from temp_obs o where t.encounter_id = o.encounter_id and concept_id = concept_from_mapping("PIH", "13527") and voided = 0 and value_coded in
-(
-concept_from_mapping("CIEL", "130109"),
-concept_from_mapping("CIEL", "113617"),
-concept_from_mapping("CIEL", "114127"),
-concept_from_mapping("CIEL", "113814"),
-concept_from_mapping("CIEL", "145935"),
-concept_from_mapping("CIEL", "113602")
-));
-update temp_delivery t set other_c_section_obstetrical_reason = obs_comments_from_temp(encounter_id, "PIH", "13527" , "PIH", "13573");
-
-update temp_delivery set Caesarean_hysterectomy = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1651','CIEL','161848');  
-update temp_delivery set C_section_with_tubal_ligation = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1651','CIEL','161890');
 
 -- findings for baby
 update temp_delivery set baby_Malpresentation_of_fetus = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1284','CIEL','115939');  
@@ -602,15 +546,6 @@ Perineal_suture,
 Episiotomy,
 Postpartum_blood_loss,
 Transfusion,
-Type_of_delivery,
-c_section_maternal_reasons,
-other_c_section_maternal_reasons,
-c_section_fetal_reasons,
-other_c_section_fetal_reason,
-c_section_obstetrical_reasons,
-other_c_section_obstetrical_reason,
-Caesarean_hysterectomy,
-C_section_with_tubal_ligation,
 baby_Malpresentation_of_fetus,
 baby_Cephalopelvic_disproportion,
 baby_Extreme_premature,
