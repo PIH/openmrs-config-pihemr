@@ -24,6 +24,25 @@
             display: inline-block;
         }
 
+        .list-inline label, .list-inline input[type="radio"], .list-inline span,
+        .list-inline-wide label, .list-inline-wide input[type="radio"], .list-inline-wide span,
+        .list-inline-extra-wide label, .list-inline-extra-wide input[type="radio"], .list-inline-extra-wide span {
+            display: inline-block;
+            float: none;
+        }
+
+        .list-inline label:first-child {
+            width: 220px;
+        }
+
+        .list-inline-wide label:first-child {
+            width: 320px;
+        }
+
+        .list-inline-extra-wide label:first-child {
+            width: 420px;
+        }
+
         form input[type="radio"], .form input[type="radio"] {
             float: none;
             display: inline-block;
@@ -1548,33 +1567,56 @@
                 <uimessage code="pihcore.lab.urine"/>
             </h3>
 
-            <repeat>
-                <template>
-                    <label for="urine-{message}">
-                        <uimessage code="pihcore.lab.urine.{message}"/>
-                    </label>
-                    <span class="small side-by-side">
-                        <field>
-                            <obs id="urine-{message}" style="{style}"
-                                 conceptId="{concept}" answerConceptIds="{answers}" />
-                        </field>
-                    </span>
-                </template>
-                <render concept="CIEL:45" message="pregnancy" style="radio" answers="CIEL:703,CIEL:664,CIEL:1138"/>
-            </repeat>
+            <ifMode mode="VIEW" include="false">
+                <div class="shortcuts">
+                    |
+                    <a href="#urine-macro">
+                        <uimessage code="pihcore.lab.urine.dipstickMacro"/>
+                    </a>
+                    |
+                    <a href="#urine-micro">
+                        <uimessage code="pihcore.lab.microsc"/>
+                    </a>
+                    [
+                    <a href="#urine-casts">
+                        <uimessage code="pihcore.lab.casts"/>
+                    </a>,
+                    <a href="#urine-crystal">
+                        <uimessage code="pihcore.lab.urine.crystal"/>
+                    </a>
+                    ] |
+                </div>
+            </ifMode>
+
+            <includeIf velocityTest="$patient.gender == 'F' ">
+                <repeat>
+                    <template>
+                        <p class="small side-by-side">
+                            <label for="urine-{message}">
+                                <uimessage code="pihcore.lab.urine.{message}"/>
+                            </label>
+                            <field>
+                                <obs id="urine-{message}" style="{style}"
+                                     conceptId="{concept}" answerConceptIds="{answers}" />
+                            </field>
+                        </p>
+                    </template>
+                    <render concept="CIEL:45" message="pregnancy" style="radio" answers="CIEL:703,CIEL:664,CIEL:1138"/>
+                </repeat>
+            </includeIf>
 
             <repeat>
                 <template>
-                    <label for="urine-{message}">
-                        <uimessage code="pihcore.lab.urine.{message}"/>
-                    </label>
-                    <span class="small side-by-side">
+                    <p class="small side-by-side">
+                        <label for="urine-{message}">
+                            <uimessage code="pihcore.lab.urine.{message}"/>
+                        </label>
                         <field>
                             <obs id="urine-{message}" style="{style}"
                                  conceptId="{concept}"
                                  showUnits="{units}"/>
                         </field>
-                    </span>
+                    </p>
                 </template>
                 <render concept="PIH:14241" message="protein24H" units="true" />
             </repeat>
@@ -1588,55 +1630,98 @@
                 </i>
             </label>
 
-            <h4>
+            <!-- MACRO -->
+            <h4 id="urine-macro">
                 <uimessage code="pihcore.lab.urine.dipstickMacro" />
             </h4>
             <repeat>
                 <template>
-                    <label for="urine-{message}">
-                        <uimessage code="pihcore.lab.urine.{message}"/>
-                    </label>
-                    <span class="small side-by-side">
-                        <field>
-                            <obs id="urine-{message}" style="{selector}"
-                                 conceptId="CIEL:{concept}"
-                                 answerConceptIds="{answers}"/>
-                        </field>
-                    </span>
+                    <p class="small list-inline">
+                        <label for="urine-{message}">
+                            <uimessage code="pihcore.lab.urine.{message}"/>
+                        </label>
+                        <span class="small">
+                            <field>
+                                <obs id="urine-{message}" style="{selector}"
+                                     conceptId="CIEL:{concept}"
+                                     answerConceptIds="{answers}"/>
+                            </field>
+                        </span>
+                    </p>
                 </template>
-                <render concept="162106" message="color" answers="CIEL:162099,CIEL:127778,CIEL:162097,CIEL:162105,CIEL:162098,CIEL:162100" selector="radio" />
-                <render concept="162101" message="aspect" answers="CIEL:162102,CIEL:162103,CIEL:162104" selector="radio" />
+                <render concept="162106" message="color"
+                        answers="CIEL:162099,CIEL:162097,CIEL:162105,CIEL:162098,CIEL:162100,CIEL:127778" selector="dropdown" />
+            </repeat>
+
+            <repeat>
+                <template>
+                    <p class="small list-inline">
+                        <label for="urine-{message}">
+                            <uimessage code="pihcore.lab.urine.{message}"/>
+                        </label>
+                        <span class="small">
+                            <field>
+                                <obs id="urine-{message}" style="{selector}"
+                                     conceptId="CIEL:{concept}"
+                                     answerConceptIds="{answers}" answerCodes="{aLabels}"/>
+                            </field>
+                        </span>
+                    </p>
+                </template>
+                <!-- TBD: Add OCL pihcore.slightCloudy (PIH:20147) -->
+                <render concept="162101" message="aspect" selector="radio"
+                        answers="CIEL:162102,CIEL:162103,CIEL:162104"
+                        aLabels="pihcore.clear,pihcore.cloudy,pihcore.turbid"/>
+            </repeat>
+
+            <repeat>
+                <template>
+                    <p class="small list-inline">
+                        <label for="urine-{message}">
+                            <uimessage code="pihcore.lab.urine.{message}"/>
+                        </label>
+                        <span class="small">
+                            <field>
+                                <obs id="urine-{message}" style="{selector}"
+                                     conceptId="CIEL:{concept}"
+                                     answerConceptIds="{answers}"/>
+                            </field>
+                        </span>
+                    </p>
+                </template>
                 <render concept="161441" message="leuko" answers="CIEL:703,CIEL:664,CIEL:1138" selector="radio" />
                 <render concept="161440" message="nitrite" answers="CIEL:703,CIEL:664,CIEL:1138" selector="radio" />
             </repeat>
 
             <repeat>
                 <template>
-                    <label for="urine-{message}">
-                        <uimessage code="pihcore.lab.urine.{message}"/>
-                    </label>
-                    <span class="small side-by-side">
+                    <p class="small side-by-side">
+                        <label for="urine-{message}">
+                            <uimessage code="pihcore.lab.urine.{message}"/>
+                        </label>
                         <field>
                             <obs id="urine-{message}"
                                  conceptId="CIEL:{concept}"/>
                         </field>
-                    </span>
+                    </p>
                 </template>
                 <render concept="161438" message="pH" />
             </repeat>
 
             <repeat>
                 <template>
-                    <label for="urine-{message}">
-                        <uimessage code="pihcore.lab.urine.{message}"/>
-                    </label>
-                    <span class="small side-by-side">
-                        <field>
-                            <obs id="urine-{message}" style="{selector}"
-                                 conceptId="CIEL:{concept}"
-                                 answerConceptIds="{answers}"/>
-                        </field>
-                    </span>
+                    <p class="list-inline small">
+                        <label for="urine-{message}">
+                            <uimessage code="pihcore.lab.urine.{message}"/>
+                        </label>
+                        <span class="small">
+                            <field>
+                                <obs id="urine-{message}" style="{selector}"
+                                     conceptId="CIEL:{concept}"
+                                     answerConceptIds="{answers}"/>
+                            </field>
+                        </span>
+                    </p>
                 </template>
                 <render concept="1875"   message="protein" answers="CIEL:1365,CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664" selector="radio" />
                 <render concept="159734" message="glucoseQual" answers="CIEL:1365,CIEL:1364,CIEL:1363,CIEL:1362,CIEL:664" selector="radio" />
@@ -1659,16 +1744,18 @@
 
             <repeat>
                 <template>
-                    <label for="urine-{message}">
-                        <uimessage code="pihcore.lab.urine.{message}"/>
-                    </label>
-                    <span class="small side-by-side">
-                        <field>
-                            <obs id="urine-{message}" style="{selector}"
-                                 conceptId="CIEL:{concept}"
-                                 answerConceptIds="{answers}"/>
-                        </field>
-                    </span>
+                    <p class="list-inline small">
+                        <label for="urine-{message}">
+                            <uimessage code="pihcore.lab.urine.{message}"/>
+                        </label>
+                        <span class="small">
+                            <field>
+                                <obs id="urine-{message}" style="{selector}"
+                                     conceptId="CIEL:{concept}"
+                                     answerConceptIds="{answers}"/>
+                            </field>
+                        </span>
+                    </p>
                 </template>
                 <render concept="161442" message="ketones" answers="CIEL:1365,CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664" selector="radio" />
                 <render concept="163682" message="urobili" answers="CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664" selector="radio" />
@@ -1678,16 +1765,18 @@
 
             <repeat>
                 <template>
-                    <label for="urine-{message}">
-                        <uimessage code="pihcore.lab.urine.{message}"/>
-                    </label>
-                    <span class="small side-by-side">
-                        <field>
-                            <obs id="urine-{message}" style="{selector}"
-                                 conceptId="CIEL:{concept}"
-                                 answerConceptIds="{answers}" answerCodes="{aCodes}" />
-                        </field>
-                    </span>
+                    <p class="list-inline small">
+                        <label for="urine-{message}">
+                            <uimessage code="pihcore.lab.urine.{message}"/>
+                        </label>
+                        <span class="small">
+                            <field>
+                                <obs id="urine-{message}" style="{selector}"
+                                     conceptId="CIEL:{concept}"
+                                     answerConceptIds="{answers}" answerCodes="{aCodes}" />
+                            </field>
+                        </span>
+                    </p>
                 </template>
                 <render concept="162096" message="blood" selector="radio"
                         answers="CIEL:1364,CIEL:1363,CIEL:1362,CIEL:1874,CIEL:664"
@@ -1697,21 +1786,22 @@
             <!-- NOTE: ZL wanted to record without the decimal (ie. 1030 instead of 1.03) -->
             <repeat>
                 <template>
-                    <label for="urine-{message}">
-                        <uimessage code="pihcore.lab.urine.{message}"/>
-                    </label>
-                    <span class="small side-by-side">
+                    <p class="small side-by-side">
+                        <label for="urine-{message}">
+                            <uimessage code="pihcore.lab.urine.{message}"/>
+                        </label>
                         <field>
                             <obs id="urine-{message}"
                                  conceptId="{concept}" showUnits="normal: 1000 - 1030"/>
                         </field>
-                    </span>
+                    </p>
                 </template>
                 <render concept="PIH:14422" message="density" />
             </repeat>
             <hr/>
 
-            <h4>
+            <!-- MICRO -->
+            <h4 id="urine-micro">
                 <uimessage code="pihcore.lab.microsc" />
             </h4>
 
@@ -1722,13 +1812,13 @@
                             <uimessage code="pihcore.lab.urine.{message}"/>
                         </label>
                         <field>
-                        <obs id="urine-{message}"
-                             conceptId="{concept}" showUnits="pihcore.units.count"/>
+                            <obs id="urine-{message}"
+                                 conceptId="{concept}" showUnits="{units}"/>
                         </field>
                     </p>
                 </template>
-                <render concept="PIH:14284" message="leuko" />
-                <render concept="PIH:14285" message="eryth" />
+                <render concept="PIH:14284" message="leuko" units="emr.units.countPerHPF"/>
+                <render concept="PIH:14285" message="eryth" units="emr.units.countPerHPF"/>
             </repeat>
             <!-- Use count (quantatative) not qualitative
             <render concept="CIEL:163684" message="leuko" answers="CIEL:1408,CIEL:1499,CIEL:1160,CIEL:1107" fad="radio"/>
@@ -1737,7 +1827,7 @@
 
             <repeat>
                 <template>
-                    <p class="side-by-side small">
+                    <p class="list-inline small">
                         <label for="urine-{message}">
                             <uimessage code="pihcore.lab.urine.{message}"/>
                         </label>
@@ -1746,43 +1836,86 @@
                              answerConceptIds="{answers}"/>
                     </p>
                 </template>
-                <render concept="CIEL:163685" message="epi"   answers="CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664" fad="radio"/>
-                <render concept="PIH:14237"   message="renal" answers="CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664" fad="radio"/>
-                <render concept="CIEL:160735" message="bact"  answers="CIEL:703,CIEL:664,CIEL:1118,CIEL:1067" fad="radio"/>
-                <render concept="PIH:14236"   message="pus"   answers="CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664" fad="radio"/>
+                <render concept="CIEL:163685" message="epi"   answers="CIEL:1365,CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664" fad="radio"/>
+                <render concept="PIH:14237"   message="renal" answers="CIEL:1365,CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664" fad="radio"/>
+                <render concept="CIEL:160735" message="bact"  answers="CIEL:1365,CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664" fad="radio"/>
+                <render concept="PIH:14236"   message="pus"   answers="CIEL:1365,CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664" fad="radio"/>
+                <render concept="PIH:20142"   message="mucus" answers="CIEL:1365,CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664" fad="radio"/>
+                <render concept="CIEL:163689" message="tricho" answers="CIEL:1365,CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664" fad="radio"/>
+                        <!-- Alternative answers="CIEL:1408,CIEL:1499,CIEL:1160,CIEL:1107" -->
             </repeat>
-
-            <p class="small">
-                <label for="urine-crystals">
-                    <uimessage code="pihcore.lab.urine.crystal" />
-                </label>
-
-                <div class="section-container small">
-                    <repeat>
-                        <template>
-                            <obs id="urine-crystal-{message}" style="checkbox"
-                                 conceptId="CIEL:163695" answerConceptId="CIEL:{concept}"
-                                 answerCode="pihcore.lab.urine.crystal{message}" />
-
-                        </template>
-                        <render concept="725"    message="CaOxalate" />
-                        <render concept="123505" message="UricAcid" />
-                        <render concept="79241"  message="MgPhosphate" />
-                        <render concept="163642" message="AmmonUrate" />
-                        <render concept="163643" message="AmorphUrate" />
-                    </repeat>
-                </div>
-            </p>
 
             <repeat>
                 <template>
-                    <p class="side-by-side small">
+                    <p class="list-inline small">
                         <label for="urine-{message}">
                             <uimessage code="pihcore.lab.urine.{message}"/>
                         </label>
-                        <obs id="urine-{message}" style="radio"
-                             conceptId="CIEL:{concept}"
-                             answerConceptIds="CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664"/>
+                        <field>
+                            <obs id="urine-{message}" style="radio"
+                                 conceptId="CIEL:{concept}"
+                                 answerConceptIds="CIEL:1365,CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664"/>
+                        </field>
+                    </p>
+                </template>
+                <render concept="163686" message="yeast" />
+                <render concept="163687" message="yeastHyphae" />
+                <!--
+                    <render concept="163688" message="spore" />
+                    <render concept="163689" message="tricho" />
+                -->
+            </repeat>
+
+            <h5 id="urine-crystal" >
+                <uimessage code="pihcore.lab.urine.crystal" />
+            </h5>
+
+            <repeat>
+                <template>
+                    <p class="list-inline small">
+                        <label for="urine-crystal-{message}" class="small">
+                            <uimessage code="pihcore.lab.urine.crystal{message}"/>
+                        </label>
+                        <span class="list-inline small">
+                            <field>
+                                <obs id="urine-crystal-{message}"
+                                     conceptId="{concept}" style="radio"
+                                     answerConceptIds="CIEL:1365,CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664" />
+                            </field>
+                        </span>
+                    </p>
+                </template>
+                <render concept="PIH:20145"   message="CaOxalate" />
+                <render concept="PIH:20146"   message="UricAcid" />
+                <render concept="PIH:20143"   message="MgPhosphate" />
+                <render concept="CIEL:163642" message="AmmonUrate" />
+                <render concept="CIEL:163643" message="AmorphUrate" />
+                <render concept="CIEL:722"    message="AmorphPhosphate" />
+            </repeat>
+
+            <p class="small">
+                <label>
+                    <uimessage code="pihcore.lab.urine.crystalOther" />
+                </label>
+                <obs conceptId="PIH:20144" />
+            </p>
+
+            <h5 id="urine-casts" >
+                <uimessage code="pihcore.lab.casts" />
+            </h5>
+            <repeat>
+                <template>
+                    <p class="list-inline small">
+                        <label for="urine-{message}">
+                            <uimessage code="pihcore.lab.urine.{message}"/>
+                        </label>
+                        <span class="list-inline small">
+                            <field>
+                                <obs id="urine-{message}" style="radio"
+                                     conceptId="CIEL:{concept}"
+                                     answerConceptIds="CIEL:1365,CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664"/>
+                            </field>
+                        </span>
                     </p>
                 </template>
                 <render concept="165540" message="hyalineCasts" />
@@ -1790,25 +1923,30 @@
                 <render concept="163693" message="leukocyteCasts" />
                 <render concept="165541" message="erythrocyteCasts" />
                 <render concept="165542" message="renalEpiCasts" />
-                <!--
-                <render concept="163686" message="yeast" />
-                <render concept="163688" message="spore" />
-                <render concept="163689" message="tricho" />
                 <render concept="163692" message="epiCasts" />
                 <render concept="163691" message="fattyCasts" />
-                <render concept="163694" message="waxyCasts" /> -->
+                <render concept="163694" message="waxyCasts" />
             </repeat>
 
+            <p class="small">
+                <label>
+                    <uimessage code="pihcore.lab.urine.otherCasts" />
+                </label>
+                <obs conceptId="PIH:20141" />
+            </p>
+
             <!-- Free-text -->
-            <label for="urinalysis-comment">
-                <uimessage code="pihcore.lab.urinalysis.comment" />
-            </label>
-            <span class="small">
-                <field>
-                    <obs id="urinalysis-comment" conceptId="PIH:20058"
-                         style="textarea" rows="2" cols="70"/>
-                </field>
-            </span>
+            <p class="small">
+                <label for="urinalysis-comment">
+                    <uimessage code="pihcore.lab.urinalysis.comment" />
+                </label>
+                <span class="small">
+                    <field>
+                        <obs id="urinalysis-comment" conceptId="PIH:20058"
+                             style="textarea" rows="2" cols="70"/>
+                    </field>
+                </span>
+            </p>
         </fieldset>
 
         <fieldset class="multi-line-confirmation">
