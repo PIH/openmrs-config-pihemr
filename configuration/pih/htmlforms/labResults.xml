@@ -1668,10 +1668,9 @@
                         </span>
                     </p>
                 </template>
-                <!-- TBD: Add OCL pihcore.slightCloudy (PIH:20147) -->
                 <render concept="162101" message="aspect" selector="radio"
-                        answers="CIEL:162102,CIEL:162103,CIEL:162104"
-                        aLabels="pihcore.clear,pihcore.cloudy,pihcore.turbid"/>
+                        answers="CIEL:162102,PIH:20147,CIEL:162103,CIEL:162104"
+                        aLabels="pihcore.clear,pihcore.slightCloudy,pihcore.cloudy,pihcore.turbid"/>
             </repeat>
 
             <repeat>
@@ -1728,18 +1727,20 @@
             </repeat>
 
             <repeat>
-                <template>
-                    <label for="urine-{message}">
-                        <uimessage code="pihcore.lab.urine.{message}"/>
-                    </label>
-                    <span class="small side-by-side">
-                        <field>
-                            <obs id="urine-{message}"
-                                 conceptId="CIEL:{concept}"/>
-                        </field>
-                    </span>
-                </template>
-                <render concept="159733" message="glucose"  />
+                    <template>
+                        <p class="list-inline small">
+                            <label for="urine-{message}">
+                                <uimessage code="pihcore.lab.urine.{message}"/>
+                            </label>
+                            <span class="small side-by-side">
+                                <field>
+                                    <obs id="urine-{message}"
+                                         conceptId="CIEL:{concept}" showUnits="true"/>
+                                </field>
+                            </span>
+                        </p>
+                    </template>
+                <render concept="159733" message="glucose" />
             </repeat>
 
             <repeat>
@@ -1790,10 +1791,12 @@
                         <label for="urine-{message}">
                             <uimessage code="pihcore.lab.urine.{message}"/>
                         </label>
-                        <field>
-                            <obs id="urine-{message}"
-                                 conceptId="{concept}" showUnits="normal: 1000 - 1030"/>
-                        </field>
+                        <span class="small">
+                            <field>
+                                <obs id="urine-{message}"
+                                     conceptId="{concept}" showUnits="normal: 1000 - 1030"/>
+                            </field>
+                        </span>
                     </p>
                 </template>
                 <render concept="PIH:14422" message="density" />
@@ -1831,9 +1834,13 @@
                         <label for="urine-{message}">
                             <uimessage code="pihcore.lab.urine.{message}"/>
                         </label>
-                        <obs id="urine-{message}" style="{fad}"
-                             conceptId="{concept}"
-                             answerConceptIds="{answers}"/>
+                        <span class="small">
+                            <field>
+                                <obs id="urine-{message}" style="{fad}"
+                                     conceptId="{concept}"
+                                     answerConceptIds="{answers}"/>
+                            </field>
+                        </span>
                     </p>
                 </template>
                 <render concept="CIEL:163685" message="epi"   answers="CIEL:1365,CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664" fad="radio"/>
@@ -1851,11 +1858,13 @@
                         <label for="urine-{message}">
                             <uimessage code="pihcore.lab.urine.{message}"/>
                         </label>
-                        <field>
-                            <obs id="urine-{message}" style="radio"
-                                 conceptId="CIEL:{concept}"
-                                 answerConceptIds="CIEL:1365,CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664"/>
-                        </field>
+                        <span class="small">
+                            <field>
+                                <obs id="urine-{message}" style="radio"
+                                     conceptId="CIEL:{concept}"
+                                     answerConceptIds="CIEL:1365,CIEL:1364,CIEL:1363,CIEL:1362,CIEL:159416,CIEL:664"/>
+                            </field>
+                        </span>
                     </p>
                 </template>
                 <render concept="163686" message="yeast" />
