@@ -1644,13 +1644,17 @@
                             <field>
                                 <obs id="urine-{message}" style="{selector}"
                                      conceptId="CIEL:{concept}"
-                                     answerConceptIds="{answers}"/>
+                                     answerConceptIds="{answers}"
+                                     answerCodes="{codes}"/>
+
                             </field>
                         </span>
                     </p>
                 </template>
-                <render concept="162106" message="color"
-                        answers="CIEL:162099,CIEL:162097,CIEL:162105,CIEL:162098,CIEL:162100,CIEL:127778" selector="dropdown" />
+
+                <render concept="162106" message="color" selector="radio"
+                        answers="CIEL:160910,CIEL:162097,PIH:20148,CIEL:162098,CIEL:127778"
+                        codes="pihcore.brightYellow,pihcore.paleYellow,pihcore.yellowOrange,pihcore.amberYellow,pihcore.reddish" />
             </repeat>
 
             <repeat>
