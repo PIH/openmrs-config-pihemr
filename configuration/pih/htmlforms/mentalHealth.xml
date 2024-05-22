@@ -900,12 +900,16 @@
         <div class="section-container" id="radio_button_container">
 
             <div class="col">
-                <p>
-                    <label>
-                        <uimessage code="pihcore.mentalhealth.examination"/>
-                    </label>
-                    <obs conceptId="CIEL:163044" type="textarea"/>
-                </p>
+
+                <p class="comment-label"> <uimessage code="pihcore.exam.comment"/> </p> 
+
+                    <p class="comment-field"> 
+
+                        <p> 
+                            <obs conceptId="CIEL:163044" rows="5" cols="25"/> 
+                        </p> 
+
+                    </p> 
             </div>
             <div class="col">
                 <p>
@@ -916,6 +920,15 @@
                 </p>
 
             </div>
+        </div>
+
+           <div class="section-container" id="radio_button_container">
+
+           
+            <div class="col">
+            
+            </div>
+        
         </div>
     </section>
 
