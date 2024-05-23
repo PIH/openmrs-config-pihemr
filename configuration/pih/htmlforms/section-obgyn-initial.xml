@@ -1147,11 +1147,24 @@
                 <obs conceptId="PIH:3203" />
             </p>
 
-            <p>
-                <obs conceptId="CIEL:159777" style="checkbox"
-                     answerConceptId="CIEL:1065"
-                     answerCode="pihcode.fp.condomsProvided"/>
-            </p>
+            <div class="two-columns">
+                <div>
+                    <obs id="condom-use" conceptId="CIEL:159777" style="checkbox"
+                         answerConceptId="CIEL:1065"
+                         answerCode="pihcore.fp.condomsProvided">
+                        <controls>
+                            <when value="CIEL:1065" thenDisplay="#num-condoms" />
+                        </controls>
+                    </obs>
+                </div>
+
+                <div id="num-condoms">
+                    <label>
+                        <uimessage code="pihcore.fp.numCondomsProvided" />
+                    </label>
+                    <obs conceptId="PIH:20151" />
+                </div>
+            </div>
         </div>
     </section>
 
