@@ -1970,15 +1970,7 @@ angular.module("encounterTypeConfig", [])
         };
 
         // sierraLeoneMaternalAdmission
-        encounterTypes["0ef67d23-0cf4-4a3e-8617-ac9d55bdd005"] = {
-            defaultState: "short",
-            shortTemplate: "templates/encounters/defaultEncounterShort.page",
-            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
-            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
-            icon: "fas fa-fw fa-hospital-symbol",
-            editUrl: hfeStandardEditUrl,
-            showOnVisitList: true
-        };
+        //     uses Admission encounter_type
 
         return {
           get: function(encounter, country, site) {
