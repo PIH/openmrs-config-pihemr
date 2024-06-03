@@ -6,6 +6,9 @@
   },
   "@openmrs/esm-appointments-app": {
     "allowAllDayAppointments": false,
+    "checkInButton": {
+      "showIfActiveVisit": true
+    },
     "customPatientChartUrl": "${openmrsBase}/coreapps/clinicianfacing/patient.page?patientId=${patientUuid}&app=pih.app.clinicianDashboard",
     "extensionSlots": {
       "scheduled-appointments-panels-slot": {
