@@ -1972,6 +1972,17 @@ angular.module("encounterTypeConfig", [])
         // sierraLeoneMaternalAdmission
         //     uses Admission encounter_type
 
+        // sierraLeoneNicuTriage
+        encounterTypes["fb4318dd-cca9-4d20-bb31-0d4eba947d74"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
+            icon: "fas fa-fw fa-ambulance",
+            editUrl: hfeStandardEditUrl,
+            showOnVisitList: true
+        };
+
         return {
           get: function(encounter, country, site) {
 
