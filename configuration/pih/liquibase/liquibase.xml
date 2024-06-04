@@ -945,4 +945,12 @@
         </createIndex>
     </changeSet>
 
+    <changeSet id="20240604-rename-default-owa-directory-for-mirebalais-servers" author="mgoodrich">
+        <comment>UHM-8009: Lab Orders error (rename funky owa directory on servers with 'Mirebalais' web app anme</comment>
+        <sql>
+            update global_property set property_value = '/home/tomcat/.OpenMRS/owa' where property = 'owa.appFolderPath' and property_value='/home/tomcat7/.OpenMRS//mirebalais/owa';
+        </sql>
+    </changeSet>
+
+
 </databaseChangeLog>
