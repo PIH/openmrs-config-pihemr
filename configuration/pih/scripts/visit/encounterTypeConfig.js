@@ -36,7 +36,7 @@ angular.module("encounterTypeConfig", [])
         };
 
         var vaccinations = {
-            id: "chVaccinations",
+            id: "vaccinations",
             type: "include-section",
             template: "templates/vaccination/vaccinations.page",
             editUrl: ""
@@ -44,7 +44,7 @@ angular.module("encounterTypeConfig", [])
 
         var pedsVaccinations = {
             type: "include-section",
-            id: "peds-vaccinations",
+            id: "vaccinations",
             template: "templates/vaccination/vaccinations.page",
             editUrl: "",
             require: "fullMonthsBetweenDates(visit.patient.person.birthdate, visit.startDatetime) < 15*12"
@@ -52,7 +52,7 @@ angular.module("encounterTypeConfig", [])
 
         var ancVaccinations = {
             type: "include-section",
-            id: "anc-vaccinations",
+            id: "vaccinations",
             template: "templates/vaccination/vaccinations.page",
             editUrl: "",
             require: "patient.person.gender == 'F'"
