@@ -3097,6 +3097,34 @@ BEGIN
     
 END    
 #
+/*
+This function accepts a patient id, source & code of a concept
+It will return the obs_id of the single latest obs recorded for that concept from temp_obs table between the dates provided
+*/
+#	
+DROP FUNCTION IF EXISTS latest_obs_from_temp_between_dates;
+#
+CREATE FUNCTION latest_obs_from_temp_between_dates(_patient_id int(11), _source varchar(50), _term varchar(255),_startDatetime datetime, endDatetime datetime)
+    RETURNS int
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret int(11);
+
+    select      o.obs_id into ret
+    from        temp_obs o
+    where       o.voided = 0
+		and o.person_id = _patient_id    		
+      	and o.concept_id = concept_from_mapping(_source, _term)
+      	and o.obs_datetime >= _startDatetime
+      	and o.obs_datetime <= _endDatetime
+    order by obs_datetime desc limit 1 ;
+
+    RETURN ret;
+    
+END    
+#
 -- This function accepts encounter_id, mapping source, mapping code
 -- It will find a single, best observation that matches this, and return the value_text
 -- from the temporary table temp_obs
