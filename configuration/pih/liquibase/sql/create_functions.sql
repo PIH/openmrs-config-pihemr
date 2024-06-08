@@ -3097,6 +3097,11 @@ BEGIN
     
 END    
 #
+/*
+This function accepts a patient id, source & code of a concept
+It will return the obs_id of the single latest obs recorded for that concept from temp_obs table between the dates provided
+*/
+#	
 DROP FUNCTION IF EXISTS latest_obs_from_temp_between_dates;
 #
 CREATE FUNCTION latest_obs_from_temp_between_dates(_patient_id int(11), _source varchar(50), _term varchar(255),_startDatetime datetime, endDatetime datetime)
