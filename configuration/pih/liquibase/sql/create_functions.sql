@@ -3104,7 +3104,7 @@ It will return the obs_id of the single latest obs recorded for that concept fro
 #	
 DROP FUNCTION IF EXISTS latest_obs_from_temp_between_dates;
 #
-CREATE FUNCTION latest_obs_from_temp_between_dates(_patient_id int(11), _source varchar(50), _term varchar(255),_startDatetime datetime, endDatetime datetime)
+CREATE FUNCTION latest_obs_from_temp_between_dates(_patient_id int(11), _source varchar(50), _term varchar(255),_startDatetime datetime, _endDatetime datetime)
     RETURNS int
     DETERMINISTIC
 
@@ -3123,7 +3123,7 @@ BEGIN
 
     RETURN ret;
     
-END    
+END  
 #
 -- This function accepts encounter_id, mapping source, mapping code
 -- It will find a single, best observation that matches this, and return the value_text
