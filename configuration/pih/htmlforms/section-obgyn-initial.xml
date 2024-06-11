@@ -1393,7 +1393,27 @@
                 </label>
                 <obs conceptId="CIEL:165331" style="radio"
                      answerConceptIds="PIH:13274,CIEL:1267"
-                     answerCodes="pihcore.startSyphTreat,pihcore.stopSyphTreat"/>
+                     answerCodes="pihcore.startSyphTreat,pihcore.completeSyphTreat"/>
+            </p>
+
+            <!-- Other STIs -->
+            <br/>
+            <h3>
+                <uimessage code="pihcore.mch.otherSTI" />
+            </h3>
+            <p>
+                <repeat>
+                    <template>
+                        <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
+                            <obs conceptId="PIH:DIAGNOSIS" answerConceptId="{concept}" style="checkbox" />
+                        </obsgroup>
+                    </template>
+                    <render concept="CIEL:117767" name="Gonorrhea" />
+                    <render concept="CIEL:117829" name="Genital herpes" />
+                    <render concept="CIEL:1213"   name="HPV" />
+                    <render concept="CIEL:111759" name="Hepatitis B" />
+                    <render concept="CIEL:120733" name="Chlamydia" />
+                </repeat>
             </p>
 
             <!-- STI treatment -->
