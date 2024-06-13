@@ -1413,6 +1413,9 @@
                     <render concept="CIEL:1213"   name="HPV" />
                     <render concept="CIEL:111759" name="Hepatitis B" />
                     <render concept="CIEL:120733" name="Chlamydia" />
+                    <render concept="CIEL:684"    name="Trichomonas" />
+                    <render concept="CIEL:135462" name="Lymphogranuloma venereum" />
+                    <render concept="CIEL:145762" name="Chancroid" />
                 </repeat>
             </p>
 
