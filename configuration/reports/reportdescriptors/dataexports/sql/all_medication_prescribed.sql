@@ -1,4 +1,5 @@
 set sql_safe_updates = 0;
+set @partition = '${partitionNum}';
 
 drop table if exists temp_medication_orders;
 create table temp_medication_orders
@@ -106,9 +107,9 @@ update temp_medication_orders tm  set prescriber = provider(tm.encounter_id);
 -- final query
 select 
 emr_id,
-encounter_id,
-visit_id,
-order_id,
+if(@partition REGEXP '^[0-9]+$' = 1,concat(@partition,'-',encounter_id),encounter_id) "encounter_id",
+if(@partition REGEXP '^[0-9]+$' = 1,concat(@partition,'-',visit_id),encounter_id) "visit_id",
+if(@partition REGEXP '^[0-9]+$' = 1,concat(@partition,'-',order_id),encounter_id) "order_id",
 order_location,
 order_created_date,
 order_date_activated,
