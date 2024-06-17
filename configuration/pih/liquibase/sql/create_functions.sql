@@ -2387,6 +2387,7 @@ inner join program_workflow_state pws on ps.state = pws.program_workflow_state_i
 inner join patient_program pp on pp.voided =0 and pp.patient_program_id = ps.patient_program_id
 where ps.patient_program_id = _patient_program_id
 and (ps.end_date is null or ps.end_date = pp.date_completed )
+and ps.voided = 0
 order by ps.start_date desc limit 1; 
 
     RETURN state_name_out;
