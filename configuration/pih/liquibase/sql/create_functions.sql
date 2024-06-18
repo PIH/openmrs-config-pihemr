@@ -3996,3 +3996,34 @@ BEGIN
     RETURN return_value;
 END
 #
+
+-- This function is designed to operate on a temp table that has already been created mapping patient_ids to emr_ids
+-- it accepts encounter_id and will return boolean  
+#
+DROP FUNCTION IF EXISTS obs_value_coded_as_boolean_from_temp;
+#
+CREATE FUNCTION obs_value_coded_as_boolean_from_temp(_encounterId int(11), _source varchar(50), _term varchar(255))
+    RETURNS boolean
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret text;
+
+    select
+    	CASE o.value_coded
+    		when concept_from_mapping('PIH','1065') then 1
+	    	when concept_from_mapping('PIH','1066') then 0
+		END
+    into ret
+    from        obs o
+    where       o.voided = 0
+    and         o.encounter_id = _encounterId
+    and         o.concept_id = concept_from_mapping(_source, _term)
+    order by    o.date_created desc, o.obs_id desc
+    limit 1;
+
+    RETURN ret;
+
+END
+#
