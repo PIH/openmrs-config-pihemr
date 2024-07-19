@@ -952,5 +952,15 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20240717-void-programs-associated-with-voided-patients" author="mgoodrich">
+        <comment>LIB-335: Rows with blank EMR ID (and everything else except two dates)</comment>
+        <sql>
+            update patient_program pp, patient p set pp.voided=1, pp.date_voided=NOW(), pp.void_reason='correcting programs not voided when patients merged (see LIB-335)'
+            where pp.patient_id = p.patient_id and pp.voided = 0 and p.voided = 1;
+
+            update patient_state ps, patient_program pp set ps.voided=1, ps.date_voided=NOW(), ps.void_reason='correcting programs not voided when patients merged (see LIB-335)'
+            where ps.patient_program_id = pp.patient_program_id and ps.voided = 0 and pp.voided = 1;
+        </sql>
+    </changeSet>
 
 </databaseChangeLog>
