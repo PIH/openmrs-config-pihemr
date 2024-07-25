@@ -41,3 +41,4 @@ C4BCB2BC-94E8-40DC-BB53-7384EAC6F1BF,,Program Location,Patient programs options 
 ae29295b-2795-11ec-9efc-0242ac110002,,Echocardiogram Location,
 278ba6a4-7570-11ec-be0e-0242ac110002,,Health Facility Location,"Signifies Locations that represent Health Facilities"
 cc104bff-6eaf-452e-a192-400d189cd82a,,Labs Component Location,"Signifies Locations where the Labs component should be enabled"
+26eac54e-7e6f-4d59-9afd-6cc8362be65a,,NICU Location,Neonatal intensive care unit,
