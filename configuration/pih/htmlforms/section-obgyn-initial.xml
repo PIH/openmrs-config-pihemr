@@ -2051,6 +2051,7 @@
                          answerConceptId="{mh-answer}" />
                 </template>
                 <render name="Depression"    mh-answer="CIEL:119537" />
+                <render name="Anxiety"       mh-answer="CIEL:121543" />
                 <render name="PTSD"          mh-answer="CIEL:113881" />
                 <render name="Schizophrenia" mh-answer="CIEL:113155" />
                 <render name="GBV"           mh-answer="CIEL:165088" />
