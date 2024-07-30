@@ -24,6 +24,27 @@
                 min-width: 100%;
             }
 
+            .four-columns, .three-columns, .two-columns {
+                display: table;
+                height: 100%;
+                width: 100%;
+            }
+
+            .two-columns > div {
+                display: table-cell;
+                width: 50%;
+            }
+
+            .three-columns > div {
+                display: table-cell;
+                width: 33%;
+            }
+
+            .four-columns > div {
+                display: table-cell;
+                width: 25%;
+            }
+
         </ifMode>
     </style>
     <ifMode mode="VIEW" include="false">
@@ -56,6 +77,11 @@
                     currentEncounterDate = new Date(+lookupEncDate);
                 }
 
+                setUpEdd(
+                    '<lookup expression="encounter.getEncounterDatetime().getTime()"/>',
+                    '<uimessage code="pihcore.weeks"/>'
+                );
+
                 let serverEncounterDate = '<lookup complexExpression="#if ($encounter) #set ($encounterDate = $encounter.encounterDatetime) #else #set ($encounterDate = $visit.startDatetime) #end"/>';
 
                 const visitUuid = '<lookup expression="encounter.getVisit().getUuid()"/>';
@@ -72,62 +98,59 @@
                 },
                 function( data ){
                     if (data.results.length &gt; 0) {
-                    for (let index = 0; index &lt; data.results.length; index++) {
-                        let obGynEnc = data.results[index];
-                        let obGynEncDate = new Date(obGynEnc.encounterDatetime);
+                        for (let index = 0; index &lt; data.results.length; index++) {
+                            let obGynEnc = data.results[index];
+                            let obGynEncDate = new Date(obGynEnc.encounterDatetime);
 
-                        if( (currentEncounterDate.getTime() &gt;=  obGynEncDate.getTime())) {
-                            let month = new Intl.DateTimeFormat(undefined, monthOption).format(obGynEncDate);
-                            jq("#lastObGynEncounterDate").text(obGynEncDate.getDate() + "-" + month + "-" + obGynEncDate.getFullYear());
-                            jq("#lastObGynEncounterTime").text(obGynEncDate.toLocaleTimeString());
+                            if( (currentEncounterDate.getTime() &gt;=  obGynEncDate.getTime())) {
+                                let month = new Intl.DateTimeFormat(undefined, monthOption).format(obGynEncDate);
+                                jq("#lastObGynEncounterDate").text(obGynEncDate.getDate() + "-" + month + "-" + obGynEncDate.getFullYear());
+                                jq("#lastObGynEncounterTime").text(obGynEncDate.toLocaleTimeString());
 
-                            if (obGynEnc.obs &amp;&amp; obGynEnc.obs.length &gt; 0) {
-                                jq('#obgyn-div').show();
-                                for (let j=0; j &lt; obGynEnc.obs.length; j++) {
-                                    let obs = obGynEnc.obs[j];
-                                    if (obs.concept.uuid === lastPeriodDateConcept) {
-                                        if ( obs.valueDatetime ) {
-                                            let periodDate = new Date(obs.valueDatetime);
-                                            jq("#obgyn_initial_lastPeriodDate").text(periodDate.getDate() + " " + new Intl.DateTimeFormat(undefined, monthOption).format(periodDate) + " " + periodDate.getFullYear());
-                                            jq("#obgyn_initial_lastPeriodDate").removeClass("emptyValue").addClass("value");
-                                        }
-                                    } else if (obs.concept.uuid === dueDateConcept) {
-                                        if ( obs.valueDatetime ) {
-                                            let dueDate = new Date(obs.valueDatetime);
-                                            jq("#obgyn_initial_edd").text(dueDate.getDate() + " " + new Intl.DateTimeFormat(undefined, monthOption).format(dueDate) + " " + dueDate.getFullYear());
-                                            jq("#obgyn_initial_edd").removeClass("emptyValue").addClass("value");
-                                        }
-                                    } else if (obs.concept.uuid === gravidaConcept) {
-                                        if ( obs.valueNumeric ) {
-                                            jq("#obgyn_initial_gravidaInput").text(Math.round(obs.valueNumeric));
-                                            jq("#obgyn_initial_gravidaInput").removeClass("emptyValue").addClass("value");
-                                        }
-                                    } else if (obs.concept.uuid === paraConcept) {
-                                        if ( obs.valueNumeric ) {
-                                            jq("#obgyn_initial_paraInput").text(Math.round(obs.valueNumeric));
-                                            jq("#obgyn_initial_paraInput").removeClass("emptyValue").addClass("value");
-                                        }
-                                    } else if (obs.concept.uuid === abortusConcept) {
-                                        if ( obs.valueNumeric ) {
-                                            jq("#obgyn_initial_abortusInput").text(Math.round(obs.valueNumeric));
-                                            jq("#obgyn_initial_abortusInput").removeClass("emptyValue").addClass("value");
-                                        }
-                                    } else if (obs.concept.uuid === livingConcept) {
-                                        if ( obs.valueNumeric ) {
-                                            jq("#obgyn_initial_livingInput").text(Math.round(obs.valueNumeric));
-                                            jq("#obgyn_initial_livingInput").removeClass("emptyValue").addClass("value");
+                                if (obGynEnc.obs &amp;&amp; obGynEnc.obs.length &gt; 0) {
+                                    jq('#obgyn-div').show();
+                                    for (let j=0; j &lt; obGynEnc.obs.length; j++) {
+                                        let obs = obGynEnc.obs[j];
+                                        if (obs.concept.uuid === lastPeriodDateConcept) {
+                                            if ( obs.valueDatetime ) {
+                                                let periodDate = new Date(obs.valueDatetime);
+                                                jq("#obgyn_initial_lastPeriodDate").text(periodDate.getDate() + " " + new Intl.DateTimeFormat(undefined, monthOption).format(periodDate) + " " + periodDate.getFullYear());
+                                                jq("#obgyn_initial_lastPeriodDate").removeClass("emptyValue").addClass("value");
+                                            }
+                                        } else if (obs.concept.uuid === dueDateConcept) {
+                                            if ( obs.valueDatetime ) {
+                                                let dueDate = new Date(obs.valueDatetime);
+                                                jq("#obgyn_initial_edd").text(dueDate.getDate() + " " + new Intl.DateTimeFormat(undefined, monthOption).format(dueDate) + " " + dueDate.getFullYear());
+                                                jq("#obgyn_initial_edd").removeClass("emptyValue").addClass("value");
+                                            }
+                                        } else if (obs.concept.uuid === gravidaConcept) {
+                                            if ( obs.valueNumeric ) {
+                                                jq("#obgyn_initial_gravidaInput").text(Math.round(obs.valueNumeric));
+                                                jq("#obgyn_initial_gravidaInput").removeClass("emptyValue").addClass("value");
+                                            }
+                                        } else if (obs.concept.uuid === paraConcept) {
+                                            if ( obs.valueNumeric ) {
+                                                jq("#obgyn_initial_paraInput").text(Math.round(obs.valueNumeric));
+                                                jq("#obgyn_initial_paraInput").removeClass("emptyValue").addClass("value");
+                                            }
+                                        } else if (obs.concept.uuid === abortusConcept) {
+                                            if ( obs.valueNumeric ) {
+                                                jq("#obgyn_initial_abortusInput").text(Math.round(obs.valueNumeric));
+                                                jq("#obgyn_initial_abortusInput").removeClass("emptyValue").addClass("value");
+                                            }
+                                        } else if (obs.concept.uuid === livingConcept) {
+                                            if ( obs.valueNumeric ) {
+                                                jq("#obgyn_initial_livingInput").text(Math.round(obs.valueNumeric));
+                                                jq("#obgyn_initial_livingInput").removeClass("emptyValue").addClass("value");
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
                     }
-                    break;
-                }
-            }
+                });
 
-            }
-            });
                 // handlers for next and submit buttons, see nextAndSubmitButtons.js
                     setUpNextAndSubmitButtons();
             });
@@ -149,7 +172,7 @@
     <ifMode mode="VIEW" include="false">
         <includeIf velocityTest="$encounter.encounterType.uuid == 'd83e98fd-dc7b-420f-aa3f-36f648b4483d'">
             <includeIf velocityTest="$patient.gender == 'F' ">
-                <div id="obgyn-div" class="hidden">
+                <div id="obgyn-div" >
                         <section id="obgyn-section" sectionTag="fieldset"
                                  headerStyle="title" headerCode="OB/GYN">
                             <div class="section-container">
@@ -197,7 +220,7 @@
                                                 </div>
                                             </div>
 
-                                            <div id="calculated-edd-and-gestational" class="two-columns hidden">
+                                            <div id="calculated-edd-and-gestational" class="two-columns">
                                                 <div>
                                                     <span id="calculated-gestational-age-wrapper">
                                                         <span id="calculated-gestational-age-label">
