@@ -41,6 +41,8 @@ CREATE TEMPORARY TABLE temp_delivery
     Postpartum_blood_loss                varchar(255),
     Transfusion                          varchar(255),
     maternal_delivery_type_deprecated    varchar(500),
+    Caesarean_hysterectomy               varchar(10),
+    C_section_with_tubal_ligation        varchar(10),
     baby_Malpresentation_of_fetus        varchar(10),
     baby_Cephalopelvic_disproportion     varchar(10),
     baby_Extreme_premature               varchar(10),
@@ -217,6 +219,8 @@ update temp_delivery set Postpartum_blood_loss = obs_value_coded_list_from_temp(
 update temp_delivery set Transfusion = obs_value_coded_list_from_temp(encounter_id,'CIEL','1063',@locale);
 
 update temp_delivery set maternal_delivery_type_deprecated = obs_value_coded_list_from_temp(encounter_id,'PIH','11663',@locale);
+update temp_delivery set Caesarean_hysterectomy = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1651','CIEL','161848');
+update temp_delivery set C_section_with_tubal_ligation = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1651','CIEL','161890');
 
 -- findings for baby
 update temp_delivery set baby_Malpresentation_of_fetus = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1284','CIEL','115939');  
@@ -550,6 +554,8 @@ Episiotomy,
 Postpartum_blood_loss,
 Transfusion,
 maternal_delivery_type_deprecated,
+Caesarean_hysterectomy,
+C_section_with_tubal_ligation,
 baby_Malpresentation_of_fetus,
 baby_Cephalopelvic_disproportion,
 baby_Extreme_premature,
