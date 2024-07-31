@@ -88,7 +88,7 @@
         <tr>
             <td>
                 <center>
-                    <h2>Zanmi Lasante Rehabilitation Evaluation Form</h2>
+                    <h2>Zanmi Lasante Physical Rehabilitation Evaluation Form</h2>
                     <p>
                         <small>Evaluation-REHAB-Haiti.V1.4.mb.13sep11.eg</small>
                     </p>
@@ -151,16 +151,16 @@
 						<br/>
 
 						<obs conceptId="PIH:Type of referring service" answerConceptId="CIEL:160449"
-							 answerLabel="Surgery"/>
+							 answerXLabel="Surgery"/>
 						<br/>
 						<obs conceptId="PIH:Type of referring service"
-							 answerConceptId="CIEL:160448" answerLabel="Internal medicine"/>
+							 answerConceptId="CIEL:160448" answerXLabel="Internal medicine"/>
 						<br/>
 						<obs conceptId="PIH:Type of referring service" answerConceptId="CIEL:165048"
-							 answerLabel="Inpatient pediatrics"/>
+							 answerXLabel="Inpatient pediatrics"/>
 						<br/>
 						<obs conceptId="PIH:Type of referring service"
-							 answerConceptId="PIH:HUM outpatient" answerLabel="Outpatient"/>
+							 answerConceptId="PIH:HUM outpatient" answerXLabel="Outpatient"/>
 					</p>
 					<p>
 						<b>Referring physician :</b>
@@ -171,23 +171,27 @@
 				<td>
 					<table border="0">
 						<tr>
-							<th colspan="3">Medical diagnosis:</th>
+							<th colspan="3">
+								<label>
+									<uimessage code="pihcore.diagnosis.label" />
+								</label>
+							</th>
 						</tr>
 						<tr>
 							<td width="33%" valign="top">
 								<obs conceptId="PIH:Rehabilitation Medical Diagnosis" answerConceptId="PIH:7314"
-									 answerLabel="stroke"/>
+									 answerXLabel="stroke"/>
 								<br/>
 								<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
-									 answerConceptId="CIEL:112827" answerLabel="spinal cord injury"/>
+									 answerConceptId="CIEL:112827" answerXLabel="spinal cord injury"/>
 								<br/>
 								<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
 									 answerConceptId="CIEL:124209"
-									 answerLabel="traumatic brain injury"/>
+									 answerXLabel="traumatic brain injury"/>
 							</td>
 							<td width="33%" valign="top">
 								<obs conceptId="PIH:Rehabilitation Medical Diagnosis" answerConceptId="PIH:FRACTURE"
-									 answerLabel="fracture"/>
+									 answerXLabel="fracture"/>
 								<br/>
 
 									<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
@@ -199,7 +203,7 @@
 									<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
 										 answerConceptId="PIH:Left Lower Fracture" answerLabel="L lower"/>
 									<obs conceptId="PIH:Rehabilitation Medical Diagnosis" answerConceptId="PIH:Spine"
-										 answerLabel="spine"/>
+										 answerXLabel="spine"/>
 									<br/>
 									<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
 										 answerConceptId="PIH:Other fracture" answerLabel="other:"/>
@@ -208,7 +212,7 @@
 							</td>
 							<td valign="top">
 								<obs conceptId="PIH:Rehabilitation Medical Diagnosis" answerConceptId="PIH:Amputation"
-									 answerLabel="amputation"/>
+									 answerXLabel="amputation"/>
 								<ul>
 									<obs conceptId="PIH:Rehabilitation Medical Diagnosis"
 										 answerConceptId="PIH:Right Upper Amputation" answerLabel="R upper"/>
