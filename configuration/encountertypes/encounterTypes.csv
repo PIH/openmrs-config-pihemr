@@ -61,6 +61,6 @@ ${encounterType.RADIOLOGY_ORDER.uuid},,Commande de radio,Radiology Order  - the 
 ${encounterType.RADIOLOGY_REPORT.uuid},,Rapport de radiologie,Radiology Report - represents a report on a radiology study performed by a radiologist
 ${encounterType.RADIOLOGY_STUDY.uuid},,Examen de radiologie,Radiology Study - represents performance of a radiology study on a patient by a radiology technician
 ${encounterType.ATTACHMENT_UPLOAD.uuid},TRUE,Attachment Upload,Encounters used to record uploads of attachments.
-${encounterType.REHAB_EVAL.uuid},,Rehab Evaluation,A rehabilitation encounter with an initial or ongoing evaluation
+${encounterType.PHYSICAL_REHAB_EVAL.uuid},,Rehab Evaluation,A rehabilitation encounter with an initial or ongoing evaluation
 ${encounterType.NURSE_CONSULT.uuid},,Nurse Consult,A consult with a nurse
 ${encounterType.PRESCRIPTION.uuid},,Prescription,Drugs prescription
