@@ -26,16 +26,16 @@ function setUpEdd(currentEncounterDate, msgWeeks) {
       const gestAgeText = calculateGestationalDays(lastPeriodDate, currentEncounterDate, msgWeeks);
       const edd = calculateExpectedDeliveryDate(lastPeriodDate);
       const locale = window.sessionContext.locale || navigator.language;
-      jq("#calculated-edd-and-gestational").show();
+      jq(".calculated-edd-and-gestational").show();
       getField("edd.value").datepicker("setDate", edd);
-      jq("#calculated-edd").text((Intl.DateTimeFormat(locale, { dateStyle: "medium" })).format(edd));
-      jq("#calculated-gestational-age-value").text(gestAgeText);
+      jq(".calculated-edd").text((Intl.DateTimeFormat(locale, { dateStyle: "medium" })).format(edd));
+      jq(".calculated-gestational-age-value").text(gestAgeText);
     } else {
-      jq("#calculated-edd-and-gestational").hide();
+      jq(".calculated-edd-and-gestational").hide();
     }
   };
 
-  jq("#calculated-edd-and-gestational").hide();
+  jq(".calculated-edd-and-gestational").hide();
   jq("#lastPeriodDate input[type='hidden']").change(function () {
     updateEdd();
   });

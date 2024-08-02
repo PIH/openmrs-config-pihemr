@@ -1,0 +1,307 @@
+<htmlform formName="Diagnostic with obgyn" formVersion="1.0"
+          formUuid="2065460f-adeb-4895-837c-1fa516b6c280" >
+
+    <style type="text/css">
+        <ifMode mode="VIEW" include="false">
+
+            #data-collection {
+                display: inline-block;
+                width: 58%;
+                vertical-align: top;
+            }
+
+            #encounter-diagnoses-target {
+                display: inline-block;
+                width: 40%;
+                vertical-align: top;
+            }
+
+            #encounter-diagnoses-app {
+                margin-bottom: 20px;
+            }
+
+            .hasDatepicker {
+                min-width: 100%;
+            }
+
+            .four-columns, .three-columns, .two-columns {
+                display: table;
+                height: 100%;
+                width: 100%;
+            }
+
+            .two-columns > div {
+                display: table-cell;
+                width: 50%;
+            }
+
+            .three-columns > div {
+                display: table-cell;
+                width: 33%;
+            }
+
+            .four-columns > div {
+                display: table-cell;
+                width: 25%;
+            }
+
+        </ifMode>
+    </style>
+    <ifMode mode="VIEW" include="false">
+        <h3><uimessage code="zl.exam.clinicalImpression.title"/></h3>
+
+        <script type="text/javascript">
+            jq(document).ready(function() {
+                // For ZL ob/gyn only
+                const obGynEncounterType= 'd83e98fd-dc7b-420f-aa3f-36f648b4483d';
+                const typeOfVisit = '164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+                const intakeVisit = '164180AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
+
+                const lastPeriodDateConcept = '<lookup expression="fn.getConcept('CIEL:1427').uuid"/>';
+                const dueDateConcept = '<lookup expression="fn.getConcept('CIEL:5596').uuid"/>';
+
+                const gravidaConcept = '<lookup expression="fn.getConcept('CIEL:5624').uuid"/>';
+                const paraConcept = '<lookup expression="fn.getConcept('CIEL:1053').uuid"/>';
+                const abortusConcept = '<lookup expression="fn.getConcept('CIEL:1823').uuid"/>';
+                const livingConcept = '<lookup expression="fn.getConcept('CIEL:1825').uuid"/>';
+
+                const contextPath = window.location.href.split('/')[3];
+                const apiBaseUrl =  "/" + contextPath + "/ws/rest/v1";
+                const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+                const monthOption = { month: 'short'};
+
+                const patientUuid = '<lookup expression="patient.uuid"/>';
+                let currentEncounterDate = new Date();
+                let lookupEncDate = '<lookup expression="encounter.getEncounterDatetime().getTime()"/>';
+                if ( lookupEncDate ) {
+                    currentEncounterDate = new Date(+lookupEncDate);
+                }
+                const msgWeeks =  '<uimessage code="pihcore.weeks"/>';
+                const locale = window.sessionContext.locale || navigator.language;
+
+                let serverEncounterDate = '<lookup complexExpression="#if ($encounter) #set ($encounterDate = $encounter.encounterDatetime) #else #set ($encounterDate = $visit.startDatetime) #end"/>';
+
+                const visitUuid = '<lookup expression="encounter.getVisit().getUuid()"/>';
+
+                // looking for OB/GYN encounters with an obs that indicates that it was an intake encounter
+                jq.getJSON(apiBaseUrl + "/encounter", {
+                    s: 'byObs',
+                    patient: patientUuid,
+                    encounterType: obGynEncounterType,
+                    obsConcept: typeOfVisit,
+                    obsValues: intakeVisit,
+                    v: 'custom:(uuid,patient:(uuid),encounterType:(uuid),encounterDatetime,voided,obs:(uuid,display,concept:(uuid,display),obsDatetime,valueCoded:(uuid,display),valueDatetime,valueNumeric,valueText,groupMembers:(uuid,display,person:(uuid),concept:(uuid,display),obsDatetime,valueCoded:(uuid,display),valueDatetime,valueNumeric,valueText,voided),voided)',
+                    order: 'desc'
+                },
+                function( data ){
+                    if (data.results.length &gt; 0) {
+                        for (let index = 0; index &lt; data.results.length; index++) {
+                            let obGynEnc = data.results[index];
+                            let obGynEncDate = new Date(obGynEnc.encounterDatetime);
+
+                            if( (currentEncounterDate.getTime() &gt;=  obGynEncDate.getTime())) {
+                                let month = new Intl.DateTimeFormat(undefined, monthOption).format(obGynEncDate);
+                                jq("#lastObGynEncounterDate").text(obGynEncDate.getDate() + "-" + month + "-" + obGynEncDate.getFullYear());
+                                jq("#lastObGynEncounterTime").text(obGynEncDate.toLocaleTimeString());
+
+                                if (obGynEnc.obs &amp;&amp; obGynEnc.obs.length &gt; 0) {
+                                    jq('#obgyn-div').show();
+                                    for (let j=0; j &lt; obGynEnc.obs.length; j++) {
+                                        let obs = obGynEnc.obs[j];
+                                        if (obs.concept.uuid === lastPeriodDateConcept) {
+                                            if ( obs.valueDatetime ) {
+                                                let periodDate = new Date(obs.valueDatetime);
+                                                jq("#obgyn_initial_lastPeriodDate").text(periodDate.getDate() + " " + new Intl.DateTimeFormat(undefined, monthOption).format(periodDate) + " " + periodDate.getFullYear());
+                                                jq("#obgyn_initial_lastPeriodDate").removeClass("emptyValue").addClass("value");
+                                                jq(".calculated-gestational-age-value").text(calculateGestationalDays(periodDate, currentEncounterDate, msgWeeks));
+                                                jq(".calculated-gestational-age-value").removeClass("emptyValue").addClass("value");
+                                                jq(".calculated-edd").text((Intl.DateTimeFormat(locale, { dateStyle: "medium" })).format(calculateExpectedDeliveryDate(periodDate)));
+                                                jq(".calculated-edd").removeClass("emptyValue").addClass("value");
+                                            }
+                                        } else if (obs.concept.uuid === dueDateConcept) {
+                                            if ( obs.valueDatetime ) {
+                                                let dueDate = new Date(obs.valueDatetime);
+                                                jq("#obgyn_initial_edd").text(dueDate.getDate() + " " + new Intl.DateTimeFormat(undefined, monthOption).format(dueDate) + " " + dueDate.getFullYear());
+                                                jq("#obgyn_initial_edd").removeClass("emptyValue").addClass("value");
+                                            }
+                                        } else if (obs.concept.uuid === gravidaConcept) {
+                                            if ( obs.valueNumeric ) {
+                                                jq("#obgyn_initial_gravidaInput").text(Math.round(obs.valueNumeric));
+                                                jq("#obgyn_initial_gravidaInput").removeClass("emptyValue").addClass("value");
+                                            }
+                                        } else if (obs.concept.uuid === paraConcept) {
+                                            if ( obs.valueNumeric ) {
+                                                jq("#obgyn_initial_paraInput").text(Math.round(obs.valueNumeric));
+                                                jq("#obgyn_initial_paraInput").removeClass("emptyValue").addClass("value");
+                                            }
+                                        } else if (obs.concept.uuid === abortusConcept) {
+                                            if ( (obs.valueNumeric === 0) || obs.valueNumeric ) {
+                                                jq("#obgyn_initial_abortusInput").text(Math.round(obs.valueNumeric));
+                                                jq("#obgyn_initial_abortusInput").removeClass("emptyValue").addClass("value");
+                                            }
+                                        } else if (obs.concept.uuid === livingConcept) {
+                                            if ( obs.valueNumeric ) {
+                                                jq("#obgyn_initial_livingInput").text(Math.round(obs.valueNumeric));
+                                                jq("#obgyn_initial_livingInput").removeClass("emptyValue").addClass("value");
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // handlers for next and submit buttons, see nextAndSubmitButtons.js
+                    setUpNextAndSubmitButtons();
+            });
+        </script>
+    </ifMode>
+
+    <div id="data-collection">
+        <encounterDiagnosesByObs selectedDiagnosesTarget="#encounter-diagnoses-target"/>
+        <p>
+            <label><uimessage code="emr.consult.freeTextComments"/></label>
+            <obs conceptId="PIH:CLINICAL IMPRESSION COMMENTS" style="textarea" rows="5"/>
+        </p>
+    </div>
+
+    <div id="encounter-diagnoses-target">
+    </div>
+
+    <!-- Only show for ob/gyn encounters and where gender is female -->
+    <ifMode mode="VIEW" include="false">
+        <includeIf velocityTest="$encounter.encounterType.uuid == 'd83e98fd-dc7b-420f-aa3f-36f648b4483d'">
+            <includeIf velocityTest="$patient.gender == 'F' ">
+                <div id="obgyn-div" >
+                        <section id="obgyn-section" sectionTag="fieldset"
+                                 headerStyle="title" headerCode="OB/GYN">
+                            <div class="section-container">
+                                <table style="color:grey">
+                                    <tr>
+                                        <td>
+                                            <label>
+                                                <uimessage code="mirebalais.mostRecentObGynInitial.label"/>
+                                                <span class="date-span ng-binding">
+                                                    <i class="icon-calendar"></i>
+                                                    <span id="lastObGynEncounterDate"></span>
+                                                </span>
+                                                <span class="time-span ng-binding">
+                                                    <i class="icon-time"></i>
+                                                    <span id="lastObGynEncounterTime"></span>
+                                                </span>
+                                                <span>
+                                                    <span id="visitUuid"></span>
+                                                </span>
+                                            </label>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <div class="two-columns">
+                                                <!-- Last menstrual period (LMP or DDR) -->
+                                                <div>
+                                                    <p class="side-by-side">
+                                                        <label>
+                                                            <uimessage code="pihcore.pregnancy.lastPeriod"/>
+                                                        </label>
+                                                        <span id="obgyn_initial_lastPeriodDate" class="emptyValue"></span>
+                                                    </p>
+                                                </div>
+
+                                                <!-- Due date (DPA) -->
+                                                <div>
+                                                    <p class="side-by-side">
+                                                        <label>
+                                                            <uimessage code="pihcore.pregnancy.dueDate"/>
+                                                        </label>
+                                                        <span id="obgyn_initial_edd" class="emptyValue"></span>
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div id="calculated-edd-and-gestational" class="two-columns calculated-edd-and-gestational">
+                                                <div>
+                                                    <span id="calculated-gestational-age-wrapper" class="side-by-side">
+                                                        <label>
+                                                            <uimessage code="pihcore.calculatedGestationalAge"/>:&#160;
+                                                        </label>
+                                                        <span id='calculated-gestational-age-value' class="calculated-gestational-age-value value"></span>
+                                                    </span>
+                                                </div>
+                                                <div>
+                                                    <span id="calculated-edd-wrapper">
+                                                        <span id="calculated-edd-label">
+                                                            <uimessage code="pihcore.calculatedEstimatedDeliveryDate"/>:&#160;
+                                                        </span><br/>
+                                                        <span id='calculated-edd' class="calculated-edd value"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <br/>
+
+                                            <div class="four-columns">
+                                                <div>
+                                                    <p class="side-by-side">
+                                                        <label>
+                                                            <uimessage code="pihcore.mch.grava"/>
+                                                        </label>
+                                                        <span class="obs-field">
+                                                            <span id="obgyn_initial_gravidaInput" class="emptyValue">____</span>
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    <p class="side-by-side">
+                                                        <label>
+                                                            <uimessage code="pihcore.mch.para"/>
+                                                        </label>
+                                                        <span class="obs-field">
+                                                            <span id="obgyn_initial_paraInput" class="emptyValue">____</span>
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    <p class="side-by-side">
+                                                        <label>
+                                                            <uimessage code="pihcore.mch.abortus"/>
+                                                        </label>
+                                                        <span class="obs-field">
+                                                            <span id="obgyn_initial_abortusInput" class="emptyValue">____</span>
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    <p class="side-by-side">
+                                                        <label>
+                                                            <uimessage code="pihcore.mch.living"/>
+                                                        </label>
+                                                        <span class="obs-field">
+                                                            <span id="obgyn_initial_livingInput" class="emptyValue">____</span>
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </section>
+                    </div>
+            </includeIf>
+        </includeIf>
+    </ifMode>
+
+    <ifMode mode="VIEW" include="false">
+        <div id="buttons">
+            <includeIf velocityTest="$encounter.encounterType.uuid != '00e5ebb2-90ec-11e8-9eb6-529269fb1459'">
+                <button id="next" type="button" class="submitButton confirm right"><uimessage code="emr.next"/><i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i></button>
+            </includeIf>
+            <button id="submit" class="submitButton confirm right"><uimessage code="mirebalais.save"/><i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i></button>
+            <button id="cancel" type="button" class="cancel"><uimessage code="emr.cancel"/></button>
+        </div>
+    </ifMode>
+
+</htmlform>
