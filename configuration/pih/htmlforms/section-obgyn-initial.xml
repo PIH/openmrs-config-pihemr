@@ -1509,7 +1509,7 @@
                                             <span id="calculated-edd-label">
                                                 <uimessage code="pihcore.calculatedEstimatedDeliveryDate"/>:&#160;
                                             </span><br/>
-                                            <span id='calculated-edd' class="calculated-edd value"></span>
+                                            <span id='calculated-edd-value' class="calculated-edd value"></span>
                                         </span>
                                     </div>
                                 </div>
@@ -1710,7 +1710,7 @@
                         <span id="calculated-edd-label">
                             <uimessage code="pihcore.calculatedEstimatedDeliveryDate"/>:&#160;
                         </span><br/>
-                        <span id='calculated-edd' class="calculated-edd value"></span>
+                        <span id='calculated-edd-value' class="calculated-edd value"></span>
                     </span>
                 </div>
             </div>
