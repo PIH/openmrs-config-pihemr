@@ -111,6 +111,17 @@ angular.module("encounterTypeConfig", [])
             editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-dx.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
         };
 
+        var obgynDx = {
+            type: "encounter-section",
+            id: "pihcore-diagnosis-obgyn",
+            label: "pihcore.diagnosis.label",
+            icon: "fas fa-fw fa-diagnoses",
+            shortTemplate: "templates/sections/dxSectionShort.page",
+            longTemplate: "templates/sections/dxLong.page",
+            //templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-dx-obgyn.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-dx-obgyn.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+        };
+
         var primaryCarePlan = {
             type: "encounter-section",
             id: "pihcore-plan",
@@ -1736,7 +1747,7 @@ angular.module("encounterTypeConfig", [])
                     obgynInitial,
                     ancVaccinations,
                     primaryCareExam,
-                    primaryCareDx,
+                    obgynDx,
                     obgynPlan
                 ]
             }
