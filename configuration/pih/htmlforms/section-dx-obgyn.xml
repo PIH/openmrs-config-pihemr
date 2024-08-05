@@ -125,12 +125,12 @@
                                                 jq("#obgyn_initial_edd").removeClass("emptyValue").addClass("value");
                                             }
                                         } else if (obs.concept.uuid === gravidaConcept) {
-                                            if ( obs.valueNumeric ) {
+                                            if ( (obs.valueNumeric === 0) || obs.valueNumeric ) {
                                                 jq("#obgyn_initial_gravidaInput").text(Math.round(obs.valueNumeric));
                                                 jq("#obgyn_initial_gravidaInput").removeClass("emptyValue").addClass("value");
                                             }
                                         } else if (obs.concept.uuid === paraConcept) {
-                                            if ( obs.valueNumeric ) {
+                                            if ( (obs.valueNumeric === 0) || obs.valueNumeric ) {
                                                 jq("#obgyn_initial_paraInput").text(Math.round(obs.valueNumeric));
                                                 jq("#obgyn_initial_paraInput").removeClass("emptyValue").addClass("value");
                                             }
@@ -140,7 +140,7 @@
                                                 jq("#obgyn_initial_abortusInput").removeClass("emptyValue").addClass("value");
                                             }
                                         } else if (obs.concept.uuid === livingConcept) {
-                                            if ( obs.valueNumeric ) {
+                                            if ( (obs.valueNumeric === 0) || obs.valueNumeric ) {
                                                 jq("#obgyn_initial_livingInput").text(Math.round(obs.valueNumeric));
                                                 jq("#obgyn_initial_livingInput").removeClass("emptyValue").addClass("value");
                                             }

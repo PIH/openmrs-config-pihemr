@@ -239,6 +239,8 @@
     if ( lookupEncDate ) {
         currentEncounterDate = new Date(+lookupEncDate);
     }
+    const msgWeeks =  '<uimessage code="pihcore.weeks"/>';
+    const locale = window.sessionContext.locale || navigator.language;
 
     let serverEncounterDate = '<lookup complexExpression="#if ($encounter) #set ($encounterDate = $encounter.encounterDatetime) #else #set ($encounterDate = $visit.startDatetime) #end"/>';
 
@@ -349,6 +351,10 @@
                                         let periodDate = new Date(obs.valueDatetime);
                                         jq("#obgyn_initial_lastPeriodDate").text(periodDate.getDate() + " " + new Intl.DateTimeFormat(undefined, monthOption).format(periodDate) + " " + periodDate.getFullYear());
                                         jq("#obgyn_initial_lastPeriodDate").removeClass("emptyValue").addClass("value");
+                                        jq(".calculated-gestational-age-value").text(calculateGestationalDays(periodDate, currentEncounterDate, msgWeeks));
+                                        jq(".calculated-gestational-age-value").removeClass("emptyValue").addClass("value");
+                                        jq(".calculated-edd").text((Intl.DateTimeFormat(locale, { dateStyle: "medium" })).format(calculateExpectedDeliveryDate(periodDate)));
+                                        jq(".calculated-edd").removeClass("emptyValue").addClass("value");
                                     }
                                 } else if (obs.concept.uuid === dueDateConcept) {
                                     if ( obs.valueDatetime ) {
@@ -374,22 +380,22 @@
                                         }
                                     }
                                 } else if (obs.concept.uuid === gravidaConcept) {
-                                    if ( obs.valueNumeric ) {
+                                    if ( (obs.valueNumeric === 0) || obs.valueNumeric ) {
                                         jq("#obgyn_initial_gravidaInput").text(Math.round(obs.valueNumeric));
                                         jq("#obgyn_initial_gravidaInput").removeClass("emptyValue").addClass("value");
                                     }
                                 } else if (obs.concept.uuid === paraConcept) {
-                                    if ( obs.valueNumeric ) {
+                                    if ( (obs.valueNumeric === 0) || obs.valueNumeric ) {
                                         jq("#obgyn_initial_paraInput").text(Math.round(obs.valueNumeric));
                                         jq("#obgyn_initial_paraInput").removeClass("emptyValue").addClass("value");
                                     }
                                 } else if (obs.concept.uuid === abortusConcept) {
-                                    if ( obs.valueNumeric ) {
+                                    if ( (obs.valueNumeric === 0) || obs.valueNumeric ) {
                                         jq("#obgyn_initial_abortusInput").text(Math.round(obs.valueNumeric));
                                         jq("#obgyn_initial_abortusInput").removeClass("emptyValue").addClass("value");
                                     }
                                 } else if (obs.concept.uuid === livingConcept) {
-                                    if ( obs.valueNumeric ) {
+                                    if ( (obs.valueNumeric === 0) || obs.valueNumeric ) {
                                         jq("#obgyn_initial_livingInput").text(Math.round(obs.valueNumeric));
                                         jq("#obgyn_initial_livingInput").removeClass("emptyValue").addClass("value");
                                     }
