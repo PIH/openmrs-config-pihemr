@@ -319,6 +319,8 @@ encounterType:
     uuid: "5b1b4a4e-0084-4137-87db-dba76c784439"
   ATTACHMENT_UPLOAD:
     uuid: "5021b1a1-e7f6-44b4-ba02-da2f2bcf8718"
+  DRUG_REHAB:
+    uuid: "dd1ebccb-700d-4e8b-bb61-f54e9763117c"
   PHYSICAL_REHAB_EVAL:
     uuid: "e91a4139-e0e7-447f-a5dd-c4f3b92d27c9"
   NURSE_CONSULT:
