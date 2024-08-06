@@ -3912,6 +3912,32 @@ RETURN ret;
 END
 #
 
+/*
+-- this function accepts an encounter_id and mappings of a question
+-- it will return the obs_group_id of the most recent observation created with that question within the encounter
+*/
+#
+DROP FUNCTION IF EXISTS obs_group_id_from_temp;
+#
+CREATE FUNCTION obs_group_id_from_temp(_encounterId int(11), _source varchar(50), _term varchar(255), _offset_value int)
+    RETURNS int(11)
+    DETERMINISTIC
+BEGIN
+    DECLARE ret int(11);
+    select      obs_group_id into ret FROM
+        (
+            select      obs_group_id
+            from        temp_obs o
+            where       o.voided = 0
+              and       o.encounter_id = _encounterId
+              and       o.concept_id = concept_from_mapping(_source, _term)
+            order by    o.date_created desc, o.obs_id desc
+            limit 1
+            offset      _offset_value
+        ) obs_group_id_of_question;
+    RETURN ret;
+END
+#
 
 -- This function accepts person_id and return cause_of_death
 #
