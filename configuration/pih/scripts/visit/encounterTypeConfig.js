@@ -1795,8 +1795,18 @@ angular.module("encounterTypeConfig", [])
             showOnVisitList: true
         }
 
+        // Drug Rehab
+        encounterTypes["dd1ebccb-700d-4e8b-bb61-f54e9763117c"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
+            icon: "fas fa-fw fa-pills",
+            editUrl: hfeSimpleEditUrl,
+            showOnVisitList: true
+        };
 
-        // Rehab
+        // Physical Rehab
         encounterTypes["e91a4139-e0e7-447f-a5dd-c4f3b92d27c9"] = {
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
