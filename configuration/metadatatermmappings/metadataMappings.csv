@@ -12,3 +12,4 @@ bc976a45-1d9e-4193-a541-a689ba38cf69,,org.openmrs.module.emrapi,emr.transferWith
 99cb2776-c3d5-4e2c-9b65-3828cc1ae301,,org.openmrs.module.emrapi,emr.admissionForm,org.openmrs.Form,43acf930-eb1b-11e2-91e2-0800200c9a66
 302f09dd-1dfa-447b-8c88-84864256aeac,,org.openmrs.module.emrapi,emr.exitFromInpatientForm,org.openmrs.Form,e0a26c20-fba6-11e2-b778-0800200c9a66
 6c63c917-6b57-458c-8f36-f460ca70f67d,,org.openmrs.module.emrapi,emr.transferWithinHospitalForm,org.openmrs.Form,d068bc80-fb95-11e2-b778-0800200c9a66
+fdcc4b43-1e55-4ba4-8392-c1860de885b9,,org.openmrs.module.emrapi,emr.motherChildRelationshipType,org.openmrs.RelationshipType,${relationshipType.motherToChild.uuid}
