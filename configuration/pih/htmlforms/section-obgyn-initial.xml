@@ -727,7 +727,7 @@
                             <!--                           Weight-->
                             <div>
                                 <label>
-                                    <uimessage code="pihcore.mch.weight"/>
+                                    <uimessage code="mirebalais.vitals.weight.title"/>
                                 </label>
                                 <span class="small">
                                     <span id="last_weight" class="obs-field">
