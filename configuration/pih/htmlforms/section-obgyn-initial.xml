@@ -822,7 +822,7 @@
                             <!--                        Weight-->
                             <div>
                                 <label>
-                                    <uimessage code="Weight"/>
+                                    <uimessage code="mirebalais.vitals.weight.title"/>
                                 </label>
                                 <span class="small">
                                     <obs conceptId="CIEL:5089" id="weight"
