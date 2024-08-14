@@ -63,6 +63,9 @@ concept:
   laboratoryCategories:
     uuid: "517d25f7-2e68-4da4-912b-76090fbfe0fd"
 
+  patientDied:
+    uuid: "3cdd446a-26fe-102b-80cb-0017a47871b2"
+
   occupation:
     uuid: "3cd97286-26fe-102b-80cb-0017a47871b2"
   civilServant:
@@ -398,7 +401,11 @@ programWorkflow:
   pregnancyProgramTypeOfTreatment:
     # this is referred to by UUID because the concept used it fairly generic (and likely to be reused elsewhere?)
     uuid: "9a3f8252-1588-4f7b-b02c-9e99c437d4ef"
-
+    state:
+      prenatalIndividual:
+        uuid: "6d1a9b41-82a3-46d5-ae86-9f1428e3c91f"
+      postpartum:
+        uuid: "a735b5f6-0b63-4d9a-ae2e-70d08c947aed"
 
 relationshipType:
   spousePartner:
