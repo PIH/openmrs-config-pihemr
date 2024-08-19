@@ -963,4 +963,13 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20240816-delete-duplicate-concept-set-member" author="ball">
+        <comment>
+            UHM-8133: Remove duplicate concept set member (Avoidant personality disorder)
+        </comment>
+        <sql>
+            delete from concept_set where uuid='4898e44c-0062-4cfe-9e7f-c3adb53391e8';
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
