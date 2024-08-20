@@ -19,7 +19,11 @@
           formEncounterType="dd1ebccb-700d-4e8b-bb61-f54e9763117c" formVersion="1.0">
 
     <style type="text/css">
-
+        #radio_button_container{
+        display:flex;
+        gap:50px;
+        justify-content:space-between;
+        }
         #who-when-where {
         margin-bottom: 6px;
         border-bottom: 1px solid #ccc;
@@ -214,11 +218,69 @@
         </includeIf>
     </ifMode>
 
-    <section id="consult" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="consult">
-        <div class="section-container">
-            <label>
-                <uimessage code="add form here" />
-            </label>
+    <section id="mh_scores" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.drugRehab">
+
+
+        <div class="section-container" id="radio_button_container">
+            <div class="col">
+                <p>
+                    <label>
+                        <b>  <uimessage code="pihcore.mentalhealth.Psychosocial"/></b>
+                    </label>
+                    <obs conceptId="PIH:13175" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerSeparator=""/>
+                </p>
+
+            </div>
+            <div class="col">
+                <p>
+                    <label>
+                        <b> <uimessage code="pihcore.mentalhealth.drugrehab"/> </b>
+                    </label>
+                    <obs conceptId="PIH:20308" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerSeparator=""/>
+                </p>
+
+            </div>
+        </div>
+        <div class="section-container" id="radio_button_container">
+            <div class="col">
+                <p>
+                    <label>
+                        <b>  <uimessage code="pihcore.mentalhealth.supportGroup"/> </b>
+                    </label>
+                    <obs conceptId="PIH:20309" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerSeparator=""/>
+                </p>
+
+            </div>
+
+            <div class="col">
+                <p>
+                    <label>
+                        <b> <uimessage code="pihcore.mentalhealth.planVisit"/></b>
+                    </label>
+                    <obs conceptId="PIH:13181" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerSeparator=""/>
+                </p>
+
+            </div>
+        </div>
+        <div class="section-container" id="radio_button_container">
+            <div class="col">
+                <p>
+                    <label>
+                        <b> <uimessage code="pihcore.mentalhealth.support"/></b>
+                    </label>
+                    <obs conceptId="PIH:2156" style="radio" answerConceptIds="PIH:2863,PIH:990,PIH:1398,CIEL:5622" answerSeparator=""/>
+                </p>
+
+            </div>
+            <div class="col">
+                <p>
+                    <label>
+                        <b> <uimessage code="pihcore.other"/></b>
+                    </label>
+                    <obs conceptId="PIH:2923" style="text" />
+                </p>
+
+            </div>
         </div>
     </section>
 
