@@ -221,56 +221,12 @@ addressConfig tree in your PIH config file (found in
 [mirebalais/.../PatientRegistrationApp](https://github.com/PIH/openmrs-module-mirebalais/blob/8a565656ff335cd28dcb310c0b1c4de3dcd4d62f/api/src/main/java/org/openmrs/module/mirebalais/apploader/apps/PatientRegistrationApp.java).
 If you don’t provide this configuration, this file provides defaults.
 
-### Concepts (and misc metadata in MDS packages)
+### Concepts 
 
-Concepts installed via Metadata Sharing Package (the majority of the concepts) are now packaged within the
-config projects.  The installer will install all metadata sharing packages found in the "/configuration/pih/concepts"
-package.  Generally, we have consolidated our metadata so that most packages are installed on all servers.
-Country-specific concepts are deployed in country-specific packages like "Mexico_Concepts", "Liberia_Concepts", etc.  
-These country-specific packages are found in the country-specific distro repositories.
+[OpenConceptLab (OCL)](https://app.openconceptlab.org/#/orgs/PIH/sources/PIH/concepts/) is used for concept management.  OCL exports a version of the PIH source which is added to the "configuration/ocl" directory.  During installation (run), that zip package is installed in the OpenMRS instance.
+package.  Generally, we have consolidated all the PIH EMR concepts which are installed on all servers.
 
-Adding a new package to the distro should be as easy as adding a new MDS package to the "/configuration/pih
-/concepts" directory.  To upgrade an existing package it should be enough to generate a new version of the MDS
-package and replace it within the "/configuration/pih/concepts" directory.  Upon startup, the PIH EMR will scan
-that directory and compare all packages against their installed versions, and install/update as necessary.
-
-More details about Concept Management can be found in the [Concept
-Management](#concept-management) section below.
-
-#### Existing MDS Packages
-
-Metadata sharing packages include these:
-
-* HIV (includes all concepts for Haiti including iSantePlus): HIV-x.zip (1 concept)
-* Zika: Zika-x.zip (1 concept: Zika study concept set)
-* COVID: COVID-19-x.zip (1 concept: COVID concept set)
-* Ebola:  Ebola-x.zip (1 concept: Ebola concept set)
-* Clinical:  Clinical_Concepts-x.zip (1 concept: Clinical concept set)
-* Diagnoses, symptoms, etc:  Diagnoses-x.zip (1 concept: Diagnosis set of sets)
-* Dispensing: Dispensing_Concepts-x.zip (1 concept: Dispensing concept set)
-* Disposition:  Disposition_Concepts-x.zip (1 concept: PIH EMR Disposition concept set)
-* ED triage:  Emergency_Triage-x.zip (1 concept: HUM Triage set)
-* Medications:  Medication-x.zip (1 concept: PIH medication concept set)
-* Miscellaneous: Metadata-x.zip (1 concept: PIH metadata mds concept set)
-* NCD: NCD-x.zip (1 concept: NCD concept set)
-* Oncology: Oncology-x.zip (1 concept: Oncology concept set)
-* Pathology: Pathology-x.zip (1 concept: Pathology concept set)
-* Radiology orders: HUM_Radiology_Orderables-x.zip (2 concepts including Radiology concept set)
-* Appointment scheduling: Scheduling-x.zip (1 concept)
-* Surgery: Surgery-x.zip (1 concept)
-* Liberia only: Liberia_Concepts-x.zip (1 concept: Liberia concept set)
-* Mexico only:  Mexico_Concepts-x.zip (1 concept: )
-* Oncology: Oncology-x.zip
-* Allergies:  Allergies-x.zip (1 concept: PIH allergy concept set)
-* Physical exam:  Exam-x.zip (1 concept: Physical system concept set)
-* Intake history: History-x.zip (1 concept: PIH History Form Concept Set)
-* Labs: Labs-x.zip (1 concept: Laboratory concept set)
-* Maternal child health: Maternal_Child_Health-x.zip (1 concepts:  MCH concept set)
-* Mental health: Mental_Health-x.zip (1 concept: Mental Health concept sets)
-* Pediatric feeding: Pediatric_Feeding-x.zip (1 concept: Pediatric feeding concept set)
-* Pediatric supplements: Pediatric_Supplements-x.zip (1 concept: Supplement history construct ?)
-* Socioeconomics:  Socio_Economics-x.zip (1 concept: Socioeconomics concept set)
-* Sierra Leone only:  Sierra_Leone_Concepts-x.zip (1 concept: Sierra Leone concept set)
+Country-specific concepts are added for Mexico, but hopefully this will change.
 
 ### Forms
 
