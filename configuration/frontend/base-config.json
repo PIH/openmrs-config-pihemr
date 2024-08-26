@@ -21,7 +21,8 @@
           }
         }
       }
-    }
+    },
+    "includePhoneNumberInExcelSpreadsheet": true
   },
   "@openmrs/esm-dispensing-app": {
     "dispenseBehavior": {
