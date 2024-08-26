@@ -110,6 +110,7 @@ from obs o
  inner join dx_translations d on 
 	upper(trim(d.non_coded_dx)) = upper(trim(o.value_text))
 where o.concept_id = concept_from_mapping('CIEL','161602')
+and d.code_dx is not null
 and voided = 0
 ;
 
