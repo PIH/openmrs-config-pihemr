@@ -21,8 +21,17 @@ function setUpEdd(currentEncounterDate, msgWeeks) {
 
   function updateEdd() {
     const lastPeriodDateValue = htmlForm.getValueIfLegal("lastPeriodDate.value");
+    //the lastPerioDate is a string with the following format YYYY-MM-DD
     if (lastPeriodDateValue) {
       const lastPeriodDate = new Date(lastPeriodDateValue);
+      let yearMonthDay = lastPeriodDateValue.split('-');
+      if (yearMonthDay.length == 3) {
+        lastPeriodDate.setFullYear(yearMonthDay[0]);
+        lastPeriodDate.setMonth(+yearMonthDay[1] -1); // the month starts from 0 for January
+        lastPeriodDate.setDate(yearMonthDay[2]);
+        lastPeriodDate.setHours(0, 0, 0);
+      }
+      
       const gestAgeText = calculateGestationalDays(lastPeriodDate, currentEncounterDate, msgWeeks);
       const edd = calculateExpectedDeliveryDate(lastPeriodDate);
       const locale = window.sessionContext.locale || navigator.language;
