@@ -962,14 +962,4 @@
         </sql>
     </changeSet>
 
-    <changeSet id="20240826-migrate-noncoded-dxs-2" author="ddesimone_mgoodrich" runAlways="true" >
-        <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="1">
-                select count(*) from address_hierarchy_entry where parent_id is NULL and name like 'Haiti';
-            </sqlCheck>
-        </preConditions>
-        <comment>UHM-7593: Migrate ZL MCH non-coded to coded diagnoses (January 2024, updated August 2024)</comment>
-        <sqlFile endDelimiter=";" path="sql/migrate_non_coded_mch_dxs.sql" relativeToChangelogFile="true" stripComments="true"/>
-    </changeSet>
-
 </databaseChangeLog>

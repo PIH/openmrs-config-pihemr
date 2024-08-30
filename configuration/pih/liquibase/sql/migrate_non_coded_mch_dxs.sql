@@ -1,6 +1,12 @@
 /*
  * This is a one-time script to migrate several diagnoses entered
  * as non-coded int he past that should now be coded
+ * Originally we ran it via liquibase, but we ran into some issues, see: https://pihemr.atlassian.net/browse/HAI-995
+ *
+ * We have a new script, "fix_migrate_non_coded_mch_dxs.sql" that we will use to fix the issue on servers where this script has already run
+ * We will also use this script to run the migration manually on servers where the script has not yet run (Hince, Boucan Carre, Belladere) *after* we have updated those servers to the latest release (thereby assuring the appropiate concepts are present)
+ *
+ * Note that we many want to run this script at regular intervals to clean up new non-coded diagnoses that are manually entered, but it's a bit too "heavy" to run on every startup
  */
 
 -- set up translation table for diagnoses
