@@ -832,16 +832,6 @@
             delete from global_property where property = 'openconceptlab.oclLoadAtStartupPath';
         </sql>
     </changeSet>
-    
-    <changeSet id="20240122-migrate-noncoded-dxs" author="ddesimone">
-        <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="1">
-                select count(*) from address_hierarchy_entry where parent_id is NULL and name like 'Haiti';
-            </sqlCheck>
-        </preConditions>
-        <comment>UHM-7593: Migrate ZL MCH non-coded to coded diagnoses (January 2024)</comment>
-        <sqlFile endDelimiter=";" path="sql/migrate_non_coded_mch_dxs.sql" relativeToChangelogFile="true" stripComments="true"/>
-    </changeSet>
 
     <changeSet id="20240124-update-queue-priority-normal-concept" author="cioan">
         <preConditions onFail="MARK_RAN">
