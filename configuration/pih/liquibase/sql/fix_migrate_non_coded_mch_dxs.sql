@@ -63,7 +63,7 @@ values
     ('PES stab',concept_from_mapping('CIEL','168611'));
 
 -- sanity check, should be 0, do not continue if not
-select count(*) from dx_translations;
+select count(*) from dx_translations where code_dx is null;
 
 -- get a count of the problematic obs, for reference
 select count(*) from obs coded where coded.concept_id=concept_from_mapping('PIH','DIAGNOSIS') and coded.value_coded is null and coded.voided=0;
