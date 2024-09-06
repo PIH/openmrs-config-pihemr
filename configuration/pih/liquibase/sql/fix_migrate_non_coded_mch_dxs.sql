@@ -130,6 +130,9 @@ where o1.obs_group_id=o2.obs_group_id and (o1.person_id!=o2.person_id or o1.conc
     o1.location_id!=o2.location_id or o1.accession_number!=o2.accession_number or
     o1.comments!=o2.comments or o1.non_coded_value!=o2.non_coded_value);
 
+-- record count when we deduplicate
+select * from coded_obs_to_recreate group by obs_group_id;
+
 -- first void out the old obs that we are going recreate, to make sure if anything goes wrong we have the proper auditing infp
 update obs o, coded_obs_to_recreate coded set o.voided=1, o.void_reason='fixed migration to coded mch dx', o.voided_by =  (select user_id from users where username = 'admin'), o.date_voided=now()
 where coded.previous_version = o.obs_id;
@@ -167,7 +170,7 @@ select person_id,
        now(),
        uuid(),
        previous_version
-from coded_obs_to_recreate where value_coded is not null;
+from coded_obs_to_recreate where value_coded is not null group by obs_group_id;
 
 
 -- the previous count of these from above, minus the count of those with "fixed migration to coded mch dx", should equal this count
