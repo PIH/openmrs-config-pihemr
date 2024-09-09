@@ -962,4 +962,14 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20240909-delete-duplicate-concept-set-members" author="ball">
+        <comment>
+            HAI-8152: Remove duplicate concept set members (Mild/Moderate alcohol use disorder)
+        </comment>
+        <sql>
+            delete from concept_set
+             where uuid IN ('ad778a3c-d7ef-4726-b7e8-ac72806c8868','f125a022-f9d9-4ff9-80df-8821bad5e59b');
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
