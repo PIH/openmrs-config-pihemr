@@ -53,7 +53,6 @@ values
 	('Masse ovarienne',concept_from_mapping('CIEL','152755')),
 	('PES stabilisée',concept_from_mapping('CIEL','168611')),
 	('Infertilite secondaire',concept_from_mapping('CIEL','126976')),
-	('Infection génito urinaire',concept_from_mapping('PIH','15052')),
 	('HTAc',concept_from_mapping('CIEL','168592')),
 	('gardnerella vaginalis',concept_from_mapping('CIEL','139633')),
 	('PES prob.',concept_from_mapping('CIEL','113006')),

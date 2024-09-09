@@ -48,7 +48,6 @@ values
     ('Masse ovarienne',concept_from_mapping('CIEL','152755')),
     ('PES stabilisée',concept_from_mapping('CIEL','168611')),
     ('Infertilite secondaire',concept_from_mapping('CIEL','126976')),
-    ('Infection génito urinaire',concept_from_mapping('PIH','15052')),
     ('HTAc',concept_from_mapping('CIEL','168592')),
     ('gardnerella vaginalis',concept_from_mapping('CIEL','139633')),
     ('PES prob.',concept_from_mapping('CIEL','113006')),
@@ -121,6 +120,19 @@ select count(*) from coded_obs_to_recreate;
 -- sanity check, should be 0, do not proceed if not
 select count(*) from coded_obs_to_recreate where value_coded is null;
 
+-- another sanity check: there are some duplicate results were are going to clean up using a "group by" in the query below
+-- this verifies that the duplicates are truly identical and that we can safely ignore them
+-- do not proceed if the count is not 0
+create temporary table coded_obs_to_recreate_2 select * from coded_obs_to_recreate;
+select count(*) from coded_obs_to_recreate o1 join coded_obs_to_recreate_2 o2
+where o1.obs_group_id=o2.obs_group_id and (o1.person_id!=o2.person_id or o1.concept_id!=o2.concept_id or
+    o1.encounter_id!=o2.encounter_id or o1.order_id!=o2.order_id or o1.obs_datetime!=o2.obs_datetime or
+    o1.location_id!=o2.location_id or o1.accession_number!=o2.accession_number or
+    o1.comments!=o2.comments or o1.non_coded_value!=o2.non_coded_value);
+
+-- record count when we deduplicate
+select * from coded_obs_to_recreate group by obs_group_id;
+
 -- first void out the old obs that we are going recreate, to make sure if anything goes wrong we have the proper auditing infp
 update obs o, coded_obs_to_recreate coded set o.voided=1, o.void_reason='fixed migration to coded mch dx', o.voided_by =  (select user_id from users where username = 'admin'), o.date_voided=now()
 where coded.previous_version = o.obs_id;
@@ -128,7 +140,7 @@ where coded.previous_version = o.obs_id;
 -- sanity check, should equal the count of rows in coded_obs_to_recreate
 select count(*) from obs where void_reason='fixed migration to coded mch dx';
 
-# now actually insert the new coded obs into the table
+-- now actually insert the new coded obs into the table
 insert into obs (
     person_id,
     concept_id,
@@ -158,7 +170,7 @@ select person_id,
        now(),
        uuid(),
        previous_version
-from coded_obs_to_recreate;
+from coded_obs_to_recreate where value_coded is not null group by obs_group_id;
 
 
 -- the previous count of these from above, minus the count of those with "fixed migration to coded mch dx", should equal this count
