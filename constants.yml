@@ -328,6 +328,19 @@ encounterType:
     uuid: "e91a4139-e0e7-447f-a5dd-c4f3b92d27c9"
   NURSE_CONSULT:
     uuid: "e920911f-dee9-4b18-9a58-50e685806ea0"
+  LABOR_DELIVERY_SUMMARY:
+    uuid: "fec2cc56-e35f-42e1-8ae3-017142c1ca59"
+  MATERNAL_ADMISSION:
+    uuid: "0ef67d23-0cf4-4a3e-8617-ac9d55bdd005"
+  MATERNAL_DISCHARGE:
+    uuid: "2110a810-db62-4914-ba95-604b96010164"
+  NEWBORN_ADMISSION:
+    uuid: "093b6ffc-e55a-461a-85cc-c6acf7714a23"
+  NEWBORN_ASSESSMENT:
+    uuid: "6444b8d4-407d-444d-aa15-d6dff204ed83"
+  NEWBORN_DISCHARGE:
+    uuid: "153d3182-c76f-4047-b7f2-d83cf967b206"
+
 
 orderType:
   drugOrder:
