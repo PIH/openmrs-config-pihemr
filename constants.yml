@@ -29,6 +29,8 @@ concept:
     uuid: "3ce93cf2-26fe-102b-80cb-0017a47871b2"
   weightKG:
     uuid: "3ce93b62-26fe-102b-80cb-0017a47871b2"
+  fundalHeightCM:
+    uuid: "1439AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
   systolicBloodPressure:
     uuid: "3ce934fa-26fe-102b-80cb-0017a47871b2"
   diastolicBloodPressure:
