@@ -1,4 +1,6 @@
-<htmlform formUuid="ba22eda5-148d-456e-8adc-f36247d1f7c3" formName="Dispensing" formEncounterType="8ff50dea-18a1-4609-b4c9-3f8f2d611b84" formVersion="1.0" class="dispensing-form">
+<htmlform formUuid="ba22eda5-148d-456e-8adc-f36247d1f7c3"
+          formName="Dispensing"
+          formEncounterType="8ff50dea-18a1-4609-b4c9-3f8f2d611b84" formVersion="1.0" class="dispensing-form">
     <script type="text/javascript">
 
         htmlForm.getBeforeValidation().push(function() {

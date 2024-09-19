@@ -1,4 +1,6 @@
-<htmlform formUuid="a3fc5c38-eb32-11e2-981f-96c0fcb18276" formName="Clinic Consult" formEncounterType="92fd09b4-5335-4f7e-9f63-b2a663fd09a6" formVersion="1.0">
+<htmlform formUuid="a3fc5c38-eb32-11e2-981f-96c0fcb18276"
+          formName="Clinical Consult"
+          formEncounterType="92fd09b4-5335-4f7e-9f63-b2a663fd09a6" formVersion="1.0">
 
     <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.ApplyDispositionAction"/>
     <includeIf velocityTest="$config.isComponentEnabled('deathCertificate')">
