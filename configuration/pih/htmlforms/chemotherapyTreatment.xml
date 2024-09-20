@@ -12,7 +12,8 @@
   ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
   -->
 
-<htmlform id="chemotherapy-treatment" class="simple-form-ui" formUuid="2fce4b79-a0c8-41ac-81d7-3bbfd85988fd"
+<htmlform id="chemotherapy-treatment" class="simple-form-ui"
+          formUuid="2fce4b79-a0c8-41ac-81d7-3bbfd85988fd"
           htmlformUuid="e76143d9-99a0-4811-8b2d-243f615371d4"
           formName="Oncology Chemotherapy Treatment Session"
           formEncounterType="828964fa-17eb-446e-aba4-e940b0f4be5b" formVersion="1.0">
