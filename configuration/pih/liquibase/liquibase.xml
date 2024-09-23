@@ -974,15 +974,16 @@
 
     <changeSet id="20240920-migrate-outpatient-peds-form-id" author="ball">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="1">
-                select count(*) from address_hierarchy_entry where parent_id is NULL and name like 'Haiti';
+            <sqlCheck expectedResult="0">
+                select count(*)
+                  from form f
+                 where uuid = '58f731af-8f8e-4863-b721-70bca76699c4';
             </sqlCheck>
         </preConditions>
         <comment>
-            If the count is 1, this is a Haiti server
+            HAI-8185 Update to Outpatient Initial (Peds) form_id when the encounter_type is Outpatient Initial (Peds)
         </comment>
         <sql>
-            -- Update to Outpatient Initial (Peds) form_id when the encounter_type is Outpatient Initial
             update encounter
             set form_id =
                     (select form_id from form where uuid = '58f731af-8f8e-4863-b721-70bca76699c4')
