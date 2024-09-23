@@ -973,8 +973,8 @@
     </changeSet>
 
     <changeSet id="20240920-migrate-outpatient-peds-form-id" author="ball">
-        <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="0">
+        <preConditions onFail="CONTINUE">
+            <sqlCheck expectedResult="1">
                 select count(*)
                   from form f
                  where uuid = '58f731af-8f8e-4863-b721-70bca76699c4';
