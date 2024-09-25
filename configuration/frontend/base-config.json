@@ -180,7 +180,7 @@
   "@openmrs/esm-patient-notes-app": {
     "visitNoteConfig": {
       "clinicianEncounterRole": "${encounterRole.orderingProvider.uuid}",
-      "encounterTypeUuid": "${encounterType.CONSULTATION.uuid}",
+      "encounterTypeUuid": "${encounterType.COMMENT.uuid}",
       "encounterNoteTextConceptUuid": "${concept.clinicalImpressionComments.uuid}",
       "visitDiagnosesConceptUuid": "${concept.visitDiagnosesConstruct.uuid}",
       "formConceptUuid": ""
