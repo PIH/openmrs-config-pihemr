@@ -972,4 +972,26 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20240920-migrate-outpatient-peds-form-id" author="ball">
+        <preConditions onFail="CONTINUE">
+            <sqlCheck expectedResult="1">
+                select count(*)
+                  from form f
+                 where uuid = '58f731af-8f8e-4863-b721-70bca76699c4';
+            </sqlCheck>
+        </preConditions>
+        <comment>
+            HAI-8185 Update to Outpatient Initial (Peds) form_id when the encounter_type is Outpatient Initial (Peds)
+        </comment>
+        <sql>
+            update encounter
+            set form_id =
+                    (select form_id from form where uuid = '58f731af-8f8e-4863-b721-70bca76699c4')
+            where encounter_type IN
+                  (select et.encounter_type_id
+                   from encounter_type et
+                   where et.uuid IN ('5b812660-0262-11e6-a837-0800200c9a66'));
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
