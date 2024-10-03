@@ -76,6 +76,7 @@
     "extensionSlots": {
       "homepage-dashboard-slot": {
         "remove": [
+          "laboratory-dashboard-link",
           "patient-lists-dashboard-link",
           "service-queues-dashboard-link"
         ],
