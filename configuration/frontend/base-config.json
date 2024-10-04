@@ -29,6 +29,10 @@
       "allowModifyingPrescription": false,
       "restrictTotalQuantityDispensed": true
     },
+    "dispenserProviderRoles": [
+      "${providerRole.PHARMACIST.uuid}",
+      "${providerRole.PHARMACY_AIDE.uuid}"
+    ],
     "locationBehavior": {
       "locationColumn": {
         "enabled": true

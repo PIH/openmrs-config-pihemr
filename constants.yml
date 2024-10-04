@@ -535,4 +535,10 @@ privilege:
   task_dispensing_edit_dispense: "Task: dispensing.edit.dispense"
   task_dispensing_delete_dispense: "Task: dispensing.delete.dispense"
   task_dispensing_delete_dispense_if_creator: "Task: dispensing.delete.dispense.ifCreator"
+providerRole:
+  PHARMACIST:
+    uuid: "8fd1552e-6cb9-4719-b198-23a2c512a073"
+  PHARMACY_AIDE:
+    uuid: "7ec19cca-f563-4cee-940f-effec16b3b80"
+
 
