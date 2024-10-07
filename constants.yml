@@ -342,6 +342,10 @@ encounterType:
     uuid: "6444b8d4-407d-444d-aa15-d6dff204ed83"
   NEWBORN_DISCHARGE:
     uuid: "153d3182-c76f-4047-b7f2-d83cf967b206"
+  INPATIENT_NOTE:
+    uuid: "d3b07384-d9a7-4f3b-8a1d-6e5b2b5a5b5b"
+  TRANSFER_REQUEST:
+    uuid: "e4b0a1c2-3d4f-4e5b-9a1d-7e6b3b6a6c6c"
 
 
 orderType:
