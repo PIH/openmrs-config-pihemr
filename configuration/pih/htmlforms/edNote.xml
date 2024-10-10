@@ -55,6 +55,20 @@
             #disposition span {
                 padding-left: 15px;
             }
+
+            .list-inline label, .list-inline input[type="radio"], .list-inline span {
+                display: inline-block;
+                float: none;
+            }
+
+            .check-inline input[type="checkbox"] {
+                margin: 0px 5px;
+                top:5px;
+            }
+
+            .check-inline label {
+                margin: 0px;
+            }
         </ifMode>
     </style>
 
@@ -208,7 +222,16 @@
 
     <div id="data-collection">
 
-        <encounterDiagnosesByObs required="true" selectedDiagnosesTarget="#encounter-diagnoses-target"/>
+        <encounterDiagnosesByObs required="true" selectedDiagnosesTarget="#encounter-diagnoses-target" allowNonCoded="false"/>
+
+        <p class="list-inline check-inline">
+            <obs conceptId="PIH:20580" style="checkbox" toggle="nonCodedDiagnosis"
+                 answerConceptId="CIEL:1065" answerCode="mirebalaisreports.noncodeddiagnoses.name" />
+            <div id="nonCodedDiagnosis">
+                <obs conceptId="PIH:7572" style="textarea" cols="28" rows="1"
+                     labelCode="pihcore.ifNoncodedSpecify"/>
+            </div>
+        </p>
 
         <div id="disposition">
             <encounterDisposition/>
