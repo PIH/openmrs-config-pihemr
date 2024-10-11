@@ -1817,6 +1817,24 @@ angular.module("encounterTypeConfig", [])
             showOnVisitList: true
         };
 
+        // Inpatient Notes
+        encounterTypes["d3b07384-d9a7-4f3b-8a1d-6e5b2b5a5b5b"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/defaultEncounterLong.page",
+            icon: "fas fa-fw fa-pencil-alt",
+            showOnVisitList: true
+        };
+
+        // Transfer Request
+        encounterTypes["e4b0a1c2-3d4f-4e5b-9a1d-7e6b3b6a6c6c"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/defaultEncounterLong.page",
+            icon: "fas fa-fw fa-retweet",
+            showOnVisitList: true
+        };
+
         /*
          * Site-specific encounters
          */
