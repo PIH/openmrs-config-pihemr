@@ -182,7 +182,7 @@
                      labelCode="pihcore.ifNoncodedSpecify"/>
             </div>
         </p>
-        
+
         <p>
             <label><uimessage code="emr.consult.freeTextComments"/></label>
             <obs conceptId="PIH:CLINICAL IMPRESSION COMMENTS" style="textarea" rows="5"/>
