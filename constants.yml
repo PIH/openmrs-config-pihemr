@@ -132,6 +132,19 @@ concept:
     uuid: "3cd6e55c-26fe-102b-80cb-0017a47871b2"
   widowed:
     uuid: "3cd6e6f6-26fe-102b-80cb-0017a47871b2"
+  typeOfDelivery:
+    uuid: "fec005b5-6d44-487f-ae34-9f0f483b4ae8"
+  deliveryDateAndTime:
+    uuid: "5599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  multipleBirth:
+    uuid: "115491AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  gestationalAge:
+    uuid: "165425AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  birthWeight:
+    uuid: "5916AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  babyNumber:
+    uuid: "163460AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+
 
 providerAttributeType:
   households:
