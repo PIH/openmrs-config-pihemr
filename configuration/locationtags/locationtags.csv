@@ -42,5 +42,5 @@ ae29295b-2795-11ec-9efc-0242ac110002,,Echocardiogram Location,
 278ba6a4-7570-11ec-be0e-0242ac110002,,Health Facility Location,"Signifies Locations that represent Health Facilities"
 cc104bff-6eaf-452e-a192-400d189cd82a,,Labs Component Location,"Signifies Locations where the Labs component should be enabled"
 26eac54e-7e6f-4d59-9afd-6cc8362be65a,,NICU Location,Neonatal intensive care unit,
-d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a,,Pregnancy Program Location,Locations where the Pregnancy Program is provided
-e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b,,Infant Program Location,Locations where the Infant Program is provided
+d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a,,Pregnancy Program Dashboard Location,Locations where the Pregnancy Program Dashboard should be displayed by default if a patient is enrolled in the program
+e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b,,Infant Program Dashboard Location,Locations where the Infant Program Dashboard should be displayed by default if a patient is enrolled in the program
