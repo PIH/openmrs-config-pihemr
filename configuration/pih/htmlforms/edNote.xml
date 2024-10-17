@@ -228,7 +228,7 @@
             <obs conceptId="PIH:20580" style="checkbox" toggle="nonCodedDiagnosis"
                  answerConceptId="CIEL:1065" answerCode="mirebalaisreports.noncodeddiagnoses.name" />
             <div id="nonCodedDiagnosis">
-                <obs conceptId="PIH:7572" style="textarea" cols="28" rows="1"
+                <obs conceptId="PIH:7416" style="textarea" cols="28" rows="1"
                      labelCode="pihcore.ifNoncodedSpecify"/>
             </div>
         </p>
