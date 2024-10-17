@@ -868,9 +868,24 @@ BEGIN
     RETURN relationshipID;
 END
 #
-
+DROP FUNCTION IF EXISTS person_address_country;
 #
+CREATE FUNCTION person_address_country(
+    _patient_id int
+)
+	RETURNS TEXT
+    DETERMINISTIC
 
+BEGIN
+    DECLARE patientAddressCountry TEXT;
+
+	select country into patientAddressCountry
+    from person_address where voided = 0 and person_id = _patient_id order by preferred desc, date_created desc limit 1;
+
+    RETURN patientAddressCountry;
+
+END
+#
 /*
  patient address
 */
