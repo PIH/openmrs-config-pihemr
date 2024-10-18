@@ -434,10 +434,14 @@ programWorkflow:
     # this is referred to by UUID because the concept used it fairly generic (and likely to be reused elsewhere?)
     uuid: "9a3f8252-1588-4f7b-b02c-9e99c437d4ef"
     state:
+      antenatal:
+        uuid: "a83896bf-9094-4a3c-b843-e75509a52b32"
       prenatalIndividual:
         uuid: "6d1a9b41-82a3-46d5-ae86-9f1428e3c91f"
       postpartum:
         uuid: "a735b5f6-0b63-4d9a-ae2e-70d08c947aed"
+      miscarried:
+        uuid: "c1d2e3f4-a5b6-7c8d-9e0f-1a2b3c4d5e6f"
 
 relationshipType:
   spousePartner:
