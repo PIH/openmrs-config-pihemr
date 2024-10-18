@@ -1,0 +1,2 @@
+${programWorkflow.pregnancyProgramTypeOfTreatment.state.prenatalIndividual.uuid},,${programWorkflow.pregnancyProgramTypeOfTreatment.uuid},PIH:11700,true,
+${programWorkflow.pregnancyProgramTypeOfTreatment.state.postpartum.uuid},,${programWorkflow.pregnancyProgramTypeOfTreatment.uuid},PIH:13137,true,
