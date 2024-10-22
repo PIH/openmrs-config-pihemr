@@ -4100,6 +4100,8 @@ END
 -- This function will check if a given column on a given table exists
 -- if it does, it returns true(1), otherwise false(0)
 #
+DROP FUNCTION IF EXISTS column_exists;
+#
 CREATE FUNCTION column_exists(_table_name varchar(64), _column_name varchar(64)) RETURNS tinyint(1)
     DETERMINISTIC
 BEGIN
