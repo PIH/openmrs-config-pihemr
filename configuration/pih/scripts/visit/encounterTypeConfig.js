@@ -1802,7 +1802,7 @@ angular.module("encounterTypeConfig", [])
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
             templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
             icon: "fas fa-fw fa-pills",
-            editUrl: hfeSimpleEditUrl,
+            editUrl: hfeStandardEditUrl,
             showOnVisitList: true
         };
 
