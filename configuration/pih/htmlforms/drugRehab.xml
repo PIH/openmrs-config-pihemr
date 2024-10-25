@@ -283,7 +283,7 @@
             </div>
         </div>
     </section>
-
+<!-- //Need to fix issue -->
     <ifMode mode="VIEW" include="false">
         <div id="buttons">
             <submit submitClass="confirm right" submitCode="mirebalais.save"/>
