@@ -330,7 +330,7 @@
                         <obs conceptId="CIEL:163075" answerConceptId="PIH:FEVER"/>
                     </div>
                     <div>
-                        <obs conceptId="CIEL:163075" answerConceptId="PIH:Hemorrhage, not elsewhere classified"/>
+                        <obs conceptId="CIEL:163075" answerConceptId="PIH:Hemorrhage NOS"/>
                         <obs conceptId="CIEL:163075" answerConceptId="PIH:POOR APPETITE	"/>
                         <obs conceptId="CIEL:163075" answerConceptId="PIH:NAUSEA"/>
                         <obs conceptId="CIEL:163075" answerConceptId="PIH:VOMITING"/>
