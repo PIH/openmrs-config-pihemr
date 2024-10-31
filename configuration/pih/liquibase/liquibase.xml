@@ -1011,8 +1011,7 @@
 			where o.concept_id = concept_from_mapping('PIH','3671')
 			and o.value_coded = concept_from_mapping('PIH','9361')
 			and o.voided = 0
-			 and o.obs_id =  1564555
-			; -- remove!! only for testing;
+			; 
 			
 			-- void existing dac checkbox obs
 			update obs o
@@ -1020,7 +1019,7 @@
 			set voided = 1,
 			    voided_by = 1, 
 			    date_voided = now(),
-			    void_reason = 'migrated to PIH:1207/PIH:9361 obs';
+			    void_reason = 'migrated to PIH:12071/PIH:9361 obs';
 			
 			-- void any other "person at visit" obs
 			update obs o
@@ -1028,7 +1027,7 @@
 			set voided = 1,
 			    voided_by = 1, 
 			    date_voided = now(),
-			    void_reason = 'migrated to PIH:1207/PIH:9361 obs'
+			    void_reason = 'migrated to PIH:12071/PIH:9361 obs'
 			where o.concept_id =  concept_from_mapping('PIH','12071')
 				and o.voided = 0;
 			
