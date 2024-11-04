@@ -993,5 +993,79 @@
                    where et.uuid IN ('5b812660-0262-11e6-a837-0800200c9a66'));
         </sql>
     </changeSet>
+ <changeSet id="20241029-migrate-dispensed-to-information" author="dmdesimone">
+        <preConditions onFail="MARK_RAN">
+            <not><sqlCheck expectedResult="0">
+                select count(*) from obs o where o.concept_id = concept_from_mapping('PIH','3671') and o.value_coded = concept_from_mapping('PIH','9361'); -- obs to migrate
+            </sqlCheck></not>
+        </preConditions>
+        <comment> UHM-8215 </comment>
+        <sql>
+			-- load all dac checkbox obs
+			drop temporary table if exists temp_dac_obs;
+			create temporary table temp_dac_obs
+			select 
+				obs_id,
+				encounter_id
+			from obs o 
+			where o.concept_id = concept_from_mapping('PIH','3671')
+			and o.value_coded = concept_from_mapping('PIH','9361')
+			and o.voided = 0
+			; 
+			
+			-- void existing dac checkbox obs
+			update obs o
+			inner join temp_dac_obs t on t.obs_id = o.obs_id
+			set voided = 1,
+			    voided_by = 1, 
+			    date_voided = now(),
+			    void_reason = 'migrated to PIH:12071/PIH:9361 obs';
+			
+			-- void any other "person at visit" obs
+			update obs o
+			inner join temp_dac_obs t on t.encounter_id = o.encounter_id
+			set voided = 1,
+			    voided_by = 1, 
+			    date_voided = now(),
+			    void_reason = 'migrated to PIH:12071/PIH:9361 obs'
+			where o.concept_id =  concept_from_mapping('PIH','12071')
+				and o.voided = 0;
+			
+			
+			-- insert new person at visit->Community Health obs
+			insert into obs 
+				(person_id,
+				concept_id,
+				value_coded,
+				encounter_id,
+				obs_datetime,
+				location_id,
+				obs_group_id,
+				creator,
+				date_created,
+				voided,
+				uuid,
+				status,
+				previous_version
+			)
+			select 
+				o.person_id,
+				concept_from_mapping('PIH','12071'), 
+				concept_from_mapping('PIH','9361'), 
+				o.encounter_id,
+				o.obs_datetime,
+				o.location_id,
+				o.obs_group_id,
+				o.creator,
+				o.date_created,
+				0,
+				uuid(),
+				o.status,
+				t.obs_id
+			from obs o 
+			inner join temp_dac_obs t on t.obs_id = o.obs_id;
 
+        </sql>
+    </changeSet>
+    
 </databaseChangeLog>
