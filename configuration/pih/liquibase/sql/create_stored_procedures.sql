@@ -49,6 +49,7 @@ END
 */
 #
 DROP PROCEDURE IF EXISTS populate_set_members();
+#
 CREATE PROCEDURE populate_set_members()
 BEGIN
 	drop temporary table if exists temp_set_members;
@@ -64,6 +65,7 @@ END
 */
 #
 DROP PROCEDURE IF EXISTS populate_lab_concepts();
+#
 CREATE PROCEDURE populate_lab_concepts()
 BEGIN
 
