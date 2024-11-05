@@ -44,3 +44,76 @@ END WHILE;
 
 END
 #
+/* The following procedure will populate the temporary table temp_set_members
+   with all of the set members in the sets in temporary table temp_sets
+*/
+#
+DROP PROCEDURE IF EXISTS populate_set_members();
+CREATE PROCEDURE populate_set_members()
+BEGIN
+	drop temporary table if exists temp_set_members;
+	create temporary table temp_set_members
+	select concept_id from concept_set
+	where concept_set in (select concept_id from temp_sets);
+END
+#
+/* The following procedure will populate the temporary table temp_lab_concepts
+   with all of the labs that should be viewable and reportable.
+   These are identified by concepts contained in sets that map up to the
+   Lab Categories concept
+*/
+#
+DROP PROCEDURE IF EXISTS populate_lab_concepts();
+CREATE PROCEDURE populate_lab_concepts()
+BEGIN
+
+	set @labCategories = concept_from_mapping('PIH','11712');
+	
+	drop temporary table if exists temp_lab_concepts_staging ;
+	create temporary table temp_lab_concepts_staging 
+	(concept_id int(11));
+	
+	drop temporary table if exists temp_sets;
+	create temporary table temp_sets
+	select concept_id from concept_set cs 
+	where concept_set = @labCategories; 
+	
+	call populate_set_members; 
+	
+	insert into temp_lab_concepts_staging(concept_id)
+	select concept_id from temp_set_members;
+	
+	drop temporary table if exists temp_sets;
+	create temporary table temp_sets
+	select * from temp_set_members;
+	
+	call populate_set_members;
+	
+	insert into temp_lab_concepts_staging(concept_id)
+	select concept_id from temp_set_members;
+	
+	drop temporary table if exists temp_sets;
+	create temporary table temp_sets
+	select * from temp_set_members;
+	
+	call populate_set_members;
+	
+	insert into temp_lab_concepts_staging (concept_id)
+	select concept_id from temp_set_members;
+	
+	drop temporary table if exists temp_sets;
+	create temporary table temp_sets
+	select * from temp_set_members;
+	
+	call populate_set_members;
+	
+	insert into temp_lab_concepts_staging(concept_id)
+	select concept_id from temp_set_members;
+	
+	drop temporary table if exists temp_lab_concepts;
+	create temporary table temp_lab_concepts
+	select distinct concept_id from temp_lab_concepts_staging; 
+	
+	create index temp_lab_concepts_ci on temp_lab_concepts(concept_id);
+END
+#
