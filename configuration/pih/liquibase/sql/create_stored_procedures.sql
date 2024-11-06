@@ -48,7 +48,7 @@ END
    with all of the set members in the sets in temporary table temp_sets
 */
 #
-DROP PROCEDURE IF EXISTS populate_set_members();
+DROP PROCEDURE IF EXISTS populate_set_members;
 #
 CREATE PROCEDURE populate_set_members()
 BEGIN
@@ -64,7 +64,7 @@ END
    Lab Categories concept
 */
 #
-DROP PROCEDURE IF EXISTS populate_lab_concepts();
+DROP PROCEDURE IF EXISTS populate_lab_concepts;
 #
 CREATE PROCEDURE populate_lab_concepts()
 BEGIN
