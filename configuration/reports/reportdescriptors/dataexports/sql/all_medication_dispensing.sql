@@ -188,10 +188,11 @@ set tgt.drug_name = t.drug_name,
 	tgt.drug_openboxes_code = t.drug_openboxes_code;
 
 -- New Form --------
-INSERT INTO all_medication_dispensing(form, emr_id,encounter_datetime, user_entered,drug_name, drug_openboxes_code,
+INSERT INTO all_medication_dispensing(form, patient_id, emr_id,encounter_datetime, user_entered,drug_name, drug_openboxes_code,
 quantity_per_dose,dose_unit, frequency,quantity_dispensed, quantity_unit, order_id, dispensing_status, status_reason,instructions)
 SELECT 
 'New' AS form,
+patient_id,
 PATIENT_IDENTIFIER(patient_id, METADATA_UUID('org.openmrs.module.emrapi', 'emr.primaryIdentifierType')) emr_id,
 md.date_created date_entered,
 u.username user_entered,
@@ -213,6 +214,7 @@ LEFT OUTER JOIN order_frequency of2 ON of2.order_frequency_id = md.frequency;
 -- final select of the data
 SELECT 
 form,
+CONCAT(@partition,'-',patient_id) "patient_id",
 emr_id,
 CONCAT(@partition,'-',encounter_id) "encounter_id",
 encounter_datetime,
