@@ -361,8 +361,6 @@ encounterType:
     uuid: "e4b0a1c2-3d4f-4e5b-9a1d-7e6b3b6a6c6c"
   BED_ASSIGNMENT:
     uuid: "caa222d6-d7d0-408f-a104-320e7556e9ff"
-  CANCEL_ADT_REQUEST:
-    uuid: "d0e7e14a-cb85-4350-9535-7ac660817a66"
 
 orderType:
   drugOrder:
