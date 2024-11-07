@@ -73,3 +73,4 @@ ${encounterType.NEWBORN_ASSESSMENT.uuid},,Newborn Assessment,Newborn assessment
 ${encounterType.NEWBORN_DISCHARGE.uuid},,Newborn Discharge,Newborn Discharge
 ${encounterType.INPATIENT_NOTE.uuid},,Inpatient Note,A short free-text note written by a clinician about an inpatient during their stay
 ${encounterType.TRANSFER_REQUEST.uuid},,Transfer Request,A stand-alone encounter type for a transfer request not part of a larger note
+${encounterType.BED_ASSIGNMENT.uuid},,Bed Assignment,Assigning a new bed to a patient without admitting or transferring them

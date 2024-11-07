@@ -359,7 +359,8 @@ encounterType:
     uuid: "d3b07384-d9a7-4f3b-8a1d-6e5b2b5a5b5b"
   TRANSFER_REQUEST:
     uuid: "e4b0a1c2-3d4f-4e5b-9a1d-7e6b3b6a6c6c"
-
+  BED_ASSIGNMENT:
+    uuid: "caa222d6-d7d0-408f-a104-320e7556e9ff"
 
 orderType:
   drugOrder:
