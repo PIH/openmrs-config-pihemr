@@ -15,3 +15,5 @@ bc976a45-1d9e-4193-a541-a689ba38cf69,,org.openmrs.module.emrapi,emr.transferWith
 fdcc4b43-1e55-4ba4-8392-c1860de885b9,,org.openmrs.module.emrapi,emr.motherChildRelationshipType,org.openmrs.RelationshipType,${relationshipType.motherToChild.uuid}
 a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d,,org.openmrs.module.emrapi,emr.inpatientNoteEncounterType,org.openmrs.EncounterType,${encounterType.INPATIENT_NOTE.uuid}
 b1c2d3e4-f5a6-7b8c-9d0e-1f2a3b4c5d6e,,org.openmrs.module.emrapi,emr.transferRequestEncounterType,org.openmrs.EncounterType,${encounterType.TRANSFER_REQUEST.uuid}
+d039435f-233a-4d0b-a35a-75450b2e65b9,,org.openmrs.module.emrapi,emr.bedAssignmentEncounterType,org.openmrs.EncounterType,${encounterType.BED_ASSIGNMENT.uuid}
+e9ae298d-532c-4f72-93c1-a42495270662,,org.openmrs.module.emrapi,emr.cancelADTRequestEncounterType,org.openmrs.EncounterType,${encounterType.CANCEL_ADT_REQUEST.uuid}
