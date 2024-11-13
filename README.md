@@ -268,6 +268,86 @@ When creating a form you will also need to add boilerplate to
 This configures features of how the form appears. If a form will have sections,
 this is configured here.
 
+### Programs
+
+Current overview of how programs are defined across config projects as-of Nov 2024:
+
+#### Config-PIHEMR
+
+Programs
+
+* programs.csv -- all programs shared across all sites
+
+Program Workflows
+
+* programworkflows.csv – all program workflows shared across all sites
+
+Program Workflow States
+
+* programworkflowstates.csv – all program workflows shared across all sites
+* pregnancy.csv – states for pregnancy program, broken out in separate file so it can be override in Sierra Leone
+
+#### Config-CES
+
+Programs
+
+* programs.csv – custom set of programs for CES
+
+Program Workflows
+
+* programworkflows.csv – no workflows in CES, so this is an empty file to override the one defined in config-pihemr
+
+Program Workflow States
+
+* programworkflowstates.csv – no workflows, so no states, in CES, so another empty file to override on defined in config-pihemr
+* pregnancy.csv – no workflows, so no states, in CES, so another empty file to override on defined in config-pihemr
+
+#### Config-Sierra Leone
+
+Programs
+
+* no files (just uses standard programs from config-pihemr)
+
+Program Workflows
+
+* ncd.csv - program workflow for NCD program, only used in Sierra Leone (NCD program defined in top-level config has no workflows)
+
+Program Workflow States
+
+* ncd.csv - program states for custom SL workflow for NCD program
+* pregnancy.csv - pregnancy states for main Pregnancy workflow in SL, overriding those defined in config-pihemr
+
+#### Config-Haiti
+
+Programs
+
+* no files (just uses standard programs from config-pihemr)
+
+Program Workflows
+
+* zlmch.csv - program workflow for MCH program, only used in Haiti (MCH program defined in top-level config has no workflows)
+* zlncd.csv - program workflow for NCD program, only used in Haiti (NCD program defined in top-level config has no workflows)
+
+Program Workflow States
+
+* zlmch.csv - program workflow states for MCH program, only used in Haiti (MCH program defined in top-level config has no workflows)
+* zlncd.csv - program workflow states for NCD program, only used in Haiti (NCD program defined in top-level config has no workflows
+
+Config-Liberia
+
+Programs
+
+* programsliberia.csv - custom programs for Liberia? Are these supposed to override those in Config-PIHEMR
+
+Program Workflows
+
+* programworkflowsliberia.csv - custom workflows for Liberia? Are these supposed to override those in Config-PIHEMR
+
+Program Workflow States
+
+* programworkflowstates.csv - custom workflowstates for Liberia? Are these supposed to override those in Config-PIHEMR?
+
+
 ### Reports
 
 SQL-based reports can be added to the "Reports" section of the PIH-EMR by including the SQL file in the "config-pihemr" or a country-specific config, along with a yml file that defines that report.  The YML file should be placed in the configuration/reports/reportdescriptors/dataexports directory of the appropriate config project.
