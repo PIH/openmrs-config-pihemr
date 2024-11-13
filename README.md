@@ -141,7 +141,8 @@ Components are defined in [pihcore/.../config/Components.java](https://github.co
   must be on the LAN and one of the supported printer types.
 - **markPatientDead**: Turns on the RefApp functionality for marking a patient dead.
 - **mch**: mchForms + mchProgram
-- **mchForms**: used by ZL (via "mch")
+- **mchForms**: used by ZL and Liberia (via "mch")
+- **mchBasicDeliveryForm**: used by Sierra Leone at Wellbody Clinic to show a delivery form
 - **mchProgram**: needs MCHProgramBundle[ZL], used by ZL (via "mch")
 - **medicationDispensing**: Future medication dispensing application (under development)
 - **mentalHealth**: mentalHealthForm + mentalHealthProgram
