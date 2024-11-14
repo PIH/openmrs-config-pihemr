@@ -345,7 +345,7 @@ Program Workflows
 
 Program Workflow States
 
-* programworkflowstates.csv - custom workflowstates for Liberia? Are these supposed to override those in Config-PIHEMR?
+* programworkflowstatesliberia.csv - custom workflowstates for Liberia? Are these supposed to override those in Config-PIHEMR?
 
 
 ### Reports
