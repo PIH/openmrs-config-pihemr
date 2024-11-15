@@ -68,7 +68,7 @@ ${encounterType.PRESCRIPTION.uuid},,Prescription,Drugs prescription
 ${encounterType.LABOR_DELIVERY_SUMMARY.uuid},,Labor and Delivery Summary,Labor and Delivery Summary
 ${encounterType.MATERNAL_ADMISSION.uuid},TRUE,Maternal Admission,The admission form for maternal health
 ${encounterType.MATERNAL_DISCHARGE.uuid},,Maternal Discharge,Maternal Discharge
-${encounterType.NEWBORN_ADMISSION.uuid},,Newborn Intake,Newborn Intake (admission)
+${encounterType.NEWBORN_ADMISSION.uuid},,Newborn Initial,Newborn Initial (admission)
 ${encounterType.NEWBORN_ASSESSMENT.uuid},,Newborn Assessment,Newborn assessment
 ${encounterType.NEWBORN_DISCHARGE.uuid},,Newborn Discharge,Newborn Discharge
 ${encounterType.INPATIENT_NOTE.uuid},,Inpatient Note,A short free-text note written by a clinician about an inpatient during their stay
