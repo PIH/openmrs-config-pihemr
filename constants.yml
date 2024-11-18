@@ -144,7 +144,10 @@ concept:
     uuid: "5916AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
   babyNumber:
     uuid: "163460AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-
+  complicationsAtDelivery:
+    uuid: "447f14be-4f34-4cba-9f80-8e091e23c6e3"
+  pregnancyRiskFactors:
+    uuid: "160079AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 
 providerAttributeType:
   households:
