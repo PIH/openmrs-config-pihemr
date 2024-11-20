@@ -563,11 +563,6 @@
                         <obs conceptId="PIH:TYPE OF PATIENT" answerConceptId="PIH:INPATIENT HOSPITALIZATION"
                              style="checkbox" answerCode="pihcore.currentHospitalization" answerSeparator=""/>
                     </p>
-                    <p>
-                        <obs conceptId="PIH:12362"
-                             style="checkbox" answerConceptId="PIH:YES"
-                             answerCode="pihcore.traumaticEvent"/>
-                    </p>
                 </div>
 
                 <div class="col">
