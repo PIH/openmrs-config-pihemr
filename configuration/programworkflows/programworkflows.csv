@@ -1,9 +1,0 @@
-Uuid,Void/Retire,Program,Workflow concept
-${programWorkflow.hivTreatmentStatus.uuid},,${program.hiv.uuid},PIH:HIV TREATMENT STATUS
-39270921-4ee3-4655-978d-745b68bdef5f,,${program.hiv.uuid},PIH:PMTCT status
-ee228c4f-f898-494a-9740-213f757cb10c,,${program.ovc.uuid},PIH:OVC program status
-${programWorkflow.eidProgramEidTreatmentStatus.uuid},,${program.eid.uuid},PIH:EID treatment status
-${programWorkflow.infantProgramEidTreatmentStatus.uuid},,${program.infant.uuid},PIH:EID treatment status
-157333e6-6851-11e8-adc0-fa7ae01bbebc,,${program.oncology.uuid},PIH:Oncology program status
-45ffa97a-684e-11e8-adc0-fa7ae01bbebc,,${program.oncology.uuid},PIH:Oncology treatment status
-${programWorkflow.pregnancyProgramTypeOfTreatment.uuid},,${program.pregnancy.uuid},PIH:11698
