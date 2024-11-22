@@ -148,6 +148,8 @@ concept:
     uuid: "447f14be-4f34-4cba-9f80-8e091e23c6e3"
   pregnancyRiskFactors:
     uuid: "160079AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  estimatedDueDate:
+    uuid: "3cee56a6-26fe-102b-80cb-0017a47871b2"
 
 providerAttributeType:
   households:
