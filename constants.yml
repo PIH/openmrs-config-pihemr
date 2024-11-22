@@ -394,6 +394,8 @@ program:
     uuid: "bfc32f7d-6e2b-48c2-aa43-9d4f7c87a8e4"
   gynecology:
     uuid: "a932f5d2-9f2b-4eab-823d-8d6a561e9d8c"
+  hearts:
+    uuid: "6cceab45-756f-427b-b2da-0e469d4a87e0"
   hypertension:
     uuid: "6959057e-9a5c-40ba-a878-292ba4fc35bc"
   hiv:
@@ -422,7 +424,6 @@ program:
     uuid: "5682f919-a43b-4d4a-bcc3-ef0426162e23"
   zika:
     uuid: "3bea593a-9afd-4642-96a6-210b60f5aff2"
-
 programWorkflow:
   hivTreatmentStatus:
     # this is referred to by UUID in configs because some servers have a
@@ -434,6 +435,18 @@ programWorkflow:
   infantProgramEidTreatmentStatus:
     # this is referred to by UUID because both eid and infant programs have the workflow with the same concepts
     uuid: "29aba153-4f1e-4c28-bd36-0332b30fe4b5"
+  mchProgramTypeOfTreatment:
+    # this is referred to by UUID because the concept used it fairly generic (and likely to be reused elsewhere?)
+    uuid: "41a277d0-8a14-11e8-9a94-a6cf71072f73"
+    state:
+      prenatalGroup:
+        uuid: "41a2753c-8a14-11e8-9a94-a6cf71072f73"
+      prenatalIndividual:
+        uuid: "41a27d48-8a14-11e8-9a94-a6cf71072f73"
+      pedsGroup:
+        uuid: "2fa7008c-aa58-11e8-98d0-529269fb1459"
+      pedsIndividual:
+        uuid: "d31c4de9-48ac-4d60-9689-f3669bd1382d"
   pregnancyProgramTypeOfTreatment:
     # this is referred to by UUID because the concept used it fairly generic (and likely to be reused elsewhere?)
     uuid: "9a3f8252-1588-4f7b-b02c-9e99c437d4ef"
@@ -446,7 +459,6 @@ programWorkflow:
         uuid: "a735b5f6-0b63-4d9a-ae2e-70d08c947aed"
       miscarried:
         uuid: "c1d2e3f4-a5b6-7c8d-9e0f-1a2b3c4d5e6f"
-
 relationshipType:
   spousePartner:
     uuid: "C8CDE783-00EB-4FEA-9E4B-A2BDCAD8D33E"
