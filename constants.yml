@@ -150,6 +150,10 @@ concept:
     uuid: "160079AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
   estimatedDueDate:
     uuid: "3cee56a6-26fe-102b-80cb-0017a47871b2"
+  momGroup:
+    uuid: "c1b2db38-8f72-4290-b6ad-99826734e37e"
+  lastHIVTest:
+    uuid: "163545AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 
 providerAttributeType:
   households:
