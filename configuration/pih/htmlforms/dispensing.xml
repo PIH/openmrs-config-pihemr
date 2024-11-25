@@ -157,7 +157,7 @@
                     <uimessage code="dispensing.medication.locationOfPrescription"/>
                 </label>
 
-                <obs id="Discharge location" required="true" style="location" class="select-arrow" conceptId="PIH:9293" />
+                <obs id="Discharge location" required="true" style="location" class="select-arrow" conceptId="PIH:9293" answerLocationTags="Login Location" />
             </span>
             <span class="input-container provider">
                 <label>
