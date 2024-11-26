@@ -1614,17 +1614,59 @@ angular.module("encounterTypeConfig", [])
             ]
           },
           "sierra_leone": {
-            defaultState: "short",
-            shortTemplate: "templates/encounters/defaultEncounterShort.page",
-            longTemplate: "templates/encounters/defaultEncounterShort.page",
-            icon: "fas fa-fw fa-gift",
-            editUrl: hfeStandardEditUrl,
-            showOnVisitList: true,
-            sections: [
-              ancInitial,
-              generalVaccinations,
-              primaryCarePlanMedication,
-            ]
+              versions: {
+                  DEFAULT: {
+                      defaultState: "short",
+                      shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                      longTemplate: "templates/encounters/defaultEncounterShort.page",
+                      icon: "fas fa-fw fa-gift",
+                      editUrl: hfeStandardEditUrl,
+                      showOnVisitList: true,
+                      sections: [
+                          ancInitial,
+                          generalVaccinations
+                      ]
+                  },
+                  "2.0": {
+                      defaultState: "short",
+                      shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                      longTemplate: "templates/encounters/defaultEncounterShort.page",
+                      icon: "fas fa-fw fa-gift",
+                      editUrl: hfeStandardEditUrl,
+                      showOnVisitList: true,
+                      sections: [
+                          ancInitial,
+                          generalVaccinations,
+                          primaryCarePlanMedication,
+                      ]
+                  },
+                  "1.1": {
+                      defaultState: "short",
+                      shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                      longTemplate: "templates/encounters/defaultEncounterShort.page",
+                      icon: "fas fa-fw fa-gift",
+                      editUrl: hfeStandardEditUrl,
+                      showOnVisitList: true,
+                      sections: [
+                          ancInitial,
+                          generalVaccinations,
+                          primaryCarePlanMedication,
+                      ]
+                  },
+                  "1.0": {
+                      defaultState: "short",
+                      shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                      longTemplate: "templates/encounters/defaultEncounterShort.page",
+                      icon: "fas fa-fw fa-gift",
+                      editUrl: hfeStandardEditUrl,
+                      showOnVisitList: true,
+                      sections: [
+                          ancInitial,
+                          generalVaccinations,
+                          primaryCarePlanMedication,
+                      ]
+                  },
+              }
           },
           "liberia": {
                 defaultState: "short",
@@ -1666,17 +1708,59 @@ angular.module("encounterTypeConfig", [])
             ]
           },
           "sierra_leone": {
-            defaultState: "short",
-            shortTemplate: "templates/encounters/defaultEncounterShort.page",
-            longTemplate: "templates/encounters/defaultEncounterShort.page",
-            icon: "fas fa-fw fa-gift",
-            editUrl: hfeStandardEditUrl,
-            showOnVisitList: true,
-            sections: [
-              ancFollowup,
-              generalVaccinations,
-              primaryCarePlanMedication,
-            ]
+              versions: {
+                  DEFAULT: {
+                      defaultState: "short",
+                      shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                      longTemplate: "templates/encounters/defaultEncounterShort.page",
+                      icon: "fas fa-fw fa-gift",
+                      editUrl: hfeStandardEditUrl,
+                      showOnVisitList: true,
+                      sections: [
+                          ancFollowup,
+                          generalVaccinations
+                      ]
+                  },
+                  "2.0": {
+                      defaultState: "short",
+                      shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                      longTemplate: "templates/encounters/defaultEncounterShort.page",
+                      icon: "fas fa-fw fa-gift",
+                      editUrl: hfeStandardEditUrl,
+                      showOnVisitList: true,
+                      sections: [
+                          ancFollowup,
+                          generalVaccinations,
+                          primaryCarePlanMedication
+                      ]
+                  },
+                  "1.1": {
+                      defaultState: "short",
+                      shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                      longTemplate: "templates/encounters/defaultEncounterShort.page",
+                      icon: "fas fa-fw fa-gift",
+                      editUrl: hfeStandardEditUrl,
+                      showOnVisitList: true,
+                      sections: [
+                          ancFollowup,
+                          generalVaccinations,
+                          primaryCarePlanMedication
+                      ]
+                  },
+                  "1.0": {
+                      defaultState: "short",
+                      shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                      longTemplate: "templates/encounters/defaultEncounterShort.page",
+                      icon: "fas fa-fw fa-gift",
+                      editUrl: hfeStandardEditUrl,
+                      showOnVisitList: true,
+                      sections: [
+                          ancFollowup,
+                          generalVaccinations,
+                          primaryCarePlanMedication
+                      ]
+                  },
+              }
           },
           "liberia": {
                 defaultState: "short",
