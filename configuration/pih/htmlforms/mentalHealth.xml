@@ -66,16 +66,20 @@
         display: block;
         }
 
-        <!--        .two-columns {-->
-        <!--        column-count: 2;-->
-        <!--        -webkit-column-count: 2;-->
-        <!--        -moz-column-count: 2;-->
-        <!--        }-->
+        .five-columns, .four-columns, .three-columns, .two-columns {
+            display: table;
+            height: 100%;
+            width: 100%;
+        }
 
-        .three-columns {
-        column-count: 3;
-        -webkit-column-count: 3;
-        -moz-column-count: 3;
+        .two-columns > div {
+            display: table-cell;
+            width: 50%;
+        }
+
+        .three-columns > div {
+            display: table-cell;
+            width: 33%;
         }
 
         .simple-form-ui input {
@@ -1025,18 +1029,59 @@
     <section id="mh-diagnoses" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.diagnoses.label">
         <div class="section-container">
+            <div class="two-columns">
+                <div>
+                    <repeat>
+                        <template>
+                            <obs conceptId="PIH:Mental health diagnosis" style="checkbox"
+                                 answerConceptId="{cId}"
+                                 toggle="{toggleName}"/>
+
+                        </template>
+
+                        <render cId="CIEL:115810" toggleName="handicapsIntellectuelsLeger"/>
+                        <render cId="CIEL:134015" toggleName="handicapsIntellectuelsModere"/>
+
+                        <render cId="CIEL:121303" toggleName="autism"/>
+                    </repeat>
+                </div>
+
+                <div>
+                    <div id="autism">
+                        <repeat>
+                            <template>
+                                <obs conceptId="PIH:Mental health diagnosis" style="checkbox"
+                                     answerConceptId="{cId}"/>
+
+                            </template>
+
+                            <render cId="PIH:20596" toggleName="autism1"/>
+                            <render cId="PIH:20597" toggleName="autism2"/>
+                            <render cId="PIH:20598" toggleName="autism3"/>
+                        </repeat>
+                    </div>
+                </div>
+            </div>
+
+            <br/>
             <p>
-                <obs conceptId="PIH:Mental health diagnosis" answerConceptSetIds="PIH:HUM Psychological diagnosis"
-                     style="autocomplete"/>
+                <strong>Diagnoses</strong>
             </p>
-            <p>
-                <obs conceptId="PIH:Mental health diagnosis" answerConceptSetIds="PIH:HUM Psychological diagnosis"
-                     style="autocomplete"/>
-            </p>
-            <p>
-                <obs conceptId="PIH:Mental health diagnosis" answerConceptSetIds="PIH:HUM Psychological diagnosis"
-                     style="autocomplete"/>
-            </p>
+
+            <div class="three-columns">
+                <div>
+                    <obs conceptId="PIH:Mental health diagnosis" answerConceptSetIds="PIH:HUM Psychological diagnosis"
+                         style="autocomplete"/>
+                </div>
+                <div>
+                    <obs conceptId="PIH:Mental health diagnosis" answerConceptSetIds="PIH:HUM Psychological diagnosis"
+                         style="autocomplete"/>
+                </div>
+                <div>
+                    <obs conceptId="PIH:Mental health diagnosis" answerConceptSetIds="PIH:HUM Psychological diagnosis"
+                         style="autocomplete"/>
+                </div>
+            </div>
 
         </div>
     </section>
