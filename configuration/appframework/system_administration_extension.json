@@ -1,0 +1,12 @@
+[
+  {
+    "id": "pihemr.systemAdministration.viewPihConfigLink",
+    "extensionPointId": "systemAdministration.apps",
+    "type": "link",
+    "label": "pih.app.admin.pihConfig.view",
+    "requiredPrivilege": "App: coreapps.systemAdministration",
+    "url": "pihcore/admin/pihConfig.page",
+    "icon": "icon-wrench",
+    "order": 50
+  }
+]
