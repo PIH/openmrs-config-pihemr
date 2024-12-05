@@ -8,5 +8,25 @@
     "url": "pihcore/admin/pihConfig.page",
     "icon": "icon-wrench",
     "order": 50
+  },
+  {
+    "id": "pih.app.admin.closeStaleInpatientAdmissions",
+    "extensionPointId": "systemAdministration.apps",
+    "type": "link",
+    "label": "pih.app.admin.closeStaleInpatientAdmissions.title",
+    "requiredPrivilege": "App: coreapps.systemAdministration",
+    "url": "pihcore/admin/staleInpatientAdmissions.page",
+    "icon": "fas fa-fw fa-list-ul",
+    "order": 60
+  },
+  {
+    "id": "pih.app.admin.closeStaleAdmissionRequests",
+    "extensionPointId": "systemAdministration.apps",
+    "type": "link",
+    "label": "pih.app.admin.closeStaleAdmissionRequests.title",
+    "requiredPrivilege": "App: coreapps.systemAdministration",
+    "url": "pihcore/admin/staleAdmissionRequests.page",
+    "icon": "fas fa-fw fa-list-ul",
+    "order": 61
   }
 ]
