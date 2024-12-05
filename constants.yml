@@ -152,6 +152,8 @@ concept:
     uuid: "3cee56a6-26fe-102b-80cb-0017a47871b2"
   momGroup:
     uuid: "c1b2db38-8f72-4290-b6ad-99826734e37e"
+  feedingMethod:
+    uuid: "5b98dcbe-0efc-4cc2-9544-c1da596e7039"
   lastHIVTest:
     uuid: "163545AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 
@@ -586,6 +588,7 @@ providerRole:
 
 expression:
   newborn: "patient.person.age < 1"
+  baby:    "patient.person.age < 2"
   child:   "patient.person.age < 15"
   adult:   "patient.person.age >= 15"
   reproductiveAge: "patient.person.age >= 11"
