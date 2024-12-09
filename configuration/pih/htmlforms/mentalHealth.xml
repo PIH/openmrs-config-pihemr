@@ -1121,7 +1121,8 @@
 								<render cId="CIEL:129205" />
 								<render cId="PIH:20251" />
 								<render cId="CIEL:134079" />
-								<render cId="CIEL:135380" toggleName="depression" />
+								<render cId="CIEL:135380" />
+								<render cId="CIEL:141732" toggleName="depression" />
 							</repeat>
 						</div>
 					</div>
@@ -1162,7 +1163,6 @@
 								<template>
 									<obs conceptId="PIH:Mental health diagnosis" style="checkbox" answerConceptId="{cId}" toggle="{toggleName}" />
 								</template>
-								<render cId="CIEL:141732" />
 								<render cId="CIEL:119537" />
 							</repeat>
 						</div>
