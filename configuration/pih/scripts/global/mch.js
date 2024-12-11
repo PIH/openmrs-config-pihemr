@@ -113,7 +113,6 @@ jq(document).ready(function () {
 
   // Check if the URL contains the specified parameter
   const urlContainsParam = window.location.href.includes('editHtmlFormWithStandardUi.page');
-
   if (urlContainsParam) {
     // Iterate through each collapsible-content element
     jq('.collapsible-content').each(function () {
