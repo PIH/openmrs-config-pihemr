@@ -1,0 +1,16 @@
+<assembly>
+    <id>assemble-content</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <fileSets>
+        <fileSet>
+            <directory>${project.build.directory}/package/</directory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <outputDirectory>/</outputDirectory>
+        </fileSet>
+    </fileSets>
+</assembly>

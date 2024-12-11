@@ -1,13 +1,20 @@
-
 <project>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.pih.openmrs</groupId>
-    <artifactId>openmrs-config-pihemr</artifactId>
-    <name>PIH-EMR OpenMRS Configuration</name>
-    <description>Top-Level configuration for PIH-EMR OpenMRS distro</description>
+    <groupId>org.pih.openmrs.content</groupId>
+    <artifactId>pihemr</artifactId>
+    <name>PIH-EMR OpenMRS Content Package</name>
+    <description>Top-Level content package for PIH-EMR OpenMRS distro</description>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+
+    <properties>
+        <finalBuildDir>${project.build.directory}/package</finalBuildDir>
+        <backendConfigDir>${finalBuildDir}/configuration/backend_configuration</backendConfigDir>
+        <dataExportSqlDir>${backendConfigDir}/reports/reportdescriptors/dataexports/sql/</dataExportSqlDir>
+        <petlJobExtractionSqlDir>${backendConfigDir}/pih/petl/jobs/sql/extractions/</petlJobExtractionSqlDir>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <developers>
         <developer>
@@ -50,10 +57,125 @@
     </pluginRepositories>
 
     <build>
-        <filters>
-            <filter>${project.build.directory}/openmrs-packager-config/configuration/constants.properties</filter>
-        </filters>
         <plugins>
+
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-content-properties</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${finalBuildDir}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}</directory>
+                                    <includes>
+                                        <include>content.properties</include>
+                                    </includes>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-backend-configuration</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${backendConfigDir}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/configuration</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-liquibase-sql-to-petl</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${backendConfigDir}/pih/petl/jobs/sql/utils/</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${backendConfigDir}/pih/liquibase/sql/</directory>
+                                    <includes>
+                                        <include>*.sql</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.coderplus.maven.plugins</groupId>
+                <artifactId>copy-rename-maven-plugin</artifactId>
+                <version>1.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-report-sql-to-petl</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <fileSets>
+                                <fileSet>
+                                    <sourceFile>${dataExportSqlDir}/echocardiogram_encounters.sql</sourceFile>
+                                    <destinationFile>${petlJobExtractionSqlDir}/echocardiogram_encounters.sql</destinationFile>
+                                </fileSet>
+                                <fileSet>
+                                    <sourceFile>${dataExportSqlDir}/delivery.sql</sourceFile>
+                                    <destinationFile>${petlJobExtractionSqlDir}/mch_delivery.sql</destinationFile>
+                                </fileSet>
+                                <fileSet>
+                                    <sourceFile>${dataExportSqlDir}/diagnoses.sql</sourceFile>
+                                    <destinationFile>${petlJobExtractionSqlDir}/diagnoses.sql</destinationFile>
+                                </fileSet>
+                                <fileSet>
+                                    <sourceFile>${dataExportSqlDir}/labOrdersReport.sql</sourceFile>
+                                    <destinationFile>${petlJobExtractionSqlDir}/all_lab_orders.sql</destinationFile>
+                                </fileSet>
+                                <fileSet>
+                                    <sourceFile>${dataExportSqlDir}/labResultsExport.sql</sourceFile>
+                                    <destinationFile>${petlJobExtractionSqlDir}/all_lab_results.sql</destinationFile>
+                                </fileSet>
+                            </fileSets>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.7.1</version>
+                <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptors>
+                        <descriptor>${project.basedir}/assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
@@ -65,37 +187,48 @@
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
-            <plugin>
-                <inherited>false</inherited>
-                <groupId>org.openmrs.maven.plugins</groupId>
-                <artifactId>openmrs-packager-maven-plugin</artifactId>
-                <version>1.6.0</version>
-                <executions>
-                    <execution>
-                        <id>generate-resource-filters</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>generate-resource-filters</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>compile-configurations</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile-configurations</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>package-configurations</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>package-configurations</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>release-sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>deployRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <!--
+                    To deploy non-snapshot versions to Sonatype, signatures must be generated useing gpg
+                    Note that gpg2 key must exist on Bamboo server and the key and passphrase can be
+                    passed on the command line.
+
+                    Instructions for creating a key:
+                    https://central.sonatype.org/pages/working-with-pgp-signatures.html
+
+                    Command to run: clean deploy -U -DdeployRelease -Dgpg.passphrase=*** -Dgpg.keyname=[email_address_associated_with_generated_key]
+                    -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
 
