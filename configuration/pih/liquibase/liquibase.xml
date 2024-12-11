@@ -1067,5 +1067,25 @@
 
         </sql>
     </changeSet>
+
+    <changeSet id="20241211-delete-duplicate-mapping-pih-20208" author="ball">
+        <comment>
+            UHM-8301: Delete PIH:20208 mapping on wrong concept
+        </comment>
+        <sql>
+            delete from concept_reference_map
+            where concept_id =
+                  (select c.concept_id from concept c
+                   where c.uuid = '32048a63-4613-4fb2-b084-a6a16adad06e')
+              and concept_map_type_id =
+                  (select cmt.concept_map_type_id from concept_map_type cmt
+                   where cmt.name like 'SAME-AS')
+              AND concept_reference_term_id =
+                  (select crt.concept_reference_term_id from concept_reference_term crt
+                   where crt.code = '20208'
+                     and crt.concept_source_id = (select crs.concept_source_id from concept_reference_source crs where crs.name like 'PIH') );
+
+        </sql>
+    </changeSet>
     
 </databaseChangeLog>
