@@ -935,6 +935,14 @@
 								</template>
 								<render cId="CIEL:115810" toggleName="handicapsIntellectuelsLeger" />
 								<render cId="CIEL:134015" toggleName="handicapsIntellectuelsModere" />
+								<render cId="CIEL:126612" />
+								<render cId="CIEL:113629" />
+								<render cId="CIEL:169239" />
+								<render cId="PIH:20585" />
+								<render cId="PIH:20586" />
+								<render cId="CIEL:112846" />
+								<render cId="CIEL:125766" />
+								<render cId="CIEL:144542" />
 								<render cId="CIEL:121303" toggleName="autism" />
 							</repeat>
 						</div>
@@ -949,6 +957,23 @@
 									<render cId="PIH:20598" toggleName="autism3" />
 								</repeat>
 							</div>
+						</div>
+						<div>
+							<repeat>
+								<template>
+									<obs conceptId="PIH:Mental health diagnosis" style="checkbox" answerConceptId="{cId}" toggle="{toggleName}" />
+								</template>
+								<render cId="CIEL:117468" />
+								<render cId="CIEL:112850" />
+								<render cId="CIEL:119487" />
+								<render cId="CIEL:142505" />
+								<render cId="CIEL:145283" />
+								<render cId="CIEL:142503" />
+								<render cId="PIH:20593" />
+								<render cId="CIEL:139448" />
+								<render cId="PIH:20182" />
+								<render cId="PIH:20181" />
+							</repeat>
 						</div>
 					</div>
 				</p>
@@ -973,11 +998,8 @@
 								<render cId="CIEL:169250" />
 								<render cId="CIEL:127131" />
 								<render cId="CIEL:127130" />
-								<render cId="PIH:20587" toggleName="psychosis" />
-								<render cId="CIEL:169251" />
-								<render cId="CIEL:169252" />
-								<render cId="PIH:20196" />
-								<render cId="PIH:20197" />
+								<render cId="PIH:20587" />
+								<render cId="PIH:20193" toggleName="psychosis" />
 							</repeat>
 						</div>
 					</div>
@@ -1050,7 +1072,7 @@
 								<render cId="PIH:20637" />
 								<render cId="CIEL:121121" />
 								<render cId="PIH:20207" />
-								<!-- <render cId="CIEL:20208" /> -->
+								<render cId="PIH:20208" />
 								<render cId="PIH:20209" />
 								<render cId="PIH:20211" />
 								<render cId="PIH:20535" toggleName="bipolar" />
@@ -1121,7 +1143,8 @@
 								<render cId="CIEL:129205" />
 								<render cId="PIH:20251" />
 								<render cId="CIEL:134079" />
-								<render cId="CIEL:135380" toggleName="depression" />
+								<render cId="CIEL:135380" />
+								<render cId="CIEL:141732" toggleName="depression" />
 							</repeat>
 						</div>
 					</div>
@@ -1162,7 +1185,6 @@
 								<template>
 									<obs conceptId="PIH:Mental health diagnosis" style="checkbox" answerConceptId="{cId}" toggle="{toggleName}" />
 								</template>
-								<render cId="CIEL:141732" />
 								<render cId="CIEL:119537" />
 							</repeat>
 						</div>
