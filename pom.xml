@@ -10,7 +10,8 @@
 
     <properties>
         <finalBuildDir>${project.build.directory}/package</finalBuildDir>
-        <backendConfigDir>${finalBuildDir}/configuration/backend_configuration</backendConfigDir>
+        <configDir>${finalBuildDir}/configuration</configDir>
+        <backendConfigDir>${configDir}/backend_configuration</backendConfigDir>
         <dataExportSqlDir>${backendConfigDir}/reports/reportdescriptors/dataexports/sql/</dataExportSqlDir>
         <petlJobExtractionSqlDir>${backendConfigDir}/pih/petl/jobs/sql/extractions/</petlJobExtractionSqlDir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -89,7 +90,7 @@
                             <goal>resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${backendConfigDir}</outputDirectory>
+                            <outputDirectory>${configDir}</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>${project.basedir}/configuration</directory>
