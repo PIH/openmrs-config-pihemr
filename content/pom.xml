@@ -1,0 +1,179 @@
+<project>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.pih.openmrs.content</groupId>
+    <artifactId>pihemr</artifactId>
+    <name>PIH-EMR OpenMRS Content Package</name>
+    <description>Top-Level content package for PIH-EMR OpenMRS distro</description>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <finalBuildDir>${project.build.directory}/package</finalBuildDir>
+        <configDir>${finalBuildDir}/configuration</configDir>
+        <backendConfigDir>${configDir}/backend_configuration</backendConfigDir>
+        <frontendConfigDir>${configDir}/frontend_configuration</frontendConfigDir>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <developers>
+        <developer>
+            <name>Partners In Health</name>
+        </developer>
+    </developers>
+
+    <organization>
+        <name>Partners In Health</name>
+        <url>http://pih.org</url>
+    </organization>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/public</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>openmrs-repo</id>
+            <name>OpenMRS Nexus Repository</name>
+            <url>https://openmrs.jfrog.io/artifactory/public</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>openmrs-repo-snapshots</id>
+            <name>OpenMRS Snapshots Repo</name>
+            <url>https://openmrs.jfrog.io/artifactory/snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>mks-repo</id>
+            <name>Mekom Solutions Maven repository</name>
+            <url>https://nexus.mekomsolutions.net/repository/maven-public</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.openmrs.maven.plugins</groupId>
+                <artifactId>openmrs-packager-maven-plugin</artifactId>
+                <version>1.9.0-SNAPSHOT</version>
+                <executions>
+                    <execution>
+                        <id>generate-properties</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>generate-resource-filters</goal>
+                        </goals>
+                        <configuration>
+                            <sourceFile>../constants.yml</sourceFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>create-content-package</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>create-content-package</goal>
+                        </goals>
+                        <configuration>
+                            <sourceConfigurationDir>../configuration</sourceConfigurationDir>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.7.1</version>
+                <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptors>
+                        <descriptor>${project.basedir}/assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>release-sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>deployRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <!--
+                    To deploy non-snapshot versions to Sonatype, signatures must be generated useing gpg
+                    Note that gpg2 key must exist on Bamboo server and the key and passphrase can be
+                    passed on the command line.
+
+                    Instructions for creating a key:
+                    https://central.sonatype.org/pages/working-with-pgp-signatures.html
+
+                    Command to run: clean deploy -U -DdeployRelease -Dgpg.passphrase=*** -Dgpg.keyname=[email_address_associated_with_generated_key]
+                    -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>

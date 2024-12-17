@@ -26,6 +26,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java-version }}
+          cache: 'maven'
       - name: Build with Maven
         id: build_with_maven
         run: |
