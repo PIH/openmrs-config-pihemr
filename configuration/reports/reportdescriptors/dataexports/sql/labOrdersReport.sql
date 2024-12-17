@@ -20,6 +20,8 @@ CREATE TEMPORARY TABLE temp_report
     age_at_enc      INT,
     patient_address VARCHAR(1000),
     order_number    VARCHAR(255),
+    order_reason_concept_id INT(11),
+    order_reason    VARCHAR(255),
     accession_number VARCHAR(255),
     order_concept_id INT,
     orderable       VARCHAR(255),
@@ -49,7 +51,8 @@ INSERT INTO temp_report (
     date_stopped,
     auto_expire_date,
     fulfiller_status,
-    urgency
+    urgency,
+    order_reason_concept_id
 )
 SELECT
     o.patient_id,
@@ -61,7 +64,8 @@ SELECT
     o.date_stopped,
     o.auto_expire_date,
     o.fulfiller_status,
-     o.urgency
+    o.urgency,
+    o.order_reason
 FROM
     orders o
 WHERE o.order_type_id =@testOrder
@@ -81,6 +85,38 @@ WHERE patient_id IN
           AND t.name = 'Test Patient'
       );
       
+ -- patient level columns
+DROP TEMPORARY TABLE IF EXISTS temp_patient_columns; 
+CREATE TEMPORARY TABLE temp_patient_columns
+(
+    patient_id      INT,
+    emr_id          VARCHAR(255),
+    loc_registered  VARCHAR(255),
+    unknown_patient CHAR(1),
+    gender          CHAR(1),
+    patient_address TEXT
+);    
+
+insert into temp_patient_columns (patient_id)
+select distinct patient_id from temp_report;
+
+create index temp_patient_columns_pi on temp_patient_columns(patient_id);
+
+UPDATE temp_patient_columns SET emr_id = PATIENT_IDENTIFIER(patient_id, METADATA_UUID('org.openmrs.module.emrapi', 'emr.primaryIdentifierType')); 
+UPDATE temp_patient_columns SET gender = GENDER(patient_id);
+UPDATE temp_patient_columns SET loc_registered = LOC_REGISTERED(patient_id);
+UPDATE temp_patient_columns SET unknown_patient = IF(UNKNOWN_PATIENT(patient_id) IS NULL,NULL,'1'); 
+UPDATE temp_patient_columns SET patient_address = PERSON_ADDRESS(patient_id);
+
+update temp_report t
+inner join temp_patient_columns p on p.patient_id = t.patient_id
+set t.emr_id = p.patient_id,
+	t.gender = p.gender,
+	t.loc_registered = p.loc_registered,
+	t.unknown_patient = p.unknown_patient,
+	t.patient_address = p.patient_address;
+
+     
 -- To join in the specimen encounters, a temporary table is created with all lab specimen encounters within the date range is loaded.
 -- This table is indexed and then joined with the main report temp table
 DROP TEMPORARY TABLE IF EXISTS temp_spec;
@@ -111,13 +147,18 @@ UPDATE temp_report t
   SET  t.specimen_encounter_id = ts.specimen_encounter_id;
 
 -- Individual columns are populated here:
-UPDATE temp_report SET emr_id = PATIENT_IDENTIFIER(patient_id, METADATA_UUID('org.openmrs.module.emrapi', 'emr.primaryIdentifierType')); 
+-- UPDATE temp_report SET emr_id = PATIENT_IDENTIFIER(patient_id, METADATA_UUID('org.openmrs.module.emrapi', 'emr.primaryIdentifierType')); 
+/*
 UPDATE temp_report SET gender = GENDER(patient_id);
 UPDATE temp_report SET loc_registered = LOC_REGISTERED(patient_id);
-UPDATE temp_report SET age_at_enc = AGE_AT_ENC(patient_id,order_encounter_id );
 UPDATE temp_report SET unknown_patient = IF(UNKNOWN_PATIENT(patient_id) IS NULL,NULL,'1'); 
 UPDATE temp_report SET patient_address = PERSON_ADDRESS(patient_id);
+*/
+
+UPDATE temp_report SET age_at_enc = AGE_AT_ENC(patient_id,order_encounter_id );
 UPDATE temp_report SET orderable = IFNULL(CONCEPT_NAME(order_concept_id, @locale),CONCEPT_NAME(order_concept_id, 'en'));
+UPDATE temp_report SET order_reason = CONCEPT_NAME(order_reason_concept_id, @locale);
+
 -- status is derived by the order fulfiller status and other fields
 UPDATE temp_report t SET status =
     CASE
@@ -160,6 +201,7 @@ gender,
 age_at_enc,
 patient_address,
 order_number,
+order_reason,
 accession_number "Lab_ID",
 orderable,
 status,
