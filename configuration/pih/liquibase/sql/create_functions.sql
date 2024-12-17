@@ -1337,6 +1337,7 @@ END
 #
 -- This function accepts encounter_id, mapping source, mapping code
 -- It will find the obs_id of the matching observation
+-- the obs_id will be returned based on the offset ordered descending by date_created, obs_id
 #
 DROP FUNCTION IF EXISTS obs_id;
 #
@@ -1354,6 +1355,34 @@ where       o.voided = 0
 and         o.encounter_id = _encounterId
 and         o.concept_id = concept_from_mapping(_source, _term)
 order by    o.date_created desc, o.obs_id desc
+limit 1
+offset _offset_value
+;
+
+RETURN ret;
+
+END
+#
+-- This function accepts encounter_id, mapping source, mapping code
+-- It will find the obs_id of the matching observation
+-- the obs_id will be returned based on the offset ordered ascending by date_created, obs_id	
+#
+DROP FUNCTION IF EXISTS obs_id_ordered_ascending;
+#
+CREATE FUNCTION obs_id_ordered_ascending(_encounterId int(11), _source varchar(50), _term varchar(255), _offset_value int)
+RETURNS int
+DETERMINISTIC
+
+BEGIN
+
+DECLARE ret int;
+
+select      o.obs_id into ret
+from        obs o
+where       o.voided = 0
+and         o.encounter_id = _encounterId
+and         o.concept_id = concept_from_mapping(_source, _term)
+order by    o.date_created asc, o.obs_id asc
 limit 1
 offset _offset_value
 ;
