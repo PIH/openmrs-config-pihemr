@@ -110,7 +110,7 @@ UPDATE temp_patient_columns SET patient_address = PERSON_ADDRESS(patient_id);
 
 update temp_report t
 inner join temp_patient_columns p on p.patient_id = t.patient_id
-set t.emr_id = p.patient_id,
+set t.emr_id = p.emr_id,
 	t.gender = p.gender,
 	t.loc_registered = p.loc_registered,
 	t.unknown_patient = p.unknown_patient,
