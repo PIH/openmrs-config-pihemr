@@ -49,6 +49,10 @@
         </pluginRepository>
     </pluginRepositories>
 
+    <modules>
+        <module>content</module>
+    </modules>
+
     <build>
         <filters>
             <filter>${project.build.directory}/openmrs-packager-config/configuration/constants.properties</filter>
