@@ -10,6 +10,16 @@
     "order": 50
   },
   {
+    "id": "pihemr.systemAdministration.expressionTesterLink",
+    "extensionPointId": "systemAdministration.apps",
+    "type": "link",
+    "label": "pih.app.admin.expressionTester.view",
+    "requiredPrivilege": "App: coreapps.systemAdministration",
+    "url": "pihcore/admin/expressionTester.page",
+    "icon": "icon-wrench",
+    "order": 51
+  },
+  {
     "id": "pih.app.admin.closeStaleInpatientAdmissions",
     "extensionPointId": "systemAdministration.apps",
     "type": "link",
