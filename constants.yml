@@ -157,6 +157,29 @@ concept:
   fPmethod:
     uuid: "3ccfbd0e-26fe-102b-80cb-0017a47871b2"
 
+  covidVaccination:
+    uuid: "c3cd46de-21fb-475b-b76a-1c638b250378"
+  hepBVaccination:
+    uuid: "3cd42a9c-26fe-102b-80cb-0017a47871b2"
+  fluVaccination:
+    uuid: "78032AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  meningoVaccination:
+    uuid: "159900AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  bcgVaccination:
+    uuid: "3cd4e004-26fe-102b-80cb-0017a47871b2"
+  polioVaccination:
+    uuid: "3cd42c36-26fe-102b-80cb-0017a47871b2"
+  pentavalentVaccination:
+    uuid: "1423AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  rotavirusVaccination:
+    uuid: "83531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  pneumococcalVaccination:
+    uuid: "82213AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  measlesRubellaVaccination:
+    uuid: "162586AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  diptheriaTetanusVaccination:
+    uuid: "3ccc6b7c-26fe-102b-80cb-0017a47871b2"
+
 providerAttributeType:
   households:
     uuid: "0c267ae8-f793-4cf8-9b27-93accaa45d86"
