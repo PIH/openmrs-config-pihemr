@@ -1,10 +1,13 @@
-.status-data-widget-label {
+
+.patient-dashboard-widget-label {
     font-weight: bold;
     font-size: 0.9em;
 }
-.status-data-widget-value {
+
+.patient-dashboard-widget-value {
     font-size: 0.9em;
 }
+
 .status-data-alert {
     font-weight: bold;
     color: red;
