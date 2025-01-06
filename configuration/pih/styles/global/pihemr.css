@@ -1,8 +1,9 @@
 .status-data-widget-label {
     font-weight: bold;
+    font-size: 0.9em;
 }
 .status-data-widget-value {
-
+    font-size: 0.9em;
 }
 .status-data-alert {
     font-weight: bold;
