@@ -39,8 +39,14 @@ a44acd7c-2e5d-11e9-b210-d663bd873d93,,Mental Health Location,Signifies Locations
 160a6e45-9274-4dd8-abf7-e46af8cbb41a,,Inpatient Transfer Location,
 C4BCB2BC-94E8-40DC-BB53-7384EAC6F1BF,,Program Location,Patient programs options are limited to the locations tagged with this tag.
 ae29295b-2795-11ec-9efc-0242ac110002,,Echocardiogram Location,
-278ba6a4-7570-11ec-be0e-0242ac110002,,Health Facility Location,"Signifies Locations that represent Health Facilities"
-cc104bff-6eaf-452e-a192-400d189cd82a,,Labs Component Location,"Signifies Locations where the Labs component should be enabled"
-26eac54e-7e6f-4d59-9afd-6cc8362be65a,,NICU Location,Neonatal intensive care unit,
+278ba6a4-7570-11ec-be0e-0242ac110002,,Health Facility Location,Signifies Locations that represent Health Facilities
+cc104bff-6eaf-452e-a192-400d189cd82a,,Labs Component Location,Signifies Locations where the Labs component should be enabled
+26eac54e-7e6f-4d59-9afd-6cc8362be65a,,NICU Location,Neonatal intensive care unit
 d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a,,Pregnancy Program Dashboard Location,Locations where the Pregnancy Program Dashboard should be displayed by default if a patient is enrolled in the program
 e5f6a7b8-c9d0-1e2f-3a4b-5c6d7e8f9a0b,,Infant Program Dashboard Location,Locations where the Infant Program Dashboard should be displayed by default if a patient is enrolled in the program
+28a67da5-cf8c-11ef-8297-0242ac120002,,Antenatal Location,Locations where women are admitted for labour and delivery
+3bd9e805-cf8c-11ef-8297-0242ac120002,,Postnatal Location,Locations where women are admitted for postnatal care
+3ee4d09d-cf8c-11ef-8297-0242ac120002,,Delivery Location,Locations where women are admitted for deliveries
+7b210a6c-cf9d-11ef-8297-0242ac120002,,Newborn Assessment Location,Locations where newborns are delivered/admitted for initial assessment
+80df8813-cf9d-11ef-8297-0242ac120002,,Newborn Daily Progress Location,Locations where newborns are admitted for monitoring
+8a89cec3-cf9d-11ef-8297-0242ac120002,,Newborn Intensive Care Location,Locations where newborns are admitted for more advanced/intensive care
