@@ -968,13 +968,40 @@ angular.module("encounterTypeConfig", [])
                 ]
             },
             "liberia": {
-                defaultState: "short",
-                shortTemplate: "templates/encounters/defaultEncounterShort.page",
-                longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
-                templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("ncd-adult-initial.xml"),
-                icon: "fas fa-fw fa-user",
-                editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("ncd-adult-initial.xml"),
-                showOnVisitList: true
+                versions: {
+                    DEFAULT: {
+                        defaultState: "short",
+                        shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                        longTemplate: "templates/encounters/defaultEncounterShort.page",
+                        icon: "fas fa-fw fa-heart",
+                        editUrl: hfeStandardEditUrl,
+                        showOnVisitList: true,
+                        sections: [
+                            ncdHistory,
+                            ncdHospital,
+                            diabetes,
+                            hypertension,
+                            heartFailure,
+                            lung,
+                            kidney,
+                            liver,
+                            palliative,
+                            sickleCell,
+                            primaryCareDx,
+                            generalVaccinations,
+                            ncdPlan
+                        ]
+                    },
+                    "1.0": {
+                        defaultState: "short",
+                        shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                        longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+                        templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("ncd-adult-initial.xml"),
+                        icon: "fas fa-fw fa-user",
+                        editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("ncd-adult-initial.xml"),
+                        showOnVisitList: true
+                    }
+                }
             },
             "sierra_leone": {
                 defaultState: "short",
@@ -1019,13 +1046,40 @@ angular.module("encounterTypeConfig", [])
                 ]
             },
             "liberia": {
-                defaultState: "short",
-                shortTemplate: "templates/encounters/defaultEncounterShort.page",
-                longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
-                templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("ncd-adult-followup.xml"),
-                icon: "fas fa-fw fa-user",
-                editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("ncd-adult-followup.xml"),
-                showOnVisitList: true
+                versions: {
+                    DEFAULT: {
+                        defaultState: "short",
+                        shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                        longTemplate: "templates/encounters/defaultEncounterShort.page",
+                        icon: "fas fa-fw fa-heart",
+                        editUrl: hfeStandardEditUrl,
+                        showOnVisitList: true,
+                        sections: [
+                            ncdFollowupHeader,
+                            ncdHospital,
+                            diabetes,
+                            hypertension,
+                            heartFailure,
+                            lung,
+                            kidney,
+                            liver,
+                            palliative,
+                            sickleCell,
+                            primaryCareDx,
+                            generalVaccinations,
+                            ncdPlan
+                        ]
+                    },
+                    "1.0": {
+                        defaultState: "short",
+                        shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                        longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+                        templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("ncd-adult-followup.xml"),
+                        icon: "fas fa-fw fa-user",
+                        editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("ncd-adult-followup.xml"),
+                        showOnVisitList: true
+                    }
+                }
             },
             "sierra_leone": {
                 defaultState: "short",
