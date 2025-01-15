@@ -156,3 +156,44 @@ set voided = 1,
 	voided_by = 1,
 	date_voided = now(),
 	void_reason = 'SL-816 voiding duplicate registrations';
+
+-- void other applicable table rows based on voided patients
+update person
+set voided = 1,
+	voided_by = 1,
+	date_voided = now(),
+	void_reason = 'SL-816 voiding duplicate registrations'
+where person_id in 
+	(select patient_id from patient where void_reason = 'SL-816 voiding duplicate registrations');
+
+update person_address 
+set voided = 1,
+	voided_by = 1,
+	date_voided = now(),
+	void_reason = 'SL-816 voiding duplicate registrations'
+where person_id in 
+	(select patient_id from patient where void_reason = 'SL-816 voiding duplicate registrations');
+
+update person_attribute 
+set voided = 1,
+	voided_by = 1,
+	date_voided = now(),
+	void_reason = 'SL-816 voiding duplicate registrations'
+where person_id in 
+	(select patient_id from patient where void_reason = 'SL-816 voiding duplicate registrations');
+
+update person_name
+set voided = 1,
+	voided_by = 1,
+	date_voided = now(),
+	void_reason = 'SL-816 voiding duplicate registrations'
+where person_id in 
+	(select patient_id from patient where void_reason = 'SL-816 voiding duplicate registrations');
+
+update patient_identifier
+set voided = 1,
+	voided_by = 1,
+	date_voided = now(),
+	void_reason = 'SL-816 voiding duplicate registrations'
+where patient_id in 
+	(select patient_id from patient where void_reason = 'SL-816 voiding duplicate registrations');
