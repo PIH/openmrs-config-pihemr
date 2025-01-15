@@ -383,7 +383,7 @@ encounterType:
     uuid: "0ef67d23-0cf4-4a3e-8617-ac9d55bdd005"
   MATERNAL_DISCHARGE:
     uuid: "2110a810-db62-4914-ba95-604b96010164"
-  NEWBORN_ADMISSION:
+  NEWBORN_INITIAL:
     uuid: "093b6ffc-e55a-461a-85cc-c6acf7714a23"
   NEWBORN_ASSESSMENT:
     uuid: "6444b8d4-407d-444d-aa15-d6dff204ed83"
