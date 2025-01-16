@@ -1,0 +1,529 @@
+<!--
+  ~ The contents of this file are subject to the OpenMRS Public License
+  ~ Version 1.0 (the "License"); you may not use this file except in
+  ~ compliance with the License. You may obtain a copy of the License at
+  ~ http//license.openmrs.org
+  ~
+  ~ Software distributed under the License is distributed on an "AS IS"
+  ~ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing rights and limitations
+  ~ under the License.
+  ~
+  ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+  -->
+
+<htmlform id="sickle-cell"
+          formName="Sickle Cell" formUuid="23afe1ed-76c4-4642-b37b-44944a9dbed9"
+          formVersion="1.0">
+
+    <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.CleanDiagnosisConstructAction"/>
+
+    <style type="text/css">
+
+        .narrow {
+            width: 200px;
+        }
+
+        .field-error {
+            color: #ff6666;
+            font-size: 1.1em;
+            display: block;
+        }
+
+        form fieldset {
+            min-width: 90%;
+            display: block;
+        }
+
+        .encounter-summary-container #calculated-ratio {
+            font-size: 1em;
+            font-weight: normal;
+        }
+
+        .half-size-text {
+            color: #ff6666;
+            font-size: 50%;
+            display: block;
+        }
+
+        .section-container {
+            background: #F2F2F2;
+            box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+            padding: 10px 5px 10px 15px;
+            line-height: 1.5em; /*add this for vertical spacing between elements*/
+        }
+
+        .section-container input[type="checkbox"] {
+            margin: 0px 5px; /*changed values to vertical, horizontal*/
+            top:5px; /*added to offset the checkbox position to line up*/
+        }
+
+        .section-container label { /*new definition to override labels inside section-containers*/
+            margin: 0px;
+        }
+
+        - .section {
+            width: 100%;
+        }
+
+        textarea {
+            width: 95%;
+        }
+
+        .five-columns, .four-columns, .three-columns, .two-columns {
+            display: table;
+            height: 100%;
+            width: 100%;
+        }
+
+        .two-columns > div {
+            display: table-cell;
+            width: 50%;
+        }
+
+        .three-columns > div {
+            display: table-cell;
+            width: 33%;
+        }
+
+        .four-columns > div {
+            display: table-cell;
+            width: 25%;
+        }
+
+        .five-columns > div {
+            display: table-cell;
+            width: 20%;
+        }
+
+        .side-by-side label {
+            display: inline-block;
+        }
+
+        .list-inline label, .list-inline input[type="radio"], .list-inline span,
+        .list-inline-wide label, .list-inline-wide input[type="radio"], .list-inline-wide span,
+        .list-inline-extra-wide label, .list-inline-extra-wide input[type="radio"], .list-inline-extra-wide span {
+            display: inline-block;
+            float: none;
+        }
+
+        .list-inline label:first-child {
+            width: 220px;
+        }
+
+        .list-inline-wide label:first-child {
+            width: 320px;
+        }
+
+        .list-inline-extra-wide label:first-child {
+            width: 420px;
+        }
+
+        label {
+            padding: 0px 3px 0px 0px
+        }
+
+        form input[type="radio"], .form input[type="radio"] {
+            float: none;
+            display: inline-block;
+        }
+    </style>
+
+    <ifMode mode="VIEW" include="false">
+        <script type="text/javascript">
+            jq(function() {
+
+                // handlers for next and submit buttons, see nextAndSubmitButtons.js
+                setUpNextAndSubmitButtons();
+
+            });
+        </script>
+    </ifMode>
+
+    <section id="sickle-section" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.ncd.sickleCell">
+        <div id="sickle" class="section-container">
+            <!-- this section is ONLY included for NCD intake encounter -->
+            <includeIf velocityTest="$encounter.encounterType.uuid == 'ae06d311-1866-455b-8a64-126a9bd74171'">
+                <div class="two-columns">
+                    <div>
+                        <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
+                            <p class="side-by-side">
+                                <obs conceptId="PIH:DIAGNOSIS" style="radio"
+                                     answerConceptIds="CIEL:117703,CIEL:126513,CIEL:126512,CIEL:168107,CIEL:117635"
+                                     answerCodes="pihcore.sickleCellDisease,pihcore.sickleCellTrait,pihcore.sickleCellBS,pihcore.sickleCellSC,pihcore.otherHemoglobinopathy"
+                                     answerSeparator="&lt;br /&gt;"/>
+                            </p>
+                        </obsgroup>
+
+                        <label>
+                            <uimessage code="pihcore.otherSickleCellSpecify" />
+                        </label>
+                        <obs conceptId="PIH:14924" />
+                    </div>
+
+                    <div>
+                        <p class="side-by-side">
+                            <label>
+                                <uimessage code="pihcore.confirmationTest"/>
+                            </label>
+                            <br/>
+                            <obs id="scd-test-method" conceptId="CIEL:168730" style="radio"
+                                 answerConceptIds="CIEL:160225,CIEL:168733,CIEL:168732,CIEL:165544,CIEL:161519,CIEL:168731,CIEL:1067,CIEL:5622"
+                                 answerCodes="SickleScan RDT,HemoTypeSC,Gazelle,pihcore.lab.hgElectro,HPLC,IEF,pihcore.unknownButTested,pihcore.other"
+                                 answerSeparator="&lt;br /&gt;" />
+                        </p>
+                    </div>
+                </div>
+            </includeIf>
+
+            <h3>
+                <uimessage code="pihcore.followupIndicators"/>
+            </h3>
+
+            <h5>
+                <uimessage code="pihcore.clinicalIndicators"/>
+            </h5>
+            <!-- Sickle cell signs and symptoms -->
+            <p class="side-by-side">
+                <obsgroup groupingConceptId="PIH:14858" showIfEmpty="false">
+                    <obs id="sickle-asymptom" style="radio"
+                         conceptIds="PIH:SYMPTOM PRESENT,PIH:SYMPTOM ABSENT,PIH:SYMPTOM PRESENCE UNKNOWN"
+                         conceptLabels="pihcore.yes,pihcore.no,pihcore.unknown" answerConceptId="PIH:20010" labelCode="pihcore.asymptom">
+                        <controls>
+                            <when value="PIH:SYMPTOM ABSENT" thenDisplay="#sc-not-asymptom"/>
+                        </controls>
+                    </obs>
+                </obsgroup>
+            </p>
+
+            <div id="sc-not-asymptom">
+                <repeat>
+                    <template>
+                        <p class="side-by-side">
+                            <obsgroup groupingConceptId="PIH:14858" showIfEmpty="false">
+                                <obs style="radio"
+                                     conceptIds="PIH:SYMPTOM PRESENT,PIH:SYMPTOM ABSENT,PIH:SYMPTOM PRESENCE UNKNOWN"
+                                     conceptLabels="pihcore.yes,pihcore.no,pihcore.unknown" answerConceptId="{qId}" labelCode="pihcore.{symptName}"/>
+                            </obsgroup>
+                        </p>
+                    </template>
+                    <render qId="CIEL:114403" symptName="pain"/>
+                    <render qId="CIEL:140238" symptName="fever"/>
+                    <render qId="CIEL:136443" symptName="jaundice"/>
+                    <render qId="CIEL:121629" symptName="anemia"/>
+                    <render qId="CIEL:148346" symptName="ascites"/>
+                    <render qId="CIEL:112804" symptName="spleenPalpable"/>
+                    <render qId="CIEL:168290" symptName="liverPalpable" />
+                    <render qId="CIEL:142373" symptName="tbscreen.dyspnea"/>
+                    <render qId="CIEL:120749" symptName="tbscreen.chestPain"/>
+                </repeat>
+            </div>
+
+            <obsgroup groupingConceptId="PIH:14872">
+                <div class="two-columns">
+                    <div>
+                        <p class="list-inline">
+                            <label>
+                                <uimessage code="pihcore.complicationsSinceLastVisit"/>
+                            </label>
+                            <obs id="scd-comp-q" conceptId="PIH:14867" style="radio"
+                                 answerConceptIds="PIH:YES,PIH:NO,PIH:UNKNOWN"
+                                 answerCodes="pihcore.yes,pihcore.no,pihcore.unknown">
+                                <controls>
+                                    <when value="PIH:YES" thenDisplay="#scd-comp-text"/>
+                                </controls>
+                            </obs>
+                        </p>
+                    </div>
+
+                    <div id="scd-comp-text">
+                        <p>
+                            <label>
+                                <uimessage code="pihcore.complications.label"/>
+                            </label>
+                            <repeat>
+                                <template>
+                                    <obs conceptId="PIH:15157" style="checkbox"
+                                         answerConceptId="{diagId}" answerCode="pihcore.{sickleComplic}"/>
+                                </template>
+                                <render diagId="CIEL:121629" sickleComplic="anemia" />
+                                <render diagId="CIEL:162044" sickleComplic="severeAnemia" />
+                                <render diagId="CIEL:136586" sickleComplic="intravascularHemolysis" />
+                                <render diagId="CIEL:117643" sickleComplic="sickle-cellVaso-occlusivePainCrisis" />
+                                <render diagId="CIEL:149871" sickleComplic="acuteChestSyndrome" />
+                                <render diagId="CIEL:148074" sickleComplic="avascularBoneNecrosis" />
+                                <render diagId="CIEL:111103" sickleComplic="stroke" />
+                                <render diagId="CIEL:112483" sickleComplic="systemicInfection" />
+                                <render diagId="CIEL:116128" sickleComplic="malaria" />
+                            </repeat>
+
+                            <obs conceptId="PIH:15157" style="checkbox"
+                                 answerConceptId="CIEL:5622" answerCode="pihcore.other"
+                                 commentFieldCode="zl.ifOtherSpecify"/>
+                        </p>
+                    </div>
+                </div>
+            </obsgroup>
+
+            <obsgroup groupingConceptId="PIH:15162" showIfEmpty="false">
+                <p class="side-by-side">
+                    <label>
+                        <uimessage code="pihcore.transfusionIn12mo"/>
+                    </label>
+                    <obs id="transfusion-status" conceptId="PIH:7868" style="radio"
+                         answerConceptIds="CIEL:1065,CIEL:1066"
+                         answerCodes="pihcore.yes,pihcore.no">
+                        <controls>
+                            <when value="CIEL:1065" thenDisplay="#transfusion-details"/>
+                        </controls>
+                    </obs>
+                </p>
+
+                <div id="transfusion-details" class="two-columns">
+                    <div>
+                        <obs conceptId="PIH:13748" labelCode="pihcore.numTransfusionIn12mo" />
+                    </div>
+                    <div>
+                        <obs conceptId="CIEL:163268" labelCode="pihcore.transfusionDate" />
+                    </div>
+                </div>
+            </obsgroup>
+
+            <h5>
+                <uimessage code="pihcore.awareAndTreat"/>
+            </h5>
+
+            <label>
+                <uimessage code="pihcore.onTreatment"/>
+            </label>
+            <repeat>
+                <template>
+                    <obs conceptId="PIH:14857" style="checkbox"
+                         answerConceptId="{qId}" />
+                </template>
+                <render qId="CIEL:76613" medName="Folic acid"/>
+                <render qId="CIEL:81724" medName="Penicillin"/>
+            </repeat>
+            <br/>
+
+            <obsgroup groupingConceptId="PIH:14826">
+                <div class="two-columns">
+                    <div>
+                        <repeat>
+                            <template>
+                                <p class="list-inline">
+                                    <label>
+                                        <uimessage code="pihcore.{questionName}"/>
+                                    </label>
+                                    <obs id="{tog}" conceptId="{qId}" style="radio"
+                                         answerConceptIds="PIH:YES,PIH:NO,PIH:UNKNOWN"
+                                         answerCodes="pihcore.yes,pihcore.no,pihcore.unknown">
+                                        <controls>
+                                            <when value="PIH:YES" thenDisplay="#scd-fui-{tog}-details"/>
+                                        </controls>
+                                    </obs>
+                                </p>
+                            </template>
+                            <render qId="CIEL:159610" questionName="malariaProphylaxis" tog="malaria"/>
+                            <render qId="CIEL:167914" questionName="understandsTreatment" tog="under"/>
+                            <render qId="PIH:14741"   questionName="abilityToTitrate" tog="tite"/>
+                            <render qId="CIEL:164075" questionName="overallTreatmentAdherence" tog="adher"/>
+                            <render qId="CIEL:167819" questionName="missingDosesPerWeek" tog="miss"/>
+                            <render qId="CIEL:167021" questionName="awareUnderstandsDisease" tog="aware"/>
+                            <render qId="CIEL:167022" questionName="familyAwarenessDisease" tog="family"/>
+                        </repeat>
+                    </div>
+
+                    <div id="scd-fui-miss-details">
+                        <br/><br/><br/><br/>
+                        <label>
+                            <uimessage code="pihcore.numMissingDosesPerWeek"/>
+                        </label>
+                        <obs conceptId="CIEL:167918"/>
+                    </div>
+                </div>
+
+                <h5>
+                    <uimessage code="pihcore.diseaseCtl"/>
+                </h5>
+
+                <repeat>
+                    <template>
+                        <p class="list-inline">
+                            <label>
+                                <uimessage code="{questionName}"/>
+                            </label>
+                            <obs id="{tog}" conceptId="{qId}" style="radio"
+                                 answerConceptIds="PIH:YES,PIH:NO,PIH:UNKNOWN"
+                                 answerCodes="pihcore.yes,pihcore.no,pihcore.unknown">
+                                <controls>
+                                    <when value="PIH:YES" thenDisplay="#{tog}-details"/>
+                                </controls>
+                            </obs>
+                        </p>
+                    </template>
+                    <render qId="CIEL:1898"   questionName="pihcore.patientConditionImproved" tog="scd-fui-improved"/>
+                </repeat>
+
+                <p class="list-inline">
+                    <label>
+                        <uimessage code="pihcore.sickleCellDiseaseControl"/>
+                    </label>
+                    <obs id="sickle-control" conceptId="PIH:11506" style="radio"
+                         answerConceptIds="PIH:11507,PIH:11508,PIH:11509"
+                         answerCodes="pihcore.controlled,pihcore.uncontrolled,pihcore.complications" >
+                        <controls>
+                            <when value="PIH:11508" thenDisplay="#sc-fui-uncontrolled"/>
+                        </controls>
+                    </obs>
+                </p>
+
+                <div id="sc-fui-uncontrolled" >
+                    <p class="list-inline">
+                        <label>
+                            <uimessage code="pihcore.sendForAdmission"/>
+                        </label>
+                        <obs conceptId="CIEL:1788" style="radio"
+                             answerConceptIds="PIH:YES,PIH:NO,PIH:UNKNOWN"
+                             answerCodes="pihcore.yes,pihcore.no,pihcore.unknown" />
+                    </p>
+                </div>
+            </obsgroup>
+
+            <label>
+                <uimessage code="pihcore.indicationsForHydroxyurea"/>
+                <br/>
+                <uimessage code="pihcore.sickleCellMoreThan9"/>
+            </label>
+            <obsgroup groupingConceptId="PIH:14872">
+                <p class="list-inline">
+                    <obs id="scd-hydroxy-q" conceptId="PIH:14869" style="radio"
+                         answerConceptIds="PIH:YES,PIH:NO"
+                         answerCodes="pihcore.yes,pihcore.no">
+                        <controls>
+                            <when value="PIH:YES" thenDisplay="#scd-hydroxy-details"/>
+                        </controls>
+                    </obs>
+                </p>
+
+                <div id="scd-hydroxy-details" class="two-columns">
+                    <div>
+                        <p class="list-inline">
+                            <label>
+                                <uimessage code="pihcore.onHydroxyurea" />
+                            </label>
+                            <obs id="hydroxy-treatment" conceptId="PIH:14870" style="radio"
+                                 answerConceptIds="PIH:YES,PIH:NO" answerCodes="pihcore.yes,pihcore.no" >
+                                <controls>
+                                    <when value="PIH:NO" thenDisplay="#reason-no-hydroxy"/>
+                                </controls>
+                            </obs>
+
+                            <div id="reason-no-hydroxy">
+                                <label>
+                                    <uimessage code="pihcore.reasonNotHydroxyurea"/>
+                                </label>
+                                <repeat>
+                                    <template>
+                                        <obs conceptId="PIH:15169" style="checkbox"
+                                             answerConceptId="{answId}" answerCode="{answerMsg}" />
+                                    </template>
+                                    <render answId="CIEL:164377" answerMsg="pihcore.medication.side.effects" />
+                                    <render answId="CIEL:1754" answerMsg="pihcore.stockout" />
+                                    <render answId="PIH:15170" answerMsg="pihcore.cbcNotAvailable" />
+                                    <render answId="PIH:15171" answerMsg="pihcore.noSickleTestConfirmation" />
+                                </repeat>
+                                <obs conceptId="PIH:15169" style="checkbox"
+                                     answerConceptId="CIEL:5622" answerCode="pihcore.other"
+                                     commentFieldCode="zl.ifOtherSpecify"/>
+                            </div>
+                        </p>
+                    </div>
+
+                    <div>
+                        <p class="list-inline-wide">
+                            <label>
+                                <uimessage code="pihcore.complicationsWithHydroxyurea" />
+                            </label>
+                            <obs id="side-effect-hydroxy" conceptId="PIH:14871" style="radio"
+                                 answerConceptIds="PIH:YES,PIH:NO" answerCodes="pihcore.yes,pihcore.no" >
+                                <controls>
+                                    <when value="PIH:YES" thenDisplay="#side-effect-hydroxy-compl-details" />
+                                </controls>
+                            </obs>
+                        </p>
+                        <div id="side-effect-hydroxy-compl-details">
+
+                            <repeat>
+                                <template>
+                                    <obs conceptId="PIH:20012" style="checkbox"
+                                         answerConceptId="{answId}" answerCode="{answerMsg}" />
+                                </template>
+                                <render answId="CIEL:114380" answerMsg="pihcore.pancytopenia" />
+                                <render answId="PIH:20013"   answerMsg="pihcore.elevatedAltAst" />
+                                <render answId="PIH:20014"   answerMsg="pihcore.elevatedCreatinine" />
+                                <render answId="CIEL:111721" answerMsg="pihcore.mouthUlcer" />
+                                <render answId="CIEL:512"    answerMsg="pihcore.rash" />
+                                <render answId="CIEL:5622"   answerMsg="pihcore.other" />
+                            </repeat>
+
+                            <obs conceptId="CIEL:164377" style="text" labelCode="pihcore.hydroxyureaOtherComplications" />
+                        </div>
+                    </div>
+                </div>
+            </obsgroup>
+        </div>
+    </section>
+
+    <div id="buttons-section"></div>
+    <ifMode mode="VIEW" include="false">
+        <style type="text/css">
+            .ncdButtonDark.confirm, ncdButtonDark.confirm {
+                background: #3f746d;
+                border-color: #3f746d;
+            }
+
+            .ncdButtonLight.confirm, ncdButtonLight.confirm {
+                background: #6f9792;
+                border-color: #6f9792;
+            }
+
+            .ncdButtonSelf.confirm, ncdButtonSelf.confirm {
+                background: #6f9792;
+                border-color: #6f9792;
+                color: black;
+            }
+        </style>
+
+        <div id="buttonsTopRow">
+            <repeat>
+                <template>
+                    <button id="pihcore-{idName}" type="button" class="nextSection ncdButton{buttonStyle} submitButton confirm right" >
+                        <uimessage code="{label}"/>
+                        <i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i>
+                    </button>
+                </template>
+                <render idName="plan"      buttonStyle="Dark"  label="Plan" />
+                <render idName="diagnosis"     buttonStyle="Dark"  label="Dx" />
+                <render idName="sickle-cell"   buttonStyle="Self"  label="pihcore.sickleCellDisease.short" />
+                <render idName="ncd"           buttonStyle="Light" label="pihcore.visitNote.ncdInitial" />
+            </repeat>
+        </div>
+        <br/><br/>
+
+        <div id="buttons">
+            <button id="next" type="button" class="submitButton confirm right">
+                <uimessage code="emr.next"/>
+                <i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i>
+            </button>
+            <button id="submit" class="submitButton confirm right">
+                <uimessage code="mirebalais.save"/>
+                <i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i>
+            </button>
+            <button id="cancel" type="button" class="cancel">
+                <uimessage code="emr.cancel"/>
+            </button>
+        </div>
+    </ifMode>
+
+</htmlform>

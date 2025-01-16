@@ -963,6 +963,7 @@ angular.module("encounterTypeConfig", [])
                     pedsVaccinations,
                     pedsFoodAndSupplements,
                     ncd,
+                    sickleCell,
                     primaryCareDx,
                     primaryCarePlan
                 ]
@@ -1041,6 +1042,7 @@ angular.module("encounterTypeConfig", [])
                     primaryCareExam,
                     pedsVaccinations,
                     ncd,
+                    sickleCell,
                     primaryCareDx,
                     primaryCarePlan
                 ]
