@@ -143,6 +143,10 @@ CREATE TEMPORARY TABLE  temp_dups_to_void
 select patient_id from temp_potential_dups d 
 where not exists
  (select 1 from encounter e where  e.patient_id = d.patient_id and e.encounter_type <> @regEncounterType)
+ and not exists
+  (select 1 from patient_program pp where pp.patient_id = d.patient_id)
+ and not exists 
+ (select 1 from appointmentscheduling_appointment aa where aa.patient_id = d.patient_id)
 and exists 
  (select 1 from encounter e2 where e2.patient_id in
  	(select patient_id from temp_potential_dups_patient_ids d2 where d2.group_id = d.group_id)
@@ -156,3 +160,44 @@ set voided = 1,
 	voided_by = 1,
 	date_voided = now(),
 	void_reason = 'SL-816 voiding duplicate registrations';
+
+-- void other applicable table rows based on voided patients
+update person
+set voided = 1,
+	voided_by = 1,
+	date_voided = now(),
+	void_reason = 'SL-816 voiding duplicate registrations'
+where person_id in 
+	(select patient_id from patient where void_reason = 'SL-816 voiding duplicate registrations');
+
+update person_address 
+set voided = 1,
+	voided_by = 1,
+	date_voided = now(),
+	void_reason = 'SL-816 voiding duplicate registrations'
+where person_id in 
+	(select patient_id from patient where void_reason = 'SL-816 voiding duplicate registrations');
+
+update person_attribute 
+set voided = 1,
+	voided_by = 1,
+	date_voided = now(),
+	void_reason = 'SL-816 voiding duplicate registrations'
+where person_id in 
+	(select patient_id from patient where void_reason = 'SL-816 voiding duplicate registrations');
+
+update person_name
+set voided = 1,
+	voided_by = 1,
+	date_voided = now(),
+	void_reason = 'SL-816 voiding duplicate registrations'
+where person_id in 
+	(select patient_id from patient where void_reason = 'SL-816 voiding duplicate registrations');
+
+update patient_identifier
+set voided = 1,
+	voided_by = 1,
+	date_voided = now(),
+	void_reason = 'SL-816 voiding duplicate registrations'
+where patient_id in 
+	(select patient_id from patient where void_reason = 'SL-816 voiding duplicate registrations');
