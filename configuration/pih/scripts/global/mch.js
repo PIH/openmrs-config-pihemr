@@ -150,8 +150,26 @@ jq(document).ready(function () {
 
     }
   }
+  jq('#baby-live-or-death-1 input[type="radio"]').attr('required', true)
+  jq('#delivery-type-1 input[type="radio"]').attr('required', true)
+
+
+  function checkRadioSelectionBirthType() {
+    const typeOfBirthIndex = $('#baby-live-or-death-1 input[type="radio').index($('#baby-live-or-death-1 input[type="radio"]:checked'));
+    if (typeOfBirthIndex === 0) {
+
+      $('#gender_weight input[type="radio"]:first').attr('required', true);
+
+      $('#gender_weight input[type="text"]:first').attr('required', true);
+    } else {
+      $('#gender_weight input[type="radio"]:first').attr('required', false);
+
+      $('#gender_weight input[type="text"]:first').attr('required', false);
+    }
+  }
 
   jq('#knowing_period_question input[type="radio"]').on('change', checkRadioSelectionPeriod);
+  jq('#baby-live-or-death-1 input[type="radio"]').on('change', checkRadioSelectionBirthType);
 
   checkRadioSelectionPeriod();
 
