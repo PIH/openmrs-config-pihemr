@@ -702,7 +702,7 @@
 				<div>
 					<p class="side-by-side">
 						<label>
-							<uimessage code="Type de consultation" />
+							<uimessage code="pihcore.type_of_consultation" />
 						</label>
 						<label style="color:red">
 							[
