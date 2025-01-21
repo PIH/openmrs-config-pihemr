@@ -287,8 +287,19 @@
                  style="checkbox"/>
             <obs conceptId="PIH:NCD category" answerConceptId="PIH:Rehab program"
                  answerCode="pihcore.ncd.rehab" style="checkbox"/>
-            <obs conceptId="PIH:NCD category" answerConceptId="PIH:Sickle-Cell Anemia"
-                 style="checkbox"/>
+            <div class="two-columns">
+                <div>
+                    <obs id="sickle-category" conceptId="PIH:NCD category" answerConceptId="PIH:Sickle-Cell Anemia"
+                         style="checkbox" toggle="sickle-msg"/>
+                </div>
+                <div id="sickle-msg">
+                    <label>
+                        <i>
+                            <uimessage code="pihcore.sickleMessage" />
+                        </i>
+                    </label>
+                </div>
+            </div>
             <obs conceptId="PIH:NCD category" answerConceptId="PIH:OTHER"
                  style="checkbox" toggle="other"
                  showCommentField="true" commentFieldLabel=" "/>
@@ -1101,7 +1112,43 @@
         </p>
     </section>
 
+    <div id="buttons-section"></div>
     <ifMode mode="VIEW" include="false">
+        <style type="text/css">
+            .ncdButtonDark.confirm, ncdButtonDark.confirm {
+                background: #3f746d;
+                border-color: #3f746d;
+            }
+
+            .ncdButtonLight.confirm, ncdButtonLight.confirm {
+                background: #6f9792;
+                border-color: #6f9792;
+            }
+
+            .ncdButtonSelf.confirm, ncdButtonSelf.confirm {
+                background: #6f9792;
+                border-color: #6f9792;
+                color: black;
+            }
+        </style>
+
+        <div id="buttonsTopRow">
+            <repeat>
+                <template>
+                    <button id="pihcore-{idName}" type="button" class="nextSection ncdButton{buttonStyle} submitButton confirm right" >
+                        <uimessage code="{label}"/>
+                        <i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i>
+                    </button>
+                </template>
+                <render idName="plan"          buttonStyle="Dark"  label="Plan" />
+                <render idName="diagnosis"     buttonStyle="Dark"  label="Dx" />
+                <render idName="sickle-cell"   buttonStyle="Light"  label="pihcore.sickleCellDisease.short" />
+                <render idName="ncd"           buttonStyle="Self" label="pihcore.visitNote.ncdInitial" />
+            </repeat>
+        </div>
+        <br/><br/>
+
+
         <div id="buttons">
             <button id="next" type="button" class="submitButton confirm right">
                 <uimessage code="emr.next"/>
