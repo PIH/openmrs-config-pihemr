@@ -41,8 +41,7 @@
 
         <globalProperty>
             <property>concept.causeOfDeath</property>
-            <!-- Concept: 	CAUSE OF DEATH FROM DEATH CERTIFICATE, CIEL:1814 -->
-            <value>1814AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</value>
+            <value>530aceb4-b4f8-4e07-ad3d-54ffb2f2ccde</value>
         </globalProperty>
         <globalProperty>
             <property>coreapps.deceasedDateUsingTime</property>
