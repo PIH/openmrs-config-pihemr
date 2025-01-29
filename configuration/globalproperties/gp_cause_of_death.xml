@@ -1,0 +1,9 @@
+<config>
+    <globalProperties>
+        <globalProperty>
+            <property>concept.causeOfDeath</property>
+            <!-- Concept: 	CAUSE OF DEATH FROM DEATH CERTIFICATE, CIEL:1814 -->
+            <value>1814AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</value>
+        </globalProperty>
+    </globalProperties>
+</config>

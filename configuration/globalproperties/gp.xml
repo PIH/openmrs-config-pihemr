@@ -40,10 +40,6 @@
         </globalProperty>
 
         <globalProperty>
-            <property>concept.causeOfDeath</property>
-            <value>530aceb4-b4f8-4e07-ad3d-54ffb2f2ccde</value>
-        </globalProperty>
-        <globalProperty>
             <property>coreapps.deceasedDateUsingTime</property>
             <value>true</value>
         </globalProperty>
