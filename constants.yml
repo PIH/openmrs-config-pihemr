@@ -64,6 +64,10 @@ concept:
 
   laboratoryCategories:
     uuid: "517d25f7-2e68-4da4-912b-76090fbfe0fd"
+  hematologySet:
+    uuid: "0a726056-9b71-438b-a833-25fd7fc22dbf"
+  hemoglobin:
+    uuid: "3ccc7158-26fe-102b-80cb-0017a47871b2"
 
   patientDied:
     uuid: "3cdd446a-26fe-102b-80cb-0017a47871b2"
