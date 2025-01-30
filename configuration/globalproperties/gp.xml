@@ -114,6 +114,10 @@
             <property>reporting.testPatientsCohortDefinition</property>
             <value></value>
         </globalProperty>
+        <globalProperty>
+            <property>reporting.serializer.whitelist.types</property>
+            <value>org.openmrs.**,org.apache.commons.collections.comparators.ComparableComparator</value>
+        </globalProperty>
 
         <!-- REST Web Services -->
         <!-- increases number of results returned by single call (in Lab Workflow OWA we want to fetch batches of 3000) -->
