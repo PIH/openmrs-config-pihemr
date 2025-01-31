@@ -467,13 +467,25 @@ angular.module("encounterTypeConfig", [])
 
         var delivery = {
             type: "encounter-section",
-            id: "section-delivery",
+            id: "pihcore-delivery",
             label: "pihcore.delivery.title",
             icon: "fas fa-fw fa-baby",
             shortTemplate: "templates/sections/deliverySectionShort.page",
             longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
             templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-delivery.xml"),
             editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-delivery.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+        }
+
+
+        var cSection = {
+            type: "encounter-section",
+            id: "pihcore-c-section",
+            label: "pihcore.c-section",
+            icon: "icon-cut",
+            shortTemplate: "templates/sections/defaultSectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-c-section.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-c-section.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
         }
 
         var obgynInitial = {
@@ -1844,6 +1856,7 @@ angular.module("encounterTypeConfig", [])
             showOnVisitList: true,
             sections: [
               delivery,
+              cSection,
               primaryCareDx
             ]
           },

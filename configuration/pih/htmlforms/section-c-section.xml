@@ -1,0 +1,535 @@
+<!--
+  ~ The contents of this file are subject to the OpenMRS Public License
+  ~ Version 1.0 (the "License"); you may not use this file except in
+  ~ compliance with the License. You may obtain a copy of the License at
+  ~ http//license.openmrs.org
+  ~
+  ~ Software distributed under the License is distributed on an "AS IS"
+  ~ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing rights and limitations
+  ~ under the License.
+  ~
+  ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+  -->
+
+<htmlform id="section-c-section"
+          formUuid="7e7f7dfb-92b8-45a9-841e-304474e0fcfe"
+          formName="C-section"
+          formVersion="1.0">
+
+    <translations defaultLocale="fr">
+        <code name="ins_outs">
+            <variant locale="en" value="Ins / Outs"/>
+            <variant locale="fr" value="Entrants / Sortants"/>
+        </code>
+        <code name="attending">
+            <variant locale="en" value="Attending surgeon"/>
+            <variant locale="fr" value="1° Chirurgien"/>
+        </code>
+        <code name="required">
+            <variant locale="en" value="(required)"/>
+            <variant locale="fr" value="(demandé)"/>
+        </code>
+        <code name="assistants">
+            <variant locale="en" value="Assistant surgeon / Resident"/>
+            <variant locale="fr" value="2° Chirurgien / Résidant"/>
+        </code>
+        <code name="other">
+            <variant locale="en" value="other assistants"/>
+            <!-- Use message.properties for this -->
+            <variant locale="fr" value="autre"/>
+        </code>
+        <code name="admission_status">
+            <variant locale="en" value="Admission status"/>
+            <variant locale="fr" value="Condition d’admission"/>
+        </code>
+        <code name="anesthesia">
+            <variant locale="en" value="Anesthesia type"/>
+            <variant locale="fr" value="Type d'anesthésie"/>
+        </code>
+        <code name="emergency">
+            <variant locale="en" value="Emergency/Urgent"/>
+            <variant locale="fr" value="Urgence"/>
+        </code>
+        <code name="scheduled">
+            <variant locale="en" value="Scheduled/Elective"/>
+            <variant locale="fr" value="Programmé"/>
+        </code>
+        <code name="wound_class">
+            <variant locale="en" value="Wound Classification"/>
+            <variant locale="fr" value="Classification de plaie chirurgicale"/>
+        </code>
+        <code name="fluids_admin">
+            <variant locale="en" value="Fluids administered"/>
+            <variant locale="fr" value="Perfusions"/>
+        </code>
+        <code name="ivf">
+            <variant locale="en" value="IVF"/>
+            <variant locale="fr" value="Perfusions intraveineuses"/>
+        </code>
+        <code name="transfusion">
+            <variant locale="en" value="Blood transfusion"/>
+            <variant locale="fr" value="Transfusion sanguine"/>
+        </code>
+        <code name="type_and_volume">
+            <variant locale="en" value="If yes, specify type and volume"/>
+            <variant locale="fr" value="Si oui, préciser le type et le volume"/>
+        </code>
+        <code name="fluid_out">
+            <variant locale="en" value="Fluid outputs"/>
+            <variant locale="fr" value="Sorties fluidiques"/>
+        </code>
+        <code name="est_blood_loss">
+            <variant locale="en" value="Estimated blood loss"/>
+            <variant locale="fr" value="Pertes sanguines"/>
+        </code>
+        <code name="urine_out">
+            <variant locale="en" value="Total urine output"/>
+            <variant locale="fr" value="Production totale d'urine"/>
+        </code>
+        <code name="pre_op_antibiotic">
+            <variant locale="en" value="Pre-operative antibiotics administered"/>
+            <variant locale="fr" value="Antibiothérapie prophylactique"/>
+        </code>
+        <code name="antibiotic_name">
+            <variant locale="en" value="If yes, specify antibiotic name"/>
+            <variant locale="fr" value="Si oui, préciser antibiotiques"/>
+        </code>
+        <code name="vtp">
+            <variant locale="en" value="Venous thromboembolism prophylaxis"/>
+            <variant locale="fr" value="Méthode de prévention de la maladie thrombo-embolique"/>
+        </code>
+        <code name="specimen_sent">
+            <variant locale="en" value="Specimen sent"/>
+            <variant locale="fr" value="Spécimen envoyé"/>
+        </code>
+
+        <code name="path_sample">
+            <variant locale="en" value="If yes, describe pathology sample"/>
+            <variant locale="fr" value="Si oui, décrivez échantillon pathologie"/>
+        </code>
+        <code name="lab">
+            <variant locale="en" value="Lab (ie. culture)"/>
+            <variant locale="fr" value="Labo (e.g. culture)"/>
+        </code>
+        <code name="lab_specimen">
+            <variant locale="en" value="If yes, describe laboratory specimen"/>
+            <variant locale="fr" value="Si oui, décrivez échantillon de laboratoire"/>
+        </code>
+        <code name="findings">
+            <variant locale="en" value="Findings / Description"/>
+            <variant locale="fr" value="Conclusions / Déscription"/>
+        </code>
+    </translations>
+
+    <style type="text/css">
+        .five-columns, .four-columns, .three-columns, .two-columns {
+            display: table;
+            height: 100%;
+            width: 100%;
+        }
+
+        .two-columns > div {
+            display: table-cell;
+            width: 50%;
+        }
+
+        .simple-form-ui input {
+            min-width: 80%
+        }
+
+        form fieldset {
+            min-width: 90%
+        }
+
+        .side-by-side label, .side-by-side input[type="radio"] {
+            display: inline-block;
+            float: none;
+        }
+
+        textarea {
+            overflow-y: hidden; /* fixes scrollbar flash - kudos to @brettjonesdev */
+            padding-top: 1.1em; /* fixes text jump on Enter keypress */
+        }
+
+        .section-container {
+            background: #F2F2F2;
+            box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+            padding: 10px 5px 10px 15px;
+            line-height: 1.5em; /*add this for vertical spacing between elements*/
+        }
+
+        .section-container input[type="checkbox"] {
+            margin: 0px 5px; /*changed values to vertical, horizontal*/
+            top:5px; /*added to offset the checkbox position to line up*/
+        }
+
+        .section-container label { /*new definition to override labels inside section-containers*/
+            margin: 0px;
+        }
+
+        .section {
+            width: 100%;
+        }
+
+        .provider-grid {
+            display: inline-grid;
+            grid-template-columns: 400px 400px;
+            background-color: #F2F2F2;
+        }
+
+        .provider-grid > div {
+            padding-left: 5px;
+            border: none;
+        }
+    </style>
+
+    <script type="text/javascript">
+        jq(function() {
+
+            // make text areas expand based on content (this allows us to avoid scrollbars and thereby facilitate printing)
+            jq('#post-op-surgical-note').on( 'keyup', 'textarea', function (){
+                jq(this).height( 0 );
+                jq(this).height( this.scrollHeight );
+            });
+
+            jq('#post-op-surgical-note').find( 'textarea' ).keyup();
+
+            setUpNextAndSubmitButtons();
+        });
+    </script>
+
+    <ifMode mode="VIEW" include="false">
+        <h2>
+            <label>
+                <uimessage code="pihcore.c-section"/>
+            </label>
+        </h2>
+    </ifMode>
+
+    <section id="service-team" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.surgeryTeam">
+        <div class="section-container">
+            <p>
+                <!-- Attending surgeon -->
+                <label>
+                    <uimessage code="attending"/><font style="color:red"><uimessage code="required"/></font>
+                </label>
+                <encounterProviderAndRole encounterRole="9b135b19-7ebe-4a51-aea2-69a53f9383af"
+                                          providerRoles="3182ee51-b895-4804-a342-5f261e995222,556ceee6-d899-43d4-a98b-7973ebc85b75"
+                                          autocompleteProvider="true" required="true"/>
+            </p>
+
+            <p>
+                <!-- Assisting surgeons -->
+                <label>
+                    <uimessage code="assistants"/>
+                </label>
+                <div class="provider-grid">
+                    <div>
+                        <encounterProviderAndRole encounterRole="6e630e03-5182-4cb3-9a82-a5b1a85c09a7"
+                                                  providerRoles="3182ee51-b895-4804-a342-5f261e995222,556ceee6-d899-43d4-a98b-7973ebc85b75,e92792de-006a-4dea-b078-cf3776638b0c"
+                                                  autocompleteProvider="true" required="false" count="2" providerWidgetSeparator="&lt;/div&gt;&lt;div&gt;"/>
+                    </div>
+                </div>
+            </p>
+            <p>
+                <!-- Non-coded name of assisting surgeon -->
+                <label>
+                    <uimessage code="other"/>
+                </label>
+                <obs conceptId="PIH:Name of assistant surgeon"/>
+            </p>
+
+            <p>
+                <!-- Anesthesiologists -->
+                <label>
+                    <uimessage code="ui.i18n.EncounterRole.name.de11b25c-a641-4630-9524-5b85ece9a4f8"/>
+                </label>
+                <div class="provider-grid">
+                    <div>
+                        <encounterProviderAndRole encounterRole="de11b25c-a641-4630-9524-5b85ece9a4f8"
+                                                  providerRoles="39c28f78-6637-4c21-9bf4-db3e2398054f"
+                                                  autocompleteProvider="true" required="false" count="2" providerWidgetSeparator="&lt;/div&gt;&lt;div&gt;"/>
+                    </div>
+                </div>
+            </p>
+
+            <p>
+                <!-- Nurses -->
+                <label>
+                    <uimessage code="zl.registration.patient.occupation.nurse.label"/>
+                </label>
+                <div class="provider-grid">
+                    <div>
+                        <encounterProviderAndRole encounterRole="98bf2792-3f0a-4388-81bb-c78b29c0df92"
+                                                  providerRoles="7207ba62-027f-4f9b-be67-a9f7a8a3abcc"
+                                                  autocompleteProvider="true" required="false" count="2" providerWidgetSeparator="&lt;/div&gt;&lt;div&gt;"/>
+                    </div>
+                </div>
+            </p>
+        </div>
+    </section>
+
+    <section id="description" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.surgeryInfo">
+
+        <div class="section-container two-columns">
+            <div>
+                <label>
+                    <uimessage code="pihcore.consult.procedure"/>
+                </label>
+
+                <p class="side-by-side">
+                    <!-- C-section with hysterectomy or tubal ligation -->
+                    <obs conceptId="CIEL:1651" style="radio"
+                         answerConceptIds="CIEL:1171,CIEL:161848,CIEL:161890"
+                         answerSeparator="&lt;br /&gt;"/>
+                </p>
+
+                <label>
+                    <uimessage code="pihcore.otherProcedure"/>
+                </label>
+                <obs conceptId="PIH:Surgical procedure" answerClasses="Procedure" style="autocomplete"/>
+                <obs conceptId="PIH:Surgical procedure" answerClasses="Procedure" style="autocomplete"/>
+            </div>
+
+            <div>
+                <p class="side-by-side">
+                    <label>
+                        <uimessage code="scheduled"/>
+                    </label>
+                    <obs conceptId="PIH:Scheduled surgery" style="radio" answerConceptIds="PIH:YES,PIH:NO"
+                         answerCodes="emr.yes,emr.no"/>
+                </p>
+
+                <p>
+                    <label>
+                        <uimessage code="anesthesia"/>
+                    </label>
+                    <obs conceptId="PIH:Type of anesthesia"/>
+                </p>
+
+                <p class="side-by-side">
+                    <label>
+                        <uimessage code="wound_class"/>
+                    </label>
+                    <br/>
+                    <obs conceptId="PIH:Classifications of surgical wounds" style="radio"
+                         answerSeparator="&lt;br /&gt;"/>
+                </p>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="ins-outs" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="ins_outs">
+
+        <div class="section-container two-columns">
+            <div>
+                <p>
+                    <strong>
+                        <uimessage code="fluids_admin"/>
+                    </strong>
+                    <obsgroup groupingConceptId="PIH:IVF construct">
+                        <label>
+                            <uimessage code="ivf"/>
+                        </label>
+                        <obs conceptId="PIH:IVF administered"/>
+                        <span class="small">
+                            <obs conceptId="PIH:IVF volume" showUnits="true"/>
+                        </span>
+                    </obsgroup>
+                </p>
+                <p class="side-by-side">
+                    <label>
+                        <uimessage code="transfusion"/>
+                    </label>
+                    <obs id="transfusionQ" conceptId="PIH:Transfusion status" style="radio"
+                         answerConceptIds="PIH:YES,PIH:NO" answerCodes="emr.yes,emr.no">
+                        <controls>
+                            <when value="PIH:YES" thenDisplay="#transfusionDetails"/>
+                        </controls>
+                    </obs>
+
+                    <div id="transfusionDetails">
+                        <label>
+                            <uimessage code="type_and_volume"/>
+                        </label>
+
+                        <p>
+                            <obsgroup groupingConceptId="PIH:Transfusion construct">
+                                <obs conceptId="PIH:Transfusion of fluid" answerConceptId="PIH:Whole blood"/>
+                                <span class="small">
+                                    <obs conceptId="PIH:Volume of transfusion" showUnits="true"/>
+                                </span>
+                            </obsgroup>
+                        </p>
+                        <p>
+                            <obsgroup groupingConceptId="PIH:Transfusion construct">
+                                <obs conceptId="PIH:Transfusion of fluid" answerConceptId="PIH:Packed red blood cells"/>
+                                <span class="small">
+                                    <obs conceptId="PIH:Volume of transfusion" showUnits="true"/>
+                                </span>
+                            </obsgroup>
+                        </p>
+                        <p>
+                            <obsgroup groupingConceptId="PIH:Transfusion construct">
+                                <obs conceptId="PIH:Transfusion of fluid" answerConceptId="PIH:Plasma"/>
+                                <span class="small">
+                                    <obs conceptId="PIH:Volume of transfusion" showUnits="true"/>
+                                </span>
+                            </obsgroup>
+                        </p>
+                        <p>
+                            <obsgroup groupingConceptId="PIH:Transfusion construct">
+                                <obs conceptId="PIH:Transfusion of fluid" answerConceptId="PIH:Platelets"/>
+                                <span class="small">
+                                    <obs conceptId="PIH:Volume of transfusion" showUnits="true"/>
+                                </span>
+                            </obsgroup>
+                        </p>
+                    </div>
+                </p>
+
+                <p class="side-by-side">
+                    <label>
+                        <uimessage code="pre_op_antibiotic"/>
+                    </label>
+                    <br/>
+                    <obs id="antibioticsQ"
+                         conceptId="PIH:Pre-operative antibiotic administered" style="radio"
+                         answerConceptIds="PIH:YES,PIH:NO" answerCodes="emr.yes,emr.no"
+                         answerSeparator="">
+                        <controls>
+                            <when value="PIH:YES" thenDisplay="#antibioticDetails"/>
+                        </controls>
+
+                    </obs>
+                    <div id="antibioticDetails">
+                        <label>
+                            <uimessage code="antibiotic_name"/>
+                        </label>
+                        <obs conceptId="PIH:Surgery antibiotics"/>
+
+                    </div>
+                </p>
+
+                <p class="side-by-side">
+                    <label>
+                        <uimessage code="vtp"/>
+                    </label>
+                    <br/>
+                    <obs conceptId="PIH:Venous thromboembolism prophylaxis" style="radio"
+                         answerSeparator="&lt;br /&gt;"/>
+                </p>
+            </div>
+
+            <div>
+                <p>
+                    <strong>
+                        <uimessage code="fluid_out"/>
+                    </strong>
+                    <label>
+                        <uimessage code="est_blood_loss"/>
+                    </label>
+                    <span class="small">
+                        <obs conceptId="PIH:Estimated blood loss" showUnits="true"/>
+                    </span>
+                    <label>
+                        <uimessage code="urine_out"/>
+                    </label>
+                    <span class="small">
+                        <obs conceptId="PIH:Urine output" showUnits="true"/>
+                    </span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="pathology" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.pathology">
+        <div class="section-container">
+            <p class="side-by-side">
+                <label>
+                    <uimessage code="specimen_sent"/>
+                </label>
+
+                <obs id="pathSentQ"
+                     conceptId="PIH:Pathology sample sent" style="radio"
+                     answerConceptIds="PIH:YES,PIH:NO" answerCodes="emr.yes,emr.no">
+                    <controls>
+                        <when value="PIH:YES" thenDisplay="#pathDetails"/>
+                    </controls>
+                </obs>
+
+                <div id="pathDetails">
+                    <label>
+                        <uimessage code="path_sample"/>
+                    </label>
+                    <obs conceptId="PIH:Pathology sample comment"/>
+                </div>
+            </p>
+
+            <p class="side-by-side">
+                <label>
+                    <uimessage code="lab"/>
+                </label>
+                <obs id="labSpecQ"
+                     conceptId="PIH:Laboratory specimen sent" style="radio" answerConceptIds="PIH:YES,PIH:NO"
+                     answerCodes="emr.yes,emr.no">
+                    <controls>
+                        <when value="PIH:YES" thenDisplay="#labSpecDetails"/>
+                    </controls>
+                </obs>
+
+                <div id="labSpecDetails">
+                    <label>
+                        <uimessage code="lab_specimen"/>
+                    </label>
+                    <obs conceptId="PIH:Laboratory specimen comment"/>
+                </div>
+            </p>
+        </div>
+    </section>
+
+    <section id="plan" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="findings">
+        <div class="section-container">
+
+            <label>
+                <uimessage code="pihcore.complications.label" />
+            </label>
+            <p class="side-by-side">
+                <obs conceptId="PIH:Complications from surgery" style="radio"
+                     answerConceptIds="CIEL:115432,CIEL:146192,PIH:7882,PIH:7883,CIEL:1107,CIEL:5622"
+                     answerSeparator="&lt;br /&gt;"/>
+            </p>
+
+            <p>
+                <label>
+                    <uimessage code="pihcore.additional.comment" />
+                </label>
+                <obs id="additional-comments" conceptId="PIH:Additional Surgery Comments" style="textarea" rows="1"
+                     cols="80"/>
+            </p>
+        </div>
+    </section>
+
+    <br/>
+
+    <ifMode mode="VIEW" include="false">
+        <div id="buttons">
+            <button id="next" type="button" class="submitButton confirm right">
+                <uimessage code="emr.next"/>
+                <i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i>
+            </button>
+            <button id="submit" class="submitButton confirm right">
+                <uimessage code="mirebalais.save"/>
+                <i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i>
+            </button>
+            <button id="cancel" type="button" class="cancel">
+                <uimessage code="emr.cancel"/>
+            </button>
+        </div>
+    </ifMode>
+
+</htmlform>
