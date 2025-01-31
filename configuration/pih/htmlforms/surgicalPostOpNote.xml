@@ -316,6 +316,17 @@
         </p>
     </div>
 
+    <table>
+        <tr>
+            <td>
+                <strong>
+                    <uimessage code="pihcore.cSectionFromSurgery" />
+                </strong>
+            </td>
+        </tr>
+    </table>
+    <br/>
+
     <section id="service-team" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="service_team">
         <div class="section-container">
             <p>
