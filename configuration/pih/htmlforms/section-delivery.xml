@@ -188,7 +188,6 @@
                 line-height: 1.5em; /*add this for vertical spacing between elements*/
             }
 
-    
             .in-line label {
                 display: inline-block;
             }
@@ -882,7 +881,7 @@
         <section id="postpartum-exam" sectionTag="fieldset" headerTag="legend" headerStyle="title"
                  headerCode="pihcore.exam.postpartum_exam.title">
 
-            <div id="postpartum" class="section-container-color">
+            <div id="postpartum" class="section-container">
 
                 <div class="two-columns-n exam">
                     <div>
@@ -895,7 +894,7 @@
                             <obs conceptId="CIEL:159721" style="radio"
                                  answerConceptIds="CIEL:159722,CIEL:159724,CIEL:159723"
                                  answerCodes="pihcore.lochia.rubra,pihcore.lochia.serosa,pihcore.lochia.alba"/>
-                            <br/>
+                            <br/><br/>
 
                             <!-- Lochia odor -->
                             <label>
@@ -903,7 +902,7 @@
                             </label>
                             <obs conceptId="PIH:14062" style="radio"
                                  answerConceptIds="CIEL:1115,CIEL:159846"/>
-                            <br/>
+                            <br/><br/>
 
                             <!-- Lochia quantity -->
                             <label>
@@ -979,30 +978,6 @@
                     </div>
 
                     <div>
-                        <p class="exam">
-                            <label>
-                                <uimessage code="pihcore.csWoundStatus"/>
-                            </label>
-
-                            <repeat>
-                                <template>
-                                    <p>
-                                        <obs conceptId="CIEL:162128" style="checkbox"
-                                             answerConceptId="{csState}"
-                                             answerCode="pihcore.{csName}"/>
-                                    </p>
-                                </template>
-                                <render csState="CIEL:162130" csName="clean"/>
-                                <render csState="CIEL:441" csName="dressed"/>
-                                <render csState="CIEL:151596" csName="redress"/>
-                                <render csState="CIEL:162129" csName="healingIntact"/>
-                                <render csState="CIEL:150632" csName="abscess"/>
-                                <render csState="CIEL:163799" csName="openWoundEdges"/>
-                                <render csState="CIEL:1175" csName="na"/>
-                                <render csState="CIEL:5622" csName="other"/>
-                            </repeat>
-                        </p>
-
                         <!-- Perineum -->
                         <p class="in-line">
                             <!-- Perineum intact -->
@@ -1012,7 +987,8 @@
                             <obs conceptId="CIEL:160089" style="radio"
                                  answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1175"/>
 
-                            <br/>
+                            <br/><br/>
+                            
                             <!-- Perineum wound -->
                             <label>
                                 <uimessage code="pihcore.perineumWoundInfection"/>
@@ -1022,16 +998,15 @@
                                  answerConceptIds="CIEL:1065,CIEL:1066,CIEL:1175"/>
 
                         </p>
-                        <div class="exam">
+
+                        <p>
                             <label>
                                 <uimessage code="pihcore.breast"/>
                             </label>
                             <repeat>
                                 <template>
-                                    <p>
-                                        <obs conceptId="CIEL:159780" style="checkbox"
-                                             answerConceptId="{finding}" answerCode="pihcore.{name}"/>
-                                    </p>
+                                    <obs conceptId="CIEL:159780" style="checkbox"
+                                         answerConceptId="{finding}" answerCode="pihcore.{name}"/>
                                 </template>
                                 <render finding="PIH:14061" name="goodMilk"/>
                                 <render finding="CIEL:140103" name="crackNip"/>
@@ -1039,7 +1014,7 @@
                                 <render finding="CIEL:115914" name="mastitis"/>
                                 <render finding="CIEL:115099" name="breastAbscess"/>
                             </repeat>
-                        </div>
+                        </p>
                     </div>
                 </div>
             </div>

@@ -182,6 +182,7 @@
             padding-left: 5px;
             border: none;
         }
+
     </style>
 
     <script type="text/javascript">
@@ -502,6 +503,28 @@
                 <obs conceptId="PIH:Complications from surgery" style="radio"
                      answerConceptIds="CIEL:115432,CIEL:146192,PIH:7882,PIH:7883,CIEL:1107,CIEL:5622"
                      answerSeparator="&lt;br /&gt;"/>
+            </p>
+
+            <p>
+                <label>
+                    <uimessage code="pihcore.csWoundStatus"/>
+                </label>
+
+                <repeat>
+                    <template>
+                        <obs conceptId="CIEL:162128" style="checkbox"
+                             answerConceptId="{csState}"
+                             answerCode="pihcore.{csName}"/>
+                    </template>
+                    <render csState="CIEL:162130" csName="clean"/>
+                    <render csState="CIEL:441" csName="dressed"/>
+                    <render csState="CIEL:151596" csName="redress"/>
+                    <render csState="CIEL:162129" csName="healingIntact"/>
+                    <render csState="CIEL:150632" csName="abscess"/>
+                    <render csState="CIEL:163799" csName="openWoundEdges"/>
+                    <render csState="CIEL:1175" csName="na"/>
+                    <render csState="CIEL:5622" csName="other"/>
+                </repeat>
             </p>
 
             <p>
