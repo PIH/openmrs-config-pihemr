@@ -281,9 +281,9 @@
                 </label>
 
                 <p class="side-by-side">
-                    <!-- C-section with hysterectomy or tubal ligation -->
+                    <!-- C-section with hysterectomy or tubal ligation or oopheroctomy or myomectomy -->
                     <obs conceptId="CIEL:1651" style="radio"
-                         answerConceptIds="CIEL:1171,CIEL:161848,CIEL:161890"
+                         answerConceptIds="CIEL:1171,CIEL:161848,CIEL:161890,PIH:20694,PIH:20695"
                          answerSeparator="&lt;br /&gt;"/>
                 </p>
 
