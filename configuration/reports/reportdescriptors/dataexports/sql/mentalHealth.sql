@@ -211,7 +211,7 @@ update temp_mh_encounters set hospitalized_since_last_visit = value_coded_as_boo
 
 update temp_mh_encounters set reason_for_hospitalization = obs_value_text_from_temp(encounter_id, 'PIH','11065');
 update temp_mh_encounters set adherence_to_appointment_day = obs_value_coded_list_from_temp(encounter_id, 'PIH','10552', @locale);
-update temp_mh_encounters set hospitalized_at_time_of_visit = 	if(obs_single_value_coded_from_temp(encounter_id,'PIH','3289','PIH','1429')= @answerExists,1,0);
+update temp_mh_encounters set hospitalized_at_time_of_visit = 	if(obs_single_value_coded_from_temp(encounter_id,'PIH','3289','PIH','1429')= @answerExists,1,null);
 
 -- Scores section
 update temp_mh_encounters set zldsi_score=obs_value_numeric_from_temp(encounter_id,'PIH', '10584'); 
@@ -278,7 +278,7 @@ update temp_mh_encounters set introspection_normal =
 		when obs_value_coded_list_from_temp(encounter_id,'PIH','13089',@locale) = @abnormal then 0
 	END;
 
-update temp_mh_encounters set thought_process = 
+update temp_mh_encounters set thought_content = 
 	obs_value_coded_list_from_temp(encounter_id,'PIH','14157',@locale);
 
 update temp_mh_encounters set danger_to_self = 
