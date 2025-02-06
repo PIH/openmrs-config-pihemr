@@ -3,6 +3,20 @@
 
 SELECT encounter_type_id INTO @mhEncounterTypeId FROM encounter_type et WHERE et.uuid ='a8584ab8-cc2a-11e5-9956-625662870761';
 set @answerExists = concept_name(concept_from_mapping('PIH','YES'), global_property_value('default_locale', 'en'));
+set @mental_health_intervention = concept_from_mapping('PIH','10636');
+set @interpersonal_psychotherapy = concept_from_mapping('PIH','10639');
+set @interpersonal_inventory = concept_from_mapping('PIH','12045');
+set @instilling_hope = concept_from_mapping('PIH','12048');
+set @providing_the_sick_role = concept_from_mapping('PIH','12041');
+set @informing_patient_of_diagnosis = concept_from_mapping('PIH','12044');
+set @behavioral_activation_therapy = concept_from_mapping('PIH','10645');
+set @cognitive_processing_therapy = concept_from_mapping('PIH','11970');
+set @cognitive_behaviour_therapy = concept_from_mapping('PIH','12043');
+set @psychotherapy = concept_from_mapping('PIH','10638');
+set @supportive_psychotherapy = concept_from_mapping('PIH','12037');
+set @progressive_muscle_relaxation = concept_from_mapping('PIH','12047');
+set @hiv_aids_counseling = concept_from_mapping('PIH','12073');
+set @other = concept_from_mapping('PIH','5622');
 
 SET @partition = '${partitionNum}';
 
@@ -206,9 +220,7 @@ update temp_mh_encounters set new_patient =value_coded_as_boolean(obs_id_from_te
 update temp_mh_encounters set chw_for_mental_health =value_coded_as_boolean(obs_id_from_temp(encounter_id, 'PIH','14991',0));
 update temp_mh_encounters set patient_relapse =value_coded_as_boolean(obs_id_from_temp(encounter_id, 'PIH','13724',0));
 update temp_mh_encounters set patient_relapse =value_coded_as_boolean(obs_id_from_temp(encounter_id, 'PIH','13724',0));
-
 update temp_mh_encounters set hospitalized_since_last_visit = value_coded_as_boolean(obs_id_from_temp(encounter_id, 'PIH','1715',0));
-
 update temp_mh_encounters set reason_for_hospitalization = obs_value_text_from_temp(encounter_id, 'PIH','11065');
 update temp_mh_encounters set adherence_to_appointment_day = obs_value_coded_list_from_temp(encounter_id, 'PIH','10552', @locale);
 update temp_mh_encounters set hospitalized_at_time_of_visit = 	if(obs_single_value_coded_from_temp(encounter_id,'PIH','3289','PIH','1429')= @answerExists,1,null);
@@ -337,17 +349,38 @@ update temp_mh_encounters set suicidal_screen_completed =
 update temp_mh_encounters set suicidal_screening_result = 
 	obs_value_coded_list_from_temp(encounter_id,'PIH','12376',@locale);
 update temp_mh_encounters set discussed_patient_with_supervisor = 
-	if(obs_single_value_coded_from_temp(encounter_id,'PIH','12421','PIH','12429')= @answerExists,1,0);
+	if(obs_single_value_coded_from_temp(encounter_id,'PIH','12421','PIH','12429')= @answerExists,1,null);
 update temp_mh_encounters set safety_plan_completed = 
-	if(obs_single_value_coded_from_temp(encounter_id,'PIH','10636','PIH','10646')= @answerExists,1,0);
+	if(obs_single_value_coded_from_temp(encounter_id,'PIH','10636','PIH','10646')= @answerExists,1,null);
 update temp_mh_encounters set hospitalize_due_to_suicide_risk = 
-	if(obs_single_value_coded_from_temp(encounter_id,'PIH','12421','PIH','12426')= @answerExists,1,0);
+	if(obs_single_value_coded_from_temp(encounter_id,'PIH','12421','PIH','12426')= @answerExists,1,null);
 
 -- Psychological interventions -----------------------------
 
-update temp_mh_encounters set psychological_intervention = 
-	obs_value_coded_list_from_temp(encounter_id,'PIH','10636',@locale);
-
+-- note that this question is the same as used elsewhere on the form, hence the hardcoding of the answers here
+update temp_mh_encounters t set psychological_intervention = 
+    (select group_concat(distinct concept_name(o.value_coded, @locale) separator ' | ') 
+    from temp_obs o
+    where o.voided = 0
+      and o.encounter_id = t.encounter_id
+      and o.concept_id = @mental_health_intervention
+      and o.value_coded in 
+      (@mental_health_intervention,
+		@interpersonal_psychotherapy,
+		@interpersonal_inventory,
+		@instilling_hope,
+		@providing_the_sick_role,
+		@informing_patient_of_diagnosis,
+		@behavioral_activation_therapy,
+		@cognitive_processing_therapy,
+		@cognitive_behaviour_therapy,
+		@psychotherapy,
+		@supportive_psychotherapy,
+		@progressive_muscle_relaxation,
+		@hiv_aids_counseling,
+		@other)
+	group by o.encounter_id);
+    
 update temp_mh_encounters set other_psychological_intervention = 
 	 obs_comments_from_temp(encounter_id, 'PIH','10636','PIH','5622');
 
