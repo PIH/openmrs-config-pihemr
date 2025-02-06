@@ -1,5 +1,5 @@
--- set @startDate='2025-01-01';
--- set @endDate='2025-05-20';
+-- set @startDate='2015-12-01';
+-- set @endDate='2025-02-05';
 
 SELECT encounter_type_id INTO @mhEncounterTypeId FROM encounter_type et WHERE et.uuid ='a8584ab8-cc2a-11e5-9956-625662870761';
 set @answerExists = concept_name(concept_from_mapping('PIH','YES'), global_property_value('default_locale', 'en'));
@@ -229,6 +229,7 @@ update temp_mh_encounters set aims=obs_value_coded_list_from_temp(encounter_id,'
 update temp_mh_encounters set seizure_frequency=obs_value_numeric_from_temp(encounter_id,'PIH','6797');
 
 -- status section ----------------------------------------------
+
 set @normal = concept_name(concept_from_mapping('PIH','1115'),@locale);
 set @abnormal = concept_name(concept_from_mapping('PIH','1116'),@locale);
 set @yes = concept_name(concept_from_mapping('PIH','1065'),@locale);
@@ -343,14 +344,16 @@ update temp_mh_encounters set hospitalize_due_to_suicide_risk =
 	if(obs_single_value_coded_from_temp(encounter_id,'PIH','12421','PIH','12426')= @answerExists,1,0);
 
 -- Psychological interventions -----------------------------
+
 update temp_mh_encounters set psychological_intervention = 
 	obs_value_coded_list_from_temp(encounter_id,'PIH','10636',@locale);
 
 update temp_mh_encounters set other_psychological_intervention = 
 	 obs_comments_from_temp(encounter_id, 'PIH','10636','PIH','5622');
 
--- Medications ---------------------------------------------
--- medications included in another export/table
+-- Medication Section ---------------------------------------------
+-- actual medications included in another export/table
+
 update temp_mh_encounters set medication_comments = 
 	 obs_value_text_from_temp(encounter_id, 'PIH','10637');
 
@@ -379,6 +382,62 @@ update temp_mh_encounters set disposition_comment =
 update temp_mh_encounters set return_date = 
 	date(obs_value_datetime_from_temp(encounter_id,'PIH','5096'));
     
+-- indexes -----------------------------------------
+
+-- The ascending/descending indexes are calculated ordering on the encounter date
+-- new temp tables are used to build them and then joined into the main temp table.
+### index ascending
+drop temporary table if exists temp_visit_index_asc;
+CREATE TEMPORARY TABLE temp_visit_index_asc
+(
+    SELECT
+            patient_id,
+            encounter_datetime,
+            encounter_id,
+            index_asc
+FROM (SELECT
+            @r:= IF(@u = patient_id, @r + 1,1) index_asc,
+            encounter_datetime,
+            encounter_id,
+            patient_id,
+            @u:= patient_id
+      FROM temp_mh_encounters,
+                    (SELECT @r:= 1) AS r,
+                    (SELECT @u:= 0) AS u
+            ORDER BY patient_id, encounter_datetime ASC, encounter_id ASC
+        ) index_ascending );
+CREATE INDEX tvia_e ON temp_visit_index_asc(encounter_id);
+update temp_mh_encounters t
+inner join temp_visit_index_asc tvia on tvia.encounter_id = t.encounter_id
+set t.index_asc = tvia.index_asc;
+
+drop temporary table if exists temp_visit_index_desc;
+CREATE TEMPORARY TABLE temp_visit_index_desc
+(
+    SELECT
+            patient_id,
+            encounter_datetime,
+            encounter_id,
+            index_desc
+FROM (SELECT
+            @r:= IF(@u = patient_id, @r + 1,1) index_desc,
+            encounter_datetime,
+            encounter_id,
+            patient_id,
+            @u:= patient_id
+      FROM temp_mh_encounters,
+                    (SELECT @r:= 1) AS r,
+                    (SELECT @u:= 0) AS u
+            ORDER BY patient_id, encounter_datetime DESC, encounter_id DESC
+        ) index_descending );
+       
+ CREATE INDEX tvid_e ON temp_visit_index_desc(encounter_id);      
+update temp_mh_encounters t
+inner join temp_visit_index_desc tvid on tvid.encounter_id = t.encounter_id
+set t.index_desc = tvid.index_desc;
+
+-- final output ------------------------------------
+
 select 
 emr_id,
 dossier_id,
