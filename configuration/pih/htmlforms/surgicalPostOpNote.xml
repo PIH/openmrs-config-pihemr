@@ -319,9 +319,11 @@
     <table>
         <tr>
             <td>
-                <strong>
-                    <uimessage code="pihcore.cSectionFromSurgery" />
-                </strong>
+                <label style="color:red">
+                    <b>
+                        <uimessage code="pihcore.cSectionFromSurgery" />
+                    </b>
+                </label>
             </td>
         </tr>
     </table>

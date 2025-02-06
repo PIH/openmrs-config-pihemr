@@ -168,9 +168,10 @@
                             </label>
                             <br/>
                             <obs id="scd-test-method" conceptId="CIEL:168730" style="radio"
-                                 answerConceptIds="CIEL:160225,CIEL:168733,CIEL:168732,CIEL:165544,CIEL:161519,CIEL:168731,CIEL:1067,CIEL:5622"
-                                 answerCodes="SickleScan RDT,HemoTypeSC,Gazelle,pihcore.lab.hgElectro,HPLC,IEF,pihcore.unknownButTested,pihcore.other"
-                                 answerSeparator="&lt;br /&gt;" />
+                                 answerSeparator="&lt;br /&gt;"
+                                 answerConceptIds="CIEL:160225,CIEL:168105,CIEL:165544,CIEL:168733,CIEL:168732,CIEL:161519,CIEL:168731,CIEL:1067,CIEL:5622"
+                                 answerCodes="Sickling,SickleScan RDT,pihcore.lab.hgElectro,HemoTypeSC,Gazelle,HPLC,IEF,pihcore.unknownButTested,pihcore.other"/>
+
                         </p>
                     </div>
                 </div>
@@ -265,10 +266,10 @@
                 </div>
             </obsgroup>
 
-            <obsgroup groupingConceptId="PIH:15162" showIfEmpty="false">
+            <obsgroup groupingConceptId="PIH:20696" showIfEmpty="false">
                 <p class="side-by-side">
                     <label>
-                        <uimessage code="pihcore.transfusionIn12mo"/>
+                        <uimessage code="pihcore.transfusionIn3mo"/>
                     </label>
                     <obs id="transfusion-status" conceptId="PIH:7868" style="radio"
                          answerConceptIds="CIEL:1065,CIEL:1066"
@@ -281,7 +282,7 @@
 
                 <div id="transfusion-details" class="two-columns">
                     <div>
-                        <obs conceptId="PIH:13748" labelCode="pihcore.numTransfusionIn12mo" />
+                        <obs conceptId="PIH:13748" labelCode="pihcore.numTransfusionIn3mo" />
                     </div>
                     <div>
                         <obs conceptId="CIEL:163268" labelCode="pihcore.transfusionDate" />
