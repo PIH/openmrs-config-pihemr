@@ -364,7 +364,7 @@
                 <repeat>
                     <template>
                         <p>
-                            <obs id="counsel" conceptId="CIEL:165309" style="checkbox"
+                            <obs id="counsel-{name}" conceptId="CIEL:165309" style="checkbox"
                                  answerConceptId="{answer}"
                                  answerCode="pihcore.{name}">
                                 <controls>
@@ -384,7 +384,7 @@
             </div>
 
             <br/>
-            <div>
+            <div id="support-freetext">
                 <label>
                     <uimessage code="pihcore.otherSupport" />
                 </label>
