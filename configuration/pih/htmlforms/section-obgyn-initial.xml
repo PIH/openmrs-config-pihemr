@@ -13,166 +13,164 @@
 	</translations>
 	<style type="text/css">
 		#visit-reason .required {
-		display: none;
+			display: none;
 		}
 		
 		form fieldset {
-		min-width: 98%
+			min-width: 98%
 		}
 		
 		#encounterDate input {
-		min-width: 15%
+			min-width: 15%
 		}
 		
 		.small-input input {
-		min-width: 15em;
+			min-width: 15em;
 		}
 		
 		textarea {
-		overflow-y: hidden; /* fixes scrollbar flash - kudos to @brettjonesdev */
-		padding-top: 1.1em; /* fixes text jump on Enter keypress */
+			overflow-y: hidden; /* fixes scrollbar flash - kudos to @brettjonesdev */
+			padding-top: 1.1em; /* fixes text jump on Enter keypress */
 		}
 		
 		@media print {
-		.print-form-datestamps { display: block !important }
-		button.cancel, button.submit { display: none }
-		label { font-weight: bold }
-		label[for] { font-weight: normal } /* refers to the radio set label */
+			.print-form-datestamps { display: block !important }
+			button.cancel, button.submit { display: none }
+			label { font-weight: bold }
+			label[for] { font-weight: normal } /* refers to the radio set label */
 		}
 		
 		.side-by-side label {
-		display: inline-block;
+			display: inline-block;
 		}
 		
 		.family-history-item .label {
-		display: inline-block;
-		width: 250px;
+			display: inline-block;
+			width: 250px;
 		}
 		.family-history-item .relative {
-		display: inline-block;
-		width: 120px;
+			display: inline-block;
+			width: 120px;
 		}
-		
-		.past-medical-history-item {
-		}
-		
+
 		.past-medical-history-item input[type=checkbox] {
-		float: none;
-		vertical-align: middle;
+			float: none;
+			vertical-align: middle;
 		}
 		
 		.past-medical-history-item input[type=text] {
-		min-width: 200px;
-		display: inline !important;
-		vertical-align: middle;
-		padding: 1px 10px;
+			min-width: 200px;
+			display: inline !important;
+			vertical-align: middle;
+			padding: 1px 10px;
 		}
 		
 		.past-medical-history-item > span, .past-medical-history-item > label {
-		display: inline !important;
-		vertical-align: middle;
+			display: inline !important;
+			vertical-align: middle;
 		}
 		
 		.six-columns, .five-columns, .four-columns, .three-columns, .two-columns {
-		display: table;
-		height: 100%;
-		width: 100%;
+			display: table;
+			height: 100%;
+			width: 100%;
 		}
 		
 		.two-columns > div {
-		display: table-cell;
-		width: 50%;
+			display: table-cell;
+			width: 50%;
 		}
 		
 		.three-columns > div {
-		display: table-cell;
-		width: 33%;
+			display: table-cell;
+			width: 33%;
 		}
 		
 		.four-columns > div {
-		display: table-cell;
-		width: 25%;
+			display: table-cell;
+			width: 25%;
 		}
 		
 		.five-columns > div {
-		display: table-cell;
-		width: 20%;
+			display: table-cell;
+			width: 20%;
 		}
+
 		.six-columns > div {
-		display: table-cell;
-		width: 10%;
+			display: table-cell;
+			width: 10%;
 		}
 		
 		.section-container {
-		background: #F2F2F2;
-		box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-		padding: 10px 5px 10px 15px;
-		line-height: 1.5em; /*add this for vertical spacing between elements*/
+			background: #F2F2F2;
+			box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+			padding: 10px 5px 10px 15px;
+			line-height: 1.5em; /*add this for vertical spacing between elements*/
 		}
 		
 		.section-container input[type="checkbox"] {
-		margin: 0px 5px; /*changed values to vertical, horizontal*/
-		top:5px; /*added to offset the checkbox position to line up*/
+			margin: 0px 5px; /*changed values to vertical, horizontal*/
+			top:5px; /*added to offset the checkbox position to line up*/
 		}
 		
 		.section-container label { /*new definition to override labels inside section-containers*/
-		margin: 0px;
+			margin: 0px;
 		}
 		
 		.section-container-color {
-		background: #F2F2F2;
-		box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-		padding: 10px 5px 10px 15px;
-		line-height: 1.5em; /*add this for vertical spacing between elements*/
+			background: #F2F2F2;
+			box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+			padding: 10px 5px 10px 15px;
+			line-height: 1.5em; /*add this for vertical spacing between elements*/
 		}
 		
 		- .section {
-		width: 98%;
+			width: 98%;
 		}
 		
 		.section-header {
-		margin-top: 1.5em;
+			margin-top: 1.5em;
 		}
 		
 		form input[type="radio"], .form input[type="radio"] {
-		float: none;
-		display: inline-block;
+			float: none;
+			display: inline-block;
 		}
 		
 		#vitals fieldset p {
-		vertical-align: top;
-		display: inline-block;
-		float: none;
+			vertical-align: top;
+			display: inline-block;
+			float: none;
 		}
 		
 		#vitals fieldset .left {
-		vertical-align: top;
-		display: inline-block;
-		float: none;
+			vertical-align: top;
+			display: inline-block;
+			float: none;
 		}
 		<ifMode mode="VIEW" include="false">
 			.date-one-line {
-			display: flex;
+				display: flex;
 			}
 			
 			.date-one-line label {
-			align-self: center;
-			margin-right: 1em;
+				align-self: center;
+				margin-right: 1em;
 			}
 			
 			.date-one-line span {
-			display: flex;
+				display: flex;
 			}
 			
 			.hasDatepicker {
-			min-width: 120px;
-			margin-top: 0px;
+				min-width: 120px;
+				margin-top: 0px;
 			}
 			
 			.hfe-hours, .hfe-minutes, .hfe-seconds {
-			width: 70px;
-			min-width: 70px;
-			margin: 0px 10px 0px 10px;
+				width: 70px;
+				min-width: 70px;
+				margin: 0px 10px 0px 10px;
 			}
 		</ifMode>
 	</style>
@@ -195,158 +193,72 @@
 		const whProcedures = "57755670-c183-494b-bd5e-723e0978c3e3";
 		const whSterilizationProcedures = "46cbbdd9-9cc2-42c6-8ecb-4dbe6ea01354";
 		
-		const lastPeriodDateConcept = '
-		<lookup expression="fn.getConcept('
-            CIEL: 1427 ').uuid" />
-		';
-		const dueDateConcept = '
-		<lookup expression="fn.getConcept('
-            CIEL: 5596 ').uuid" />
-		';
-		const trimAtEnrollConcept = '
-		<lookup expression="fn.getConcept('
-            PIH: 11661 ').uuid" />
-		';
-		const firstTrimConcept = '
-		<lookup expression="fn.getConcept('
-            CIEL: 1721 ').uuid" />
-		';
-		const secondTrimConcept = '
-		<lookup expression="fn.getConcept('
-            CIEL: 1722 ').uuid" />
-		';
-		const thirdTrimConcept = '
-		<lookup expression="fn.getConcept('
-            CIEL: 1723 ').uuid" />
-		';
-		const gravidaConcept = '
-		<lookup expression="fn.getConcept('
-            CIEL: 5624 ').uuid" />
-		';
-		const paraConcept = '
-		<lookup expression="fn.getConcept('
-            CIEL: 1053 ').uuid" />
-		';
-		const abortusConcept = '
-		<lookup expression="fn.getConcept('
-            CIEL: 1823 ').uuid" />
-		';
-		const livingConcept = '
-		<lookup expression="fn.getConcept('
-            CIEL: 1825 ').uuid" />
-		';
-		const menstruationConcept = '
-		<lookup expression="fn.getConcept('
-            CIEL: 160600 ').uuid" />
-		';
-		const regularMenstrConcept = '
-		<lookup expression="fn.getConcept('
-            CIEL: 1065 ').uuid" />
-		';
-		const irregularMenstrConcept = '
-		<lookup expression="fn.getConcept('
-            CIEL: 1066 ').uuid" />
-		';
-		const regularTxt = '
-		<uimessage code="pihcore.regular" />
-		';
-		const irregularTxt = '
-		<uimessage code="pihcore.irregular" />
-		';
-		const visitDiagConcept = '
-		<lookup expression="fn.getConcept('
-            PIH: Visit Diagnoses ').uuid" />
-		';
-		const diagConcept = '
-		<lookup expression="fn.getConcept('
-            PIH: DIAGNOSIS ').uuid" />
-		';
-		const dysmenorConcept = '
-		<lookup expression="fn.getConcept('
-            CIEL: 127 ').uuid" />
-		';
-		const durationMenstCycleConcept = '
-		<lookup expression="fn.getConcept('
-            CIEL: 160597 ').uuid" />
-		';
-		const durationMensesConcept = '
-		<lookup expression="fn.getConcept('
-            CIEL: 163732 ').uuid" />
-		';
-		const ageMenarcheConcept = '
-		<lookup expression="fn.getConcept('
-            CIEL: 160598 ').uuid" />
-		';
-		const age1stSexualInterConcept = '
-		<lookup expression="fn.getConcept('
-            CIEL: 163587 ').uuid" />
-		';
-		const numSexPartnersConcept = '
-		<lookup expression="fn.getConcept('
-            CIEL: 5570 ').uuid" />
-		';
-		const pregOrderConcept = '
-		<lookup expression="fn.getConcept('
-            CIEL: 163460 ').uuid" />
-		';
-		const deliveryTypeConcept = '
-		<lookup expression="fn.getConcept('
-            PIH: 11663 ').uuid" />
-		';
-		const pregOutcomeConcept = '
-		<lookup expression="fn.getConcept('
-            CIEL: 161033 ').uuid" />
-		';
+		const lastPeriodDateConcept = '<lookup expression="fn.getConcept('CIEL: 1427').uuid" />';
+		const dueDateConcept = '<lookup expression="fn.getConcept('CIEL: 5596').uuid" />';
+		const trimAtEnrollConcept = '<lookup expression="fn.getConcept('PIH: 11661 ').uuid" />';
+		const firstTrimConcept = '<lookup expression="fn.getConcept('CIEL: 1721').uuid"/>';
+		const secondTrimConcept = '<lookup expression="fn.getConcept('CIEL: 1722').uuid" />';
+		const thirdTrimConcept = '<lookup expression="fn.getConcept('CIEL: 1723').uuid" />';
+		const gravidaConcept = '<lookup expression="fn.getConcept('CIEL: 5624').uuid" />';
+		const paraConcept = '<lookup expression="fn.getConcept('CIEL: 1053').uuid" />';
+		const abortusConcept = '<lookup expression="fn.getConcept('CIEL: 1823').uuid" />';
+		const livingConcept = '<lookup expression="fn.getConcept('CIEL: 1825').uuid" />';
+		const menstruationConcept = '<lookup expression="fn.getConcept('CIEL: 160600 ').uuid" />';
+		const regularMenstrConcept = '<lookup expression="fn.getConcept('CIEL: 1065').uuid" />';
+		const irregularMenstrConcept = '<lookup expression="fn.getConcept('CIEL: 1066').uuid" />';
+		const regularTxt = '<uimessage code="pihcore.regular" />';
+		const irregularTxt = '<uimessage code="pihcore.irregular" />';
+		const visitDiagConcept = '<lookup expression="fn.getConcept('PIH: Visit Diagnoses').uuid" />';
+		const diagConcept = '<lookup expression="fn.getConcept('PIH: DIAGNOSIS').uuid" />';
+		const dysmenorConcept = '<lookup expression="fn.getConcept('CIEL: 127').uuid" />';
+		const durationMenstCycleConcept = '<lookup expression="fn.getConcept('CIEL: 160597').uuid" />';
+		const durationMensesConcept = '<lookup expression="fn.getConcept('CIEL: 163732').uuid" />';
+		const ageMenarcheConcept = '<lookup expression="fn.getConcept('CIEL: 160598').uuid" />';
+		const age1stSexualInterConcept = '<lookup expression="fn.getConcept('CIEL: 163587').uuid" />';
+		const numSexPartnersConcept = '<lookup expression="fn.getConcept('CIEL: 5570').uuid" />';
+		const pregOrderConcept = '<lookup expression="fn.getConcept('CIEL: 163460').uuid" />';
+		const deliveryTypeConcept = '<lookup expression="fn.getConcept('PIH: 11663').uuid" />';
+		const pregOutcomeConcept = '<lookup expression="fn.getConcept('CIEL: 161033').uuid" />';
 		
 		const contextPath = window.location.href.split('/')[3];
 		const apiBaseUrl = "/" + contextPath + "/ws/rest/v1";
 		const options = {
-		weekday: 'long',
-		year: 'numeric',
-		month: 'short',
-		day: 'numeric'
+			weekday: 'long',
+			year: 'numeric',
+			month: 'short',
+			day: 'numeric'
 		};
 		const monthOption = {
-		month: 'short'
+			month: 'short'
 		};
 		
-		const patientUuid = '
-		<lookup expression="patient.uuid" />
-		';
+		const patientUuid = '<lookup expression="patient.uuid" />';
 		let currentEncounterDate = new Date();
-		let lookupEncDate = '
-		<lookup expression="encounter.getEncounterDatetime().getTime()" />
-		';
+		let lookupEncDate = '<lookup expression="encounter.getEncounterDatetime().getTime()" />';
 		if (lookupEncDate) {
-		currentEncounterDate = new Date(+lookupEncDate);
+			currentEncounterDate = new Date(+lookupEncDate);
 		}
-		const msgWeeks = '
-		<uimessage code="pihcore.weeks" />
-		';
+		const msgWeeks = '<uimessage code="pihcore.weeks" />';
 		const locale = window.sessionContext.locale || navigator.language;
 		
-		let serverEncounterDate = '
-		<lookup complexExpression="#if ($encounter) #set ($encounterDate = $encounter.encounterDatetime) #else #set ($encounterDate = $visit.startDatetime) #end" />
-		';
-		const visitUuid = '
-		<lookup expression="encounter.getVisit().getUuid()" />
-		';
+		let serverEncounterDate = '<lookup complexExpression="#if ($encounter) #set ($encounterDate = $encounter.encounterDatetime) #else #set ($encounterDate = $visit.startDatetime) #end" />';
+		const visitUuid = '<lookup expression="encounter.getVisit().getUuid()" />';
 		
 		jq.getJSON(apiBaseUrl + "/visit/" + visitUuid, {
-		v: 'custom:(uuid,id,startDatetime,encounters:(uuid,display,encounterDatetime,encounterType:(uuid,name),obs:(uuid,display,concept:(uuid,display),obsDatetime,value)))'
+			v: 'custom:(uuid,id,startDatetime,encounters:(uuid,display,encounterDatetime,encounterType:(uuid,name),obs:(uuid,display,concept:(uuid,display),obsDatetime,value)))'
 		},
 		function(data) {
-		if (data.encounters &amp;&amp; data.encounters.length &gt; 0) {
-		for (let index = 0; index &lt; data.encounters.length; ++index) {
-		let encounter = data.encounters[index];
-		if (encounter.encounterType.uuid === vitalsSignsEncounterType) {
-		// we found a VitalsSigns encounter on this visit
-		let encounterDate = new Date(encounter.encounterDatetime);
-		let month = new Intl.DateTimeFormat(undefined, monthOption).format(encounterDate);
-		jq("#lastVitalsEncounterDate").text(encounterDate.getDate() + "-" + month + "-" + encounterDate.getFullYear());
-		jq("#lastVitalsEncounterTime").text(encounterDate.toLocaleTimeString());
-		
-		if (encounter.obs &amp;&amp; encounter.obs.length &gt; 0) {
+			if (data.encounters &amp;&amp; data.encounters.length &gt; 0) {
+				for (let index = 0; index &lt; data.encounters.length; ++index) {
+					let encounter = data.encounters[index];
+					if (encounter.encounterType.uuid === vitalsSignsEncounterType) {
+						// we found a VitalsSigns encounter on this visit
+						let encounterDate = new Date(encounter.encounterDatetime);
+						let month = new Intl.DateTimeFormat(undefined, monthOption).format(encounterDate);
+						jq("#lastVitalsEncounterDate").text(encounterDate.getDate() + "-" + month + "-" + encounterDate.getFullYear());
+						jq("#lastVitalsEncounterTime").text(encounterDate.toLocaleTimeString());
+
+						if (encounter.obs &amp;&amp; encounter.obs.length &gt; 0) {
 		jq('#lastVitals').show();
 		for (let j = 0; j &lt; encounter.obs.length; ++j) {
 		let obs = encounter.obs[j];
@@ -559,24 +471,10 @@
 		outcome = member.valueCoded.display;
 		}
 		}
-		
-		jq("#obgyn_initial_pregnancyHistoryTable tbody").append('
-		<tr>
-		</tr>
-		').append('
-		<td class="value">
-			' + pregOrder +
-			'
-		</td>
-		').append('
-		<td class="value">
-			' + typeOfDelivery + '
-		</td>
-		').append('
-		<td class="value">
-			' + outcome + '
-		</td>
-		').show();
+
+		jq("#obgyn_initial_pregnancyHistoryTable tbody").append('<tr></tr>').append('<td class="value">' + pregOrder +
+		'</td>').append('<td class="value">' + typeOfDelivery + '</td>').append('<td class="value">' + outcome + '</td>').show();
+
 		}
 		}
 		}
@@ -590,11 +488,12 @@
 		
 		});
 	</script>
+
 	<!-- special formatting when in view mode -->
 	<style type="text/css">
 		<ifMode mode="VIEW" include="false">
 			#family-history br {
-			display: none;
+				display: none;
 			}
 		</ifMode>
 	</style>
@@ -602,68 +501,53 @@
 		<script type="text/javascript">
 			jq(function() {
 			
-			var encounterDate = '
-			<lookup expression="encounter.getEncounterDatetime().getTime()" />
-			';
-			setUpEdd(
-			'
-			<lookup expression="encounter.getEncounterDatetime().getTime()" />
-			',
-			'
-			<uimessage code="pihcore.weeks" />
-			'
-			);
+				var encounterDate = '<lookup expression="encounter.getEncounterDatetime().getTime()" />';
+				setUpEdd('<lookup expression="encounter.getEncounterDatetime().getTime()" />','<uimessage code="pihcore.weeks" />');
+
+				var validateFamHistoryText = function(divElem) {
+				var parentDiv = divElem.closest('.medicalHistoryText');
+
+				if (typeof parentDiv !== "undefined" ) {
+					var fieldError = parentDiv.find('.field-error');
+					var commentsInput= parentDiv.find('input[type=text]');
+					if (typeof commentsInput !== "undefined" ) {
+						var comments = commentsInput.val();
+						if ((typeof comments !=="undefined") &amp;&amp; comments.length > 0 ) {
+							if ( parentDiv.find('input:checked').length &lt; 1 ) {
+								if (parentDiv.hasClass("famHistory")) {
+									fieldError.html("<uimessage code="pihcore.historyNote.family.indicateParent" />").show();
+								} else if (parentDiv.hasClass("patientHistory")) {
+									fieldError.html("<uimessage code="pihcore.historyNote.pastMedicalHistory.checkWithoutComments" />").show();
+								}
 			
-			var validateFamHistoryText = function(divElem) {
-			var parentDiv = divElem.closest('.medicalHistoryText');
-			
-			if (typeof parentDiv !== "undefined" ) {
-			var fieldError = parentDiv.find('.field-error');
-			var commentsInput= parentDiv.find('input[type=text]');
-			if (typeof commentsInput !== "undefined" ) {
-			var comments = commentsInput.val();
-			if ((typeof comments !=="undefined") &amp;&amp; comments.length > 0 ) {
-			if ( parentDiv.find('input:checked').length &lt; 1 ) {
-			if (parentDiv.hasClass("famHistory")) {
-			fieldError.html("
-			<uimessage code="pihcore.historyNote.family.indicateParent" />
-			").show();
-			} else if (parentDiv.hasClass("patientHistory")) {
-			fieldError.html("
-			<uimessage code="pihcore.historyNote.pastMedicalHistory.checkWithoutComments" />
-			").show();
-			}
-			
-			return false;
-			}
-			} else {
-			// if there are no comments make sure the adjacent Parent checkbox is not checked
-			if ( parentDiv.find('input:checked').length &gt; 0 ) {
-			fieldError.html("
-			<uimessage code="pihcore.historyNote.family.specifyComments" />
-			").show();
-			return false;
-			}
-			}
-			}
-			fieldError.html(" ").hide();
-			}
-			return true;
+								return false;
+							}
+						} else {
+							// if there are no comments make sure the adjacent Parent checkbox is not checked
+							if ( parentDiv.find('input:checked').length &gt; 0 ) {
+								fieldError.html("<uimessage code="pihcore.historyNote.family.specifyComments" />").show();
+								return false;
+							}
+						}
+					}
+					fieldError.html(" ").hide();
+				}
+				return true;
 			}
 			
 			jq('.medicalHistoryText').find('input[type=checkbox]').change(function() {
-			validateFamHistoryText(jq(this));
+				validateFamHistoryText(jq(this));
 			});
 			
 			jq('.medicalHistoryText').find('input[type=text]').change(function() {
-			validateFamHistoryText(jq(this));
+				validateFamHistoryText(jq(this));
 			});
 			
 			beforeSubmit.push(function() {
 			var numErrors = 0;
 			jq('.medicalHistoryText').find('input[type=text]').each(function() {
-			if (!validateFamHistoryText(jq(this)) ) {
-			++numErrors;
+				if (!validateFamHistoryText(jq(this)) ) {
+				++numErrors;
 			}
 			});
 			return ( numErrors == 0 );
