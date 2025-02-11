@@ -381,6 +381,16 @@
                         </label>
                         <obs conceptId="CIEL:169040" />
                     </p>
+
+                    <p class="side-by-side">
+                        <label>
+                            <uimessage code="pihcore.locationUterineIncision" />
+                        </label>
+                        <br/>
+                        <obs conceptId="PIH:20706" style="radio"
+                             answerConceptIds="PIH:20708,PIH:20709,PIH:20710"
+                             answerSeparator="&lt;br /&gt;"/>
+                    </p>
                 </div>
                 <div>
                     <h3>
@@ -423,8 +433,13 @@
                             </label>
                             <br/>
                             <obs conceptId="CIEL:165247" style="radio"
+                                 answerConceptIds="CIEL:165521,CIEL:165522,CIEL:165523,PIH:20719,PIH:20720,PIH:20721,CIEL:165524"
+                                 answerCodes="1,2,3,3a,3b,3c,4"/>
+                            <!-- 1,2,3,4
+                            <obs conceptId="CIEL:165247" style="radio"
                                  answerConceptIds="CIEL:165521,CIEL:165522,CIEL:165523,CIEL:165524"
                                  answerCodes="1,2,3,4"/>
+                                 -->
                         </p>
                     </div>
                 </div>
