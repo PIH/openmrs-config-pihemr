@@ -184,8 +184,18 @@
 		.simple-form-ui input {
 		min-width: unset;
 		}
+
 		.simple-form-ui select {
 		min-width: unset;
+		}
+
+		.side-by-side label {
+			display: inline-block;
+		}
+
+		.side-by-side input[type="radio"] {
+			float: none;
+			display: inline-block;
 		}
 	</style>
 	<ifMode mode="VIEW" include="false">
@@ -487,30 +497,36 @@
 			<hr />
 			<div class="one-columns" id="radio_button_container">
 				<div class="col">
-					<p>
+					<p class="side-by-side">
 						<label>
 							<uimessage code="pih.app.mental.health.new.patient" />
 						</label>
-						<obs conceptId="CIEL:164144" style="radio" answerConceptIds="CIEL:1065,CIEL:1066" answerSeparator="" />
+						<obs conceptId="CIEL:164144" style="radio"
+							 answerConceptIds="CIEL:1065,CIEL:1066" answerCodes="yes,no"
+							 answerSeparator="" />
 					</p>
 				</div>
 			</div>
 			<hr />
 			<div class="two-columns" id="radio_button_container">
 				<div class="col">
-					<p>
+					<p class="side-by-side">
 						<label>
 							<uimessage code="pih.app.chw.for.mental.health" />
 						</label>
-						<obs conceptId="PIH:14991" style="radio" answerConceptIds="CIEL:1065,CIEL:1066" answerSeparator="" />
+						<obs conceptId="PIH:14991" style="radio"
+							 answerConceptIds="CIEL:1065,CIEL:1066" answerCodes="yes,no"
+							 answerSeparator="" />
 					</p>
 				</div>
 				<div class="col">
-					<p>
+					<p class="side-by-side">
 						<label>
 							<uimessage code="pih.app.mental.health.patient.relapse" />
 						</label>
-						<obs conceptId="CIEL:1688" style="radio" answerConceptIds="CIEL:1065,CIEL:1066" answerSeparator="" />
+						<obs conceptId="CIEL:1688" style="radio"
+							 answerConceptIds="CIEL:1065,CIEL:1066" answerCodes="yes,no"
+							 answerSeparator="" />
 					</p>
 				</div>
 			</div>
@@ -518,12 +534,21 @@
 			<div class="two-columns" id="radio_button_container">
 				<!-- Hospitalization -->
 				<div class="col">
-					<p>
+					<p class="side-by-side">
 						<label>
 							<uimessage code="pihcore.ncd.plan.hospitalized" />
 						</label>
-						<obs conceptId="CIEL:976" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator="" />
-						<obs conceptId="CIEL:162879" labelCode="pihcore.reasonHospitalized" />
+						<br/>
+						<obs id="hospitalQ" conceptId="CIEL:976" style="radio"
+							 answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator="" >
+							<controls>
+								<when value="PIH:YES" thenDisplay="#hospitalReason" />
+							</controls>
+						</obs>
+						<br/>
+						<div id="hospitalReason">
+							<obs conceptId="CIEL:162879" labelCode="pihcore.reasonHospitalized" />
+						</div>
 					</p>
 					<p>
 						<obs conceptId="PIH:TYPE OF PATIENT" answerConceptId="PIH:INPATIENT HOSPITALIZATION" style="checkbox" answerCode="pihcore.currentHospitalization" answerSeparator="" />
@@ -671,12 +696,14 @@
 		</div>
 		<br />
 		<div class="section-container">
-			<label>
-				<uimessage code="pihcore.mentalhealth.aims" />
-				:
-			</label>
-			<obs conceptId="CIEL:163227" />
-			<br />
+			<p class="side-by-side">
+				<label>
+					<uimessage code="pihcore.mentalhealth.aims" />
+					:
+				</label>
+				<obs conceptId="CIEL:163227" style="radio"/>
+			</p>
+
 			<label>
 				<uimessage code="pihcore.mentalhealth.epilepsySeizureFrequency" />
 				:
@@ -842,6 +869,7 @@
 			<div class="col" />
 		</div>
 	</section>
+
 	<section id="mh-suicide" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.mentalhealth.suicideEval">
 		<div class="section-container">
 			<table>
@@ -904,17 +932,27 @@
 			<div id="suicideScreening">
 				<br />
 				<div class="two-columns">
-					<label>
-						<uimessage code="pihcore.mentalhealth.suicideScreenResult" />
-					</label>
-					<obs conceptId="PIH:12376" style="radio" answerConceptIds="CIEL:1407,CIEL:164944,CIEL:1408" answerSeparator="" />
-					<br />
-					<label>
-						<uimessage code="pihcore.mentalhealth.ifHighAnswer" />
-					</label>
-					<obs conceptId="CIEL:165531" answerConceptId="CIEL:165532" />
-					<obs conceptId="PIH:Mental health intervention" answerConceptId="PIH:10646" answerCode="pihcore.mentalhealth.safetyPlan" />
-					<obs conceptId="CIEL:165531" answerConceptId="CIEL:165533" />
+					<p class="side-by-side">
+						<label>
+							<uimessage code="pihcore.mentalhealth.suicideScreenResult" />
+						</label>
+						<br/>
+						<obs id="ssi-result" conceptId="PIH:12376" style="radio"
+							 answerConceptIds="CIEL:1407,CIEL:164944,CIEL:1408" >
+							<controls>
+								<when value="CIEL:1408" thenDisplay="#high-ssi"/>
+							</controls>
+						</obs>
+					</p>
+
+					<div id="high-ssi">
+						<label>
+							<uimessage code="pihcore.mentalhealth.ifHighAnswer" />
+						</label>
+						<obs conceptId="CIEL:165531" answerConceptId="CIEL:165532" />
+						<obs conceptId="CIEL:165531" answerConceptId="PIH:10646" answerCode="pihcore.mentalhealth.safetyPlan" />
+						<obs conceptId="CIEL:165531" answerConceptId="CIEL:165533" />
+					</div>
 				</div>
 			</div>
 		</div>
