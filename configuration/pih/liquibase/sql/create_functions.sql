@@ -4143,3 +4143,32 @@ BEGIN
 	
     RETURN ret;
 END
+#
+-- this function accepts patient_id, program_id and an encounter_id and returns
+-- the patient_program_id of the program that encounter fits in, based on dates
+#
+DROP FUNCTION IF EXISTS patient_program_id_from_encounter;
+#
+CREATE FUNCTION patient_program_id_from_encounter(
+    _patient_id INT,
+    _program_id INT,
+    _encounter_id INT
+)
+    RETURNS INT
+    DETERMINISTIC
+
+BEGIN
+    DECLARE returningProgramId INT;
+
+    SELECT patient_program_id into returningProgramId
+    from patient_program pp 
+    inner join encounter e on e.encounter_id = _encounter_id 
+    where pp.patient_id = _patient_id 
+    and pp.program_id = _program_id 
+    and pp.date_enrolled <= date(e.encounter_datetime)
+    and (pp.date_completed >= date(e.encounter_datetime) or pp.date_completed is null)
+    order by pp.date_enrolled desc limit 1;
+    
+    RETURN returningProgramId;
+
+END
