@@ -716,69 +716,85 @@
 			</obsgroup>
 		</div>
 	</section>
+
 	<!-- Mental Status -->
 	<section id="mh_scores" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.status">
 		<div class="section-container" id="radio_button_container">
 			<div class="col">
-				<p>
+				<p class="side-by-side">
 					<label>
-						<uimessage code="pihcore.mentalhealth.generalAppearance" />
+						<uimessage code="pihcore.generalAppearance" />
 					</label>
-					<obs conceptId="CIEL:167092" style="radio" answerConceptIds="PIH:NORMAL,PIH:ABNORMAL" answerSeparator="" />
+					<br/>
+					<obs conceptId="CIEL:167092" style="radio"
+						 answerConceptIds="PIH:NORMAL,PIH:ABNORMAL" answerCodes="pihcore.normal.lc,pihcore.abnormal.lc" />
 				</p>
 			</div>
 			<div class="col">
-				<p>
+				<p class="side-by-side">
 					<label>
-						<uimessage code="pihcore.mentalhealth.speech" />
+						<uimessage code="pihcore.speech" />
 					</label>
-					<obs conceptId="CIEL:167200" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator="" />
+					<br/>
+					<obs conceptId="CIEL:167201" style="radio"
+						 answerConceptIds="PIH:NORMAL,PIH:ABNORMAL" answerCodes="pihcore.normal.lc,pihcore.abnormal.lc" />
 				</p>
 			</div>
 		</div>
 		<div class="section-container" id="radio_button_container">
 			<div class="col">
-				<p>
+				<p class="side-by-side">
 					<label>
-						<uimessage code="pihcore.mentalhealth.cognitive" />
+						<uimessage code="pihcore.cognitive" />
 					</label>
-					<obs conceptId="CIEL:110434" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator="" />
+					<br/>
+					<!-- replaced CIEL:110434 with PIH:20722 with normal and abnormal-->
+					<obs conceptId="PIH:20722" style="radio"
+						 answerConceptIds="PIH:NORMAL,PIH:ABNORMAL" answerCodes="pihcore.normal.lc,pihcore.abnormal.lc" />
 				</p>
 			</div>
 			<div class="col">
-				<p>
+				<p class="side-by-side">
 					<label>
 						<uimessage code="pihcore.mentalhealth.mood" />
 					</label>
-					<obs conceptId="PIH:9527" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator="" />
+					<br/>
+					<obs conceptId="PIH:9527" style="radio"
+						 answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator="" />
 				</p>
 			</div>
 		</div>
 		<div class="section-container" id="radio_button_container">
 			<div class="col">
-				<p>
+				<p class="side-by-side">
 					<label>
 						<uimessage code="pihcore.mentalhealth.muscleTone" />
 					</label>
-					<obs conceptId="PIH:15034" style="radio" answerConceptIds="PIH:NORMAL,PIH:ABNORMAL" answerSeparator="" />
+					<br/>
+					<obs conceptId="PIH:15034" style="radio"
+						 answerConceptIds="PIH:NORMAL,PIH:ABNORMAL" answerCodes="pihcore.normal.lc,pihcore.abnormal.lc" />
 				</p>
 			</div>
 			<div class="col">
-				<p>
+				<p class="side-by-side">
 					<label>
 						<uimessage code="pihcore.mentalhealth.TraumaticEvent" />
 					</label>
-					<obs conceptId="PIH:12362" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator="" />
+					<br/>
+					<obs conceptId="PIH:12362" style="radio"
+						 answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator="" />
 				</p>
 			</div>
 		</div>
 		<div class="section-container" id="radio_button_container">
 			<div class="col">
-				<p>
+				<p class="side-by-side">
 					<label>
 						<uimessage code="pihcore.mentalhealth.introspection" />
 					</label>
-					<obs conceptId="CIEL:166051" style="radio" answerConceptIds="PIH:NORMAL,PIH:ABNORMAL" answerSeparator="" />
+					<br/>
+					<obs conceptId="CIEL:166051" style="radio"
+						 answerConceptIds="PIH:NORMAL,PIH:ABNORMAL" answerCodes="pihcore.normal.lc,pihcore.abnormal.lc" />
 				</p>
 			</div>
 			<div class="col">
@@ -792,56 +808,68 @@
 		</div>
 		<div class="section-container" id="radio_button_container">
 			<div class="col">
-				<p>
+				<p class="side-by-side">
 					<label>
 						<uimessage code="pihcore.mentalhealth.suicidal" />
 					</label>
-					<obs conceptId="CIEL:125562" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator="" />
+					<br/>
+					<obs conceptId="CIEL:125562" style="radio"
+						 answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator="" />
 				</p>
 			</div>
 			<div class="col">
-				<p>
+				<p class="side-by-side">
 					<label>
-						<uimessage code="pihcore.mentalhealth.phobia" />
+						<uimessage code="pihcore.anxiety" />
 					</label>
-					<obs conceptId="CIEL:121543" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator="" />
+					<br/>
+					<obs conceptId="CIEL:121543" style="radio"
+						 answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator="" />
 				</p>
 			</div>
 		</div>
 		<div class="section-container" id="radio_button_container">
 			<div class="col">
-				<p>
+				<p class="side-by-side">
 					<label>
 						<uimessage code="pihcore.mentalhealth.Psychosocial" />
 					</label>
-					<obs conceptId="PIH:13175" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator="" />
+					<br/>
+					<obs conceptId="PIH:13175" style="radio"
+						 answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator="" />
 				</p>
 			</div>
 			<div class="col">
-				<p>
+				<p class="side-by-side">
 					<label>
 						<uimessage code="pihcore.mentalhealth.judgement" />
 					</label>
-					<obs conceptId="CIEL:167116" style="radio" answerConceptIds="PIH:1897,CIEL:159406,CIEL:159407" answerSeparator="" />
+					<br/>
+					<obs conceptId="CIEL:167116" style="radio"
+						 answerConceptIds="PIH:1897,CIEL:159406,CIEL:159407" answerSeparator="" />
 				</p>
 			</div>
 		</div>
-		<!-- No Concept Yet -->
+
 		<div class="section-container" id="radio_button_container">
 			<div class="col">
-				<p>
+				<p class="side-by-side">
 					<label>
 						<uimessage code="pihcore.mentalhealth.danger" />
 					</label>
-					<obs conceptId="PIH:15106" style="radio" answerConceptIds="PIH:YES,PIH:NO" answerSeparator="" />
+					<br/>
+					<obs conceptId="PIH:15106" style="radio"
+						 answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no" answerSeparator="" />
 				</p>
 			</div>
 			<div class="col">
-				<p>
+				<p class="side-by-side">
 					<label>
 						<uimessage code="pihcore.mentalhealth.affect" />
 					</label>
-					<obs conceptId="CIEL:167101" style="radio" answerConceptIds="PIH:NORMAL,PIH:ABNORMAL" answerSeparator="" />
+					<br/>
+					<obs conceptId="CIEL:167101" style="radio"
+						 answerConceptIds="PIH:NORMAL,PIH:ABNORMAL" answerCodes="pihcore.normal.lc,pihcore.abnormal.lc" />
 				</p>
 			</div>
 		</div>
