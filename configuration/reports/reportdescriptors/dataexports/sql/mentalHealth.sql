@@ -351,7 +351,7 @@ update temp_mh_encounters set suicidal_screening_result =
 update temp_mh_encounters set discussed_patient_with_supervisor = 
 	if(obs_single_value_coded_from_temp(encounter_id,'PIH','12421','PIH','12429')= @answerExists,1,null);
 update temp_mh_encounters set safety_plan_completed = 
-	if(obs_single_value_coded_from_temp(encounter_id,'PIH','10636','PIH','10646')= @answerExists,1,null);
+	if(obs_single_value_coded_from_temp(encounter_id,'PIH','12421','PIH','10646')= @answerExists,1,null);
 update temp_mh_encounters set hospitalize_due_to_suicide_risk = 
 	if(obs_single_value_coded_from_temp(encounter_id,'PIH','12421','PIH','12426')= @answerExists,1,null);
 

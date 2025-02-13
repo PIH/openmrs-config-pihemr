@@ -1678,7 +1678,10 @@
 					<label>
 						<uimessage code="pihcore.pregnancy.lastPeriod.known" />
 					</label>
-					<obs id="knowing_period_question" conceptId="PIH:20679" style="radio" answerConceptIds="CIEL:164180,PIH:7383" answerCodes="pihcore.yes,pihcore.no" required="true" />
+					<!-- ToDo:  This should be required -->
+					<obs id="knowing_period_question" conceptId="PIH:20679" style="radio"
+						 answerConceptIds="CIEL:164180,PIH:7383" answerCodes="pihcore.yes,pihcore.no" />
+					<!-- required="true" -->
 				</p>
 			</div>
 			<div class="two-columns">
@@ -1952,7 +1955,9 @@
 						<render concept="CIEL:111525" name="vertigo" />
 						<render concept="CIEL:122983" name="vomiting" />
 					</repeat>
-					<obs conceptId="CIEL:1880" style="checkbox" answerConceptId="CIEL:1065" answerCode="pihcore.other" commentFieldCode="zl.pastMedicalHistory.specifyLabel" />
+					<obs conceptId="CIEL:1880" style="checkbox"
+						 answerConceptId="CIEL:1065" answerCode="pihcore.other"
+						 commentFieldCode="zl.pastMedicalHistory.specifyLabel" />
 				</div>
 			</div>
 		</div>

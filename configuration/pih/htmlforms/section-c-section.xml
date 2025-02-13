@@ -274,51 +274,175 @@
     <section id="description" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.surgeryInfo">
 
-        <div class="section-container two-columns">
-            <div>
-                <label>
-                    <uimessage code="pihcore.consult.procedure"/>
-                </label>
+        <div class="section-container">
+            <div class="two-columns">
+                <div>
+                    <label>
+                        <uimessage code="pihcore.consult.procedure"/>
+                    </label>
 
-                <p class="side-by-side">
-                    <!-- C-section with hysterectomy or tubal ligation or oopheroctomy or myomectomy -->
-                    <obs conceptId="CIEL:1651" style="radio"
-                         answerConceptIds="CIEL:1171,CIEL:161848,CIEL:161890,PIH:20694,PIH:20695"
-                         answerSeparator="&lt;br /&gt;"/>
-                </p>
+                    <p class="side-by-side">
+                        <!-- C-section with hysterectomy or tubal ligation or oopheroctomy or myomectomy -->
+                        <obs conceptId="CIEL:1651" style="radio"
+                             answerConceptIds="CIEL:1171,CIEL:161848,CIEL:161890,PIH:20694,PIH:20695"
+                             answerSeparator="&lt;br /&gt;"/>
+                    </p>
 
-                <label>
-                    <uimessage code="pihcore.otherProcedure"/>
-                </label>
-                <obs conceptId="PIH:Surgical procedure" answerClasses="Procedure" style="autocomplete"/>
-                <obs conceptId="PIH:Surgical procedure" answerClasses="Procedure" style="autocomplete"/>
+                    <label>
+                        <uimessage code="pihcore.otherProcedure"/>
+                    </label>
+                    <obs conceptId="PIH:Surgical procedure" answerClasses="Procedure" style="autocomplete"/>
+                    <obs conceptId="PIH:Surgical procedure" answerClasses="Procedure" style="autocomplete"/>
+
+                    <br/>
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.adhesions" />
+                        </label>
+                        <repeat>
+                            <template>
+                                <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
+                                    <obs conceptId="PIH:DIAGNOSIS" answerConceptId="{concept}" style="checkbox" />
+                                </obsgroup>
+                            </template>
+                            <render concept="PIH:20698" name="Bladder adhesion" />
+                            <render concept="PIH:20697" name="Uterine adhesion" />
+                        </repeat>
+                    </p>
+                </div>
+
+                <div>
+                    <p class="side-by-side">
+                        <label>
+                            <uimessage code="scheduled"/>
+                        </label>
+                        <obs conceptId="PIH:Scheduled surgery" style="radio" answerConceptIds="PIH:YES,PIH:NO"
+                             answerCodes="emr.yes,emr.no"/>
+                    </p>
+
+                    <p>
+                        <label>
+                            <uimessage code="anesthesia"/>
+                        </label>
+                        <obs conceptId="PIH:Type of anesthesia"/>
+                    </p>
+
+                    <p class="side-by-side">
+                        <label>
+                            <uimessage code="wound_class"/>
+                        </label>
+                        <br/>
+                        <obs conceptId="PIH:Classifications of surgical wounds" style="radio"
+                             answerSeparator="&lt;br /&gt;"/>
+                    </p>
+
+                </div>
             </div>
 
-            <div>
-                <p class="side-by-side">
-                    <label>
-                        <uimessage code="scheduled"/>
-                    </label>
-                    <obs conceptId="PIH:Scheduled surgery" style="radio" answerConceptIds="PIH:YES,PIH:NO"
-                         answerCodes="emr.yes,emr.no"/>
-                </p>
+            <div class="two-columns">
+                <div>
+                    <h3>
+                        <label>
+                            <uimessage code="pihcore.sutures" />
+                        </label>
+                    </h3>
+                    <p class="side-by-side">
+                        <label>
+                            <uimessage code="pihcore.sutureSize"/>
+                        </label>
+                        <br/>
+                        <obs conceptId="PIH:20705" style="radio"
+                             answers="00,0,1-0,2-0,3-0,4-0,5-0" />
+                    </p>
 
-                <p>
-                    <label>
-                        <uimessage code="anesthesia"/>
-                    </label>
-                    <obs conceptId="PIH:Type of anesthesia"/>
-                </p>
+                    <p class="side-by-side">
+                        <label>
+                            <uimessage code="pihcore.sutureMaterial"/>
+                        </label>
+                        <br/>
+                        <obs id="sMaterial" conceptId="PIH:20703" style="radio"
+                             answerConceptIds="PIH:20699,PIH:20701,PIH:20702,PIH:20700,CIEL:5622" >
+                            <controls>
+                                <when value="CIEL:5622" thenDisplay="#otherSMaterial" />
+                            </controls>
+                        </obs>
+                        <br/>
+                        <div id="otherSMaterial">
+                            <label>
+                                <uimessage code="pihcore.ifOtherSutureMaterial"/>
+                            </label>
+                            <obs conceptId="PIH:20704" cols="20"/>
+                        </div>
+                    </p>
 
-                <p class="side-by-side">
-                    <label>
-                        <uimessage code="wound_class"/>
-                    </label>
-                    <br/>
-                    <obs conceptId="PIH:Classifications of surgical wounds" style="radio"
-                         answerSeparator="&lt;br /&gt;"/>
-                </p>
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.numSutures"/>
+                        </label>
+                        <obs conceptId="CIEL:169040" />
+                    </p>
 
+                    <p class="side-by-side">
+                        <label>
+                            <uimessage code="pihcore.locationUterineIncision" />
+                        </label>
+                        <br/>
+                        <obs conceptId="PIH:20706" style="radio"
+                             answerConceptIds="PIH:20708,PIH:20709,PIH:20710"
+                             answerSeparator="&lt;br /&gt;"/>
+                    </p>
+                </div>
+                <div>
+                    <h3>
+                        <label>
+                            <uimessage code="pihcore.lacerations" />
+                        </label>
+                    </h3>
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.numLacerations"/>
+                        </label>
+                        <obs conceptId="PIH:20711" />
+                    </p>
+                    <p>
+                        <label>
+                            <uimessage code="pihcore.locationLacerations" />
+                        </label>
+                        <repeat>
+                            <template>
+                                <obs id="lace-loc-{laceLoc}" conceptId="PIH:20712" style="checkbox"
+                                     answerConceptId="PIH:207{laceLoc}" >
+                                    <controls>
+                                        <when value="PIH:20714" thenDisplay="#perineal-grade" />
+                                    </controls>
+                                </obs>
+                            </template>
+                            <render laceLoc="13" name="vaginal" />
+                            <render laceLoc="14" name="perineal" />
+                            <render laceLoc="15" name="cervical" />
+                            <render laceLoc="16" name="periurethral" />
+                            <render laceLoc="17" name="labial" />
+                            <render laceLoc="18" name="clitoral" />
+                        </repeat>
+                    </p>
+
+                    <div id="perineal-grade">
+                        <p class="side-by-side">
+                            <label>
+                                <uimessage code="pihcore.gradeLacerations" />
+                            </label>
+                            <br/>
+                            <obs conceptId="CIEL:165247" style="radio"
+                                 answerConceptIds="CIEL:165521,CIEL:165522,CIEL:165523,PIH:20719,PIH:20720,PIH:20721,CIEL:165524"
+                                 answerCodes="1,2,3,3a,3b,3c,4"/>
+                            <!-- 1,2,3,4
+                            <obs conceptId="CIEL:165247" style="radio"
+                                 answerConceptIds="CIEL:165521,CIEL:165522,CIEL:165523,CIEL:165524"
+                                 answerCodes="1,2,3,4"/>
+                                 -->
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
