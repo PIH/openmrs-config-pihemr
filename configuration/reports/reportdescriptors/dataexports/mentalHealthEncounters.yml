@@ -1,7 +1,7 @@
-key: "mentalhealthexport"
+key: "mentalhealthencountersexport"
 uuid: "d2e7c170-e703-11e5-a837-0800200c9a66"
-name: "mirebalaisreports.mentalhealthdataexport.name"
-description: "mirebalaisreports.mentalhealthdataexport.description"
+name: "mirebalaisreports.mentalhealthencounters.name"
+description: "mirebalaisreports.mentalhealthencounters.description"
 parameters:
   - key: "startDate"
     type: "java.util.Date"
@@ -10,9 +10,9 @@ parameters:
     type: "java.util.Date"
     label: "reporting.parameter.endDate"
 datasets:
-  - key: "mentalhealthexport"
+  - key: "mentalhealthencountersexport"
     type: "sql"
-    config: "sql/mentalHealth.sql"
+    config: "sql/mh_encounters.sql"
 designs:
   - type: "csv"
     properties:
