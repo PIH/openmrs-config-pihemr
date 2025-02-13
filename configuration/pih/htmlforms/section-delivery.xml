@@ -411,18 +411,6 @@
                         <obs conceptId="CIEL:1063" style="radio" answerSeparator=""
                              answerConceptIds="CIEL:1065,CIEL:1066"/>
                     </p>
-
-                    <br/><br/><br/><br/>
-                    <br/><br/><br/><br/>
-                    <table>
-                        <tr>
-                            <td>
-                                <strong>
-                                    <uimessage code="pihcore.cSectionGoTo" />
-                                </strong>
-                            </td>
-                        </tr>
-                    </table>
                 </div>
 
                 <div>
@@ -727,6 +715,17 @@
                         </div>
 
                         <div id="c-section-reason-{0}">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <strong>
+                                            <uimessage code="pihcore.cSectionGoTo" />
+                                        </strong>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            
                             <label>
                                 <uimessage code="pihcore.reasonCSection"/>
                             </label>
