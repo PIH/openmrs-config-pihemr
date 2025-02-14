@@ -15,6 +15,7 @@ c42b7bc3-b34d-4b8f-9796-09208f9dfd72,,Dispensing Location,A location where a pha
 d9865139-dfb4-11e4-bccc-56847afe9799,,Vitals Location,Signifies a Location where the vitals app and note should be available
 902fa30c-63bd-4abb-833b-f7e27533403e,,Vitals Inpatient Location,An inpatient hospital location where vitals capture is expanded
 d5f9936d-e421-46c4-acd4-12f94c500a07,,Vitals ANC Location,Antenatal location where vitals capture is expanded during pregnancy
+eb6e297f-d4e2-4aad-af0d-33c95f7ee08e,,Vitals Glucose Location,Location where vitals capture along with the glucose test
 5e824f3a-dfb8-11e4-bccc-56847afe9799,,Inpatients App Location,Signifies a Location where the inpatients app should be available
 24ffeea6-dfbb-11e4-bccc-56847afe9799,,Check-In Location,Signifies a Location where the check-in app and form should be available
 8cff42e5-f03b-461d-b693-65bdf10c4bba,,Check-In Maternal Location,Location where the maternal check-in app and form is available
