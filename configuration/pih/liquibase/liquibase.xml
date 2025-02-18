@@ -1087,5 +1087,76 @@
 
         </sql>
     </changeSet>
+
+    <changeSet id="20250218-migrate-suicide-interventions" author="ball">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">
+                select count(*) from address_hierarchy_entry where parent_id is NULL and name like 'Haiti';
+            </sqlCheck>
+        </preConditions>
+        <comment>
+            For the mental health encounter and suicide prevention interventions, migrate to new question.
+            If the count is 1, this is a Haiti server
+        </comment>
+        <sql>
+            -- load all suicide checkbox obs with the old question
+            drop temporary table if exists temp_suicide_obs;
+			create temporary table temp_suicide_obs
+            select
+                obs_id
+            from obs o
+            where o.concept_id = concept_from_mapping('CIEL','163311')
+              and o.value_coded IN (concept_from_mapping('CIEL','165532'),concept_from_mapping('CIEL','163321'),concept_from_mapping('CIEL','165533'))
+              and o.encounter_id IN
+                  (select encounter_id from encounter
+                   where encounter_type IN
+                         (select encounter_type_id from encounter_type
+                          where name like 'Mental Health Consult'))
+              and o.voided = 0
+            ;
+
+            -- void existing suicide from mental health intervention checkbox obs
+            update obs o
+                inner join temp_suicide_obs t on t.obs_id = o.obs_id
+                set voided = 1,
+                    voided_by = 1,
+                    date_voided = now(),
+                    void_reason = 'migrated to CIEL:165531 obs';
+
+            -- insert new obs with suicide screening intervention question
+            insert into obs
+            (person_id,
+             concept_id,
+             value_coded,
+             encounter_id,
+             obs_datetime,
+             location_id,
+             obs_group_id,
+             creator,
+             date_created,
+             voided,
+             uuid,
+             status,
+             previous_version
+            )
+            select
+                o.person_id,
+                concept_from_mapping('CIEL','165531'),
+                o.value_coded,
+                o.encounter_id,
+                o.obs_datetime,
+                o.location_id,
+                o.obs_group_id,
+                o.creator,
+                o.date_created,
+                0,
+                uuid(),
+                o.status,
+                t.obs_id
+            from obs o
+                     inner join temp_suicide_obs t on t.obs_id = o.obs_id;
+
+        </sql>
+    </changeSet>
     
 </databaseChangeLog>
