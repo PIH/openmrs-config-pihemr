@@ -305,47 +305,7 @@
                               where name like 'Mental Health Consult'));
         </sql>
     </changeSet>
-
-    <changeSet id="20210726-migrate-c-section-risk-factor" author="ball">
-        <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="1">
-                select count(*) from address_hierarchy_entry where parent_id is NULL and name like 'Haiti';
-            </sqlCheck>
-        </preConditions>
-        <comment>
-            Use uterine scar instead of previous c-section as a risk factor.  The Ob/Gyn form had both.
-            If the count is 1, this is a Haiti server
-        </comment>
-        <sql>
-            update obs,
-                   (select encounter_id from encounter
-                     where encounter_type IN
-                            (select encounter_type_id from encounter_type
-                              where name like 'OB%GYN')
-                      and encounter_id NOT IN
-                            (select encounter_id from obs
-                              where voided = 0
-                                and concept_id =
-                                    (select concept_id from concept
-                                      where uuid like '160079AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
-                                and value_coded =
-                                    (select concept_id from concept
-                                      where uuid like '123450AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'))) as enco
-               set value_coded =
-                    (select concept_id from concept
-                      where uuid like '123450AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
-             where obs.encounter_id = enco.encounter_id
-               and obs.concept_id =
-                    (select concept_id from concept
-                      where uuid like '160079AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
-               -- answer of previous c-section
-               and obs.value_coded =
-                    (select concept_id from concept
-                      where uuid like '163155AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
-               and obs.voided = 0;
-        </sql>
-    </changeSet>
-
+    
     <changeSet id="20210830-migrate-pitting-levels" author="ball">
         <comment>
             To correct a bug with the pitting levels on the physical exam musculoskeletal section
