@@ -967,10 +967,12 @@
 						<br/>
 						<obs id="ssi-result" conceptId="PIH:12376" style="radio"
 							 answerConceptIds="CIEL:1407,CIEL:164944,CIEL:1408" >
+						</obs>
+						<!-- UHM-8407
 							<controls>
 								<when value="CIEL:1408" thenDisplay="#high-ssi"/>
 							</controls>
-						</obs>
+						-->
 					</p>
 
 					<div id="high-ssi">
