@@ -78,13 +78,15 @@ function calculateExpectedDeliveryDate(lastPeriodDate) {
  * 
  * @param {Date} lastPeriodDate 
  */
-function setUpGestationalAgeAtBirth(lastPeriodDate) {
+function setUpGestationalAgeAtBirth(lastPeriodDateValue, msgWeeks) {
   function updateGestationalAge() {
-    if (lastPeriodDate) {
+    if (lastPeriodDateValue) {
+      const lastPeriodDate = new Date(parseInt(lastPeriodDateValue));
       jq("#calculated-edd-wrapper").show();
-      const deliveryDateValue = htmlForm.getValueIfLegal("deliveryDate.value");
+      const deliveryDateValue = htmlForm.getValueIfLegal("deliveryDate.value.date");
       if (deliveryDateValue) {
-        const gestAgeMs = deliveryDateValue.getTime() - lastPeriodDate.getTime();
+        const deliveryDate = new Date(deliveryDateValue);
+        const gestAgeMs = deliveryDate.getTime() - lastPeriodDate.getTime();
         const gestAgeDays = Math.floor(gestAgeMs / (1000 * 3600 * 24))
         const gestAgeWeeks = Math.floor(gestAgeDays / 7);
         const gestAgeRemainderDays = gestAgeDays % 7;
