@@ -234,7 +234,7 @@
                     return valid;
                 });
 
-                setUpGestationalAgeAtBirth('<lookup expression="fn.latestObs('CIEL:1427').getValueDatetime().getTime()"/>');
+                setUpGestationalAgeAtBirth('<lookup expression="fn.latestObs('CIEL:1427').getValueDatetime().getTime()"/>', '<uimessage code="pihcore.weeks"/>');
 
                 jq('#disposition select:first').change(function() {
                     jq('#disposition .field-error').first().html('').hide(); // hide any previous error if disposition is changed
