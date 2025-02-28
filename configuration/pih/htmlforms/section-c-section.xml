@@ -411,18 +411,14 @@
                         <repeat>
                             <template>
                                 <obs id="lace-loc-{laceLoc}" conceptId="PIH:20712" style="checkbox"
-                                     answerConceptId="PIH:207{laceLoc}" >
-                                    <controls>
-                                        <when value="PIH:20714" thenDisplay="#perineal-grade" />
-                                    </controls>
-                                </obs>
+                                     answerConceptId="PIH:207{laceLoc}" />
                             </template>
                             <render laceLoc="13" name="vaginal" />
-                            <render laceLoc="14" name="perineal" />
                             <render laceLoc="15" name="cervical" />
                             <render laceLoc="16" name="periurethral" />
                             <render laceLoc="17" name="labial" />
                             <render laceLoc="18" name="clitoral" />
+                            <render laceLoc="14" name="perineal" />
                         </repeat>
                     </p>
 
@@ -435,11 +431,6 @@
                             <obs conceptId="CIEL:165247" style="radio"
                                  answerConceptIds="CIEL:165521,CIEL:165522,CIEL:165523,PIH:20719,PIH:20720,PIH:20721,CIEL:165524"
                                  answerCodes="1,2,3,3a,3b,3c,4"/>
-                            <!-- 1,2,3,4
-                            <obs conceptId="CIEL:165247" style="radio"
-                                 answerConceptIds="CIEL:165521,CIEL:165522,CIEL:165523,CIEL:165524"
-                                 answerCodes="1,2,3,4"/>
-                                 -->
                         </p>
                     </div>
                 </div>
