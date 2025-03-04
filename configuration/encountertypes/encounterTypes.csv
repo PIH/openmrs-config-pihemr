@@ -70,6 +70,7 @@ ${encounterType.MATERNAL_ADMISSION.uuid},TRUE,Maternal Admission,The admission f
 ${encounterType.MATERNAL_DISCHARGE.uuid},,Maternal Discharge,Maternal Discharge
 ${encounterType.NEWBORN_INITIAL.uuid},,Newborn Initial,Newborn Initial (admission)
 ${encounterType.NEWBORN_ASSESSMENT.uuid},,Newborn Assessment,Newborn assessment
+${encounterType.NEWBORN_DAILY_PROGRESS.uuid},,Newborn Daily Progress,Newborn daily progress
 ${encounterType.NEWBORN_DISCHARGE.uuid},,Newborn Discharge,Newborn Discharge
 ${encounterType.INPATIENT_NOTE.uuid},,Inpatient Note,A short free-text note written by a clinician about an inpatient during their stay
 ${encounterType.TRANSFER_REQUEST.uuid},,Transfer Request,A stand-alone encounter type for a transfer request not part of a larger note

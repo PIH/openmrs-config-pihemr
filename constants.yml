@@ -397,6 +397,8 @@ encounterType:
     uuid: "093b6ffc-e55a-461a-85cc-c6acf7714a23"
   NEWBORN_ASSESSMENT:
     uuid: "6444b8d4-407d-444d-aa15-d6dff204ed83"
+  NEWBORN_DAILY_PROGRESS:
+    uuid: "7e42e652-89e7-4559-80fd-41f42826c98c"
   NEWBORN_DISCHARGE:
     uuid: "153d3182-c76f-4047-b7f2-d83cf967b206"
   INPATIENT_NOTE:
