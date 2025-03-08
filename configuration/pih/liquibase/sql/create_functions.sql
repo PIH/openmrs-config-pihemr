@@ -4165,8 +4165,8 @@ BEGIN
     inner join encounter e on e.encounter_id = _encounter_id 
     where pp.patient_id = _patient_id 
     and pp.program_id = _program_id 
-    and pp.date_enrolled <= date(e.encounter_datetime)
-    and (pp.date_completed >= date(e.encounter_datetime) or pp.date_completed is null)
+    and date(pp.date_enrolled) <= date(e.encounter_datetime)
+    and (date(pp.date_completed) >= date(e.encounter_datetime) or pp.date_completed is null)
     order by pp.date_enrolled desc limit 1;
     
     RETURN returningProgramId;
