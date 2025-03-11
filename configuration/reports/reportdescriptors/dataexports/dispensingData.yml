@@ -16,6 +16,7 @@ datasets:
 designs:
   - type: "csv"
     properties:
+      "filenameBase": "dispensingdataexport.{{ formatDate request.reportDefinition.parameterMappings.startDate \"yyyyMMdd\" }}.{{ formatDate request.reportDefinition.parameterMappings.endDate \"yyyyMMdd\" }}.{{ formatDate request.evaluateStartDatetime \"yyyyMMdd\" }}.{{ formatDate request.evaluateStartDatetime \"HHmm\" }}"
       "characterEncoding": "ISO-8859-1"
       "blacklistRegex": "[^\\p{InBasicLatin}\\p{L}]"
       "dateFormat": "dd-MMM-yyyy HH:mm:ss"
