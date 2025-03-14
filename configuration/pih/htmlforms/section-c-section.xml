@@ -408,18 +408,16 @@
                         <label>
                             <uimessage code="pihcore.locationLacerations" />
                         </label>
-                        <repeat>
-                            <template>
-                                <obs id="lace-loc-{laceLoc}" conceptId="PIH:20712" style="checkbox"
-                                     answerConceptId="PIH:207{laceLoc}" />
-                            </template>
-                            <render laceLoc="13" name="vaginal" />
-                            <render laceLoc="15" name="cervical" />
-                            <render laceLoc="16" name="periurethral" />
-                            <render laceLoc="17" name="labial" />
-                            <render laceLoc="18" name="clitoral" />
-                            <render laceLoc="14" name="perineal" />
-                        </repeat>
+                        <obs id="lace-loc-13" conceptId="PIH:20712" style="checkbox" answerConceptId="PIH:20713"/>
+                        <obs id="lace-loc-14" conceptId="PIH:20712" style="checkbox" answerConceptId="PIH:20714">
+                            <controls>
+                                <when value="PIH:20714" thenDisplay="#perineal-grade" />
+                            </controls>
+                        </obs>
+                        <obs id="lace-loc-15" conceptId="PIH:20712" style="checkbox" answerConceptId="PIH:20715"/>
+                        <obs id="lace-loc-16" conceptId="PIH:20712" style="checkbox" answerConceptId="PIH:20716"/>
+                        <obs id="lace-loc-17" conceptId="PIH:20712" style="checkbox" answerConceptId="PIH:20717"/>
+                        <obs id="lace-loc-18" conceptId="PIH:20712" style="checkbox" answerConceptId="PIH:20718"/>
                     </p>
 
                     <div id="perineal-grade">
