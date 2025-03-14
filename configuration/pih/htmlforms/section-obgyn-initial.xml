@@ -544,13 +544,23 @@
 			});
 			
 			beforeSubmit.push(function() {
-			var numErrors = 0;
-			jq('.medicalHistoryText').find('input[type=text]').each(function() {
-				if (!validateFamHistoryText(jq(this)) ) {
-				++numErrors;
-			}
+				var numErrors = 0;
+				jq('.medicalHistoryText').find('input[type=text]').each(function() {
+					if (!validateFamHistoryText(jq(this)) ) {
+					++numErrors;
+					}
+				});
+				return ( numErrors == 0 );
 			});
-			return ( numErrors == 0 );
+
+			jq('#intake-or-followup').change(function() {
+				setRequiredIfVisible('knowing_period_question');
+			});
+			jq('#knowing_period_question').change(function() {
+				setRequiredIfVisible('knowing_period_question');
+			});
+			beforeSubmit.push(function() {
+				return setRequiredIfVisible('knowing_period_question');
 			});
 			
 			// handlers for next and submit buttons, see nextAndSubmitButtons.js
