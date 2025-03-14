@@ -560,7 +560,11 @@
 				setRequiredIfVisible('knowing_period_question');
 			});
 			beforeSubmit.push(function() {
-				return setRequiredIfVisible('knowing_period_question');
+				const ret = setRequiredIfVisible('knowing_period_question');
+				if (!ret) {
+					document.getElementById("knowing_period_question").scrollIntoView();
+				}
+				return ret;
 			});
 			
 			// handlers for next and submit buttons, see nextAndSubmitButtons.js
