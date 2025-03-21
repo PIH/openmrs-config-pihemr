@@ -5,3 +5,4 @@ ${personAttributeType.UNKNOWN_PATIENT.uuid},,Unknown patient,Used to flag patien
 ${personAttributeType.PROVIDER_IDENTIFIER.uuid},,Provider Identifier,,java.lang.String,,TRUE
 ${personAttributeType.MOTHERS_FIRST_NAME.uuid},,First Name of Mother,"First name of the patient's mother, used for identification",java.lang.String,,
 8d8718c2-c2cc-11de-8d13-0010c6dffd0f,TRUE,Place of birth,"Location of persons birth, used for identification",java.lang.String,,
+${personAttributeType.HOMELESS.uuid},,Homeless,True/False whether the person is homeless,java.lang.Boolean,,
