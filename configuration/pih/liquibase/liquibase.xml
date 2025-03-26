@@ -1118,5 +1118,57 @@
 
         </sql>
     </changeSet>
+
+    <changeSet id="20250326-void-duplicate-trauma-obs" author="ball">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">
+                select count(*) from obs o
+                 where o.voided = 0
+                   and concept_id = concept_from_mapping('PIH','12362')
+                   and o.encounter_id IN
+                       (select encounter_id from encounter
+                        where encounter_type IN
+                              (select encounter_type_id from encounter_type
+                               where name like 'Mental Health Consult'))
+                   and exists
+                    (select 1 from obs o2
+                     where o2.voided = 0
+                       and o2.concept_id = concept_from_mapping('PIH','12362')
+                       and o2.obs_id != o.obs_id
+                       and o2.encounter_id = o.encounter_id );
+            </sqlCheck>
+        </preConditions>
+        <comment>
+            UHM-8473 For the mental health encounter, void one duplicate trauma data.
+            If the count is 1, this is a Haiti server
+        </comment>
+        <sql>
+            -- Create temporary table with the duplicate (second) trauma obs
+            drop temporary table if exists temp_dupe_trauma_obs;
+
+            create temporary table temp_dupe_trauma_obs
+            select o.encounter_id, o.obs_id from obs o
+             where o.voided = 0
+               and concept_id = concept_from_mapping('PIH','12362')
+               and o.encounter_id IN
+                  (select encounter_id from encounter
+                   where encounter_type IN
+                         (select encounter_type_id from encounter_type
+                          where name like 'Mental Health Consult'))
+               and exists
+                (select 1 from obs o2
+                 where o2.voided = 0
+                   and o2.concept_id = concept_from_mapping('PIH','12362')
+                   and o2.obs_id != o.obs_id
+                   and o.obs_id > o2.obs_id
+                   and o2.encounter_id = o.encounter_id);
+
+            update obs o
+                inner join temp_dupe_trauma_obs t on t.obs_id = o.obs_id
+                set voided = 1, voided_by = 1,
+                    date_voided = now(),
+                    void_reason = 'duplicate trauma question';
+        </sql>
+    </changeSet>
     
 </databaseChangeLog>
