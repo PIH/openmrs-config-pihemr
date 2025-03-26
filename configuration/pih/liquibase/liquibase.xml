@@ -1119,11 +1119,23 @@
         </sql>
     </changeSet>
 
-
-    <changeSet id="20250325-void-duplicate-trauma-obs" author="ball">
+    <changeSet id="20250326-void-duplicate-trauma-obs" author="ball">
         <preConditions onFail="MARK_RAN">
-            <sqlCheck expectedResult="1">
-                select count(*) from address_hierarchy_entry where parent_id is NULL and name like 'Haiti';
+            <sqlCheck expectedResult="0">
+                select count(*) from obs o
+                 where o.voided = 0
+                   and concept_id = concept_from_mapping('PIH','12362')
+                   and o.encounter_id IN
+                       (select encounter_id from encounter
+                        where encounter_type IN
+                              (select encounter_type_id from encounter_type
+                               where name like 'Mental Health Consult'))
+                   and exists
+                    (select 1 from obs o2
+                     where o2.voided = 0
+                       and o2.concept_id = concept_from_mapping('PIH','12362')
+                       and o2.obs_id != o.obs_id
+                       and o2.encounter_id = o.encounter_id );
             </sqlCheck>
         </preConditions>
         <comment>
