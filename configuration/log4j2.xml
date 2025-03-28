@@ -56,6 +56,7 @@
 		<Logger name="org.openmrs" level="WARN" />
 		<!-- Controls logging of all Service method access: INFO = setters, DEBUG = getters and timing -->
 		<Logger name="org.openmrs.api" level="WARN" />
+		<Logger name="org.openmrs.web.Listener" level="INFO"/>
 
 		<!-- MFA Logging -->
 		<Logger name="org.openmrs.module.authentication.UserLogin" level="INFO">
