@@ -1,6 +1,6 @@
 -- set @startDate='2020-01-01';
 -- set @endDate='2021-08-14';
-
+set @partition = '${partitionNum}';
 SET @locale = GLOBAL_PROPERTY_VALUE('default_locale', 'en');
 SET sql_safe_updates = 0;
 
@@ -194,13 +194,14 @@ set collection_date_estimated = concept_name(o.value_coded, @locale);
 
 -- final output
 SELECT 
+if(@partition REGEXP '^[0-9]+$' = 1,concat(@partition,'-',patient_id),patient_id) "patient_id",
 emr_id, 
 loc_registered,
 unknown_patient, 
 gender, 
 age_at_enc,
 patient_address,
-order_number,
+if(@partition REGEXP '^[0-9]+$' = 1,concat(@partition,'-',order_number),order_number) "order_number",
 order_reason,
 accession_number "Lab_ID",
 orderable,
