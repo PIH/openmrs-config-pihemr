@@ -4172,3 +4172,18 @@ BEGIN
     RETURN returningProgramId;
 
 END
+#
+DROP FUNCTION IF EXISTS primary_emr_id;
+#
+CREATE FUNCTION primary_emr_id(
+    _patient_id int
+)
+	RETURNS VARCHAR(255)
+    DETERMINISTIC
+
+BEGIN
+    DECLARE EMR_ID VARCHAR(255);
+    SELECT patient_identifier(_patient_id, metadata_uuid('org.openmrs.module.emrapi', 'emr.primaryIdentifierType')) into EMR_ID;
+    RETURN EMR_ID;
+END
+#
