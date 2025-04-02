@@ -254,8 +254,9 @@ set results_date = o.value_datetime,
 	results_entry_date = o.date_created;
 
 -- select final output
-SELECT t.emr_id,
-    if(@partition REGEXP '^[0-9]+$' = 1,concat(@partition,'-',t.obs_id),t.obs_id) "obs_id",
+SELECT
+	if(@partition REGEXP '^[0-9]+$' = 1,concat(@partition,'-',t.obs_id),t.obs_id) "obs_id",
+	t.emr_id,
     if(@partition REGEXP '^[0-9]+$' = 1,concat(@partition,'-',t.visit_id),t.visit_id) "visit_id",
     if(@partition REGEXP '^[0-9]+$' = 1,concat(@partition,'-',t.encounter_id),t.encounter_id) "encounter_id",
     t.encounter_type,
