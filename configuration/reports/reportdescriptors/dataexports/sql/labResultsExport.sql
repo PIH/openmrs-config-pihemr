@@ -270,7 +270,7 @@ SELECT
     t.section,
     t.locality,
     t.street_landmark,
-    t.order_number,
+	if(@partition REGEXP '^[0-9]+$' = 1,concat(@partition,'-',t.order_number),t.order_number) "order_number",    
     t.orderable,
     test,
     t.lab_id,							   
