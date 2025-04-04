@@ -323,6 +323,10 @@ encounterType:
     uuid: "c31d3312-40c4-11e7-a919-92ebcb67fe33"
   VCT:
     uuid: "616b66fe-f189-11e7-8c3f-9a214cf093ae"
+  PREP_INTAKE:
+    uuid: "2fb72359-f6fe-4b37-bb11-9b4cb5fd6ca7"
+  PREP_FOLLOWUP:
+    uuid: "4fe5fc03-b42b-4bb2-8ed8-e3c7de8942fb"
   HIV_DISPENSING:
     uuid: "cc1720c9-3e4c-4fa8-a7ec-40eeaad1958c"
   HIV_PSYCHOSOCIAL:
@@ -465,6 +469,8 @@ program:
     uuid: "6a5713c2-3fd5-46e7-8f25-36a0f7871e12"
   pregnancyMentalHealth:
     uuid: "8d7f6e9c-d2c9-4a7f-9ddc-23a8a5e9fc92"
+  prep:
+    uuid: "c5e3e6ca-d10f-4b80-9152-11a91f7d38eb"
   tb:
     uuid: "5682f919-a43b-4d4a-bcc3-ef0426162e23"
   zika:

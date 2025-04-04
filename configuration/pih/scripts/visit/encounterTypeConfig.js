@@ -1544,6 +1544,28 @@ angular.module("encounterTypeConfig", [])
             showOnVisitList: true
         };
 
+        // Pre-Exposure Prophylaxis (PrEP) Intake
+        encounterTypes["2fb72359-f6fe-4b37-bb11-9b4cb5fd6ca7"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/vct.xml"),
+            icon: "fas fa-fw fa-ribbon",
+            editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("hiv/prep-intake.xml"),
+            showOnVisitList: true
+        };
+
+        // Pre-Exposure Prophylaxis (PrEP) Followup
+        encounterTypes["4fe5fc03-b42b-4bb2-8ed8-e3c7de8942fb"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/vct.xml"),
+            icon: "fas fa-fw fa-ribbon",
+            editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("hiv/prep-followup.xml"),
+            showOnVisitList: true
+        };
+
         // HIV dispensing
         encounterTypes["cc1720c9-3e4c-4fa8-a7ec-40eeaad1958c"] = {
             defaultState: "short",

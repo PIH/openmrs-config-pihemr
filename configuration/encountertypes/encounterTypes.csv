@@ -34,6 +34,8 @@ ${encounterType.HIV_FOLLOWUP.uuid},,HIV Followup,HIV Followup
 ${encounterType.VCT.uuid},,Voluntary counselling and testing,Voluntary counselling and testing (VCT) for HIV
 ${encounterType.HIV_DISPENSING.uuid},,HIV drug dispensing,Dispensing for HIV medications
 ${encounterType.HIV_PSYCHOSOCIAL.uuid},,HIV Psychosocial evaluation,Psychosocial evaluation for HIV patients
+${encounterType.PREP_INTAKE.uuid},,PrEP Intake,Pre-Exposure Prophylaxis (PrEP) initial
+${encounterType.PREP_FOLLOWUP.uuid},,PrEP Followup,Pre-Exposure Prophylaxis (PrEP) followup
 ${encounterType.DRUG_ORDER_DOCUMENTATION.uuid},,Drug Order Documentation,"Documentation of drug orders for a patient, often dated retrospectively"
 ${encounterType.SOCIO_ECONOMICS.uuid},,Socio-economics,Education and housing information on the patient
 ${encounterType.ANC_INTAKE.uuid},,ANC Intake,Initial prenatal (aka ANC) visit for pregnant mother
