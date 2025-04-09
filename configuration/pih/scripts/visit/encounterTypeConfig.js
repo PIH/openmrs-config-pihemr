@@ -1095,6 +1095,40 @@ angular.module("encounterTypeConfig", [])
                     primaryCarePlan
                 ]
             },
+            "haiti": {
+                versions: {
+                    DEFAULT: {
+                        defaultState: "short",
+                        shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                        longTemplate: "templates/encounters/defaultEncounterShort.page",
+                        icon: "fas fa-fw fa-heart",
+                        editUrl: hfeStandardEditUrl,
+                        showOnVisitList: true,
+                        sections: [
+                            primaryCareExam,
+                            pedsVaccinations,
+                            ncd,
+                            sickleCell,
+                            primaryCareDx,
+                            primaryCarePlan
+                        ]
+                    },
+                    "0.5": {
+                        defaultState: "short",
+                        shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                        longTemplate: "templates/encounters/defaultEncounterShort.page",
+                        icon: "fas fa-fw fa-heart",
+                        editUrl: hfeStandardEditUrl,
+                        showOnVisitList: true,
+                        sections: [
+                            primaryCareExam,
+                            ncd,
+                            primaryCareDx,
+                            primaryCarePlan
+                        ]
+                    }
+                }
+            },
             "liberia": {
                 versions: {
                     DEFAULT: {
