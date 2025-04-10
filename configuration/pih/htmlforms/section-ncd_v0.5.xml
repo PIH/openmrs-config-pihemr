@@ -57,7 +57,7 @@
         display: block;
         }
 
-        .two-columns {
+        .five-columns, .four-columns, .three-columns, .two-columns {
             display: table;
             height: 100%;
             width: 100%;
@@ -66,6 +66,21 @@
         .two-columns > div {
             display: table-cell;
             width: 50%;
+        }
+
+        .three-columns > div {
+        display: table-cell;
+        width: 33%;
+        }
+
+        .four-columns > div {
+        display: table-cell;
+        width: 25%;
+        }
+
+        .five-columns > div {
+            display: table-cell;
+            width: 20%;
         }
 
         .simple-form-ui input {
@@ -208,7 +223,83 @@
         </p>
     </div>
 
-    <section id="ncd_info" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.ncd.info">
+    <h2>NCD (REDCap)</h2>
+
+    <section id="referralIn" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.refer.title">
+        <div class="section-container">
+            <p>
+                <obs conceptId="PIH:Type of referring service"
+                     answerConceptId="PIH:SELF-REFER"
+                     answerCode="pihcore.selfRefer"
+                     style="checkbox"/>
+            </p>
+
+            <p>
+                <label>
+                    <uimessage code="pihcore.refer.date"/>
+                </label>
+                <obs conceptId="CIEL:163181" allowTime="false"/>
+            </p>
+
+            <div class="two-columns">
+                <p>
+                    <strong>
+                        <uimessage code="pihcore.refer.internal"/>
+                    </strong>
+
+                    <repeat>
+                        <template>
+                            <obs conceptId="PIH:Type of referring service"
+                                 style="checkbox"
+                                 answerConceptId="{point}" answerCode="{message}"/>
+                        </template>
+
+                        <render point="CIEL:165018" message="pihcore.location.idClinic" comment="ID clinic"/>
+                        <render point="PIH:ANTENATAL CLINIC" message="pihcore.location.maternal"
+                                comment="Womens Health clinic"/>
+                        <render point="PIH:PRIMARY CARE CLINIC" message="pihcore.location.primary"
+                                comment="Primary care"/>
+                        <render point="CIEL:163558" message="pihcore.location.mentalHealth"
+                                comment="Mental health clinic"/>
+                        <render point="CIEL:160449" message="pihcore.testLocation.surgery" comment="Surgery dept"/>
+                        <render point="CIEL:160448" message="pihcore.location.intMed" comment="Internal medicine"/>
+                        <render point="CIEL:165048" message="pihcore.testLocation.pedWard" comment="Pediatrics"/>
+                        <render point="CIEL:160473" message="pihcore.location.ed" comment="Emergency"/>
+                    </repeat>
+
+                    <obs conceptId="PIH:Type of referring service" style="checkbox"
+                         answerConceptId="PIH:OTHER" commentFieldLabel=""/>
+                </p>
+
+                <p>
+                    <strong>
+                        <uimessage code="pihcore.refer.external"/>
+                    </strong>
+                    <obs conceptId="PIH:Type of referring service" style="checkbox"
+                         answerConceptId="PIH:11956" commentFieldLabel=""/>
+                    <obs conceptId="PIH:Type of referring service" style="checkbox"
+                         answerConceptId="PIH:Non-ZL supported site" commentFieldLabel=""/>
+                </p>
+
+                <p>
+                    <strong>
+                        <uimessage code="pihcore.refer.community"/>
+                    </strong>
+
+                    <obs conceptId="PIH:Type of referring service" style="checkbox"
+                         answerConceptId="CIEL:1555"/>
+                    <obs conceptId="PIH:Type of referring service" style="checkbox"
+                         answerConceptId="PIH:11965"/>
+                </p>
+
+                <br/>
+                <br/>
+            </div>
+        </div>
+    </section>
+
+    <section id="ncd_info" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="Categories">
         <div class="section-container">
 
             <!-- this section is ONLY included for NCD intake encounter -->
@@ -254,47 +345,107 @@
             </label>
 
             <obs conceptId="PIH:NCD category" answerConceptId="PIH:HYPERTENSION"
-                 style="checkbox" toggle="htn"/>
+                 style="checkbox" />
             <obs conceptId="PIH:NCD category" answerConceptId="PIH:DIABETES"
-                 style="checkbox" toggle="diabetes"/>
-            <obs conceptId="PIH:NCD category" answerConceptId="PIH:Chronic respiratory disease program"
-                 answerCode="pihcore.ncd.resp" style="checkbox" toggle="respire"/>
-            <obs conceptId="PIH:NCD category" answerConceptId="PIH:EPILEPSY"
-                 style="checkbox" toggle="epilepsy"/>
+                 style="checkbox" />
             <obs conceptId="PIH:NCD category"
                  answerConceptId="PIH:HEART FAILURE" answerCode="pihcore.ncd.heart_failure"
-                 style="checkbox" toggle="heart_failure"/>
+                 style="checkbox" />
             <obs conceptId="PIH:NCD category" answerConceptId="PIH:Cerebrovascular Accident"
                  style="checkbox"/>
-            <obs conceptId="PIH:NCD category" answerConceptId="PIH:RENAL FAILURE"
-                 style="checkbox"/>
-            <obs conceptId="PIH:NCD category" answerConceptId="PIH:LIVER FAILURE"
-                 style="checkbox"/>
+            <obs conceptId="PIH:NCD category" answerConceptId="PIH:Chronic respiratory disease program"
+                 answerCode="pihcore.ncd.resp" style="checkbox" />
             <obs conceptId="PIH:NCD category" answerConceptId="PIH:Rehab program"
                  answerCode="pihcore.ncd.rehab" style="checkbox"/>
-            <div class="two-columns">
-                <div>
-                    <obs id="sickle-category" conceptId="PIH:NCD category" answerConceptId="PIH:Sickle-Cell Anemia"
-                         style="checkbox" toggle="sickle-msg"/>
-                </div>
-                <div id="sickle-msg">
-                    <label>
-                        <i>
-                            <uimessage code="pihcore.sickleMessage" />
-                        </i>
-                    </label>
-                </div>
-            </div>
+            <obs conceptId="PIH:NCD category" answerConceptId="PIH:EPILEPSY"
+                 style="checkbox" toggle="epilepsy"/>
+
+
             <obs conceptId="PIH:NCD category" answerConceptId="PIH:OTHER"
                  style="checkbox" toggle="other"
                  showCommentField="true" commentFieldLabel=" "/>
         </div>
     </section>
 
-
-    <section id="ncd_vitals" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="pihcore.ncd.vitals">
+    <section id="vitals" sectionTag="fieldset" headerTag="legend"
+             headerStyle="title" headerCode="pihcore.vitalSigns">
         <div class="section-container">
+            <table>
+                <tr>
+                    <td>
+                        <div class="five-columns">
+                            <div>
+                                <label>
+                                    <uimessage code="mirebalais.vitals.bloodPressure.short.title"/>
+                                </label>
+                                <span class="small">
+                                    <ifMode mode="VIEW" include="true">
+                                        <span class="append-to-value">
+                                            <obs conceptId="CIEL:5085" id="bp_systolic"/>
+                                        </span>
+                                        <span class="append-to-value">/</span>
+                                        <span class="append-to-value">
+                                            <obs conceptId="CIEL:5086" id="bp_diastolic" />
+                                        </span>
+                                        <span class="append-to-value">mm/Hg</span>
+                                    </ifMode>
+                                    <ifMode mode="VIEW" include="false">
+                                        <span class="append-to-value left">
+                                            <obs conceptId="CIEL:5085" id="bp_systolic"/>
+                                        </span>
+                                        <span class="append-to-value left">/</span>
+                                        <span class="append-to-value left">
+                                            <obs conceptId="CIEL:5086" id="bp_diastolic" />
+                                        </span>
+                                        <span class="append-to-value">mm/Hg</span>
+                                    </ifMode>
+                                </span>
+                            </div>
+
+                            <div>
+                                <label>
+                                    <uimessage code="mirebalais.vitals.short.heartRate.title"/>
+                                </label>
+                                <span class="small">
+                                    <obs conceptId="CIEL:5087" id="heart_rate"
+                                         showUnits="emr.units.perMinute" unitsCssClass="append-to-value"/>
+                                </span>
+                            </div>
+
+                            <div>
+                                <label>
+                                    <uimessage code="mirebalais.vitals.weight.title"/>
+                                </label>
+                                <span class="small">
+                                    <obs conceptId="CIEL:5089" id="weight_kg"
+                                         showUnits="emr.units.kilograms" unitsCssClass="append-to-value"/>
+                                </span>
+                            </div>
+
+                            <div>
+                                <label>
+                                    <uimessage code="mirebalais.vitals.height.title"/>
+                                </label>
+                                <span class="small">
+                                    <obs conceptId="CIEL:5090" id="height_cm"
+                                         showUnits="emr.units.centimeters" unitsCssClass="append-to-value"/>
+                                </span>
+                            </div>
+
+                            <div>
+                                <label>
+                                    <uimessage code="BMI"/>
+                                </label>
+                                <span class="small">
+                                    (calculated)
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <br/><br/>
+
             <div class="two-columns">
                 <div>
                     <label>
@@ -315,6 +466,7 @@
                     </span>
                 </div>
             </div>
+            <br/>
 
             <p>
                 <span id="calculated-ratio-wrapper">
@@ -329,8 +481,7 @@
 
     <section sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.ncd.htn">
-        <div id="htn" class="section-container">
-            <!-- ToDo:  UHM-3617 Add risk calculations for hypertension -->
+        <div class="section-container">
 
             <table>
                 <tr>
@@ -399,8 +550,30 @@
     </section>
 
     <section sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.ncd.heart_failure">
+        <div id="heart_failure" class="section-container">
+            <strong>
+                <uimessage code="pihcore.ncd.hf.nyhaClassification"/>
+            </strong>
+            <br/>
+            <obs conceptId="PIH:NYHA CLASS"
+                 answerConceptIds="PIH:NYHA CLASS 1,PIH:NYHA CLASS 2,PIH:NYHA CLASS 3,PIH:NYHA CLASS 4"
+                 style="radio" answerSeparator=""/>
+            <br/>
+
+            <strong>
+                <uimessage code="pihcore.ncd.hf.vol_status"/>
+            </strong>
+            <br/>
+            <obs conceptId="PIH:PATIENTS FLUID MANAGEMENT"
+                 answerConceptIds="PIH:HYPERVOLEMIC,PIH:EUVOLEMIC,PIH:HYPOVOLEMIC"
+                 style="radio" answerSeparator=""/>
+        </div>
+    </section>
+
+    <section sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.ncd.diabetes">
-        <div id="diabetes" class="section-container">
+        <div class="section-container">
             <table>
                 <tr>
                     <th width="60%">
@@ -787,157 +960,6 @@
         </div>
     </section>
 
-    <section sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="pihcore.ncd.heart_failure">
-        <div id="heart_failure" class="section-container">
-            <div class="two-columns">
-                <div>
-                    <strong>
-                        <uimessage code="pihcore.ncd.hf.categories"/>
-                    </strong>
-                    <br/>
-
-                    <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
-                        <obs id="cardigan" conceptId="PIH:DIAGNOSIS" style="checkbox"
-                             answerConceptId="CIEL:5016">
-                            <controls>
-                                <when value="CIEL:5016" thenDisplay="#cardiomyo"/>
-                            </controls>
-                        </obs>
-                    </obsgroup>
-
-                    <div id="cardiomyo">
-                        <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
-                            <obs conceptId="PIH:DIAGNOSIS"
-                                 answerConceptIds="CIEL:113918,CIEL:163712,CIEL:142317,CIEL:139529,CIEL:5016"
-                                 answerCodes="pihcore.ncd.ppCardioMy,pihcore.ncd.hivCardioMy,pihcore.ncd.alcCardioMy,pihcore.ncd.iscCardioMy,pihcore.ncd.otherCardioMy"
-                                 style="radio" answerSeparator=""/>
-                        </obsgroup>
-                        <br/>
-                    </div>
-
-                    <repeat>
-                        <template>
-                            <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
-                                <obs conceptId="PIH:DIAGNOSIS" style="checkbox"
-                                     answerConceptId="{hfId}"
-                                     answerSeparator=""/>
-                            </obsgroup>
-                        </template>
-                        <render hfId="CIEL:134082" name="Mitral stenosis" />
-                        <render hfId="PIH:3071" name="Hypertensive cardiopathy" />
-                        <render hfId="CIEL:113227" name="Rheumatic heart failure" />
-                        <render hfId="PIH:12231" name="Other valve or congenital cardiopathy" />
-                        <render hfId="PIH:4000" name="Insufficant left isolated valve" />
-                        <render hfId="CIEL:130562" name="Pericardiac epanch" />
-                        <render hfId="CIEL:5622" name="other" />
-                    </repeat>
-
-                </div>
-
-                <div>
-                    <strong>
-                        <uimessage code="pihcore.ncd.hf.nyhaClassification"/>
-                    </strong>
-                    <br/>
-                    <obs conceptId="PIH:NYHA CLASS"
-                         answerConceptIds="PIH:NYHA CLASS 1,PIH:NYHA CLASS 2,PIH:NYHA CLASS 3,PIH:NYHA CLASS 4"
-                         style="radio" answerSeparator=""/>
-                    <br/>
-
-                    <strong>
-                        <uimessage code="pihcore.ncd.hf.vol_status"/>
-                    </strong>
-                    <br/>
-                    <obs conceptId="PIH:PATIENTS FLUID MANAGEMENT"
-                         answerConceptIds="PIH:HYPERVOLEMIC,PIH:EUVOLEMIC,PIH:HYPOVOLEMIC"
-                         style="radio" answerSeparator=""/>
-                </div>
-            </div>
-
-            <div>
-                <label>
-                    <uimessage code="pihcore.remarks"/>:
-                </label>
-                <obs conceptId="PIH:11973"/>
-            </div>
-
-            <br/>
-            <table>
-                <tr>
-                    <th colspan="2">
-                        <label>
-                            <uimessage code="pihcore.echocardiogram.title"/>
-                        </label>
-                    </th>
-                </tr>
-                <repeat with="['ltVentSystolic','PIH:Left ventricle systolic function','PIH:NORMAL','PIH:Very weak'],
-                              ['rtVentDim','PIH:Right ventricle dimension','PIH:NORMAL','PIH:SEVERELY DILATED'],
-                              ['mitralValve','PIH:MITRAL VALVE FINDINGS','PIH:NO MITRAL STENOSIS','CIEL:134082'],
-                              ['pericardium','PIH:PERICARDIUM FINDINGS','PIH:No pericardial effusion','PIH:Severe pericardial effusion'],
-                              ['venaCava','PIH:Inferior vena cava findings','PIH:NORMAL','PIH:DILATED']">
-                    <tr>
-                        <td>
-                            <label>
-                                <uimessage code="pihcore.echo.{0}"/>
-                            </label>
-                        </td>
-                        <td width="50%">
-                            <obs conceptId="{1}" answerConceptIds="{2},{3}"
-                                 style="radio" answerSeparator=""/>
-                        </td>
-                    </tr>
-                </repeat>
-
-                <tr>
-                    <td>
-                        <label>
-                            <uimessage code="pihcore.echo.quality"/>
-                        </label>
-                    </td>
-                    <td>
-                        <obs conceptId="CIEL:165253" style="radio"
-                             answerConceptIds="PIH:SATISFACTORY,PIH:UNSATISFACTORY SAMPLE"
-                             answerCodes="pihcore.adequate,pihcore.inadequate"
-                             answerSeparator=""/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label>
-                            <uimessage code="pihcore.additionalComments"/>:
-                        </label>
-                    </td>
-                    <td>
-                        <obs conceptId="CIEL:159573"/>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </section>
-
-    <section sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.other">
-        <div id="other" class="section-container">
-            <p>
-                <repeat with="['CIEL:119624','Deep vein thrombosis'],
-                              ['CIEL:113504','Pulmonary embolism'],
-                              ['CIEL:148203','Atrial fibrillation'],
-                              ['PIH:3181','Mechanical heart valve'],
-                              ['CIEL:117441','Hyperlipidemia'],
-                              ['CIEL:115115','Obesity']">
-
-                    <obsgroup groupingConceptId="PIH:Visit Diagnoses" showIfEmpty="false">
-                        <obs conceptId="PIH:DIAGNOSIS" answerConceptId="{0}" style="checkbox"/>
-                    </obsgroup>
-                </repeat>
-
-                <!-- Other diagnosis and comment -->
-                <obs conceptId="PIH:DIAGNOSIS" answerConceptId="CIEL:5622"/>
-                <obs conceptId="PIH:7416"/>
-            </p>
-        </div>
-    </section>
-
     <section id="ncd_plan" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.ncd.plan.title">
         <div class="section-container">
@@ -964,27 +986,17 @@
                          answerCodes="pihcore.meds.goodCompliance,pihcore.meds.poorCompliance"
                          answerSeparator=""/>
                 </p>
-                <div>
-                    <label>
-                        <uimessage code="pihcore.meds.reasonMissedMeds"/>
-                    </label>
-                    <obs conceptId="CIEL:160582"/>
-                </div>
 
-                <!-- this section is ONLY included for NCD followup encounter -->
-                <includeIf velocityTest="$encounter.encounterType.uuid == '5cbfd6a2-92d9-4ad0-b526-9d29bfe1d10c'">
-                    <p class="radio">
-                        <label>
-                            <uimessage code="pihcore.ncd.plan.hospitalized"/>
-                        </label>
-                        <!-- ToDo: UHM-3919 Use hospitalization construct and migrate data -->
-                        <obs conceptId="PIH:PATIENT HOSPITALIZED SINCE LAST VISIT"
-                             style="radio" answerConceptIds="PIH:YES,PIH:NO"
-                             answerCodes="yes,no" answerSeparator=""/>
-                        <obs conceptId="CIEL:162879" labelCode="pihcore.reasonHospitalized"/>
-                    </p>
-                    <br/><br/><br/><br/>
-                </includeIf>
+                <p class="radio">
+                    <label>
+                        <uimessage code="pihcore.ncd.plan.hospitalized"/>
+                    </label>
+                    <!-- ToDo: UHM-3919 Use hospitalization construct and migrate data -->
+                    <obs conceptId="PIH:PATIENT HOSPITALIZED SINCE LAST VISIT"
+                         style="radio" answerConceptIds="PIH:YES,PIH:NO"
+                         answerCodes="yes,no" answerSeparator=""/>
+                    <obs conceptId="CIEL:162879" labelCode="pihcore.reasonHospitalized"/>
+                </p>
             </div>
 
         </div>
@@ -1099,40 +1111,6 @@
 
     <div id="buttons-section"></div>
     <ifMode mode="VIEW" include="false">
-        <style type="text/css">
-            .ncdButtonDark.confirm, ncdButtonDark.confirm {
-                background: #3f746d;
-                border-color: #3f746d;
-            }
-
-            .ncdButtonLight.confirm, ncdButtonLight.confirm {
-                background: #6f9792;
-                border-color: #6f9792;
-            }
-
-            .ncdButtonSelf.confirm, ncdButtonSelf.confirm {
-                background: #6f9792;
-                border-color: #6f9792;
-                color: black;
-            }
-        </style>
-
-        <div id="buttonsTopRow">
-            <repeat>
-                <template>
-                    <button id="pihcore-{idName}" type="button" class="nextSection ncdButton{buttonStyle} submitButton confirm right" >
-                        <uimessage code="{label}"/>
-                        <i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i>
-                    </button>
-                </template>
-                <render idName="plan"          buttonStyle="Dark"  label="Plan" />
-                <render idName="diagnosis"     buttonStyle="Dark"  label="Dx" />
-                <render idName="sickle-cell"   buttonStyle="Light"  label="pihcore.sickleCellDisease.short" />
-                <render idName="ncd"           buttonStyle="Self" label="pihcore.visitNote.ncdInitial" />
-            </repeat>
-        </div>
-        <br/><br/>
-
 
         <div id="buttons">
             <button id="next" type="button" class="submitButton confirm right">
