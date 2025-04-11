@@ -1008,8 +1008,7 @@ angular.module("encounterTypeConfig", [])
                         editUrl: hfeStandardEditUrl,
                         showOnVisitList: true,
                         sections: [
-                            ncd,
-                            primaryCarePlan
+                            ncd
                         ]
                     }
                 }
@@ -1119,8 +1118,7 @@ angular.module("encounterTypeConfig", [])
                         editUrl: hfeStandardEditUrl,
                         showOnVisitList: true,
                         sections: [
-                            ncd,
-                            primaryCarePlan
+                            ncd
                         ]
                     }
                 }
