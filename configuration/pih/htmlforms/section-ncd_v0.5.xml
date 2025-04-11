@@ -833,14 +833,38 @@
     </section>
 
     <!-- For both NCD encounters, the return visit date is required -->
-    <section id="plan" sectionTag="fieldset" headerTag="legend" >
-        <p class="narrow">
-            <label>
-                <lookup expression="fn.getConcept('PIH:RETURN VISIT DATE').name"/>
-            </label>
-            <obs conceptId="PIH:RETURN VISIT DATE" allowFutureDates="true" allowPastDates="false" id="apptDate"
-                 required="true"/>
-        </p>
+    <section id="ncd-plan" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.visitNote.plan">
+        <div class="section-container">
+            <p class="narrow">
+                <label>
+                    <lookup expression="fn.getConcept('PIH:RETURN VISIT DATE').name"/>
+                </label>
+                <obs conceptId="PIH:RETURN VISIT DATE" allowFutureDates="true" allowPastDates="false" id="apptDate"
+                     required="true"/>
+            </p>
+
+            <p>
+                <label>
+                    <uimessage code="pihcore.disposition.label" />
+                </label>
+                <repeat>
+                    <template>
+                        <obsgroup groupingConceptId="PIH:8618" showIfEmpty="false">
+                            <obs conceptId="PIH:8620" style="checkbox"
+                                 answerConceptId="{aCid}" answerCodes="" />
+                        </obsgroup>
+                    </template>
+
+                    <render aCid="PIH:20836" aCode="ncdFU" />
+                    <render aCid="PIH:20838" aCode="referCHW" />
+                    <render aCid="PIH:3799" aCode="admitted" />
+                    <render aCid="PIH:8623" aCode="referToOther" />
+                    <render aCid="PIH:3626" aCode="discharge" />
+                    <render aCid="CIEL:1175" aCode="na" />
+                </repeat>
+
+            </p>
+        </div>
     </section>
 
     <div id="buttons-section"></div>
