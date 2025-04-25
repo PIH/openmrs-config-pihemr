@@ -26,7 +26,7 @@ CREATE TEMPORARY TABLE temp_labresults
   encounter_location              VARCHAR(255), 
   unknown_patient                 VARCHAR(50),  
   gender                          VARCHAR(50),  
-  age_at_enc                      INT(11),      
+  age_at_encounter                INT(11),      
   department                      VARCHAR(255), 
   commune                         VARCHAR(255), 
   section                         VARCHAR(255), 
@@ -193,7 +193,7 @@ set t.encounter_location_id = e.encounter_location_id,
 	t.encounter_location =  e.encounter_location,
 	t.specimen_collection_date = e.specimen_collection_date,
 	t.specimen_collection_entry_date =  e.date_created,
-	t.age_at_enc = e.age_at_encounter,
+	t.age_at_encounter = e.age_at_encounter,
 	t.visit_id = e.visit_id;
 
 -- order level columns
@@ -264,7 +264,7 @@ SELECT
     t.loc_registered,
     t.unknown_patient,
     t.gender,
-    t.age_at_enc,
+    t.age_at_encounter,
     t.department,
     t.commune,
     t.section,
