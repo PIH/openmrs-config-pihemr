@@ -27,7 +27,7 @@ CREATE TEMPORARY TABLE temp_report
     orderable       VARCHAR(255),
     status          VARCHAR(255),
     user_entered         VARCHAR(255),
-    user_entered_provider_type VARCHAR(255),
+    orderer_provider_type VARCHAR(255),
     order_datetime  DATETIME,
     date_stopped    DATETIME,
     auto_expire_date DATETIME,
@@ -170,7 +170,7 @@ UPDATE temp_report t SET status =
        ELSE 'Ordered'
     END ;
 UPDATE temp_report t SET user_entered = PROVIDER(t.order_encounter_id);
-UPDATE temp_report t SET user_entered_provider_type = PROVIDER_TYPE(t.order_encounter_id);
+UPDATE temp_report t SET orderer_provider_type = PROVIDER_TYPE(t.order_encounter_id);
 UPDATE temp_report t SET ordering_location = ENCOUNTER_LOCATION_NAME(t.order_encounter_id);
 
 update temp_report t
@@ -207,7 +207,7 @@ accession_number "Lab_ID",
 orderable,
 status,
 user_entered,
-user_entered_provider_type,
+orderer_provider_type,
 order_datetime,
 ordering_location,
 urgency,
