@@ -17,7 +17,7 @@ CREATE TEMPORARY TABLE temp_report
     loc_registered  VARCHAR(255),
     unknown_patient CHAR(1),
     gender          CHAR(1),
-    age_at_enc      INT,
+    age_at_encounter      INT,
     patient_address VARCHAR(1000),
     order_number    VARCHAR(255),
     order_reason_concept_id INT(11),
@@ -26,8 +26,8 @@ CREATE TEMPORARY TABLE temp_report
     order_concept_id INT,
     orderable       VARCHAR(255),
     status          VARCHAR(255),
-    orderer         VARCHAR(255),
-    orderer_provider_type VARCHAR(255),
+    user_entered         VARCHAR(255),
+    user_entered_provider_type VARCHAR(255),
     order_datetime  DATETIME,
     date_stopped    DATETIME,
     auto_expire_date DATETIME,
@@ -155,7 +155,7 @@ UPDATE temp_report SET unknown_patient = IF(UNKNOWN_PATIENT(patient_id) IS NULL,
 UPDATE temp_report SET patient_address = PERSON_ADDRESS(patient_id);
 */
 
-UPDATE temp_report SET age_at_enc = AGE_AT_ENC(patient_id,order_encounter_id );
+UPDATE temp_report SET age_at_encounter = age_at_enc(patient_id,order_encounter_id );
 UPDATE temp_report SET orderable = IFNULL(CONCEPT_NAME(order_concept_id, @locale),CONCEPT_NAME(order_concept_id, 'en'));
 UPDATE temp_report SET order_reason = CONCEPT_NAME(order_reason_concept_id, @locale);
 
@@ -169,8 +169,8 @@ UPDATE temp_report t SET status =
        WHEN t.fulfiller_status = 'EXCEPTION' THEN 'Not Performed'
        ELSE 'Ordered'
     END ;
-UPDATE temp_report t SET orderer = PROVIDER(t.order_encounter_id);
-UPDATE temp_report t SET orderer_provider_type = PROVIDER_TYPE(t.order_encounter_id);
+UPDATE temp_report t SET user_entered = PROVIDER(t.order_encounter_id);
+UPDATE temp_report t SET user_entered_provider_type = PROVIDER_TYPE(t.order_encounter_id);
 UPDATE temp_report t SET ordering_location = ENCOUNTER_LOCATION_NAME(t.order_encounter_id);
 
 update temp_report t
@@ -199,15 +199,15 @@ emr_id,
 loc_registered,
 unknown_patient, 
 gender, 
-age_at_enc,
+age_at_encounter,
 patient_address,
 if(@partition REGEXP '^[0-9]+$' = 1,concat(@partition,'-',order_number),order_number) "order_number",
 order_reason,
 accession_number "Lab_ID",
 orderable,
 status,
-orderer,
-orderer_provider_type,
+user_entered,
+user_entered_provider_type,
 order_datetime,
 ordering_location,
 urgency,
