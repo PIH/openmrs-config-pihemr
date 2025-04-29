@@ -21,7 +21,7 @@ CREATE TEMPORARY TABLE temp_delivery
     delivery_datetime                    datetime,
     partogram_completed                  bit,
     dystocia                             varchar(255),
-    prolapsed_cord                       varchar(255),
+    prolapsed_cord                       bit,
     Postpartum_hemorrhage                varchar(10),
     Intrapartum_hemorrhage               varchar(10),
     Placental_abruption                  varchar(10),
@@ -29,17 +29,17 @@ CREATE TEMPORARY TABLE temp_delivery
     Rupture_of_uterus                    varchar(10),
     Other_hemorrhage                     varchar(10),
     Other_hemorrhage_details             varchar(255),
-    late_cord_clamping                   varchar(255),
+    late_cord_clamping                   bit,
     placenta_delivery                    varchar(255),
-    AMTSL                                varchar(255),
+    AMTSL                                bit,
     Placenta_completeness                varchar(255),
-    Intact_membranes                     varchar(255),
-    Retained_placenta                    varchar(255),
-    Perineal_laceration                  varchar(255),
+    Intact_membranes                     bit,
+    Retained_placenta                    bit,
+    Perineal_laceration                  bit,
     Perineal_suture                      varchar(255),
     Episiotomy                           varchar(255),
     Postpartum_blood_loss                varchar(255),
-    Transfusion                          varchar(255),
+    Transfusion                          bit,
     maternal_delivery_type_deprecated    varchar(500),
     Caesarean_hysterectomy               varchar(10),
     C_section_with_tubal_ligation        varchar(10),
@@ -69,39 +69,43 @@ CREATE TEMPORARY TABLE temp_delivery
     mom_Other_finding                    varchar(10),
     mom_Other_finding_details            varchar(255),
     Mental_health_assessment             varchar(1000),
+    Birth_1_obs_group_id                 int(11),
     Birth_1_outcome                      varchar(255),
     Birth_1_weight                       double,
     Birth_1_APGAR_5_minute               int,
     Birth_1_APGAR_1_minute               int,
     Birth_1_APGAR_10_minute              int,
     Birth_1_neonatal_resuscitation       varchar(255),
-    Birth_1_macerated_fetus              varchar(255),
+    Birth_1_macerated_fetus              bit,
+    Birth_2_obs_group_id                 int(11),    
     Birth_2_outcome                      varchar(255),
     Birth_2_weight                       double,
     Birth_2_APGAR_5_minute               int,
     Birth_2_APGAR_1_minute               int,
     Birth_2_APGAR_10_minute              int,
     Birth_2_neonatal_resuscitation       varchar(255),
-    Birth_2_macerated_fetus              varchar(255),
+    Birth_2_macerated_fetus              bit,
+    Birth_3_obs_group_id                 int(11),    
     Birth_3_outcome                      varchar(255),
     Birth_3_weight                       double,
     Birth_3_APGAR_5_minute               int,
     Birth_3_APGAR_1_minute               int,
     Birth_3_APGAR_10_minute              int,
     Birth_3_neonatal_resuscitation       varchar(255),
-    Birth_3_macerated_fetus              varchar(255),
+    Birth_3_macerated_fetus              bit,
+    Birth_4_obs_group_id                 int(11),    
     Birth_4_outcome                      varchar(255),
     Birth_4_weight                       double,
     Birth_4_APGAR_5_minute               int,
     Birth_4_APGAR_1_minute               int,
     Birth_4_APGAR_10_minute              int,
     Birth_4_neonatal_resuscitation       varchar(255),
-    Birth_4_macerated_fetus              varchar(255),
+    Birth_4_macerated_fetus              bit,
     number_prenatal_visits               int,
     referred_by                          varchar(1000),
     referred_by_other_details            varchar(255),
-    nutrition_newborn_counseling         varchar(255),
-    family_planning_after_delivery       varchar(255),
+    nutrition_newborn_counseling         bit,
+    family_planning_after_delivery       bit,
     diagnosis_1_obs_group_id             int(11),
     diagnosis_1                          varchar(255),
     diagnosis_1_confirmed                varchar(255),
@@ -188,111 +192,338 @@ create index temp_obs_ci1 on temp_obs(encounter_id,value_coded);
 create index temp_obs_ci2 on temp_obs(encounter_id,concept_id);
 create index temp_obs_ci3 on temp_obs(obs_group_id,concept_id);
 
-update temp_delivery set delivery_datetime = obs_value_datetime_from_temp(encounter_id,'PIH','5599');
-UPDATE temp_delivery set partogram_completed = obs_value_coded_as_boolean(encounter_id, 'PIH', '13964');
-update temp_delivery set dystocia = obs_value_coded_list_from_temp(encounter_id,'CIEL','163449',@locale);
-update temp_delivery set prolapsed_cord = obs_value_coded_list_from_temp(encounter_id,'CIEL','113617',@locale);
+set @yes = concept_from_mapping('PIH','YES');
+set @no = concept_from_mapping('PIH','NO');
+set @procedure_performed = concept_from_mapping('CIEL','1651');
 
--- vaginal hemorrhage details 
-update temp_delivery set Postpartum_hemorrhage = obs_single_value_coded_from_temp(encounter_id, 'PIH','3064','CIEL','230');
-update temp_delivery set Intrapartum_hemorrhage = obs_single_value_coded_from_temp(encounter_id, 'PIH','3064','CIEL','136601');
-update temp_delivery set Placental_abruption = obs_single_value_coded_from_temp(encounter_id, 'PIH','3064','CIEL','130108');
-update temp_delivery set Placenta_praevia = obs_single_value_coded_from_temp(encounter_id, 'PIH','3064','CIEL','114127');
-update temp_delivery set Rupture_of_uterus = obs_single_value_coded_from_temp(encounter_id, 'PIH','3064','CIEL','127259');
-update temp_delivery set Other_hemorrhage = obs_single_value_coded_from_temp(encounter_id, 'PIH','3064','CIEL','150802');
+set @del_datetime = concept_from_mapping('PIH','5599');
+set @part = concept_from_mapping('PIH','13964');
+set @dystocia = concept_from_mapping('CIEL','163449');
+set @prolapsed_cord = concept_from_mapping('CIEL','113617');
+
+set @dx = concept_from_mapping('PIH','3064');
+set @pp_hem = concept_from_mapping('CIEL','230');
+set @ip_hem = concept_from_mapping('CIEL','136601');
+set @abruption = concept_from_mapping('CIEL','130108');
+set @praevia = concept_from_mapping('CIEL','114127');
+set @rupture = concept_from_mapping('CIEL','127259');
+set @other_hem = concept_from_mapping('CIEL','150802');
+set @placenta_delivery = concept_from_mapping('PIH','13550');
+set @maternal_delivery_type_deprecated = concept_from_mapping('PIH','11663');
+set @fetal_membrane_status = concept_from_mapping('CIEL','164900');
+set @Intact_fetal_membranes = concept_from_mapping('CIEL','164899');  -- membrane
+set @Ruptured_fetal_membranes = concept_from_mapping('CIEL','127244');
+set @Placenta_completeness = concept_from_mapping('CIEL','163454');
+set @AMTSL = concept_from_mapping('CIEL','163452');
+set @late_cord_clamping = concept_from_mapping('CIEL','163450');
+set @Postpartum_blood_loss = concept_from_mapping('CIEL','162092');
+set @Retained_placenta = concept_from_mapping('CIEL','127592');
+set @Perineal_laceration = concept_from_mapping('CIEL','114244');
+set @Transfusion = concept_from_mapping('CIEL','1063');
+set @Postpartum_blood_loss = concept_from_mapping('CIEL','162092');
+set @maternal_delivery_type_deprecated = concept_from_mapping('PIH','11663');
+set @Perineal_suture = concept_from_mapping('CIEL','164157');
+set @Episiotomy = concept_from_mapping('CIEL','5577');
+set @C_section_with_tubal_ligation = concept_from_mapping('CIEL','161890');
+set @Caesarean_hysterectomy = concept_from_mapping('CIEL','161848');
+
+
+drop temporary table if exists temp_obs_collated;
+create temporary table temp_obs_collated 
+select 
+encounter_id,
+max(case when concept_id = @del_datetime then value_datetime end) "delivery_datetime",
+max(case when concept_id = @part and value_coded = @yes then 1
+		 when concept_id = @part and value_coded = @no then 0 end) "partogram_completed",
+max(case when concept_id = @dystocia then concept_name(value_coded, @locale) end) "dystocia",
+max(case when concept_id = @prolapsed_cord and value_coded = @yes then 1
+		 when concept_id = @prolapsed_cord and value_coded = @no then 0 end) "prolapsed_cord",
+max(case when concept_id = @dx and value_coded = @pp_hem then 1 end) "Postpartum_hemorrhage",
+max(case when concept_id = @dx and value_coded = @ip_hem then 1 end) "Intrapartum_hemorrhage",
+max(case when concept_id = @dx and value_coded = @abruption then 1 end) "Placental_abruption",
+max(case when concept_id = @dx and value_coded = @praevia then 1 end) "Placenta_praevia",
+max(case when concept_id = @dx and value_coded = @rupture then 1 end) "Rupture_of_uterus",
+max(case when concept_id = @dx and value_coded = @other_hem then 1 end) "Other_hemorrhage",
+max(case when concept_id = @Placenta_completeness then concept_name(value_coded, @locale) end) "Placenta_completeness",
+max(case when concept_id = @AMTSL and value_coded = @yes then 1
+		 when concept_id = @AMTSL and value_coded = @no then 0 end) "AMTSL",
+max(case when concept_id = @late_cord_clamping and value_coded = @yes then 1
+		 when concept_id = @late_cord_clamping and value_coded = @no then 0 end) "late_cord_clamping",
+max(case when concept_id = @Postpartum_blood_loss then concept_name(value_coded, @locale) end) "Postpartum_blood_loss",
+max(case when concept_id = @Retained_placenta and value_coded = @yes then 1
+		 when concept_id = @Retained_placenta and value_coded = @no then 0 end) "Retained_placenta",
+max(case when concept_id = @Perineal_laceration and value_coded = @yes then 1
+		 when concept_id = @Perineal_laceration and value_coded = @no then 0 end) "Perineal_laceration",
+max(case when concept_id = @Transfusion and value_coded = @yes then 1
+		 when concept_id = @Transfusion and value_coded = @no then 0 end) "Transfusion",
+max(case when concept_id = @placenta_delivery then concept_name(value_coded, @locale) end) "placenta_delivery",
+max(case when concept_id = @Intact_fetal_membranes and value_coded = @Intact_fetal_membranes then 1
+		 when concept_id = @Intact_fetal_membranes and value_coded = @Ruptured_fetal_membranes then 0 end) "Intact_membranes",
+group_concat(DISTINCT case when concept_id = @maternal_delivery_type_deprecated then concept_name(value_coded, @locale) end  separator ' | ') "maternal_delivery_type_deprecated",
+max(case when concept_id = @procedure_performed and value_coded = @Perineal_suture then 1 end)  "Perineal_suture",
+max(case when concept_id = @procedure_performed and value_coded = @Episiotomy then 1 end)  "Episiotomy",
+max(case when concept_id = @procedure_performed and value_coded = @C_section_with_tubal_ligation then 1 end)  "C_section_with_tubal_ligation",
+max(case when concept_id = @procedure_performed and value_coded = @Caesarean_hysterectomy then 1 end)  "Caesarean_hysterectomy"
+from temp_obs
+group by encounter_id;
+
+create index temp_obs_collated_ei on temp_obs_collated(encounter_id);
+
+
+select * from temp_obs_collated where encounter_id = 355921;
+
+update temp_delivery t 
+inner join temp_obs_collated o on o.encounter_id = t.encounter_id
+set t.delivery_datetime = o.delivery_datetime,
+	t.partogram_completed = o.partogram_completed,
+	t.dystocia = o.dystocia,
+	t.prolapsed_cord = o.prolapsed_cord,
+	t.Postpartum_hemorrhage = o.Postpartum_hemorrhage,
+	t.Intrapartum_hemorrhage = o.Intrapartum_hemorrhage,
+	t.Placental_abruption = o.Placental_abruption,	
+	t.Placenta_praevia = o.Placenta_praevia,		
+	t.Rupture_of_uterus = o.Rupture_of_uterus,	
+	t.Other_hemorrhage = o.Other_hemorrhage,
+	t.placenta_delivery = o.placenta_delivery,
+	t.maternal_delivery_type_deprecated = o.maternal_delivery_type_deprecated,
+	t.Intact_membranes = o.Intact_membranes,
+	t.Placenta_completeness = o.Placenta_completeness,
+	t.AMTSL = o.AMTSL,
+	t.late_cord_clamping = o.late_cord_clamping,
+	t.Postpartum_blood_loss = o.Postpartum_blood_loss,
+	t.Retained_placenta = o.Retained_placenta,
+	t.Perineal_laceration = o.Perineal_laceration,
+	t.Transfusion = o.Transfusion,
+	t.Postpartum_blood_loss = o.Postpartum_blood_loss,
+	t.maternal_delivery_type_deprecated = o.maternal_delivery_type_deprecated,
+	t.Perineal_suture = o.Perineal_suture,
+	t.Episiotomy = o.Episiotomy,
+	t.C_section_with_tubal_ligation = o.C_section_with_tubal_ligation,
+	t.Caesarean_hysterectomy = o.Caesarean_hysterectomy	;
+
 update temp_delivery set Other_hemorrhage_details = obs_from_group_id_comment_from_temp(obs_group_id_of_coded_answer(encounter_id,'CIEL','150802'), 'PIH','3064');
 
-update temp_delivery set late_cord_clamping = obs_value_coded_list_from_temp(encounter_id,'CIEL','163450',@locale);
-update temp_delivery set placenta_delivery = obs_value_coded_list_from_temp(encounter_id,'PIH','13550',@locale);
-update temp_delivery set AMTSL = obs_value_coded_list_from_temp(encounter_id,'CIEL','163452',@locale);
-update temp_delivery set Placenta_completeness = obs_value_coded_list_from_temp(encounter_id,'CIEL','163454',@locale);
+-- findings for baby and mom
+set @baby_Malpresentation_of_fetus = concept_from_mapping('CIEL','115939');
+set @baby_Cephalopelvic_disproportion = concept_from_mapping('CIEL','145935');
+set @baby_Extreme_premature = concept_from_mapping('CIEL','111523');
+set @baby_Very_premature = concept_from_mapping('PIH','11789');
+set @baby_Moderate_to_late_preterm = concept_from_mapping('PIH','11790');
+set @baby_Respiratory_distress = concept_from_mapping('CIEL','127639');
+set @baby_Birth_asphyxia = concept_from_mapping('PIH','7557');
+set @baby_Acute_fetal_distress = concept_from_mapping('CIEL','118256');
+set @baby_Intrauterine_growth_retardation = concept_from_mapping('CIEL','118245');
+set @baby_Congenital_malformation = concept_from_mapping('CIEL','143849');
+set @baby_Meconium_aspiration = concept_from_mapping('CIEL','115866');
 
-update temp_delivery set Intact_membranes = obs_value_coded_list_from_temp(encounter_id,'CIEL','164900',@locale);
-update temp_delivery set Retained_placenta = obs_value_coded_list_from_temp(encounter_id,'CIEL','127592',@locale);
-update temp_delivery set Perineal_laceration = obs_value_coded_list_from_temp(encounter_id,'CIEL','114244',@locale);
+set @mom_Premature_rupture_of_membranes = concept_from_mapping('CIEL','129211');
+set @mom_Chorioamnionitis = concept_from_mapping('CIEL','145548');
+set @mom_Placental_abnormality = concept_from_mapping('CIEL','130109');
+set @mom_Hypertension = concept_from_mapping('CIEL','117399');
+set @mom_Severe_pre_eclampsia = concept_from_mapping('CIEL','113006');
+set @mom_Eclampsia = concept_from_mapping('CIEL','118744');
+set @mom_Acute_pulmonary_edema = concept_from_mapping('CIEL','121856');
+set @mom_Puerperal_infection = concept_from_mapping('CIEL','130');
+set @mom_Victim_of_GBV = concept_from_mapping('CIEL','165088');
+set @mom_Herpes_simplex = concept_from_mapping('CIEL','138706');
+set @mom_Syphilis = concept_from_mapping('CIEL','112493');
+set @mom_Other_STI = concept_from_mapping('CIEL','112992');
+set @mom_Other_finding = concept_from_mapping('CIEL','5622');
+set @del_complications  = concept_from_mapping('PIH','6644');
+set @other = concept_from_mapping('PIH','5622');
 
-update temp_delivery set Perineal_suture = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1651','CIEL','164157');
-update temp_delivery set Episiotomy = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1651','CIEL','5577');  
+drop temporary table if exists temp_obs_collated;
+create temporary table temp_obs_collated 
+select encounter_id,
+max(case when concept_id = @dx and value_coded = @baby_Malpresentation_of_fetus then 1 end) "baby_Malpresentation_of_fetus",
+max(case when concept_id = @dx and value_coded = @baby_Cephalopelvic_disproportion then 1 end) "baby_Cephalopelvic_disproportion",
+max(case when concept_id = @dx and value_coded = @baby_Extreme_premature then 1 end) "baby_Extreme_premature",
+max(case when concept_id = @dx and value_coded = @baby_Very_premature then 1 end) "baby_Very_premature",
+max(case when concept_id = @dx and value_coded = @baby_Moderate_to_late_preterm then 1 end) "baby_Moderate_to_late_preterm",
+max(case when concept_id = @dx and value_coded = @baby_Respiratory_distress then 1 end) "baby_Respiratory_distress",
+max(case when concept_id = @dx and value_coded = @baby_Birth_asphyxia then 1 end) "baby_Birth_asphyxia",
+max(case when concept_id = @dx and value_coded = @baby_Acute_fetal_distress then 1 end) "baby_Acute_fetal_distress",
+max(case when concept_id = @dx and value_coded = @baby_Intrauterine_growth_retardation then 1 end) "baby_Intrauterine_growth_retardation",
+max(case when concept_id = @dx and value_coded = @baby_Congenital_malformation then 1 end) "baby_Congenital_malformation",
+max(case when concept_id = @dx and value_coded = @baby_Meconium_aspiration then 1 end) "baby_Meconium_aspiration",
+max(case when concept_id = @dx and value_coded = @del_datetime then 1 end) "delivery_datetime",
+max(case when concept_id = @dx and value_coded = @mom_Premature_rupture_of_membranes then 1 end) "mom_Premature_rupture_of_membranes",
+max(case when concept_id = @dx and value_coded = @mom_Chorioamnionitis then 1 end) "mom_Chorioamnionitis",
+max(case when concept_id = @dx and value_coded = @mom_Placental_abnormality then 1 end) "mom_Placental_abnormality",
+max(case when concept_id = @dx and value_coded = @mom_Hypertension then 1 end) "mom_Hypertension",
+max(case when concept_id = @dx and value_coded = @mom_Severe_pre_eclampsia then 1 end) "mom_Severe_pre_eclampsia",
+max(case when concept_id = @dx and value_coded = @mom_Eclampsia then 1 end) "mom_Eclampsia",
+max(case when concept_id = @dx and value_coded = @mom_Acute_pulmonary_edema then 1 end) "mom_Acute_pulmonary_edema",
+max(case when concept_id = @dx and value_coded = @mom_Puerperal_infection then 1 end) "mom_Puerperal_infection",
+max(case when concept_id = @dx and value_coded = @mom_Victim_of_GBV then 1 end) "mom_Victim_of_GBV",
+max(case when concept_id = @dx and value_coded = @mom_Herpes_simplex then 1 end) "mom_Herpes_simplex",
+max(case when concept_id = @dx and value_coded = @mom_Syphilis then 1 end) "mom_Syphilis",
+max(case when concept_id = @dx and value_coded = @mom_Other_STI then 1 end) "mom_Other_STI",
+max(case when concept_id = @dx and value_coded = @mom_Other_finding then 1 end) "mom_Other_finding",
+max(case when concept_id = @del_complications and value_coded = @other then comments end) "mom_Other_finding_details"
+from temp_obs
+group by encounter_id;
 
+create index temp_obs_collated_ei on temp_obs_collated(encounter_id);
 
-update temp_delivery set Postpartum_blood_loss = obs_value_coded_list_from_temp(encounter_id,'CIEL','162092',@locale);
-update temp_delivery set Transfusion = obs_value_coded_list_from_temp(encounter_id,'CIEL','1063',@locale);
-
-update temp_delivery set maternal_delivery_type_deprecated = obs_value_coded_list_from_temp(encounter_id,'PIH','11663',@locale);
-update temp_delivery set Caesarean_hysterectomy = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1651','CIEL','161848');
-update temp_delivery set C_section_with_tubal_ligation = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1651','CIEL','161890');
-
--- findings for baby
-update temp_delivery set baby_Malpresentation_of_fetus = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1284','CIEL','115939');  
-update temp_delivery set baby_Cephalopelvic_disproportion = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1284','CIEL','145935');  
-update temp_delivery set baby_Extreme_premature = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1284','CIEL','111523');  
-update temp_delivery set baby_Very_premature = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1284','PIH','11789');  
-update temp_delivery set baby_Moderate_to_late_preterm = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1284','PIH','11790');  
-update temp_delivery set baby_Respiratory_distress = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1284','CIEL','127639');  
-update temp_delivery set baby_Birth_asphyxia = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1284','PIH','7557');  
-update temp_delivery set baby_Acute_fetal_distress = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1284','CIEL','118256');  
-update temp_delivery set baby_Intrauterine_growth_retardation = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1284','CIEL','118245');  
-update temp_delivery set baby_Congenital_malformation = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1284','CIEL','143849');  
-update temp_delivery set baby_Meconium_aspiration = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1284','CIEL','115866');  
-
--- findings for mother
-update temp_delivery set mom_Premature_rupture_of_membranes = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1284','CIEL','129211');  
-update temp_delivery set mom_Chorioamnionitis = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1284','CIEL','145548');  
-update temp_delivery set mom_Placental_abnormality = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1284','CIEL','130109');  
-update temp_delivery set mom_Hypertension = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1284','CIEL','117399');  
-update temp_delivery set mom_Severe_pre_eclampsia = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1284','CIEL','113006');  
-update temp_delivery set mom_Eclampsia = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1284','CIEL','118744');  
-update temp_delivery set mom_Acute_pulmonary_edema = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1284','CIEL','121856');  
-update temp_delivery set mom_Puerperal_infection = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1284','CIEL','130');  
-update temp_delivery set mom_Victim_of_GBV = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1284','CIEL','165088');  
-update temp_delivery set mom_Herpes_simplex = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1284','CIEL','138706');  
-update temp_delivery set mom_Syphilis = obs_single_value_coded_from_temp(encounter_id, 'CIEL','1284','CIEL','112493');  
-update temp_delivery set mom_Other_STI = obs_single_value_coded_from_temp(encounter_id, 'PIH','6644','CIEL','112992');  
-update temp_delivery set mom_Other_finding = obs_single_value_coded_from_temp(encounter_id, 'PIH','6644','CIEL','5622');  
-update temp_delivery set mom_Other_finding_details = obs_comments_from_temp(encounter_id, 'PIH','6644','CIEL','5622');  
+update temp_delivery t 
+inner join temp_obs_collated o on o.encounter_id = t.encounter_id
+set t.baby_Malpresentation_of_fetus = o.baby_Malpresentation_of_fetus,
+	t.baby_Cephalopelvic_disproportion = o.baby_Cephalopelvic_disproportion,
+	t.baby_Extreme_premature = o.baby_Extreme_premature,
+	t.baby_Very_premature = o.baby_Very_premature,
+	t.baby_Moderate_to_late_preterm = o.baby_Moderate_to_late_preterm,
+	t.baby_Respiratory_distress = o.baby_Respiratory_distress,
+	t.baby_Birth_asphyxia = o.baby_Birth_asphyxia,
+	t.baby_Acute_fetal_distress = o.baby_Acute_fetal_distress,
+	t.baby_Intrauterine_growth_retardation = o.baby_Intrauterine_growth_retardation,
+	t.baby_Congenital_malformation = o.baby_Congenital_malformation,
+	t.baby_Meconium_aspiration = o.baby_Meconium_aspiration,
+	t.mom_Premature_rupture_of_membranes = o.mom_Premature_rupture_of_membranes,
+	t.mom_Chorioamnionitis = o.mom_Chorioamnionitis,
+	t.mom_Placental_abnormality = o.mom_Placental_abnormality,
+	t.mom_Hypertension = o.mom_Hypertension,
+	t.mom_Severe_pre_eclampsia = o.mom_Severe_pre_eclampsia,
+	t.mom_Eclampsia = o.mom_Eclampsia,
+	t.mom_Acute_pulmonary_edema = o.mom_Acute_pulmonary_edema,
+	t.mom_Puerperal_infection = o.mom_Puerperal_infection,
+	t.mom_Victim_of_GBV = o.mom_Victim_of_GBV,
+	t.mom_Herpes_simplex = o.mom_Herpes_simplex,
+	t.mom_Syphilis = o.mom_Syphilis,
+	t.mom_Other_STI = o.mom_Other_STI,
+	t.mom_Other_finding = o.mom_Other_finding,
+	t.mom_Other_finding_details = o.mom_Other_finding_details;
 
 update temp_delivery set Mental_health_assessment = obs_value_coded_list_from_temp(encounter_id,'PIH','10594',@locale);
 
--- birth details (1 to 3)
-update temp_delivery set Birth_1_outcome = obs_from_group_id_value_coded_list_from_temp(obs_id(encounter_id,'CIEL','1585', 0),'CIEL','161033',@locale);
-update temp_delivery set Birth_1_weight = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 0),'CIEL','5916');
-update temp_delivery set Birth_1_APGAR_5_minute = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 0),'CIEL','1504');
-update temp_delivery set Birth_1_APGAR_1_minute = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 0),'PIH','14419');
-update temp_delivery set Birth_1_APGAR_10_minute = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 0),'PIH','14785');
-update temp_delivery set Birth_1_neonatal_resuscitation = obs_from_group_id_value_coded_list_from_temp(obs_id(encounter_id,'CIEL','1585', 0),'CIEL','162131',@locale);
-update temp_delivery set Birth_1_macerated_fetus = obs_from_group_id_value_coded_list_from_temp(obs_id(encounter_id,'CIEL','1585', 0),'CIEL','135437',@locale);
+update temp_delivery set Birth_1_obs_group_id = obs_id_from_temp(encounter_id,'CIEL','1585', 0);
+update temp_delivery set Birth_2_obs_group_id = obs_id_from_temp(encounter_id,'CIEL','1585', 1);
+update temp_delivery set Birth_3_obs_group_id = obs_id_from_temp(encounter_id,'CIEL','1585', 2);
+update temp_delivery set Birth_4_obs_group_id = obs_id_from_temp(encounter_id,'CIEL','1585', 3);
 
-update temp_delivery set Birth_2_outcome = obs_from_group_id_value_coded_list_from_temp(obs_id(encounter_id,'CIEL','1585', 1),'CIEL','161033',@locale);
-update temp_delivery set Birth_2_weight = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 1),'CIEL','5916');
-update temp_delivery set Birth_2_APGAR_5_minute = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 1),'CIEL','1504');
-update temp_delivery set Birth_2_APGAR_1_minute = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 1),'PIH','14419');
-update temp_delivery set Birth_2_APGAR_10_minute = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 1),'PIH','14785');
-update temp_delivery set Birth_2_neonatal_resuscitation = obs_from_group_id_value_coded_list_from_temp(obs_id(encounter_id,'CIEL','1585', 1),'CIEL','162131',@locale);
-update temp_delivery set Birth_2_macerated_fetus = obs_from_group_id_value_coded_list_from_temp(obs_id(encounter_id,'CIEL','1585', 1),'CIEL','135437',@locale);
+set @Birth_outcome = concept_from_mapping('CIEL','161033');
+set @Birth_weight = concept_from_mapping('CIEL','5916');
+set @Birth_APGAR_5_minute = concept_from_mapping('CIEL','1504');
+set @Birth_APGAR_1_minute = concept_from_mapping('PIH','14419');
+set @Birth_APGAR_10_minute = concept_from_mapping('PIH','14785');
+set @Birth_neonatal_resuscitation = concept_from_mapping('CIEL','162131');
+set @Birth_macerated_fetus = concept_from_mapping('CIEL','135437');
 
-update temp_delivery set Birth_3_outcome = obs_from_group_id_value_coded_list_from_temp(obs_id(encounter_id,'CIEL','1585', 2),'CIEL','161033',@locale);
-update temp_delivery set Birth_3_weight = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 2),'CIEL','5916');
-update temp_delivery set Birth_3_APGAR_5_minute = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 2),'CIEL','1504');
-update temp_delivery set Birth_3_APGAR_1_minute = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 2),'PIH','14419');
-update temp_delivery set Birth_3_APGAR_10_minute = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 2),'PIH','14785');
-update temp_delivery set Birth_3_neonatal_resuscitation = obs_from_group_id_value_coded_list_from_temp(obs_id(encounter_id,'CIEL','1585', 2),'CIEL','162131',@locale);
-update temp_delivery set Birth_3_macerated_fetus = obs_from_group_id_value_coded_list_from_temp(obs_id(encounter_id,'CIEL','1585', 2),'CIEL','135437',@locale);
+drop temporary table if exists temp_obs_collated;
+create temporary table temp_obs_collated 
+select 
+o.encounter_id,
+max(case when obs_group_id = Birth_1_obs_group_id and concept_id = @Birth_outcome then concept_name(value_coded, @locale) end) "Birth_1_outcome",
+max(case when obs_group_id = Birth_1_obs_group_id and concept_id = @Birth_weight then value_numeric end) "Birth_1_weight",
+max(case when obs_group_id = Birth_1_obs_group_id and concept_id = @Birth_APGAR_5_minute then value_numeric end) "Birth_1_APGAR_5_minute",
+max(case when obs_group_id = Birth_1_obs_group_id and concept_id = @Birth_APGAR_1_minute then value_numeric end) "Birth_1_APGAR_1_minute",
+max(case when obs_group_id = Birth_1_obs_group_id and concept_id = @Birth_APGAR_10_minute then value_numeric end) "Birth_1_APGAR_10_minute",
+max(case when obs_group_id = Birth_1_obs_group_id and concept_id = @Birth_neonatal_resuscitation and value_coded = @yes then 1
+         when obs_group_id = Birth_1_obs_group_id and concept_id = @Birth_neonatal_resuscitation and value_coded = @no then 0 end) "Birth_1_neonatal_resuscitation",
+max(case when obs_group_id = Birth_1_obs_group_id and concept_id = @Birth_macerated_fetus and value_coded = @yes then 1 
+         when obs_group_id = Birth_1_obs_group_id and concept_id = @Birth_macerated_fetus and value_coded = @yes then 0 end) "Birth_1_macerated_fetus",
+max(case when obs_group_id = Birth_2_obs_group_id and concept_id = @Birth_outcome then concept_name(value_coded, @locale) end) "Birth_2_outcome",
+max(case when obs_group_id = Birth_2_obs_group_id and concept_id = @Birth_weight then value_numeric end) "Birth_2_weight",
+max(case when obs_group_id = Birth_2_obs_group_id and concept_id = @Birth_APGAR_5_minute then value_numeric end) "Birth_2_APGAR_5_minute",
+max(case when obs_group_id = Birth_2_obs_group_id and concept_id = @Birth_APGAR_1_minute then value_numeric end) "Birth_2_APGAR_1_minute",
+max(case when obs_group_id = Birth_2_obs_group_id and concept_id = @Birth_APGAR_10_minute then value_numeric end) "Birth_2_APGAR_10_minute",
+max(case when obs_group_id = Birth_2_obs_group_id and concept_id = @Birth_neonatal_resuscitation and value_coded = @yes then 1
+         when obs_group_id = Birth_2_obs_group_id and concept_id = @Birth_neonatal_resuscitation and value_coded = @no then 0 end) "Birth_2_neonatal_resuscitation",
+max(case when obs_group_id = Birth_2_obs_group_id and concept_id = @Birth_macerated_fetus and value_coded = @yes then 1 
+         when obs_group_id = Birth_2_obs_group_id and concept_id = @Birth_macerated_fetus and value_coded = @yes then 0 end) "Birth_2_macerated_fetus",
+max(case when obs_group_id = Birth_3_obs_group_id and concept_id = @Birth_outcome then concept_name(value_coded, @locale) end) "Birth_3_outcome",
+max(case when obs_group_id = Birth_3_obs_group_id and concept_id = @Birth_weight then value_numeric end) "Birth_3_weight",
+max(case when obs_group_id = Birth_3_obs_group_id and concept_id = @Birth_APGAR_5_minute then value_numeric end) "Birth_3_APGAR_5_minute",
+max(case when obs_group_id = Birth_3_obs_group_id and concept_id = @Birth_APGAR_1_minute then value_numeric end) "Birth_3_APGAR_1_minute",
+max(case when obs_group_id = Birth_3_obs_group_id and concept_id = @Birth_APGAR_10_minute then value_numeric end) "Birth_3_APGAR_10_minute",
+max(case when obs_group_id = Birth_3_obs_group_id and concept_id = @Birth_neonatal_resuscitation and value_coded = @yes then 1
+         when obs_group_id = Birth_3_obs_group_id and concept_id = @Birth_neonatal_resuscitation and value_coded = @no then 0 end) "Birth_3_neonatal_resuscitation",
+max(case when obs_group_id = Birth_3_obs_group_id and concept_id = @Birth_macerated_fetus and value_coded = @yes then 1 
+         when obs_group_id = Birth_3_obs_group_id and concept_id = @Birth_macerated_fetus and value_coded = @yes then 0 end) "Birth_3_macerated_fetus",
+max(case when obs_group_id = Birth_4_obs_group_id and concept_id = @Birth_outcome then concept_name(value_coded, @locale) end) "Birth_4_outcome",
+max(case when obs_group_id = Birth_4_obs_group_id and concept_id = @Birth_weight then value_numeric end) "Birth_4_weight",
+max(case when obs_group_id = Birth_4_obs_group_id and concept_id = @Birth_APGAR_5_minute then value_numeric end) "Birth_4_APGAR_5_minute",
+max(case when obs_group_id = Birth_4_obs_group_id and concept_id = @Birth_APGAR_1_minute then value_numeric end) "Birth_4_APGAR_1_minute",
+max(case when obs_group_id = Birth_4_obs_group_id and concept_id = @Birth_APGAR_10_minute then value_numeric end) "Birth_4_APGAR_10_minute",
+max(case when obs_group_id = Birth_4_obs_group_id and concept_id = @Birth_neonatal_resuscitation and value_coded = @yes then 1
+         when obs_group_id = Birth_4_obs_group_id and concept_id = @Birth_neonatal_resuscitation and value_coded = @no then 0 end) "Birth_4_neonatal_resuscitation",
+max(case when obs_group_id = Birth_4_obs_group_id and concept_id = @Birth_macerated_fetus and value_coded = @yes then 1 
+         when obs_group_id = Birth_4_obs_group_id and concept_id = @Birth_macerated_fetus and value_coded = @yes then 0 end) "Birth_4_macerated_fetus"         
+from temp_obs o
+inner join temp_delivery t on o.person_id = t.patient_id
+group by encounter_id;
 
-update temp_delivery set Birth_4_outcome = obs_from_group_id_value_coded_list_from_temp(obs_id(encounter_id,'CIEL','1585', 3),'CIEL','161033',@locale);
-update temp_delivery set Birth_4_weight = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 3),'CIEL','5916');
-update temp_delivery set Birth_4_APGAR_5_minute = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 3),'CIEL','1504');
-update temp_delivery set Birth_4_APGAR_1_minute = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 3),'PIH','14419');
-update temp_delivery set Birth_4_APGAR_10_minute = obs_from_group_id_value_numeric(obs_id(encounter_id,'CIEL','1585', 3),'PIH','14785');
-update temp_delivery set Birth_4_neonatal_resuscitation = obs_from_group_id_value_coded_list_from_temp(obs_id(encounter_id,'CIEL','1585', 3),'CIEL','162131',@locale);
-update temp_delivery set Birth_4_macerated_fetus = obs_from_group_id_value_coded_list_from_temp(obs_id(encounter_id,'CIEL','1585', 3),'CIEL','135437',@locale);
+create index temp_obs_collated_ei on temp_obs_collated(encounter_id);
 
-update temp_delivery set number_prenatal_visits = obs_value_numeric_from_temp(encounter_id,'CIEL','1590');
-update temp_delivery set referred_by = obs_value_coded_list_from_temp(encounter_id,'PIH','10635',@locale);
-update temp_delivery set referred_by_other_details = obs_comments_from_temp(encounter_id, 'PIH','10635','CIEL','5622');
-update temp_delivery set nutrition_newborn_counseling = obs_value_coded_list_from_temp(encounter_id,'CIEL','161651',@locale);
-update temp_delivery set family_planning_after_delivery = obs_value_coded_list_from_temp(encounter_id,'PIH','13564',@locale);
+update temp_delivery t 
+inner join temp_obs_collated o on o.encounter_id = t.encounter_id
+set t.Birth_1_APGAR_1_minute = o.Birth_1_APGAR_1_minute,
+	t.Birth_1_APGAR_10_minute = o.Birth_1_APGAR_10_minute,
+	t.Birth_1_APGAR_5_minute = o.Birth_1_APGAR_5_minute,
+	t.Birth_1_macerated_fetus = o.Birth_1_macerated_fetus,
+	t.Birth_1_neonatal_resuscitation = o.Birth_1_neonatal_resuscitation,
+	t.Birth_1_outcome = o.Birth_1_outcome,
+	t.Birth_1_weight = o.Birth_1_weight,
+	t.Birth_2_APGAR_1_minute = o.Birth_2_APGAR_1_minute,
+	t.Birth_2_APGAR_10_minute = o.Birth_2_APGAR_10_minute,
+	t.Birth_2_APGAR_5_minute = o.Birth_2_APGAR_5_minute,
+	t.Birth_2_macerated_fetus = o.Birth_2_macerated_fetus,
+	t.Birth_2_neonatal_resuscitation = o.Birth_2_neonatal_resuscitation,
+	t.Birth_2_outcome = o.Birth_2_outcome,
+	t.Birth_2_weight = o.Birth_2_weight,
+	t.Birth_3_APGAR_1_minute = o.Birth_3_APGAR_1_minute,
+	t.Birth_3_APGAR_10_minute = o.Birth_3_APGAR_10_minute,
+	t.Birth_3_APGAR_5_minute = o.Birth_3_APGAR_5_minute,
+	t.Birth_3_macerated_fetus = o.Birth_3_macerated_fetus,
+	t.Birth_3_neonatal_resuscitation = o.Birth_3_neonatal_resuscitation,
+	t.Birth_3_outcome = o.Birth_3_outcome,
+	t.Birth_3_weight = o.Birth_3_weight,
+	t.Birth_4_APGAR_1_minute = o.Birth_4_APGAR_1_minute,
+	t.Birth_4_APGAR_10_minute = o.Birth_4_APGAR_10_minute,
+	t.Birth_4_APGAR_5_minute = o.Birth_4_APGAR_5_minute,
+	t.Birth_4_macerated_fetus = o.Birth_4_macerated_fetus,
+	t.Birth_4_neonatal_resuscitation = o.Birth_4_neonatal_resuscitation,
+	t.Birth_4_outcome = o.Birth_4_outcome,
+	t.Birth_4_weight = o.Birth_4_weight;
 
--- diagnoses
+-- newborn details and disposition info
+set @number_prenatal_visits = concept_from_mapping('CIEL','1590');
+set @referred_by = concept_from_mapping('PIH','10635');
+set @nutrition_newborn_counseling = concept_from_mapping('CIEL','161651');
+set @family_planning_after_delivery = concept_from_mapping('PIH','13564');
+set @disposition = concept_from_mapping('PIH','8620');
+set @disposition_comment = concept_from_mapping('PIH','DISPOSITION COMMENTS');
+set @return_visit_date = concept_from_mapping('PIH','5096');
+
+drop temporary table if exists temp_obs_collated;
+create temporary table temp_obs_collated 
+select encounter_id,
+max(case when concept_id = @number_prenatal_visits then value_numeric end) "number_prenatal_visits",
+group_concat(case when concept_id = @referred_by then concept_name(value_coded, @locale) end separator ' | ') "referred_by",
+max(case when concept_id = @referred_by and value_coded = @other then comments end) "referred_by_other_details",
+max(case when concept_id = @nutrition_newborn_counseling and value_coded = @yes then 1
+		 when concept_id = @nutrition_newborn_counseling and value_coded = @no then 0 end) "nutrition_newborn_counseling",
+max(case when concept_id = @family_planning_after_delivery and value_coded = @yes then 1
+		 when concept_id = @family_planning_after_delivery and value_coded = @no then 0 end) "family_planning_after_delivery",
+max(case when concept_id = @disposition then concept_name(value_coded, @locale) end) "disposition",
+max(case when concept_id = @disposition_comment then value_text end) "disposition_comment",
+max(case when concept_id = @return_visit_date then value_datetime end) "return_visit_date"
+from temp_obs o
+group by encounter_id;
+
+update temp_delivery t 
+inner join temp_obs_collated o on o.encounter_id = t.encounter_id
+set t.number_prenatal_visits = o.number_prenatal_visits,
+	t.referred_by = o.referred_by,
+	t.referred_by_other_details = o.referred_by_other_details,
+	t.nutrition_newborn_counseling = o.nutrition_newborn_counseling,
+	t.family_planning_after_delivery = o.family_planning_after_delivery,
+	t.disposition = o.disposition,	
+	t.disposition_comment = o.disposition_comment,
+	t.return_visit_date = o.return_visit_date;
+
+
+-- diagnosis information
 drop temporary table if exists temp_dx;
 CREATE TEMPORARY TABLE temp_dx
 SELECT 	t.encounter_id,
@@ -332,7 +563,7 @@ set t.diagnosis_1_confirmed = concept_name(tdd.value_coded,@locale)
 ;
 update temp_delivery t
 inner join temp_dx_dup tdd on tdd.obs_group_id = t.diagnosis_1_obs_group_id and tdd.concept_id =  concept_from_mapping('PIH','7537')
-set t.diagnosis_1_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),@locale), concept_name(concept_from_mapping('PIH','NO'),@locale))
+set t.diagnosis_1_primary = if(value_coded = concept_from_mapping('PIH','7534'),1, 0)
 ;
 
 update temp_delivery t 
@@ -352,8 +583,7 @@ set t.diagnosis_2_confirmed = concept_name(tdd.value_coded,@locale)
 ;
 update temp_delivery t
 inner join temp_dx_dup tdd on tdd.obs_group_id = t.diagnosis_2_obs_group_id and tdd.concept_id =  concept_from_mapping('PIH','7537')
-set t.diagnosis_2_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),@locale), concept_name(concept_from_mapping('PIH','NO'),@locale))
-;
+set t.diagnosis_2_primary = if(value_coded = concept_from_mapping('PIH','7534'),1, 0);
 
 update temp_delivery t 
 inner join temp_dx tdx on tdx.obs_id = 
@@ -372,8 +602,7 @@ set t.diagnosis_3_confirmed = concept_name(tdd.value_coded,@locale)
 ;
 update temp_delivery t
 inner join temp_dx_dup tdd on tdd.obs_group_id = t.diagnosis_3_obs_group_id and tdd.concept_id =  concept_from_mapping('PIH','7537')
-set t.diagnosis_3_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),@locale), concept_name(concept_from_mapping('PIH','NO'),@locale))
-;
+set t.diagnosis_3_primary = if(value_coded = concept_from_mapping('PIH','7534'),1, 0);
 
 update temp_delivery t 
 inner join temp_dx tdx on tdx.obs_id = 
@@ -392,8 +621,7 @@ set t.diagnosis_4_confirmed = concept_name(tdd.value_coded,@locale)
 ;
 update temp_delivery t
 inner join temp_dx_dup tdd on tdd.obs_group_id = t.diagnosis_4_obs_group_id and tdd.concept_id =  concept_from_mapping('PIH','7537')
-set t.diagnosis_4_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),@locale), concept_name(concept_from_mapping('PIH','NO'),@locale))
-;
+set t.diagnosis_4_primary = if(value_coded = concept_from_mapping('PIH','7534'),1, 0);
 
 update temp_delivery t 
 inner join temp_dx tdx on tdx.obs_id = 
@@ -412,8 +640,7 @@ set t.diagnosis_5_confirmed = concept_name(tdd.value_coded,@locale)
 ;
 update temp_delivery t
 inner join temp_dx_dup tdd on tdd.obs_group_id = t.diagnosis_5_obs_group_id and tdd.concept_id =  concept_from_mapping('PIH','7537')
-set t.diagnosis_5_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),@locale), concept_name(concept_from_mapping('PIH','NO'),@locale))
-;
+set t.diagnosis_5_primary = if(value_coded = concept_from_mapping('PIH','7534'),1, 0);
 
 update temp_delivery t 
 inner join temp_dx tdx on tdx.obs_id = 
@@ -432,8 +659,7 @@ set t.diagnosis_6_confirmed = concept_name(tdd.value_coded,@locale)
 ;
 update temp_delivery t
 inner join temp_dx_dup tdd on tdd.obs_group_id = t.diagnosis_6_obs_group_id and tdd.concept_id =  concept_from_mapping('PIH','7537')
-set t.diagnosis_6_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),@locale), concept_name(concept_from_mapping('PIH','NO'),@locale))
-;
+set t.diagnosis_6_primary = if(value_coded = concept_from_mapping('PIH','7534'),1, 0);
 
 update temp_delivery t 
 inner join temp_dx tdx on tdx.obs_id = 
@@ -452,8 +678,7 @@ set t.diagnosis_7_confirmed = concept_name(tdd.value_coded,@locale)
 ;
 update temp_delivery t
 inner join temp_dx_dup tdd on tdd.obs_group_id = t.diagnosis_7_obs_group_id and tdd.concept_id =  concept_from_mapping('PIH','7537')
-set t.diagnosis_7_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),@locale), concept_name(concept_from_mapping('PIH','NO'),@locale))
-;
+set t.diagnosis_7_primary = if(value_coded = concept_from_mapping('PIH','7534'),1, 0);
 
 update temp_delivery t 
 inner join temp_dx tdx on tdx.obs_id = 
@@ -472,8 +697,7 @@ set t.diagnosis_8_confirmed = concept_name(tdd.value_coded,@locale)
 ;
 update temp_delivery t
 inner join temp_dx_dup tdd on tdd.obs_group_id = t.diagnosis_8_obs_group_id and tdd.concept_id =  concept_from_mapping('PIH','7537')
-set t.diagnosis_8_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),@locale), concept_name(concept_from_mapping('PIH','NO'),@locale))
-;
+set t.diagnosis_8_primary = if(value_coded = concept_from_mapping('PIH','7534'),1, 0);
 
 update temp_delivery t 
 inner join temp_dx tdx on tdx.obs_id = 
@@ -492,8 +716,7 @@ set t.diagnosis_9_confirmed = concept_name(tdd.value_coded,@locale)
 ;
 update temp_delivery t
 inner join temp_dx_dup tdd on tdd.obs_group_id = t.diagnosis_9_obs_group_id and tdd.concept_id =  concept_from_mapping('PIH','7537')
-set t.diagnosis_9_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),@locale), concept_name(concept_from_mapping('PIH','NO'),@locale))
-;
+set t.diagnosis_9_primary = if(value_coded = concept_from_mapping('PIH','7534'),1, 0);
 
 update temp_delivery t 
 inner join temp_dx tdx on tdx.obs_id = 
@@ -514,11 +737,6 @@ update temp_delivery t
 inner join temp_dx_dup tdd on tdd.obs_group_id = t.diagnosis_10_obs_group_id and tdd.concept_id =  concept_from_mapping('PIH','7537')
 set t.diagnosis_10_primary = if(value_coded = concept_from_mapping('PIH','7534'),concept_name(concept_from_mapping('PIH','YES'),@locale), concept_name(concept_from_mapping('PIH','NO'),@locale))
 ;
-
--- disposition info
-update temp_delivery set disposition = obs_value_coded_list_from_temp(encounter_id,'PIH','8620',@locale);
-update temp_delivery set disposition_comment = obs_value_text_from_temp(encounter_id,'PIH','DISPOSITION COMMENTS');
-update temp_delivery set return_visit_date = obs_value_datetime_from_temp(encounter_id,'PIH','5096');
 
 -- select final output
 SELECT 
