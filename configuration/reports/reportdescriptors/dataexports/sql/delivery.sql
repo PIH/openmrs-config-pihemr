@@ -257,8 +257,8 @@ max(case when concept_id = @Perineal_laceration and value_coded = @yes then 1
 max(case when concept_id = @Transfusion and value_coded = @yes then 1
 		 when concept_id = @Transfusion and value_coded = @no then 0 end) "Transfusion",
 max(case when concept_id = @placenta_delivery then concept_name(value_coded, @locale) end) "placenta_delivery",
-max(case when concept_id = @Intact_fetal_membranes and value_coded = @Intact_fetal_membranes then 1
-		 when concept_id = @Intact_fetal_membranes and value_coded = @Ruptured_fetal_membranes then 0 end) "Intact_membranes",
+max(case when concept_id = @fetal_membrane_status and value_coded = @Intact_fetal_membranes then 1
+		 when concept_id = @fetal_membrane_status and value_coded = @Ruptured_fetal_membranes then 0 end) "Intact_membranes",
 group_concat(DISTINCT case when concept_id = @maternal_delivery_type_deprecated then concept_name(value_coded, @locale) end  separator ' | ') "maternal_delivery_type_deprecated",
 max(case when concept_id = @procedure_performed and value_coded = @Perineal_suture then 1 end)  "Perineal_suture",
 max(case when concept_id = @procedure_performed and value_coded = @Episiotomy then 1 end)  "Episiotomy",
@@ -268,9 +268,6 @@ from temp_obs
 group by encounter_id;
 
 create index temp_obs_collated_ei on temp_obs_collated(encounter_id);
-
-
-select * from temp_obs_collated where encounter_id = 355921;
 
 update temp_delivery t 
 inner join temp_obs_collated o on o.encounter_id = t.encounter_id
