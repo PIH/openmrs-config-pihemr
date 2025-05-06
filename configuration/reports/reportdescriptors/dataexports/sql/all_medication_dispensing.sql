@@ -12,7 +12,7 @@ encounter_id        int,
 encounter_datetime  datetime,     
 location_id         int(11),      
 encounter_location  varchar(100), 
-date_entered        date,         
+datetime_entered    datetime,         
 user_entered        varchar(30),  
 creator             int(11),      
 encounter_provider  text,         
@@ -61,7 +61,7 @@ CREATE TEMPORARY TABLE temp_encounter
 encounter_id 			int(11),
 encounter_datetime		datetime,
 location_id             int(11),
-date_entered 			date,
+datetime_entered 		datetime,
 creator					int(11),
 encounter_provider      text,
 user_entered            varchar(255)
@@ -75,7 +75,7 @@ create index temp_encounter_encounter_id on temp_encounter(encounter_id);
 update temp_encounter t
 inner join encounter e on t.encounter_id = e.encounter_id 
 set t.encounter_datetime = e.encounter_datetime,
-	t.date_entered = e.date_created ,
+	t.datetime_entered = e.date_created ,
 	t.creator = e.creator,
 	t.location_id = e.location_id;
 
@@ -85,7 +85,7 @@ set encounter_provider = provider(encounter_id);
 update all_medication_dispensing md
 inner join temp_encounter t on md.encounter_id = t.encounter_id
 set md.encounter_datetime = t.encounter_datetime,
-	md.date_entered = t.date_entered,
+	md.datetime_entered = t.datetime_entered,
 	md.user_entered = t.user_entered,
 	md.creator = t.creator,
 	md.location_id = t.location_id,
@@ -145,7 +145,7 @@ set t.duration = o.duration,
 
 -- New Form --------
 set @complete_status = concept_from_mapping('PIH','1267');
-INSERT INTO all_medication_dispensing(form, patient_id, encounter_datetime, date_entered,  creator, dispenser, location_id, drug_id,
+INSERT INTO all_medication_dispensing(form, patient_id, encounter_datetime, datetime_entered,  creator, dispenser, location_id, drug_id,
 quantity_per_dose,dose_unit, frequency,quantity_dispensed, quantity_unit, order_id, instructions)
 SELECT 
 'New' AS form,
@@ -171,23 +171,15 @@ where md.status = @complete_status;
 update all_medication_dispensing m
 set encounter_location = location_name(location_id);
 
--- user names of creator, dispenser
--- copy all distinct creators and dispensers to a table, find the name and join back to main table
+-- user names of creator
+-- copy all distinct creators to a table, find the name and join back to main table
 drop temporary table if exists temp_user_names;
 CREATE TEMPORARY TABLE temp_user_names
 (user_id  int(11),
-user_name text
-);
-
-drop temporary table if exists creators;
-create temporary table creators
-select distinct creator from all_medication_dispensing;
+user_name text);
 
 insert into temp_user_names (user_id)
-select user_id from (
-select creator as user_id from creators
-union 
-select distinct dispenser as user_id from all_medication_dispensing) i;
+select distinct creator from all_medication_dispensing;
 
 create index temp_user_names_ui on temp_user_names(user_id);
 
@@ -198,10 +190,24 @@ update all_medication_dispensing md
 inner join temp_user_names u on md.creator = u.user_id
 set md.user_entered = u.user_name;
 
+-- user names of dispenser
+-- copy all distinct dispensers to a table, find the name and join back to main table
+drop temporary table if exists temp_providers;
+CREATE TEMPORARY TABLE temp_providers
+(provider_id  int(11),
+provider_name text);
+
+insert into temp_providers (provider_id)
+select distinct dispenser from all_medication_dispensing;
+
+create index temp_providers_pi on temp_providers(provider_id);
+
+update temp_providers 
+set provider_name =  provider_name_from_provider_id(provider_id);
+
 update all_medication_dispensing md
-inner join temp_user_names u on md.dispenser = u.user_id
-set md.encounter_provider = u.user_name
-where dispenser is not null;
+inner join temp_providers u on md.dispenser = u.provider_id
+set md.encounter_provider  = u.provider_name;
 
 -- update emr ids 
 -- copy all distinct patients to a row-per-encounter table
@@ -256,7 +262,7 @@ emr_id,
 CONCAT(@partition,'-',encounter_id) "encounter_id",
 encounter_datetime,
 encounter_location,
-date_entered,
+datetime_entered,
 user_entered,
 encounter_provider,
 drug_name,
