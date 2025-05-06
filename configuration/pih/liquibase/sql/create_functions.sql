@@ -708,7 +708,6 @@ BEGIN
     select      concat(given_name, ' ', family_name)  into personName
     from        provider p
     INNER JOIN person_name pn ON p.person_id =pn.person_id AND p.provider_id= _provider_id
-    INNER JOIN users u on u.person_id  = pn.person_id
     where       voided = 0
     order by    pn.preferred desc, pn.date_created desc
     limit       1;
