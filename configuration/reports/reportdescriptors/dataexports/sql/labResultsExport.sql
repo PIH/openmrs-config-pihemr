@@ -27,11 +27,6 @@ CREATE TEMPORARY TABLE temp_labresults
   unknown_patient                 VARCHAR(50),  
   gender                          VARCHAR(50),  
   age_at_encounter                INT(11),      
-  department                      VARCHAR(255), 
-  commune                         VARCHAR(255), 
-  section                         VARCHAR(255), 
-  locality                        VARCHAR(255), 
-  street_landmark                 VARCHAR(255), 
   order_number                    VARCHAR(50), 
   orderable                       VARCHAR(255), 
   test                            VARCHAR(255), 
@@ -106,12 +101,7 @@ CREATE TEMPORARY TABLE temp_lab_patient
  emr_id          VARCHAR(50),  
  unknown_patient VARCHAR(50),  
  gender          VARCHAR(50),  
- loc_registered  VARCHAR(255), 
- department      VARCHAR(255), 
- commune         VARCHAR(255), 
- section         VARCHAR(255), 
- locality        VARCHAR(255), 
- street_landmark VARCHAR(255)  
+ loc_registered  VARCHAR(255) 
  );
  
 insert into temp_lab_patient(patient_id)
@@ -124,28 +114,12 @@ update temp_lab_patient set loc_registered = loc_registered(patient_id);
 update temp_lab_patient set unknown_patient = unknown_patient(patient_id);
 update temp_lab_patient set gender = gender(patient_id);
 
-update temp_lab_patient t
-inner join person_address a on a.person_address_id =
-	(select a2.person_address_id from person_address a2
-	where a2.person_id = t.patient_id
-	order by preferred desc, date_created desc limit 1)
-set t.department = a.state_province,
-	t.commune = a.city_village,
-	t.section = a.address3,
-	t.locality = a.address1,
-	t.street_landmark = a.address2;
-  
 update temp_labresults t
 inner join temp_lab_patient p on t.patient_id = p.patient_id
 set t.emr_id =  p.emr_id,
 	t.unknown_patient =  p.unknown_patient,
 	t.gender =  p.gender,
-	t.loc_registered =  p.loc_registered,
-	t.department =  p.department,
-	t.commune =  p.commune,
-	t.section =  p.section,
-	t.locality =  p.locality,
-	t.street_landmark =  p.street_landmark;
+	t.loc_registered =  p.loc_registered;
 
 -- encounter level columns
 DROP TEMPORARY TABLE IF EXISTS temp_lab_encounter;
@@ -256,6 +230,7 @@ set results_date = o.value_datetime,
 -- select final output
 SELECT
 	if(@partition REGEXP '^[0-9]+$' = 1,concat(@partition,'-',t.obs_id),t.obs_id) "obs_id",
+	if(@partition REGEXP '^[0-9]+$' = 1,concat(@partition,'-',t.patient_id),t.patient_id) "patient_id",
 	t.emr_id,
     if(@partition REGEXP '^[0-9]+$' = 1,concat(@partition,'-',t.visit_id),t.visit_id) "visit_id",
     if(@partition REGEXP '^[0-9]+$' = 1,concat(@partition,'-',t.encounter_id),t.encounter_id) "encounter_id",
@@ -265,11 +240,6 @@ SELECT
     t.unknown_patient,
     t.gender,
     t.age_at_encounter,
-    t.department,
-    t.commune,
-    t.section,
-    t.locality,
-    t.street_landmark,
 	if(@partition REGEXP '^[0-9]+$' = 1,concat(@partition,'-',t.order_number),t.order_number) "order_number",    
     t.orderable,
     test,
