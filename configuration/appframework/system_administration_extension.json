@@ -38,5 +38,15 @@
     "url": "pihcore/admin/staleAdmissionRequests.page",
     "icon": "fas fa-fw fa-list-ul",
     "order": 61
+  },
+  {
+    "id": "pihemr.systemAdministration.viewRolesAndPrivilegesLink",
+    "extensionPointId": "systemAdministration.apps",
+    "type": "link",
+    "label": "pih.app.admin.rolesandprivileges.view",
+    "requiredPrivilege": "App: coreapps.systemAdministration",
+    "url": "pihcore/admin/rolesAndPrivileges.page",
+    "icon": "fa fa-user-secret",
+    "order": 62
   }
 ]
