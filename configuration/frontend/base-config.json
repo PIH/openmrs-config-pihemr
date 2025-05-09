@@ -261,5 +261,8 @@
   },
   "@openmrs/esm-service-queues-app": {
     "customPatientChartUrl": "${openmrsBase}/coreapps/clinicianfacing/patient.page?patientId=${patientUuid}&app=pih.app.clinicianDashboard"
+  },
+  "@openmrs/esm-patient-forms-app": {
+    "customFormsUrl": "/ws/rest/v1/pihcore/patientforms"
   }
 }
