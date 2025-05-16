@@ -1150,6 +1150,36 @@ BEGIN
 
 END
 #
+-- This function is designed to operate on a temp table that has already been created mapping concepts to obs
+-- it accepts encounter_id and concept_id and will return boolean  
+#
+DROP FUNCTION IF EXISTS obs_value_coded_as_boolean_from_temp_using_concept_id;
+#
+CREATE FUNCTION obs_value_coded_as_boolean_from_temp_using_concept_id(_encounterId int(11), _concept_id int(11))
+    RETURNS boolean
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret text;
+
+    select
+    	CASE o.value_coded
+    		when concept_from_mapping('PIH','1065') then 1
+	    	when concept_from_mapping('PIH','1066') then 0
+		END
+    into ret
+    from        obs o
+    where       o.voided = 0
+    and         o.encounter_id = _encounterId
+    and         o.concept_id = _concept_id
+    order by    o.date_created desc, o.obs_id desc
+    limit 1;
+
+    RETURN ret;
+
+END
+#
 -- This function accepts patient_id, encounter_type and beginDate
 -- It will return the first encounter of the specified type that it finds for the patient after the passed beginDate
 -- if null is passed in as the beginDate, it will be disregarded
