@@ -1149,6 +1149,7 @@ BEGIN
     RETURN enc_id_out;
 
 END
+#
 -- This function is designed to operate on a temp table that has already been created mapping concepts to obs
 -- it accepts encounter_id and concept_id and will return boolean  
 #
