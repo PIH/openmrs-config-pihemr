@@ -27,33 +27,6 @@
         <url>http://pih.org</url>
     </organization>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>openmrs-repo</id>
-            <name>OpenMRS Nexus Repository</name>
-            <url>https://openmrs.jfrog.io/artifactory/public</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-            <id>openmrs-repo-snapshots</id>
-            <name>OpenMRS Snapshots Repo</name>
-            <url>https://openmrs.jfrog.io/artifactory/snapshots</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-            <id>mks-repo</id>
-            <name>Mekom Solutions Maven repository</name>
-            <url>https://nexus.mekomsolutions.net/repository/maven-public</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
-
     <build>
         <plugins>
 
@@ -157,5 +130,46 @@
             </build>
         </profile>
     </profiles>
+
+    <repositories>
+        <repository>
+            <name>Central Portal Snapshots</name>
+            <id>central-portal-snapshots</id>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>openmrs-repo</id>
+            <name>OpenMRS Nexus Repository</name>
+            <url>https://openmrs.jfrog.io/artifactory/public</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>openmrs-repo-snapshots</id>
+            <name>OpenMRS Snapshots Repo</name>
+            <url>https://openmrs.jfrog.io/artifactory/snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>mks-repo</id>
+            <name>Mekom Solutions Maven repository</name>
+            <url>https://nexus.mekomsolutions.net/repository/maven-public</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 
 </project>
