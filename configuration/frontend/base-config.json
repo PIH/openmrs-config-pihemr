@@ -263,6 +263,6 @@
     "customPatientChartUrl": "${openmrsBase}/coreapps/clinicianfacing/patient.page?patientId=${patientUuid}&app=pih.app.clinicianDashboard"
   },
   "@openmrs/esm-patient-forms-app": {
-    "customFormsUrl": "/ws/rest/v1/pihcore/patientforms?patientUuid=${patientUuid}"
+    "customFormsUrl": "/ws/rest/v1/pihcore/patientforms?patientUuid=${patientUuid}&visitUuid=${visitUuid}"
   }
 }
