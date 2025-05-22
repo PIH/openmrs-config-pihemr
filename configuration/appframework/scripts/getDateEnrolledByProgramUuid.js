@@ -1,11 +1,11 @@
-function getDateEnrolledByProgramUuid(list, programUuid) {
-  if (!list) {
+function getDateEnrolledByProgramUuid(patientPrograms, programUuid) {
+  if (!patientPrograms) {
     return false;
   }
-  var i, len = list.length;
+  var i, len = patientPrograms.length;
   for (i = 0; i < len; ++i) {
-    if (list[i]['programUuid'] === programUuid) {
-      return list[i]['dateEnrolled'];
+    if (patientPrograms[i]['programUuid'] === programUuid) {
+      return patientPrograms[i]['dateEnrolled'];
     }
   }
   return false;
