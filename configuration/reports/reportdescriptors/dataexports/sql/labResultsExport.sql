@@ -35,6 +35,7 @@ CREATE TEMPORARY TABLE temp_labresults
   result                          TEXT,         
   specimen_collection_date        DATETIME,     
   specimen_collection_entry_date  DATETIME,     
+  user_entered                    TEXT,
   units                           VARCHAR(255), 
   reason_not_performed_concept_id INT(11),      
   reason_not_performed            VARCHAR(255), 
@@ -132,7 +133,9 @@ CREATE TEMPORARY TABLE temp_lab_encounter
  encounter_type           VARCHAR(255), 
  encounter_location_id    INT(11),      
  encounter_location       VARCHAR(255), 
- date_created             DATETIME,     
+ date_created             DATETIME,
+ creator                  INT(11),
+ user_entered             TEXT,
  age_at_encounter         DOUBLE,       
  specimen_collection_date DATETIME      
  );
@@ -149,6 +152,7 @@ set t.patient_id = e.patient_id ,
  	t.encounter_type_id = e.encounter_type, 
 	t.specimen_collection_date = e.encounter_datetime, 
 	t.date_created = e.date_created,
+	t.creator = e.creator,
 	t.visit_id = e.visit_id;
 
 update temp_lab_encounter t
@@ -156,6 +160,9 @@ set encounter_type = encounter_type_name_from_id(encounter_type_id);
 
 update temp_lab_encounter t
 set encounter_location = location_name(t.encounter_location_id);
+
+update temp_lab_encounter t
+set user_entered = person_name_of_user(creator);
 
 update temp_lab_encounter t
 set age_at_encounter = ROUND(age_at_enc(t.patient_id, t.encounter_id));
@@ -168,6 +175,7 @@ set t.encounter_location_id = e.encounter_location_id,
 	t.specimen_collection_date = e.specimen_collection_date,
 	t.specimen_collection_entry_date =  e.date_created,
 	t.age_at_encounter = e.age_at_encounter,
+	t.user_entered = e.user_entered,
 	t.visit_id = e.visit_id;
 
 -- order level columns
@@ -247,6 +255,7 @@ SELECT
     t.LOINC,							   
     DATE(t.specimen_collection_date) "specimen_collection_date",
     t.specimen_collection_entry_date,
+    t.user_entered,
     DATE(t.results_date) "results_date",
     t.results_entry_date,
 	t.result,
