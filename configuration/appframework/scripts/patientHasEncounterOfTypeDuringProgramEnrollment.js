@@ -1,8 +1,12 @@
-function patientHasEncounterOfTypeDuringProgramEnrollment(encounterTypeUuid, programUuid) {
+function patientHasEncounterOfTypeDuringProgramEnrollment(programs, encounterTypeUuid, programUuid) {
 
-  var isPatientEnrolled = isPatientEnrolled(programUuid);
-  if ( !isPatientEnrolled ) {
+  var patientEnrolled = isPatientEnrolled(programs, programUuid);
+  if ( !patientEnrolled ) {
     return false;
   }
-  return encounterOfTypeAfterDate(encounters, encounterTypeUuid, getDateEnrolledByProgramUuid(activePrograms, programUuid));
+  var dateEnrolled = getDateEnrolledByProgramUuid(programs, programUuid);
+  if ( !dateEnrolled ) {
+    return false;
+  }
+  return encounterOfTypeAfterOrOnDate(encounters, encounterTypeUuid, dateEnrolled);
 }

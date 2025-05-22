@@ -1,6 +1,6 @@
 function getDateEnrolledByProgramUuid(patientPrograms, programUuid) {
   if (!patientPrograms) {
-    return false;
+    return null;
   }
   var i, len = patientPrograms.length;
   for (i = 0; i < len; ++i) {
@@ -8,5 +8,5 @@ function getDateEnrolledByProgramUuid(patientPrograms, programUuid) {
       return patientPrograms[i]['dateEnrolled'];
     }
   }
-  return false;
+  return null;
 }
