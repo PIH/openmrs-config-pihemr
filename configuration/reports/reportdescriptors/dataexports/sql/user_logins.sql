@@ -8,7 +8,9 @@ CREATE TEMPORARY TABLE temp_user_logins (
     date_logged_in datetime,
     date_logged_out datetime,
     date_expired datetime,
-    active_duration_minutes int
+    active_duration_minutes int,
+    index_asc int,
+    index_desc int
 );
 
 -- Right now, we are only interested in successful logins.
