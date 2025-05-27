@@ -41,7 +41,9 @@ CREATE TEMPORARY TABLE temp_labresults
   reason_not_performed            VARCHAR(255), 
   results_date_obs_id             INT(11),      
   results_date                    DATETIME,     
-  results_entry_date              DATETIME      
+  results_entry_date              DATETIME,
+  index_asc                       INT,
+  index_desc                      INT
 );
 
 -- The following porcedure populates table temp_lab_concepts with all of the concept_ids of reportable labs
@@ -260,5 +262,7 @@ SELECT
     t.results_entry_date,
 	t.result,
 	t.units,
-	t.reason_not_performed
+	t.reason_not_performed,
+	t.index_asc,
+	t.index_desc
 FROM temp_labresults t;

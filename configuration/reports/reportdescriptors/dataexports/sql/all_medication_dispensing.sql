@@ -30,7 +30,9 @@ quantity_unit       varchar(30),
 order_id            int,           
 dispensing_status   varchar(50),  
 status_reason       varchar(50),  
-instructions        text          
+instructions        text,
+index_asc           int,
+index_desc          int
 );
 
 set @dispensing_construct =  concept_from_mapping('PIH','9070');
@@ -275,5 +277,7 @@ frequency,
 quantity_dispensed,
 quantity_unit,
 order_id,
-instructions
+instructions,
+index_asc,
+index_desc
 FROM all_medication_dispensing;
