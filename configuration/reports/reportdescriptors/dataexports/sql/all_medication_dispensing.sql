@@ -1,7 +1,7 @@
 SELECT encounter_type_id  INTO @disp_enc_type FROM encounter_type et WHERE uuid='8ff50dea-18a1-4609-b4c9-3f8f2d611b84';
 SET @partition = '${partitionNum}';
 
-DROP TABLE IF EXISTS all_medication_dispensing;
+DROP TEMPORARY TABLE IF EXISTS all_medication_dispensing;
 CREATE TEMPORARY TABLE all_medication_dispensing
 (
 patient_id          int,          
