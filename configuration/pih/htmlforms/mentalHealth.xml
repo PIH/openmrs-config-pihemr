@@ -1995,7 +1995,7 @@
 							<label>
 								<uimessage code="pihcore.pregnancy.dueDate" />
 							</label>
-							<obs conceptId="CIEL:5596" allowFutureDates="true" />
+							<obs conceptId="CIEL:5596" allowFutureDates="true" allowPastDates="false"/>
 						</p>
 					</div>
 				</div>
