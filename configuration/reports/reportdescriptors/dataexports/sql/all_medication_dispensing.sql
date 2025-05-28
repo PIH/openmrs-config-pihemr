@@ -3,7 +3,7 @@ SET @partition = '${partitionNum}';
 
 DROP TEMPORARY TABLE IF EXISTS all_medication_dispensing;
 CREATE TEMPORARY TABLE all_medication_dispensing
-(
+(dispensing_id      int(11) NOT NULL AUTO_INCREMENT,
 patient_id          int,          
 obs_group_id        int,          
 form                varchar(10),  
@@ -32,7 +32,8 @@ dispensing_status   varchar(50),
 status_reason       varchar(50),  
 instructions        text,
 index_asc           int,
-index_desc          int
+index_desc          int,
+PRIMARY KEY (dispensing_id)
 );
 
 set @dispensing_construct =  concept_from_mapping('PIH','9070');
@@ -258,6 +259,7 @@ set tgt.drug_name = t.drug_name,
 
 -- final select of the data
 SELECT 
+CONCAT(@partition,'-',dispensing_id) "dispensing_id",
 form,
 CONCAT(@partition,'-',patient_id) "patient_id",
 emr_id,
