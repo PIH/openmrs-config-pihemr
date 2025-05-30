@@ -18,7 +18,6 @@ CREATE TEMPORARY TABLE temp_report
     unknown_patient CHAR(1),
     gender          CHAR(1),
     age_at_encounter      INT,
-    patient_address VARCHAR(1000),
     order_number    VARCHAR(255),
     order_reason_concept_id INT(11),
     order_reason    VARCHAR(255),
@@ -93,8 +92,7 @@ CREATE TEMPORARY TABLE temp_patient_columns
     emr_id          VARCHAR(255),
     loc_registered  VARCHAR(255),
     unknown_patient CHAR(1),
-    gender          CHAR(1),
-    patient_address TEXT
+    gender          CHAR(1)
 );    
 
 insert into temp_patient_columns (patient_id)
@@ -106,15 +104,13 @@ UPDATE temp_patient_columns SET emr_id = PATIENT_IDENTIFIER(patient_id, METADATA
 UPDATE temp_patient_columns SET gender = GENDER(patient_id);
 UPDATE temp_patient_columns SET loc_registered = LOC_REGISTERED(patient_id);
 UPDATE temp_patient_columns SET unknown_patient = IF(UNKNOWN_PATIENT(patient_id) IS NULL,NULL,'1'); 
-UPDATE temp_patient_columns SET patient_address = PERSON_ADDRESS(patient_id);
 
 update temp_report t
 inner join temp_patient_columns p on p.patient_id = t.patient_id
 set t.emr_id = p.emr_id,
 	t.gender = p.gender,
 	t.loc_registered = p.loc_registered,
-	t.unknown_patient = p.unknown_patient,
-	t.patient_address = p.patient_address;
+	t.unknown_patient = p.unknown_patient;
 
      
 -- To join in the specimen encounters, a temporary table is created with all lab specimen encounters within the date range is loaded.
@@ -200,7 +196,6 @@ loc_registered,
 unknown_patient, 
 gender, 
 age_at_encounter,
-patient_address,
 if(@partition REGEXP '^[0-9]+$' = 1,concat(@partition,'-',order_number),order_number) "order_number",
 order_reason,
 accession_number "Lab_ID",
