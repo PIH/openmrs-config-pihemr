@@ -264,14 +264,5 @@
   },
   "@openmrs/esm-patient-forms-app": {
     "customFormsUrl": "/ws/rest/v1/pihcore/patientforms?patientUuid=${patientUuid}&visitUuid=${visitUuid}"
-  },
-  "@openmrs/esm-ward-app": {
-    "extensionSlots": {
-      "action-menu-ward-patient-items-slot": {
-        "remove": [
-          "order-basket-action-menu"
-        ]
-      }
-    }
   }
 }
