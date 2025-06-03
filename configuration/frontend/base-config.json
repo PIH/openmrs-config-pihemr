@@ -209,14 +209,17 @@
       }
     }
   },
-  "@openmrs/esm-patient-test-results-app": {
-    "concepts": [
+  "@openmrs/esm-patient-tests-app": {
+    "resultsViewerConcepts": [
       {
         "conceptUuid": "${concept.laboratoryCategories.uuid}",
         "defaultOpen": true
       }
-    ]
-
+    ],
+    "orders": {
+      "labOrderTypeUuid": "${orderType.testOrder.uuid}",
+      "labOrderableConcepts": "${concept.laboratoryCategories.uuid}"
+    }
   },
   "@openmrs/esm-patient-vitals-app": {
     "concepts": {
