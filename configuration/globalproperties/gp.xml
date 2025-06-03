@@ -416,5 +416,11 @@
             <value>configuration/frontend</value>
         </globalProperty>
 
+        <!-- FHIR -->
+        <globalProperty>
+            <property>fhir2.administeringEncounterRoleUuid</property>
+            <value>${encounterRole.consultingClinician.uuid}</value>
+        </globalProperty>
+
     </globalProperties>
 </config>
