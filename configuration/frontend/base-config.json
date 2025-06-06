@@ -55,7 +55,8 @@
       "substitutionType": {
         "uuid": "4c3a6b5c-9014-4d2a-8502-a74f4ae582f6"
       }
-    }
+    },
+    "leftNavMode": "hidden"
   },
   "@openmrs/esm-fast-data-entry-app": {
     "formCategories": [
@@ -93,7 +94,8 @@
           "clinical-appointments-dashboard-link"
         ]
       }
-    }
+    },
+    "leftNavMode": "hidden"
   },
   "@openmrs/esm-login-app": {
     "logo": {
