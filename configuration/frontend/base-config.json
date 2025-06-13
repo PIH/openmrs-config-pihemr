@@ -77,6 +77,15 @@
   "@openmrs/esm-form-builder-app": {
     "showSchemaSaveWarning": false
   },
+  "@openmrs/esm-help-menu-app": {
+    "extensionSlots": {
+      "help-menu-slot": {
+        "remove": [
+          "release-notes", "docs", "contact-us", "tutorials"
+        ]
+      }
+    }
+  },
   "@openmrs/esm-home-app": {
     "extensionSlots": {
       "homepage-dashboard-slot": {
