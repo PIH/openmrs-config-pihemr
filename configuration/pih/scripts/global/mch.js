@@ -111,6 +111,15 @@ function setUpGestationalAgeAtBirth(lastPeriodDateValue, msgWeeks) {
 
   updateGestationalAge();
 }
+
+function daysBetweenUTCDates(date1, date2) {
+  const date1UTC = Date.UTC(date1.getFullYear(), date1.getMonth(), date1.getDate());
+  const date2UTC = Date.UTC(date2.getFullYear(), date2.getMonth(), date2.getDate());
+  const timeDiff = Math.abs(date2UTC - date1UTC);
+  const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+  return daysDiff;
+}
+
 jq(document).ready(function () {
 
   // Check if the URL contains the specified parameter

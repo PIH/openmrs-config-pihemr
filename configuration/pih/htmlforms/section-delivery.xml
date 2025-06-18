@@ -234,8 +234,6 @@
                     return valid;
                 });
 
-                setUpGestationalAgeAtBirth('<lookup expression="fn.latestObs('CIEL:1427').getValueDatetime().getTime()"/>', '<uimessage code="pihcore.weeks"/>');
-
                 jq('#disposition select:first').change(function() {
                     jq('#disposition .field-error').first().html('').hide(); // hide any previous error if disposition is changed
                 });
@@ -285,6 +283,62 @@
         </script>
     </ifMode>
 
+    <script type="text/javascript">
+        jq(document).ready( function() {
+
+           var displayGestationalAge = function(deliveryDate, lastEddDate) {
+                if ( deliveryDate ) {
+                    // the estimatedLMP
+                    const tmpDate = new Date(lastEddDate);
+                    tmpDate.setDate(tmpDate.getDate() - 280);
+                    var gestationalDays = daysBetweenUTCDates(deliveryDate, tmpDate);
+                    const gestAgeWeeks = Math.floor(gestationalDays / 7);
+                    const gestAgeRemainderDays = gestationalDays % 7;
+                    jq("#calculated-gestational").show();
+                    jq("#calculated-gestational-age-value").text(gestAgeWeeks + " " +
+                        (gestAgeRemainderDays ? gestAgeRemainderDays + "/7 " : " ") +
+                        '<uimessage code="pihcore.weeks"/>');
+                }
+            }
+            const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+            const monthOption = { month: 'short'};
+            const lastEDD = '<lookup complexExpression="$fn.formatDate($fn.latestObs('CIEL:5596').getValueDatetime(), 'yyyy-MM-dd')"/>';
+            var lastEddDate = null;
+            if ( lastEDD ) {
+                lastEddDate = new Date(lastEDD);
+            }
+            const encDate = '<lookup expression="encounter.getEncounterDatetime().getTime()"/>';
+            var currentEncDate = new Date();
+            if ( encDate ) {
+                currentEncDate = new Date(+encDate);
+            }
+            if ( currentEncDate &amp;&amp; lastEddDate &amp;&amp; currentEncDate &gt;= lastEddDate) {
+                var daysBetween = daysBetweenUTCDates(currentEncDate, lastEddDate);
+                // the Estimated delivery date observation should be within the previous 10 months( approx 305 days) before the MCH Delivery form encounter date
+                if ( daysBetween &lt;= 305 ) {
+                    jq("#calculated-edd").text(lastEddDate.getDate() + " " + new Intl.DateTimeFormat(undefined, monthOption).format(lastEddDate) + " " + lastEddDate.getFullYear());
+                    var deliveryDateField = jq("#calculated-edd");
+                    if ( deliveryDateField &amp;&amp; deliveryDateField.text()) {
+                            displayGestationalAge(new Date(deliveryDateField.text()), lastEddDate);
+                    }
+                    //  when a delivery date is entered calculate the gestational age from the EDD
+                    jq("#deliveryDate input[type='hidden']").change(function () {
+                        const deliveryDateValue = this.value;
+                        //the deliveryDate is a string with the following format YYYY-MM-DD
+                        if ( deliveryDateValue ) {
+                            const deliveryDate = new Date(deliveryDateValue);
+                            if ( deliveryDate ) {
+                                displayGestationalAge(deliveryDate, lastEddDate);
+                            }
+                        }
+                    });
+                }
+            }
+
+
+        });
+    </script>
+
     <section id="labor-delivery" sectionTag="fieldset" headerTag="legend"
              headerStyle="title" headerCode="pihcore.delivery.title">
         <div class="section-container">
@@ -303,9 +357,7 @@
                         <span id="calculated-edd-label">
                             <uimessage code="pihcore.calculatedEstimatedDeliveryDate"/>:&#160;
                         </span>
-                        <span id='calculated-edd' class="value">
-                            <lookup expression="fn.latestObs('CIEL:1427').valueDatetime"/>
-                        </span>
+                        <span id='calculated-edd' class="value"></span>
                     </span>
                 </div>
                 <div>
