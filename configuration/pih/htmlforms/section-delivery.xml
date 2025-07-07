@@ -302,19 +302,25 @@
             }
             const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
             const monthOption = { month: 'short'};
-            const lastEDD = '<lookup complexExpression="$fn.formatDate($fn.latestObs('CIEL:5596').getValueDatetime(), 'yyyy-MM-dd')"/>';
+            const lastEDD = '<lookup complexExpression="$fn.formatDate($fn.latestObsBeforeCurrentEncounter('CIEL:5596', false).getValueDatetime(), 'yyyy-MM-dd')"/>';
+            const lastEnteredEDD = '<lookup complexExpression="$fn.formatDate($fn.latestObsBeforeCurrentEncounter('CIEL:5596', false).getDateCreated(), 'yyyy-MM-dd')"/>';
+
             var lastEddDate = null;
             if ( lastEDD ) {
                 lastEddDate = new Date(lastEDD);
+            }
+            var lastEnteredEDDDate = null;
+            if ( lastEnteredEDD ) {
+                lastEnteredEDDDate = new Date(lastEnteredEDD);
             }
             const encDate = '<lookup expression="encounter.getEncounterDatetime().getTime()"/>';
             var currentEncDate = new Date();
             if ( encDate ) {
                 currentEncDate = new Date(+encDate);
             }
-            if ( currentEncDate &amp;&amp; lastEddDate &amp;&amp; currentEncDate &gt;= lastEddDate) {
-                var daysBetween = daysBetweenUTCDates(currentEncDate, lastEddDate);
-                // the Estimated delivery date observation should be within the previous 10 months( approx 305 days) before the MCH Delivery form encounter date
+            if ( currentEncDate &amp;&amp; lastEddDate &amp;&amp; lastEnteredEDDDate ) {
+                var daysBetween = daysBetweenUTCDates(currentEncDate, lastEnteredEDDDate);
+                // the Estimated delivery date observation should have been entered within the previous 10 months( approx 305 days) before the MCH Delivery form encounter date
                 if ( daysBetween &lt;= 305 ) {
                     jq("#calculated-edd").text(lastEddDate.getDate() + " " + new Intl.DateTimeFormat(undefined, monthOption).format(lastEddDate) + " " + lastEddDate.getFullYear());
                     var deliveryDateField = jq("#calculated-edd");
