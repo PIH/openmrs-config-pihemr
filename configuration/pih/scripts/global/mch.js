@@ -52,6 +52,28 @@ function setUpEdd(currentEncounterDate, msgWeeks) {
   updateEdd();
 }
 
+function validateEstimatedDeliveryDate(fieldId, encounterDate, errorMessage) {
+  if ( fieldId && encounterDate) {
+    jq("#" + fieldId + " input[type='hidden']").change(function () {
+      htmlForm.enableSubmitButton();
+      jq("#" + fieldId + " .field-error").text('');
+      jq("#" + fieldId + " .field-error").hide();
+      const estimatedDelivery = this.value;
+      //the deliveryDate is a string with the following format YYYY-MM-DD
+      if ( estimatedDelivery ) {
+        const deliveryDate = new Date(estimatedDelivery);
+        if ( deliveryDate ) {
+          // UHM-8643: Estimated Delivery Date should not be greater than 10 months from encounter date
+          var daysBetween = daysBetweenUTCDates(deliveryDate, encounterDate);
+          if ( daysBetween > 305 ) {
+            jq("#" + fieldId + " .field-error").text(errorMessage).show();
+            htmlForm.disableSubmitButton();
+          }
+        }
+      }
+    });
+  }
+}
 /**
  * return a string representation of the gestational age as of the passed currentEncounterDate
  */

@@ -201,72 +201,80 @@
 	<ifMode mode="VIEW" include="false">
 		<script type="text/javascript">
 			// add validation handler to the HTML form
-			htmlForm.getBeforeValidation().push(function() {
-			var valid = true;
-			
-			// validate that if a disposition has been selected, all the fields associated with that disposition have
-			also been filled out
-			jq('#disposition .field-error').first().html('').hide(); // hide any previous error
-			
-			if (jq('#disposition select:first').val() != '' &amp;&amp;
-			(jq('#disposition select:visible').is(function() { return jq(this).val() == ''; })
-			|| jq('#disposition input:visible').is(function() { return jq(this).val() == ''; }))) {
-			jq('#disposition .field-error').first().append('
-			<uimessage code="pihcore.errors.fieldsAssociatedWithDisposition" />
-			').show();
-			valid = false;
-			}
-			return valid;
+			htmlForm.getBeforeValidation().push( function() {
+				var valid = true;
+				
+				// validate that if a disposition has been selected, all the fields associated with that disposition have also been filled out
+				jq('#disposition .field-error').first().html('').hide(); // hide any previous error
+				
+				if (jq('#disposition select:first').val() != '' &amp;&amp;
+					(jq('#disposition select:visible').is(function() { return jq(this).val() == ''; })
+					|| jq('#disposition input:visible').is(function() { return jq(this).val() == ''; }))) {
+						jq('#disposition .field-error').first().append('<uimessage code="pihcore.errors.fieldsAssociatedWithDisposition" />').show();
+						valid = false;
+				}
+				return valid;
 			});
 			
 			jq(function() {
 			
-			// return appointment date can never be before encounter date
-			var setMinReturnVisitDate = function () {
+				// return appointment date can never be before encounter date
+				var setMinReturnVisitDate = function () {
+				
+					var returnVisitDate = getValue('return-visit-date.value');				
+					getField('return-visit-date.value').datepicker('option', 'minDate',
+					getField('encounterDate.value').datepicker('getDate'));
+					
+					if (returnVisitDate &amp;&amp; returnVisitDate != getValue('return-visit-date.value')) {
+						setValue('return-visit-date.value',''); // reset return visit date if change to encounter date makes it invalid
+						alert('<uimessage code="pihcore.mentalhealth.returnVisitDateResetWarning" />');			
+					}			
+				}
+				
+				getField('encounterDate.value').change(setMinReturnVisitDate);
+				
+				setMinReturnVisitDate();
+				
+				jq('.medication-checkbox &gt; input:checkbox').each(function(idx, it){
+					if(jq(it).not(':checked')){
+						jq(it).closest("td").siblings().find(":input").each(function(i, el) {
+							jq(el).attr("disabled", "disabled");
+						});
+					}
+				
+					jq(it).change(function(){
+						if(jq(this).is(':checked')) {
+							jq(this).closest("td").siblings().find(":input").each(function(i, el) {
+								jq(el).removeAttr("disabled");
+							});
+						} else {
+							jq(this).closest("td").siblings().find(":input").each(function(i, el) {
+								jq(el).val('').attr("disabled", "disabled");
+							});
+						}
+					});
+				});
+				
+				jq('#disposition select:first').change(function() {
+					jq('#disposition .field-error').first().html('').hide(); // hide any previous error if disposition is changed
+				});
+
+				var currentEncounterDate = new Date();
+				const encounterDate = '<lookup expression="encounter.getEncounterDatetime().getTime()"/>';
+				if (typeof encounterDate !== "undefined" &amp;&amp; encounterDate !== null &amp;&amp; (encounterDate.length > 0)) {
+	                currentEncounterDate = new Date(+encounterDate);
+	            } else {
+	                // look for the encounterDate datepicker widget
+	                var encounterDateValue = jq("#encounterDate .hasDatepicker");
+	                if (encounterDateValue) {
+	                  var getDate = encounterDateValue.datepicker('getDate');
+	                  if (getDate) {
+	                    currentEncounterDate = new Date(getDate);
+	                  }
+	                }
+	            }	            	            
 			
-			var returnVisitDate = getValue('return-visit-date.value');
-			
-			getField('return-visit-date.value').datepicker('option', 'minDate',
-			getField('encounterDate.value').datepicker('getDate'));
-			
-			if (returnVisitDate &amp;&amp; returnVisitDate != getValue('return-visit-date.value')) {
-			setValue('return-visit-date.value',''); // reset return visit date if change to encounter date makes it
-			invalid
-			alert('
-			<uimessage code="pihcore.mentalhealth.returnVisitDateResetWarning" />
-			');
-			}
-			}
-			
-			getField('encounterDate.value').change(setMinReturnVisitDate);
-			
-			setMinReturnVisitDate();
-			
-			jq('.medication-checkbox &gt; input:checkbox').each(function(idx, it){
-			if(jq(it).not(':checked')){
-			jq(it).closest("td").siblings().find(":input").each(function(i, el){
-			jq(el).attr("disabled", "disabled");
-			});
-			}
-			
-			jq(it).change(function(){
-			if(jq(this).is(':checked')){
-			jq(this).closest("td").siblings().find(":input").each(function(i, el){
-			jq(el).removeAttr("disabled");
-			});
-			} else {
-			jq(this).closest("td").siblings().find(":input").each(function(i, el){
-			jq(el).val('').attr("disabled", "disabled");
-			});
-			}
-			});
-			});
-			
-			jq('#disposition select:first').change(function() {
-			jq('#disposition .field-error').first().html('').hide(); // hide any previous error if disposition is
-			changed
-			});
-			
+				validateEstimatedDeliveryDate("estimatedDeliveryDate", currentEncounterDate, '<uimessage code="pihcore.errors.eddField.invalidDate" />');
 			});
 		</script>
 	</ifMode>
@@ -1995,7 +2003,7 @@
 							<label>
 								<uimessage code="pihcore.pregnancy.dueDate" />
 							</label>
-							<obs conceptId="CIEL:5596" allowFutureDates="true" allowPastDates="false"/>
+							<obs id="estimatedDeliveryDate" conceptId="CIEL:5596" allowFutureDates="true" allowPastDates="false"/>
 						</p>
 					</div>
 				</div>
