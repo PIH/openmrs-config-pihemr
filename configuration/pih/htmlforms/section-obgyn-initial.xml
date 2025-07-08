@@ -502,7 +502,7 @@
 			jq(function() {
 			
 				var encounterDate = '<lookup expression="encounter.getEncounterDatetime().getTime()" />';
-				setUpEdd('<lookup expression="encounter.getEncounterDatetime().getTime()" />','<uimessage code="pihcore.weeks" />');
+				setUpEdd(encounterDate,'<uimessage code="pihcore.weeks" />');
 				validateEstimatedDeliveryDate("edd", new Date(+encounterDate), '<uimessage code="pihcore.errors.eddField.invalidDate" />');
 
 				var validateFamHistoryText = function(divElem) {

@@ -119,10 +119,22 @@
         <script type="text/javascript">
             jq(function() {
 
-                setUpEdd(
-                    '<lookup expression="encounter.getEncounterDatetime().getTime()"/>',
-                    '<uimessage code="pihcore.weeks"/>'
-                );
+                var currentEncounterDate = new Date();
+                const encounterDate = '<lookup expression="encounter.getEncounterDatetime().getTime()"/>';
+                if (typeof encounterDate !== "undefined" &amp;&amp; encounterDate !== null &amp;&amp; (encounterDate.length > 0)) {
+                    currentEncounterDate = new Date(+encounterDate);
+                } else {
+                    // look for the encounterDate datepicker widget
+                var encounterDateValue = jq("#encounterDate .hasDatepicker");
+                if (encounterDateValue) {
+                    var getDate = encounterDateValue.datepicker('getDate');
+                        if (getDate) {
+                            currentEncounterDate = new Date(getDate);
+                        }
+                    }
+                }
+                setUpEdd(currentEncounterDate, '<uimessage code="pihcore.weeks" />');
+                validateEstimatedDeliveryDate("edd", currentEncounterDate, '<uimessage code="pihcore.errors.eddField.invalidDate" />');
 
                 jq('#disposition select:first').change(function() {
                     jq('#disposition .field-error').first().html('').hide(); // hide any previous error if disposition is changed
