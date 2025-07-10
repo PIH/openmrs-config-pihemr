@@ -17,12 +17,29 @@
  *   );
  * });
  */
+
+const yesValue = "1";
+const noValue = "2";
+
+function isPatientPregnant() {
+  var returnValue = true; // If Patient pregnant question is not present on the form, or visible then use the LMP field to calculate the EDD
+  const pregnantQuestion = jq("#isPatientPregnant");
+  if (pregnantQuestion && jq(pregnantQuestion).is(":visible")) {
+    const isPatientPregnant = jq("#isPatientPregnant input[type='radio']:checked").val();
+    if (isPatientPregnant === yesValue) {
+      returnValue = true;
+    } else {
+      returnValue = false;
+    }
+  }
+  return returnValue;
+}
 function setUpEdd(currentEncounterDate, msgWeeks) {
 
   function updateEdd() {
     const lastPeriodDateValue = htmlForm.getValueIfLegal("lastPeriodDate.value");
     //the lastPerioDate is a string with the following format YYYY-MM-DD
-    if (lastPeriodDateValue) {
+    if (lastPeriodDateValue && isPatientPregnant()) {
       const lastPeriodDate = new Date(lastPeriodDateValue);
       let yearMonthDay = lastPeriodDateValue.split('-');
       if (yearMonthDay.length == 3) {
@@ -171,6 +188,7 @@ jq(document).ready(function () {
     if (selectedIndex === 0) {
       jq('#lastPeriod').show();
       jq('#lastPeriod input[type="text"]').attr('required', true);
+      jq('#pregnancyDiv').show();
       jq('#trimesterAtEnrollment input[type="radio"]').attr('required', true);
       jq('#trimesterAtEnrollment').show();
       jq('#trimesterAtEnrollment_label').show();

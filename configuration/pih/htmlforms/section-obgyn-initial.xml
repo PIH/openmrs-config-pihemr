@@ -1709,16 +1709,37 @@
 						<obs id="lastPeriodDate" conceptId="CIEL:1427" allowFutureDates="false" />
 					</span>
 				</div>
-				<!-- Due date (DPA) -->
-				<div>
+			</div>
+			<div id="pregnancyDiv" class="two-columns hidden" style="display: none; margin-top: 20px;">
+				<!-- Is patient pregnant? -->
+				<p class="side-by-side">
 					<label>
-						<uimessage code="pihcore.pregnancy.dueDate" />
+						<uimessage code="pihcore.pregnancy.status" />
 					</label>
 					<span class="small">
-						<obs id="edd" conceptId="CIEL:5596" allowFutureDates="true" allowPastDates="false" />
+						<obs id="isPatientPregnant" conceptId="CIEL:5272"
+							 style="radio"
+							 answerConceptIds="CIEL:1065,CIEL:1066"
+							 answerCodes="pihcore.yes,pihcore.no">
+							<controls>
+								<when value="CIEL:1065" thenJavaScript="jq('#dueDateDiv').show(); jq('#lastPeriodDate input[type=\'hidden\']').trigger('change');" elseJavaScript="jq('#dueDateDiv').hide(); jq('.calculated-edd-and-gestational').hide();"/>
+							</controls>
+						</obs>
 					</span>
+				</p>
+				<div class="two-columns hidden" id="dueDateDiv" style="display: none;">
+					<!-- Due date (DPA) -->
+					<div>
+						<label>
+							<uimessage code="pihcore.pregnancy.dueDate" />
+						</label>
+						<span class="small">
+							<obs id="edd" conceptId="CIEL:5596" allowFutureDates="true" allowPastDates="false" />
+						</span>
+					</div>
 				</div>
 			</div>
+
 			<div id="calculated-edd-and-gestational" class="two-columns hidden calculated-edd-and-gestational" style="display: none;">
 				<div>
 					<span id="calculated-gestational-age-wrapper">
