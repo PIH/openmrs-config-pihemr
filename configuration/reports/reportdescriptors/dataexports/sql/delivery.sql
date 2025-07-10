@@ -2,7 +2,7 @@
 -- set @endDate = '2022-06-09';
 set @partition = '${partitionNum}';
 SET @locale = ifnull(@locale, GLOBAL_PROPERTY_VALUE('default_locale', 'en'));
-
+set @mch_program = (select program_id from program where uuid = '41a2715e-8a14-11e8-9a94-a6cf71072f73');
 select encounter_type_id into @delivery_note from encounter_type where uuid='00e5ebb2-90ec-11e8-9eb6-529269fb1459'; 
 
 DROP TEMPORARY TABLE IF EXISTS temp_delivery;
@@ -12,6 +12,7 @@ CREATE TEMPORARY TABLE temp_delivery
     dossierId                            varchar(50),
     zlemrid                              varchar(50),
     loc_registered                       varchar(255),
+    mch_program_id                       int(11),
     encounter_datetime                   datetime,
     encounter_location                   varchar(255),
     encounter_type                       varchar(255),
@@ -180,6 +181,9 @@ update temp_delivery set dossierid = dosid(patient_id);
 update temp_delivery set loc_registered = loc_registered(patient_id);
 update temp_delivery set encounter_location = encounter_location_name(encounter_id);
 update temp_delivery set provider = provider(encounter_id);
+
+UPDATE temp_delivery t 
+SET mch_program_id = patient_program_id_from_encounter(patient_id, @mch_program, encounter_id);
 
 DROP TEMPORARY TABLE IF EXISTS temp_obs;
 create temporary table temp_obs 
@@ -740,6 +744,7 @@ SELECT
 dossierId,
 zlemrid,
 loc_registered,
+concat(@partition, '-', mch_program_id),
 encounter_datetime,
 encounter_location,
 encounter_type,
