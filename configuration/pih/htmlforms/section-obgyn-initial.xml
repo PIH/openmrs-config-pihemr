@@ -497,6 +497,13 @@
 			}
 		</ifMode>
 	</style>
+	<ifMode mode="VIEW" include="true">
+		<script type="text/javascript">
+			jq(function() {
+                jq("#dueDateDiv").show();
+			});
+		</script>
+	</ifMode>
 	<ifMode mode="VIEW" include="false">
 		<script type="text/javascript">
 			jq(function() {
@@ -1710,7 +1717,7 @@
 					</span>
 				</div>
 			</div>
-			<div id="pregnancyDiv" class="two-columns hidden" style="display: none; margin-top: 20px;">
+			<div id="pregnancyDiv" class="two-columns" style="margin-top: 20px;">
 				<!-- Is patient pregnant? -->
 				<p class="side-by-side">
 					<label>
