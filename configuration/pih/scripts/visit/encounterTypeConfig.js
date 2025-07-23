@@ -2272,6 +2272,17 @@ angular.module("encounterTypeConfig", [])
             showOnVisitList: true
         };
 
+        // bed assignment
+        encounterTypes["caa222d6-d7d0-408f-a104-320e7556e9ff"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
+            icon: "fas fa-fw fa-bed",
+            editUrl: hfeStandardEditUrl,
+            showOnVisitList: true
+        };
+
         return {
           get: function(encounter, country, site) {
 
