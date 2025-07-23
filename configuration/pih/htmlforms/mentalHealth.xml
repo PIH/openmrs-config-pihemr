@@ -278,6 +278,26 @@
 			});
 		</script>
 	</ifMode>
+	<ifMode mode="VIEW">
+	<script type="text/javascript">
+		jq(function() {
+
+		// Check if the URL contains overview parameter
+			const urlContainsOverviewParam = window.location.href.includes('overview');
+			if (urlContainsOverviewParam) {
+				// Iterate through each collapsible-content element
+				jq('.collapsible-content').each(function () {
+				const content = jq(this);
+				// Check if any checkboxes inside are checked
+				if (content.find('.value').length > 0) {
+					content.addClass('open'); // Add the open class
+					content.css('max-height', content[0].scrollHeight + 'px'); 
+				}
+				});
+			}
+		})
+	</script>
+	</ifMode>
 	<div class="print-form-datestamps" style="display:none">
 		<p>
 			<uimessage code="created_on" />
