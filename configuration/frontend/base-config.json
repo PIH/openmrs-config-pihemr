@@ -1,7 +1,7 @@
 {
   "@openmrs/esm-api": {
     "redirectAuthFailure": {
-      "url": "${openmrsBase}/index.htm"
+      "url": "${openmrsBase}/authenticationui/login/login.page"
     }
   },
   "@openmrs/esm-appointments-app": {
