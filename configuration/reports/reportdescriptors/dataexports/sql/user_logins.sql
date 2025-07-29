@@ -9,14 +9,15 @@ CREATE TEMPORARY TABLE temp_user_logins (
     date_logged_out datetime,
     date_expired datetime,
     active_duration_minutes int,
+    ip_address varchar(40),
     index_asc int,
     index_desc int
 );
 
 -- Right now, we are only interested in successful logins.
 -- Once we introduce Multi-Factor authentication, this may or may not change for this table
-INSERT INTO temp_user_logins(login_id, username, date_logged_in)
-SELECT  login_id, username, event_datetime
+INSERT INTO temp_user_logins(login_id, username, date_logged_in, ip_address)
+SELECT  login_id, username, event_datetime, ip_address
 FROM    authentication_event_log
 WHERE   event_type = 'LOGIN_SUCCEEDED'
 ;
