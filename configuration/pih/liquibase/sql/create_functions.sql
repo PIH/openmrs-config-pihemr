@@ -570,6 +570,31 @@ limit 1
 END
 #
 /*
+  returns the registration encounter id of the given patient
+*/
+#
+DROP FUNCTION IF EXISTS registration_encounter_id;
+#
+CREATE FUNCTION registration_encounter_id(
+    _patient_id int
+)
+    RETURNS INT
+    DETERMINISTIC
+
+BEGIN
+    DECLARE ret INT;
+
+select encounter_id into ret from encounter
+where patient_id = _patient_id
+  and encounter_type = (select encounter_type_id from encounter_type et where uuid = '873f968a-73a8-4f9c-ac78-9f4778b751b6')
+  and voided = 0
+    limit 1
+;
+RETURN ret;
+
+END
+#
+/*
 Provider
 */
 #
