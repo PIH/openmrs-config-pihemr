@@ -19,18 +19,6 @@
     <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.CleanDiagnosisConstructAction"/>
     <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.CleanPrescriptionConstructAction"/>
 
-    <!-- ToDo:  Use messages.properties -->
-    <translations defaultLocale="fr">
-        <code name="yes">
-            <variant locale="en" value="yes"/>
-            <variant locale="fr" value="oui"/>
-        </code>
-        <code name="no">
-            <variant locale="en" value="no"/>
-            <variant locale="fr" value="non"/>
-        </code>
-    </translations>
-
     <style type="text/css">
 
         #who-when-where {
@@ -234,6 +222,17 @@
 
     <h2>NCD (REDCap)</h2>
 
+
+    <section id="redcapId" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="REDCap NCD Study">
+        <div class="section-container">
+            Study ID
+            <span class="small">
+                <obs conceptId="PIH:20875" />
+            </span>
+        </div>
+    </section>
+
     <!-- this section is ONLY included for NCD intake encounter -->
     <includeIf velocityTest="$encounter.encounterType.uuid == 'ae06d311-1866-455b-8a64-126a9bd74171'">
         <section id="referralIn" sectionTag="fieldset" headerTag="legend" headerStyle="title"
@@ -241,9 +240,9 @@
             <div class="section-container">
                 <div class="two-columns">
                     <p>
-                        <strong>
-                            <uimessage code="pihcore.refer.internal"/>
-                        </strong>
+                        <label>
+                            <uimessage code="pihcore.referredBy"/>
+                        </label>
 
                         <repeat>
                             <template>
@@ -251,27 +250,15 @@
                                      style="checkbox"
                                      answerConceptId="{point}" answerCode="{message}"/>
                             </template>
-
-                            <render point="PIH:PRIMARY CARE CLINIC" message="pihcore.location.primary"
-                                    comment="Primary care"/>
-                            <render point="CIEL:160448" message="pihcore.location.intMed" comment="Internal medicine"/>
-                            <render point="CIEL:160473" message="pihcore.location.ed" comment="Emergency"/>
-                            <render point="CIEL:1555"   message="pihcore.chw" comment="CHW"/>
-                            <render point="PIH:11965"   message="pihcore.refer.communityMtg" comment="CommunityMeeting"/>
+                            <render point="PIH:20873" message="Hospital (Inpatient HSTH)" comment="Inpatient HSTH"/>
+                            <render point="PIH:ZL Inpatient" message="Hospital (Inpatient, autre ZL)" comment="Inpatient ZL"/>
+                            <render point="PIH:20874" message="Klinik Eksten (HSTH)" comment="Outpatient HSTH"/>
+                            <render point="PIH:ZL outpatient" message="Klinik Eksten (autre ZL)" comment="Outpatient ZL"/>
+                            <render point="PIH:11965"   message="Reyinyon Kominote (Community Meeting)" comment="pihcore.refer.communityMtg" />
+                            <render point="CIEL:1555"   message="Ajan Sante (CHW)" comment="CHW"/>
+                            <render point="CIEL:160473" message="Ijans (Emergency)" comment="Emergency"/>
+                            <render point="CIEL:5622"   message="Autre (Other)" comment="other" />
                         </repeat>
-
-                        <obs conceptId="PIH:Type of referring service" style="checkbox"
-                             answerConceptId="PIH:OTHER" commentFieldLabel=""/>
-                    </p>
-
-                    <p>
-                        <strong>
-                            <uimessage code="pihcore.refer.external"/>
-                        </strong>
-                        <obs conceptId="PIH:Type of referring service" style="checkbox"
-                             answerConceptId="PIH:11956" commentFieldLabel=""/>
-                        <obs conceptId="PIH:Type of referring service" style="checkbox"
-                             answerConceptId="PIH:Non-ZL supported site" commentFieldLabel=""/>
                     </p>
                 </div>
 
@@ -281,7 +268,7 @@
                             <br/>
                         </label>
                         <obs conceptId="PIH:Known chronic disease before referral" style="radio"
-                             answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no"
+                             answerConceptIds="PIH:YES,PIH:NO" answerCodes="pihcore.yes,pihcore.no"
                              answerSeparator=""/>
                     </p>
 
@@ -292,7 +279,7 @@
                         </label>
                         <obs conceptId="PIH:Prior treatment for chronic disease" style="radio"
                              answerConceptIds="PIH:YES,PIH:NO"
-                             answerCodes="yes,no"
+                             answerCodes="pihcore.yes,pihcore.no"
                              answerSeparator=""/>
                     </p>
 
@@ -303,7 +290,7 @@
                             <br/>
                         </label>
                         <obs conceptId="PIH:Chronic disease controlled during initial visit" style="radio"
-                             answerConceptIds="PIH:YES,PIH:NO" answerCodes="yes,no"
+                             answerConceptIds="PIH:YES,PIH:NO" answerCodes="pihcore.yes,pihcore.no"
                              answerSeparator=""/>
                     </p>
 
@@ -582,7 +569,7 @@
                     </label>
                     <obs conceptId="PIH:Hypoglycemia symptoms" style="radio"
                          answerConceptIds="PIH:YES,PIH:NO"
-                         answerCodes="yes,no" answerSeparator=""/>
+                         answerCodes="pihcore.yes,pihcore.no" answerSeparator=""/>
                 </p>
             </includeIf>
 
@@ -605,7 +592,7 @@
                 <tr>
                     <th>
                         <label>
-                            <uimessage code="pihcore.diagnosis.label"/>
+                            <uimessage code="pihcore.diagnosis.label"/> (Respiratory disease type)
                         </label>
                     </th>
                 </tr>
@@ -666,8 +653,8 @@
                 <label>
                     <uimessage code="pihcore.hiv.state.title"/>
                 </label>
-                <obs conceptId="CIEL:1169" style="radio"
-                     answerConceptIds="CIEL:1065,CIEL:1066"/>
+                <obs conceptId="PIH:3753" style="radio"
+                     answerConceptIds="CIEL:664,CIEL:703,CIEL:1067"/>
             </p>
         </div>
     </section>
@@ -685,7 +672,7 @@
                         <br/>
                         <obs conceptId="PIH:Appearance at appointment time" style="radio"
                              answerConceptIds="PIH:YES,PIH:Between 1 and 7,PIH:More than 7"
-                             answerCodes="yes,pihcore.meds.late1to7Days,pihcore.meds.late7orMoreDays"
+                             answerCodes="pihcore.yes,pihcore.meds.late1to7Days,pihcore.meds.late7orMoreDays"
                              answerSeparator=""/>
                     </p>
                 </includeIf>
@@ -707,7 +694,7 @@
                     <!-- ToDo: UHM-3919 Use hospitalization construct and migrate data -->
                     <obs conceptId="PIH:PATIENT HOSPITALIZED SINCE LAST VISIT"
                          style="radio" answerConceptIds="PIH:YES,PIH:NO"
-                         answerCodes="yes,no" answerSeparator=""/>
+                         answerCodes="pihcore.yes,pihcore.no" answerSeparator=""/>
 
                     <br/><br/>
                     <obs conceptId="CIEL:162879" labelCode="pihcore.reasonHospitalized"/>
