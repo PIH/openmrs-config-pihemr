@@ -4391,3 +4391,78 @@ BEGIN
     RETURN ret;
 
 END
+#
+-- This function accepts encounter_id, mapping source, mapping code
+-- It will return true if there is an obs in the encounter 
+-- with that answer for the question 'symptom present' in the temp_obs table
+#
+DROP FUNCTION IF EXISTS symptom_present_from_temp;
+#
+CREATE FUNCTION symptom_present_from_temp(_encounterId int(11), _source varchar(50), _term varchar(255))
+RETURNS boolean
+DETERMINISTIC
+
+BEGIN
+
+DECLARE ret boolean;
+
+select      if(o.obs_id is null,null,1) into ret 
+from        temp_obs o
+where       o.encounter_id = _encounterId
+and         o.concept_id = concept_from_mapping('PIH','1293') -- symptom present
+and         o.value_coded = concept_from_mapping(_source, _term)
+limit 1;
+
+RETURN ret;
+
+END
+#
+-- This function accepts encounter_id, mapping source, mapping code
+-- It will return true if there is an obs in the encounter 
+-- with that answer for the question 'symptom absent' in the temp_obs table
+#
+DROP FUNCTION IF EXISTS symptom_absent_from_temp;
+#
+CREATE FUNCTION symptom_absent_from_temp(_encounterId int(11), _source varchar(50), _term varchar(255))
+RETURNS boolean
+DETERMINISTIC
+
+BEGIN
+
+DECLARE ret boolean;
+
+select      if(o.obs_id is null,null,1) into ret 
+from        temp_obs o
+where       o.encounter_id = _encounterId
+and         o.concept_id = concept_from_mapping('PIH','1734') -- symptom absent
+and         o.value_coded = concept_from_mapping(_source, _term)
+limit 1;
+
+RETURN ret;
+
+END
+#
+-- This function accepts encounter_id, mapping source, mapping code
+-- It will return true if there is an obs in the encounter 
+-- with that answer for the question 'symptom presence unknown' in the temp_obs table
+#
+DROP FUNCTION IF EXISTS symptom_unknown_from_temp;
+#
+CREATE FUNCTION symptom_unknown_from_temp(_encounterId int(11), _source varchar(50), _term varchar(255))
+RETURNS boolean
+DETERMINISTIC
+
+BEGIN
+
+DECLARE ret boolean;
+
+select      if(o.obs_id is null,null,1) into ret 
+from        temp_obs o
+where       o.encounter_id = _encounterId
+and         o.concept_id = concept_from_mapping('PIH','1735') -- symptom unknown
+and         o.value_coded = concept_from_mapping(_source, _term)
+limit 1;
+
+RETURN ret;
+
+END
