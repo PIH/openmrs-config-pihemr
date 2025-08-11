@@ -851,6 +851,11 @@
                 </repeat>
 
             </p>
+
+            <label>
+                <uimessage code="pihcore.comment"/>
+            </label>
+            <obs conceptId="PIH:DISPOSITION COMMENTS" style="text"/>
         </div>
     </section>
 
