@@ -348,8 +348,9 @@
 					}
 				});
 
+            var previousEdd = getValue('obgyn_initial_previous_edd.value');
 			// looking for OB/GYN encounters with an obs that indicates that it was an intake encounter
-			jq.getJSON(apiBaseUrl + "/encounter", {
+			jq.getJSON( apiBaseUrl + "/encounter", {
 					s: 'byObs',
 					patient: patientUuid,
 					encounterType: obGynEncounterType,
@@ -386,13 +387,6 @@
 													dateStyle: "medium"
 												})).format(calculateExpectedDeliveryDate(periodDate)));
 												jq(".calculated-edd").removeClass("emptyValue").addClass("value");
-											}
-										} else if (obs.concept.uuid === dueDateConcept) {
-											if (obs.valueDatetime) {
-												let dueDate = new Date(obs.valueDatetime);
-												jq("#obgyn_initial_edd").text(dueDate.getDate() + " " + new Intl.DateTimeFormat(undefined,
-													monthOption).format(dueDate) + " " + dueDate.getFullYear());
-												jq("#obgyn_initial_edd").removeClass("emptyValue").addClass("value");
 											}
 										} else if (obs.concept.uuid === trimAtEnrollConcept) {
 											if (obs.valueCoded) {
@@ -510,6 +504,45 @@
 					}
 				});
 
+			if (!previousEdd) {		
+				// looking for all previous OB/GYN encounters(intake and followups) that have recorded the EDD
+				jq.getJSON( apiBaseUrl + "/encounter", {
+						s: 'byObs',
+						patient: patientUuid,
+						encounterType: obGynEncounterType,
+						obsConcept: dueDateConcept,					
+						v: 'custom:(uuid,patient:(uuid),encounterType:(uuid),encounterDatetime,voided,obs:(uuid,display,concept:(uuid,display),obsDatetime,valueCoded:(uuid,display),valueDatetime,valueNumeric,valueText,groupMembers:(uuid,display,person:(uuid),concept:(uuid,display),obsDatetime,valueCoded:(uuid,display),valueDatetime,valueNumeric,valueText,voided),voided)',
+						order: 'desc'
+					},
+					function(data) {
+						if (data.results.length &gt; 0) {
+							let foundEddObs = false;
+							for (let index = 0; index &lt; data.results.length; index++) {
+								let obGynEnc = data.results[index];
+								let obGynEncDate = new Date(obGynEnc.encounterDatetime);
+								if ( foundEddObs ) {
+                                	break;
+								}
+								if ((currentEncounterDate.getTime() &gt;= obGynEncDate.getTime())) {
+									if (obGynEnc.obs &amp;&amp;obGynEnc.obs.length &gt; 0) {
+										for (let j = 0; j &lt; obGynEnc.obs.length; j++) {
+											let obs = obGynEnc.obs[j];
+											if (obs.concept.uuid === dueDateConcept) {
+												//there is no current value for this obs, so we are trying to retrieve the previous know value from a previous encounter
+												if (obs.valueDatetime) {
+													let dueDate = new Date(obs.valueDatetime);
+													getField("obgyn_initial_previous_edd.value").datepicker("setDate", dueDate);
+                                                    foundEddObs = true; // we only need the most recent recorded EDD
+													break;
+												}
+											} 
+										}
+									}									
+								}
+							}
+						}
+					});
+				}
 	});
 	</script>
 
@@ -1512,8 +1545,7 @@
 											<label>
 												<uimessage code="pihcore.pregnancy.dueDate" />
 											</label>
-											<span id="obgyn_initial_edd" class="emptyValue">
-											</span>
+											<obs id="obgyn_initial_previous_edd" conceptId="CIEL:5596" allowFutureDates="true" allowPastDates="false" />
 										</p>
 									</div>
 								</div>
