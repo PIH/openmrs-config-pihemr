@@ -35,6 +35,8 @@ function isPatientPregnant() {
   return returnValue;
 }
 function setUpEdd(currentEncounterDate, msgWeeks) {
+  var encObsEdd = getField("edd.value").val(); // the encounter already has an EDD obs value
+  var encObsGestagionalAge = getField("gestationalAge.value").val(); // the encounter already has a Gestational Age obs value
 
   function updateEdd() {
     const lastPeriodDateValue = htmlForm.getValueIfLegal("lastPeriodDate.value");
@@ -53,8 +55,13 @@ function setUpEdd(currentEncounterDate, msgWeeks) {
       const edd = calculateExpectedDeliveryDate(lastPeriodDate);
       const locale = window.sessionContext.locale || navigator.language;
       jq(".calculated-edd-and-gestational").show();
-      getField("edd.value").datepicker("setDate", edd);
+      if (!encObsEdd) {
+        getField("edd.value").datepicker("setDate", edd);
+      }
       jq(".calculated-edd").text((Intl.DateTimeFormat(locale, { dateStyle: "medium" })).format(edd));
+      if (!encObsGestagionalAge) {
+        getField("gestationalAge.value").val(gestAgeText);
+      }
       jq(".calculated-gestational-age-value").text(gestAgeText);
     } else {
       jq(".calculated-edd-and-gestational").hide();
@@ -100,7 +107,7 @@ function calculateGestationalDays(lastPeriodDate, currentEncounterDate, msgWeeks
   const gestAgeDays = Math.floor(gestAgeMs / (1000 * 3600 * 24))
   const gestAgeWeeks = Math.floor(gestAgeDays / 7);
   const gestAgeRemainderDays = gestAgeDays % 7;
-  return gestAgeWeeks + " " + (gestAgeRemainderDays ? gestAgeRemainderDays + "/7 " : " ") + msgWeeks;
+  return gestAgeWeeks + (gestAgeRemainderDays ? gestAgeRemainderDays / 10 : 0) ;
 }
 
 /**
