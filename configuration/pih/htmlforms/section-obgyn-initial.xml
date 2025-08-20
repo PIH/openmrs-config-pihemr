@@ -193,6 +193,8 @@
 				const whProcedurePerformed = "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 				const whProcedures = "57755670-c183-494b-bd5e-723e0978c3e3";
 				const whSterilizationProcedures = "46cbbdd9-9cc2-42c6-8ecb-4dbe6ea01354";
+				const intakeConceptId = '<lookup expression="fn.getConcept('CIEL:164180').id"/>';
+				const followupConceptId = '<lookup expression="fn.getConcept('PIH:7383').id"/>';
 
 				const lastPeriodDateConcept = '<lookup expression="fn.getConcept('
 				CIEL: 1427 ').uuid" />';
@@ -350,160 +352,174 @@
 					});
 
 				var previousEdd = getValue('obgyn_initial_previous_edd.value');
-				// looking for OB/GYN encounters with an obs that indicates that it was an intake encounter
-				jq.getJSON( apiBaseUrl + "/encounter", {
-						s: 'byObs',
-						patient: patientUuid,
-						encounterType: obGynEncounterType,
-						obsConcept: typeOfVisit,
-						obsValues: intakeVisit,
-						v: 'custom:(uuid,patient:(uuid),encounterType:(uuid),encounterDatetime,voided,obs:(uuid,display,concept:(uuid,display),obsDatetime,valueCoded:(uuid,display),valueDatetime,valueNumeric,valueText,groupMembers:(uuid,display,person:(uuid),concept:(uuid,display),obsDatetime,valueCoded:(uuid,display),valueDatetime,valueNumeric,valueText,voided),voided)',
-						order: 'desc'
-					},
-					function(data) {
-						if (data.results.length &gt; 0) {
-							for (let index = 0; index &lt; data.results.length; index++) {
-								let obGynEnc = data.results[index];
-								let obGynEncDate = new Date(obGynEnc.encounterDatetime);
+				var typeOfForm = getValue('intake-or-followup.value');
+				if ( typeOfForm == intakeConceptId ) {
+						var intakeEddValue = getValue('edd.value');
+                        if (!intakeEddValue &amp;&amp; previousEdd ) {
+							getField("edd.value").datepicker("setDate", dateFromString(previousEdd));
+						}
+						var intakeGestAgeValue = getValue('gestationalAge.value');
+						var followupGestAgeValue = getValue('followUpGestationalAge.value');
+						if (!intakeGestAgeValue &amp;&amp; followupGestAgeValue ) {
+							getField("gestationalAge.value").val(followupGestAgeValue);
+						}
 
-								if ((currentEncounterDate.getTime() &gt;= obGynEncDate.getTime())) {
-									let month = new Intl.DateTimeFormat(undefined, monthOption).format(obGynEncDate);
-									jq("#lastObGynInitialEncounterDate").text(obGynEncDate.getDate() + "-" + month + "-" +
-										obGynEncDate.getFullYear());
-									jq("#lastObGynInitialEncounterTime").text(obGynEncDate.toLocaleTimeString());
+				}
+					// looking for OB/GYN encounters with an obs that indicates that it was an intake encounter
+					jq.getJSON( apiBaseUrl + "/encounter", {
+							s: 'byObs',
+							patient: patientUuid,
+							encounterType: obGynEncounterType,
+							obsConcept: typeOfVisit,
+							obsValues: intakeVisit,
+							v: 'custom:(uuid,patient:(uuid),encounterType:(uuid),encounterDatetime,voided,obs:(uuid,display,concept:(uuid,display),obsDatetime,valueCoded:(uuid,display),valueDatetime,valueNumeric,valueText,groupMembers:(uuid,display,person:(uuid),concept:(uuid,display),obsDatetime,valueCoded:(uuid,display),valueDatetime,valueNumeric,valueText,voided),voided)',
+							order: 'desc'
+						},
+						function(data) {
+							if (data.results.length &gt; 0) {
+								for (let index = 0; index &lt; data.results.length; index++) {
+									let obGynEnc = data.results[index];
+									let obGynEncDate = new Date(obGynEnc.encounterDatetime);
 
-									if (obGynEnc.obs &amp;&amp;obGynEnc.obs.length &gt; 0) {
-										for (let j = 0; j &lt; obGynEnc.obs.length; j++) {
-											let obs = obGynEnc.obs[j];
-											if (obs.concept.uuid === lastPeriodDateConcept) {
-												if (obs.valueDatetime) {
-													let periodDate = new Date(obs.valueDatetime);
-													jq("#obgyn_initial_lastPeriodDate").text(periodDate.getDate() + " " + new Intl.DateTimeFormat(undefined,
-														monthOption).format(periodDate) + " " + periodDate.getFullYear());
-													jq("#obgyn_initial_lastPeriodDate").removeClass("emptyValue").addClass("value");
-													jq(".calculated-gestational-age-value").text(calculateGestationalDays(periodDate, currentEncounterDate,
-														msgWeeks));
-													jq(".calculated-gestational-age-value").removeClass("emptyValue").addClass("value");
-													jq(".calculated-edd").text((Intl.DateTimeFormat(locale, {
-														dateStyle: "medium"
-													})).format(calculateExpectedDeliveryDate(periodDate)));
-													jq(".calculated-edd").removeClass("emptyValue").addClass("value");
-												}
-											} else if (obs.concept.uuid === trimAtEnrollConcept) {
-												if (obs.valueCoded) {
-													switch (obs.valueCoded.uuid) {
-														case firstTrimConcept:
-															jq("#obgyn_initial_firstTrimester").text("[X] " + obs.valueCoded.display);
-															jq("#obgyn_initial_firstTrimester").removeClass("emptyValue").addClass("value");
-															break;
-														case secondTrimConcept:
-															jq("#obgyn_initial_secondTrimester").text("[X] " + obs.valueCoded.display);
-															jq("#obgyn_initial_secondTrimester").removeClass("emptyValue").addClass("value");
-															break;
-														case thirdTrimConcept:
-															jq("#obgyn_initial_thirdTrimester").text("[X] " + obs.valueCoded.display);
-															jq("#obgyn_initial_thirdTrimester").removeClass("emptyValue").addClass("value");
-															break;
+									if ((currentEncounterDate.getTime() &gt;= obGynEncDate.getTime())) {
+										let month = new Intl.DateTimeFormat(undefined, monthOption).format(obGynEncDate);
+										jq("#lastObGynInitialEncounterDate").text(obGynEncDate.getDate() + "-" + month + "-" +
+											obGynEncDate.getFullYear());
+										jq("#lastObGynInitialEncounterTime").text(obGynEncDate.toLocaleTimeString());
+
+										if (obGynEnc.obs &amp;&amp;obGynEnc.obs.length &gt; 0) {
+											for (let j = 0; j &lt; obGynEnc.obs.length; j++) {
+												let obs = obGynEnc.obs[j];
+												if (obs.concept.uuid === lastPeriodDateConcept) {
+													if (obs.valueDatetime) {
+														let periodDate = new Date(obs.valueDatetime);
+														jq("#obgyn_initial_lastPeriodDate").text(periodDate.getDate() + " " + new Intl.DateTimeFormat(undefined,
+															monthOption).format(periodDate) + " " + periodDate.getFullYear());
+														jq("#obgyn_initial_lastPeriodDate").removeClass("emptyValue").addClass("value");
+														jq(".calculated-gestational-age-value").text(calculateGestationalDays(periodDate, currentEncounterDate,
+															msgWeeks));
+														jq(".calculated-gestational-age-value").removeClass("emptyValue").addClass("value");
+														jq(".calculated-edd").text((Intl.DateTimeFormat(locale, {
+															dateStyle: "medium"
+														})).format(calculateExpectedDeliveryDate(periodDate)));
+														jq(".calculated-edd").removeClass("emptyValue").addClass("value");
 													}
-												}
-											} else if (obs.concept.uuid === gravidaConcept) {
-												if ((obs.valueNumeric === 0) || obs.valueNumeric) {
-													jq("#obgyn_initial_gravidaInput").text(Math.round(obs.valueNumeric));
-													jq("#obgyn_initial_gravidaInput").removeClass("emptyValue").addClass("value");
-												}
-											} else if (obs.concept.uuid === paraConcept) {
-												if ((obs.valueNumeric === 0) || obs.valueNumeric) {
-													jq("#obgyn_initial_paraInput").text(Math.round(obs.valueNumeric));
-													jq("#obgyn_initial_paraInput").removeClass("emptyValue").addClass("value");
-												}
-											} else if (obs.concept.uuid === abortusConcept) {
-												if ((obs.valueNumeric === 0) || obs.valueNumeric) {
-													jq("#obgyn_initial_abortusInput").text(Math.round(obs.valueNumeric));
-													jq("#obgyn_initial_abortusInput").removeClass("emptyValue").addClass("value");
-												}
-											} else if (obs.concept.uuid === livingConcept) {
-												if ((obs.valueNumeric === 0) || obs.valueNumeric) {
-													jq("#obgyn_initial_livingInput").text(Math.round(obs.valueNumeric));
-													jq("#obgyn_initial_livingInput").removeClass("emptyValue").addClass("value");
-												}
-											} else if (obs.concept.uuid === menstruationConcept) {
-												if (obs.valueCoded) {
-													switch (obs.valueCoded.uuid) {
-														case regularMenstrConcept:
-															jq("#obgyn_initial_regularMenstruation").text("[X] " + regularTxt);
-															jq("#obgyn_initial_regularMenstruation").removeClass("emptyValue").addClass("value");
-															break;
-														case irregularMenstrConcept:
-															jq("#obgyn_initial_irregularMenstruation").text("[X] " + irregularTxt);
-															jq("#obgyn_initial_irregularMenstruation").removeClass("emptyValue").addClass("value");
-															break;
-													}
-												}
-											} else if (obs.concept.uuid === visitDiagConcept) {
-												if (obs.groupMembers) {
-													for (let index = 0; index &lt; obs.groupMembers.length; index++) {
-														let member = obs.groupMembers[index];
-														if (member.concept.uuid === diagConcept &amp;&amp;member.valueCoded.uuid === dysmenorConcept) {
-															jq("#obgyn_initial_dysmenorrhea").text("[X] " + member.valueCoded.display);
-															jq("#obgyn_initial_dysmenorrhea").removeClass("emptyValue").addClass("value");
-															break;
+												} else if (obs.concept.uuid === trimAtEnrollConcept) {
+													if (obs.valueCoded) {
+														switch (obs.valueCoded.uuid) {
+															case firstTrimConcept:
+																jq("#obgyn_initial_firstTrimester").text("[X] " + obs.valueCoded.display);
+																jq("#obgyn_initial_firstTrimester").removeClass("emptyValue").addClass("value");
+																break;
+															case secondTrimConcept:
+																jq("#obgyn_initial_secondTrimester").text("[X] " + obs.valueCoded.display);
+																jq("#obgyn_initial_secondTrimester").removeClass("emptyValue").addClass("value");
+																break;
+															case thirdTrimConcept:
+																jq("#obgyn_initial_thirdTrimester").text("[X] " + obs.valueCoded.display);
+																jq("#obgyn_initial_thirdTrimester").removeClass("emptyValue").addClass("value");
+																break;
 														}
 													}
-												}
-											} else if (obs.concept.uuid === durationMenstCycleConcept) {
-												if (obs.valueNumeric) {
-													jq("#obgyn_initial_durationMenstCycle").text(Math.round(obs.valueNumeric));
-													jq("#obgyn_initial_durationMenstCycle").removeClass("emptyValue").addClass("value");
-												}
-											} else if (obs.concept.uuid === durationMensesConcept) {
-												if (obs.valueNumeric) {
-													jq("#obgyn_initial_durationMenses").text(Math.round(obs.valueNumeric));
-													jq("#obgyn_initial_durationMenses").removeClass("emptyValue").addClass("value");
-												}
-											} else if (obs.concept.uuid === ageMenarcheConcept) {
-												if (obs.valueNumeric) {
-													jq("#obgyn_initial_ageMenarche").text(Math.round(obs.valueNumeric));
-													jq("#obgyn_initial_ageMenarche").removeClass("emptyValue").addClass("value");
-												}
-											} else if (obs.concept.uuid === age1stSexualInterConcept) {
-												if (obs.valueNumeric) {
-													jq("#obgyn_initial_age1stSexualInter").text(Math.round(obs.valueNumeric));
-													jq("#obgyn_initial_age1stSexualInter").removeClass("emptyValue").addClass("value");
-												}
-											} else if (obs.concept.uuid === numSexPartnersConcept) {
-												if (obs.valueNumeric) {
-													jq("#obgyn_initial_numSexPartners").text(Math.round(obs.valueNumeric));
-													jq("#obgyn_initial_numSexPartners").removeClass("emptyValue").addClass("value");
-												}
-											} else if (obs.concept.uuid === pregnancyHistoryConstruct) {
-												if (obs.groupMembers) {
-													let pregOrder = null;
-													let typeOfDelivery = null;
-													let outcome = null;
-													for (let index = 0; index &lt; obs.groupMembers.length; index++) {
-														let member = obs.groupMembers[index];
-														if (member.concept.uuid === pregOrderConcept) {
-															pregOrder = Math.round(member.valueNumeric);
-														} else if (member.concept.uuid === deliveryTypeConcept) {
-															typeOfDelivery = member.valueCoded.display;
-														} else if (member.concept.uuid === pregOutcomeConcept) {
-															outcome = member.valueCoded.display;
+												} else if (obs.concept.uuid === gravidaConcept) {
+													if ((obs.valueNumeric === 0) || obs.valueNumeric) {
+														jq("#obgyn_initial_gravidaInput").text(Math.round(obs.valueNumeric));
+														jq("#obgyn_initial_gravidaInput").removeClass("emptyValue").addClass("value");
+													}
+												} else if (obs.concept.uuid === paraConcept) {
+													if ((obs.valueNumeric === 0) || obs.valueNumeric) {
+														jq("#obgyn_initial_paraInput").text(Math.round(obs.valueNumeric));
+														jq("#obgyn_initial_paraInput").removeClass("emptyValue").addClass("value");
+													}
+												} else if (obs.concept.uuid === abortusConcept) {
+													if ((obs.valueNumeric === 0) || obs.valueNumeric) {
+														jq("#obgyn_initial_abortusInput").text(Math.round(obs.valueNumeric));
+														jq("#obgyn_initial_abortusInput").removeClass("emptyValue").addClass("value");
+													}
+												} else if (obs.concept.uuid === livingConcept) {
+													if ((obs.valueNumeric === 0) || obs.valueNumeric) {
+														jq("#obgyn_initial_livingInput").text(Math.round(obs.valueNumeric));
+														jq("#obgyn_initial_livingInput").removeClass("emptyValue").addClass("value");
+													}
+												} else if (obs.concept.uuid === menstruationConcept) {
+													if (obs.valueCoded) {
+														switch (obs.valueCoded.uuid) {
+															case regularMenstrConcept:
+																jq("#obgyn_initial_regularMenstruation").text("[X] " + regularTxt);
+																jq("#obgyn_initial_regularMenstruation").removeClass("emptyValue").addClass("value");
+																break;
+															case irregularMenstrConcept:
+																jq("#obgyn_initial_irregularMenstruation").text("[X] " + irregularTxt);
+																jq("#obgyn_initial_irregularMenstruation").removeClass("emptyValue").addClass("value");
+																break;
 														}
 													}
+												} else if (obs.concept.uuid === visitDiagConcept) {
+													if (obs.groupMembers) {
+														for (let index = 0; index &lt; obs.groupMembers.length; index++) {
+															let member = obs.groupMembers[index];
+															if (member.concept.uuid === diagConcept &amp;&amp;member.valueCoded.uuid === dysmenorConcept) {
+																jq("#obgyn_initial_dysmenorrhea").text("[X] " + member.valueCoded.display);
+																jq("#obgyn_initial_dysmenorrhea").removeClass("emptyValue").addClass("value");
+																break;
+															}
+														}
+													}
+												} else if (obs.concept.uuid === durationMenstCycleConcept) {
+													if (obs.valueNumeric) {
+														jq("#obgyn_initial_durationMenstCycle").text(Math.round(obs.valueNumeric));
+														jq("#obgyn_initial_durationMenstCycle").removeClass("emptyValue").addClass("value");
+													}
+												} else if (obs.concept.uuid === durationMensesConcept) {
+													if (obs.valueNumeric) {
+														jq("#obgyn_initial_durationMenses").text(Math.round(obs.valueNumeric));
+														jq("#obgyn_initial_durationMenses").removeClass("emptyValue").addClass("value");
+													}
+												} else if (obs.concept.uuid === ageMenarcheConcept) {
+													if (obs.valueNumeric) {
+														jq("#obgyn_initial_ageMenarche").text(Math.round(obs.valueNumeric));
+														jq("#obgyn_initial_ageMenarche").removeClass("emptyValue").addClass("value");
+													}
+												} else if (obs.concept.uuid === age1stSexualInterConcept) {
+													if (obs.valueNumeric) {
+														jq("#obgyn_initial_age1stSexualInter").text(Math.round(obs.valueNumeric));
+														jq("#obgyn_initial_age1stSexualInter").removeClass("emptyValue").addClass("value");
+													}
+												} else if (obs.concept.uuid === numSexPartnersConcept) {
+													if (obs.valueNumeric) {
+														jq("#obgyn_initial_numSexPartners").text(Math.round(obs.valueNumeric));
+														jq("#obgyn_initial_numSexPartners").removeClass("emptyValue").addClass("value");
+													}
+												} else if (obs.concept.uuid === pregnancyHistoryConstruct) {
+													if (obs.groupMembers) {
+														let pregOrder = null;
+														let typeOfDelivery = null;
+														let outcome = null;
+														for (let index = 0; index &lt; obs.groupMembers.length; index++) {
+															let member = obs.groupMembers[index];
+															if (member.concept.uuid === pregOrderConcept) {
+																pregOrder = Math.round(member.valueNumeric);
+															} else if (member.concept.uuid === deliveryTypeConcept) {
+																typeOfDelivery = member.valueCoded.display;
+															} else if (member.concept.uuid === pregOutcomeConcept) {
+																outcome = member.valueCoded.display;
+															}
+														}
 
-													jq("#obgyn_initial_pregnancyHistoryTable tbody").append('<tr></tr>').append('<td class="value">' + pregOrder +
-														'</td>').append('<td class="value">' + typeOfDelivery + '</td>').append('<td class="value">' + outcome + '</td>').show();
+														jq("#obgyn_initial_pregnancyHistoryTable tbody").append('<tr></tr>').append('<td class="value">' + pregOrder +
+															'</td>').append('<td class="value">' + typeOfDelivery + '</td>').append('<td class="value">' + outcome + '</td>').show();
 
+													}
 												}
 											}
 										}
+										break;
 									}
-									break;
 								}
-							}
 
-						}
-					});
+							}
+						});
+
 
 				if (!previousEdd) {
 					// looking for all previous OB/GYN encounters(intake and followups) that have recorded the EDD

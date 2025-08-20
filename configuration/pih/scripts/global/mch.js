@@ -21,6 +21,22 @@
 const yesValue = "1";
 const noValue = "2";
 
+function dateFromString(dateString) {
+  var returnDate = null;
+  //the dateString is a string with the following format YYYY-MM-DD
+  if (dateString) {
+    const returnDate = new Date(dateString);
+    let yearMonthDay = dateString.split('-');
+    if (yearMonthDay.length == 3) {
+      returnDate.setFullYear(yearMonthDay[0]);
+      returnDate.setMonth(+yearMonthDay[1] - 1); // the month starts from 0 for January
+      returnDate.setDate(yearMonthDay[2]);
+      returnDate.setHours(0, 0, 0);
+    }
+    return returnDate;
+  }
+}
+
 function isPatientPregnant() {
   var returnValue = true; // If Patient pregnant question is not present on the form, or visible then use the LMP field to calculate the EDD
   const pregnantQuestion = jq("#isPatientPregnant");
@@ -36,7 +52,9 @@ function isPatientPregnant() {
 }
 function setUpEdd(currentEncounterDate, msgWeeks) {
   var encObsEdd = getField("edd.value").val(); // the encounter already has an EDD obs value
+  var encFollowUpObsEdd = getField("obgyn_initial_previous_edd.value").val();
   var encObsGestagionalAge = getField("gestationalAge.value").val(); // the encounter already has a Gestational Age obs value
+  var encFollowUpObsGestagionalAge = getField("followUpGestationalAge.value").val();
 
   function updateEdd() {
     const lastPeriodDateValue = htmlForm.getValueIfLegal("lastPeriodDate.value");
@@ -55,11 +73,11 @@ function setUpEdd(currentEncounterDate, msgWeeks) {
       const edd = calculateExpectedDeliveryDate(lastPeriodDate);
       const locale = window.sessionContext.locale || navigator.language;
       jq(".calculated-edd-and-gestational").show();
-      if (!encObsEdd) {
+      if (!encObsEdd && !encFollowUpObsEdd) {
         getField("edd.value").datepicker("setDate", edd);
       }
       jq(".calculated-edd").text((Intl.DateTimeFormat(locale, { dateStyle: "medium" })).format(edd));
-      if (!encObsGestagionalAge) {
+      if (!encObsGestagionalAge && !encFollowUpObsGestagionalAge) {
         getField("gestationalAge.value").val(gestAgeText);
       }
       jq(".calculated-gestational-age-value").text(gestAgeText);
