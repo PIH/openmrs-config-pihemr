@@ -4,4 +4,5 @@ ${personAttributeType.TEST_PATIENT.uuid},,Test Patient,Flag to describe if the p
 ${personAttributeType.UNKNOWN_PATIENT.uuid},,Unknown patient,Used to flag patients that cannot be identified during the check-in process,java.lang.String,,
 ${personAttributeType.PROVIDER_IDENTIFIER.uuid},,Provider Identifier,,java.lang.String,,TRUE
 ${personAttributeType.MOTHERS_FIRST_NAME.uuid},,First Name of Mother,"First name of the patient's mother, used for identification",java.lang.String,,
+${personAttributeType.HEALTH_CENTER.uuid},,Health Center,"Specific Location of this person's home health center.",org.openmrs.Location,,
 8d8718c2-c2cc-11de-8d13-0010c6dffd0f,TRUE,Place of birth,"Location of persons birth, used for identification",java.lang.String,,
