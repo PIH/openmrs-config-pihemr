@@ -51,10 +51,10 @@ function isPatientPregnant() {
   return returnValue;
 }
 function setUpEdd(currentEncounterDate, msgWeeks) {
-  var encObsEdd = getField("edd.value").val(); // the encounter already has an EDD obs value
-  var encFollowUpObsEdd = getField("obgyn_initial_previous_edd.value").val();
-  var encObsGestagionalAge = getField("gestationalAge.value").val(); // the encounter already has a Gestational Age obs value
-  var encFollowUpObsGestagionalAge = getField("followUpGestationalAge.value").val();
+  var encObsEdd = getField("edd.value") != null ? getField("edd.value").val() : null; // the encounter already has an EDD obs value
+  var encFollowUpObsEdd = getField("obgyn_initial_previous_edd.value") != null ? getField("obgyn_initial_previous_edd.value").val() : null;
+  var encObsGestagionalAge = getField("gestationalAge.value") != null ? getField("gestationalAge.value").val() : null; // the encounter already has a Gestational Age obs value
+  var encFollowUpObsGestagionalAge = getField("followUpGestationalAge.value") != null ? getField("followUpGestationalAge.value").val() : null;
 
   function updateEdd() {
     const lastPeriodDateValue = htmlForm.getValueIfLegal("lastPeriodDate.value");
