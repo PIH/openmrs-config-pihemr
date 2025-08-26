@@ -960,6 +960,42 @@ angular.module("encounterTypeConfig", [])
             ]
         };
 
+        // liberiaFamilyMedicineIntake
+        encounterTypes["1d1faf4f-a848-44c8-ac44-ada8aa5ae40c"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/defaultEncounterShort.page",  // no expanded view, instead there are individual sections
+            icon: "icon-group",
+            editUrl: hfeStandardEditUrl,
+            showOnVisitList: true,
+            sections: [
+                primaryCareHistory,
+                generalVaccinations,
+                pedsFoodAndSupplements,
+                primaryCareExam,
+                primaryCareDx,
+                primaryCarePlan
+            ]
+        };
+
+        // liberiaFamilyMedicineFollowup
+        encounterTypes["84d5e978-66d1-4a2c-b209-95d47c911dd8"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/defaultEncounterShort.page",   // no expanded view, instead there are individual sections
+            icon: "icon-group",
+            editUrl: hfeStandardEditUrl,
+            showOnVisitList: true,
+            sections: [
+                chiefComplaint,
+                generalVaccinations,
+                pedsFoodAndSupplements,
+                primaryCareExam,
+                primaryCareDx,
+                primaryCarePlan
+            ]
+        };
+
         // ncdInitialConsult
         encounterTypes["ae06d311-1866-455b-8a64-126a9bd74171"] = {
             DEFAULT: {
