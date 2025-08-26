@@ -77,7 +77,7 @@ function setUpEdd(currentEncounterDate, msgWeeks) {
         getField("edd.value").datepicker("setDate", edd);
       }
       jq(".calculated-edd").text((Intl.DateTimeFormat(locale, { dateStyle: "medium" })).format(edd));
-      if (!encObsGestagionalAge && !encFollowUpObsGestagionalAge) {
+      if (!encObsGestagionalAge && !encFollowUpObsGestagionalAge && getField("gestationalAge.value")) {
         getField("gestationalAge.value").val(gestAgeText);
       }
       jq(".calculated-gestational-age-value").text(gestAgeText);
