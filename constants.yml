@@ -209,6 +209,8 @@ personAttributeType:
     uuid: "6de6c415-97a2-4cca-817a-9501cd9ef382"
   MOTHERS_FIRST_NAME:
     uuid: "8d871d18-c2cc-11de-8d13-0010c6dffd0f"
+  HEALTH_CENTER:
+    uuid: "8d87236c-c2cc-11de-8d13-0010c6dffd0f"
 
 encounterRole:
   unknown:

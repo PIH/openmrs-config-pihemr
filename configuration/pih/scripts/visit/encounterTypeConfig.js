@@ -1649,7 +1649,7 @@ angular.module("encounterTypeConfig", [])
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
-            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/vct.xml"),
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/prep-intake.xml"),
             icon: "fas fa-fw fa-ribbon",
             editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("hiv/prep-intake.xml"),
             showOnVisitList: true
@@ -1660,7 +1660,7 @@ angular.module("encounterTypeConfig", [])
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
-            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/vct.xml"),
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("hiv/prep-followup.xml"),
             icon: "fas fa-fw fa-ribbon",
             editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("hiv/prep-followup.xml"),
             showOnVisitList: true
