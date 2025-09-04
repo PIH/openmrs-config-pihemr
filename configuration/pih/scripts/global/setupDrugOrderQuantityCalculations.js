@@ -23,34 +23,37 @@ function setupDrugOrderQuantityCalculations(config) {
         }
     });
 
-    jq("#" + config.fieldName).find(":input").blur(function() {
+    jq("#" + config.fieldName).find(".calculated-quantity-section").hide();
+    jq("#" + config.fieldName).find(".calculated-quantity-value").val("");
+
+    jq("#" + config.fieldName).find(".calculated-quantity-button").click(function(event) {
+        event.preventDefault();
+        const $calculatedQuantityButton = jq(this);
+        const $orderForm = $calculatedQuantityButton.closest(".orderwidget-order-form");
+        const $calculatedQuantityInput = $orderForm.find(".calculated-quantity-value");
+        const calculatedValue = $calculatedQuantityInput.val();
+        const $quantityInput = $orderForm.find(".order-field-widget.order-quantity")?.find(":input");
+        $quantityInput.val(calculatedValue ?? "");
+    });
+
+    jq("#" + config.fieldName).find(":input").change(function() {
         const $orderForm = jq(this).closest(".orderwidget-order-form");
         const $drugField = $orderForm.find(".order-field-widget.order-drug")?.find("select");
         const drugId = $drugField?.val();
+        const $calculatedQuantitySection = $orderForm.find(".calculated-quantity-section");
+        const $calculatedQuantityInput = $orderForm.find(".calculated-quantity-value");
+        $calculatedQuantityInput.val("");
+        $calculatedQuantitySection.hide();
         const drug = drugs.get(drugId);
         if (drug) {
+
             // Drug configuration
             const ingredient = drug.ingredients && drug.ingredients.length === 1 && drug.ingredients[0].ingredient === drug.conceptId ? drug.ingredients[0] : null;
             const ingredientStrength = ingredient ? ingredient.strength : null;
             const ingredientUnits = ingredient ? ingredient.units : null;
             const drugDosageForm = drug.dosageForm;
 
-            // Input fields from the widget
-            const dose = $orderForm.find(".order-field-widget.order-dose")?.find(":input")?.val();
-            const doseUnits = $orderForm.find(".order-field-widget.order-doseUnits")?.find(":input")?.val();
-            const frequency = $orderForm.find(".order-field-widget.order-frequency")?.find(":input")?.val();
-            const duration = $orderForm.find(".order-field-widget.order-duration")?.find(":input")?.val();
-            const durationUnits = $orderForm.find(".order-field-widget.order-durationUnits")?.find(":input")?.val();
-            const $quantityField = $orderForm.find(".order-field-widget.order-quantity")?.find(":input");
-            const $quantityUnitsField = $orderForm.find(".order-field-widget.order-quantityUnits")?.find(":input")
-            const quantity = $quantityField?.val();
-            const quantityUnits = $quantityUnitsField?.val();
-
-            // If quantity is already set, then do not automatically do anything further
-            if (quantity) {
-                console.debug("Quantity is already set.  Not further auto-calculating as fields change");
-                return;
-            }
+            const $quantityUnitsField = $orderForm.find(".order-field-widget.order-quantityUnits")?.find(":input");
 
             // If the drug is changed, set the quantity units to try to match the drug dosage form, if possible
             if (jq(this).closest(".order-field-widget").hasClass("order-drug")) {
@@ -58,6 +61,14 @@ function setupDrugOrderQuantityCalculations(config) {
                     $quantityUnitsField.val(drugDosageForm);
                 }
             }
+
+            // Input fields from the widget
+            const dose = $orderForm.find(".order-field-widget.order-dose")?.find(":input")?.val();
+            const doseUnits = $orderForm.find(".order-field-widget.order-doseUnits")?.find(":input")?.val();
+            const frequency = $orderForm.find(".order-field-widget.order-frequency")?.find(":input")?.val();
+            const duration = $orderForm.find(".order-field-widget.order-duration")?.find(":input")?.val();
+            const durationUnits = $orderForm.find(".order-field-widget.order-durationUnits")?.find(":input")?.val();
+            const quantityUnits = $quantityUnitsField?.val();
 
             // Only calculate quantity of all expected fields are completed
             if (!dose || !doseUnits || !frequency || !duration || !durationUnits) {
@@ -124,8 +135,9 @@ function setupDrugOrderQuantityCalculations(config) {
 
             if (unitsPerDose && dosesPerDay && durationDays) {
                 const quantityToSet = unitsPerDose * dosesPerDay * durationDays;
-                $quantityField.val(quantityToSet);
-                console.debug("Setting quantity to: " + quantityToSet);
+                console.debug("Calculated quantity: " + quantityToSet);
+                $calculatedQuantityInput.val(quantityToSet);
+                $calculatedQuantitySection.show();
             }
             else {
                 console.debug("Units per dose, doses per day, and duration days are not all set, unable to calculate quantity");
