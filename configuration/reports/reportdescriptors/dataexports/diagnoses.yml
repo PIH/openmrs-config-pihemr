@@ -23,8 +23,7 @@ config:
   category: "dataExport"
   order: "10"
   components:
-    - "consult"
-    - "primaryCare"
+    - "dataExports"
     - "allDataExports"
   countries:
     - "HAITI"
