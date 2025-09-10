@@ -36,5 +36,6 @@ config:
   order: 75
   components:
     - "mch"
+    - "obgyn"
     - "allDataExports"
   privilege: "Task: clinical.reports"
