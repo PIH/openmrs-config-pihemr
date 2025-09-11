@@ -1,0 +1,58 @@
+
+.orderwidget-order-section .lab-category-name {
+    font-weight: bold;
+    padding: 5px;
+}
+
+.orderwidget-order-section .lab-category-tests {
+    padding-left: 10px;
+}
+
+.orderwidget-order-section .tooltip {
+    position: relative;
+    opacity: unset;
+    text-align: center;
+}
+.orderwidget-order-section .tooltip .tooltip-text {
+    visibility: hidden;
+    opacity: 0;
+    width: 300px;
+    background-color: white;
+    border: 1px solid grey;
+    border-radius: 6px;
+    text-align: left;
+    position: absolute;
+    z-index: 1;
+    margin-top: -1em;
+    margin-left: 20px;
+    transition: opacity 0.3s;
+}
+.orderwidget-order-section .tooltip .tooltip-text p {
+    padding: 5px 0 0 8px;
+    font-size: 13px;
+    font-weight: bold;
+}
+.orderwidget-order-section .tooltip .tooltip-text div {
+    display: flex;
+    flex-flow: row wrap;
+    padding: 0px 10px 5px 10px;
+}
+.tooltip .tooltip-text div span {
+    margin: 0 5px 7px 0;
+    text-align: left;
+    width: 31.5%;
+}
+.orderwidget-order-section .tooltip .tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 10%;
+    left: 0%;
+    margin-left: -20px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent #555 transparent transparent;
+}
+.orderwidget-order-section .tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}

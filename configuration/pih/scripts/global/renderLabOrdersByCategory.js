@@ -54,10 +54,18 @@ function renderLabOrdersByCategory(config) {
             // Create the tooltip section
             const $toolTipSection = jq(document.createElement("span")).addClass("panel-tool-tip-section");
             if (labTest.testsInPanel && labTest.testsInPanel.length > 0) {
-                const $toolTipButton = jq(document.createElement("i")).addClass("icon-info-sign");
-                $toolTipSection.append($toolTipButton);
+                const $toolTipButton = jq(document.createElement("i")).addClass("icon-info-sign").addClass("tooltip");
                 const $toolTipText = jq(document.createElement("span")).addClass("tooltip-text");
-                $toolTipSection.append($toolTipText);
+                const $toolTipTitle = jq(document.createElement("p")).html(config.translations.testsIncludedInThisPanel);
+                const $toolTipTests = jq(document.createElement("div"));
+                labTest.testsInPanel.forEach(function(test) {
+                    $toolTipTests.append(jq(document.createElement("span")).html(test.displayName));
+                });
+                $toolTipText.append($toolTipTitle);
+                $toolTipText.append($toolTipTests);
+                $toolTipButton.append($toolTipText);
+                $toolTipSection.append($toolTipButton);
+
             }
 
             // Handle the test concept, action, and previous order fields first
@@ -67,8 +75,7 @@ function renderLabOrdersByCategory(config) {
                 if (previousOrder) {
                     labValueSection.addClass("value").html("[X]&nbsp;" + labTest.displayName);
                     $labSection.find(".lab-fields").show();
-                }
-                else {
+                } else {
                     labValueSection.addClass("emptyValue").html("[&nbsp;&nbsp;]&nbsp;" + labTest.displayName);
                     $labSection.find(".lab-fields").hide();
                 }
