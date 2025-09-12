@@ -35,8 +35,37 @@ function renderLabOrdersByCategory(config) {
         const $labCategoryNameElement = jq(document.createElement("div")).addClass("lab-category-name").html(category.displayName);
         const $labCategoryTestsSection = jq(document.createElement("div")).attr("id", "lab-category-tests-" + category.conceptId).addClass("lab-category-tests");
 
+        // Organize the tests to render based on whether they are in panels
+        const configuredTests = new Map();
+        category.labTests.forEach(test => {
+            configuredTests.set(test.conceptId, test);
+        });
+
+        const testsWithinPanels = new Map();
+        category.labTests.forEach(function(panel) {
+            if (panel.testsInPanel) {
+                panel.testsInPanel.forEach(function (test) {
+                    testsWithinPanels.set(test.conceptId, panel);
+                });
+            }
+        });
+
+        let testsForCategory = [];
+        category.labTests.forEach(labTest => {
+            if (!testsWithinPanels.has(labTest.conceptId)) {
+                testsForCategory.push(labTest);
+            }
+            if (labTest.testsInPanel) {
+                labTest.testsInPanel.forEach(testInPanel => {
+                    if (configuredTests.has(testInPanel.conceptId)) {
+                        testsForCategory.push(testInPanel);
+                    }
+                });
+            }
+        });
+
         // Render the tests the given category
-        category.labTests.forEach(function(labTest) {
+        testsForCategory.forEach(function(labTest) {
 
             const idSuffix = '_' + labTest.conceptId;
 
@@ -49,6 +78,10 @@ function renderLabOrdersByCategory(config) {
             });
 
             const $labSection = jq(document.createElement("div")).attr("id", "lab" + idSuffix).addClass("lab-test-section");
+            const panel = testsWithinPanels.get(labTest.conceptId);
+            if (panel) {
+                $labSection.addClass("test-in-panel").addClass("test-in-panel-" + panel.conceptId);
+            }
             $labCategoryTestsSection.append($labSection);
 
             // Create the tooltip section
@@ -65,7 +98,6 @@ function renderLabOrdersByCategory(config) {
                 $toolTipText.append($toolTipTests);
                 $toolTipButton.append($toolTipText);
                 $toolTipSection.append($toolTipButton);
-
             }
 
             // Handle the test concept, action, and previous order fields first

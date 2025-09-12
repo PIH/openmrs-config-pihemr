@@ -16,6 +16,9 @@
 }
 
 /* Style the tooltip that displays tests within each panel */
+.orderwidget-order-section .test-in-panel {
+    padding-left: 20px;
+}
 
 .orderwidget-order-section .tooltip {
     position: relative;
