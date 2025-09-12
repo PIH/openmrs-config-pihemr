@@ -5,8 +5,6 @@
     2. If a lab has not been previously ordered in the given encounter, it starts out as non-checked.  Checking and saving will add a new order.
  */
 function renderLabOrdersByCategory(config) {
-    console.debug(config);
-
     const $widgetField = jq('#' + config.fieldName);
     const $orderSection = $widgetField.find(".orderwidget-order-section");
     const $editTemplateSection = jq('#' + config.fieldName + "_template");
@@ -127,6 +125,10 @@ function renderLabOrdersByCategory(config) {
                 $toolTipSection.append($toolTipButton);
             }
 
+            // Set up action inputs.  These are only added in non-view mode
+            const actionField = config.widgets.action + idSuffix;
+            const $actionInput = jq(document.createElement("input")).prop({id: actionField, name: actionField, value: '', type: 'hidden'});
+
             // Handle the test concept, action, and previous order fields first
             if (isViewMode) {
                 const $labValueSection = jq(document.createElement("span"));
@@ -145,10 +147,7 @@ function renderLabOrdersByCategory(config) {
                 const readOnlyToggle = jq(document.createElement("span")).addClass("order-toggle-readonly");
                 $labSection.append(toggleInput);
                 $labSection.append(readOnlyToggle);
-
-                const actionField = config.widgets.action + idSuffix;
-                const actionInput = jq(document.createElement("input")).prop({id: actionField, name: actionField, value: '', type: 'hidden'});
-                $labSection.append(actionInput);
+                $labSection.append($actionInput);
 
                 const conceptField = config.widgets.concept + idSuffix;
                 const conceptInput = jq(document.createElement("input")).prop({id: conceptField, name: conceptField, value: labTest.conceptId, type: 'hidden'});
@@ -160,23 +159,23 @@ function renderLabOrdersByCategory(config) {
                 $labSection.append(previousOrderInput);
 
                 // Set up the toggle checkbox to set the order action to either NEW, DISCONTINUE, or null
-                jq(actionInput).val('');
+                jq($actionInput).val('');
                 if (previousOrder) {
                     jq(previousOrderInput).val(previousOrder ? previousOrder.orderId : '');
                     jq(toggleInput).prop("checked", true);
-                    jq(actionInput).val("REVISE");
+                    jq($actionInput).val("");
                 }
 
                 jq(toggleInput).click(function() {
                     if(jq(toggleInput).is(':checked')) {
-                        jq(actionInput).val(previousOrder ? "REVISE" : "NEW");
+                        jq($actionInput).val(previousOrder ? "REVISE" : "NEW");
                         $labSection.find(".lab-fields").show();
                         if (testIsPanel) {
                             toggleTestsInPanel(labTest, true, false);
                         }
                     }
                     else {
-                        jq(actionInput).val(previousOrder ? "DISCONTINUE" : "");
+                        jq($actionInput).val(previousOrder ? "DISCONTINUE" : "");
                         $labSection.find(".lab-fields").hide();
                         if (testIsPanel) {
                             toggleTestsInPanel(labTest, false, false);
@@ -267,6 +266,11 @@ function renderLabOrdersByCategory(config) {
 
             if (previousOrder) {
                 orderWidget.populateOrderForm(config, $labFieldsSection, previousOrder);
+
+                // If there is a previous order, watch for any changes to fields and set the action to REVISE if so
+                $labFieldsSection.find(":input").change(function () {
+                    $actionInput.val('REVISE');
+                });
             }
         });
 
