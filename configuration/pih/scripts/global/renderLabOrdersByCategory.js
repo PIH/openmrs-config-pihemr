@@ -19,7 +19,7 @@ function renderLabOrdersByCategory(config) {
     const fieldSections = [];
     templateSections.each(function () {
         const fieldName = labOrderFields.filter((field) => $(this).hasClass("order-" + field)).at(0);
-        const fieldWidgetSection = $templateSection.find(".order-field-widget.order-" + fieldName);
+        const fieldWidgetSection = $templateSection.find(".order-field.order-" + fieldName);
         const numRadioInputs = fieldWidgetSection.find("input[type=radio][value != '']").length;
         const numSelectInputs = fieldWidgetSection.find("select").length;
         const numSelectOptions = fieldWidgetSection.find("option[value != '']").length;
@@ -153,7 +153,6 @@ function renderLabOrdersByCategory(config) {
                         labTest.reasons.forEach(function(reason) {
                             $orderReasonSelect.append(jq(document.createElement("option")).attr("value", reason.conceptId).html(reason.displayName));
                         });
-                        $clonedFieldSection.show();
                     }
                     else {
                         $clonedFieldSection.hide();
@@ -161,17 +160,13 @@ function renderLabOrdersByCategory(config) {
                 }
                 else {
                     if (requiredCodedFields.includes(field)) {
-                        if (fieldSection.numRadioInputs > 1 || fieldSection.numSelectOptions > 1) {
-                            $clonedFieldSection.show();
-                        }
-                        else {
+                        if (fieldSection.numRadioInputs < 2 && fieldSection.numSelectOptions < 2) {
                             $clonedFieldSection.hide();
                         }
                         $labFieldsSection.append($clonedFieldSection);
                     }
                     else if (nonRequiredCodedFields.includes(field) || nonCodedFields.includes(field)) {
                         if (fieldSection.isInFormTemplate) {
-                            $clonedFieldSection.show();
                             $labFieldsSection.append($clonedFieldSection);
                         }
                     }
