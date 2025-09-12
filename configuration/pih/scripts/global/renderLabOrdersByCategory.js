@@ -26,7 +26,6 @@ function renderLabOrdersByCategory(config) {
         const isInFormTemplate = fieldWidgetSection.parents(".non-template-field").length === 0;
         fieldSections.push({fieldName, fieldWidgetSection, isInFormTemplate, numRadioInputs, numSelectInputs, numSelectOptions})
     });
-    console.debug(fieldSections);
 
     config.labTestCategories.forEach(function(category) {
 
@@ -185,6 +184,7 @@ function renderLabOrdersByCategory(config) {
                         labTest.reasons.forEach(function(reason) {
                             $orderReasonSelect.append(jq(document.createElement("option")).attr("value", reason.conceptId).html(reason.displayName));
                         });
+                        $labFieldsSection.append($clonedFieldSection);
                     }
                     else {
                         $clonedFieldSection.hide();

@@ -10,9 +10,23 @@
 }
 
 /* Style the fields for each particular order */
+.orderwidget-order-section .order-field {
+    display: inline;
+}
 .orderwidget-order-section .order-field-label {
     display: inline;
+    vertical-align: middle;
     padding-left: 15px;
+}
+.orderwidget-order-section .order-field-widget {
+    display: inline;
+    vertical-align: middle;
+}
+
+.orderwidget-order-section form input, form select, form textarea, form ul.select, .form input, .form select, .form textarea, .form ul.select {
+    display: inline;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
 }
 
 /* Style the tooltip that displays tests within each panel */
