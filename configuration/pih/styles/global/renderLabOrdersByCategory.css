@@ -22,11 +22,17 @@
     display: inline;
     vertical-align: middle;
 }
-
 .orderwidget-order-section form input, form select, form textarea, form ul.select, .form input, .form select, .form textarea, .form ul.select {
     display: inline;
     margin: 0 0 0 0;
     padding: 0 0 0 0;
+}
+.orderwidget-order-section .order-toggle-readonly {
+    display: inline;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    font-size: smaller;
+    vertical-align: top;
 }
 
 /* Style the tooltip that displays tests within each panel */

@@ -27,6 +27,36 @@ function renderLabOrdersByCategory(config) {
         fieldSections.push({fieldName, fieldWidgetSection, isInFormTemplate, numRadioInputs, numSelectInputs, numSelectOptions})
     });
 
+    // Get any existing orders by concept
+    const previousOrders = new Map();
+    config.history.forEach(function(order) {
+        if (order.encounterId === config.encounterId) {
+            previousOrders.set(order.concept.value, order);
+        }
+    });
+
+    // Create function that can be run at initial load or whenever a panel toggle is clicked
+    // If isOnLoad is true, we do not affect any existing data, so we allow orders within panels to be checked, even if panels are checked
+    const toggleTestsInPanel = function(labTest, isPanelSelected, isOnLoad) {
+        const $testInPanelSection = jq(".test-in-panel-" + labTest.conceptId);
+        if (isPanelSelected) {
+            if (isOnLoad) {
+                $testInPanelSection.find(".order-toggle:not(:checked)").css("display", "none");
+                $testInPanelSection.find(".order-toggle:not(:checked)").siblings(".order-toggle-readonly").html("[ X ]").css("display", "inline");
+            }
+            else {
+                $testInPanelSection.find(".order-toggle:checked").click();
+                $testInPanelSection.find(".order-toggle").css("display", "none");
+                $testInPanelSection.find(".order-toggle-readonly").html("[ X ]").css("display", "inline");
+            }
+        }
+        else {
+            // Enable the checkboxes within the panel for selection
+            $testInPanelSection.find(".order-toggle-readonly").css("display", "none");
+            $testInPanelSection.find(".order-toggle").css("display", "inline");
+        }
+    }
+
     config.labTestCategories.forEach(function(category) {
 
         // Create section for each category, with the category name, and the category tests
@@ -66,26 +96,24 @@ function renderLabOrdersByCategory(config) {
         // Render the tests the given category
         testsForCategory.forEach(function(labTest) {
 
+            const testIsPanel = labTest.testsInPanel && labTest.testsInPanel.length > 0;
+            const panelContainingTest = testsWithinPanels.get(labTest.conceptId);
+            const previousOrder = previousOrders.get(labTest.conceptId);
+
             const idSuffix = '_' + labTest.conceptId;
 
-            // Determine if there is already an existing order in the encounter for this concept
-            let previousOrder = null;
-            config.history.forEach(function(order) {
-                if (order.encounterId === config.encounterId && order.concept.value === labTest.conceptId) {
-                    previousOrder = order;
-                }
-            });
-
             const $labSection = jq(document.createElement("div")).attr("id", "lab" + idSuffix).addClass("lab-test-section");
-            const panel = testsWithinPanels.get(labTest.conceptId);
-            if (panel) {
-                $labSection.addClass("test-in-panel").addClass("test-in-panel-" + panel.conceptId);
+            if (panelContainingTest) {
+                $labSection.addClass("test-in-panel").addClass("test-in-panel-" + panelContainingTest.conceptId);
+            }
+            if (testIsPanel) {
+                $labSection.addClass("lab-panel-section");
             }
             $labCategoryTestsSection.append($labSection);
 
             // Create the tooltip section
             const $toolTipSection = jq(document.createElement("span")).addClass("panel-tool-tip-section");
-            if (labTest.testsInPanel && labTest.testsInPanel.length > 0) {
+            if (testIsPanel) {
                 const $toolTipButton = jq(document.createElement("i")).addClass("icon-info-sign").addClass("tooltip");
                 const $toolTipText = jq(document.createElement("span")).addClass("tooltip-text");
                 const $toolTipTitle = jq(document.createElement("p")).html(config.translations.testsIncludedInThisPanel);
@@ -115,8 +143,11 @@ function renderLabOrdersByCategory(config) {
             }
             else {
                 const toggleField = "order_toggle"  + idSuffix;
-                const toggleInput = jq(document.createElement("input")).prop({id: toggleField, name: toggleField, value: '', type: 'checkbox'});
+                const toggleInput = jq(document.createElement("input")).prop({id: toggleField, name: toggleField, value: '', type: 'checkbox'}).addClass("order-toggle");
                 $labSection.append(toggleInput);
+                const readOnlyToggle = jq(document.createElement("span")).addClass("order-toggle-readonly");
+                $labSection.append(toggleInput);
+                $labSection.append(readOnlyToggle);
 
                 const actionField = config.widgets.action + idSuffix;
                 const actionInput = jq(document.createElement("input")).prop({id: actionField, name: actionField, value: '', type: 'hidden'});
@@ -137,14 +168,21 @@ function renderLabOrdersByCategory(config) {
                     jq(previousOrderInput).val(previousOrder ? previousOrder.orderId : '');
                     jq(toggleInput).prop("checked", true);
                 }
+
                 jq(toggleInput).click(function() {
                     if(jq(toggleInput).is(':checked')) {
                         jq(actionInput).val(previousOrder ? "" : "NEW");
                         $labSection.find(".lab-fields").show();
+                        if (testIsPanel) {
+                            toggleTestsInPanel(labTest, true, false);
+                        }
                     }
                     else {
                         jq(actionInput).val(previousOrder ? "DISCONTINUE" : "");
                         $labSection.find(".lab-fields").hide();
+                        if (testIsPanel) {
+                            toggleTestsInPanel(labTest, false, false);
+                        }
                     }
                 });
             }
@@ -212,5 +250,16 @@ function renderLabOrdersByCategory(config) {
 
         $labCategorySection.append($labCategoryNameElement).append($labCategoryTestsSection);
         $orderSection.append($labCategorySection);
+
+        // After rendering all tests, do any necessary post-processing
+        testsForCategory.forEach(function(labTest) {
+            const testIsPanel = labTest.testsInPanel && labTest.testsInPanel.length > 0;
+            const previousOrder = previousOrders.get(labTest.conceptId);
+            if (testIsPanel) {
+                toggleTestsInPanel(labTest, previousOrder && true, true);
+            }
+        });
+
+
     });
 }
