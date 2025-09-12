@@ -59,8 +59,36 @@ function renderLabOrdersByCategory(config) {
 
         // Create section for each category, with the category name, and the category tests
         const $labCategorySection = jq(document.createElement("div")).attr("id", "lab-category-" + category.conceptId).addClass("lab-category");
-        const $labCategoryNameElement = jq(document.createElement("div")).addClass("lab-category-name").html(category.displayName);
+        const $labCategoryExpander = jq(document.createElement("i")).attr("id", "lab-category-expander-" + category.conceptId).addClass("lab-category-expander");
+        const $labCategoryNameElement = jq(document.createElement("span")).addClass("lab-category-name").html(category.displayName);
         const $labCategoryTestsSection = jq(document.createElement("div")).attr("id", "lab-category-tests-" + category.conceptId).addClass("lab-category-tests");
+        $labCategorySection.append($labCategoryExpander).append($labCategoryNameElement).append($labCategoryTestsSection);
+        $orderSection.append($labCategorySection);
+
+        // Set up toggle for category to show/hide
+        $labCategoryExpander.addClass("icon-angle-right");
+        $labCategoryTestsSection.css("display", "none");
+
+        const expandLabCategory = function () {
+            $labCategoryExpander.removeClass("icon-angle-right");
+            $labCategoryExpander.addClass("icon-angle-down");
+            $labCategoryTestsSection.css("display", "block");
+        }
+
+        const collapseLabCategory = function () {
+            $labCategoryExpander.removeClass("icon-angle-down");
+            $labCategoryExpander.addClass("icon-angle-right");
+            $labCategoryTestsSection.css("display", "none");
+        }
+
+        $labCategoryExpander.click(function () {
+            if ($labCategoryExpander.hasClass("icon-angle-right")) {
+                expandLabCategory();
+            }
+            else {
+                collapseLabCategory();
+            }
+        });
 
         // Organize the tests to render based on whether they are in panels
         const configuredTests = new Map();
@@ -97,6 +125,10 @@ function renderLabOrdersByCategory(config) {
             const testIsPanel = labTest.testsInPanel && labTest.testsInPanel.length > 0;
             const panelContainingTest = testsWithinPanels.get(labTest.conceptId);
             const previousOrder = previousOrders.get(labTest.conceptId);
+
+            if (previousOrder) {
+                expandLabCategory();
+            }
 
             const idSuffix = '_' + labTest.conceptId;
 
@@ -274,10 +306,7 @@ function renderLabOrdersByCategory(config) {
             }
         });
 
-        $labCategorySection.append($labCategoryNameElement).append($labCategoryTestsSection);
-        $orderSection.append($labCategorySection);
-
-        // After rendering all tests, do any necessary post-processing
+        // Once all tests have been rendered, run through and update those within panels to be read-only
         testsForCategory.forEach(function(labTest) {
             const testIsPanel = labTest.testsInPanel && labTest.testsInPanel.length > 0;
             const previousOrder = previousOrders.get(labTest.conceptId);
@@ -285,7 +314,6 @@ function renderLabOrdersByCategory(config) {
                 toggleTestsInPanel(labTest, previousOrder && true, true);
             }
         });
-
 
     });
 }
