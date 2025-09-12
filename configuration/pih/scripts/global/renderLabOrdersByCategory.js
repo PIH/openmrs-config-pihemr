@@ -9,7 +9,10 @@ function renderLabOrdersByCategory(config) {
 
     const $widgetField = jq('#' + config.fieldName);
     const $orderSection = $widgetField.find(".orderwidget-order-section");
-    const $templateSection = jq('#' + config.fieldName + "_template");
+    const $editTemplateSection = jq('#' + config.fieldName + "_template");
+    const $viewTemplateSection = jq('#' + config.fieldName + "_view_template");
+    const $templateSection = $editTemplateSection.length > 0 ? $editTemplateSection : $viewTemplateSection;
+    const isViewMode = (config.mode === 'VIEW');
 
     // Determine which fields need to be collected, by examining both the template or default configuration with multiple options
     const labOrderFields = Object.keys(config.widgets);
@@ -20,11 +23,8 @@ function renderLabOrdersByCategory(config) {
     templateSections.each(function () {
         const fieldName = labOrderFields.filter((field) => $(this).hasClass("order-" + field)).at(0);
         const fieldWidgetSection = $templateSection.find(".order-field.order-" + fieldName);
-        const numRadioInputs = fieldWidgetSection.find("input[type=radio][value != '']").length;
-        const numSelectInputs = fieldWidgetSection.find("select").length;
-        const numSelectOptions = fieldWidgetSection.find("option[value != '']").length;
         const isInFormTemplate = fieldWidgetSection.parents(".non-template-field").length === 0;
-        fieldSections.push({fieldName, fieldWidgetSection, isInFormTemplate, numRadioInputs, numSelectInputs, numSelectOptions})
+        fieldSections.push({fieldName, fieldWidgetSection, isInFormTemplate})
     });
 
     // Get any existing orders by concept
@@ -128,17 +128,14 @@ function renderLabOrdersByCategory(config) {
             }
 
             // Handle the test concept, action, and previous order fields first
-
-            if (config.mode === 'VIEW') {
-                const labValueSection = jq(document.createElement("span"));
+            if (isViewMode) {
+                const $labValueSection = jq(document.createElement("span"));
                 if (previousOrder) {
-                    labValueSection.addClass("value").html("[X]&nbsp;" + labTest.displayName);
-                    $labSection.find(".lab-fields").show();
+                    $labValueSection.addClass("value").html("[X]&nbsp;" + labTest.displayName);
                 } else {
-                    labValueSection.addClass("emptyValue").html("[&nbsp;&nbsp;]&nbsp;" + labTest.displayName);
-                    $labSection.find(".lab-fields").hide();
+                    $labValueSection.addClass("emptyValue").html("[&nbsp;&nbsp;]&nbsp;" + labTest.displayName);
                 }
-                $labSection.append(labValueSection);
+                $labSection.append($labValueSection);
                 $labSection.append($toolTipSection);
             }
             else {
@@ -187,6 +184,8 @@ function renderLabOrdersByCategory(config) {
                 });
             }
 
+            // Next, handle the fields associated with each test that we want to collect
+
             const $labFieldsSection = jq(document.createElement("span")).attr("id", "lab-fields" + idSuffix).addClass("lab-fields");
             $labSection.append($labFieldsSection);
             if (previousOrder) {
@@ -196,49 +195,71 @@ function renderLabOrdersByCategory(config) {
                 $labFieldsSection.hide();
             }
 
-            const requiredCodedFields = ["careSetting", "urgency"];
-            const nonRequiredCodedFields = ["orderReason", "specimenSource", "laterality", "frequency", "location"];
-            const nonCodedFields = ["orderReasonNonCoded", "instructions", "clinicalHistory", "numberOfRepeats", "scheduledDate", "dateActivated"];
+            const excludedFields = ["action", "concept", "previousOrder", "dateActivated"];
 
             fieldSections.forEach(function(fieldSection) {
                 const field = fieldSection.fieldName;
-                const $clonedFieldSection = jq(fieldSection.fieldWidgetSection).clone(true, true);
+                if (!excludedFields.includes(field)) {
+                    const $clonedFieldSection = jq(fieldSection.fieldWidgetSection).clone(true, true);
 
-                $clonedFieldSection.find("[id]").add($clonedFieldSection).each(function () {
-                    if (this.id) {
-                        this.id = this.id + idSuffix;
-                    }
-                });
-                $clonedFieldSection.find("[name]").add($clonedFieldSection).each(function () {
-                    if (this.name) {
-                        this.name = this.name + idSuffix;
-                    }
-                });
+                    $clonedFieldSection.find("[id]").add($clonedFieldSection).each(function () {
+                        if (this.id) {
+                            this.id = this.id + idSuffix;
+                        }
+                    });
+                    $clonedFieldSection.find("[name]").add($clonedFieldSection).each(function () {
+                        if (this.name) {
+                            this.name = this.name + idSuffix;
+                        }
+                    });
 
-                // We have special handling for orderReason and urgency, so do these first
-                if (field === "orderReason") {
-                    if (labTest.reasons && labTest.reasons.length > 0) {
-                        const $orderReasonSelect = $clonedFieldSection.find("select");
-                        labTest.reasons.forEach(function(reason) {
-                            $orderReasonSelect.append(jq(document.createElement("option")).attr("value", reason.conceptId).html(reason.displayName));
-                        });
-                        $labFieldsSection.append($clonedFieldSection);
+                    // We have special handling for orderReason, so do this first
+                    if (field === "orderReason") {
+                        if (isViewMode) {
+                            if (previousOrder && previousOrder.orderReason) {
+                                let display = previousOrder.orderReason.display;
+                                if (labTest.reasons) {
+                                    labTest.reasons.forEach((reason) => {
+                                        if (reason.conceptId === previousOrder.orderReason.value) {
+                                            display = reason.displayName;
+                                        }
+                                    })
+                                }
+                                $clonedFieldSection.find(".order-field-widget").html(display).addClass("value");
+                                if (!display) {
+                                    $clonedFieldSection.hide();
+                                }
+                                $labFieldsSection.append($clonedFieldSection);
+                            }
+                        }
+                        else {
+                            if (labTest.reasons && labTest.reasons.length > 0) {
+                                const $orderReasonSelect = $clonedFieldSection.find("select");
+                                labTest.reasons.forEach(function (reason) {
+                                    $orderReasonSelect.append(jq(document.createElement("option")).attr("value", reason.conceptId).html(reason.displayName));
+                                });
+                                $labFieldsSection.append($clonedFieldSection);
+                            } else {
+                                $clonedFieldSection.hide();
+                            }
+                        }
                     }
                     else {
-                        $clonedFieldSection.hide();
-                    }
-                }
-                else {
-                    if (requiredCodedFields.includes(field)) {
-                        if (fieldSection.numRadioInputs < 2 && fieldSection.numSelectOptions < 2) {
+                        const existingValueDisplay = previousOrder && previousOrder[field] ? previousOrder[field].display : "";
+                        const hasExistingValue = existingValueDisplay !== "";
+                        const fieldOptions = config.orderPropertyOptions[field] || [];
+                        const numConfiguredOptions = fieldOptions.length;
+                        const includeInEditMode = fieldSection.isInFormTemplate || numConfiguredOptions > 1;
+                        const includeInViewMode = fieldOptions ? (hasExistingValue && numConfiguredOptions > 1) : hasExistingValue;
+                        const includeField = isViewMode ? includeInViewMode : includeInEditMode;
+                        if (!includeField) {
                             $clonedFieldSection.hide();
                         }
-                        $labFieldsSection.append($clonedFieldSection);
-                    }
-                    else if (nonRequiredCodedFields.includes(field) || nonCodedFields.includes(field)) {
-                        if (fieldSection.isInFormTemplate) {
+                        if (isViewMode) {
+                            $clonedFieldSection.find(".order-field-widget").html(existingValueDisplay).addClass("value");
                             $labFieldsSection.append($clonedFieldSection);
                         }
+                        $labFieldsSection.append($clonedFieldSection);
                     }
                 }
             });
