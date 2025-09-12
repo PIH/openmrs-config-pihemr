@@ -42,13 +42,18 @@ update orders o
 inner join temp_obs_to_move t on t.order_id = o.order_id 
 set o.accession_number = t.sample_number;
 
--- void obs that were just migrated
-update obs o 
+-- void obs that were just migrated if there are no other labs on this encounter
+update obs o
 inner join temp_obs_to_move t on o.obs_id = t.sample_obs_id
-set voided = 1,
-    voided_by = 1, 
-    date_voided = now(),
-    void_reason = 'migrated to Lab Specimen encounter (UHM-8694)';
+left join obs o2 
+    on o2.encounter_id = o.encounter_id
+   and o2.obs_id <> t.sample_obs_id
+   and o2.voided = 0
+set o.voided = 1,
+    o.voided_by = 1, 
+    o.date_voided = now(),
+    o.void_reason = 'migrated to Lab Specimen encounter (UHM-8694)'
+where o2.obs_id is null; -- other obs do not exists
 
 -- update those lab_results encounters if there are no other non-voided obs
 update encounter e 
