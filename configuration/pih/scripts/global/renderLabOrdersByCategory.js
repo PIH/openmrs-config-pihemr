@@ -164,11 +164,12 @@ function renderLabOrdersByCategory(config) {
                 if (previousOrder) {
                     jq(previousOrderInput).val(previousOrder ? previousOrder.orderId : '');
                     jq(toggleInput).prop("checked", true);
+                    jq(actionInput).val("REVISE");
                 }
 
                 jq(toggleInput).click(function() {
                     if(jq(toggleInput).is(':checked')) {
-                        jq(actionInput).val(previousOrder ? "" : "NEW");
+                        jq(actionInput).val(previousOrder ? "REVISE" : "NEW");
                         $labSection.find(".lab-fields").show();
                         if (testIsPanel) {
                             toggleTestsInPanel(labTest, true, false);
