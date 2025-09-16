@@ -422,5 +422,11 @@
             <value>${encounterRole.consultingClinician.uuid}</value>
         </globalProperty>
 
+        <!-- PIHAPPS -->
+        <globalProperty>
+            <property>pihapps.labs.conceptDisplayFormat</property>
+            <value>shortest</value>
+        </globalProperty>
+
     </globalProperties>
 </config>
