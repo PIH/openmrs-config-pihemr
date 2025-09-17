@@ -66,6 +66,7 @@
 
 		<!-- PIH Core Setup Logging -->
 		<Logger name="org.openmrs.module.pihcore.setup" level="INFO" />
+		<Logger name="org.openmrs.module.pihcore.task" level="INFO" />
 		<Logger name="org.openmrs.module.pihcore.PihCoreActivator" level="INFO" />
 
 		<!-- Debezium Logging -->
