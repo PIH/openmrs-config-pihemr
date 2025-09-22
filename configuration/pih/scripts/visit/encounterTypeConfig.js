@@ -2011,20 +2011,37 @@ angular.module("encounterTypeConfig", [])
 
         // obgyn
         encounterTypes["d83e98fd-dc7b-420f-aa3f-36f648b4483d"] = {
-            DEFAULT: {
-                defaultState: "short",
-                shortTemplate: "templates/encounters/defaultEncounterShort.page",
-                longTemplate: "templates/encounters/defaultEncounterShort.page",
-                icon: "fas fa-fw fa-female",
-                editUrl: hfeStandardEditUrl,
-                showOnVisitList: true,
-                sections: [
-                    obgynInitial,
-                    ancVaccinations,
-                    primaryCareExam,
-                    obgynDx,
-                    obgynPlan
-                ]
+            versions: {
+                DEFAULT: {
+                    defaultState: "short",
+                    shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                    longTemplate: "templates/encounters/defaultEncounterShort.page",
+                    icon: "fas fa-fw fa-female",
+                    editUrl: hfeStandardEditUrl,
+                    showOnVisitList: true,
+                    sections: [
+                        obgynInitial,
+                        ancVaccinations,
+                        primaryCareExam,
+                        obgynDx,
+                        obgynPlan
+                    ]
+                },
+                1.0: {
+                    defaultState: "short",
+                    shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                    longTemplate: "templates/encounters/defaultEncounterShort.page",
+                    icon: "fas fa-fw fa-female",
+                    editUrl: hfeStandardEditUrl,
+                    showOnVisitList: true,
+                    sections: [
+                        obgynInitial,
+                        ancVaccinations,
+                        primaryCareExam,
+                        obgynDx,
+                        obgynPlan
+                    ]
+                }
             }
         };
 
