@@ -53,7 +53,7 @@ Provides form for "retrospective" check-in.
                     <uimessage code="mirebalais.retrospectiveCheckin.location.label"/>
                 </h3>
                 <p class="left">
-                    <encounterLocation id="encounterLocationField" />
+                    <encounterLocation id="encounterLocationField" tags="Registration Location" />
                 </p>
             </div>
 
