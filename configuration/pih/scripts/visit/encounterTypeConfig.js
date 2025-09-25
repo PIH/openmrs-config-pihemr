@@ -1220,6 +1220,88 @@ angular.module("encounterTypeConfig", [])
             }
         };
 
+        // For SL, NCD Initial Part 1
+        encounterTypes["48c413c4-e7f6-491a-8431-900451fe8a32"] = {
+            "sierra_leone": {
+                defaultState: "short",
+                shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                longTemplate: "templates/encounters/defaultEncounterShort.page",
+                icon: "fas fa-fw fa-heart",
+                editUrl: hfeStandardEditUrl,
+                showOnVisitList: true,
+                sections: [
+                    ncdHistory,
+                    ncdHospital
+                ]
+            }
+        };
+
+        // For SL, NCD Initial Part 2
+        encounterTypes["43423212-6f70-4df8-a9f7-2aef88df1ee2"] = {
+            "sierra_leone": {
+                defaultState: "short",
+                shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                longTemplate: "templates/encounters/defaultEncounterShort.page",
+                icon: "fas fa-fw fa-heart",
+                editUrl: hfeStandardEditUrl,
+                showOnVisitList: true,
+                sections: [
+                    diabetes,
+                    hypertension,
+                    heartFailure,
+                    lung,
+                    kidney,
+                    liver,
+                    palliative,
+                    sickleCell,
+                    primaryCareDx,
+                    generalVaccinations,
+                    ncdPlan
+                ]
+            }
+        };
+
+        // For SL, NCD Followup Part 1
+        encounterTypes["e02a8c32-4f14-4ff7-a4e9-2f087d9a1cf7"] = {
+            "sierra_leone": {
+                defaultState: "short",
+                shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                longTemplate: "templates/encounters/defaultEncounterShort.page",
+                icon: "fas fa-fw fa-heart",
+                editUrl: hfeStandardEditUrl,
+                showOnVisitList: true,
+                sections: [
+                    ncdFollowupHeader,
+                    ncdHospital
+                ]
+            }
+        };
+
+        // For SL, NCD Followup Part 2
+        encounterTypes["6a3afa6f-8f78-44a9-80c9-3f4f3b6ad8f2"] = {
+            "sierra_leone": {
+                defaultState: "short",
+                shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                longTemplate: "templates/encounters/defaultEncounterShort.page",
+                icon: "fas fa-fw fa-heart",
+                editUrl: hfeStandardEditUrl,
+                showOnVisitList: true,
+                sections: [
+                    diabetes,
+                    hypertension,
+                    heartFailure,
+                    lung,
+                    kidney,
+                    liver,
+                    palliative,
+                    sickleCell,
+                    primaryCareDx,
+                    generalVaccinations,
+                    ncdPlan
+                ]
+            }
+        };
+
         // echocardiogramConsult
         encounterTypes["fdee591e-78ba-11e9-8f9e-2a86e4085a59"] = {
             defaultState: "short",
