@@ -1,0 +1,34 @@
+
+/* Hide the label for the drug field in view mode */
+.orderwidget-history-section .order-field-label.order-drug {
+    display:none;
+}
+
+/*  Add a colon after the Dose label in view mode */
+.orderwidget-history-section .order-field-label.order-dose:after {
+    content: ": ";
+    white-space: pre;
+}
+
+.order-field {
+    display: inline-block;
+    padding: 0px;
+}
+.order-field.action {
+    display: block;
+}
+.order-field.dateActivated {
+    padding-right: 20px;
+}
+.order-field-label {
+    display: inline-block;
+    padding-right: 5px;
+    vertical-align: middle;
+}
+.order-field-label:after {
+    content: "";
+    white-space: pre;
+}
+.order-field-widget {
+    display: inline-block;
+}

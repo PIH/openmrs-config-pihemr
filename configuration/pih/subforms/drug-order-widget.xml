@@ -1,0 +1,73 @@
+<!--
+    This encapsulates the standard drug order widget layout and configuration.
+    Specific properties can be overridden by referencing the property by id as needed
+-->
+<div>
+    <subform path="configuration/pih/subforms/drug-order-widget.css"/>
+    <drugOrder format="select" selectLabel="pihcore.drugOrder.addAnotherDrug" onLoadFunction="initializeOrderWidgetAndSetupDrugOrderQuantityCalculations">
+        <orderTemplate>
+            <orderProperty name="action" label="pihcore.action">
+                <option value="NEW" label="pihcore.new"/>
+                <option value="REVISE" label="pihcore.revise"/>
+                <option value="RENEW" label="pihcore.renew"/>
+                <option value="DISCONTINUE" label="pihcore.discontinue"/>
+            </orderProperty>
+
+            <div style="padding:0px;font-weight:bold;">
+                <orderProperty name="drug" label="pihcore.visitNote.plan.medication" style="autocomplete" subform-parameter="drug-order-drug-selector"/>
+            </div>
+
+            <div style="padding:0px;font-weight:bold;">
+                <orderProperty name="dose" label="pihcore.visitNote.plan.dose"/>
+                <orderProperty name="doseUnits" value="1513AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label=" "/>
+                <orderProperty name="frequency" label=" "/>
+                <orderProperty name="route" value="CIEL:160240" label=" " subform-parameter="drug-order-route-selector">
+                    <option value="CIEL:160240" /> <!-- Oral -->
+                    <option value="CIEL:160242" label="IV" /> <!-- IV  -->
+                    <option value="CIEL:160243" label="IM" /> <!-- IM -->
+                    <option value="CIEL:160245" /> <!-- Subcutaneous -->
+                    <option value="CIEL:162797" /> <!-- Topical -->
+                    <option value="CIEL:165519" /> <!-- Sublingual -->
+                    <option value="CIEL:162390" label="Optical" /> <!-- Optical -->
+                    <option value="CIEL:162387" label="Ear(s)" /> <!-- Ear(s)   -->
+                    <option value="CIEL:160241" /> <!-- Inhalation -->
+                    <option value="CIEL:165520" /> <!-- Intra-articular -->
+                    <option value="CIEL:162393" label="Intra-rectal" /> <!-- Rectal -->
+                    <option value="CIEL:162392" label="Intra-vaginal" /> <!-- Vaginal -->
+                </orderProperty>
+            </div>
+            <div style="padding:0px;">
+                <orderProperty name="dateActivated" label="pihcore.starting"/>
+                <orderProperty name="duration" label="pihcore.visitNote.for"/>
+                <orderProperty name="durationUnits" value="3cd706b8-26fe-102b-80cb-0017a47871b2" label=" "/>
+                <span class="calculated-quantity-section" style="padding-left:10px;">
+                    <input type="hidden" class="calculated-quantity-value" />
+                    <button class="calculated-quantity-button">Calculate Quantity</button>
+                </span>
+            </div>
+            <div style="padding:0px;">
+                <orderProperty name="quantity" label="pihcore.quantity"/>
+                <orderProperty name="quantityUnits" value="1513AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label=" "/>
+                <orderProperty name="numRefills" value="0" label="pihcore.refills"/>
+            </div>
+            <div style="display:none;">
+                <orderProperty name="urgency" value="ROUTINE"/>
+                <orderProperty name="dosingType" value="org.openmrs.SimpleDosingInstructions"/>
+                <orderProperty name="previousOrder"/>
+                <orderProperty name="careSetting" value="OUTPATIENT"/>
+            </div>
+            <orderProperty name="discontinueReason" label="pihcore.discontinueReason">
+                <option value="CIEL:843"/>
+                <option value="CIEL:102"/>
+                <option value="CIEL:127750"/>
+                <option value="CIEL:1754"/>
+                <option value="CIEL:162853"/>
+                <option value="CIEL:1434"/>
+                <option value="CIEL:987"/>
+                <option value="CIEL:1253"/>
+                <option value="CIEL:1067"/>
+                <option value="CIEL:5622"/>
+            </orderProperty>
+        </orderTemplate>
+    </drugOrder>
+</div>
