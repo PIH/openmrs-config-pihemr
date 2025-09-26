@@ -4491,3 +4491,27 @@ limit 1;
 RETURN ret;
 
 END
+#
+-- This function accepts obs_group_id, mapping source, mapping code
+-- It will find the value_text entry that matches this from the temp_obs table
+#
+DROP FUNCTION IF EXISTS obs_from_group_id_value_drug_from_temp;
+#
+CREATE FUNCTION obs_from_group_id_value_drug_from_temp(_obsGroupId int(11), _source varchar(50), _term varchar(255))
+    RETURNS int
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE ret int;
+
+    select      o.value_drug into ret
+    from        temp_obs o
+    where       o.voided = 0
+      and       o.obs_group_id= _obsGroupId
+      and       o.concept_id = concept_from_mapping(_source, _term)
+    limit 1;
+
+    RETURN ret;
+
+END
