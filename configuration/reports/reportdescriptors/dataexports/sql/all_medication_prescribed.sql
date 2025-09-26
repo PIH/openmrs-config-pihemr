@@ -174,7 +174,6 @@ update temp_medication_orders tm  set order_duration_units = concept_name(order_
 
 -- final query
 select 
-prescription_obs_group_id,
 emr_id,
 encounter_type,
 if(@partition REGEXP '^[0-9]+$' = 1,concat(@partition,'-',encounter_id),encounter_id) "encounter_id",
