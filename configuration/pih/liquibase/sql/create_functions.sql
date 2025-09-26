@@ -255,7 +255,82 @@ BEGIN
     RETURN ageAtEnc;
 END
 #
+/*
+This function accepts patient/person id and returns that person's age in full years on the given date
+*/
+#
+DROP FUNCTION IF EXISTS age_in_full_years_on_date;
+#
+CREATE FUNCTION age_in_full_years_on_date(
+    _person_id int,
+    _age_date date
+)
+    RETURNS int
+    DETERMINISTIC
 
+BEGIN
+    DECLARE ret int;
+
+    select  if(birthdate is null, null, timestampdiff(YEAR, birthdate, _age_date)) into ret
+    from    person p
+    where 	p.person_id = _person_id;
+
+    RETURN ret;
+END
+#
+/*
+This function accepts patient/person id and returns that person's age in full months after accounting for full years
+*/
+#
+DROP FUNCTION IF EXISTS age_in_months_since_last_full_year_on_date;
+#
+CREATE FUNCTION age_in_months_since_last_full_year_on_date(
+    _person_id int,
+    _age_date date
+)
+    RETURNS int
+    DETERMINISTIC
+
+BEGIN
+    DECLARE ret int;
+
+    select  if(birthdate is null, null, mod(timestampdiff(MONTH, birthdate, _age_date), 12)) into ret
+    from    person p
+    where 	p.person_id = _person_id;
+
+    RETURN ret;
+END
+#
+/*
+This function accepts patient/person id and returns that person's age in days after accounting for full years and full months
+*/
+#
+DROP FUNCTION IF EXISTS age_in_days_since_last_full_month_on_date;
+#
+CREATE FUNCTION age_in_days_since_last_full_month_on_date(
+    _person_id int,
+    _age_date date
+)
+    RETURNS int
+    DETERMINISTIC
+
+BEGIN
+    DECLARE ret int;
+
+    DECLARE dayOfBirthdate int;
+    DECLARE dayOfAgeDate int;
+    DECLARE lastDayOfPriorMonth int;
+    DECLARE numDaysFromPriorMonth int;
+
+    select if(birthdate is null, null, dayofmonth(birthdate)) into dayOfBirthdate from person p where p.person_id = _person_id;
+    select if(dayOfBirthdate is null, null, dayofmonth(_age_date)) into dayOfAgeDate;
+    select if(dayOfBirthdate is null, null, dayofmonth(last_day(date_sub(_age_date, interval 1 month)))) into lastDayOfPriorMonth;
+    select if(dayOfBirthdate is null, null, if(dayOfBirthdate > lastDayOfPriorMonth, 0, lastDayOfPriorMonth - dayOfBirthdate)) into numDaysFromPriorMonth;
+    select if(dayOfBirthdate is null, null, if(dayOfBirthdate <= dayOfAgeDate, dayOfAgeDate - dayOfBirthdate, numDaysFromPriorMonth + dayOfAgeDate)) into ret;
+
+    RETURN ret;
+END
+#
 /*
 get patient EMR ZL
 */
