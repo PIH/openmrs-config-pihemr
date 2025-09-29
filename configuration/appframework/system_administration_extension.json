@@ -15,7 +15,7 @@
     "type": "link",
     "label": "pih.app.admin.expressionTester.view",
     "requiredPrivilege": "App: coreapps.systemAdministration",
-    "url": "pihcore/admin/expressionTester.page",
+    "url": "pihapps/admin/expressionTester.page",
     "icon": "icon-wrench",
     "order": 51
   },
