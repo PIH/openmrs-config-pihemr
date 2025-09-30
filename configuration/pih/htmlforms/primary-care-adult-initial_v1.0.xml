@@ -1,7 +1,7 @@
 
-<htmlform formUuid="1eb303ab-99ea-4022-bdda-1a89a339c737"
-          formEncounterType="5cbfd6a2-92d9-4ad0-b526-9d29bfe1d10c"
-          formName="NCD Followup" formVersion="2.0">
+<htmlform formUuid="40f51770-0267-11e6-a837-0800200c9a66"
+          formEncounterType="27d3a180-031b-11e6-a837-0800200c9a66"
+          formName="Outpatient Intake (Adult) V1" formVersion="1.0">
 
     <style type="text/css">
         #who-when-where {
@@ -59,8 +59,8 @@
     </style>
 
     <!-- the two ifMode blocks below enable a bit of hack: when opening in ENTER mode, we just want to create the encounter,
-        we don't actually want to display the form, so we hae it hidden by default, and then automatically trigger the submit;
-        note that this will fail in the case where there isn't a default provider or date (which I don't think we have in our use cases -->
+    we don't actually want to display the form, so we hae it hidden by default, and then automatically trigger the submit;
+    note that this will fail in the case where there isn't a default provider or date (which I don't think we have in our use cases -->
 
     <ifMode mode="ENTER" include="true">
         <script type="text/javascript">
@@ -81,19 +81,17 @@
     <ifMode mode="EDIT" include="true">
         <script type="text/javascript">
             jq(function() {
-
                 jq('.htmlform').show();
 
                 // handlers for next and submit buttons, see nextAndSubmitButtons.js
                 setUpNextAndSubmitButtons();
-
             });
         </script>
     </ifMode>
-    <div class="htmlform" style="display:none">
 
+    <div class="htmlform" style="display:none">
         <ifMode mode="VIEW" include="false">
-            <h2><uimessage code="ui.i18n.EncounterType.name.5cbfd6a2-92d9-4ad0-b526-9d29bfe1d10c"/></h2>
+            <h2><uimessage code="ui.i18n.EncounterType.name.27d3a180-031b-11e6-a837-0800200c9a66"/></h2>
 
             <!-- users with retroConsultNote privilege can edit provider, location, and date for both retro and active visits -->
             <includeIf velocityTest="$user.hasPrivilege('Task: emr.retroConsultNote')">
@@ -104,7 +102,7 @@
                     </p>
                     <p id="where">
                         <label><uimessage code="emr.locationRequired"/></label>
-                        <span><encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Consult Note Location"/></span>
+                        <span><encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Primary Care Consult Location"/></span>
                     </p>
                     <p id="when">
                         <label><uimessage code="emr.patientDashBoard.date"/></label>
@@ -125,7 +123,7 @@
                     </p>
                     <p id="where">
                         <label><uimessage code="emr.locationRequired"/></label>
-                        <span><encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Consult Note Location"/></span>
+                        <span><encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Primary Care Consult Location"/></span>
                     </p>
                     <p id="when">
                         <label><uimessage code="emr.patientDashBoard.date"/></label>
@@ -157,8 +155,7 @@
                                     <uimessage code="emr.locationRequired"/>
                                 </label>
                                 <span>
-                                    <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"
-                                                       tags="Consult Note Location"/>
+                                    <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Primary Care Consult Location"/>
                                 </span>
                             </td>
                             <td>
@@ -174,7 +171,6 @@
                 </div>
             </includeIf>
         </ifMode>
-
 
         <ifMode mode="VIEW" include="false">
             <div id="buttons">
