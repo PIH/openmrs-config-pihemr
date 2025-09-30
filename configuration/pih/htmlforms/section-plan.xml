@@ -3,7 +3,6 @@
           formName="Plan V2" formVersion="2.0">
 
     <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.ApplyDispositionAction"/>
-    <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.SetOrderAutoExpireDateAction"/>
 
     <style type="text/css">
 
