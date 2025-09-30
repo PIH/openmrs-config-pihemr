@@ -1,6 +1,6 @@
-<htmlform id="primary-care-plan-form"
-          formUuid="ed673783-ec75-49de-a19f-3976d031aec0"
-          formName="Plan V2" formVersion="2.0">
+<htmlform id="primary-care-plan-form-v1"
+          formUuid="00a30a40-bef8-11e5-a837-0800200c9a66"
+          formName="Plan" formVersion="1.0">
 
     <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.ApplyDispositionAction"/>
 
@@ -70,6 +70,57 @@
 
                 var valid = true;
 
+                // validate medication section
+                jq('fieldset.medication').each(function() {
+
+                    // clear out any existing error messages
+                    jq(this).find('.field-error').first().html('');
+
+                    //var medication = (jq(this).find('.medication-name input').val()).trim();
+
+                    // UHM-3781 we need to look for the value set by the autocomplete widget.
+                    // The value should be in the format of Drug:DRUG_ID
+                    var medication = jq(this).find('.medication-name input[type=hidden]').val();
+
+                    var dose = jq(this).find('.dose input').val();
+                    var doseUnits = jq(this).find('.dose-unit select').val();
+                    var frequency = jq(this).find('.frequency select').val();
+                    var duration = jq(this).find('.duration input').val();
+                    var durationUnits = jq(this).find('.duration-unit select').val();
+                    var instructions = jq(this).find('.medication-instructions input').val();
+
+                    if (!medication &amp;&amp; (dose || doseUnits || frequency || duration || durationUnits || instructions)) {
+                        valid = false;
+                        jq(this).find('.field-error').first().append("<uimessage
+                        code="pihcore.visitNote.plan.medications.error.noMedication"/>. ").show();
+                    }
+
+                    if (dose &amp;&amp; !doseUnits) {
+                        valid = false;
+                        jq(this).find('.field-error').first().append("<uimessage
+                            code="pihcore.visitNote.plan.medications.error.noDoseUnits"/>. ").show();
+                    }
+
+                    if (!dose &amp;&amp; doseUnits) {
+                        valid = false;
+                        jq(this).find('.field-error').first().append("<uimessage
+                            code="pihcore.visitNote.plan.medications.error.noDose"/>. ").show();
+                    }
+
+                    if (duration &amp;&amp; !durationUnits) {
+                        valid = false;
+                        jq(this).find('.field-error').first().append("<uimessage
+                            code="pihcore.visitNote.plan.medications.error.noDurationUnits"/>. ").show();
+                    }
+
+                    if (!duration &amp;&amp; durationUnits) {
+                        valid = false;
+                        jq(this).find('.field-error').first().append("<uimessage
+                            code="pihcore.visitNote.plan.medications.error.noDuration"/>. ").show();
+                    }
+
+                });
+
                 // validate that if a disposition has been selected, all the fields associated with that disposition have also been filled out
                 jq('#disposition .field-error').first().html('').hide(); // hide any previous error
                 if (jq('#disposition select:first').val() != '' &amp;&amp;
@@ -83,6 +134,49 @@
                 return valid;
 
             });
+
+            jq(function() {
+
+                var hasValue = function(element) {
+                    return jq(element).find('.medication-name input').val();
+                };
+
+                var hideOtherMeds = function() {
+                    jq('#medication-2').hide();
+                    jq('#medication-3').hide();
+                    jq('#medication-4').hide();
+                    jq('#medication-5').hide();
+                    jq('#medication-6').hide();
+                    jq('#medication-7').hide();
+                    jq('#medication-8').hide();
+                };
+
+                if (!hasValue('#medication-2') &amp;&amp; !hasValue('#medication-3') &amp;&amp; !hasValue('#medication-4')
+                    &amp;&amp; !hasValue('#medication-5') &amp;&amp; !hasValue('#medication-6') &amp;&amp;
+                    !hasValue('#medication-7')
+                    &amp;&amp; !hasValue('#medication-8')) {
+                        hideOtherMeds();
+                        jq('#show-more-medications-button').show();
+                }
+
+                jq('#show-more-medications-button').click(function() {
+                    jq('.medication').show();
+                    jq('#show-more-medications-button').hide();
+                    jq('#show-less-medications-button').show();
+                });
+
+                jq('#show-less-medications-button').click(function() {
+                    hideOtherMeds();
+                    jq('#show-less-medications-button').hide();
+                    jq('#show-more-medications-button').show();
+                });
+
+                jq('#disposition select:first').change(function() {
+                    jq('#disposition .field-error').first().html('').hide(); // hide any previous error if disposition is changed
+                });
+
+            })
+
         </script>
     </ifMode>
 
@@ -396,10 +490,84 @@
     <section id="drug-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.visitNote.orders.medications">
 
+        <!-- UHM-3782 For NCDs only, show list of meds entered previously in old data model -->
+        <!-- ToDo: This might be confusing to show this here
+        <includeIf velocityTest="$encounter.encounterType.uuid == 'ae06d311-1866-455b-8a64-126a9bd74171' || $encounter.encounterType.uuid == '5cbfd6a2-92d9-4ad0-b526-9d29bfe1d10c'" >
+            Past NCD medications:
+            <lookup complexExpression="#foreach($med in $fn.allObs('PIH:Medications prescribed at end of visit')) $med.valueCoded.name,  #end"/>
+        </includeIf>
+        -->
+
         <div class="section-container-color">
-            <subform path="configuration/pih/subforms/drug-order-widget.xml"/>
+            <repeat with="['1'],['2'],['3'],['4'],['5'],['6'],['7'],['8']">
+                <span id="medication-{0}" class="medication">
+                    <obsgroup groupingConceptId="PIH:Prescription construct" showIfEmpty="false">
+                        <h3>
+                            <uimessage code="pihcore.visitNote.plan.medication"/>
+                            {0}
+                        </h3>
+                        <fieldset class="medication">
+                            <p class="field-error" style="display:none"></p>
+                            <p>
+                                <label>
+                                    <uimessage code="pihcore.visitNote.plan.name"/>
+                                </label>
+                                <obs id="name{0}" class="medication-name" conceptId="PIH:MEDICATION ORDERS"
+                                     answerDrugs="true"/>
+                            </p>
+                            <p class="inline">
+                                <label>
+                                    <uimessage code="pihcore.visitNote.plan.dose"/>
+                                </label>
+                                <obs id="dose{0}" class="dose doseInput" conceptId="CIEL:160856"/>
+                                <obs id="doseUnit{0}" class="dose-unit doseInput select-arrow"
+                                     conceptId="PIH:Dosing units coded"
+                                     answerConceptIds="CIEL:161553,CIEL:161554,CIEL:162263,PIH:APPLICATION,CIEL:1608,CIEL:1513,CIEL:162356,CIEL:162366,CIEL:162370,PIH:Pump,PIH:SACHET,CIEL:162264"
+                                     answerCodes="pihcore.visitNote.plan.medication.units.mg,pihcore.visitNote.plan.medication.units.g,pihcore.visitNote.plan.medication.units.mL,pihcore.visitNote.plan.medication.units.application,pihcore.visitNote.plan.medication.units.capsule,pihcore.visitNote.plan.medication.units.tablet,pihcore.visitNote.plan.medication.units.drop,pihcore.visitNote.plan.medication.units.mcg,pihcore.visitNote.plan.medication.units.patch,pihcore.visitNote.plan.medication.units.pump,pihcore.visitNote.plan.medication.units.sachet,pihcore.visitNote.plan.medication.units.IU"/>
+                                <!-- answers="mg,g,mL,Application,Capsule,Comprimé,Goutte,Microgramme,Patch,Pompe,Sachet,Unités internationals" -->
+
+                            </p>
+                            <p class="inline">
+                                <label>
+                                    <uimessage code="pihcore.visitNote.plan.frequency"/>
+                                </label>
+
+
+                                <obs id="frequencyCoded{0}" class="frequency select-arrow"
+                                     conceptId="PIH:Drug frequency for HUM"
+                                     answerConceptIds=
+                                             "PIH:OD,PIH:BID,PIH:TID,PIH:QID,PIH:5D,PIH:6D,PIH:7D,PIH:8D,PIH:9D,PIH:OM,PIH:ON,PIH:PRN,PIH:STAT,PIH:Q2H,PIH:Q3H,PIH:Q4H,PIH:Q6H,PIH:Q12H,PIH:5622"
+                                     answerCodes="OD,BID,TID,QID,5D,6D,7D,8D,9D,OM,ON,SOS,STAT,Q2H,Q3H,Q4H,Q6H,Q12H,pihcore.visitNote.plan.other"/>
+                            </p>
+
+                            <p class="inline">
+                                <label>
+                                    <uimessage code="pihcore.visitNote.plan.duration"/>
+                                </label>
+                                <obs id="duration{0}" class="duration doseInput" conceptId="CIEL:159368"/>
+                                <obs id="durationUnit{0}" class="duration-unit select-arrow" conceptId="PIH:TIME UNITS"
+                                     answerConceptIds="PIH:Days,PIH:1073,PIH:Months"/>
+                            </p>
+
+                            <p>
+                                <label>
+                                    <uimessage code="pihcore.visitNote.plan.instructions"/>
+                                </label>
+                                <obs id="instructions{0}" class="medication-instructions"
+                                     conceptId="PIH:Prescription instructions non-coded"/>
+                            </p>
+                        </fieldset>
+                    </obsgroup>
+                </span>
+            </repeat>
+            <button id="show-more-medications-button" type="button" style="display:none">
+                <uimessage code="pihcore.showMore"/>
+            </button>
+            <button id="show-less-medications-button" type="button" style="display:none">
+                <uimessage code="pihcore.showLess"/>
+            </button>
         </div>
-        <!-- ToDo: UHM-3782 For NCDs only, show list of meds entered previously in old data model -->
+
     </section>
 
     <!-- For NCD followup only, add socio-economic assistance -->

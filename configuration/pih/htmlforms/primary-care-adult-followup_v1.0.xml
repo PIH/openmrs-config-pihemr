@@ -1,7 +1,7 @@
 
-<htmlform formUuid="1eb303ab-99ea-4022-bdda-1a89a339c737"
-          formEncounterType="5cbfd6a2-92d9-4ad0-b526-9d29bfe1d10c"
-          formName="NCD Followup" formVersion="2.0">
+<htmlform formUuid="343ba950-0324-11e6-a837-0800200c9a66"
+          formEncounterType="27d3a181-031b-11e6-a837-0800200c9a66"
+          formName="Outpatient Followup (Adult) V1" formVersion="1.0">
 
     <style type="text/css">
         #who-when-where {
@@ -81,19 +81,17 @@
     <ifMode mode="EDIT" include="true">
         <script type="text/javascript">
             jq(function() {
-
                 jq('.htmlform').show();
 
                 // handlers for next and submit buttons, see nextAndSubmitButtons.js
                 setUpNextAndSubmitButtons();
-
             });
         </script>
     </ifMode>
     <div class="htmlform" style="display:none">
 
         <ifMode mode="VIEW" include="false">
-            <h2><uimessage code="ui.i18n.EncounterType.name.5cbfd6a2-92d9-4ad0-b526-9d29bfe1d10c"/></h2>
+            <h2><uimessage code="ui.i18n.EncounterType.name.27d3a181-031b-11e6-a837-0800200c9a66"/></h2>
 
             <!-- users with retroConsultNote privilege can edit provider, location, and date for both retro and active visits -->
             <includeIf velocityTest="$user.hasPrivilege('Task: emr.retroConsultNote')">
@@ -104,7 +102,7 @@
                     </p>
                     <p id="where">
                         <label><uimessage code="emr.locationRequired"/></label>
-                        <span><encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Consult Note Location"/></span>
+                        <span><encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Primary Care Consult Location"/></span>
                     </p>
                     <p id="when">
                         <label><uimessage code="emr.patientDashBoard.date"/></label>
@@ -125,7 +123,7 @@
                     </p>
                     <p id="where">
                         <label><uimessage code="emr.locationRequired"/></label>
-                        <span><encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Consult Note Location"/></span>
+                        <span><encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Primary Care Consult Location"/></span>
                     </p>
                     <p id="when">
                         <label><uimessage code="emr.patientDashBoard.date"/></label>
@@ -157,8 +155,7 @@
                                     <uimessage code="emr.locationRequired"/>
                                 </label>
                                 <span>
-                                    <encounterLocation default="SessionAttribute:emrContext.sessionLocationId"
-                                                       tags="Consult Note Location"/>
+                                    <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Primary Care Consult Location"/>
                                 </span>
                             </td>
                             <td>

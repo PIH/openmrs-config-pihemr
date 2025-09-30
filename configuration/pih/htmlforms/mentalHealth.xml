@@ -16,7 +16,8 @@
           formName="Mental Health Assessment V2" formEncounterType="a8584ab8-cc2a-11e5-9956-625662870761"
           formVersion="2.0">
 	<postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.ApplyDispositionAction" />
-	<translations defaultLocale="fr">
+
+    <translations defaultLocale="fr">
 		<code name="yes">
 			<variant locale="en" value="yes" />
 			<variant locale="fr" value="oui" />
@@ -1832,9 +1833,7 @@
 	</section>
 	<section id="mh-meds-v2" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.visitNote.plan.medication">
 		<div class="section-container">
-			<!-- ToDo:  Introduce the new modelling in the next release -->
             <subform path="configuration/pih/subforms/drug-order-widget-mental-health.xml"/>
-
 
 			<p>
 				<label>
