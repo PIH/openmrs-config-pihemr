@@ -1,0 +1,62 @@
+<!--
+    This overrides the drug section of the default drug order widget to limit to specific Mental Health drugs
+-->
+<subform path="configuration/pih/subforms/drug-order-widget.xml">
+    <orderProperty name="drug" label="pihcore.visitNote.plan.medication" style="autocomplete" subform-parameter="drug-order-drug-selector">
+        <option value="5edb194a-70bf-4fbf-b2ca-4dce586af7f3" dName="AmitryptilineHCl25t"/>
+        <option value="29c41917-38b4-492b-8181-0945c171a72d" dName="Carbamazepine100mg"/>
+        <option value="e371d811-d32c-4f6e-8493-2fa667b7b44c" dName="Carbamazepine200mgt"/>
+        <option value="ed2ebd08-2f59-4f74-80ad-d69d123035ee" dName="Carbidopa25mg-Levodopa250mgt"/>
+        <option value="6a2a96d1-c01f-48d3-b3b9-2741bce4e064" dName="ChlorpromazineHCl25mgt"/>
+        <option value="39d7a7ee-b0ff-48e0-a7ca-685688147c8f" dName="Diazepam5mgt"/>
+        <option value="923e3e90-8b5c-4ae6-b17f-b6d547803437" dName="Diazepam5mga"/>
+        <option value="81694757-3336-4195-ac6b-ea574b9b8597" dName="DiphenhydramineHCl25mgt"/>
+        <option value="b476d417-800f-4e2e-89ec-09de8fd07607" dName="DiphenhydramineHCl50mga"/>
+        <option value="7f7178bd-a1f8-44dd-85a9-02e49065e56b" dName="FluoxetineHCl20mgt"/>
+        <option value="c1f95407-9517-4eb5-af8d-d633293f4793" dName="Haloperidol1mgt"/>
+        <option value="23f2d94b-3072-4e86-b737-d5ccded81bc0" dName="Haloperidol5mgt"/>
+        <option value="a8541367-1eb0-4144-9cc7-41a909902d5d" dName="Haloperidol5mgmLa"/>
+        <option value="9a499fca-699e-4809-8175-732ef43d5c14" dName="Phenobarb50mgt" />
+        <option value="4eb3c71f-b716-4f01-beb7-394cebd6c191" dName="PhenobarbAmpule"/>
+        <option value="34dd5905-c28d-4cf8-8ebe-0b83e5093e17" dName="PhenytoinNa100t"/>
+        <option value="d8297181-0a3f-48fc-89c5-cc283e5a8d42" dName="PhenytoinNa50a"/>
+        <option value="03818046-358b-4b90-a91b-24913dd32459" dName="Risperidone1mgt"/>
+        <option value="7dffc3c0-d5f6-4887-8fe7-dcaa2a473590" dName="Risperidone3mgt"/>
+        <option value="b2b0d66a-4865-49fa-9af8-6d898f46dc78" dName="SodiumValproate200mgt"/>
+        <option value="fc899af0-e745-4e60-ab06-3b3375333786" dName="SodiumValproate500mgt"/>
+        <option value="d89a847c-1e50-471d-9219-f7ad71bafa7e" dName="SodiumValproateSyrup"/>
+        <option value="c18e751c-1ec5-420b-8ba7-68a22c5d1acc" dName="Trihexyphenidyl5mgt"/>
+    </orderProperty>
+
+    <!--
+    <orderProperty name="doseUnits" value="1513AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label=" " subform-parameter="drug-order-doseUnits-selector">
+        <option value="1513AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label="tablet" />
+        <option value="CIEL:161553" label="mg" />
+        <option value="CIEL:161554" label="g" />
+    </orderProperty>
+
+    <orderProperty name="frequency" label=" " subform-parameter="drug-order-frequency-selector">
+        <option value="PIH:OD"  label="OD" />
+        <option value="PIH:BID" label="BID" />
+        <option value="PIH:TID" label="TID" />
+        <option value="PIH:QID" label="QID" />
+        <option value="PIH:OM"  label="OM" />
+        <option value="PIH:ON"  label="ON" />
+    </orderProperty>
+
+    <orderProperty name="quantityUnits" value="1513AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label=" " subform-parameter="drug-order-quantityUnits-selector">
+        <option value="1513AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label="tablet" />
+        <option value="CIEL:1608" descr="capsule" />
+        <option value="CIEL:162353" descr="bottle" />
+        <option value="CIEL:162382" descr="vial" />
+        <option value="CIEL:161553" label="mg" />
+        <option value="CIEL:161554" label="g" />
+    </orderProperty>
+    -->
+
+    <orderProperty name="route" value="CIEL:160240" label=" " subform-parameter="drug-order-route-selector">
+        <option value="CIEL:160240" /> <!-- Oral -->
+        <option value="CIEL:160242" label="IV" /> <!-- IV  -->
+        <option value="CIEL:160243" label="IM" /> <!-- IM -->
+    </orderProperty>
+</subform>
