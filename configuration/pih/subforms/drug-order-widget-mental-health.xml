@@ -28,11 +28,12 @@
         <option value="c18e751c-1ec5-420b-8ba7-68a22c5d1acc" dName="Trihexyphenidyl5mgt"/>
     </orderProperty>
 
-    <!--
     <orderProperty name="doseUnits" value="1513AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label=" " subform-parameter="drug-order-doseUnits-selector">
-        <option value="1513AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label="tablet" />
+        <option value="1513AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" />
+        <option value="CIEL:1608" descr="capsule" />
         <option value="CIEL:161553" label="mg" />
         <option value="CIEL:161554" label="g" />
+        <option value="CIEL:162263" label="mL" />
     </orderProperty>
 
     <orderProperty name="frequency" label=" " subform-parameter="drug-order-frequency-selector">
@@ -45,14 +46,15 @@
     </orderProperty>
 
     <orderProperty name="quantityUnits" value="1513AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label=" " subform-parameter="drug-order-quantityUnits-selector">
-        <option value="1513AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label="tablet" />
+        <option value="1513AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" descr="tablet" />
         <option value="CIEL:1608" descr="capsule" />
+        <option value="CIEL:162335" descr="ampule" />
         <option value="CIEL:162353" descr="bottle" />
         <option value="CIEL:162382" descr="vial" />
         <option value="CIEL:161553" label="mg" />
         <option value="CIEL:161554" label="g" />
+        <option value="CIEL:162263" label="mL" />
     </orderProperty>
-    -->
 
     <orderProperty name="route" value="CIEL:160240" label=" " subform-parameter="drug-order-route-selector">
         <option value="CIEL:160240" /> <!-- Oral -->

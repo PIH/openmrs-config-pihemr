@@ -19,8 +19,8 @@
 
             <div style="padding:0px;font-weight:bold;">
                 <orderProperty name="dose" label="pihcore.visitNote.plan.dose"/>
-                <orderProperty name="doseUnits" value="1513AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label=" "/>
-                <orderProperty name="frequency" label=" "/>
+                <orderProperty name="doseUnits" value="1513AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label=" " subform-parameter="drug-order-doseUnits-selector"/>
+                <orderProperty name="frequency" label=" " subform-parameter="drug-order-frequency-selector"/>
                 <orderProperty name="route" value="CIEL:160240" label=" " subform-parameter="drug-order-route-selector">
                     <option value="CIEL:160240" /> <!-- Oral -->
                     <option value="CIEL:160242" label="IV" /> <!-- IV  -->
@@ -47,7 +47,7 @@
             </div>
             <div style="padding:0px;">
                 <orderProperty name="quantity" label="pihcore.quantity"/>
-                <orderProperty name="quantityUnits" value="1513AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label=" "/>
+                <orderProperty name="quantityUnits" value="1513AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label=" " subform-parameter="drug-order-quantityUnits-selector"/>
                 <orderProperty name="numRefills" value="0" label="pihcore.refills"/>
             </div>
             <div style="display:none;">
