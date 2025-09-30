@@ -114,7 +114,6 @@ patient_id,
 order_id,
 concept_id,
 drug_id,
-encounter_type,
 order_reason_concept,
 order_dose,
 order_dose_units_id,
@@ -135,7 +134,6 @@ o.patient_id,
 o.order_id,
 o.concept_id,
 d.drug_inventory_id,
-'standalone order',
 o.order_reason,
 d.dose,
 d.dose_units,
@@ -162,15 +160,17 @@ update temp_medication_orders tm set order_formulation = drugName(drug_id);
 update temp_medication_orders tm  set product_code = openboxesCode(drug_id);
 update temp_medication_orders tm  set prescriber = provider(tm.encounter_id);
 
-update temp_medication_orders tm set order_drug = concept_name(concept_id, 'en') where encounter_type = 'standalone order';
-update temp_medication_orders tm set order_formulation_non_coded = (select drug_non_coded from drug_order d where d.order_id = tm.order_id) where encounter_type = 'standalone order';
-update temp_medication_orders tm set order_quantity_units = concept_name(order_quantity_units_id, 'en') where encounter_type = 'standalone order';
-update temp_medication_orders tm set order_dose_unit = concept_name(order_dose_units_id, 'en') where encounter_type = 'standalone order';
-update temp_medication_orders tm set order_route = concept_name(order_route_id, 'en') where encounter_type = 'standalone order';
-update temp_medication_orders tm set order_frequency = (select concept_name(concept_id, 'en') from order_frequency d where d.order_frequency_id = tm.order_frequency_id) where encounter_type = 'standalone order';
-update temp_medication_orders tm set order_reason = concept_name(order_reason_concept, 'en') where encounter_type = 'standalone order';
-update temp_medication_orders tm  set order_comments = obs_value_text(tm.encounter_id, 'PIH', 'Medication comments (text)') where encounter_type = 'standalone order';
-update temp_medication_orders tm  set order_duration_units = concept_name(order_duration_units_id, 'en')where encounter_type = 'standalone order';
+update temp_medication_orders tm set encounter_type = encounter_type_name(encounter_id) where order_id is not null;
+update temp_medication_orders tm set order_drug = concept_name(concept_id, 'en') where order_id is not null;
+update temp_medication_orders tm set order_formulation_non_coded = (select drug_non_coded from drug_order d where d.order_id = tm.order_id) where order_id is not null;
+update temp_medication_orders tm set order_quantity_units = concept_name(order_quantity_units_id, 'en') where order_id is not null;
+update temp_medication_orders tm set order_dose_unit = concept_name(order_dose_units_id, 'en') where order_id is not null;
+update temp_medication_orders tm set order_route = concept_name(order_route_id, 'en') where order_id is not null;
+update temp_medication_orders tm set order_frequency = (select concept_name(concept_id, 'en') from order_frequency d where d.order_frequency_id = tm.order_frequency_id) where order_id is not null;
+update temp_medication_orders tm set order_reason = concept_name(order_reason_concept, 'en') where order_id is not null;
+update temp_medication_orders tm  set order_comments = obs_value_text(tm.encounter_id, 'PIH', 'Medication comments (text)') where order_id is not null;
+update temp_medication_orders tm  set order_duration_units = concept_name(order_duration_units_id, 'en') where order_id is not null;
+
 
 -- final query
 select 
@@ -202,3 +202,4 @@ order_reason,
 order_comments
 from temp_medication_orders
 order by order_date_activated, patient_id;
+
