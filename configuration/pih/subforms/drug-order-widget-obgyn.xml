@@ -1,0 +1,10 @@
+<!--
+    This overrides the drug order widget for obgyn
+-->
+<subform path="configuration/pih/subforms/drug-order-widget.xml">
+    <orderProperty name="route" value="CIEL:160240" label=" " subform-parameter="drug-order-route-selector">
+        <option value="CIEL:160240" /> <!-- Oral -->
+        <option value="CIEL:162797" /> <!-- Topical -->
+        <option value="CIEL:162392" /> <!-- Vaginally -->
+    </orderProperty>
+</subform>
