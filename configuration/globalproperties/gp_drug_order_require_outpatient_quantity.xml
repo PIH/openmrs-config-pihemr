@@ -2,8 +2,7 @@
     <globalProperties>
         <globalProperty>
             <property>drugOrder.requireOutpatientQuantity</property>
-            <!-- This allows entering drug orders without having to specify the amount to dispense at the time of order -->
-            <value>false</value>
+            <value>true</value>
         </globalProperty>
     </globalProperties>
 </config>
