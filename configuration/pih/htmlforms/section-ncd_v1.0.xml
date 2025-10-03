@@ -13,8 +13,8 @@
   -->
 
 <htmlform id="ncd-consult-note" class="simple-form-ui"
-          formName="NCD" formUuid="47de1db8-bebc-4861-82bc-e4f0ee8c04aa"
-          htmlformUuid="91742d4b-d5ba-4f2d-bdfc-a62aee572a41" formVersion="2.0">
+          formName="NCD V1" formUuid="8bb13d24-e341-42e6-84ef-8fb73d1fce82"
+          htmlformUuid="59166690-b88b-4cbd-92f7-31fb037bf2dc" formVersion="1.0">
 
     <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.CleanDiagnosisConstructAction"/>
     <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.CleanPrescriptionConstructAction"/>
@@ -34,27 +34,27 @@
     <style type="text/css">
 
         #who-when-where {
-            margin-bottom: 6px;
-            border-bottom: 1px solid #ccc;
+        margin-bottom: 6px;
+        border-bottom: 1px solid #ccc;
         }
 
         #who-when-where p {
-            display: inline-block;
-            padding-right: 20px;
+        display: inline-block;
+        padding-right: 20px;
         }
 
         #where > input[type=text] {
-            display: inline-block;
+        display: inline-block;
         }
 
         .narrow {
-            width: 200px;
+        width: 200px;
         }
 
         .field-error {
-            color: #ff6666;
-            font-size: 1.1em;
-            display: block;
+        color: #ff6666;
+        font-size: 1.1em;
+        display: block;
         }
 
         .two-columns {
@@ -69,56 +69,56 @@
         }
 
         .simple-form-ui input {
-            min-width: 80%
+        min-width: 80%
         }
 
         form fieldset {
-            min-width: 90%;
-            display: block;
+        min-width: 90%;
+        display: block;
         }
 
         #calculated-waist-hip-ratio {
-            font-weight: bold;
-            font-size: 1.4em;
+        font-weight: bold;
+        font-size: 1.4em;
         }
 
         .encounter-summary-container #calculated-ratio {
-            font-size: 1em;
-            font-weight: normal;
+        font-size: 1em;
+        font-weight: normal;
         }
 
         #encounterDate input {
-            min-width: 15%
+        min-width: 15%
         }
 
         .half-size-text {
-            color: #ff6666;
-            font-size: 50%;
-            display: block;
+        color: #ff6666;
+        font-size: 50%;
+        display: block;
         }
 
         .section-container {
-            background: #F2F2F2;
-            box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-            padding: 10px 5px 10px 15px;
-            line-height: 1.5em; /*add this for vertical spacing between elements*/
+        background: #F2F2F2;
+        box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
+        padding: 10px 5px 10px 15px;
+        line-height: 1.5em; /*add this for vertical spacing between elements*/
         }
 
         .section-container input[type="checkbox"] {
-            margin: 0px 5px; /*changed values to vertical, horizontal*/
-            top:5px; /*added to offset the checkbox position to line up*/
+        margin: 0px 5px; /*changed values to vertical, horizontal*/
+        top:5px; /*added to offset the checkbox position to line up*/
         }
 
         .section-container label { /*new definition to override labels inside section-containers*/
-            margin: 0px;
+        margin: 0px;
         }
 
        - .section {
-            width: 100%;
+        width: 100%;
         }
 
         textarea {
-            width: 95%;
+        width: 95%;
         }
 
         ul.copd {
@@ -169,6 +169,8 @@
 
         </script>
     </ifMode>
+
+
 
     <ifMode mode="VIEW">
         <script type="text/javascript">
@@ -999,6 +1001,102 @@
                     <br/><br/><br/><br/>
                 </includeIf>
             </div>
+
+        </div>
+    </section>
+
+    <section id="meds" sectionTag="fieldset" headerTag="legend" headerStyle="title" headerCode="pihcore.ncd.meds">
+        <div class="section-container">
+            <p>
+                <!-- Cardiovascular -->
+                <label>
+                    <b>
+                        <uimessage code="pihcore.exam.cardiac_exam"/>
+                    </b>
+                </label>
+                <repeat with="['Acetylsalicylic acid, 100 mg tablet','tablet','8d5941e8-5f86-4289-a6ba-122320814bd5'],
+                              ['Amlodipine besylate, 5 mg tablet','tablet','6620289c-cc66-4892-9b2d-ecc40c746945'],
+                              ['Atenolol, 50 mg tablet','tablet','2f8d7a99-d4ec-4ad7-b898-1c953cb332fd'],
+                              ['Carvedilol, 12.5mg, tablet','tablet','d809f82b-7612-4da2-b075-531f586bdd7c'],
+                              ['Captopril, 25 mg tablet','tablet','7134a5ba-2033-4833-a1ac-d256fd005932'],
+                              ['Clopidogrel, 75mg, film coated tablet','tablet','8d7c8333-43f2-4e81-9923-14cdd790dcc3'],
+                              ['Enalapril maleate, 5 mg tablet','tablet','4efe3f48-2656-4178-bfcd-c6d103851084'],
+                              ['Furosemide, 40 mg tablet','tablet','fb5842a2-60ef-4539-b428-f99a1f76c85f'],
+                              ['Hydralazine hydrochloride, 25 mg, tablet','tablet','2ff6dfce-cd7e-4a1c-9916-f398c4aaec1f'],
+                              ['Hydrochlorothiazide, 25 mg tablet','tablet','ce857097-f7a1-4178-b018-a8067a5710d1'],
+                              ['Isosorbide dinitrate, 20 mg extended release tablet','tablet','95518896-df94-4e7d-b233-cc5af823975a'],
+                              ['Lisinopril, 5mg tablet','tablet','d0876723-9087-4ea5-b26d-d46cf914835f'],
+                              ['Lisinopril, 20mg tablet','tablet','4534a926-8dc4-440b-bdf9-f9e96d282a28'],
+                              ['Methyldopa, 250 mg film coated tablet','tablet','70123af9-a72a-4f6e-a188-140d905a84be'],
+                              ['Metoprolol succinate, 25 mg extended release tablet','tablet','819b83c0-e218-4ffe-854c-75c941feb948'],
+                              ['Metoprolol tartrate, 50 mg immediate release tablet','tablet','01bf21ba-3505-4221-ad41-d81e9aa5cc6e'],
+                              ['Nifedipine, 20 mg extended release tablet','tablet','d7937a60-a75b-42f6-9200-cd0e895606c0'],
+                              ['Propranolol hydrochloride, 40 mg, tablet','tablet','405dfa6c-ebaa-4a51-857f-b4df3788e7dd'],
+                              ['Simvastatin, 20mg tablet','tablet','01f14854-8305-4b12-8a52-3e01555fd66e'],
+                              ['Spironolactone, 25 mg tablet', 'tablet','82f3e5d8-0701-4948-a511-7d6f932dc9e6'],
+                              ['Warfarin, 5 mg tablet','tablet','1779f27f-0272-41da-a242-c6851a9aef6d']">
+                    <obsgroup groupingConceptId="PIH:Prescription construct">
+                        <obs conceptId="PIH:MEDICATION ORDERS" answerDrugId="{2}"
+                             answerCode="{0}" style="checkbox"/>
+                    </obsgroup>
+                </repeat>
+
+                <!-- Respiratory -->
+                <label>
+                    <b>
+                        <uimessage code="pihcore.ncd.resp"/>
+                    </b>
+                </label>
+                <repeat with="['Beclomethasone, 50 microgram/dose','microgram','0dfc00d1-394a-4dd4-9a56-8b00513fce21'],
+                              ['Beclomethasone, 250 microgram/dose','microgram','a9d56315-5c8d-4442-83ed-563ef2fa3171'],
+                              ['Ipratropium bromide, 250 microgram/mL solution','microgram','8b6830f5-8807-4be1-9062-37388a737a0c'],
+                              ['Montelukast sodium, 10 mg tablet','tablet','85e9b37a-b7b7-4ec9-84dc-c692b7c9187d'],
+                              ['Salbutamol, 100 microgram/dose','microgram','1420b4b9-ca35-4579-ae96-838f75b9e856']">
+                    <obsgroup groupingConceptId="PIH:Prescription construct">
+                        <obs conceptId="PIH:MEDICATION ORDERS" answerDrugId="{2}"
+                             answerCode="{0}" style="checkbox"/>
+                    </obsgroup>
+                </repeat>
+
+                <!-- Endocrine -->
+                <label>
+                    <b>
+                        <uimessage code="pihcore.endocrine"/>
+                    </b>
+                </label>
+                <repeat with="['Glibenclamide, 5 mg tablet','tablet','5c21704a-6268-4854-845d-55c573bed967'],
+                              ['Insuline rapide (regular)','IU','def06cd2-c046-4afc-9a49-475d3481cbcf'],
+                              ['Insuline lente (intermédiaire)','IU','568b5484-1f52-424a-a45d-3f1c9e0d92d6'],
+                              ['Insuline 70/30 mixte','IU','77077171-df0f-43c8-9a6b-245914fc143b'],
+                              ['Metformin hydrochloride, 500 mg tablet','tablet','afd2cd78-4dc6-4e91-ac9f-51b9e094e34a'],
+                              ['Prednisolone, 5 mg tablet','tablet','c63b13b6-210c-4575-ae5e-bbf86b5df747']">
+                    <obsgroup groupingConceptId="PIH:Prescription construct">
+                        <obs conceptId="PIH:MEDICATION ORDERS" answerDrugId="{2}"
+                             answerCode="{0}" style="checkbox"/>
+                    </obsgroup>
+                </repeat>
+
+                <!-- Other -->
+                <label>
+                    <b>
+                        <uimessage code="pihcore.other"/>
+                    </b>
+                </label>
+                <repeat with="['Benzathine benzylpenicillin, 2.4 million international units, powder for injection','iu','ab912f78-2112-4e87-aca7-1ded71e8a04b'],
+                              ['Cimetidine, 200 mg tablet','tablet','ef96f590-2cc3-469e-9b82-072fef563b9e'],
+                              ['Clotrimazole, 1% cream','application','5e11cd96-3277-4a74-968e-1aa3d3312e6c'],
+                              ['Diphenhydramine hydrochloride, 25 mg tablet','tablet','81694757-3336-4195-ac6b-ea574b9b8597'],
+                              ['Doxycycline, 100mg tablet','tablet','8aad2a23-2977-4b5b-a30a-4a9142ce774b'],
+                              ['Omeprazole, 20 mg gastro-resistant capsule','capsule','cb6d3cfb-4d14-4473-af64-88a69bc09a43'],
+                              ['Phenoxymethylpenicillin, 250 mg, tablet','tablet','3fbb89a0-652f-4675-b087-63ce1bed098f'],
+                              ['Potassium chloride, 600 mg slow release tablet','tablet','086b2092-a2e9-4a66-8790-7eb12ca328f2'],
+                              ['Ranitidine, 150 mg film coated tablet','tablet','477cbb97-2ea4-4fde-b32f-e6a3dd668c2b']">
+                    <obsgroup groupingConceptId="PIH:Prescription construct">
+                        <obs conceptId="PIH:MEDICATION ORDERS" answerDrugId="{2}"
+                             answerCode="{0}" style="checkbox"/>
+                    </obsgroup>
+                </repeat>
+            </p>
 
         </div>
     </section>

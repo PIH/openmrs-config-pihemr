@@ -1,6 +1,6 @@
 <htmlform id="primary-care-plan-form"
           formUuid="ed673783-ec75-49de-a19f-3976d031aec0"
-          formName="Plan V2" formVersion="2.0">
+          formName="Plan" formVersion="2.0">
 
     <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.ApplyDispositionAction"/>
 
@@ -10,34 +10,25 @@
             display: block;
         }
 
-        #test-orders {
+        .two-columns, .three-columns, .four-columns {
+            display: table;
+            height: 100%;
+            width: 100%;
         }
 
-
-        #test-orders input[type=checkbox] {
-            float: none;
-            vertical-align: middle;
+        .two-columns > div {
+            display: table-cell;
+            width: 50%;
         }
 
-        #test-orders p {
-            margin-bottom: 5px
+        .three-columns > div {
+            display: table-cell;
+            width: 33%;
         }
 
-        #test-orders span, #test-orders label {
-            display: inline !important;
-            vertical-align: middle;
-        }
-
-        .two-columns {
-            column-count: 2;
-            -webkit-column-count: 2;
-            -moz-column-count: 2;
-        }
-
-        .three-columns {
-            column-count: 3;
-            -webkit-column-count: 3;
-            -moz-column-count: 3;
+        .four-columns > div {
+            display: table-cell;
+            width: 25%;
         }
 
         p.radio > * {
@@ -145,9 +136,98 @@
              headerCode="pihcore.visitNote.orders.medications">
 
         <div class="section-container-color">
+
             <subform path="configuration/pih/subforms/drug-order-widget.xml"/>
+            <!-- For NCD forms only, add drug suggestions -->
+            <includeIf velocityTest="$encounter.encounterType.uuid == '5cbfd6a2-92d9-4ad0-b526-9d29bfe1d10c' || $encounter.encounterType.uuid == 'ae06d311-1866-455b-8a64-126a9bd74171'">
+                <br/>
+                <h4>
+                    <label>
+                        <uimessage code="pihcore.suggestedNcdTreatment.label" />
+                    </label>
+                </h4>
+
+                <div class="three-columns">
+                    <div>
+                        <!-- Cardiovascular -->
+                        <label>
+                            <b>
+                                <uimessage code="pihcore.exam.cardiac_exam"/>
+                            </b>
+                        </label>
+                        <ul>
+                            <li>Acetylsalicylic acid</li>
+                            <li>Amlodipine besylate</li>
+                            <li>Atenolol</li>
+                            <li>Carvedilol</li>
+                            <li>Captopril</li>
+                            <li>Clopidogrel</li>
+                            <li>Enalapril maleate</li>
+                            <li>Furosemide</li>
+                            <li>Hydralazine hydrochloride</li>
+                            <li>Hydrochlorothiazide</li>
+                            <li>Isosorbide dinitrate</li>
+                            <li>Lisinopril</li>
+                            <li>Methyldopa</li>
+                            <li>Metoprolol succinate</li>
+                            <li>Metoprolol tartrate</li>
+                            <li>Nifedipine</li>
+                            <li>Propranolol hydrochloride</li>
+                            <li>Simvastatin</li>
+                            <li>Spironolactone</li>
+                            <li>Warfarin</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <!-- Respiratory -->
+                        <label>
+                            <b>
+                                <uimessage code="pihcore.ncd.resp"/>
+                            </b>
+                        </label>
+                        <ul>
+                            <li>Beclomethasone</li>
+                            <li>Ipratropium bromide</li>
+                            <li>Montelukast sodium</li>
+                            <li>Salbutamol</li>
+                        </ul>
+
+                        <br/><br/>
+                        <!-- Endocrine -->
+                        <label>
+                            <b>
+                                <uimessage code="pihcore.endocrine"/>
+                            </b>
+                        </label>
+                        <ul>
+                            <li>Glibenclamide</li>
+                            <li>Insulin</li>
+                            <li>Metformin hydrochloride</li>
+                            <li>Prednisolone</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <!-- Other -->
+                        <label>
+                            <b>
+                                <uimessage code="pihcore.other"/>
+                            </b>
+                        </label>
+                        <ul>
+                            <li>Benzathine benzylpenicillin</li>
+                            <li>Cimetidine</li>
+                            <li>Clotrimazole</li>
+                            <li>Diphenhydramine hydrochloride</li>
+                            <li>Doxycycline</li>
+                            <li>Omeprazole</li>
+                            <li>Phenoxymethylpenicillin</li>
+                            <li>Potassium chloride</li>
+                            <li>Ranitidine</li>
+                        </ul>
+                    </div>
+                </div>
+            </includeIf>
         </div>
-        <!-- ToDo: UHM-3782 For NCDs only, show list of meds entered previously in old data model -->
     </section>
 
     <!-- For NCD followup only, add socio-economic assistance -->
