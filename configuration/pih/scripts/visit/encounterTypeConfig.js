@@ -1054,6 +1054,15 @@ angular.module("encounterTypeConfig", [])
                     DEFAULT: {
                         defaultState: "short",
                         shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                        longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+                        templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("ncd-initial_v1.0.xml"),
+                        icon: "fas fa-fw fa-user",
+                        editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("ncd-initial_v1.0.xml"),
+                        showOnVisitList: true
+                    },
+                    2.0: {
+                        defaultState: "short",
+                        shortTemplate: "templates/encounters/defaultEncounterShort.page",
                         longTemplate: "templates/encounters/defaultEncounterShort.page",
                         icon: "fas fa-fw fa-heart",
                         editUrl: hfeStandardEditUrl,
@@ -1078,9 +1087,9 @@ angular.module("encounterTypeConfig", [])
                         defaultState: "short",
                         shortTemplate: "templates/encounters/defaultEncounterShort.page",
                         longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
-                        templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("ncd-adult-initial.xml"),
+                        templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("ncd-initial_v1.0.xml"),
                         icon: "fas fa-fw fa-user",
-                        editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("ncd-adult-initial.xml"),
+                        editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("ncd-initial_v1.0.xml"),
                         showOnVisitList: true
                     }
                 }
@@ -1164,6 +1173,15 @@ angular.module("encounterTypeConfig", [])
                     DEFAULT: {
                         defaultState: "short",
                         shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                        longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+                        templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("ncd-followup_v1.0.xml"),
+                        icon: "fas fa-fw fa-user",
+                        editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("ncd-followup_v1.0.xml"),
+                        showOnVisitList: true
+                    },
+                    2.0: {
+                        defaultState: "short",
+                        shortTemplate: "templates/encounters/defaultEncounterShort.page",
                         longTemplate: "templates/encounters/defaultEncounterShort.page",
                         icon: "fas fa-fw fa-heart",
                         editUrl: hfeStandardEditUrl,
@@ -1188,9 +1206,9 @@ angular.module("encounterTypeConfig", [])
                         defaultState: "short",
                         shortTemplate: "templates/encounters/defaultEncounterShort.page",
                         longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
-                        templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("ncd-adult-followup.xml"),
+                        templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("ncd-followup_v1.0.xml"),
                         icon: "fas fa-fw fa-user",
-                        editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("ncd-adult-followup.xml"),
+                        editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("ncd-followup_v1.0.xml"),
                         showOnVisitList: true
                     }
                 }
