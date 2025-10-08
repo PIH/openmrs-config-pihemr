@@ -1609,7 +1609,7 @@ angular.module("encounterTypeConfig", [])
             editUrl: hfeStandardEditUrl
         };
 
-        // mentalHealth
+        // mentalHealth (mentalHealthFollowup for Liberia)
         // because of a bug, we manually append the defintionUiResource to the template and edit urls
         // see: https://tickets.pih-emr.org/browse/UHM-2524
         encounterTypes["a8584ab8-cc2a-11e5-9956-625662870761"] = {
@@ -1626,9 +1626,9 @@ angular.module("encounterTypeConfig", [])
             defaultState: "short",
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
-            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("mentalHealth.xml"),
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("mentalHealthFollowup.xml"),
             icon: "fas fa-fw fa-user",
-            editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("mentalHealth.xml"),
+            editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("mentalHealthFollowup.xml"),
             showOnVisitList: true
           }
         };
