@@ -21,6 +21,10 @@ designs:
       "dateFormat": "dd-MMM-yyyy HH:mm:ss"
 config:
   category: "dataExport"
+  countries:
+    - "HAITI"
+    - "LIBERIA"
+    - "SIERRA_LEONE"
   order: 90
   components:
     - "allergies"
