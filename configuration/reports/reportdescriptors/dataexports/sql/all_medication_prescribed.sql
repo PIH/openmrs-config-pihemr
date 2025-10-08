@@ -89,6 +89,8 @@ INNER JOIN temp_medication_orders m
     ON m.prescription_obs_group_id = o.obs_group_id
 WHERE o.voided = 0;
 
+create index temp_obs_c1 on temp_obs(obs_group_id, concept_id);
+
 update temp_medication_orders t 
 set t.order_drug = obs_from_group_id_value_coded_list_from_temp(prescription_obs_group_id, 'PIH','1282', @locale);
 update temp_medication_orders t 
@@ -202,4 +204,3 @@ order_reason,
 order_comments
 from temp_medication_orders
 order by order_date_activated, patient_id;
-

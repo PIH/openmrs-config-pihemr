@@ -5,7 +5,7 @@
     <artifactId>pihemr-content</artifactId>
     <name>PIH-EMR OpenMRS Content Package</name>
     <description>Top-Level content package for PIH-EMR OpenMRS distro</description>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
