@@ -397,8 +397,11 @@
                                 <label>
                                     <uimessage code="BMI"/>
                                 </label>
-                                <span class="small">
-                                    (calculated)
+                                <span id="calculated-bmi-wrapper">
+                                    <span id="calculated-bmi-label">
+                                        <uimessage code="mirebalais.vitals.bmi.title"/>
+                                    </span>
+                                    <span id='calculated-bmi' class="value"></span>
                                 </span>
                             </div>
                         </div>
@@ -406,6 +409,49 @@
                 </tr>
             </table>
             <br/><br/>
+
+            <script type="text/javascript">
+                const calculateBmi = function(wt, ht) {
+                    var bmi = null;
+                    if (wt &amp;&amp; ht) {
+                        bmi = wt / ((ht/100) * (ht/100));
+                    }
+                    return bmi;
+                }
+                jq(function() {
+                    <ifMode mode="VIEW" include="false">
+                        const updateBmi = function(wt, ht) {
+                            var wt = htmlForm.getValueIfLegal('weight_kg.value');
+                            var ht = htmlForm.getValueIfLegal('height_cm.value');
+                            var bmi = calculateBmi(wt, ht);
+                            if (bmi == null || isNaN(bmi)) {
+                                jq('#calculated-bmi-label').show();
+                                jq('#calculated-bmi').hide()
+                            } else {
+                                jq('#calculated-bmi-label').hide();
+                                jq('#calculated-bmi').html(bmi.toFixed(1));
+                                jq('#calculated-bmi').show()
+                            }
+                        }
+                        getField('weight_kg.value').change(updateBmi);
+                        getField('height_cm.value').change(updateBmi);
+                        updateBmi();
+                    </ifMode>
+                    <ifMode mode="VIEW" include="true">
+                        var wt = jq('#weight_kg').find('.value').text();
+                        var ht = jq('#height_cm').find('.value').text();
+                        var bmi = calculateBmi(wt, ht);
+                        if (bmi == null || isNaN(bmi)) {
+                            jq('#calculated-bmi-label').show();
+                            jq('#calculated-bmi').hide()
+                        } else {
+                            jq('#calculated-bmi-label').hide();
+                            jq('#calculated-bmi').html(bmi.toFixed(1));
+                            jq('#calculated-bmi').show()
+                        }
+                    </ifMode>
+                });
+            </script>
 
             <div class="two-columns">
                 <div>
