@@ -356,99 +356,10 @@
         </div>
     </section>
 
-    <style type="text/css">
-
-        <!-- Hide the label for the drug field in view mode -->
-        .orderwidget-history-section .order-field-label.order-drug {
-            display:none;
-        }
-        <!-- Add a colon after the Dose label in view mode -->
-        .orderwidget-history-section .order-field-label.order-dose:after {
-            content: ": ";
-            white-space: pre;
-        }
-
-        .order-field {
-            display: inline-block;
-            padding: 0px;
-        }
-        .order-field.action {
-            display: block;
-        }
-        .order-field.dateActivated {
-            padding-right: 20px;
-        }
-        .order-field-label {
-            display: inline-block;
-            padding-right: 5px;
-            vertical-align: middle;
-        }
-        .order-field-label:after {
-            content: "";
-            white-space: pre;
-        }
-        .order-field-widget {
-            display: inline-block;
-        }
-
-    </style>
-
     <section id="drug-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.visitNote.orders.medications.full">
         <div class="section-container">
-            <drugOrder format="select" selectLabel="pihcore.drugOrder.addAnotherDrug">
-                <orderTemplate>
-                    <orderProperty name="action" label="pihcore.action">
-                        <option value="NEW" label="pihcore.new"/>
-                        <option value="REVISE" label="pihcore.revise"/>
-                        <option value="RENEW" label="pihcore.renew"/>
-                        <option value="DISCONTINUE" label="pihcore.discontinue"/>
-                    </orderProperty>
-
-                    <div style="padding:0px;font-weight:bold;">
-                        <orderProperty name="drug" label="pihcore.visitNote.plan.medication" style="autocomplete"/>
-                    </div>
-
-                    <div style="padding:0px;font-weight:bold;">
-                        <orderProperty name="dose" label="pihcore.visitNote.plan.dose"/>
-                        <orderProperty name="doseUnits" value="1513AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label=" "/>
-                        <orderProperty name="frequency" label=" "/>
-                        <orderProperty name="route" value="CIEL:160240" label=" ">
-                            <option value="CIEL:160240" /> <!-- Oral -->
-                            <option value="CIEL:162797" /> <!-- Topical -->
-                            <option value="CIEL:162392" /> <!-- Vaginally -->
-                        </orderProperty>
-                    </div>
-                    <div style="padding:0px;">
-                        <orderProperty name="dateActivated" label="pihcore.starting"/>
-                        <orderProperty name="duration" label="pihcore.visitNote.for"/>
-                        <orderProperty name="durationUnits" value="3cd706b8-26fe-102b-80cb-0017a47871b2" label=" "/>
-                    </div>
-                    <div style="padding:0px;">
-                        <orderProperty name="quantity" label="pihcore.quantity"/>
-                        <orderProperty name="quantityUnits" value="1513AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" label=" "/>
-                        <orderProperty name="numRefills" value="0" label="pihcore.refills"/>
-                    </div>
-                    <div style="display:none;">
-                        <orderProperty name="urgency" value="ROUTINE"/>
-                        <orderProperty name="dosingType" value="org.openmrs.SimpleDosingInstructions"/>
-                        <orderProperty name="previousOrder"/>
-                        <orderProperty name="careSetting" value="OUTPATIENT"/>
-                    </div>
-                    <orderProperty name="discontinueReason" label="pihcore.discontinueReason">
-                        <option value="CIEL:843"/>
-                        <option value="CIEL:102"/>
-                        <option value="CIEL:127750"/>
-                        <option value="CIEL:1754"/>
-                        <option value="CIEL:162853"/>
-                        <option value="CIEL:1434"/>
-                        <option value="CIEL:987"/>
-                        <option value="CIEL:1253"/>
-                        <option value="CIEL:1067"/>
-                        <option value="CIEL:5622"/>
-                    </orderProperty>
-                </orderTemplate>
-            </drugOrder>
+            <subform path="configuration/pih/subforms/drug-order-widget.xml"/>
         </div>
         <div class="section-container">
             <label><b><uimessage code="pihcore.remarks"/></b></label>
