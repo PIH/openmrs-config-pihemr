@@ -10,7 +10,7 @@ emr_id varchar(20),
 visit_id int,
 order_id int,
 orderer int,
-concept_id int,
+drug_concept_id int,
 drug_id int,
 location_id int,
 encounter_type_id int(11),
@@ -69,52 +69,53 @@ and o.voided = 0;
 update temp_medication_orders t 
 set encounter_type = encounter_type_name_from_id(encounter_type_id);
 
-DROP TEMPORARY TABLE IF EXISTS temp_obs;
-CREATE TEMPORARY TABLE temp_obs AS
-SELECT
-    o.obs_id,
-    o.voided,
-    o.obs_group_id,
-    o.encounter_id,
-    o.person_id,
-    o.concept_id,
-    o.value_coded,
-    o.value_numeric,
-    o.value_text,
-    o.value_datetime,
-    o.value_drug,
-    o.comments
-FROM obs o
-INNER JOIN temp_medication_orders m
-    ON m.prescription_obs_group_id = o.obs_group_id
-WHERE o.voided = 0;
+-- obs level columns
+set @order_dose = concept_from_mapping('PIH','9073');
+set @dosing_units = concept_from_mapping('PIH','10744');
+set @med =  concept_from_mapping('PIH','1282');
+set @mh_med =  concept_from_mapping('PIH','10634');
+set @frequency = concept_from_mapping('PIH','9363');
+set @duration = concept_from_mapping('PIH','9075');
+set @dur_units = concept_from_mapping('PIH','6412');
+set @med_qty = concept_from_mapping('PIH','9073');
 
-create index temp_obs_c1 on temp_obs(obs_group_id, concept_id);
+DROP TEMPORARY TABLE IF EXISTS temp_obs_collated;
+CREATE TEMPORARY TABLE temp_obs_collated AS
+select o.obs_group_id,
+max(o.encounter_id) "encounter_id",
+max(case when o.concept_id = @med or o.concept_id = @mh_med then value_coded end) "drug_concept_id",
+max(case when o.concept_id = @med or o.concept_id = @mh_med then value_drug end) "drug_id",
+max(case when o.concept_id = @order_dose then value_numeric end) "order_dose",
+max(case when o.concept_id = @dosing_units then concept_name(value_coded,'en') end) "order_dose_unit",
+max(case when o.concept_id = @frequency then concept_name(value_coded,'en') end) "order_frequency",
+max(case when o.concept_id = @duration then value_numeric end) "order_duration",
+max(case when o.concept_id = @dur_units then concept_name(value_coded,'en') end) "order_duration_units",
+max(case when o.concept_id = @med_qty then value_numeric end) "order_quantity"
+FROM temp_medication_orders t
+INNER JOIN obs o ON o.obs_group_id = t.prescription_obs_group_id
+WHERE o.voided = 0
+group by obs_group_id;
+
+create index temp_obs_collated_ogi on temp_obs_collated(obs_group_id); 
+create index temp_obs_collated_di on temp_obs_collated(drug_id); 
 
 update temp_medication_orders t 
-set t.order_drug = obs_from_group_id_value_coded_list_from_temp(prescription_obs_group_id, 'PIH','1282', @locale);
-update temp_medication_orders t 
-set t.drug_id = obs_from_group_id_value_drug_from_temp(prescription_obs_group_id, 'PIH','1282');
-update temp_medication_orders t 
-set t.order_dose = obs_from_group_id_value_numeric_from_temp(prescription_obs_group_id, 'PIH','9073');
-update temp_medication_orders t 
-set t.order_dose_unit = obs_from_group_id_value_coded_list_from_temp(prescription_obs_group_id, 'PIH','10744', @locale);
-update temp_medication_orders t 
-set t.order_frequency = obs_from_group_id_value_coded_list_from_temp(prescription_obs_group_id, 'PIH','9362', @locale);
-update temp_medication_orders t 
-set t.order_duration = obs_from_group_id_value_numeric_from_temp(prescription_obs_group_id, 'PIH','9075');
-update temp_medication_orders t 
-set t.order_duration_units = obs_from_group_id_value_coded_list_from_temp(prescription_obs_group_id, 'PIH','6412', @locale);
-update temp_medication_orders t 
-set t.order_dosing_instructions = obs_from_group_id_value_text_from_temp(prescription_obs_group_id, 'PIH','9072');
-
+inner join temp_obs_collated o on o.obs_group_id = t.prescription_obs_group_id
+set t.drug_concept_id = o.drug_concept_id,
+	t.drug_id = o.drug_id,
+	t.order_dose = o.order_dose,
+	t.order_dose_unit = o.order_dose_unit,
+	t.order_frequency = o.order_frequency,
+	t.order_duration = o.order_duration,
+	t.order_duration_units = o.order_duration_units,
+	t.order_quantity = o.order_quantity;
 
 -- meds from orders
 insert into temp_medication_orders (
 encounter_id, 
 patient_id,
 order_id,
-concept_id,
+drug_concept_id,
 drug_id,
 order_reason_concept,
 order_dose,
@@ -163,7 +164,7 @@ update temp_medication_orders tm  set product_code = openboxesCode(drug_id);
 update temp_medication_orders tm  set prescriber = provider(tm.encounter_id);
 
 update temp_medication_orders tm set encounter_type = encounter_type_name(encounter_id) where order_id is not null;
-update temp_medication_orders tm set order_drug = concept_name(concept_id, 'en') where order_id is not null;
+update temp_medication_orders tm set order_drug = concept_name(drug_concept_id, 'en');
 update temp_medication_orders tm set order_formulation_non_coded = (select drug_non_coded from drug_order d where d.order_id = tm.order_id) where order_id is not null;
 update temp_medication_orders tm set order_quantity_units = concept_name(order_quantity_units_id, 'en') where order_id is not null;
 update temp_medication_orders tm set order_dose_unit = concept_name(order_dose_units_id, 'en') where order_id is not null;
