@@ -204,5 +204,4 @@ order_duration_units,
 order_reason, 
 order_comments
 from temp_medication_orders
- where order_id is null
 order by order_date_activated, patient_id;
