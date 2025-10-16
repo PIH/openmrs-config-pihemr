@@ -77,7 +77,9 @@ set @mh_med =  concept_from_mapping('PIH','10634');
 set @frequency = concept_from_mapping('PIH','9363');
 set @duration = concept_from_mapping('PIH','9075');
 set @dur_units = concept_from_mapping('PIH','6412');
-set @med_qty = concept_from_mapping('PIH','9073');
+set @order_qty = concept_from_mapping('PIH','9071'); 
+set @dosing_instructions = concept_from_mapping('PIH','9072');
+
 
 DROP TEMPORARY TABLE IF EXISTS temp_obs_collated;
 CREATE TEMPORARY TABLE temp_obs_collated AS
@@ -87,10 +89,11 @@ max(case when o.concept_id = @med or o.concept_id = @mh_med then value_coded end
 max(case when o.concept_id = @med or o.concept_id = @mh_med then value_drug end) "drug_id",
 max(case when o.concept_id = @order_dose then value_numeric end) "order_dose",
 max(case when o.concept_id = @dosing_units then concept_name(value_coded,'en') end) "order_dose_unit",
+max(case when o.concept_id = @dosing_instructions then value_text end) "dosing_instructions",
 max(case when o.concept_id = @frequency then concept_name(value_coded,'en') end) "order_frequency",
 max(case when o.concept_id = @duration then value_numeric end) "order_duration",
 max(case when o.concept_id = @dur_units then concept_name(value_coded,'en') end) "order_duration_units",
-max(case when o.concept_id = @med_qty then value_numeric end) "order_quantity"
+max(case when o.concept_id = @order_qty then value_numeric end) "order_quantity"
 FROM temp_medication_orders t
 INNER JOIN obs o ON o.obs_group_id = t.prescription_obs_group_id
 WHERE o.voided = 0
@@ -99,12 +102,14 @@ group by obs_group_id;
 create index temp_obs_collated_ogi on temp_obs_collated(obs_group_id); 
 create index temp_obs_collated_di on temp_obs_collated(drug_id); 
 
+
 update temp_medication_orders t 
 inner join temp_obs_collated o on o.obs_group_id = t.prescription_obs_group_id
 set t.drug_concept_id = o.drug_concept_id,
 	t.drug_id = o.drug_id,
 	t.order_dose = o.order_dose,
 	t.order_dose_unit = o.order_dose_unit,
+	t.order_dosing_instructions = o.dosing_instructions,
 	t.order_frequency = o.order_frequency,
 	t.order_duration = o.order_duration,
 	t.order_duration_units = o.order_duration_units,
