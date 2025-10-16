@@ -48,5 +48,15 @@
     "url": "pihcore/admin/rolesAndPrivileges.page",
     "icon": "fa fa-user-secret",
     "order": 62
+  },
+  {
+    "id": "pihemr.systemAdministration.adminConfigureLoginLocations",
+    "extensionPointId": "systemAdministration.apps",
+    "type": "link",
+    "label": "pihapps.admin.configureLoginLocations",
+    "url": "pihapps/admin/configureLoginLocations.page",
+    "icon": "icon-hospital",
+    "requiredPrivilege": "App: coreapps.systemAdministration",
+    "order": 63
   }
 ]
