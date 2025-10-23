@@ -638,6 +638,8 @@ providerRole:
     uuid: "8fd1552e-6cb9-4719-b198-23a2c512a073"
   PHARMACY_AIDE:
     uuid: "7ec19cca-f563-4cee-940f-effec16b3b80"
+  CLINICIAN:
+    uuid: "2fa6f8da-aa58-11e8-98d0-529269fb1459"
 
 expression:
   newborn: "patient.person.age < 1"
