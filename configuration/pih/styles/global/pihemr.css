@@ -1,4 +1,16 @@
 
+body {
+    max-width: unset;
+    width: 95%;
+}
+
+/* Styles for larger screens (e.g., tablets and desktops) */
+@media screen and (min-width: 1440px) {
+    body {
+        max-width: 1440px;
+    }
+}
+
 .patient-dashboard-widget-label {
     font-weight: bold;
     font-size: 0.9em;
