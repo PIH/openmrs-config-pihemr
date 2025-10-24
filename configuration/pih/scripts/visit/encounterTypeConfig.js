@@ -834,6 +834,17 @@ angular.module("encounterTypeConfig", [])
             showOnVisitList: true
         };
 
+        // inpatient vitals
+        encounterTypes["6b1c3929-f23c-423f-8cad-64b17cf10b99"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/vitalsShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
+            icon: "fas fa-fw fa-heartbeat",
+            editUrl: hfeSimpleEditUrl,
+            showOnVisitList: true
+        };
+
         // consultation / outpatientConsult
         encounterTypes["92fd09b4-5335-4f7e-9f63-b2a663fd09a6"] = {
                 defaultState: "short",
