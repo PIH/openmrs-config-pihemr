@@ -25,7 +25,7 @@ SELECT      u.user_id,
             if(u.retired, false, true),
             u.date_created,
             username(u.creator),
-            (select group_concat(pp.name) from provider p inner join providermanagement_provider_role pp on p.provider_role_id = pp.provider_role_id where p.person_id = u.person_id),
+            (select group_concat(pp.name) from provider p inner join provider_role pp on p.provider_role_id = pp.provider_role_id where p.person_id = u.person_id),
             u.email
 FROM        users u
 ;

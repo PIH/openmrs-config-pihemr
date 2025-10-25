@@ -735,7 +735,7 @@ BEGIN
     DECLARE providerType varchar(255);
 
 select pr.name into providerType
-from providermanagement_provider_role pr
+from provider_role pr
 join provider pv on pr.provider_role_id = pv.provider_role_id 
 join encounter_provider ep on pv.provider_id = ep.provider_id and ep.voided = 0 and ep.encounter_id = _encounter_id
 limit 1;

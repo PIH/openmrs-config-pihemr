@@ -18,7 +18,7 @@ SELECT
                                    name = 'Telephone Number')
      AND pa.person_id = pid.patient_id) AS     'patient_tel_number'
 FROM provider p
-  INNER JOIN providermanagement_provider_role pr ON p.provider_role_id = pr.provider_role_id AND
+  INNER JOIN provider_role pr ON p.provider_role_id = pr.provider_role_id AND
                                                     pr.uuid = '9a4b44b2-8a9f-11e8-9a94-a6cf71072f73'
   -- Nurse Accompagnateur
 
