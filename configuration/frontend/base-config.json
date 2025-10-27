@@ -196,6 +196,9 @@
     "Translation overrides": {
       "en": {
         "searchFieldPlaceholder": "Search for a drug"
+      },
+      "fr": {
+        "searchFieldPlaceholder": "Chercher un médicament"
       }
     },
     "_comment": "TODO: drug order encounter type refers to Drug Order Documentation encounter; we likely will need another encounter type, or, better yet, none at all"
