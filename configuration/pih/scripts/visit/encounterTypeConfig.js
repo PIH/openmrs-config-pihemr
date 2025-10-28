@@ -834,6 +834,17 @@ angular.module("encounterTypeConfig", [])
             showOnVisitList: true
         };
 
+        // inpatient vitals
+        encounterTypes["6b1c3929-f23c-423f-8cad-64b17cf10b99"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/vitalsShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
+            icon: "fas fa-fw fa-heartbeat",
+            editUrl: hfeStandardEditUrl,
+            showOnVisitList: true
+        };
+
         // consultation / outpatientConsult
         encounterTypes["92fd09b4-5335-4f7e-9f63-b2a663fd09a6"] = {
                 defaultState: "short",
@@ -1054,15 +1065,6 @@ angular.module("encounterTypeConfig", [])
                     DEFAULT: {
                         defaultState: "short",
                         shortTemplate: "templates/encounters/defaultEncounterShort.page",
-                        longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
-                        templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("ncd-initial_v1.0.xml"),
-                        icon: "fas fa-fw fa-user",
-                        editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("ncd-initial_v1.0.xml"),
-                        showOnVisitList: true
-                    },
-                    2.0: {
-                        defaultState: "short",
-                        shortTemplate: "templates/encounters/defaultEncounterShort.page",
                         longTemplate: "templates/encounters/defaultEncounterShort.page",
                         icon: "fas fa-fw fa-heart",
                         editUrl: hfeStandardEditUrl,
@@ -1171,15 +1173,6 @@ angular.module("encounterTypeConfig", [])
             "liberia": {
                 versions: {
                     DEFAULT: {
-                        defaultState: "short",
-                        shortTemplate: "templates/encounters/defaultEncounterShort.page",
-                        longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
-                        templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("ncd-followup_v1.0.xml"),
-                        icon: "fas fa-fw fa-user",
-                        editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("ncd-followup_v1.0.xml"),
-                        showOnVisitList: true
-                    },
-                    2.0: {
                         defaultState: "short",
                         shortTemplate: "templates/encounters/defaultEncounterShort.page",
                         longTemplate: "templates/encounters/defaultEncounterShort.page",

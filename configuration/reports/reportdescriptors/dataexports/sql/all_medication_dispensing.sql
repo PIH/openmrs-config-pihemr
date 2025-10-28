@@ -278,7 +278,7 @@ dose_unit,
 frequency,
 quantity_dispensed,
 quantity_unit,
-order_id,
+CONCAT(@partition,'-',order_id) "order_id",	
 instructions,
 index_asc,
 index_desc
