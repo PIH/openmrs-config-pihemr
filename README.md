@@ -104,7 +104,6 @@ Components are defined in [pihcore/.../config/Components.java](https://github.co
 - **checkInHomepageApp**: Adds Cyclical Check-In App on home page. Requires Check-in location tag.
   Requires checkIn component.
 - **chemotherapy**: Adds chemo forms as visit actions. Under construction -- cannot be used yet.
-- **chwApp**: openmrs-module-providermanagement
 - **clinicianDashboard**: Enables the main clinician dashboard (aka patient dashboard).
 - **cohortBuilder**: Adds cohort builder OWA. openmrs-owa-cohortbuilder
 - **conditionList**: A dashboard widget that lists "conditions".
