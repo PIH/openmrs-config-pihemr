@@ -1157,5 +1157,27 @@
                     void_reason = 'duplicate trauma question';
         </sql>
     </changeSet>
+
+    <changeSet id="20251031-update-two-uuids" author="ball">
+        <comment>
+            Fix the Losartan and Hypromellose concept uuids to match older databases
+        </comment>
+        <sql>
+            -- Hypromellose
+            update concept
+               set uuid = '77850AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+             where uuid like '96182e61-8cfe-4609-a630-4288869f5576';
+
+            -- Losartan
+            update concept
+               set uuid = '98042566-aedc-442d-96b3-d055d3dd7d81'
+             where uuid like '925223f5-f706-4fbc-98f3-18d3c7e872fa';
+
+            -- Update the concept name uuid for Losartan (en, fsn, preferred)
+            update concept_name
+               set uuid = '6432BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB'
+             where uuid like '1a095b60-39c3-49e1-a085-b49cb7ebcc31';
+        </sql>
+    </changeSet>
     
 </databaseChangeLog>
