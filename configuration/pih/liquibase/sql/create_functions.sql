@@ -609,12 +609,15 @@ CREATE FUNCTION loc_registered(
     DETERMINISTIC
 
 BEGIN
-    DECLARE locRegistered varchar(255);
 
-select name into locRegistered from location l join patient_identifier pi on pi.location_id = l.location_id and pi.voided = 0 and pi.patient_id = _patient_id
-and identifier_type = (select pid2.patient_identifier_type_id from patient_identifier_type pid2 where
-pid2.uuid = metadata_uuid('org.openmrs.module.emrapi', 'emr.primaryIdentifierType')) limit 1;
+	DECLARE locRegistered varchar(255);
 
+select location_name(location_id) into locRegistered from encounter 
+where patient_id = _patient_id
+and encounter_type = (select encounter_type_id from encounter_type et where uuid = '873f968a-73a8-4f9c-ac78-9f4778b751b6')
+and voided = 0
+limit 1
+;
     RETURN locRegistered;
 
 END
