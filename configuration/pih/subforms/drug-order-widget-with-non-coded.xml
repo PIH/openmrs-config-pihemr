@@ -35,6 +35,7 @@
                     <option value="CIEL:162393" label="Intra-rectal" /> <!-- Rectal -->
                     <option value="CIEL:162392" label="Intra-vaginal" /> <!-- Vaginal -->
                 </orderProperty>
+                <orderProperty name="dosingInstructions" textArea="true" textAreaRows="3" textAreaColumns="50" label=" "/>
                 <orderProperty name="dosingType"/>
             </div>
             <div style="padding:0px;">
@@ -53,7 +54,6 @@
             </div>
             <div style="display:none;">
                 <orderProperty name="urgency" value="ROUTINE"/>
-                <orderProperty name="dosingType" value="org.openmrs.SimpleDosingInstructions"/>
                 <orderProperty name="previousOrder"/>
                 <orderProperty name="careSetting" value="OUTPATIENT"/>
             </div>
