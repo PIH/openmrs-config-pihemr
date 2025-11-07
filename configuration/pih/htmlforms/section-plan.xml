@@ -137,9 +137,13 @@
 
         <div class="section-container-color">
 
-            <subform path="configuration/pih/subforms/drug-order-widget.xml"/>
-            <!-- For NCD forms only, add drug suggestions -->
+            <includeIf velocityTest="$encounter.encounterType.uuid != '5cbfd6a2-92d9-4ad0-b526-9d29bfe1d10c' &amp;&amp; $encounter.encounterType.uuid != 'ae06d311-1866-455b-8a64-126a9bd74171'">
+                <subform path="configuration/pih/subforms/drug-order-widget.xml"/>
+            </includeIf>
+
+            <!-- For NCD forms only, add drug suggestions and free-text dosing-->
             <includeIf velocityTest="$encounter.encounterType.uuid == '5cbfd6a2-92d9-4ad0-b526-9d29bfe1d10c' || $encounter.encounterType.uuid == 'ae06d311-1866-455b-8a64-126a9bd74171'">
+                <subform path="configuration/pih/subforms/drug-order-widget-with-non-coded.xml"/>
                 <br/>
                 <h4>
                     <label>
