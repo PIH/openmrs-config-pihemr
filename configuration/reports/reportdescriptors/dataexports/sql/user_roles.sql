@@ -35,9 +35,8 @@ WHERE       ur.role not like 'Application Role: %' and ur.role not like 'Privile
 ;
 
 INSERT INTO temp_user_roles(user_id, role_type, role_value)
-SELECT      u.user_id, 'Provider Type', pp.name
-FROM        provider_role pp
-INNER JOIN  provider p on pp.provider_role_id = p.provider_role_id
+SELECT      u.user_id, 'Provider Type', provider_role_name(p.provider_role_id)
+FROM        provider p
 INNER JOIN  users u on u.person_id = p.person_id
 ;
 

@@ -1,9 +1,13 @@
 CALL initialize_global_metadata();
 
+-- Nurse Accompagnateur
+SET @providerRoleId = (select provider_role_id_by_uuid('9a4b44b2-8a9f-11e8-9a94-a6cf71072f73'));
+SET @providerRoleName = (select provider_role_name(@providerRoleId));
+
 SELECT
   pid.patient_id,
   p.identifier                                 "provider_identifier",
-  pr.name                                      "provider_role",
+  @providerRoleName                            "provider_role",
   CONCAT(pn.given_name, ' ', pn.family_name)   "provider_name",
   CONCAT(pnc.given_name, ' ', pnc.family_name) "patient_name",
   pid.identifier                               "patient_identifier",
@@ -18,9 +22,6 @@ SELECT
                                    name = 'Telephone Number')
      AND pa.person_id = pid.patient_id) AS     'patient_tel_number'
 FROM provider p
-  INNER JOIN provider_role pr ON p.provider_role_id = pr.provider_role_id AND
-                                                    pr.uuid = '9a4b44b2-8a9f-11e8-9a94-a6cf71072f73'
-  -- Nurse Accompagnateur
 
   -- pn = Provider
   LEFT OUTER JOIN person_name pn
@@ -82,4 +83,6 @@ FROM provider p
                                                                   WHERE rm.source = 'CIEL' AND rm.code = '155')
 
                                        ORDER BY o2.obs_datetime DESC
-                                       LIMIT 1);
+                                       LIMIT 1)
+
+where provider_role_id = @providerRoleId;
