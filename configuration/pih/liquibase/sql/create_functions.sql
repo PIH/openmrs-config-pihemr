@@ -737,14 +737,63 @@ CREATE FUNCTION provider_type (
 BEGIN
     DECLARE providerType varchar(255);
 
-select pr.name into providerType
-from provider_role pr
-join provider pv on pr.provider_role_id = pv.provider_role_id 
-join encounter_provider ep on pv.provider_id = ep.provider_id and ep.voided = 0 and ep.encounter_id = _encounter_id
-limit 1;
-
+    IF (table_exists('provider_role')) THEN
+        select pr.name into providerType
+        from provider_role pr
+                 join provider pv on pr.provider_role_id = pv.provider_role_id
+                 join encounter_provider ep on pv.provider_id = ep.provider_id and ep.voided = 0 and ep.encounter_id = _encounter_id
+        limit 1;
+    ELSE
+        select pr.name into providerType
+        from providermanagement_provider_role pr
+                 join provider pv on pr.provider_role_id = pv.provider_role_id
+                 join encounter_provider ep on pv.provider_id = ep.provider_id and ep.voided = 0 and ep.encounter_id = _encounter_id
+        limit 1;
+    END IF;
     RETURN providerType;
 
+END
+#
+/*
+This function accepts d uuid and returns the provider role id for the role that matches that uuid
+*/
+#
+DROP FUNCTION IF EXISTS provider_role_id_by_uuid;
+#
+CREATE FUNCTION provider_role_id_by_uuid (
+    _uuid varchar(38)
+)
+    RETURNS int
+    DETERMINISTIC
+BEGIN
+    DECLARE ret int;
+    IF (table_exists('provider_role')) THEN
+        select provider_role_id into ret from provider_role where uuid = _uuid;
+    ELSE
+        select provider_role_id into ret from providermanagement_provider_role where uuid = _uuid;
+    END IF;
+    RETURN ret;
+END
+#
+/*
+This function accepts d provider role id and returns name of the matching provider role
+*/
+#
+DROP FUNCTION IF EXISTS provider_role_name;
+#
+CREATE FUNCTION provider_role_name (
+    _id int
+)
+    RETURNS varchar(255)
+    DETERMINISTIC
+BEGIN
+    DECLARE ret varchar(255);
+    IF (table_exists('provider_role')) THEN
+        select name into ret from provider_role where provider_role_id = _id;
+    ELSE
+        select name into ret from providermanagement_provider_role where provider_role_id = _id;
+    END IF;
+    RETURN ret;
 END
 #
 -- This function accepts an encounter_id
