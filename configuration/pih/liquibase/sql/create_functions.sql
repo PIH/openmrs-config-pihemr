@@ -789,9 +789,9 @@ CREATE FUNCTION provider_role_name (
 BEGIN
     DECLARE ret varchar(255);
     IF (table_exists('provider_role')) THEN
-        select name into ret from providermanagement_provider_role where provider_role_id = _id;
-    ELSE
         select name into ret from provider_role where provider_role_id = _id;
+    ELSE
+        select name into ret from providermanagement_provider_role where provider_role_id = _id;
     END IF;
     RETURN ret;
 END
