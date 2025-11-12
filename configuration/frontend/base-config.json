@@ -186,6 +186,9 @@
       "showUpcomingAppointments": true,
       "visitAttributeTypes": []
   },
+  "@openmrs/esm-patient-forms-app": {
+    "customFormsUrl": "/ws/rest/v1/pihcore/patientforms?patientUuid=${patientUuid}&visitUuid=${visitUuid}"
+  },
   "@openmrs/esm-patient-medications-app": {
     "daysDurationUnit": {
       "uuid": "3cd706b8-26fe-102b-80cb-0017a47871b2"
@@ -285,7 +288,9 @@
   "@openmrs/esm-service-queues-app": {
     "customPatientChartUrl": "${openmrsBase}/coreapps/clinicianfacing/patient.page?patientId=${patientUuid}&app=pih.app.clinicianDashboard"
   },
-  "@openmrs/esm-patient-forms-app": {
-    "customFormsUrl": "/ws/rest/v1/pihcore/patientforms?patientUuid=${patientUuid}&visitUuid=${visitUuid}"
+  "@openmrs/esm-styleguide": {
+    "Brand color #1": "#FB9500",
+    "Brand color #2": "#FB9500",
+    "Brand color #3": "#D87100"
   }
 }
