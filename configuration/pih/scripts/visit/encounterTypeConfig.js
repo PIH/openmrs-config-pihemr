@@ -2429,6 +2429,14 @@ angular.module("encounterTypeConfig", [])
             showOnVisitList: true
         };
 
+        // drug order documentation
+        encounterTypes["0b242b71-5b60-11eb-8f5a-0242ac110002"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/defaultEncounterLong.page",
+            icon: "fas fa-fw fa-pills",
+        };
+
         return {
           get: function(encounter, country, site) {
 
