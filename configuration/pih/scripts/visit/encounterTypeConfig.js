@@ -2393,6 +2393,17 @@ angular.module("encounterTypeConfig", [])
             showOnVisitList: true
         };
 
+        // sierraLeonePacuFollowup
+        encounterTypes["6f2df970-6e3e-4898-9a34-9d9e8955c3eb"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
+            icon: "fas fa-fw fa-dizzy",
+            editUrl: hfeStandardEditUrl,
+            showOnVisitList: true
+        };
+
         // sierraLeoneMaternalDischarge
         encounterTypes["2110a810-db62-4914-ba95-604b96010164"] = {
             defaultState: "short",
