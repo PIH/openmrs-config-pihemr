@@ -2399,7 +2399,7 @@ angular.module("encounterTypeConfig", [])
             shortTemplate: "templates/encounters/defaultEncounterShort.page",
             longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
             templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
-            icon: "fas fa-fw fa-dizzy",
+            icon: "fas fa-fw fa-clipboard-check",
             editUrl: hfeStandardEditUrl,
             showOnVisitList: true
         };
