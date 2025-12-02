@@ -8,7 +8,9 @@ where crm.concept_reference_term_id = crt.concept_reference_term_id
   and crt.concept_source_id = crs.concept_source_id
   and crt.retired = 0
   and crs.retired = 0
-  and crs.name in ('PIH', 'CIEL');
+  and crs.name in ('PIH', 'CIEL')
+  and crm.concept_map_type_id = 
+  (select concept_map_type_id from concept_map_type cmt where uuid = '35543629-7d8c-11e1-909d-c80aa9edcf4e'); -- SAME-AS
 
 drop table if exists current_name_address;
 create or replace view current_name_address as
