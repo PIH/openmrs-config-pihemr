@@ -62,6 +62,12 @@ function setupDrugOrderQuantityCalculations(config) {
                 }
             }
 
+            // Action
+            const action = $orderForm.find(".order-field-widget.order-action")?.find(":input")?.val();
+            if (action === 'DISCONTINUE') {
+                return;
+            }
+
             // Input fields from the widget
             const dose = $orderForm.find(".order-field-widget.order-dose")?.find(":input")?.val();
             const doseUnits = $orderForm.find(".order-field-widget.order-doseUnits")?.find(":input")?.val();
