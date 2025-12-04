@@ -335,10 +335,6 @@
             <value>${encounterType.LAB_SPECIMEN_COLLECTION.uuid}</value>
         </globalProperty>
         <globalProperty>
-            <property>labworkflowowa.labResultsEncounterTypes</property>
-            <value>${encounterType.LAB_SPECIMEN_COLLECTION.uuid},${encounterType.LAB_RESULTS.uuid},${encounterType.COVID19_INTAKE.uuid},${encounterType.COVID19_FOLLOWUP.uuid},${encounterType.HIV_INTAKE.uuid},${encounterType.HIV_FOLLOWUP.uuid},${encounterType.ANC_INTAKE.uuid},${encounterType.ANC_FOLLOWUP.uuid},${encounterType.NEWBORN_INITIAL.uuid},${encounterType.NEWBORN_DAILY_PROGRESS.uuid},${encounterType.NEWBORN_DISCHARGE.uuid}</value>
-        </globalProperty>
-        <globalProperty>
             <property>labworkflowowa.labResultsEncounterRole</property>
             <value>${encounterRole.labTechnician.uuid}</value>
         </globalProperty>
