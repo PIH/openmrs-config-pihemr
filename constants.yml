@@ -646,4 +646,4 @@ expression:
   baby:    "patient.person.age < 2"
   child:   "patient.person.age < 15"
   adult:   "patient.person.age >= 15"
-  reproductiveAge: "patient.person.age >= 11"
+  reproductiveAge: "patient.person.age >= 10"
