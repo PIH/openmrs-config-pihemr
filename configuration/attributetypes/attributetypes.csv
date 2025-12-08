@@ -4,5 +4,6 @@ bd6c1c10-38d3-11e2-81c1-0800200c9a66,Location,Default Label Printer,The default 
 b48ef9a0-38d3-11e2-81c1-0800200c9a66,Location,Default ID card Printer,The default id card printer for this location,org.openmrs.module.printer.PrinterDatatype,ID_CARD,0,1,
 7f73ad30-0b89-11e4-9191-0800200c9a66,Location,Default Wristband Printer,The default wristband printer for this location,org.openmrs.module.printer.PrinterDatatype,WRISTBAND,0,1,
 a5fb5770-409a-11e2-a25f-0800200c9a66,Location,Name to print on ID card,The name to use when printing a location on an id card,org.openmrs.customdatatype.datatype.FreeTextDatatype,,0,1,
+6cfb8e55-ea2c-4cba-a2c5-907c8e18b8fa,Location,Associated Pharmacy Location,The location of the pharmacy that fulfills prescriptions for this location,org.openmrs.customdatatype.datatype.LocationDatatype,,0,1,
 ${providerAttributeType.households.uuid},Provider,Households,Number of households monitored by a VHW,org.openmrs.customdatatype.datatype.FreeTextDatatype,,0,1,
 ${providerAttributeType.dateHired.uuid},Provider,Date Hired,The date the provider was hired.,org.openmrs.customdatatype.datatype.DateDatatype,,0,1,org.openmrs.web.attribute.handler.DateFieldGenDatatypeHandler
