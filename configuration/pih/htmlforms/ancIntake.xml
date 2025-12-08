@@ -3,8 +3,10 @@
           formEncounterType="00e5e810-90ec-11e8-9eb6-529269fb1459"
           formVersion="1.1">
 
-    <subform path="configuration/pih/subforms/encounter-with-sections.xml">
-        <h2 subform-parameter="encounter-type-name"><uimessage code="ui.i18n.EncounterType.name.00e5e810-90ec-11e8-9eb6-529269fb1459"/></h2>
-    </subform>
+    <div subform-parameter="encounter-provider-location-date-section">
+        <subform path="configuration/pih/subforms/encounter-with-sections.xml">
+            <h2 subform-parameter="encounter-type-name"><uimessage code="ui.i18n.EncounterType.name.00e5e810-90ec-11e8-9eb6-529269fb1459"/></h2>
+        </subform>
+    </div>
 
 </htmlform>

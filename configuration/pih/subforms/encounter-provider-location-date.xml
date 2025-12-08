@@ -2,7 +2,7 @@
     This encapsulates the standard logic for capturing the provider, date, and location of an encounter
     The following sections can be overridden from the default configurations that are shown:
 
-    <span subform-parameter="encounter-role-widget">
+    <span subform-parameter="encounter-provider-widget">
         <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
     </span>
 
@@ -41,7 +41,7 @@
             <div id="who-when-where">
                 <p id="who">
                     <label><uimessage code="emr.patientDashBoard.providerRequired"/></label>
-                    <span subform-parameter="encounter-role-widget">
+                    <span subform-parameter="encounter-provider-widget">
                         <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
                     </span>
                 </p>
@@ -62,7 +62,7 @@
         <!-- users with retroConsultNoteThisProviderOnly can edit location and date (but not provider) for retro visits -->
         <includeIf velocityTest="$user.hasPrivilege('Task: emr.retroConsultNoteThisProviderOnly') and !($user.hasPrivilege('Task: emr.retroConsultNote')) and (!$visit.open)">
             <div style="display:none">
-                <span subform-parameter="encounter-role-widget">
+                <span subform-parameter="encounter-provider-widget">
                     <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
                 </span>
             </div>
@@ -91,7 +91,7 @@
         <!-- all users that don't have either retro privilege, or those with retro-this-provider-only but with an active visit, can only edit location -->
         <includeIf velocityTest="(!$user.hasPrivilege('Task: emr.retroConsultNoteThisProviderOnly') and !$user.hasPrivilege('Task: emr.retroConsultNote')) or ($user.hasPrivilege('Task: emr.retroConsultNoteThisProviderOnly') and !$user.hasPrivilege('Task: emr.retroConsultNote') and $visit.open)">
             <div style="display:none">
-                <span subform-parameter="encounter-role-widget">
+                <span subform-parameter="encounter-provider-widget">
                     <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
                 </span>
                 <span subform-parameter="encounter-date-widget">

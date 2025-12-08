@@ -3,25 +3,17 @@
 
     <h2 subform-parameter="encounter-type-name"> </h2>
 
-    <span subform-parameter="encounter-role-widget">
-        <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
-    </span>
-
-    <span subform-parameter="encounter-location-widget">
-        <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Consult Note Location"/>
-    </span>
-
-    <span subform-parameter="encounter-date-widget">
-        <encounterDate id="encounterDate" default="now" />
-    </span>
+    <div subform-parameter="encounter-provider-location-date-section">
+        <subform path="configuration/pih/subforms/encounter-provider-location-date.xml"/>
+    </div>
 -->
 <div>
     <!-- If the form opens in ENTER mode, and all inputs have values, automatically submit.  Otherwise, display the form -->
     <ifMode mode="ENTER" include="true">
         <script type="text/javascript">
             jq(function() {
-                const numInputsWithNoValue = jq(":input").filter(function() { return jq(this).val().trim() === ''; }).length;
-                if (numInputsWithNoValue === 0) {
+                const inputsWithNoValue = jq("#who-when-where :input").filter(function() { return jq(this).val().trim() === ''; });
+                if (inputsWithNoValue.length === 0) {
                     submitHtmlForm();
                 }
                 else {
@@ -48,17 +40,9 @@
             <h2 subform-parameter="encounter-type-name"> </h2>
         </ifMode>
 
-        <subform path="configuration/pih/subforms/encounter-provider-location-date.xml">
-            <span subform-parameter="encounter-role-widget">
-                <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
-            </span>
-            <span subform-parameter="encounter-location-widget">
-                <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Consult Note Location"/>
-            </span>
-            <span subform-parameter="encounter-date-widget">
-                <encounterDate id="encounterDate" default="now" />
-            </span>
-        </subform>
+        <div subform-parameter="encounter-provider-location-date-section">
+            <subform path="configuration/pih/subforms/encounter-provider-location-date.xml"/>
+        </div>
 
         <ifMode mode="VIEW" include="false">
             <div id="buttons">
