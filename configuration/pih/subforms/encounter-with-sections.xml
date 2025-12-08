@@ -1,0 +1,71 @@
+<!--
+    This encapsulates the standard content of a form with sections.  This takes in the following subform parameters (defaults displayed):
+
+    <h2 subform-parameter="encounter-type-name"> </h2>
+
+    <span subform-parameter="encounter-role-widget">
+        <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
+    </span>
+
+    <span subform-parameter="encounter-location-widget">
+        <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Consult Note Location"/>
+    </span>
+
+    <span subform-parameter="encounter-date-widget">
+        <encounterDate id="encounterDate" default="now" />
+    </span>
+-->
+<div>
+    <!-- If the form opens in ENTER mode, and all inputs have values, automatically submit.  Otherwise, display the form -->
+    <ifMode mode="ENTER" include="true">
+        <script type="text/javascript">
+            jq(function() {
+                const numInputsWithNoValue = jq(":input").filter(function() { return jq(this).val().trim() === ''; }).length;
+                if (numInputsWithNoValue === 0) {
+                    submitHtmlForm();
+                }
+                else {
+                    jq('#next').hide();
+                    jq('.htmlform').show();
+                }
+            });
+        </script>
+    </ifMode>
+
+    <!-- If the form opens in EDIT mode, always display the form -->
+    <ifMode mode="EDIT" include="true">
+        <script type="text/javascript">
+            jq(function() {
+                jq('.htmlform').show();
+                setUpNextAndSubmitButtons(); // handlers for next and submit buttons, see nextAndSubmitButtons.js
+            });
+        </script>
+    </ifMode>
+
+    <div class="htmlform" style="display:none">
+
+        <ifMode mode="VIEW" include="false">
+            <h2 subform-parameter="encounter-type-name"> </h2>
+        </ifMode>
+
+        <subform path="configuration/pih/subforms/encounter-provider-location-date.xml">
+            <span subform-parameter="encounter-role-widget">
+                <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
+            </span>
+            <span subform-parameter="encounter-location-widget">
+                <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Consult Note Location"/>
+            </span>
+            <span subform-parameter="encounter-date-widget">
+                <encounterDate id="encounterDate" default="now" />
+            </span>
+        </subform>
+
+        <ifMode mode="VIEW" include="false">
+            <div id="buttons">
+                <button id="next" type="button" class="submitButton confirm right"><uimessage code="emr.next"/><i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i></button>
+                <button id="submit" class="submitButton confirm right"><uimessage code="mirebalais.save"/><i class="icon-spinner icon-spin icon-2x" style="display: none; margin-left: 10px;"></i></button>
+                <button id="cancel" type="button" class="cancel"><uimessage code="emr.cancel"/></button>
+            </div>
+        </ifMode>
+    </div>
+</div>
