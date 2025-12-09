@@ -27,9 +27,9 @@
   "@openmrs/esm-dispensing-app": {
     "dispenseBehavior": {
       "allowModifyingPrescription": true,
-      "restrictTotalQuantityDispensed": false,
-      "completeOrderWithThisDispense": true
+      "restrictTotalQuantityDispensed": false
     },
+    "completeOrderWithThisDispense": true,
     "dispenserProviderRoles": [
       "${providerRole.PHARMACIST.uuid}",
       "${providerRole.PHARMACY_AIDE.uuid}"
