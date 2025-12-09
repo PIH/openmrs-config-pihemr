@@ -9,20 +9,6 @@
 
     <style type="text/css">
 
-        #who-when-where {
-        margin-bottom: 6px;
-        border-bottom: 1px solid #ccc;
-        }
-
-        #who-when-where p {
-        display: inline-block;
-        padding-right: 20px;
-        }
-
-        #where > input[type=text] {
-        display: inline-block;
-        }
-
         .field-error {
         color: #ffc0b5;
         font-size: 1.1em;
