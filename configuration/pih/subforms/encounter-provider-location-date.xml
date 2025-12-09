@@ -2,13 +2,19 @@
     This encapsulates the standard logic for capturing the provider, date, and location of an encounter
     The following sections can be overridden from the default configurations that are shown:
 
+    <label subform-parameter="encounter-provider-label"><uimessage code="emr.patientDashBoard.providerRequired"/></label>
+
     <span subform-parameter="encounter-provider-widget">
         <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
     </span>
 
+    <label subform-parameter="encounter-location-label"><uimessage code="emr.locationRequired"/></label>
+
     <span subform-parameter="encounter-location-widget">
         <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Consult Note Location"/>
     </span>
+
+    <label subform-parameter="encounter-date-label"><uimessage code="emr.patientDashBoard.date"/></label>
 
     <span subform-parameter="encounter-date-widget">
         <encounterDate id="encounterDate" default="now" />
@@ -40,19 +46,19 @@
         <includeIf velocityTest="$user.hasPrivilege('Task: emr.retroConsultNote')">
             <div id="who-when-where">
                 <p id="who">
-                    <label><uimessage code="emr.patientDashBoard.providerRequired"/></label>
+                    <label subform-parameter="encounter-provider-label"><uimessage code="emr.patientDashBoard.providerRequired"/></label>
                     <span subform-parameter="encounter-provider-widget">
                         <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
                     </span>
                 </p>
                 <p id="where">
-                    <label><uimessage code="emr.locationRequired"/></label>
+                    <label subform-parameter="encounter-location-label"><uimessage code="emr.locationRequired"/></label>
                     <span subform-parameter="encounter-location-widget">
                         <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Consult Note Location"/>
                     </span>
                 </p>
                 <p id="when">
-                    <label><uimessage code="emr.patientDashBoard.date"/></label>
+                    <label subform-parameter="encounter-date-label"><uimessage code="emr.patientDashBoard.date"/></label>
                     <span subform-parameter="encounter-date-widget">
                         <encounterDate id="encounterDate" default="now" />
                     </span>
@@ -69,17 +75,17 @@
 
             <div id="who-when-where">
                 <p id="who">
-                    <label><uimessage code="emr.patientDashBoard.provider"/></label>
+                    <label subform-parameter="encounter-provider-label"><uimessage code="emr.patientDashBoard.provider"/></label>
                     <span><lookup expression="user.person.personName" /></span>
                 </p>
                 <p id="where">
-                    <label><uimessage code="emr.locationRequired"/></label>
+                    <label subform-parameter="encounter-location-label"><uimessage code="emr.locationRequired"/></label>
                     <span subform-parameter="encounter-location-widget">
                         <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Consult Note Location"/>
                     </span>
                 </p>
                 <p id="when">
-                    <label><uimessage code="emr.patientDashBoard.date"/></label>
+                    <label subform-parameter="encounter-date-label"><uimessage code="emr.patientDashBoard.date"/></label>
                     <span subform-parameter="encounter-date-widget">
                         <encounterDate id="encounterDate" default="now" />
                     </span>
@@ -102,7 +108,7 @@
                 <table id="who-where-when-view">
                     <tr>
                         <td>
-                            <label>
+                            <label subform-parameter="encounter-provider-label">
                                 <uimessage code="emr.patientDashBoard.provider"/>
                             </label>
                             <span>
@@ -110,7 +116,7 @@
                             </span>
                         </td>
                         <td>
-                            <label>
+                            <label subform-parameter="encounter-location-label">
                                 <uimessage code="emr.locationRequired"/>
                             </label>
                             <span subform-parameter="encounter-location-widget">
@@ -118,7 +124,7 @@
                             </span>
                         </td>
                         <td>
-                            <label>
+                            <label subform-parameter="encounter-date-label">
                                 <uimessage code="emr.patientDashBoard.date"/>
                             </label>
                             <span>
