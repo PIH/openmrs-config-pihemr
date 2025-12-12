@@ -23,6 +23,9 @@ function setupDrugOrderQuantityCalculations(config) {
         }
     });
 
+    // Apply translations
+    jq(".calculated-quantity-button").html(jq("#calculated-quantity-label").html());
+
     jq("#" + config.fieldName).find(".calculated-quantity-section").hide();
     jq("#" + config.fieldName).find(".calculated-quantity-value").val("");
 

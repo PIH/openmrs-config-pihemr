@@ -71,4 +71,5 @@
             </orderProperty>
         </orderTemplate>
     </drugOrder>
+    <span id="calculated-quantity-label" style="display:none;"><uimessage code="pihcore.calculateQuantity"/></span>
 </div>
