@@ -5,11 +5,13 @@
 
     <subform path="configuration/pih/subforms/encounter-with-sections.xml">
         <h2 subform-parameter="encounter-type-name"><uimessage code="ui.i18n.EncounterType.name.229e5160-031b-11e6-a837-0800200c9a66"/></h2>
-        <subform path="configuration/pih/subforms/encounter-provider-location-date.xml">
-            <span subform-parameter="encounter-location-widget">
-                <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Primary Care Consult Location"/>
-            </span>
-        </subform>
+        <div subform-parameter="encounter-provider-location-date-section">
+            <subform path="configuration/pih/subforms/encounter-provider-location-date.xml">
+                <span subform-parameter="encounter-location-widget">
+                    <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Primary Care Consult Location"/>
+                </span>
+            </subform>
+        </div>
     </subform>
 
 </htmlform>
