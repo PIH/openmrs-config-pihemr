@@ -464,6 +464,16 @@ angular.module("encounterTypeConfig", [])
             templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-anc-followup.xml"),
             editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-anc-followup.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
         }
+        var postnatalFollowup = {
+            type: "encounter-section",
+            id: "section-postnatal-followup",
+            label: "pihcore.postnatalFollowup.title",
+            icon: "fas fa-fw fa-gift",
+            shortTemplate: "templates/sections/ancIntakeSectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-postnatal-followup.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-postnatal-followup.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+        }
 
         var delivery = {
             type: "encounter-section",
@@ -1974,7 +1984,37 @@ angular.module("encounterTypeConfig", [])
             icon: "fas fa-fw fa-umbrella",
             showOnVisitList: true
         };
-
+        // postnatalFollowup
+        encounterTypes["b7a7c300-f7e5-4d38-a388-fc178ab02e78"] = {
+            DEFAULT: {
+                defaultState: "short",
+                shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                longTemplate: "templates/encounters/defaultEncounterShort.page",
+                icon: "fas fa-fw fa-gift",
+                editUrl: hfeStandardEditUrl,
+                showOnVisitList: true,
+                sections: [
+                    postnatalFollowup,
+                    ancVaccinations
+                ]
+            },
+            "sierra_leone": {
+                versions: {
+                    DEFAULT: {
+                        defaultState: "short",
+                        shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                        longTemplate: "templates/encounters/defaultEncounterShort.page",
+                        icon: "fas fa-fw fa-gift",
+                        editUrl: hfeStandardEditUrl,
+                        showOnVisitList: true,
+                        sections: [
+                            postnatalFollowup,
+                            generalVaccinations
+                        ]
+                    }
+                }
+            }
+        };
         // ancFollowup
         encounterTypes["00e5e946-90ec-11e8-9eb6-529269fb1459"] = {
           DEFAULT: {
