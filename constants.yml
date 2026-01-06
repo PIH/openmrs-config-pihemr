@@ -47,6 +47,8 @@ concept:
     uuid: "160531AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
   midUpperArmCircumference:
     uuid: "4326b04b-3158-417a-bb8d-ad022295b0f4"
+  fetalHeartRate:
+    uuid: "1440AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 
   drugAllergens:
     uuid: "4c886e88-04c1-11e5-8418-1697f925ec7b"
