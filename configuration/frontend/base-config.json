@@ -196,6 +196,7 @@
     },
     "clinicianEncounterRole": "${encounterRole.orderingProvider.uuid}",
     "drugOrderEncounterType": "${encounterType.DRUG_ORDER_DOCUMENTATION.uuid}",
+    "requireIndication": false,
     "prescriberProviderRoles": ["${providerRole.CLINICIAN.uuid}"],
     "Translation overrides": {
       "en": {
