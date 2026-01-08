@@ -57,7 +57,15 @@
         "uuid": "4c3a6b5c-9014-4d2a-8502-a74f4ae582f6"
       }
     },
-    "leftNavMode": "hidden"
+    "leftNavMode": "hidden",
+    "Translation overrides": {
+      "en": {
+        "fillPrescription": "Fill paper prescription"
+      },
+      "fr": {
+        "fillPrescription": "Remplir une ordonnance papier"
+      }
+    }
   },
   "@openmrs/esm-fast-data-entry-app": {
     "formCategories": [
@@ -195,7 +203,7 @@
       "uuid": "3cd706b8-26fe-102b-80cb-0017a47871b2"
     },
     "clinicianEncounterRole": "${encounterRole.orderingProvider.uuid}",
-    "drugOrderEncounterType": "${encounterType.DRUG_ORDER_DOCUMENTATION.uuid}",
+    "requireIndication": false,
     "prescriberProviderRoles": ["${providerRole.CLINICIAN.uuid}"],
     "Translation overrides": {
       "en": {
@@ -204,8 +212,7 @@
       "fr": {
         "searchFieldPlaceholder": "Chercher un médicament"
       }
-    },
-    "_comment": "TODO: drug order encounter type refers to Drug Order Documentation encounter; we likely will need another encounter type, or, better yet, none at all"
+    }
   },
   "@openmrs/esm-patient-notes-app": {
     "visitNoteConfig": {
@@ -293,5 +300,17 @@
     "Brand color #1": "#FB9500",
     "Brand color #2": "#FB9500",
     "Brand color #3": "#D87100"
+  },
+  "@openmrs/esm-patient-orders-app": {
+    "orderEncounterType": "${encounterType.DRUG_ORDER_DOCUMENTATION.uuid}",
+    "ordererProviderRoles": ["2fa6f8da-aa58-11e8-98d0-529269fb1459"],
+    "extensionSlots": {
+      "order-basket-slot": {
+        "remove": [
+          "lab-order-panel"
+        ]
+      }
+    },
+    "_comment": "TODO: order encounter type refers to Drug Order Documentation encounter; we likely will need another encounter type, or, better yet, none at all"
   }
 }
