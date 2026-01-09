@@ -1179,5 +1179,16 @@
              where uuid like '1a095b60-39c3-49e1-a085-b49cb7ebcc31';
         </sql>
     </changeSet>
+
+    <changeSet id="20260109-set-is-set-fasting-concept" author="ball">
+        <comment>
+            Fix the Fasting blood glucose (mmol/L) concept by removing the set
+        </comment>
+        <sql>
+            update concept
+            set is_set = 0,  date_changed = now(), changed_by = 1
+            where uuid like '6e291dc0-9dd6-4ccf-bce4-5339c52667a9';
+        </sql>
+    </changeSet>
     
 </databaseChangeLog>
