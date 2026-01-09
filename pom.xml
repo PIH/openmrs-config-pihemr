@@ -6,8 +6,14 @@
     <artifactId>openmrs-config-pihemr</artifactId>
     <name>PIH-EMR OpenMRS Configuration</name>
     <description>Top-Level configuration for PIH-EMR OpenMRS distro</description>
+    <url>https://github.com/PIH/openmrs-config-pihemr</url>
     <version>1.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+
+    <organization>
+        <name>Partners In Health</name>
+        <url>http://pih.org</url>
+    </organization>
 
     <developers>
         <developer>
@@ -15,10 +21,18 @@
         </developer>
     </developers>
 
-    <organization>
-        <name>Partners In Health</name>
-        <url>http://pih.org</url>
-    </organization>
+    <licenses>
+        <license>
+            <name>Mozilla Public License 2.0 with Healthcare Disclaimer</name>
+            <url>http://openmrs.org/license</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:git://github.com/PIH/openmrs-config-pihemr.git</connection>
+        <developerConnection>scm:git:ssh://github.com:PIH/openmrs-config-pihemr.git</developerConnection>
+        <url>https://github.com/PIH/openmrs-config-pihemr</url>
+    </scm>
 
     <modules>
         <module>content</module>
@@ -41,7 +55,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <inherited>false</inherited>
                 <groupId>org.openmrs.maven.plugins</groupId>
                 <artifactId>openmrs-packager-maven-plugin</artifactId>
                 <version>1.6.0</version>
@@ -72,6 +85,46 @@
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>release-sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>deployRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <!--
+                    To deploy non-snapshot versions to Sonatype, signatures must be generated useing gpg
+                    Note that gpg2 key must exist on Bamboo server and the key and passphrase can be
+                    passed on the command line.
+
+                    Instructions for creating a key:
+                    https://central.sonatype.org/pages/working-with-pgp-signatures.html
+
+                    Command to run: clean deploy -U -DdeployRelease -Dgpg.passphrase=*** -Dgpg.keyname=[email_address_associated_with_generated_key]
+                    -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>3.0.1</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <repositories>
         <repository>
             <name>Central Portal Snapshots</name>
@@ -95,16 +148,7 @@
                 <enabled>true</enabled>
             </snapshots>
         </pluginRepository>
-        <pluginRepository>
-            <id>mks-repo</id>
-            <name>Mekom Solutions Maven repository</name>
-            <url>https://nexus.mekomsolutions.net/repository/maven-public</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
     </pluginRepositories>
 
+
 </project>
-
-
