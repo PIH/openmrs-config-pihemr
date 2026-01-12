@@ -69,6 +69,9 @@
 		<Logger name="org.openmrs.module.pihcore.task" level="INFO" />
 		<Logger name="org.openmrs.module.pihcore.PihCoreActivator" level="INFO" />
 
+		<!-- System Monitoring -->
+		<Logger name="org.openmrs.module.pihcore.task.HeartbeatTask" level="DEBUG"/>
+
 		<!-- Debezium Logging -->
 		<Logger name="io.debezium.connector.mysql" level="INFO"/>
 
