@@ -1191,7 +1191,7 @@
         </sql>
     </changeSet>
 
-    <changeSet id="2026013-1-set-is-set-fasting-concept-and-remove-erroneous-member" author="ball">
+    <changeSet id="20260113-set-is-set-fasting-concept-remove-members" author="mgoodrich">
         <comment>
             Fix the Fasting blood glucose (mmol/L) concept by setting to not set and removing the erroneous member
             https://pihemr.atlassian.net/browse/UHM-9036
