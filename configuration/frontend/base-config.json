@@ -225,9 +225,9 @@
   },
   "@openmrs/esm-patient-search-app": {
     "extensionSlots": {
-      "start-visit-button-slot": {
+      "start-visit-button-slot2": {
         "remove": [
-          "start-visit-button-patient-search"
+          "patient-search-start-visit-button"
         ]
       },
       "patient-search-actions-slot": {
@@ -304,6 +304,7 @@
   "@openmrs/esm-patient-orders-app": {
     "orderEncounterType": "${encounterType.DRUG_ORDER_DOCUMENTATION.uuid}",
     "ordererProviderRoles": ["2fa6f8da-aa58-11e8-98d0-529269fb1459"],
+    "orderLocationTagName": "Login Location",
     "extensionSlots": {
       "order-basket-slot": {
         "remove": [
