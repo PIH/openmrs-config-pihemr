@@ -1190,5 +1190,20 @@
             where uuid like '6e291dc0-9dd6-4ccf-bce4-5339c52667a9';
         </sql>
     </changeSet>
-    
+
+    <changeSet id="2026013-set-is-set-fasting-concept-and-remove-erroneous-member" author="ball">
+        <comment>
+            Fix the Fasting blood glucose (mmol/L) concept by setting to not set and removing the erroneous member
+            https://pihemr.atlassian.net/browse/UHM-9036
+        </comment>
+        <sql>
+            update concept
+            set is_set = 0,  date_changed = now(), changed_by = 1
+            where uuid like '6e291dc0-9dd6-4ccf-bce4-5339c52667a9';
+            delete from concept_set where concept_set=(select concept_id from concept where uuid='6e291dc0-9dd6-4ccf-bce4-5339c52667a9')
+                            and concept_id=(select concept_id from concept where uuid='d6e4ab3d-6d86-4984-813c-9b9e0bb5128b');
+
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
