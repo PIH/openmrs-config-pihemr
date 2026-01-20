@@ -4,17 +4,14 @@ on:
   workflow_dispatch:
 
 jobs:
-  call-workflows:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Trigger config-zl
-      uses: PIH/openmrs-config-zl/.github/workflows/deploy.yml@master
+  trigger-config-zl:
+    uses: PIH/openmrs-config-zl/.github/workflows/deploy.yml@master
 
-    - name: Trigger config-pihsl
-      uses: PIH/openmrs-config-pihsl/.github/workflows/deploy.yml@master
+  trigger-config-pihsl:
+    uses: PIH/openmrs-config-pihsl/.github/workflows/deploy.yml@master
 
-    - name: Trigger config-pihliberia
-      uses: PIH/openmrs-config-pihliberia/.github/workflows/deploy.yml@master
+  trigger-config-pihliberia:
+    uses: PIH/openmrs-config-pihliberia/.github/workflows/deploy.yml@master
 
-    - name: Trigger config-ces
-      uses: PIH/openmrs-config-ces/.github/workflows/deploy.yml@master
+  trigger-config-ces:
+    uses: PIH/openmrs-config-ces/.github/workflows/deploy.yml@master
