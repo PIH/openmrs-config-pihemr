@@ -14,7 +14,6 @@ jobs:
           - openmrs-config-ces
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
     - name: Trigger deploy
       uses: peter-evans/repository-dispatch@v4
       with:
