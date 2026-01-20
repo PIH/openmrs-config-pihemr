@@ -1,0 +1,35 @@
+name: Release new version
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: 8
+        cache: 'maven'
+        server-id: central
+        server-username: SONATYPE_USERNAME
+        server-password: SONATYPE_PASSWORD
+
+    # Set up git config
+    - name: Setup Git Config
+      run: |
+        git config user.name "Github Action"
+        git config user.email "github-action@users.noreply.github.com"
+
+    - name: Deploy release
+      run: mvn -B release:prepare release:perform -Prelease --file pom.xml
+      env:
+        SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+        SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+        MAVEN_GPG_PASSPHRASE: ${{ secrets.SONATYPE_GPG_PASSPHRASE }}
+        MAVEN_GPG_KEY: ${{ secrets.SONATYPE_GPG_PRIVATE_KEY }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

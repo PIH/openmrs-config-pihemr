@@ -1,0 +1,22 @@
+name: Trigger Dependency Builds
+
+on:
+  workflow_dispatch:
+
+jobs:
+  call-workflows:
+    strategy:
+      matrix:
+        repo:
+          - openmrs-config-zl
+          - openmrs-config-pihsl
+          - openmrs-config-pihliberia
+          - openmrs-config-ces
+    runs-on: ubuntu-latest
+    steps:
+    - name: Trigger deploy
+      uses: peter-evans/repository-dispatch@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        repository: PIH/${{ matrix.repo }}
+        event-type: dependency-trigger

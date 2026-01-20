@@ -1,0 +1,32 @@
+name: Deploy Snapshots
+
+on:
+  push:
+    branches: [ 'master' ]
+  workflow_dispatch:
+    types: [dependency-trigger]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: 8
+        cache: 'maven'
+        server-id: central
+        server-username: SONATYPE_USERNAME
+        server-password: SONATYPE_PASSWORD
+
+    - name: Deploy snapshot
+      run: mvn -B deploy --file pom.xml
+      env:
+        SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+        SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+
+    - name: Trigger dependency builds
+      uses: ./.github/workflows/trigger.yml
