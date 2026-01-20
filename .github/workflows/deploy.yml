@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy Snapshots
 
 on:
   push:
@@ -26,3 +26,6 @@ jobs:
       env:
         SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
         SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+
+#    - name: Trigger dependency builds
+#      uses: ./.github/workflows/deploy.yml
