@@ -720,22 +720,43 @@
 			</div>
 		</div>
 	</section>
-	<section id="referralIn" sectionTag="fieldset" headerStyle="title" headerCode="pihcore.refer.title">
-		<div class="section-container">
-			<p>
+	<section id="referralIn" sectionTag="fieldset" headerStyle="title" headerCode="pihcore.transferReferralIn">
+		<div class="section-container two-columns">
+			<div>
 				<repeat>
 					<template>
-						<obs conceptId="PIH:Type of referring service" style="checkbox" answerConceptId="{point}" answerCode="{message}" />
+						<obs id="{point}" conceptId="PIH:Type of referring service" style="checkbox"
+							 answerConceptId="{point}" answerCode="{message}" >
+						</obs>
 					</template>
 					<render point="PIH:PRIMARY CARE CLINIC" message="pihcore.location.opd" />
 					<render point="CIEL:159940" message="pihcore.location.vctCenter" />
+					<render point="PIH:ZL-supported site" message="disposition.emrapi.transferOutOfHospital.sites.zlSite" />
 					<render point="CIEL:1589" message="pihcore.hospitalName" />
 					<render point="PIH:Community meeting" message="pihcore.program.community" />
 				</repeat>
-			</p>
-			<obs conceptId="PIH:Type of referring service" style="checkbox" answerConceptId="PIH:OTHER" commentFieldCode="zl.pastMedicalHistory.specifyLabel" />
+			</div>
+			<div>
+
+				<obs conceptId="PIH:Type of referring service" style="checkbox"
+					 answerConceptId="PIH:OTHER" commentFieldCode="zl.ifOtherSpecify" />
+				<br/>
+
+				<obsgroup groupingConceptId="PIH:13169" showIfEmpty="false">
+					<div id="zl-site">
+						<p class="radio">
+							<label>
+								<uimessage code="pihcore.referredZLsite"/>
+							</label>
+							<obs conceptId="CIEL:160535"
+								 style="location" answerLocationTags="Health Facility Location"/>
+						</p>
+					</div>
+				</obsgroup>
+			</div>
 		</div>
 	</section>
+
 	<section id="vitals" sectionTag="fieldset" headerStyle="title" headerCode="pihcore.vitalSigns">
 		<div class="section-container">
 			<p class="side-by-side">
