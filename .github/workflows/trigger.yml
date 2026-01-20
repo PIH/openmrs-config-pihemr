@@ -2,6 +2,7 @@ name: Trigger Dependency Builds
 
 on:
   workflow_dispatch:
+  workflow_call:
 
 jobs:
   call-workflows:
