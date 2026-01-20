@@ -31,5 +31,3 @@ jobs:
   trigger-dependencies:
     uses: ./.github/workflows/trigger.yml
     needs: deploy
-    env:
-      GITHUB_TOKEN: ${{ secrets.GHA_WRITE_TOKEN }}
