@@ -28,4 +28,4 @@ jobs:
         SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
 
 #    - name: Trigger dependency builds
-#      uses: ./.github/workflows/deploy.yml
+#      uses: ./.github/workflows/trigger.yml
