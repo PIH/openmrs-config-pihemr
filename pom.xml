@@ -30,7 +30,7 @@
 
     <scm>
         <connection>scm:git:https://github.com/PIH/openmrs-config-pihemr.git</connection>
-        <developerConnection>scm:git:https://github.com:PIH/openmrs-config-pihemr.git</developerConnection>
+        <developerConnection>scm:git:https://github.com/PIH/openmrs-config-pihemr.git</developerConnection>
         <url>https://github.com/PIH/openmrs-config-pihemr</url>
     </scm>
 
