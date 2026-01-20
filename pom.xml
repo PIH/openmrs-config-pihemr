@@ -29,8 +29,8 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git://github.com/PIH/openmrs-config-pihemr.git</connection>
-        <developerConnection>scm:git:ssh://github.com:PIH/openmrs-config-pihemr.git</developerConnection>
+        <connection>scm:git:https://github.com/PIH/openmrs-config-pihemr.git</connection>
+        <developerConnection>scm:git:https://github.com:PIH/openmrs-config-pihemr.git</developerConnection>
         <url>https://github.com/PIH/openmrs-config-pihemr</url>
     </scm>
 
@@ -69,7 +69,7 @@
                     <artifactId>maven-release-plugin</artifactId>
                     <version>3.2.0</version>
                     <configuration>
-                        <tagNameFormat>v@{project.version}</tagNameFormat>
+                        <tagNameFormat>@{project.version}</tagNameFormat>
                         <projectVersionPolicyId>SemVerVersionPolicy</projectVersionPolicyId>
                     </configuration>
                 </plugin>
