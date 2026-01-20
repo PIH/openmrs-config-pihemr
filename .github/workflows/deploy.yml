@@ -30,3 +30,4 @@ jobs:
 
   trigger-dependencies:
     uses: ./.github/workflows/trigger.yml
+    needs: deploy
