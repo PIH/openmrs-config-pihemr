@@ -129,7 +129,7 @@
             <build>
                 <plugins>
                     <!--
-                    To deploy non-snapshot versions to Sonatype, signatures must be generated useing gpg
+                    To deploy non-snapshot versions to Sonatype, signatures must be generated using gpg
                     Note that gpg2 key must exist on Bamboo server and the key and passphrase can be
                     passed on the command line.
 
