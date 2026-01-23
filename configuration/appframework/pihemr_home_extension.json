@@ -6,7 +6,11 @@
     "order": 10,
     "extensionParams": {
       "fragmentProvider": "pihapps",
-      "fragmentPath": "home/twoFactorAlert"
+      "fragmentPath": "home/twoFactorAlert",
+      "fragmentConfig": {
+        "showBanner": true,
+        "showDialog": true
+      }
     }
   },
   {
