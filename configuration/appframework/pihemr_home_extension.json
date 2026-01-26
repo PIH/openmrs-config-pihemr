@@ -1,0 +1,36 @@
+[
+  {
+    "id": "home.fragment.twoFactorAlert",
+    "extensionPointId": "pihapps.homepageFragments",
+    "type": "fragment",
+    "order": 10,
+    "extensionParams": {
+      "fragmentProvider": "pihapps",
+      "fragmentPath": "home/twoFactorAlert",
+      "fragmentConfig": {
+        "showBanner": true,
+        "showDialog": true
+      }
+    }
+  },
+  {
+    "id": "home.fragment.patientSearch",
+    "extensionPointId": "pihapps.homepageFragments",
+    "type": "fragment",
+    "order": 20,
+    "extensionParams": {
+      "fragmentProvider": "pihcore",
+      "fragmentPath": "home/patientSearch"
+    }
+  },
+  {
+    "id": "home.fragment.homepageApps",
+    "extensionPointId": "pihapps.homepageFragments",
+    "type": "fragment",
+    "order": 30,
+    "extensionParams": {
+      "fragmentProvider": "pihapps",
+      "fragmentPath": "home/homepageApps"
+    }
+  }
+]
