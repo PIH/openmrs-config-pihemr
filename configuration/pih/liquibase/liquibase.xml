@@ -1205,4 +1205,26 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20260128-update-3-drug-uuids" author="ball">
+        <comment>
+            Update the Levetiracetam, Finasteride, and Colchicine concept uuids
+        </comment>
+        <sql>
+            -- Levetiracetam
+            update concept
+            set uuid = '78770AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+            where uuid like '3a0ed774-e703-4ca7-a612-65e14362b318';
+
+            -- Finasteride
+            update concept
+            set uuid = '76376AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+            where uuid like 'badd994f-0c5a-416b-bb9b-430127dbf82c';
+
+            -- Colchicine
+            update concept
+            set uuid = '73702AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+            where uuid like '79c0d9a8-3cac-4378-93b2-5d6b48fdf8d8';
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
