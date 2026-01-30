@@ -24,7 +24,7 @@
     <ifMode mode="VIEW" include="false">
 
         <!-- the "color" on "#who select" is to override the base style in UI-Commons that greys out the text when the widget is disabled -->
-        <!-- the "color" on "label" is to override the base style in UI-Commons that makes "required" red -->
+        <!-- the "color" on "label" is to override the base style in HFE that makes "required" red -->
         <style type="text/css">
             #who-when-where {
                 margin-bottom: 6px;
