@@ -23,6 +23,7 @@
 <div>
     <ifMode mode="VIEW" include="false">
 
+        <!-- the "color" on "#who select" is to override the base style in UI-Commons that greys out the text when the widget is disabled -->
         <style type="text/css">
             #who-when-where {
                 margin-bottom: 6px;
@@ -31,6 +32,9 @@
             #who-when-where p {
                 display: inline-block;
                 padding-right: 20px;
+            }
+            #who select {
+                color: #003f5e !important;
             }
             #where > input[type=text] {
                 display: inline-block;
@@ -42,98 +46,45 @@
             }
         </style>
 
-        <!-- users with retroConsultNote privilege can edit provider, location, and date for both retro and active visits -->
-        <includeIf velocityTest="$user.hasPrivilege('Task: emr.retroConsultNote')">
-            <div id="who-when-where">
-                <p id="who">
-                    <label subform-parameter="encounter-provider-label"><uimessage code="emr.patientDashBoard.providerRequired"/></label>
-                    <span subform-parameter="encounter-provider-widget">
-                        <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
-                    </span>
-                </p>
-                <p id="where">
-                    <label subform-parameter="encounter-location-label"><uimessage code="emr.locationRequired"/></label>
-                    <span subform-parameter="encounter-location-widget">
-                        <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Consult Note Location"/>
-                    </span>
-                </p>
-                <p id="when">
-                    <label subform-parameter="encounter-date-label"><uimessage code="emr.patientDashBoard.date"/></label>
-                    <span subform-parameter="encounter-date-widget">
-                        <encounterDate id="encounterDate" default="now" />
-                    </span>
-                </p>
-            </div>
+        <!-- users without either of these privileges aren't allowed to change encounter date -->
+        <includeIf velocityTest="!$user.hasPrivilege('Task: emr.retroConsultNoteThisProviderOnly') and !($user.hasPrivilege('Task: emr.retroConsultNote'))">
+            <script type="text/javascript">
+                jQuery(function() {
+                    getField('encounterDate.value').prop('disabled', true);
+                });
+            </script>
         </includeIf>
-        <!-- users with retroConsultNoteThisProviderOnly can edit location and date (but not provider) for retro visits -->
-        <includeIf velocityTest="$user.hasPrivilege('Task: emr.retroConsultNoteThisProviderOnly') and !($user.hasPrivilege('Task: emr.retroConsultNote')) and (!$visit.open)">
-            <div style="display:none">
-                <span subform-parameter="encounter-provider-widget">
-                    <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
-                </span>
-            </div>
 
-            <div id="who-when-where">
-                <p id="who">
-                    <label subform-parameter="encounter-provider-label"><uimessage code="emr.patientDashBoard.provider"/></label>
-                    <span><lookup expression="user.person.personName" /></span>
-                </p>
-                <p id="where">
-                    <label subform-parameter="encounter-location-label"><uimessage code="emr.locationRequired"/></label>
-                    <span subform-parameter="encounter-location-widget">
-                        <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Consult Note Location"/>
-                    </span>
-                </p>
-                <p id="when">
-                    <label subform-parameter="encounter-date-label"><uimessage code="emr.patientDashBoard.date"/></label>
-                    <span subform-parameter="encounter-date-widget">
-                        <encounterDate id="encounterDate" default="now" />
-                    </span>
-                </p>
-            </div>
-
+        <!-- users without this privilege are only able to enter notes in their own name -->
+        <includeIf velocityTest="!$user.hasPrivilege('Task: emr.retroConsultNote')">
+            <script type="text/javascript">
+                <!-- since there can be multiple encounterProviderAndRole tags on a form HFE provides no direct way to reference it -->
+                jQuery(function() {
+                    jq('#who').find('select').first().prop('disabled', true);
+                });
+            </script>
         </includeIf>
-        <!-- all users that don't have either retro privilege, or those with retro-this-provider-only but with an active visit, can only edit location -->
-        <!-- all users that don't have either retro privilege, or those with retro-this-provider-only but with an active visit, can only edit location -->
-        <includeIf velocityTest="(!$user.hasPrivilege('Task: emr.retroConsultNoteThisProviderOnly') and !$user.hasPrivilege('Task: emr.retroConsultNote')) or ($user.hasPrivilege('Task: emr.retroConsultNoteThisProviderOnly') and !$user.hasPrivilege('Task: emr.retroConsultNote') and $visit.open)">
-            <div style="display:none">
+
+        <div id="who-when-where">
+            <p id="who">
+                <label subform-parameter="encounter-provider-label"><uimessage code="emr.patientDashBoard.providerRequired"/></label>
                 <span subform-parameter="encounter-provider-widget">
-                    <encounterProviderAndRole default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
+                    <encounterProviderAndRole id="encounterProvider" default="currentUser" encounterRole="4f10ad1a-ec49-48df-98c7-1391c6ac7f05" required="true"/>
                 </span>
+            </p>
+            <p id="where">
+                <label subform-parameter="encounter-location-label"><uimessage code="emr.locationRequired"/></label>
+                <span subform-parameter="encounter-location-widget">
+                    <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Consult Note Location"/>
+                </span>
+            </p>
+            <p id="when">
+                <label subform-parameter="encounter-date-label"><uimessage code="emr.patientDashBoard.date"/></label>
                 <span subform-parameter="encounter-date-widget">
-                    <encounterDate id="encounterDate" default="now"/>
+                    <encounterDate id="encounterDate" default="now" />
                 </span>
-            </div>
-            <div id="who-when-where">
-                <table id="who-where-when-view">
-                    <tr>
-                        <td>
-                            <label subform-parameter="encounter-provider-label">
-                                <uimessage code="emr.patientDashBoard.provider"/>
-                            </label>
-                            <span>
-                                <lookup complexExpression="#if($encounter) $ui.format($encounter.provider) #else $ui.format($user.person) #end"/>
-                            </span>
-                        </td>
-                        <td>
-                            <label subform-parameter="encounter-location-label">
-                                <uimessage code="emr.locationRequired"/>
-                            </label>
-                            <span subform-parameter="encounter-location-widget">
-                                <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Consult Note Location"/>
-                            </span>
-                        </td>
-                        <td>
-                            <label subform-parameter="encounter-date-label">
-                                <uimessage code="emr.patientDashBoard.date"/>
-                            </label>
-                            <span>
-                                <lookup complexExpression="#if($encounter) $ui.format($fn.startOfDay($encounter.encounterDatetime)) #else $ui.format($fn.startOfDay($formGeneratedDatetime)) #end"/>
-                            </span>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </includeIf>
+            </p>
+        </div>
+
     </ifMode>
 </div>
