@@ -63,7 +63,7 @@
                 </includeIf>
 
                 <!-- users with this privilege are allowed to edit date but not provider -->
-                <includeIf velocityTest="$user.hasPrivilege('Task: retroConsultNoteThisProviderOnly)">
+                <includeIf velocityTest="$user.hasPrivilege('Task: retroConsultNoteThisProviderOnly')">
                     allowedToEditDate = true;
                 </includeIf>
 
