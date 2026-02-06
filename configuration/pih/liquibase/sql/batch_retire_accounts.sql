@@ -60,8 +60,7 @@ delete t
 from temp_users_to_retire t
 inner join users u on u.user_id = t.user_id 
 where u.username in 
-('admin',
-'daemon',
+('daemon',
 'ccIntegrationUser',
 'ball',
 'ddesimone',
@@ -69,6 +68,7 @@ where u.username in
 'mgoodrich',
 'mseaton',
 'cho',
+'acotton',
 'cioan',
 'jplouidor',
 'wadson',
