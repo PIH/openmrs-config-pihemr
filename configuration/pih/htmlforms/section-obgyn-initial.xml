@@ -208,6 +208,8 @@
 				CIEL: 1722 ').uuid" />';
 				const thirdTrimConcept = '<lookup expression="fn.getConcept('
 				CIEL: 1723 ').uuid" />';
+				const unknownTrimConcept = '<lookup expression="fn.getConcept('
+				CIEL:1067 ').uuid" />';
 				const gravidaConcept = '<lookup expression="fn.getConcept('
 				CIEL: 5624 ').uuid" />';
 				const paraConcept = '<lookup expression="fn.getConcept('
@@ -365,6 +367,8 @@
 						}
 
 				}
+
+
 					// looking for OB/GYN encounters with an obs that indicates that it was an intake encounter
 					jq.getJSON( apiBaseUrl + "/encounter", {
 							s: 'byObs',
@@ -418,6 +422,10 @@
 															case thirdTrimConcept:
 																jq("#obgyn_initial_thirdTrimester").text("[X] " + obs.valueCoded.display);
 																jq("#obgyn_initial_thirdTrimester").removeClass("emptyValue").addClass("value");
+																break;
+															case unknownTrimConcept:
+																jq("#obgyn_initial_unknownTrimester").text("[X] " + obs.valueCoded.display);
+																jq("#obgyn_initial_unknownTrimester").removeClass("emptyValue").addClass("value");
 																break;
 														}
 													}
@@ -674,6 +682,16 @@
 			});
 		</script>
 	</ifMode>
+	<script type="text/javascript">
+			
+	    beforeValidation.push(function () {
+			if (!validateTrimester()) {
+			return false;
+			}
+			return true;
+		});
+		
+	</script>
 	<!-- Program enrollment -->
 	<enrollInProgram programId="MCH" locationTag="Program Location" />
 	<section id="consult-type" sectionTag="fieldset" headerStyle="title" headerCode="pihcore.typeOfConsult">
@@ -711,7 +729,7 @@
 						<br />
 						<obs id="intake-or-followup" conceptId="CIEL:164181" style="radio" answerConceptIds="CIEL:164180,PIH:7383" answerCodes="pihcore.new,pihcore.followup" required="true" answerSeparator="&lt;br /&gt;">
 							<controls>
-								<when value="CIEL:164180" thenJavaScript="jq('#intake-only').show(); jq('#obgyn-initial-div').hide();" elseJavaScript="jq('#intake-only').hide();" />
+								<when value="CIEL:164180" thenJavaScript="jq('#intake-only').show(); jq('#obgyn-initial-div').hide(); jq('#obgyn-section-followup').hide();" elseJavaScript="jq('#intake-only').hide();" />
 								<when value="PIH:7383" thenJavaScript="jq('#obgyn-initial-div').show(); jq('#obgyn-section').hide();" elseJavaScript="jq('#obgyn-initial-div').hide(); jq('#obgyn-section').show();" />
 							</controls>
 						</obs>
@@ -1673,6 +1691,10 @@
 										[&amp;nbsp&amp;nbsp]&amp;nbspThird
 										trimester
 									</span>
+									<span id="obgyn_initial_unknownTrimester" class="emptyValue">
+										[&amp;nbsp&amp;nbsp]&amp;nbspUnknown
+										trimester
+									</span>
 								</p>
 								<div class="four-columns">
 									<div>
@@ -1935,7 +1957,11 @@
 				<label id="trimesterAtEnrollment_label">
 					<uimessage code="pihcore.mch.trimesterAtEnrollment" />
 				</label>
-				<obs conceptId="PIH:11661" style="radio" answerConceptIds="CIEL:1721,CIEL:1722,CIEL:1723" id="trimesterAtEnrollment" />
+				<obs conceptId="PIH:11661" style="radio" answerConceptIds="CIEL:1721,CIEL:1722,CIEL:1723,CIEL:1067" id="trimesterAtEnrollment" />
+				<br></br>
+				<span id="trimesterAtEnrollmentMsg"  class="error field-error" style="display:none;">
+					<uimessage code="zl.mch.trimesterAtEnrollmentRequired" />
+				</span>
 				<!--
 				ToDo: Ask team if they want the time range for trimester
 				answerCodes="pihcore.mch.firstTri,pihcore.mch.secondTri,pihcore.mch.thirdTri"
@@ -2068,6 +2094,18 @@
 				</tr>
 			</table>
 		</div>
+	</section>
+	<section id="obgyn-section-followup" sectionTag="fieldset" headerStyle="title" headerCode="zl.mch.OBGYN.FULLOWUP" style="display:none;">
+		<p class="side-by-side">
+				<label>
+					<uimessage code="pihcore.mch.pregnancy.trimester" />
+				</label>
+				<obs id="pregnancyTrimester" conceptId="PIH:14085" style="radio" answerConceptIds="CIEL:1721,CIEL:1722,CIEL:1723"/>
+				<br></br>
+				<span id="pregnancyTrimesterMsg"  class="error field-error" style="display:none;">
+					<uimessage code="zl.mch.pregnancyTrimesterRequired" />
+				</span>
+			</p>
 	</section>
 	<section id="cancer-section" sectionTag="fieldset" headerStyle="title" headerCode="Cancer">
 		<div class="section-container">
