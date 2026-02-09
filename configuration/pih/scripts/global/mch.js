@@ -95,19 +95,19 @@ function setUpEdd(currentEncounterDate, msgWeeks) {
 }
 
 function validateEstimatedDeliveryDate(fieldId, encounterDate, errorMessage) {
-  if ( fieldId && encounterDate) {
+  if (fieldId && encounterDate) {
     jq("#" + fieldId + " input[type='hidden']").change(function () {
       htmlForm.enableSubmitButton();
       jq("#" + fieldId + " .field-error").text('');
       jq("#" + fieldId + " .field-error").hide();
       const estimatedDelivery = this.value;
       //the deliveryDate is a string with the following format YYYY-MM-DD
-      if ( estimatedDelivery ) {
+      if (estimatedDelivery) {
         const deliveryDate = new Date(estimatedDelivery);
-        if ( deliveryDate ) {
+        if (deliveryDate) {
           // UHM-8643: Estimated Delivery Date should not be greater than 10 months from encounter date
           var daysBetween = daysBetweenUTCDates(deliveryDate, encounterDate);
-          if ( daysBetween > 305 ) {
+          if (daysBetween > 305) {
             jq("#" + fieldId + " .field-error").text(errorMessage).show();
             htmlForm.disableSubmitButton();
           }
@@ -125,7 +125,7 @@ function calculateGestationalDays(lastPeriodDate, currentEncounterDate, msgWeeks
   const gestAgeDays = Math.floor(gestAgeMs / (1000 * 3600 * 24))
   const gestAgeWeeks = Math.floor(gestAgeDays / 7);
   const gestAgeRemainderDays = gestAgeDays % 7;
-  return gestAgeWeeks + (gestAgeRemainderDays ? gestAgeRemainderDays / 10 : 0) ;
+  return gestAgeWeeks + (gestAgeRemainderDays ? gestAgeRemainderDays / 10 : 0);
 }
 
 /**
@@ -184,6 +184,50 @@ function daysBetweenUTCDates(date1, date2) {
   return daysDiff;
 }
 
+
+function displayTrimester() {
+
+  var typeOfVisit = getValue('intake-or-followup.value');
+  var typeOfService = getValue('visit-reason.value');
+
+  if (typeOfService == 2288 && typeOfVisit == 1736) {
+    jq('#obgyn-section-followup').show();
+    jq('#pregnancyTrimester input[type="radio"]').attr('required', true);
+  } else {
+    jq('#obgyn-section-followup').hide();
+    jq('#pregnancyTrimester input[type="radio"]').attr('required', false);
+  }
+
+}
+
+function showAndHideErrorMsg(id, val) {
+  if (!val || val.trim() == "") {
+    jq('#' + id).show()
+  } else {
+    jq('#' + id).hide()
+  }
+}
+
+function validateTrimester() {
+
+  var typeOfVisit = getValue('intake-or-followup.value');
+  var typeOfService = getValue('visit-reason.value');
+  var pregnancyTrimester = getValue('pregnancyTrimester.value');
+  var trimesterAtEnrollment = getValue('trimesterAtEnrollment.value');
+
+  if (typeOfService == 2288 && typeOfVisit == 1736 && (!pregnancyTrimester || pregnancyTrimester.trim() === "")) {
+    showAndHideErrorMsg("pregnancyTrimesterMsg", pregnancyTrimester);
+    return false;
+  }
+
+  if (typeOfService == 2288 && typeOfVisit == 1856 && (!trimesterAtEnrollment || trimesterAtEnrollment.trim() === "")) {
+    showAndHideErrorMsg("trimesterAtEnrollmentMsg", trimesterAtEnrollment);
+    return false;
+  }
+
+  return true;
+}
+
 jq(document).ready(function () {
 
   // Check if the URL contains the specified parameter
@@ -220,9 +264,9 @@ jq(document).ready(function () {
     } else {
       jq('#lastPeriod').hide();
       jq('#lastPeriod input[type="text"]').removeAttr('required');
-      jq('#trimesterAtEnrollment input[type="radio"]').removeAttr('required');
-      jq('#trimesterAtEnrollment').hide();
-      jq('#trimesterAtEnrollment_label').hide();
+      jq('#trimesterAtEnrollment input[type="radio"]').attr('required', true);
+      jq('#trimesterAtEnrollment').show();
+      jq('#trimesterAtEnrollment_label').show();
 
     }
   }
@@ -246,6 +290,21 @@ jq(document).ready(function () {
 
   jq('#knowing_period_question input[type="radio"]').on('change', checkRadioSelectionPeriod);
   jq('#baby-live-or-death-1 input[type="radio"]').on('change', checkRadioSelectionBirthType);
+
+  jq('#intake-or-followup').on('change', displayTrimester);
+  jq('#visit-reason').on('change', displayTrimester);
+
+
+  jq('#pregnancyTrimester').change(function () {
+    const pregnancyTrimester = getValue('pregnancyTrimester.value');
+     showAndHideErrorMsg("pregnancyTrimesterMsg", pregnancyTrimester);
+  });
+
+   jq('#trimesterAtEnrollment').change(function () {
+     const trimesterAtEnrollment = getValue('trimesterAtEnrollment.value')
+     showAndHideErrorMsg("trimesterAtEnrollmentMsg", trimesterAtEnrollment);
+  });
+
 
   checkRadioSelectionPeriod();
 
