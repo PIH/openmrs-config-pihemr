@@ -208,6 +208,8 @@
 				CIEL: 1722 ').uuid" />';
 				const thirdTrimConcept = '<lookup expression="fn.getConcept('
 				CIEL: 1723 ').uuid" />';
+				const unknownTrimConcept = '<lookup expression="fn.getConcept('
+				CIEL:1067 ').uuid" />';
 				const gravidaConcept = '<lookup expression="fn.getConcept('
 				CIEL: 5624 ').uuid" />';
 				const paraConcept = '<lookup expression="fn.getConcept('
@@ -420,6 +422,10 @@
 															case thirdTrimConcept:
 																jq("#obgyn_initial_thirdTrimester").text("[X] " + obs.valueCoded.display);
 																jq("#obgyn_initial_thirdTrimester").removeClass("emptyValue").addClass("value");
+																break;
+															case unknownTrimConcept:
+																jq("#obgyn_initial_unknownTrimester").text("[X] " + obs.valueCoded.display);
+																jq("#obgyn_initial_unknownTrimester").removeClass("emptyValue").addClass("value");
 																break;
 														}
 													}
@@ -1683,6 +1689,10 @@
 									&amp;nbsp
 									<span id="obgyn_initial_thirdTrimester" class="emptyValue">
 										[&amp;nbsp&amp;nbsp]&amp;nbspThird
+										trimester
+									</span>
+									<span id="obgyn_initial_unknownTrimester" class="emptyValue">
+										[&amp;nbsp&amp;nbsp]&amp;nbspUnknown
 										trimester
 									</span>
 								</p>
