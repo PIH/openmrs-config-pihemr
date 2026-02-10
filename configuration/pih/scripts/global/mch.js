@@ -185,20 +185,7 @@ function daysBetweenUTCDates(date1, date2) {
 }
 
 
-function displayTrimester() {
 
-  var typeOfVisit = getValue('intake-or-followup.value');
-  var typeOfService = getValue('visit-reason.value');
-
-  if (typeOfService == 2288 && typeOfVisit == 1736) {
-    jq('#obgyn-section-followup').show();
-    jq('#pregnancyTrimester input[type="radio"]').attr('required', true);
-  } else {
-    jq('#obgyn-section-followup').hide();
-    jq('#pregnancyTrimester input[type="radio"]').attr('required', false);
-  }
-
-}
 
 function showAndHideErrorMsg(id, val) {
   if (!val || val.trim() == "") {
@@ -208,25 +195,7 @@ function showAndHideErrorMsg(id, val) {
   }
 }
 
-function validateTrimester() {
 
-  var typeOfVisit = getValue('intake-or-followup.value');
-  var typeOfService = getValue('visit-reason.value');
-  var pregnancyTrimester = getValue('pregnancyTrimester.value');
-  var trimesterAtEnrollment = getValue('trimesterAtEnrollment.value');
-
-  if (typeOfService == 2288 && typeOfVisit == 1736 && (!pregnancyTrimester || pregnancyTrimester.trim() === "")) {
-    showAndHideErrorMsg("pregnancyTrimesterMsg", pregnancyTrimester);
-    return false;
-  }
-
-  if (typeOfService == 2288 && typeOfVisit == 1856 && (!trimesterAtEnrollment || trimesterAtEnrollment.trim() === "")) {
-    showAndHideErrorMsg("trimesterAtEnrollmentMsg", trimesterAtEnrollment);
-    return false;
-  }
-
-  return true;
-}
 
 jq(document).ready(function () {
 
@@ -291,22 +260,12 @@ jq(document).ready(function () {
   jq('#knowing_period_question input[type="radio"]').on('change', checkRadioSelectionPeriod);
   jq('#baby-live-or-death-1 input[type="radio"]').on('change', checkRadioSelectionBirthType);
 
-  jq('#intake-or-followup').on('change', displayTrimester);
-  jq('#visit-reason').on('change', displayTrimester);
-
-
-  jq('#pregnancyTrimester').change(function () {
-    const pregnancyTrimester = getValue('pregnancyTrimester.value');
-     showAndHideErrorMsg("pregnancyTrimesterMsg", pregnancyTrimester);
-  });
-
-   jq('#trimesterAtEnrollment').change(function () {
-     const trimesterAtEnrollment = getValue('trimesterAtEnrollment.value')
-     showAndHideErrorMsg("trimesterAtEnrollmentMsg", trimesterAtEnrollment);
-  });
+  
 
 
   checkRadioSelectionPeriod();
+
+ 
 
 
 });
