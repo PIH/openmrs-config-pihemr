@@ -92,7 +92,13 @@
                     });
                     // handle the error state when the user is not a valid provider for the form and doesn't have rights to change the provider
                     if (!jq('#who').find('select').first().val()) {
-                        jq('#invalid-user').show();
+                        // effectively disable the form by adding an exit handler to the encounterProvider selector that always returns false
+                        NavigatorController.getFieldByContainerId('who').exitHandlers.push({
+                            handleExit: function (fieldValue) {
+                                return false;
+                            }
+                        });
+                        jq('#invalid-user').show();  // display error message
                     }
                  }
 
