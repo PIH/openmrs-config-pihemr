@@ -1227,4 +1227,26 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20260209-fix-order-concept-id-carbidopa-n-levodopa" author="ball">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">
+                select count(*) from address_hierarchy_entry where parent_id is NULL and name like 'Haiti';
+            </sqlCheck>
+        </preConditions>
+        <comment>
+            If the count is 1, this is a Haiti server.  For ZL, fix drug orders for
+            Carbidopa 25mg + Levodopa 250mg tablet which had the wrong concept_id.
+            https://pihemr.atlassian.net/browse/UHM-9103
+        </comment>
+        <sql>
+            update orders
+               set concept_id = (select concept_id from concept where uuid = '228e97de-d363-47cf-8570-d3f6e0f3a78d')
+             where orders.concept_id = (select concept_id from concept where uuid = '1872e445-df77-486a-b935-13d1ce4af8a1')
+               and orders.order_id IN
+                     (select order_id from drug_order
+                       where drug_inventory_id = (select drug_id from drug where name = 'Carbidopa 25mg + Levodopa 250mg tablet'))
+               and orders.voided = 0;
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
