@@ -682,13 +682,74 @@
 			});
 		</script>
 	</ifMode>
-	<script type="text/javascript">
-			
-	    beforeValidation.push(function () {
-			if (!validateTrimester()) {
-			return false;
+<script type="text/javascript">
+
+		const prenatalVisitConcept = '<lookup expression="fn.getConcept('
+				CIEL: 1622 ').id" />';
+
+		const followupVisitConcept = '<lookup expression="fn.getConcept('
+				PIH: 7383 ').id" />';
+
+		const newVisitConcept = '<lookup expression="fn.getConcept('
+				PIH: 13235 ').id" />';
+
+		function displayTrimester() {
+
+			var typeOfVisit = getValue('intake-or-followup.value');
+			var typeOfService = getValue('visit-reason.value');
+
+			if (typeOfService == prenatalVisitConcept &amp;&amp; typeOfVisit == followupVisitConcept) {
+				jq('#obgyn-section-followup').show();
+				jq('#pregnancyTrimester input[type="radio"]').attr('required', true);
+			} else {
+				jq('#obgyn-section-followup').hide();
+				jq('#pregnancyTrimester input[type="radio"]').attr('required', false);
 			}
+
+		}
+
+		function validateTrimester() {
+
+			var typeOfVisit = getValue('intake-or-followup.value');
+			var typeOfService = getValue('visit-reason.value');
+			var pregnancyTrimester = getValue('pregnancyTrimester.value');
+			var trimesterAtEnrollment = getValue('trimesterAtEnrollment.value');
+
+			if (typeOfService == prenatalVisitConcept &amp;&amp; typeOfVisit == followupVisitConcept &amp;&amp; (!pregnancyTrimester || pregnancyTrimester.trim() === "")) {
+				showAndHideErrorMsg("pregnancyTrimesterMsg", pregnancyTrimester);
+				return false;
+			}
+
+			if (typeOfService == prenatalVisitConcept &amp;&amp; typeOfVisit == newVisitConcept &amp;&amp; (!trimesterAtEnrollment || trimesterAtEnrollment.trim() === "")) {
+				showAndHideErrorMsg("trimesterAtEnrollmentMsg", trimesterAtEnrollment);
+				return false;
+			}
+
 			return true;
+		}
+		
+		jq(function () {
+
+			jq('#intake-or-followup').on('change', displayTrimester);
+			jq('#visit-reason').on('change', displayTrimester);
+
+
+			jq('#pregnancyTrimester').change(function () {
+				const pregnancyTrimester = getValue('pregnancyTrimester.value');
+				showAndHideErrorMsg("pregnancyTrimesterMsg", pregnancyTrimester);
+			});
+
+			jq('#trimesterAtEnrollment').change(function () {
+				const trimesterAtEnrollment = getValue('trimesterAtEnrollment.value')
+				showAndHideErrorMsg("trimesterAtEnrollmentMsg", trimesterAtEnrollment);
+			});
+				
+			beforeValidation.push(function () {
+				if (!validateTrimester()) {
+				return false;
+				}
+				return true;
+			});
 		});
 		
 	</script>
