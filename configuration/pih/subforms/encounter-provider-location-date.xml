@@ -1,5 +1,11 @@
 <!--
     This encapsulates the standard logic for capturing the provider, date, and location of an encounter
+
+    And, specifically, applies the three levels of permissions we have for users:
+        * Full: Able to set provider, date, and location
+        * Retro: Able to change the date (ie retroactively enter forms) but only in their own name
+        * Basic: Only able to change location, must submit forms in their own name, on the current date
+
     The following sections can be overridden from the default configurations that are shown:
 
     <label subform-parameter="encounter-provider-label"><uimessage code="emr.patientDashBoard.providerRequired"/></label>
