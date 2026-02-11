@@ -45,7 +45,7 @@
     "type": "link",
     "label": "pih.app.admin.rolesandprivileges.view",
     "requiredPrivilege": "App: coreapps.systemAdministration",
-    "url": "pihcore/admin/rolesAndPrivileges.page",
+    "url": "pihapps/admin/rolesAndPrivileges.page",
     "icon": "fa fa-user-secret",
     "order": 62
   }
