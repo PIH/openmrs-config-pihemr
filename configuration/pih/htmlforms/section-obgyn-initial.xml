@@ -2157,7 +2157,8 @@
 		</div>
 	</section>
 	<section id="obgyn-section-followup" sectionTag="fieldset" headerStyle="title" headerCode="zl.mch.OBGYN.FULLOWUP" style="display:none;">
-		<p class="side-by-side">
+		<div class="section-container">
+			<p class="side-by-side">
 				<label>
 					<uimessage code="pihcore.mch.pregnancy.trimester" />
 				</label>
@@ -2167,6 +2168,7 @@
 					<uimessage code="zl.mch.pregnancyTrimesterRequired" />
 				</span>
 			</p>
+		</div>
 	</section>
 	<section id="cancer-section" sectionTag="fieldset" headerStyle="title" headerCode="Cancer">
 		<div class="section-container">
