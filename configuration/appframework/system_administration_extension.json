@@ -43,9 +43,9 @@
     "id": "pihemr.systemAdministration.viewRolesAndPrivilegesLink",
     "extensionPointId": "systemAdministration.apps",
     "type": "link",
-    "label": "pih.app.admin.rolesandprivileges.view",
+    "label": "pihapps.admin.rolesAndPrivileges.title",
     "requiredPrivilege": "App: coreapps.systemAdministration",
-    "url": "pihcore/admin/rolesAndPrivileges.page",
+    "url": "pihapps/admin/rolesAndPrivileges.page",
     "icon": "fa fa-user-secret",
     "order": 62
   }
