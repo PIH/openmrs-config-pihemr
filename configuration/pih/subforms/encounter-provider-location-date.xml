@@ -114,12 +114,12 @@
                             }
                         });
                     }
-                    // if there is only exactly one valid provider and the user it not allowed to edit date, skip ahead
+                    // if there is only exactly one valid provider and the user is not allowed to edit date, skip ahead
                     // (ie assume we want the current provider at the current location at the current time)
                     if(jq('#who').find('select').length == 1 &amp;&amp; !allowedToEditDate) {
                         NavigatorController.stepForward(); // skip provider widget
                         NavigatorController.stepForward(); // skip location widget
-                        // we don't need to skip the date widget because it is enabled
+                        // we don't need to skip the date widget because it is disabled
                     }
                 }
 
