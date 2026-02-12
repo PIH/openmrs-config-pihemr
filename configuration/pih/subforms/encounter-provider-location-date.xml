@@ -61,6 +61,7 @@
             jQuery(function() {
                 var allowedToEditDate = false;
                 var allowedToEditProvider = false;
+                var noValidProvider = false;
 
                 <!-- all users with this privilege are allowed to edit both provider and date -->
                 <includeIf velocityTest="$user.hasPrivilege('Task: emr.retroConsultNote')">
@@ -98,17 +99,29 @@
                     });
                     // handle the error state when the user is not a valid provider for the form and doesn't have rights to change the provider
                     if (!jq('#who').find('select').first().val()) {
-                        // if we are in one-question-per-screen effectively disable the form by adding an exit handler to the encounterProvider selector that always returns false
-                        if (typeof NavigatorController !== "undefined") {
-                            NavigatorController.getFieldByContainerId('who').exitHandlers.push({
-                                handleExit: function (fieldValue) {
-                                    return false;
-                                }
-                            });
-                        }
                         jq('#invalid-user').show();  // display error message
+                        noValidProvider = true; // we just set this for use in the "UI Commons Navigator" section
                     }
                  }
+
+                // special functionality when in the "UI Commons Navigator one-question-per-screen workflow"
+                if (typeof NavigatorController !== "undefined") {
+                    // effectively disable moving forward if are in an invalid provider state
+                    if (noValidProvider) {
+                        NavigatorController.getFieldByContainerId('who').exitHandlers.push({
+                            handleExit: function (fieldValue) {
+                                return false;
+                            }
+                        });
+                    }
+                    // if there is only exactly one valid provider and the user it not allowed to edit date, skip ahead
+                    // (ie assume we want the current provider at the current location at the current time)
+                    if(jq('#who').find('select').length == 1 &amp;&amp; !allowedToEditDate) {
+                        NavigatorController.stepForward(); // skip provider widget
+                        NavigatorController.stepForward(); // skip location widget
+                        // we don't need to skip the date widget because it is enabled
+                    }
+                }
 
             });
         </script>
