@@ -1249,4 +1249,14 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20260213-delete-bad-history-of-covid-name" author="ball">
+        <comment>
+             UHM-9123 Delete the duplicate History of COVID-19 concept nane
+        </comment>
+        <sql>
+            delete from concept_name
+             where uuid = '1433XXBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB';
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
