@@ -58,11 +58,6 @@
             <value>162394AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</value>
         </globalProperty>
         <globalProperty>
-            <property>order.durationUnitsConceptUuid</property>
-            <!-- Concept: Medication Duration Units -->
-            <value>19cd6ff8-052b-46e7-96ef-91fccede9565</value>
-        </globalProperty>
-        <globalProperty>
             <property>order.drugDosingUnitsConceptUuid</property>
             <!-- Concept: Dosing unit, CIEL:162384 -->
             <value>162384AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</value>
