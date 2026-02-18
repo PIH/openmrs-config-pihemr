@@ -1205,4 +1205,58 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20260128-update-3-drug-uuids" author="ball">
+        <comment>
+            Update the Levetiracetam, Finasteride, and Colchicine concept uuids
+        </comment>
+        <sql>
+            -- Levetiracetam
+            update concept
+            set uuid = '78770AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+            where uuid like '3a0ed774-e703-4ca7-a612-65e14362b318';
+
+            -- Finasteride
+            update concept
+            set uuid = '76376AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+            where uuid like 'badd994f-0c5a-416b-bb9b-430127dbf82c';
+
+            -- Colchicine
+            update concept
+            set uuid = '73702AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+            where uuid like '79c0d9a8-3cac-4378-93b2-5d6b48fdf8d8';
+        </sql>
+    </changeSet>
+
+    <changeSet id="20260209-fix-order-concept-id-carbidopa-n-levodopa" author="ball">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="1">
+                select count(*) from address_hierarchy_entry where parent_id is NULL and name like 'Haiti';
+            </sqlCheck>
+        </preConditions>
+        <comment>
+            If the count is 1, this is a Haiti server.  For ZL, fix drug orders for
+            Carbidopa 25mg + Levodopa 250mg tablet which had the wrong concept_id.
+            https://pihemr.atlassian.net/browse/UHM-9103
+        </comment>
+        <sql>
+            update orders
+               set concept_id = (select concept_id from concept where uuid = '228e97de-d363-47cf-8570-d3f6e0f3a78d')
+             where orders.concept_id = (select concept_id from concept where uuid = '1872e445-df77-486a-b935-13d1ce4af8a1')
+               and orders.order_id IN
+                     (select order_id from drug_order
+                       where drug_inventory_id = (select drug_id from drug where name = 'Carbidopa 25mg + Levodopa 250mg tablet'))
+               and orders.voided = 0;
+        </sql>
+    </changeSet>
+
+    <changeSet id="20260213-delete-bad-history-of-covid-name" author="ball">
+        <comment>
+             UHM-9123 Delete the duplicate History of COVID-19 concept nane
+        </comment>
+        <sql>
+            delete from concept_name
+             where uuid = '1433XXBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB';
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
