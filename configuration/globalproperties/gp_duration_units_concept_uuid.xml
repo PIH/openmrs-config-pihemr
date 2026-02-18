@@ -1,8 +1,10 @@
 <config>
-    <globalProperty>
-        <property>order.durationUnitsConceptUuid</property>
-        <!-- Concept: Medication Duration Units -->
-        <!-- this is in a separate file so we can override in Sierra Leone -->
-        <value>19cd6ff8-052b-46e7-96ef-91fccede9565</value>
-    </globalProperty>
+    <globalProperties>
+        <globalProperty>
+            <property>order.durationUnitsConceptUuid</property>
+            <!-- Concept: Medication Duration Units -->
+            <!-- this is in a separate file so we can override in Sierra Leone -->
+            <value>19cd6ff8-052b-46e7-96ef-91fccede9565</value>
+        </globalProperty>
+    </globalProperties>
 </config>
