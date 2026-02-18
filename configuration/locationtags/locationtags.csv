@@ -21,6 +21,7 @@ eb6e297f-d4e2-4aad-af0d-33c95f7ee08e,,Vitals Glucose Location,Location where vit
 8cff42e5-f03b-461d-b693-65bdf10c4bba,,Check-In Maternal Location,Location where the maternal check-in app and form is available
 a61fa90a-d71d-4b44-b148-affac16fdec3,,MCH Triage Location,Location where the Maternal triage form is available
 d192602a-fa83-47b5-8831-a669c49aa22a,,Maternal Admission Location,Location where the Maternal admission form is available
+10ac48aa-1e05-436a-aa84-c762aa7beeb8,,Maternal Discharge Location,Location where Maternity patients are discharged
 8fa112e0-e506-11e4-b571-0800200c9a66,,Registration Location,Signifies a Location where the registration app should be available
 a6f68610-e53c-11e4-b571-0800200c9a66,,Registration and Check-In Location,Signifies a Location where the combined registration/check-in app should be available
 0ba7b0d0-e1ef-11e4-b571-0800200c9a66,,Order Radiology Study Location,Signifies a Location where a radiology study can be ordered
@@ -56,3 +57,4 @@ c1d2e3f4-a5b6-7c8d-9e0f-1a2b3c4d5e6f,,MCH Program Dashboard Location,Locations w
 80df8813-cf9d-11ef-8297-0242ac120002,,Newborn Daily Progress Location,Locations where newborns are admitted for monitoring
 8a89cec3-cf9d-11ef-8297-0242ac120002,,Newborn Intensive Care Location,Locations where newborns are admitted for more advanced/intensive care
 038b3e28-7401-4c17-aa05-51edb9d1038e,,Newborn Admission Note Location,Locations where newborns are admitted
+799e84a3-2b24-4a83-a26c-c1933ed7194b,,Newborn Discharge Location,Locations where newborns are discharged
