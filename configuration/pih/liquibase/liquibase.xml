@@ -1267,17 +1267,17 @@
     </changeSet>
 
     <changeSet id="20260220-delete-phantom-concepts" author="PIH">
-        <preConditions>
+        <preConditions onFail="MARK_RAN">
             <and>
                 <or>
-                    <sqlCheck expectedResult="1">select concept_id from concept where uuid = '8e5f17db-6c2d-44f7-bde3-55e68c411114';</sqlCheck>
-                    <sqlCheck expectedResult="1">select concept_id from concept where uuid = 'c9200dce-e9bb-472e-ac34-eed0367a708d';</sqlCheck>
+                    <sqlCheck expectedResult="1">select count(*) from concept where uuid = '8e5f17db-6c2d-44f7-bde3-55e68c411114';</sqlCheck>
+                    <sqlCheck expectedResult="1">select count(*) from concept where uuid = 'c9200dce-e9bb-472e-ac34-eed0367a708d';</sqlCheck>
                 </or>
                 <sqlCheck expectedResult="0">
                     select count(*) from obs where concept_id in (select concept_id from concept where uuid in ('8e5f17db-6c2d-44f7-bde3-55e68c411114', 'c9200dce-e9bb-472e-ac34-eed0367a708d'))
                 </sqlCheck>
                 <sqlCheck expectedResult="0">
-                    select count(*) from obs where value_coded_id in (select concept_id from concept where uuid in ('8e5f17db-6c2d-44f7-bde3-55e68c411114', 'c9200dce-e9bb-472e-ac34-eed0367a708d'))
+                    select count(*) from obs where value_coded in (select concept_id from concept where uuid in ('8e5f17db-6c2d-44f7-bde3-55e68c411114', 'c9200dce-e9bb-472e-ac34-eed0367a708d'))
                 </sqlCheck>
             </and>
         </preConditions>
