@@ -414,5 +414,11 @@
             <value>shortest</value>
         </globalProperty>
 
+        <!-- Bed Management -->
+        <globalProperty>
+            <property>bedmanagement.owa.enableManagingLocations</property>
+            <value>false</value>
+        </globalProperty>
+
     </globalProperties>
 </config>
