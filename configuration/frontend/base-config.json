@@ -25,6 +25,14 @@
     "includePhoneNumberInExcelSpreadsheet": true
   },
   "@openmrs/esm-dispensing-app": {
+    "extensionSlots": {
+      "dispensing-condition-and-diagnoses": {
+        "remove": [
+          "patient-diagnoses",
+          "patient-conditions"
+        ]
+      }
+    },
     "dispenseBehavior": {
       "allowModifyingPrescription": true,
       "restrictTotalQuantityDispensed": false
