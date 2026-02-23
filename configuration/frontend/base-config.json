@@ -25,14 +25,6 @@
     "includePhoneNumberInExcelSpreadsheet": true
   },
   "@openmrs/esm-dispensing-app": {
-    "extensionSlots": {
-      "dispensing-condition-and-diagnoses": {
-        "remove": [
-          "patient-diagnoses",
-          "patient-conditions"
-        ]
-      }
-    },
     "dispenseBehavior": {
       "allowModifyingPrescription": true,
       "restrictTotalQuantityDispensed": false
@@ -134,7 +126,7 @@
     "provider": {
       "type": "oauth2",
       "loginUrl": "${openmrsBase}/index.htm",
-      "logoutUrl": "${openmrsBase}/authenticationui/logout.page"
+      "logoutUrl": "${openmrsBase}/appui/header/logout.action"
     }
   },
   "@openmrs/esm-outpatient-app": {
