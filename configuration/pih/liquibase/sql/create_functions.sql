@@ -4642,3 +4642,63 @@ BEGIN
     RETURN ret;
 
 END
+#
+-- This function accepts encounter_id, concept_id
+-- It will find the obs_id of the matching observation
+-- from the temporary table temp_obs
+#
+DROP FUNCTION IF EXISTS obs_id_from_temp_using_concept_id;
+#
+CREATE FUNCTION obs_id_from_temp_using_concept_id(_encounterId int(11), _concept_id int(11), _offset_value int)
+RETURNS int
+DETERMINISTIC
+
+BEGIN
+
+DECLARE ret int;
+
+select      o.obs_id into ret
+from        temp_obs o
+where       o.voided = 0
+and         o.encounter_id = _encounterId
+and         o.concept_id = _concept_id
+order by    o.date_created desc, o.obs_id desc
+limit 1
+offset _offset_value
+;
+
+RETURN ret;
+
+END
+#
+-- This function accepts encounter_id, concepr_ids (for both the concept_id and value_coded) and returns
+-- "yes" (in the default locale of the implementation) if the obs_id exists and
+-- null if the obs_id does not exisit
+-- This function is used on questions that also act as answers (i.e you either check it as true or your don't)
+-- this function runs against the temp_obs table
+#
+DROP FUNCTION IF EXISTS obs_single_value_coded_from_temp_using_concept_id;
+#
+CREATE FUNCTION obs_single_value_coded_from_temp_using_concept_id(_encounterId int(11), _concept_id1 int(11), _concept_id2 int(11))
+RETURNS varchar(11)
+DETERMINISTIC
+
+BEGIN
+
+DECLARE ret varchar(11);
+
+select      IFNULL(NULL, concept_name(concept_from_mapping('PIH','YES'), global_property_value('default_locale', 'en'))) into ret FROM
+(
+select      obs_id
+from        temp_obs o
+where       o.voided = 0
+and         o.encounter_id = _encounterId
+and         o.concept_id = _concept_id1
+and         o.value_coded = _concept_id2
+order by    o.date_created desc, o.obs_id desc
+limit 1
+) obs_single_question_answer;
+
+RETURN ret;
+
+END
