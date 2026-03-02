@@ -33,6 +33,11 @@
         ]
       }
     },
+    "actionButtons": {
+      "printPrescriptionsButton": {
+        "enabled": false
+      }
+    },
     "dispenseBehavior": {
       "allowModifyingPrescription": true,
       "restrictTotalQuantityDispensed": false
