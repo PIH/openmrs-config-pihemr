@@ -2400,6 +2400,17 @@ angular.module("encounterTypeConfig", [])
             showOnVisitList: true
         };
 
+        // Sierra Leone ANC progress (inpatient)
+        encounterTypes["ce67f875-726f-4314-abd5-6bcaec10d273"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
+            icon: "fas fa-fw fa-baby",
+            editUrl: hfeStandardEditUrl,
+            showOnVisitList: true
+        };
+
         // sierraLeoneLaborProgress
         encounterTypes["ac5ec970-31b7-4659-9141-284bfbc13c69"] = {
             defaultState: "short",
