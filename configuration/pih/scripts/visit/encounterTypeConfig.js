@@ -2480,6 +2480,17 @@ angular.module("encounterTypeConfig", [])
             showOnVisitList: true
         };
 
+        // sierraLeoneBallardScore
+        encounterTypes["8e027b32-13de-491b-9f29-534d21a48f0d"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
+            icon: "fas fa-fw fa-list-ol",
+            editUrl: hfeStandardEditUrl,
+            showOnVisitList: true
+        };
+
         // bed assignment
         encounterTypes["caa222d6-d7d0-408f-a104-320e7556e9ff"] = {
             defaultState: "short",
