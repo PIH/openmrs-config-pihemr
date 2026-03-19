@@ -1,0 +1,9 @@
+<config>
+    <globalProperties>
+        <globalProperty>
+            <property>allergy.concept.allergen.drug</property>
+            <!-- Concept: PIH Core drug allergies -->
+            <value>4c886e88-04c1-11e5-8418-1697f925ec7b</value>
+        </globalProperty>
+    </globalProperties>
+</config>

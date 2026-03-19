@@ -247,11 +247,7 @@
             <!-- Concept: PIH Core food allergens -->
             <value>4c887216-04c1-11e5-8418-1697f925ec7b</value>
         </globalProperty>
-        <globalProperty>
-            <property>allergy.concept.allergen.drug</property>
-            <!-- Concept: PIH Core drug allerges -->
-            <value>4c886e88-04c1-11e5-8418-1697f925ec7b</value>
-        </globalProperty>
+        <!-- Concept: PIH Core drug allergies moved to gp_allergy_concept_drug -->
         <globalProperty>
             <property>allergy.concept.allergen.environment</property>
             <!-- Concept: PIH Core environmental allergens -->
