@@ -10,18 +10,6 @@
       "showIfActiveVisit": true
     },
     "customPatientChartUrl": "${openmrsBase}/coreapps/clinicianfacing/patient.page?patientId=${patientUuid}&app=pih.app.clinicianDashboard",
-    "extensionSlots": {
-      "scheduled-appointments-panels-slot": {
-        "configure": {
-          "expected-appointments-panel": {
-            "showForPastDate": true
-          },
-          "checked-in-appointments-panel": {
-            "showForPastDate": true
-          }
-        }
-      }
-    },
     "includePhoneNumberInExcelSpreadsheet": true
   },
   "@openmrs/esm-dispensing-app": {
