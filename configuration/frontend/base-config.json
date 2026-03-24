@@ -125,7 +125,7 @@
       "loginSuccess": "${openmrsBase}/index.htm"
     },
     "provider": {
-      "type": "oauth2",
+      "type": "custom",
       "loginUrl": "${openmrsBase}/index.htm",
       "logoutUrl": "${openmrsBase}/appui/header/logout.action"
     }
