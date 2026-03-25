@@ -1,5 +1,5 @@
--- set @startDate = '2021-03-20';
--- set @endDate = '2021-03-20';
+-- set @startDate = '2026-03-01';
+-- set @endDate = '2026-03-24';
 
 CALL initialize_global_metadata();
 SET @locale = GLOBAL_PROPERTY_VALUE('default_locale', 'en');
@@ -22,12 +22,12 @@ CREATE TEMPORARY TABLE temp_plan
     procedure_performed_3 varchar(255),
     procedure_performed_4 varchar(255),
     procedure_performed_5 varchar(255),
-    other_procedure_performed varchar(255),
-    support_given         varchar(1000),
+    other_procedure_performed text,
+    support_given         text,
     other_support          varchar(255),
     treatment_status      varchar(255),
     syphilis_treatment    varchar(255),
-    other_support_comment varchar(255),
+    other_support_comment text,
     accept_CHW            varchar(50),
     mom_club              varchar(50),
     PMTCT_club            varchar(50),
@@ -36,7 +36,7 @@ CREATE TEMPORARY TABLE temp_plan
     referral_services     varchar(1000),
     other_referral_services varchar(255),
     disposition           varchar(255),
-    disposition_comment   varchar(255),
+    disposition_comment   text,
     return_visit_date     datetime
 );
 
