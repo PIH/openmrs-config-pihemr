@@ -75,6 +75,9 @@
 		<!-- Debezium Logging -->
 		<Logger name="io.debezium.connector.mysql" level="INFO"/>
 
+        <!-- App Framework logging -->
+        <Logger name="org.openmrs.module.appframework.service.AppFrameworkServiceImpl" level="DEBUG"/>
+
 		<Root level="WARN">
 			<AppenderRef ref="CONSOLE" />
 			<AppenderRef ref="MEMORY_APPENDER" />
