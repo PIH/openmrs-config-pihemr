@@ -684,26 +684,37 @@
 	</ifMode>
 <script type="text/javascript">
 
-		const prenatalVisitConcept = '<lookup expression="fn.getConcept('
-				CIEL: 1622 ').id" />';
+		const prenatalVisitConcept = '<lookup expression="fn.getConcept('CIEL: 1622 ').id"/>';
 
-		const followupVisitConcept = '<lookup expression="fn.getConcept('
-				PIH: 7383 ').id" />';
+		const followupVisitConcept = '<lookup expression="fn.getConcept('PIH: 7383 ').id"/>';
 
-		const newVisitConcept = '<lookup expression="fn.getConcept('
-				PIH: 13235 ').id" />';
+		const newVisitConcept = '<lookup expression="fn.getConcept('PIH: 13235 ').id"/>';
+		
+		const familyPlanningServiceConcept = '<lookup expression="fn.getConcept('PIH: 5483 ').id"/>';
 
-		function displayTrimester() {
+
+		function addAndRemoveMandatory() {
 
 			var typeOfVisit = getValue('intake-or-followup.value');
 			var typeOfService = getValue('visit-reason.value');
 
 			if (typeOfService == prenatalVisitConcept &amp;&amp; typeOfVisit == followupVisitConcept) {
-				jq('#obgyn-section-followup').show();
-				jq('#pregnancyTrimester input[type="radio"]').attr('required', true);
+					jq('#obgyn-section-followup').show();
+					jq('#pregnancyTrimester input[type="radio"]').attr('required', true);
+			}else if (typeOfService == prenatalVisitConcept &amp;&amp; typeOfVisit == newVisitConcept) {
+					jq('#trimesterAtEnrollment input[type="radio"]').attr('required', true);
+					jq('#trimesterAtEnrollment').show();
+					jq('#trimesterAtEnrollment_label').show();
+					setRequiredIfVisible('isPatientPregnant');
+			}else if (typeOfService == familyPlanningServiceConcept) {
+					jq('#fp-method input[type="radio"]').attr('required', true);
+					jq('#patient-type input[type="radio"]').attr('required', true);
 			} else {
-				jq('#obgyn-section-followup').hide();
-				jq('#pregnancyTrimester input[type="radio"]').attr('required', false);
+					jq('#obgyn-section-followup').hide();
+					jq('#pregnancyTrimester input[type="radio"]').attr('required', false);
+					jq('#trimesterAtEnrollment input[type="radio"]').attr('required', false);
+					jq('#fp-method input[type="radio"]').attr('required', false);
+					jq('#patient-type input[type="radio"]').attr('required', false);
 			}
 
 		}
@@ -714,6 +725,14 @@
 			var typeOfService = getValue('visit-reason.value');
 			var pregnancyTrimester = getValue('pregnancyTrimester.value');
 			var trimesterAtEnrollment = getValue('trimesterAtEnrollment.value');
+			var fpMethod = getValue('fp-method.value');
+			var patientType = getValue('patient-type.value');
+			var hivTest = getValue('hiv-test-checkbox.value');
+			var hivTestDate = getValue('hiv-test-date.value');
+			var lastPeriodDate = getValue('lastPeriod.value');
+			var isPatientPregnant = getValue('isPatientPregnant.value');
+			const selectedPeriodQuestionIndex = jq('#knowing_period_question input[type="radio"]').index(jq('#knowing_period_question input[type="radio"]:checked'));
+
 
 			if (typeOfService == prenatalVisitConcept &amp;&amp; typeOfVisit == followupVisitConcept &amp;&amp; (!pregnancyTrimester || pregnancyTrimester.trim() === "")) {
 				showAndHideErrorMsg("pregnancyTrimesterMsg", pregnancyTrimester);
@@ -725,13 +744,37 @@
 				return false;
 			}
 
+			if (typeOfService == prenatalVisitConcept &amp;&amp; typeOfVisit == newVisitConcept &amp;&amp; (!isPatientPregnant || isPatientPregnant.trim() === "")) {
+				jq('#isPatientPregnant  input[type="radio"]').first().focus();
+				return false;
+			}
+			
+			if (typeOfService == familyPlanningServiceConcept &amp;&amp; (!fpMethod || fpMethod.trim() === "")) {
+				<!-- showAndHideErrorMsg("fpMethodMsg", fpMethod); -->
+				return false;
+			}
+			if (typeOfService == familyPlanningServiceConcept &amp;&amp; (!patientType || patientType.trim() === "")) {
+				<!-- showAndHideErrorMsg("patientTypeMsg", patientType); -->
+				return false;
+			}
+
+			if (hivTest != null &amp;&amp; (!hivTestDate || hivTestDate.trim() === "")) {
+				jq('#hiv-test-date  input[type="text"]').first().focus();
+					return false;
+			}
+
+			if (selectedPeriodQuestionIndex == 0 &amp;&amp; (!lastPeriodDate || lastPeriodDate.trim() === "")) {
+				jq('#lastPeriod  input[type="text"]').first().focus();
+					return false;
+			}
+
 			return true;
 		}
 		
 		jq(function () {
 
-			jq('#intake-or-followup').on('change', displayTrimester);
-			jq('#visit-reason').on('change', displayTrimester);
+			jq('#intake-or-followup').on('change', addAndRemoveMandatory);
+			jq('#visit-reason').on('change', addAndRemoveMandatory);
 
 
 			jq('#pregnancyTrimester').change(function () {
@@ -743,7 +786,28 @@
 				const trimesterAtEnrollment = getValue('trimesterAtEnrollment.value')
 				showAndHideErrorMsg("trimesterAtEnrollmentMsg", trimesterAtEnrollment);
 			});
-				
+			
+			jq('#hiv-test-checkbox').change(function () {
+				  const hivTest = getValue('hiv-test-checkbox.value');
+					if(hivTest){
+						setRequiredIfVisible('hiv-test-date');
+					
+				} else {
+					jq('#hiv-test-date  input[type="text"]').attr('required', false);
+					jq('#hiv-test-date  span').text('');
+					jq('#hiv-test-date  span').hide();
+				}
+			});
+
+			jq('#hiv-test-date').change(function () {
+				  const hivTestDate = getValue('hiv-test-date.value');
+					if(hivTestDate){
+					jq('#hiv-test-date  span').text('');
+					jq('#hiv-test-date  span').hide();
+				}
+			}); 
+
+
 			beforeValidation.push(function () {
 				if (!validateTrimester()) {
 				return false;
@@ -1274,7 +1338,7 @@
 							<obsgroup groupingConceptId="PIH:Family planning history construct">
 								<tr>
 									<td id="{tag}-fp">
-										<obs conceptId="CIEL:374" answerConceptId="{fpMethod}" answerCode="{comment}" style="checkbox" toggle="{id: '{tag}-date', style: 'dim'}" />
+										<obs conceptId="CIEL:374" answerConceptId="{fpMethod}" answerCode="{comment}" style="checkbox" toggle="{id: '{tag}-date', style: 'dim'}"/>
 									</td>
 									<td class="{tag}-date">
 										<obs conceptId="CIEL:163757" />
@@ -1321,7 +1385,7 @@
 					<uimessage code="pihcore.patientType" />
 					:
 				</label>
-				<obs conceptId="PIH:14321" answerConceptIds="CIEL:965,PIH:13958" answerCodes="pihcore.currently.using.birth.control,pihcore.accepted" style="radio" />
+				<obs conceptId="PIH:14321" answerConceptIds="CIEL:965,PIH:13958" answerCodes="pihcore.currently.using.birth.control,pihcore.accepted" style="radio" id="patient-type" />
 			</p>
 			<br />
 			<h3>
@@ -1329,7 +1393,7 @@
 			</h3>
 			<p class="side-by-side">
 				<obsgroup groupingConceptId="PIH:Family planning construct">
-					<obs conceptId="CIEL:374" answerConceptIds="CIEL:159783,CIEL:80784,CIEL:5277,CIEL:190,CIEL:907,CIEL:5275,CIEL:1873,CIEL:1472,CIEL:136163" answerCodes="COC,pihcore.fp.pop,pihcore.fp.rhythm,Condoms,Depo-provera,pihcore.fp.iud,Implant,pihcore.fp.tubalLig,pihcore.fp.breast" style="radio" />
+					<obs conceptId="CIEL:374" answerConceptIds="CIEL:159783,CIEL:80784,CIEL:5277,CIEL:190,CIEL:907,CIEL:5275,CIEL:1873,CIEL:1472,CIEL:136163" answerCodes="COC,pihcore.fp.pop,pihcore.fp.rhythm,Condoms,Depo-provera,pihcore.fp.iud,Implant,pihcore.fp.tubalLig,pihcore.fp.breast" style="radio" id="fp-method"/>
 					<div class="two-columns">
 						<div>
 							<label>
@@ -1386,7 +1450,7 @@
 						<uimessage code="pihcore.mch.hivTest" />
 					</label>
 					<br />
-					<obs id="hiv-test-checkbox" conceptId="CIEL:164401" answerConceptId="CIEL:1065" toggle="hiv-test" style="checkbox" />
+					<obs id="hiv-test-checkbox" conceptId="CIEL:164401" answerConceptId="CIEL:1065" toggle="hiv-test" style="checkbox"/>
 				</div>
 				<div>
 					<i>
@@ -1467,7 +1531,7 @@
 				<obsgroup groupingConceptId="PIH:11522">
 					<div>
 						<p class="small-input">
-							<obs conceptId="CIEL:164400" labelCode="pihcore.hiv.testDate" size="10" />
+							<obs conceptId="CIEL:164400" labelCode="pihcore.hiv.testDate" size="10" id="hiv-test-date"/>
 						</p>
 					</div>
 					<div>
