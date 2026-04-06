@@ -218,21 +218,13 @@ jq(document).ready(function () {
   // This is a function that wii hide or show other inputs and make them required based on the selected choice
   function checkRadioSelectionPeriod() {
     const selectedIndex = $('#knowing_period_question input[type="radio"]').index($('#knowing_period_question input[type="radio"]:checked'));
-
+    console.log("selectedIndex: " + selectedIndex);
     if (selectedIndex === 0) {
       jq('#lastPeriod').show();
-      jq('#lastPeriod input[type="text"]').attr('required', true);
-      jq('#pregnancyDiv').show();
-      jq('#trimesterAtEnrollment input[type="radio"]').attr('required', true);
-      jq('#trimesterAtEnrollment').show();
-      jq('#trimesterAtEnrollment_label').show();
+      setRequiredIfVisible('lastPeriod');
     } else {
       jq('#lastPeriod').hide();
       jq('#lastPeriod input[type="text"]').removeAttr('required');
-      jq('#trimesterAtEnrollment input[type="radio"]').attr('required', true);
-      jq('#trimesterAtEnrollment').show();
-      jq('#trimesterAtEnrollment_label').show();
-
     }
   }
   jq('#baby-live-or-death-1 input[type="radio"]').attr('required', true)
