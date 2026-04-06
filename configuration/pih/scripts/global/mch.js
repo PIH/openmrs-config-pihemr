@@ -218,7 +218,6 @@ jq(document).ready(function () {
   // This is a function that wii hide or show other inputs and make them required based on the selected choice
   function checkRadioSelectionPeriod() {
     const selectedIndex = $('#knowing_period_question input[type="radio"]').index($('#knowing_period_question input[type="radio"]:checked'));
-    console.log("selectedIndex: " + selectedIndex);
     if (selectedIndex === 0) {
       jq('#lastPeriod').show();
       setRequiredIfVisible('lastPeriod');
