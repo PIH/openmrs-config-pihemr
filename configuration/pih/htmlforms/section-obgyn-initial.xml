@@ -692,29 +692,39 @@
 		
 		const familyPlanningServiceConcept = '<lookup expression="fn.getConcept('PIH: 5483 ').id"/>';
 
-
 		function addAndRemoveMandatory() {
 
 			var typeOfVisit = getValue('intake-or-followup.value');
 			var typeOfService = getValue('visit-reason.value');
+			
 
 			if (typeOfService == prenatalVisitConcept &amp;&amp; typeOfVisit == followupVisitConcept) {
 					jq('#obgyn-section-followup').show();
 					jq('#pregnancyTrimester input[type="radio"]').attr('required', true);
+					jq('#isPatientPregnant input[type="radio"][value="1"]')
+							.prop('checked', false)
+							.trigger('change');
 			}else if (typeOfService == prenatalVisitConcept &amp;&amp; typeOfVisit == newVisitConcept) {
 					jq('#trimesterAtEnrollment input[type="radio"]').attr('required', true);
 					jq('#trimesterAtEnrollment').show();
 					jq('#trimesterAtEnrollment_label').show();
 					setRequiredIfVisible('isPatientPregnant');
+					jq('#isPatientPregnant input[type="radio"][value="1"]').prop('checked', true).trigger('change');
 			}else if (typeOfService == familyPlanningServiceConcept) {
 					jq('#fp-method input[type="radio"]').attr('required', true);
 					jq('#patient-type input[type="radio"]').attr('required', true);
+					jq('#isPatientPregnant input[type="radio"][value="1"]')
+							.prop('checked', false)
+							.trigger('change');
 			} else {
 					jq('#obgyn-section-followup').hide();
 					jq('#pregnancyTrimester input[type="radio"]').attr('required', false);
 					jq('#trimesterAtEnrollment input[type="radio"]').attr('required', false);
 					jq('#fp-method input[type="radio"]').attr('required', false);
 					jq('#patient-type input[type="radio"]').attr('required', false);
+					jq('#isPatientPregnant input[type="radio"][value="1"]')
+							.prop('checked', false)
+							.trigger('change');
 			}
 
 		}
