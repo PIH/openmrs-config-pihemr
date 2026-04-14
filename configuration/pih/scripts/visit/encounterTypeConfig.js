@@ -233,6 +233,18 @@ angular.module("encounterTypeConfig", [])
             editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-hospital.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
         };
 
+        var ncdOverviewNote = {
+            type: "encounter-section",
+            id: "pihcore-ncd-overview",
+            label: "pihcore.lab.overview",
+            icon: "fas fa-fw fa-history",
+            classes: "indent",
+            shortTemplate: "templates/sections/ncdIntroSectionShort.page",
+            longTemplate: "templates/sections/viewSectionWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-ncd-notes.xml"),
+            editUrl: "/htmlformentryui/htmlform/editHtmlFormWithStandardUi.page?patientId={{visit.patient.uuid}}&visitId={{visit.uuid}}&encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("section-ncd-notes.xml") + "&returnUrl={{returnUrl}}&breadcrumbOverride={{breadcrumbOverride}}"
+        };
+
         var diabetes = {
             type: "encounter-section",
             id: "pihcore-diabetes",
@@ -1260,25 +1272,51 @@ angular.module("encounterTypeConfig", [])
         // For SL, NCD Initial Part 2
         encounterTypes["43423212-6f70-4df8-a9f7-2aef88df1ee2"] = {
             "sierra_leone": {
-                defaultState: "short",
-                shortTemplate: "templates/encounters/defaultEncounterShort.page",
-                longTemplate: "templates/encounters/defaultEncounterShort.page",
-                icon: "fas fa-fw fa-heart",
-                editUrl: hfeStandardEditUrl,
-                showOnVisitList: true,
-                sections: [
-                    diabetes,
-                    hypertension,
-                    heartFailure,
-                    lung,
-                    kidney,
-                    liver,
-                    palliative,
-                    sickleCell,
-                    primaryCareDx,
-                    generalVaccinations,
-                    ncdPlan
-                ]
+                versions: {
+                    DEFAULT: {
+                        defaultState: "short",
+                        shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                        longTemplate: "templates/encounters/defaultEncounterShort.page",
+                        icon: "fas fa-fw fa-heart",
+                        editUrl: hfeStandardEditUrl,
+                        showOnVisitList: true,
+                        sections: [
+                            ncdOverviewNote,
+                            diabetes,
+                            hypertension,
+                            heartFailure,
+                            lung,
+                            kidney,
+                            liver,
+                            palliative,
+                            sickleCell,
+                            primaryCareDx,
+                            generalVaccinations,
+                            ncdPlan
+                        ]
+                    },
+                    "1.0": {
+                        defaultState: "short",
+                        shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                        longTemplate: "templates/encounters/defaultEncounterShort.page",
+                        icon: "fas fa-fw fa-heart",
+                        editUrl: hfeStandardEditUrl,
+                        showOnVisitList: true,
+                        sections: [
+                            diabetes,
+                            hypertension,
+                            heartFailure,
+                            lung,
+                            kidney,
+                            liver,
+                            palliative,
+                            sickleCell,
+                            primaryCareDx,
+                            generalVaccinations,
+                            ncdPlan
+                        ]
+                    }
+                }
             }
         };
 
