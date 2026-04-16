@@ -264,7 +264,8 @@
       "weightUuid": "${concept.weightKG.uuid}",
       "respiratoryRateUuid": "${concept.respiratoryRate.uuid}",
       "generalPatientNoteUuid": "${concept.chiefComplaint.uuid}",
-      "midUpperArmCircumferenceUuid": "${concept.midUpperArmCircumference.uuid}"
+      "midUpperArmCircumferenceUuid": "${concept.midUpperArmCircumference.uuid}",
+      "vitalSignsConceptSetUuid": "${concept.vitalSignsSet.uuid}"
     },
     "vitals": {
       "encounterTypeUuid": "${encounterType.VITALS.uuid}"
