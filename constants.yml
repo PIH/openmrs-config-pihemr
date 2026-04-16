@@ -25,6 +25,8 @@ concept:
   severe:
     uuid: "3cdefc92-26fe-102b-80cb-0017a47871b2"
 
+  vitalSignsSet:
+    uuid: "80c8b161-a871-42db-a1ca-185095a1d798"
   heightCM:
     uuid: "3ce93cf2-26fe-102b-80cb-0017a47871b2"
   weightKG:
