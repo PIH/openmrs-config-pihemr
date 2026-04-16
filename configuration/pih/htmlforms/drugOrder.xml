@@ -1,4 +1,4 @@
-<htmlform formUuid="d2adf684-34f7-42fc-a979-43178bca8e72" formName="Medication Order"
+<htmlform formUuid="d2adf684-34f7-42fc-a979-43178bca8e72" formName="Order Medication"
           formEncounterType="e0b41238-905a-497b-a2b6-885994701b99" formVersion="1.0">
 
     <style type="text/css">
@@ -10,7 +10,7 @@
     </style>
 
     <ifMode mode="VIEW" include="false">
-        <h2><uimessage code="pihcore.visitNote.orders.medications"/></h2>
+        <h2><uimessage code="pih.task.orderMed"/></h2>
     </ifMode>
 
     <subform path="configuration/pih/subforms/encounter-provider-location-date.xml">
@@ -20,7 +20,7 @@
     </subform>
 
     <section id="drug-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
-             headerCode="pihcore.visitNote.orders.medications">
+             headerCode="pih.task.orderMed">
         <div class="section-container" >
             <subform path="configuration/pih/subforms/drug-order-widget.xml"/>
         </div>
