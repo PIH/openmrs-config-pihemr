@@ -1,0 +1,37 @@
+<htmlform formUuid="d2adf684-34f7-42fc-a979-43178bca8e72" formName="Medication Order"
+          formEncounterType="e0b41238-905a-497b-a2b6-885994701b99" formVersion="1.0">
+
+    <style type="text/css">
+        <ifMode mode="VIEW" include="false">
+            form fieldset, .form fieldset {
+                min-width: 100%;
+            }
+        </ifMode>
+    </style>
+
+    <ifMode mode="VIEW" include="false">
+        <h2><uimessage code="pihcore.visitNote.orders.medications"/></h2>
+    </ifMode>
+
+    <subform path="configuration/pih/subforms/encounter-provider-location-date.xml">
+        <span subform-parameter="encounter-location-widget">
+            <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Consult Note Location"/>
+        </span>
+    </subform>
+
+    <section id="drug-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
+             headerCode="pihcore.visitNote.orders.medications">
+        <div class="section-container" >
+            <subform path="configuration/pih/subforms/drug-order-widget.xml"/>
+        </div>
+    </section>
+    <br/><br/>
+
+    <ifMode mode="VIEW" include="false">
+        <div id="buttons">
+            <submit id="submitBtn" submitClass="confirm right" submitCode="mirebalais.save" />
+            <button type="button" class="cancel"><uimessage code="emr.cancel"/></button>
+        </div>
+    </ifMode>
+
+</htmlform>

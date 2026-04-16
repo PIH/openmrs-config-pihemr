@@ -27,6 +27,7 @@ ${encounterType.PRIMARY_CARE_ADULT_INITIAL_CONSULT.uuid},,Primary Care Adult Ini
 ${encounterType.PRIMARY_CARE_ADULT_FOLLOWUP_CONSULT.uuid},,Primary Care Adult Followup Consult,Primary Care Adult Followup Consult
 ${encounterType.EMERGENCY_TRIAGE.uuid},,Emergency Triage,Emergency Department patient triage
 ${encounterType.TEST_ORDER.uuid},,Test Order,"Test Order - the order of test (labs, biopsy, etc)"
+${encounterType.DRUG_ORDER.uuid},,Drug Order,Drug order
 ${encounterType.PATHOLOGY_SPECIMEN_COLLECTION.uuid},,Pathology Specimen Collection,"Pathology Specimen Collection - the collection of a pathology specimen for a test (blood draw, biopsy, etc)"
 ${encounterType.LAB_SPECIMEN_COLLECTION.uuid},,Lab Specimen Collection,"Lab Specimen Collection - the collection of a lab specimen for a test (blood draw, biopsy, etc)"
 ${encounterType.HIV_INTAKE.uuid},,HIV Intake,HIV Intake

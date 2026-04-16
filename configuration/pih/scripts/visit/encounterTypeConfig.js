@@ -2548,6 +2548,17 @@ angular.module("encounterTypeConfig", [])
             icon: "fas fa-fw fa-pills",
         };
 
+        // Drug order
+        encounterTypes["e0b41238-905a-497b-a2b6-885994701b99"] = {
+            defaultState: "short",
+            shortTemplate: "templates/encounters/defaultEncounterShort.page",
+            longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+            templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
+            icon: "fas fa-fw fa-pills",
+            editUrl: hfeStandardEditUrl,
+            showOnVisitList: true
+        };
+
         return {
           get: function(encounter, country, site) {
 
