@@ -750,14 +750,16 @@
 			var isPatientPregnant = getValue('isPatientPregnant.value');
 			const selectedPeriodQuestionIndex = jq('#knowing_period_question input[type="radio"]').index(jq('#knowing_period_question input[type="radio"]:checked'));
 
-
+			
 			if (typeOfService == prenatalVisitConcept &amp;&amp; typeOfVisit == followupVisitConcept &amp;&amp; (!pregnancyTrimester || pregnancyTrimester.trim() === "")) {
 				showAndHideErrorMsg("pregnancyTrimesterMsg", pregnancyTrimester);
+				jq('#pregnancyTrimester  input[type="radio"]').first().focus();
 				return false;
 			}
 
 			if (typeOfService == prenatalVisitConcept &amp;&amp; typeOfVisit == newVisitConcept &amp;&amp; (!trimesterAtEnrollment || trimesterAtEnrollment.trim() === "")) {
 				showAndHideErrorMsg("trimesterAtEnrollmentMsg", trimesterAtEnrollment);
+				jq('#trimesterAtEnrollment  input[type="radio"]').first().focus();
 				return false;
 			}
 
@@ -766,12 +768,14 @@
 				return false;
 			}
 			
-			if (typeOfService == familyPlanningServiceConcept &amp;&amp; (!fpMethod || fpMethod.trim() === "")) {
-				<!-- showAndHideErrorMsg("fpMethodMsg", fpMethod); -->
+			
+			if (typeOfService == familyPlanningServiceConcept &amp;&amp; (!patientType || patientType.trim() === "")) {
+				jq('#patient-type  input[type="radio"]').first().focus();
 				return false;
 			}
-			if (typeOfService == familyPlanningServiceConcept &amp;&amp; (!patientType || patientType.trim() === "")) {
-				<!-- showAndHideErrorMsg("patientTypeMsg", patientType); -->
+
+			if (typeOfService == familyPlanningServiceConcept &amp;&amp; (!fpMethod || fpMethod.trim() === "")) {
+					jq('#fp-method  input[type="radio"]').first().focus();
 				return false;
 			}
 
@@ -824,13 +828,7 @@
 				}
 			}); 
 
-
-			beforeValidation.push(function () {
-				if (!validateTrimester()) {
-				return false;
-				}
-				return true;
-			});
+			beforeSubmit.push(validateTrimester);
 		});
 		
 	</script>
