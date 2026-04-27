@@ -43,7 +43,7 @@
             #who select {
                 color: #003f5e !important;
             }
-            label {
+            #who-when-where label {
                 color: #003f5e !important;
             }
             #where > input[type=text] {
