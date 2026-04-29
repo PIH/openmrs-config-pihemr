@@ -213,6 +213,13 @@
       "fr": {
         "searchFieldPlaceholder": "Chercher un médicament"
       }
+    },
+    "extensionSlots": {
+      "allergy-list-pills-slot": {
+        "remove": [
+          "allergies-list"
+        ]
+      }
     }
   },
   "@openmrs/esm-patient-notes-app": {
