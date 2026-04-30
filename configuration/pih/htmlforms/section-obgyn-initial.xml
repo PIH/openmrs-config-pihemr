@@ -646,7 +646,7 @@
 				return ( numErrors == 0 );
 			});
 
-			jq('#intake-or-followup').change(function() {
+			<!-- jq('#intake-or-followup').change(function() {
 				setRequiredIfVisible('knowing_period_question');
 			});
 			jq('#knowing_period_question').change(function() {
@@ -658,7 +658,7 @@
 					document.getElementById("knowing_period_question").scrollIntoView();
 				}
 				return ret;
-			});
+			}); -->
             beforeSubmit.push(function() {
                 //clear the obs value
 			    var typeOfForm = jq("#intake-or-followup input[type='radio']:checked").val();
@@ -691,6 +691,9 @@
 		const newVisitConcept = '<lookup expression="fn.getConcept('PIH: 13235 ').id"/>';
 		
 		const familyPlanningServiceConcept = '<lookup expression="fn.getConcept('PIH: 5483 ').id"/>';
+		
+		const gynecologicalServiceConcept = '<lookup expression="fn.getConcept('PIH: 13254 ').id"/>';
+		const postnatalServiceConcept = '<lookup expression="fn.getConcept('PIH: 6261 ').id"/>';
 
 		function addAndRemoveMandatory() {
 
@@ -698,6 +701,11 @@
 			var typeOfService = getValue('visit-reason.value');
 			jq("#patient-type span:first").text('').hide();
 			jq("#fp-method span:first").text('').hide();
+
+
+			jq('#isPatientPregnant input[type="radio"]')
+					.prop('required', false)
+					.trigger('change');
 	
 			if (typeOfService == prenatalVisitConcept &amp;&amp; typeOfVisit == followupVisitConcept) {
 					jq('#obgyn-section-followup').show();
@@ -705,34 +713,100 @@
 					jq('#isPatientPregnant input[type="radio"][value="1"]')
 							.prop('checked', false)
 							.trigger('change');
-			}else if (typeOfService == prenatalVisitConcept &amp;&amp; typeOfVisit == newVisitConcept) {
+
+					jq('#fp-method input[type="radio"]').attr('required', false);
+					jq('#patient-type input[type="radio"]').attr('required', false);
+
+					jq('#fp-method input[type="radio"]')
+							.prop('checked', false)
+							.trigger('change');
+					jq('#patient-type input[type="radio"]')
+							.prop('checked', false)
+							.trigger('change');
+
+					jq("#patient-type").find(".field-error").text('').hide();
+					jq("#fp-method").find(".field-error").text('').hide();
+			}
+			
+			 if (typeOfService == prenatalVisitConcept &amp;&amp; typeOfVisit == newVisitConcept) {
 					jq('#trimesterAtEnrollment input[type="radio"]').attr('required', true);
 					jq('#trimesterAtEnrollment').show();
 					jq('#trimesterAtEnrollment_label').show();
-					jq('#trimesterAtEnrollment span:first').text('[<uimessage code="pihcore.required"/>]').show();
+					
+					jq('#trimesterAtEnrollment').find(".field-error").text('[<uimessage code="pihcore.required"/>]').show();
+					
 					setRequiredIfVisible('isPatientPregnant');
 					jq('#isPatientPregnant input[type="radio"][value="1"]').prop('checked', true).trigger('change');
-			}else if (typeOfService == familyPlanningServiceConcept) {
+					setRequiredIfVisible('knowing_period_question');
+					jq('#fp-method input[type="radio"]').attr('required', false);
+					jq('#patient-type input[type="radio"]').attr('required', false);
+
+					jq('#fp-method input[type="radio"]')
+							.prop('checked', false)
+							.trigger('change');
+					jq('#patient-type input[type="radio"]')
+							.prop('checked', false)
+							.trigger('change');
+
+					jq("#patient-type").find(".field-error").text('').hide();
+					jq("#fp-method").find(".field-error").text('').hide();
+
+			}
+			
+			if (typeOfService == familyPlanningServiceConcept) {
 					jq('#fp-method input[type="radio"]').attr('required', true);
 					jq('#patient-type input[type="radio"]').attr('required', true);
-					jq("#patient-type span:first").text('[<uimessage code="pihcore.required"/>]').show();
-					jq("#fp-method span:first").text('[<uimessage code="pihcore.required"/>]').show();
+					jq("#patient-type").find(".field-error").text('[<uimessage code="pihcore.required"/>]').show();
+					jq("#fp-method").find(".field-error").text('[<uimessage code="pihcore.required"/>]').show();
 					jq('#isPatientPregnant input[type="radio"][value="1"]')
 							.prop('checked', false)
 							.trigger('change');
 
-					
-			} else {
+			} 
+			
+			 if (typeOfService == gynecologicalServiceConcept || typeOfService == postnatalServiceConcept || !typeOfService) {
+					const trimerterAtEnrollment = getValue('trimesterAtEnrollment.value');
 					jq('#obgyn-section-followup').hide();
 					jq('#pregnancyTrimester input[type="radio"]').attr('required', false);
 					jq('#trimesterAtEnrollment input[type="radio"]').attr('required', false);
-					jq('#trimesterAtEnrollment span:first').text('').hide();
+					jq('#trimesterAtEnrollment').find(".field-error").text('').hide();
 					jq('#fp-method input[type="radio"]').attr('required', false);
 					jq('#patient-type input[type="radio"]').attr('required', false);
 					jq('#isPatientPregnant input[type="radio"][value="1"]')
 							.prop('checked', false)
 							.trigger('change');
+
+					jq('#isPatientPregnant input[type="radio"]')
+							.prop('required', false)
+							.trigger('change');
+					jq('#knowing_period_question input[type="radio"]')
+							.prop('required', false)
+							.trigger('change');
+					jq('#knowing_period_question input[type="radio"]')
+							.prop('checked', false)
+							.trigger('change');
+					if(trimerterAtEnrollment){
+						jq('#trimesterAtEnrollment input[type="radio"]')
+											.prop('checked', false)
+											.trigger('change');
+					}		
+
+					jq('#fp-method input[type="radio"]')
+							.prop('checked', false)
+							.trigger('change');
+					jq('#patient-type input[type="radio"]')
+							.prop('checked', false)
+							.trigger('change');
+
+					jq("#patient-type").find(".field-error").text('').hide();
+					jq("#fp-method").find(".field-error").text('').hide();
+
+					jq("#knowing_period_question").find(".field-error").text('').hide();
+					jq("#isPatientPregnant").find(".field-error").text('').hide();
+					jq("#lastPeriod").find(".field-error").text('').hide();
+					jq("#trimesterAtEnrollmentMsg").text('').hide();
 			}
+		
 
 		}
 
@@ -750,7 +824,24 @@
 			var isPatientPregnant = getValue('isPatientPregnant.value');
 			const selectedPeriodQuestionIndex = jq('#knowing_period_question input[type="radio"]').index(jq('#knowing_period_question input[type="radio"]:checked'));
 
+			const ret = setRequiredIfVisible('knowing_period_question');
+
+			if(!typeOfService || typeOfService.trim() === ""){
+				jq('#visit-reason  input[type="radio"]').first().focus();
+				return false;
+			}
 			
+			if(!typeOfVisit || typeOfVisit.trim() === ""){
+				jq('#intake-or-followup  input[type="radio"]').first().focus();
+				return false;
+			}
+
+			if (typeOfService == prenatalVisitConcept &amp;&amp; typeOfVisit == newVisitConcept &amp;&amp; (!ret)) {
+				jq('#knowing_period_question  input[type="radio"]').first().focus();
+				return false;
+			}
+			
+
 			if (typeOfService == prenatalVisitConcept &amp;&amp; typeOfVisit == followupVisitConcept &amp;&amp; (!pregnancyTrimester || pregnancyTrimester.trim() === "")) {
 				showAndHideErrorMsg("pregnancyTrimesterMsg", pregnancyTrimester);
 				jq('#pregnancyTrimester  input[type="radio"]').first().focus();
