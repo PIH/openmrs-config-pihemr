@@ -803,9 +803,9 @@
 
 					jq("#knowing_period_question").find(".field-error").text('').hide();
 					jq("#isPatientPregnant").find(".field-error").text('').hide();
-					jq("#lastPeriod").find(".field-error").text('').hide();
+					jq("#lastPeriodDate").find(".field-error").text('').hide();
 					jq("#trimesterAtEnrollmentMsg").text('').hide();
-			}
+			}	
 		
 
 		}
@@ -820,10 +820,9 @@
 			var patientType = getValue('patient-type.value');
 			var hivTest = getValue('hiv-test-checkbox.value');
 			var hivTestDate = getValue('hiv-test-date.value');
-			var lastPeriodDate = getValue('lastPeriod.value');
+			var lastPeriodDate = getValue('lastPeriodDate.value');
 			var isPatientPregnant = getValue('isPatientPregnant.value');
 			const selectedPeriodQuestionIndex = jq('#knowing_period_question input[type="radio"]').index(jq('#knowing_period_question input[type="radio"]:checked'));
-
 			const ret = setRequiredIfVisible('knowing_period_question');
 
 			if(!typeOfService || typeOfService.trim() === ""){
