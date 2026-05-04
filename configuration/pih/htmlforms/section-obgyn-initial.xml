@@ -384,7 +384,6 @@
 								for (let index = 0; index &lt; data.results.length; index++) {
 									let obGynEnc = data.results[index];
 									let obGynEncDate = new Date(obGynEnc.encounterDatetime);
-                                    // only consider Intake encounters which are 10 months or less from the current encounter
 									if ((currentEncounterDate.getTime() &gt;= obGynEncDate.getTime())) {
 										let month = new Intl.DateTimeFormat(undefined, monthOption).format(obGynEncDate);
 										jq("#lastObGynInitialEncounterDate").text(obGynEncDate.getDate() + "-" + month + "-" +
