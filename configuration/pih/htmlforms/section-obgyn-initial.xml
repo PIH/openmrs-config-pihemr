@@ -724,6 +724,7 @@
 							.prop('checked', false)
 							.trigger('change');
 
+					jq("#pregnancyTrimester").find(".field-error").text('[<uimessage code="pihcore.required"/>]').show();
 					jq("#patient-type").find(".field-error").text('').hide();
 					jq("#fp-method").find(".field-error").text('').hide();
 			}
@@ -805,6 +806,7 @@
 					jq("#isPatientPregnant").find(".field-error").text('').hide();
 					jq("#lastPeriodDate").find(".field-error").text('').hide();
 					jq("#trimesterAtEnrollmentMsg").text('').hide();
+					jq("#pregnancyTrimester").find(".field-error").text('').hide();
 			}	
 		
 
