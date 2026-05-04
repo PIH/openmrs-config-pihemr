@@ -384,31 +384,35 @@
 								for (let index = 0; index &lt; data.results.length; index++) {
 									let obGynEnc = data.results[index];
 									let obGynEncDate = new Date(obGynEnc.encounterDatetime);
-
+                                    // only consider Intake encounters which are 10 months or less from the current encounter
 									if ((currentEncounterDate.getTime() &gt;= obGynEncDate.getTime())) {
 										let month = new Intl.DateTimeFormat(undefined, monthOption).format(obGynEncDate);
 										jq("#lastObGynInitialEncounterDate").text(obGynEncDate.getDate() + "-" + month + "-" +
 											obGynEncDate.getFullYear());
 										jq("#lastObGynInitialEncounterTime").text(obGynEncDate.toLocaleTimeString());
 
-										if (obGynEnc.obs &amp;&amp;obGynEnc.obs.length &gt; 0) {
+										if (obGynEnc.obs &amp;&amp; obGynEnc.obs.length &gt; 0) {
 											for (let j = 0; j &lt; obGynEnc.obs.length; j++) {
 												let obs = obGynEnc.obs[j];
 												if (obs.concept.uuid === lastPeriodDateConcept) {
 													if (obs.valueDatetime) {
 														let periodDate = new Date(obs.valueDatetime);
-														jq("#obgyn_initial_lastPeriodDate").text(periodDate.getDate() + " " + new Intl.DateTimeFormat(undefined,
-															monthOption).format(periodDate) + " " + periodDate.getFullYear());
-														jq("#obgyn_initial_lastPeriodDate").removeClass("emptyValue").addClass("value");
-														jq(".calculated-gestational-age-value").text(calculateGestationalDays(periodDate, currentEncounterDate,
-															msgWeeks));
-														jq(".calculated-gestational-age-value").removeClass("emptyValue").addClass("value");
-														jq(".calculated-edd").text((Intl.DateTimeFormat(locale, {
-															dateStyle: "medium"
-														})).format(calculateExpectedDeliveryDate(periodDate)));
-														jq(".calculated-edd").removeClass("emptyValue").addClass("value");
+                                                        if (daysBetweenUTCDates(currentEncounterDate, periodDate) &lt; 300 ) {
+                                                            // the Last menstrual period date is not relevant if it is older than 10 months ( HAI-1180 )
+                                                            jq("#obgyn_initial_lastPeriodDate").text(periodDate.getDate() + " " + new Intl.DateTimeFormat(undefined,
+                                                                monthOption).format(periodDate) + " " + periodDate.getFullYear());
+                                                            jq("#obgyn_initial_lastPeriodDate").removeClass("emptyValue").addClass("value");
+                                                            jq(".calculated-gestational-age-value").text(calculateGestationalDays(periodDate, currentEncounterDate,
+                                                                msgWeeks));
+                                                            jq(".calculated-gestational-age-value").removeClass("emptyValue").addClass("value");
+                                                            jq(".calculated-edd").text((Intl.DateTimeFormat(locale, {
+                                                                dateStyle: "medium"
+                                                            })).format(calculateExpectedDeliveryDate(periodDate)));
+                                                            jq(".calculated-edd").removeClass("emptyValue").addClass("value");
+                                                        }
 													}
-												} else if (obs.concept.uuid === trimAtEnrollConcept) {
+												} else if (obs.concept.uuid === trimAtEnrollConcept  &amp;&amp; daysBetweenUTCDates(currentEncounterDate, obGynEncDate) &lt; 300 ) {
+                                                    // only show the Trimester at enrollment if the previous OB/GYN encounter is within the past 10 months of the current encounter (HAI-1180)
 													if (obs.valueCoded) {
 														switch (obs.valueCoded.uuid) {
 															case firstTrimConcept:
@@ -554,11 +558,14 @@
 												let obs = obGynEnc.obs[j];
 												if (obs.concept.uuid === dueDateConcept) {
 													//there is no current value for this obs, so we are trying to retrieve the previous know value from a previous encounter
-													if (obs.valueDatetime) {
+													if (obs.valueDatetime ) {
 														let dueDate = new Date(obs.valueDatetime);
-														getField("obgyn_initial_previous_edd.value").datepicker("setDate", dueDate);
-														foundEddObs = true; // we only need the most recent recorded EDD
-														break;
+                                                        if ( currentEncounterDate.getTime() &lt;= dueDate.getTime()) {
+                                                            // the due date cannot be in the past of the current encounter date
+                                                            getField("obgyn_initial_previous_edd.value").datepicker("setDate", dueDate);
+                                                            foundEddObs = true; // we only need the most recent recorded EDD
+                                                            break;
+                                                        }
 													}
 												}
 											}
@@ -680,9 +687,6 @@
 			setUpNextAndSubmitButtons();
 			
 			});
-		</script>
-	</ifMode>
-<script type="text/javascript">
 
 		const prenatalVisitConcept = '<lookup expression="fn.getConcept('CIEL: 1622 ').id"/>';
 
@@ -918,12 +922,12 @@
 					jq('#hiv-test-date  span').text('');
 					jq('#hiv-test-date  span').hide();
 				}
-			}); 
-
+			});
 			beforeSubmit.push(validateTrimester);
 		});
 		
 	</script>
+</ifMode>
 	<!-- Program enrollment -->
 	<enrollInProgram programId="MCH" locationTag="Program Location" />
 	<section id="consult-type" sectionTag="fieldset" headerStyle="title" headerCode="pihcore.typeOfConsult">
