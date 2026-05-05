@@ -254,6 +254,10 @@ visitType:
   HOME_VISIT:
     uuid: "90973824-1AE9-4E22-B2BB-9CBD56FB3238"
 
+visitAttributeType:
+  BORN_DURING_VISIT:
+    uuid: "86f716fc-5e26-4eb1-9484-46370cff28f0"
+
 encounterType:
   PATIENT_REGISTRATION:
     uuid: "873f968a-73a8-4f9c-ac78-9f4778b751b6"

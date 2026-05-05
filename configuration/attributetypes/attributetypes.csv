@@ -7,3 +7,4 @@ a5fb5770-409a-11e2-a25f-0800200c9a66,Location,Name to print on ID card,The name 
 6cfb8e55-ea2c-4cba-a2c5-907c8e18b8fa,Location,Associated Pharmacy Location,The location of the pharmacy that fulfills prescriptions for this location,org.openmrs.customdatatype.datatype.LocationDatatype,,0,1,
 ${providerAttributeType.households.uuid},Provider,Households,Number of households monitored by a VHW,org.openmrs.customdatatype.datatype.FreeTextDatatype,,0,1,
 ${providerAttributeType.dateHired.uuid},Provider,Date Hired,The date the provider was hired.,org.openmrs.customdatatype.datatype.DateDatatype,,0,1,org.openmrs.web.attribute.handler.DateFieldGenDatatypeHandler
+${visitAttributeType.BORN_DURING_VISIT.uuid},Visit,Born during visit,The patient was born during visit.,org.openmrs.customdatatype.datatype.BooleanDatatype,,0,1,
