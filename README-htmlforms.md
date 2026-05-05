@@ -7,12 +7,15 @@ This document describes all XML forms in `openmrs-config-pihemr/configuration/pi
 ## Table of Contents
 
 1. [Core Clinical Forms](#1-core-clinical-forms)
-2. [Maternal & Child (MCH) Forms](#2-mch-forms)
-3. [NCD, Oncology & Specialty Forms](#3-ncd-oncology--specialty-forms)
-4. [Primary Care & Pediatrics Forms](#4-primary-care--pediatrics-forms)
-5. [Patient Registration Forms](#5-patient-registration-forms)
-6. [Reusable Section Forms](#6-reusable-section-forms)
-7. [Retired Forms](#7-retired-forms)
+2. [Maternal & Child Forms](#2-mch-forms)
+3. [NCD Forms](#3-ncd-forms)
+4. [Oncology Forms](#4-oncology-forms)
+5. [Mental Health Forms](#5-mental-health-forms)
+6. [Primary Care & Pediatrics Forms](#6-primary-care--pediatrics-forms)
+7. [COVID Forms](#7-covid-forms)
+8. [Patient Registration Forms](#8-patient-registration-forms)
+9. [Reusable Section Forms](#9-reusable-section-forms)
+10. [Retired Forms](#10-retired-forms)
 
 ---
 
@@ -144,7 +147,7 @@ Thin wrapper form that delegates medication ordering to the `drug-order-widget` 
 
 ---
 
-## 2. Maternal & Child (MCH) Forms
+## 2. Maternal & Child Forms
 
 ### ancIntake.xml
 **Form Name:** Prenatal Intake | **Version:** 1.1
@@ -327,7 +330,7 @@ Combines encounter diagnosis entry (left column) with a dynamically fetched OB/G
 
 ---
 
-## 3. NCD, Oncology & Specialty Forms
+## 3. NCD Forms
 
 ### ncd-initial.xml / ncd-initial_v0.5.xml / ncd-initial_v1.0.xml
 **Form Name:** NCD Initial | **Versions:** v0.5, v1.0, v2.0
@@ -364,6 +367,21 @@ Conditional sections for initial vs. follow-up encounters. Post-submission: Clea
 
 ---
 
+### section-sickle-cell.xml
+**Form Name:** Sickle Cell | **Version:** 1.0
+
+Sickle cell disease management section (embedded in NCD forms):
+1. **Diagnosis & Confirmation** (NCD Intake only) — genotype/diagnosis type (5 options), confirmation test (9 methods)
+2. **Clinical Indicators** — asymptomatic vs. 8 specific symptoms (pain, fever, jaundice, anemia, ascites, splenomegaly/hepatomegaly, dyspnea, chest pain)
+3. **Complications Since Last Visit** — yes/no with 9 complication types (vaso-occlusive crisis, acute chest syndrome, stroke, etc.)
+4. **Transfusion History** — 3-month status, count, and date
+5. **Treatment** — folic acid and penicillin use
+6. **Treatment Adherence** — 7 yes/no questions (adherence, understanding, missed doses per week, patient/family awareness)
+7. **Disease Control** — patient condition improved, overall disease control status
+8. **Hydroxyurea** — indications, current use, 6 tracked side effects
+
+---
+
 ### section-ncd_v0.5.xml
 **Form Name:** NCD (REDCap) | **Version:** 0.5
 
@@ -376,7 +394,7 @@ REDCap study variant of section-ncd.xml. Adds: BMI calculation, referral source 
 
 Identical to section-ncd.xml; provides backward compatibility for v1.0 form references.
 
----
+## 4. Oncology Forms
 
 ### oncologyConsult.xml
 **Form Name:** Oncology Consult Note | **Version:** 1.0
@@ -478,33 +496,9 @@ Assesses drug rehabilitation program participation using a three-column flex lay
 
 Records echocardiographic findings and diagnoses (with primary/secondary designation). JavaScript handles primary/secondary diagnosis toggling.
 
----
+## 5. Mental Health Forms
 
-### covid19Intake.xml
-**Form Name:** COVID-19 Admission | **Version:** 1.0
-**Encounter Type:** COVID-19 Admission
-
-Initial COVID-19 patient intake. Captures COVID-19 status (confirmed/suspected/no, required), vital signs and health condition assessment, and encounter disposition. Uses COVID-19-specific location tag. EDD calculation for pregnant patients. Enrolls patient in COVID-19 program. Post-submission: ApplyDispositionAction.
-
----
-
-### covid19Followup.xml
-**Form Name:** COVID-19 Progress Note | **Version:** 1.0
-**Encounter Type:** COVID-19 Progress Note
-
-Follow-up assessment for COVID-19 patients. Tracks ongoing symptoms, health status updates, and disposition. Post-submission: ApplyDispositionAction.
-
----
-
-### covid19Discharge.xml
-**Form Name:** COVID-19 Discharge | **Version:** 1.0
-**Encounter Type:** COVID-19 Discharge
-
-Final COVID-19 encounter. Captures final COVID-19 status (required), discharge plan and disposition. Two post-submission actions: ApplyDispositionAction and ExitPatientFromCovidProgramAction.
-
----
-
-## 4. Primary Care & Pediatrics Forms
+## 6. Primary Care & Pediatrics Forms
 
 ### primary-care-adult-initial.xml / primary-care-adult-initial_v1.0.xml
 **Form Name:** Outpatient Intake (Adult) | **Versions:** 1.0, 2.0
@@ -580,7 +574,31 @@ Comprehensive socioeconomic assessment. Seven sections:
 
 ---
 
-## 5. Patient Registration Forms
+## 7. COVID Forms
+
+### covid19Intake.xml
+**Form Name:** COVID-19 Admission | **Version:** 1.0
+**Encounter Type:** COVID-19 Admission
+
+Initial COVID-19 patient intake. Captures COVID-19 status (confirmed/suspected/no, required), vital signs and health condition assessment, and encounter disposition. Uses COVID-19-specific location tag. EDD calculation for pregnant patients. Enrolls patient in COVID-19 program. Post-submission: ApplyDispositionAction.
+
+---
+
+### covid19Followup.xml
+**Form Name:** COVID-19 Progress Note | **Version:** 1.0
+**Encounter Type:** COVID-19 Progress Note
+
+Follow-up assessment for COVID-19 patients. Tracks ongoing symptoms, health status updates, and disposition. Post-submission: ApplyDispositionAction.
+
+---
+
+### covid19Discharge.xml
+**Form Name:** COVID-19 Discharge | **Version:** 1.0
+**Encounter Type:** COVID-19 Discharge
+
+Final COVID-19 encounter. Captures final COVID-19 status (required), discharge plan and disposition. Two post-submission actions: ApplyDispositionAction and ExitPatientFromCovidProgramAction.
+
+## 8. Patient Registration Forms
 
 ### patientRegistration.xml
 **Form Name:** Patient Registration | **Version:** 1.0
@@ -611,7 +629,7 @@ Registration encounter metadata for retrospective check-in. Captures registratio
 
 ---
 
-## 6. Reusable Section Forms
+## 9. Reusable Section Forms
 
 These `section-*.xml` files are included into full forms via subform inclusion, not used standalone (except where noted).
 
@@ -738,22 +756,7 @@ Standalone version of the supplements table from section-peds-feeding.xml (6 sup
 
 ---
 
-### section-sickle-cell.xml
-**Form Name:** Sickle Cell | **Version:** 1.0
-
-Sickle cell disease management section (embedded in NCD forms):
-1. **Diagnosis & Confirmation** (NCD Intake only) — genotype/diagnosis type (5 options), confirmation test (9 methods)
-2. **Clinical Indicators** — asymptomatic vs. 8 specific symptoms (pain, fever, jaundice, anemia, ascites, splenomegaly/hepatomegaly, dyspnea, chest pain)
-3. **Complications Since Last Visit** — yes/no with 9 complication types (vaso-occlusive crisis, acute chest syndrome, stroke, etc.)
-4. **Transfusion History** — 3-month status, count, and date
-5. **Treatment** — folic acid and penicillin use
-6. **Treatment Adherence** — 7 yes/no questions (adherence, understanding, missed doses per week, patient/family awareness)
-7. **Disease Control** — patient condition improved, overall disease control status
-8. **Hydroxyurea** — indications, current use, 6 tracked side effects
-
----
-
-## 7. Retired Forms
+## 10. Retired Forms
 
 ### retired/checkin_old.xml
 **Form Name:** Check-in (Retrospective) | **Version:** 2.0
