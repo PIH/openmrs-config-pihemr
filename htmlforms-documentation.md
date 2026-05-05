@@ -1,6 +1,6 @@
 # PIH EMR HTML Forms Documentation
 
-This document describes all XML forms in `configuration/pih/htmlforms/`, organized by clinical area.
+This document describes all XML forms in `openmrs-config-pihemr/configuration/pih/htmlforms/`, organized by clinical area.  These forms are shared by multiple implementations (ZL, Liberia, Mexico, and Sierra Leone) and the default forms.  Not all of these forms are used by each implementation.  Many of them are replaced by the country configurations (ie. NCD, vitals, etc).  The majority of these forms are used by ZL (Haiti).  
 
 ---
 
