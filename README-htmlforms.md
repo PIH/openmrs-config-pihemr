@@ -84,21 +84,6 @@ Minimal form for free-text clinical notes. Captures provider, location, date/tim
 
 ---
 
-### deathCertificate.xml
-**Form Name:** Death Certificate | **Version:** 2.1
-
-Official death certificate for the Haitian Ministry of Health. Captures:
-- Patient demographics (auto-populated), habitat, civil status, occupation, maternal death flag
-- Date/time of death, form signer and role
-- Location of death (institutional vs. non-institutional, with branching logic for each)
-- Institutional: hospitalization duration, cause of death (primary/contributing), diagnosis confirmation method (surgery, autopsy)
-- Non-institutional: whether provider was visited during illness, information source (family, police, undertaker), death circumstances narrative
-- Burial certificate number, ICD-10 code (computed)
-
-Marks patient as dead in the system. Custom date-picker UI. Formal certificate layout in VIEW mode.
-
----
-
 ### vitals.xml
 **Form Name:** Vitals | **Version:** 2.2
 
@@ -394,6 +379,14 @@ REDCap study variant of section-ncd.xml. Adds: BMI calculation, referral source 
 
 Identical to section-ncd.xml; provides backward compatibility for v1.0 form references.
 
+---
+
+### echocardiogram.xml
+**Form Name:** Echocardiogram | **Version:** 1.0
+**Encounter Type:** Echocardiogram
+
+Records echocardiographic findings and diagnoses (with primary/secondary designation). JavaScript handles primary/secondary diagnosis toggling.
+
 ## 4. Oncology Forms
 
 ### oncologyConsult.xml
@@ -472,7 +465,7 @@ Post-submission: ApplyDispositionAction.
 
 Earlier version of section-oncology-plan.xml. Uses show/hide medication rows with inline validation (dose, units, frequency, duration) instead of the drug-order-widget subform.
 
----
+## 5. Mental Health Forms
 
 ### mentalHealth.xml / mentalHealth_v1.0.xml
 **Form Name:** Mental Health Assessment | **Versions:** 1.0, 2.0
@@ -487,16 +480,6 @@ Comprehensive mental health assessment using collapsible/expandable CSS sections
 **Encounter Type:** Drug Rehabilitation
 
 Assesses drug rehabilitation program participation using a three-column flex layout with yes/no radio buttons for: psychosocial support, rehabilitation program participation, support group attendance, planned visit compliance, and support network evaluation.
-
----
-
-### echocardiogram.xml
-**Form Name:** Echocardiogram | **Version:** 1.0
-**Encounter Type:** Echocardiogram
-
-Records echocardiographic findings and diagnoses (with primary/secondary designation). JavaScript handles primary/secondary diagnosis toggling.
-
-## 5. Mental Health Forms
 
 ## 6. Primary Care & Pediatrics Forms
 
@@ -757,6 +740,21 @@ Standalone version of the supplements table from section-peds-feeding.xml (6 sup
 ---
 
 ## 10. Retired Forms
+
+### deathCertificate.xml
+**Form Name:** Death Certificate | **Version:** 2.1
+
+Official death certificate for the Haitian Ministry of Health. Captures:
+- Patient demographics (auto-populated), habitat, civil status, occupation, maternal death flag
+- Date/time of death, form signer and role
+- Location of death (institutional vs. non-institutional, with branching logic for each)
+- Institutional: hospitalization duration, cause of death (primary/contributing), diagnosis confirmation method (surgery, autopsy)
+- Non-institutional: whether provider was visited during illness, information source (family, police, undertaker), death circumstances narrative
+- Burial certificate number, ICD-10 code (computed)
+
+Marks patient as dead in the system. Custom date-picker UI. Formal certificate layout in VIEW mode.
+
+---
 
 ### retired/checkin_old.xml
 **Form Name:** Check-in (Retrospective) | **Version:** 2.0
