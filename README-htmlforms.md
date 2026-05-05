@@ -144,13 +144,6 @@ Thin wrapper form that delegates medication ordering to the `drug-order-widget` 
 
 ---
 
-### checkin_old.xml
-**Form Name:** Check-in (Retrospective) | **Version:** 2.0
-
-Retrospective patient check-in. Captures date, provider, location, and visit type. Conditionally shows either appointment scheduling fields (hospital service, future-only appointment date) or payment amount based on selected visit type. Uses exit handlers for conditional field visibility; the inline comment notes this as a useful example of that pattern.
-
----
-
 ## 2. Maternal & OB-GYN Forms
 
 ### ancIntake.xml
@@ -761,6 +754,13 @@ Sickle cell disease management section (embedded in NCD forms):
 ---
 
 ## 7. Retired Forms
+
+### retired/checkin_old.xml
+**Form Name:** Check-in (Retrospective) | **Version:** 2.0
+
+Retrospective patient check-in. Captures date, provider, location, and visit type. Conditionally shows either appointment scheduling fields (hospital service, future-only appointment date) or payment amount based on selected visit type. Uses exit handlers for conditional field visibility; the inline comment notes this as a useful example of that pattern.
+
+---
 
 ### retired/section-anc-followup.xml
 **Form Name:** Prenatal Followup Section (Retired) | **Version:** 1.0
