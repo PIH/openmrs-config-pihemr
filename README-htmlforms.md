@@ -7,7 +7,7 @@ This document describes all XML forms in `openmrs-config-pihemr/configuration/pi
 ## Table of Contents
 
 1. [Core Clinical Forms](#1-core-clinical-forms)
-2. [Maternal & OB-GYN Forms](#2-maternal--ob-gyn-forms)
+2. [Maternal & Child (MCH) Forms](#2-mch-forms)
 3. [NCD, Oncology & Specialty Forms](#3-ncd-oncology--specialty-forms)
 4. [Primary Care & Pediatrics Forms](#4-primary-care--pediatrics-forms)
 5. [Patient Registration Forms](#5-patient-registration-forms)
@@ -144,7 +144,7 @@ Thin wrapper form that delegates medication ordering to the `drug-order-widget` 
 
 ---
 
-## 2. Maternal & OB-GYN Forms
+## 2. Maternal & Child (MCH) Forms
 
 ### ancIntake.xml
 **Form Name:** Prenatal Intake | **Version:** 1.1
