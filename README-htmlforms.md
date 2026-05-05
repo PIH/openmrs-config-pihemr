@@ -7,7 +7,7 @@ This document describes all XML forms in `openmrs-config-pihemr/configuration/pi
 ## Table of Contents
 
 1. [Core Clinical Forms](#1-core-clinical-forms)
-2. [Maternal & Child Forms](#2-mch-forms)
+2. [Maternal & Child Forms](#2-maternal--child-forms)
 3. [NCD Forms](#3-ncd-forms)
 4. [Oncology Forms](#4-oncology-forms)
 5. [Mental Health Forms](#5-mental-health-forms)
