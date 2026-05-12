@@ -1289,4 +1289,14 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20260512-set-inborn-visit-attribute" author="PIH">
+        <comment>
+            SL-1333, Populate past Inborn visit attributes.
+            Set the "Born during visit" visit_attribute (uuid 86f716fc-5e26-4eb1-9484-46370cff28f0) to 'true'
+            on visits identified by traversing an infant obs whose comments contain a person uuid, joined to
+            a sibling birth-time obs whose value_datetime matches the visit's date_started.
+        </comment>
+        <sqlFile endDelimiter=";" path="sql/set-inborn-visit-attribute.sql" relativeToChangelogFile="true" stripComments="true" />
+    </changeSet>
+
 </databaseChangeLog>
