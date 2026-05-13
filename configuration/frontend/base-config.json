@@ -41,7 +41,8 @@
       },
       "locationFilter": {
         "enabled": true,
-        "tag": "Login Location"
+        "tag": "Login Location",
+	"restrictToVisitLocationDescendants": true
       }
     },
     "valueSets": {
