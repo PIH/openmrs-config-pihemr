@@ -9,11 +9,11 @@ parameters:
 datasets:
   - key: "medicationDispense"
     type: "sql"
-    config: "sql/medicationDispenseLabel.sql"
+    config: "medicationDispenseLabel.sql"
 designs:
   - uuid: "75bde2ff-4eb4-11f1-94ae-5e789c4020d9"
     name: "PDF"
     type: "PdfTemplateRenderer"
-    template: "templates/medicationDispenseLabel.html"
+    template: "medicationDispenseLabel.html"
 
 
