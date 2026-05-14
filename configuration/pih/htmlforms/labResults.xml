@@ -189,7 +189,7 @@
                 </label>
                 <div class="required">
                     <field class="required">
-                        <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Lab Results Location" required="true"/>
+                        <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Lab Results Location" restrictToSessionVisitLocation="true" required="true"/>
                     </field>
                 </div>
             </div>
