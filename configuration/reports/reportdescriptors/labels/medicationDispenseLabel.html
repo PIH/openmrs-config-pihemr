@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    @page {
+        size: 3in 2in;
+        margin: 0.08in;
+    }
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 7.5pt;
+        color: black;
+    }
+    .header {
+        border-bottom: 1px solid darkgray;
+        padding-bottom: 1pt;
+        margin-bottom: 2pt;
+        text-align: center;
+    }
+    .location-line {
+        font-size: 6pt;
+        color: dimgray;
+    }
+    .section {
+        margin-bottom: 2pt;
+        padding-bottom: 2pt;
+        border-bottom: 1px solid gainsboro;
+    }
+    .section:last-child {
+        border-bottom: none;
+    }
+    .label {
+        font-size: 5.5pt;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: dimgray;
+    }
+    .value {
+        font-size: 7.5pt;
+        color: black;
+    }
+    .patient-name {
+        font-size: 9.5pt;
+        font-weight: bold;
+    }
+    .drug-name {
+        font-size: 8.5pt;
+        font-weight: bold;
+    }
+    .dosing-row {
+        display: table;
+        width: 100%;
+    }
+    .dosing-cell {
+        display: table-cell;
+        padding-right: 4pt;
+        vertical-align: top;
+    }
+    .quantity-row {
+        display: table;
+        width: 100%;
+    }
+    .quantity-cell {
+        display: table-cell;
+        width: 50%;
+        vertical-align: top;
+    }
+    .instructions-box {
+        background-color: whitesmoke;
+        border: 1px solid gainsboro;
+        padding: 2pt;
+        font-size: 6.5pt;
+        min-height: 12pt;
+    }
+    .footer {
+        margin-top: 2pt;
+        font-size: 6pt;
+        color: dimgray;
+    }
+</style>
+</head>
+<body>
+
+<div class="content">
+
+    <div class="header">
+        <span class="location-line">#dispense_parent_location# — #dispense_location#</span>
+    </div>
+
+    <div class="section">
+        <div class="label">Patient</div>
+        <div class="value patient-name">#patient_name#</div>
+    </div>
+
+    <div class="section">
+        <div class="label">Medication</div>
+        <div class="value drug-name">#drug_name#</div>
+    </div>
+
+    <div class="section">
+        <div class="dosing-row">
+            <div class="dosing-cell">
+                <div class="label">Dose</div>
+                <div class="value">#dose# #dose_units#</div>
+            </div>
+            <div class="dosing-cell">
+                <div class="label">Route</div>
+                <div class="value">#route#</div>
+            </div>
+            <div class="dosing-cell">
+                <div class="label">Frequency</div>
+                <div class="value">#frequency#</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="quantity-row">
+            <div class="quantity-cell">
+                <div class="label">Qty Dispensed</div>
+                <div class="value">#quantity# #quantity_units#</div>
+            </div>
+            <div class="quantity-cell">
+                <div class="label">Date Prescribed</div>
+                <div class="value">#date_prescribed|dd-MMM-yyyy#</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="label">Patient Instructions</div>
+        <div class="instructions-box">#patient_instructions#</div>
+    </div>
+
+    <div class="footer">
+        <strong>Prescriber:</strong> #prescriber#
+    </div>
+
+</div>
+
+</body>
+</html>
