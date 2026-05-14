@@ -1299,4 +1299,27 @@
         <sqlFile endDelimiter=";" path="sql/set-inborn-visit-attribute.sql" relativeToChangelogFile="true" stripComments="true" />
     </changeSet>
 
+    <changeSet id="20260513-migrate-hiv-rapid-test" author="PIH">
+        <comment>
+            SL-1332, Migrate HIV rapid test obs.
+            For each non-voided obs of concept CIEL:169624 (HIV/syphilis rapid test) whose value_coded is
+            concept CIEL:138571 (HIV), create a new obsgroup (concept
+            PIH:11522, HIV test construct) and a child obs (concept CIEL:163722, HIV rapid test,
+            value_coded CIEL:703, Positive) carrying the same person/encounter/datetime/
+            location/creator, then void the source obs.
+        </comment>
+        <sqlFile endDelimiter=";" path="sql/migrate-hiv-rapid-test.sql" relativeToChangelogFile="true" stripComments="true" />
+    </changeSet>
+    <changeSet id="20260513-migrate-syphilis-rapid-test" author="PIH">
+        <comment>
+            SL-1332, Migrate Syphilis rapid test obs.
+            For each non-voided obs of concept CIEL:169624 (HIV/syphilis rapid test) whose value_coded is
+            concept CIEL:136014 (Syphilis), create a new obsgroup (concept
+            PIH:11523, Syphilis test construct) and a child obs (concept CIEL:165303, Syphilis rapid test,
+            value_coded CIEL:1228, Positive) carrying the same person/encounter/datetime/
+            location/creator, then void the source obs.
+        </comment>
+        <sqlFile endDelimiter=";" path="sql/migrate-syphilis-rapid-tests.sql" relativeToChangelogFile="true" stripComments="true" />
+    </changeSet>
+
 </databaseChangeLog>
