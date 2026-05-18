@@ -185,6 +185,10 @@
             <property>coreapps.searchDelayLong</property>
             <value>99999999</value>
         </globalProperty>
+        <globalProperty>
+            <property>coreapps.addPastVisitsAllowOverlappingVisitAtAnotherLocation</property>
+            <value>false</value>
+        </globalProperty>
 
         <!-- Registration Core -->
         <globalProperty>
