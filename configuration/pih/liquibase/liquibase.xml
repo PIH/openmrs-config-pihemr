@@ -1299,7 +1299,7 @@
         <sqlFile endDelimiter=";" path="sql/set-inborn-visit-attribute.sql" relativeToChangelogFile="true" stripComments="true" />
     </changeSet>
 
-    <changeSet id="20260513-migrate-hiv-rapid-test" author="PIH">
+    <changeSet id="20260519-migrate-hiv-rapid-test" author="PIH">
         <comment>
             SL-1332, Migrate HIV rapid test obs.
             For each non-voided obs of concept CIEL:169624 (HIV/syphilis rapid test) whose value_coded is
