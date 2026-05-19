@@ -1310,7 +1310,7 @@
         </comment>
         <sqlFile endDelimiter=";" path="sql/migrate-hiv-rapid-test.sql" relativeToChangelogFile="true" stripComments="true" />
     </changeSet>
-    <changeSet id="20260513-migrate-syphilis-rapid-test" author="PIH">
+    <changeSet id="20260519-migrate-syphilis-rapid-test" author="PIH">
         <comment>
             SL-1332, Migrate Syphilis rapid test obs.
             For each non-voided obs of concept CIEL:169624 (HIV/syphilis rapid test) whose value_coded is
