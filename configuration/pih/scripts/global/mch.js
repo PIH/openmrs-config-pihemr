@@ -100,6 +100,29 @@ function setUpEdd(currentEncounterDate, msgWeeks) {
   updateEdd();
 }
 
+function eddCannotBeOlderThanTwoWeeks(fieldId, encounterDate, errorMessage) {
+    if (fieldId && encounterDate) {
+        jq("#" + fieldId + " input[type='hidden']").change(function () {
+            htmlForm.enableSubmitButton();
+            jq("#" + fieldId + " .field-error").text('');
+            jq("#" + fieldId + " .field-error").hide();
+            const estimatedDelivery = this.value;
+            //the deliveryDate is a string with the following format YYYY-MM-DD
+            if (estimatedDelivery) {
+                const deliveryDate = new Date(estimatedDelivery);
+                if (deliveryDate && (deliveryDate < encounterDate) ) {
+                    // Sl-1138: Estimated Delivery Date can be up to 2 weeks before encounter date
+                    var daysBetween = daysBetweenUTCDates(deliveryDate, encounterDate);
+                    if (daysBetween > 14) {
+                        jq("#" + fieldId + " .field-error").text(errorMessage).show();
+                        htmlForm.disableSubmitButton();
+                    }
+                }
+            }
+        });
+    }
+}
+
 function validateEstimatedDeliveryDate(fieldId, encounterDate, errorMessage) {
   if (fieldId && encounterDate) {
     jq("#" + fieldId + " input[type='hidden']").change(function () {
