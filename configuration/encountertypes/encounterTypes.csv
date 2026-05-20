@@ -49,6 +49,14 @@ ${encounterType.PRENATAL_HOME_ASSESSMENT.uuid},,Prenatal Home Assessment,Prenata
 ${encounterType.PEDIATRIC_HOME_ASSESSMENT.uuid},,Pediatric Home Assessment,Pediatric home assessment
 ${encounterType.MATERNAL_POST_PARTUM_HOME_ASSESSMENT.uuid},,Maternal Post-partum Home Assessment,Maternal post-partum home assessment
 ${encounterType.MATERNAL_FOLLOWUP_HOME_ASSESSMENT.uuid},,Maternal Follow-up Home Assessment,Maternal follow-up home assessment
+${encounterType.FAMILY_PLANNING_INTAKE.uuid},,Family Planning Initial,Family planning initial
+${encounterType.FAMILY_PLANNING_FOLLOWUP.uuid},,Family Planning Followup,Family planning followup
+${encounterType.CERVICAL_CANCER_SCREENING.uuid},,Cervical Cancer Screening,Cervical cancer screening
+${encounterType.NICU_FOLLOWUP.uuid},,NICU Followup,NICU (and SCBU) followup
+${encounterType.GYNO_INTAKE.uuid},,Gynecology Initial,Gynecology initial
+${encounterType.GYNO_FOLLOWUP.uuid},,Gynecology Followup,Gynecology followup
+${encounterType.AYFS_INTAKE.uuid},,AYFS Initial,Adult and Youth-friendly Services (AYFS) initial
+${encounterType.AYFS_FOLLOWUP.uuid},,AYFS Followup,Adult and Youth-friendly Services (AYFS) followup
 ${encounterType.COVID19_INTAKE.uuid},,COVID-19 Admission,COVID-19 admission note at health facility
 ${encounterType.COVID19_FOLLOWUP.uuid},,COVID-19 Progress,COVID-19 follow-up/daily progress at health facility
 ${encounterType.COVID19_DISCHARGE.uuid},,COVID-19 Discharge,COVID-19 Discharge note at health facility
