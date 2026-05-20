@@ -1955,7 +1955,7 @@ angular.module("encounterTypeConfig", [])
                       showOnVisitList: true,
                       sections: [
                           ancInitial,
-                          generalVaccinations
+                          ancVaccinations
                       ]
                   },
                   "2.0": {
@@ -2047,7 +2047,7 @@ angular.module("encounterTypeConfig", [])
                         showOnVisitList: true,
                         sections: [
                             postnatalFollowup,
-                            generalVaccinations
+                            ancVaccinations
                         ]
                     }
                 }
