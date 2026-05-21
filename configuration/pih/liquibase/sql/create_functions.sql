@@ -4702,3 +4702,28 @@ limit 1
 RETURN ret;
 
 END
+#
+-- This function accepts visit_id and concept_id, and will return the obs_id of the latest obs of that concept in that visit
+#
+DROP FUNCTION IF EXISTS latestObsInVisit;
+#
+CREATE FUNCTION latestObsInVisit (_visit_id_in int(11), _concept_id_in int (11))
+    RETURNS int(11)
+    DETERMINISTIC
+
+BEGIN
+
+    DECLARE obs_id_out int(11);
+
+    select obs_id into obs_id_out
+    from obs o
+    inner join encounter e on e.encounter_id = o.encounter_id 
+    inner join visit v on v.visit_id = e.visit_id and v.visit_id = _visit_id_in
+    where o.voided = 0
+      and o.concept_id = _concept_id_in
+     order by o.obs_datetime desc
+    limit 1;
+
+    RETURN obs_id_out;
+
+END
