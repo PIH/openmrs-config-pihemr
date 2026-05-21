@@ -823,6 +823,7 @@ angular.module("encounterTypeConfig", [])
             editUrl: hfeSimpleEditUrl,
             showOnVisitList: false
         };
+
         // MCOE OB Triage
         encounterTypes["41911448-71a1-43d7-bba8-dc86339850da"] = {
             defaultState: "short",
@@ -843,6 +844,19 @@ angular.module("encounterTypeConfig", [])
             icon: "fas fa-fw fa-heartbeat",
             editUrl: hfeSimpleEditUrl,
             showOnVisitList: true
+        };
+
+        // MCOE Family Planning Intake
+        encounterTypes["52fe1a29-678d-49cb-9ccd-7296d634284d"] = {
+            "sierra_leone": {
+                defaultState: "short",
+                shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+                templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("familyPlanningIntake.xml"),
+                icon: "icon-group",
+                editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("familyPlanningIntake.xml"),
+                showOnVisitList: true
+            }
         };
 
         // vitals with glucose
