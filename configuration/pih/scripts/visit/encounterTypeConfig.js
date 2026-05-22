@@ -846,7 +846,7 @@ angular.module("encounterTypeConfig", [])
             showOnVisitList: true
         };
 
-        // MCOE Family Planning Intake
+        // MCOE Family Planning Intake and Followup
         encounterTypes["52fe1a29-678d-49cb-9ccd-7296d634284d"] = {
             "sierra_leone": {
                 defaultState: "short",
@@ -855,6 +855,17 @@ angular.module("encounterTypeConfig", [])
                 templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("familyPlanningIntake.xml"),
                 icon: "icon-group",
                 editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("familyPlanningIntake.xml"),
+                showOnVisitList: true
+            }
+        };
+        encounterTypes["5a1d1710-98b0-4e5f-8f6b-c9cef0c8cf05"] = {
+            "sierra_leone": {
+                defaultState: "short",
+                shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+                templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("familyPlanningFollowup.xml"),
+                icon: "icon-group",
+                editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("familyPlanningFollowup.xml"),
                 showOnVisitList: true
             }
         };
