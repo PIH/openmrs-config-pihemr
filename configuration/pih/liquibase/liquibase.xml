@@ -1315,4 +1315,21 @@
         </sql>
     </changeSet>
 
+    <changeSet id="20260526-delete-broader-rx-norm-mappings" author="mgoodrich">
+        <comment>
+            UHM-9314 - Delete BROADER-THAN RxNORM mappings replaced by SAME-AS mappings
+        </comment>
+        <sql>
+
+            -- Deleted RxNORM BROADER-THAN mapping on Dimethicone / Magaldrate
+            delete from concept_reference_map
+            where concept_map_type_id IN (select concept_map_type_id from concept_map_type where name like 'BROADER-THAN')
+              and concept_id IN (select concept_id from concept where uuid like '6e203f4e-03ad-4c9e-b160-234ee092cc02')
+              and concept_reference_term_id IN
+                  (select concept_reference_term_id from concept_reference_term
+                   where code IN ('29151','324072')
+                     and concept_source_id = (select concept_source_id from concept_reference_source where name like 'RxNORM'));
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
