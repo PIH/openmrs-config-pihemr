@@ -870,6 +870,19 @@ angular.module("encounterTypeConfig", [])
             }
         };
 
+        // Gynecology Intake (and Followup)
+        encounterTypes["34700f4f-c3df-4cfc-863a-bd8b92a0a485"] = {
+            "sierra_leone": {
+                defaultState: "short",
+                shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+                templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("gynecologyIntake.xml"),
+                icon: "fas fa-fw fa-venus",
+                editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("gynecologyIntake.xml"),
+                showOnVisitList: true
+            }
+        };
+
         // vitals with glucose
         encounterTypes["2fd151a2-fbef-43e3-b82d-c3f70f1d7333"] = {
             defaultState: "short",
