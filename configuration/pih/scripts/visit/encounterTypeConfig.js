@@ -882,6 +882,17 @@ angular.module("encounterTypeConfig", [])
                 showOnVisitList: true
             }
         };
+        encounterTypes["9b973514-7799-41b6-85f1-1ebc752d01f0"] = {
+            "sierra_leone": {
+                defaultState: "short",
+                shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+                templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("gynecologyFollowup.xml"),
+                icon: "fas fa-fw fa-venus",
+                editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("gynecologyFollowup.xml"),
+                showOnVisitList: true
+            }
+        };
 
         // vitals with glucose
         encounterTypes["2fd151a2-fbef-43e3-b82d-c3f70f1d7333"] = {
