@@ -1,0 +1,13 @@
+<div id="prior-procedure-widget">
+    <subform path="configuration/pih/subforms/prior-procedure-widget.js"/>
+
+    <div id="whProceduresDiv" class="two-columns" style="display: none;">
+        <h3>
+            <uimessage code="pihcore.consult.procedure" />
+            :
+        </h3>
+        <ul>
+        </ul>
+        <br />
+    </div>
+</div>

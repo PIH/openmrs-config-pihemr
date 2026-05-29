@@ -190,9 +190,6 @@
 				const obGynEncounterType = 'd83e98fd-dc7b-420f-aa3f-36f648b4483d';
 				const typeOfVisit = '164181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
 				const intakeVisit = '164180AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
-				const whProcedurePerformed = "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
-				const whProcedures = "57755670-c183-494b-bd5e-723e0978c3e3";
-				const whSterilizationProcedures = "46cbbdd9-9cc2-42c6-8ecb-4dbe6ea01354";
 				const intakeConceptId = '<lookup expression="fn.getConcept('CIEL:164180').id"/>';
 				const followupConceptId = '<lookup expression="fn.getConcept('PIH:7383').id"/>';
 
@@ -319,37 +316,6 @@
 									}
 								}
 							}
-						}
-					});
-
-				let procedures = [];
-				// retrieve all Sterilization procedures for females concept UUIDs
-				jq.getJSON(apiBaseUrl + "/concept" + "/" + whSterilizationProcedures, {
-						v: 'custom:(id,uuid,display,setMembers:(id,uuid,display)'
-					},
-					function(data) {
-						if (data &amp;&amp;data.setMembers.length > 0) {
-							for (let index = 0; index &lt; data.setMembers.length; index++) {
-								let procedure = data.setMembers[index];
-								procedures.push(procedure.uuid);
-							}
-						}
-						if (procedures.length > 0) {
-							jq.getJSON(apiBaseUrl + "/obs", {
-									patient: patientUuid,
-									concept: whProcedurePerformed,
-									answers: procedures.join(),
-									v: 'custom:(uuid,display,obsDatetime,value:(uuid,display),concept:(uuid,display,name:(display))'
-								},
-								function(data) {
-									if (data.results.length > 0) {
-										jq("#whProceduresDiv").show();
-										for (let index = 0; index &lt; data.results.length; index++) {
-											let procPerformed = data.results[index];
-											jq("#whProceduresDiv ul").append('&lt;li&gt;').append(' - ').append(procPerformed.value.display).append(' on').append(new Date(procPerformed.obsDatetime).toDateString()).append('&lt;/li&gt;');
-										}
-									}
-								});
 						}
 					});
 
@@ -1475,15 +1441,7 @@
 	</div>
 	<section id="family-plan-section" sectionTag="fieldset" headerStyle="title" headerCode="pihcore.familyPlanning.title">
 		<div id="fp-area" class="section-container">
-			<div id="whProceduresDiv" class="two-columns" style="display: none;">
-				<h3>
-					<uimessage code="pihcore.consult.procedure" />
-					:
-				</h3>
-				<ul>
-				</ul>
-				<br />
-			</div>
+			<subform path="configuration/pih/subforms/prior-procedure-widget.xml"/>
 			<div class="two-columns">
 				<div>
 					<obs conceptId="CIEL:165309" style="checkbox" answerConceptId="CIEL:1382" answerCode="pihcore.mch.counselling.familyPlanning" />
