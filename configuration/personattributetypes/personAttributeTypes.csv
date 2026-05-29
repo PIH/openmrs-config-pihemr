@@ -6,3 +6,4 @@ ${personAttributeType.PROVIDER_IDENTIFIER.uuid},,Provider Identifier,,java.lang.
 ${personAttributeType.MOTHERS_FIRST_NAME.uuid},,First Name of Mother,"First name of the patient's mother, used for identification",java.lang.String,,
 ${personAttributeType.HEALTH_CENTER.uuid},,Health Center,"Specific Location of this person's home health center.",org.openmrs.Location,,
 8d8718c2-c2cc-11de-8d13-0010c6dffd0f,TRUE,Place of birth,"Location of persons birth, used for identification",java.lang.String,,
+${personAttributeType.CIVIL_STATUS.uuid},,Civil Status,"Marriage status of this person",org.openmrs.Concept,3cd6df26-26fe-102b-80cb-0017a47871b2,

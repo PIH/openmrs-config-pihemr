@@ -215,6 +215,8 @@ personAttributeType:
     uuid: "8d871d18-c2cc-11de-8d13-0010c6dffd0f"
   HEALTH_CENTER:
     uuid: "8d87236c-c2cc-11de-8d13-0010c6dffd0f"
+  CIVIL_STATUS:
+    uuid: "8d871f2a-c2cc-11de-8d13-0010c6dffd0f"
 
 encounterRole:
   unknown:
