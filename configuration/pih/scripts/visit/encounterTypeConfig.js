@@ -894,6 +894,19 @@ angular.module("encounterTypeConfig", [])
             }
         };
 
+        // Cervical cancer screening
+        encounterTypes["820a80b0-1d59-407e-acbb-56abb69abd35"] = {
+            "sierra_leone": {
+                defaultState: "short",
+                shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+                templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("cervicalCancerScreening.xml"),
+                icon: "fas fa-fw fa-ribbon",
+                editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("cervicalCancerScreening.xml"),
+                showOnVisitList: true
+            }
+        };
+
         // vitals with glucose
         encounterTypes["2fd151a2-fbef-43e3-b82d-c3f70f1d7333"] = {
             defaultState: "short",
