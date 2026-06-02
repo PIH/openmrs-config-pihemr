@@ -2563,6 +2563,8 @@ angular.module("encounterTypeConfig", [])
             templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}",
             icon: "fas fa-fw fa-arrow-circle-right",
             editUrl: hfeStandardEditUrl,
+            printForm: true,
+            printFormUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("maternalDischarge-print.xml"),
             showOnVisitList: true
         };
 
