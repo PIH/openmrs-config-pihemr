@@ -6,6 +6,10 @@ const whProcedurePerformed = "1651AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 const whProcedures = "57755670-c183-494b-bd5e-723e0978c3e3";
 const whSterilizationProcedures = "46cbbdd9-9cc2-42c6-8ecb-4dbe6ea01354";
 
+const contextPath = window.location.href.split('/')[3];
+const apiBaseUrl = "/" + contextPath + "/ws/rest/v1";
+const patientUuid = '<lookup expression="patient.uuid" />';
+
 let procedures = [];
 // retrieve all Sterilization procedures for females concept UUIDs
 jq.getJSON(apiBaseUrl + "/concept" + "/" + whSterilizationProcedures, {
