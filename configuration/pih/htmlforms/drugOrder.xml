@@ -15,7 +15,7 @@
 
     <subform path="configuration/pih/subforms/encounter-provider-location-date.xml">
         <span subform-parameter="encounter-location-widget">
-            <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Consult Note Location"/>
+            <encounterLocation default="SessionAttribute:emrContext.sessionLocationId" tags="Drug Order Location"/>
         </span>
     </subform>
 
