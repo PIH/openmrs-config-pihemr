@@ -40,7 +40,7 @@
                 <orderProperty name="dateActivated" label="pihcore.starting"/>
                 <orderProperty name="duration" label="pihcore.visitNote.for"/>
                 <orderProperty name="durationUnits" value="3cd706b8-26fe-102b-80cb-0017a47871b2" label=" "/>
-                <span class="calculated-quantity-section" style="padding-left:10px;">
+                <span class="calculated-quantity-section" style="display:none; padding-left:10px;">
                     <input type="hidden" class="calculated-quantity-value" />
                     <button class="calculated-quantity-button">Calculate Quantity</button>
                 </span>
