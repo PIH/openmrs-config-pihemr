@@ -418,6 +418,10 @@
             <value>shortest</value>
         </globalProperty>
         <globalProperty>
+            <property>pihapps.labs.fulfillerEncounterLinkingConcepts</property>
+            <value>393dec41-2fb5-428f-acfa-36ea85da6666</value>
+        </globalProperty>
+        <globalProperty>
             <property>pihapps.labs.collectResultComments</property>
             <value>false</value>
         </globalProperty>
