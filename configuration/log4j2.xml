@@ -12,7 +12,6 @@
 	<Properties>
 		<!-- Anything defined here can be referenced below -->
 		<Property name="defaultPattern">%p - %C{1}.%M(%L) |%d{ISO8601}| %m%n</Property>
-		<Property name="activityLogging">${env:OPENMRS_ACTIVITY_LOG:-false}</Property>
 	</Properties>
 	<Appenders>
 		<!-- Console appender - writes to system out -->
@@ -85,7 +84,7 @@
 		<Logger name="org.openmrs.module.pihcore.task.HeartbeatTask" level="DEBUG"/>
 
 		<!-- Activity Log -->
-		<Logger name="org.openmrs.module.pihcore.RequestMonitoringFilter" level="${activityLogging} == true ? TRACE : OFF" additivity="false">
+		<Logger name="org.openmrs.module.pihcore.RequestMonitoringFilter" level="TRACE" additivity="false">
 			<AppenderRef ref="ACTIVITY_LOG_APPENDER" />
 		</Logger>
 
