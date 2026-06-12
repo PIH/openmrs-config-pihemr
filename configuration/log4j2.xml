@@ -12,6 +12,7 @@
 	<Properties>
 		<!-- Anything defined here can be referenced below -->
 		<Property name="defaultPattern">%p - %C{1}.%M(%L) |%d{ISO8601}| %m%n</Property>
+		<Property name="activityLogging">${env:OPENMRS_ACTIVITY_LOG:-false}</Property>
 	</Properties>
 	<Appenders>
 		<!-- Console appender - writes to system out -->
@@ -38,6 +39,17 @@
 			<Column name="username" pattern="%X{username}" />
 			<ColumnMapping name="user_id" pattern="%X{userId}" type="java.lang.Integer" />
 		</JDBC>
+		<!-- Activity Log Appender -->
+		<RollingFile name="ACTIVITY_LOG_APPENDER"
+		             fileName="${openmrs:applicationDirectory}/activitylog/activity.log"
+		             append="true"
+		             filePattern="${openmrs:applicationDirectory}/activitylog/activity.%i.log">
+			<PatternLayout pattern="\{&quot;timestamp&quot;: &quot;%d{ISO8601}&quot;, &quot;sessionId&quot;: &quot;%X{sessionId}&quot;, &quot;user&quot;: &quot;%X{user}&quot;, &quot;loadTime&quot;: &quot;%X{loadTime}&quot;, &quot;method&quot;: &quot;%X{method}&quot;, &quot;requestPath&quot;: &quot;%X{requestURI}&quot;\}%n" />
+			<Policies>
+				<SizeBasedTriggeringPolicy size="10 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="5" />
+		</RollingFile>
 	</Appenders>
 	<Loggers>
 		<!-- Library logging -->
@@ -71,6 +83,11 @@
 
 		<!-- System Monitoring -->
 		<Logger name="org.openmrs.module.pihcore.task.HeartbeatTask" level="DEBUG"/>
+
+		<!-- Activity Log -->
+		<Logger name="org.openmrs.module.pihcore.RequestMonitoringFilter" level="${activityLogging} == true ? TRACE : OFF" additivity="false">
+			<AppenderRef ref="ACTIVITY_LOG_APPENDER" />
+		</Logger>
 
 		<!-- Debezium Logging -->
 		<Logger name="io.debezium.connector.mysql" level="INFO"/>
