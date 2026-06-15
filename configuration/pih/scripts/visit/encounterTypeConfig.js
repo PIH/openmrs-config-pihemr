@@ -1198,6 +1198,7 @@ angular.module("encounterTypeConfig", [])
                     liver,
                     palliative,
                     sickleCell,
+                    otherNCDs,
                     primaryCareDx,
                     generalVaccinations,
                     ncdPlan
@@ -1308,6 +1309,7 @@ angular.module("encounterTypeConfig", [])
                     liver,
                     palliative,
                     sickleCell,
+                    otherNCDs,
                     primaryCareDx,
                     generalVaccinations,
                     ncdPlan
@@ -1352,6 +1354,7 @@ angular.module("encounterTypeConfig", [])
                             liver,
                             palliative,
                             sickleCell,
+                            otherNCDs,
                             primaryCareDx,
                             generalVaccinations,
                             ncdPlan
@@ -1416,6 +1419,7 @@ angular.module("encounterTypeConfig", [])
                     liver,
                     palliative,
                     sickleCell,
+                    otherNCDs,
                     primaryCareDx,
                     generalVaccinations,
                     ncdPlan
