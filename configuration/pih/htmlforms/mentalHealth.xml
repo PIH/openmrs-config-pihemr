@@ -275,6 +275,7 @@
 	            }	            	            
 			
 				validateEstimatedDeliveryDate("estimatedDeliveryDate", currentEncounterDate, '<uimessage code="pihcore.errors.eddField.invalidDate" />');
+				eddCannotBeOlderThanTwoWeeks("estimatedDeliveryDate", currentEncounterDate, '<uimessage code="pihcore.errors.eddField.twoWeeksOlder" />');
 			});
 		</script>
 	</ifMode>
@@ -1864,7 +1865,7 @@
 							<label>
 								<uimessage code="pihcore.pregnancy.dueDate" />
 							</label>
-							<obs id="estimatedDeliveryDate" conceptId="CIEL:5596" allowFutureDates="true" allowPastDates="false"/>
+							<obs id="estimatedDeliveryDate" conceptId="CIEL:5596" allowFutureDates="true" allowPastDates="true"/>
 						</p>
 					</div>
 				</div>

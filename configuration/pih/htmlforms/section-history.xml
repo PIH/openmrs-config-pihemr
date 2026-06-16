@@ -474,6 +474,7 @@
                                     var encounterDate = '<lookup expression="encounter.getEncounterDatetime().getTime()" />';
                                     setUpEdd(encounterDate,'<uimessage code="pihcore.weeks" />');
                                     validateEstimatedDeliveryDate("edd", new Date(+encounterDate), '<uimessage code="pihcore.errors.eddField.invalidDate" />');
+                                    eddCannotBeOlderThanTwoWeeks("edd", new Date(+encounterDate), '<uimessage code="pihcore.errors.eddField.twoWeeksOlder" />');
                                 });
                             </script>
                         </ifMode>
@@ -499,7 +500,7 @@
                                     <label>
                                         <uimessage code="pihcore.pregnancy.dueDate"/>
                                     </label>
-                                    <obs id="edd" conceptId="CIEL:5596" allowFutureDates="true" allowPastDates="false"/>
+                                    <obs id="edd" conceptId="CIEL:5596" allowFutureDates="true" allowPastDates="true"/>
                                 </p>
                             </div>
                         </div>
