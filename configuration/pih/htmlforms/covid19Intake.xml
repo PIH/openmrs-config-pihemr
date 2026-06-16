@@ -115,7 +115,7 @@
                 }
                 setUpEdd(currentEncounterDate, '<uimessage code="pihcore.weeks" />');
                 validateEstimatedDeliveryDate("edd", currentEncounterDate, '<uimessage code="pihcore.errors.eddField.invalidDate" />');
-
+                eddCannotBeOlderThanTwoWeeks("edd", currentEncounterDate, '<uimessage code="pihcore.errors.eddField.twoWeeksOlder" />');
                 jq('#disposition select:first').change(function() {
                     jq('#disposition .field-error').first().html('').hide(); // hide any previous error if disposition is changed
                 });
@@ -219,7 +219,7 @@
                             <uimessage code="pihcore.pregnancy.dueDate"/>
                         </label>
                         <span class="small">
-                            <obs id="edd" conceptId="CIEL:5596" allowFutureDates="true" allowPastDates="false"/>
+                            <obs id="edd" conceptId="CIEL:5596" allowFutureDates="true" allowPastDates="true"/>
                         </span>
                     </p>
                 </div>
