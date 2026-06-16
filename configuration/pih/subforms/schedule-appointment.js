@@ -9,14 +9,14 @@ if (jq('#appointment-edit-mode').length) {
 }
 
 /*
- * Add frontend validation of the appointment fields. They are conditionally required only when the user sets "Schdeule Appointment" to "yes"
+ * Add frontend validation of the appointment fields. They are conditionally required only when the user sets "Schedule Appointment" to "yes"
  */
 
 function validateAppointmentField(divId, getValue) {
     var div = jq('#' + divId);
     var errorSpan = div.find('.field-error').first();
     if (!getValue(div)) {
-        errorSpan.text('Required').show();
+        errorSpan.text('<uimessage code="pihcore.required.Upper"/>').show();
         return false;
     }
     errorSpan.hide();
