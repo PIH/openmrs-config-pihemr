@@ -227,8 +227,8 @@
                     <uimessage code="pihcore.lab.test_date"/>
                 </label>
                 <div class="small">
-                    <field class="required">
-                        <obs id="test-date" conceptId="PIH:Date of test results" allowFutureDates="true" required="true"/>
+                    <field>
+                        <obs id="test-date" conceptId="PIH:Date of test results" allowFutureDates="true"/>
                     </field>
                 </div>
             </div>
