@@ -2568,7 +2568,8 @@ angular.module("encounterTypeConfig", [])
             icon: "fas fa-fw fa-arrow-circle-right",
             editUrl: hfeStandardEditUrl,
             printForm: true,
-            printFormUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("maternalDischarge-print.xml"),
+            printReportDefinitionUuid: "1fe7c68f-c0e3-44da-a5b3-3609e1ffc352",
+            printReportDesignUuid: "d8bb7741-15db-4851-a70b-9b71566b9a1a",
             showOnVisitList: true
         };
 
