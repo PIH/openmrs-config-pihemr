@@ -56,7 +56,11 @@ function setUpEdd(currentEncounterDate, msgWeeks) {
   var encObsGestagionalAge = getField("gestationalAge.value") != null ? getField("gestationalAge.value").val() : null; // the encounter already has a Gestational Age obs value
   var encFollowUpObsGestagionalAge = getField("followUpGestationalAge.value") != null ? getField("followUpGestationalAge.value").val() : null;
 
-  function updateEdd() {
+  function updateEdd(isInitialLoad) {
+    // On initial load we must not overwrite/erase values already recorded on the encounter
+    // (EDIT mode). Once the user manually changes the LMP, always recalculate.
+    const preserveExistingEdd = isInitialLoad && (!!encObsEdd || !!encFollowUpObsEdd);
+    const preserveExistingGestAge = isInitialLoad && (!!encObsGestagionalAge || !!encFollowUpObsGestagionalAge);
     const lastPeriodDateValue = htmlForm.getValueIfLegal("lastPeriodDate.value");
     //the lastPerioDate is a string with the following format YYYY-MM-DD
     // SL-1279: Last menstruation date should not be more than 10 months in the past of the encounter date
@@ -75,17 +79,22 @@ function setUpEdd(currentEncounterDate, msgWeeks) {
       const edd = calculateExpectedDeliveryDate(lastPeriodDate);
       const locale = window.sessionContext.locale || navigator.language;
       jq(".calculated-edd-and-gestational").show();
-      if (!encObsEdd && !encFollowUpObsEdd) {
+      if (!preserveExistingEdd) {
         getField("edd.value").datepicker("setDate", edd);
         jq("#edd input[type='hidden']").trigger('change');
       }
       jq(".calculated-edd").text((Intl.DateTimeFormat(locale, { dateStyle: "medium" })).format(edd));
-      if (!encObsGestagionalAge && !encFollowUpObsGestagionalAge && getField("gestationalAge.value")) {
+      if (!preserveExistingGestAge && getField("gestationalAge.value")) {
         getField("gestationalAge.value").val(gestAgeText);
       }
       jq(".calculated-gestational-age-value").text(gestAgeText);
     } else {
-        getField("edd.value").datepicker("setDate", '');
+        // Don't erase an EDD that was already recorded on the encounter on initial load
+        // (e.g. when editing an existing form with no/old LMP); only clear a value we
+        // auto-calculated, or one the user invalidated by changing the LMP.
+        if (!preserveExistingEdd) {
+            getField("edd.value").datepicker("setDate", '');
+        }
         jq(".calculated-edd").text('');
         jq(".calculated-gestational-age-value").text('');
         jq(".calculated-edd-and-gestational").hide();
@@ -94,10 +103,10 @@ function setUpEdd(currentEncounterDate, msgWeeks) {
 
   jq(".calculated-edd-and-gestational").hide();
   jq("#lastPeriodDate input[type='hidden']").change(function () {
-    updateEdd();
+    updateEdd(false);
   });
 
-  updateEdd();
+  updateEdd(true);
 }
 
 function eddCannotBeOlderThanTwoWeeks(fieldId, encounterDate, errorMessage) {
