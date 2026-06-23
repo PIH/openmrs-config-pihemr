@@ -22,27 +22,27 @@ function validateAppointmentField(divId, getValue) {
     errorSpan.hide();
     return true;
 }
-
-beforeSubmit.push(function() {
-    if (!jq('#schedule-appointment-fields').is(':visible')) {
-        return true;
-    }
-    var valid = true;
-    valid = validateAppointmentField('appointment-datetime-field', function(div) {
-        return div.find('input[type="text"]').first().val();
-    }) &amp;&amp; valid;
-    valid = validateAppointmentField('appointment-location-field', function(div) {
-        return div.find('select').first().val();
-    }) &amp;&amp; valid;
-    valid = validateAppointmentField('appointment-service-field', function(div) {
-        return div.find('select').first().val();
-    }) &amp;&amp; valid;
-valid = validateAppointmentField('appointment-provider-field', function(div) {
-        return div.find('input.autoCompleteHidden').first().val();
-    }) &amp;&amp; valid;
-    return valid;
-});
-
+<ifMode mode="VIEW" include="false">
+    beforeSubmit.push(function() {
+        if (!jq('#schedule-appointment-fields').is(':visible')) {
+            return true;
+        }
+        var valid = true;
+        valid = validateAppointmentField('appointment-datetime-field', function(div) {
+            return div.find('input[type="text"]').first().val();
+        }) &amp;&amp; valid;
+        valid = validateAppointmentField('appointment-location-field', function(div) {
+            return div.find('select').first().val();
+        }) &amp;&amp; valid;
+        valid = validateAppointmentField('appointment-service-field', function(div) {
+            return div.find('select').first().val();
+        }) &amp;&amp; valid;
+    valid = validateAppointmentField('appointment-provider-field', function(div) {
+            return div.find('input.autoCompleteHidden').first().val();
+        }) &amp;&amp; valid;
+        return valid;
+    });
+</ifMode>
 // clear errors as user fills each field
 jq('#appointment-datetime-field input[type="text"]').first().on('change', function() {
     jq('#appointment-datetime-field .field-error').first().hide();
