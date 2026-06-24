@@ -55,13 +55,20 @@ function setUpEdd(currentEncounterDate, msgWeeks) {
   var encFollowUpObsEdd = getField("obgyn_initial_previous_edd.value") != null ? getField("obgyn_initial_previous_edd.value").val() : null;
   var encObsGestagionalAge = getField("gestationalAge.value") != null ? getField("gestationalAge.value").val() : null; // the encounter already has a Gestational Age obs value
   var encFollowUpObsGestagionalAge = getField("followUpGestationalAge.value") != null ? getField("followUpGestationalAge.value").val() : null;
+  // The LMP recorded on the encounter at load time. Used to tell apart a genuine user edit of
+  // the LMP from a programmatic re-trigger (e.g. the "Is patient pregnant?" radio triggers a
+  // change on the LMP field on initial load), so the latter never erases a recorded EDD/GA.
+  var initialLmp = htmlForm.getValueIfLegal("lastPeriodDate.value") || '';
 
   function updateEdd(isInitialLoad) {
-    // On initial load we must not overwrite/erase values already recorded on the encounter
-    // (EDIT mode). Once the user manually changes the LMP, always recalculate.
-    const preserveExistingEdd = isInitialLoad && (!!encObsEdd || !!encFollowUpObsEdd);
-    const preserveExistingGestAge = isInitialLoad && (!!encObsGestagionalAge || !!encFollowUpObsGestagionalAge);
     const lastPeriodDateValue = htmlForm.getValueIfLegal("lastPeriodDate.value");
+    // On initial load - or whenever the LMP still matches what was recorded on the encounter -
+    // we must not overwrite/erase values already recorded on the encounter (EDIT mode). This
+    // covers programmatic change triggers that fire during form setup with an unchanged LMP.
+    // Once the user actually changes the LMP, always recalculate.
+    const lmpUnchanged = (lastPeriodDateValue || '') === initialLmp;
+    const preserveExistingEdd = (isInitialLoad || lmpUnchanged) && (!!encObsEdd || !!encFollowUpObsEdd);
+    const preserveExistingGestAge = (isInitialLoad || lmpUnchanged) && (!!encObsGestagionalAge || !!encFollowUpObsGestagionalAge);
     //the lastPerioDate is a string with the following format YYYY-MM-DD
     // SL-1279: Last menstruation date should not be more than 10 months in the past of the encounter date
     const today = currentEncounterDate ? new Date(+currentEncounterDate) : new Date();
