@@ -1,0 +1,17 @@
+
+/* style guide for estimated delivery date */
+.gestationalAge {
+    white-space: nowrap;
+    display:    inline-flex;
+}
+
+.gestationalAge span{
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.gestationalAge input[type="text"]{
+    min-width: 2%;
+    width: 80px;
+    white-space: nowrap;
+}

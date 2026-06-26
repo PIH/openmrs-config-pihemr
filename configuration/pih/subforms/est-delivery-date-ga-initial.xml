@@ -1,0 +1,60 @@
+<!-- The htmlform code for Initial estimated delivery date and gestational age -->
+<div id="edd-and-ga-widget">
+    <subform path="configuration/pih/subforms/est-delivery-date-ga.js"/>
+    <subform path="configuration/pih/subforms/est-delivery-date-ga.css"/>
+
+    <div class="two-columns">
+        <!-- Last menstrual period (LMP or DDR) -->
+        <div>
+            <label>
+                <uimessage code="pihcore.pregnancy.lastPeriod"/>
+            </label>
+            <span class="small">
+                <obs id="lastPeriodDate" conceptId="CIEL:1427" allowFutureDates="false"/>
+            </span>
+        </div>
+
+        <!-- Due date (DPA) -->
+        <div>
+            <label>
+                <uimessage code="pihcore.pregnancy.dueDate"/>
+            </label>
+            <span class="small">
+                <obs id="edd" conceptId="CIEL:5596" allowFutureDates="true" allowPastDates="true"/>
+            </span>
+        </div>
+    </div>
+
+    <div id="calculated-edd-and-gestational" class="two-columns hidden">
+        <div>
+            <span id="calculated-gestational-age-wrapper">
+                <span id="calculated-gestational-age-label">
+                    <uimessage code="pihcore.calculatedGestationalAge"/>:&#160;
+                </span>
+                <span id='calculated-gestational-age-value' class="calculated-gestational-age-value value"></span>
+            </span>
+        </div>
+        <div>
+            <span id="calculated-edd-wrapper">
+                <span id="calculated-edd-label">
+                    <uimessage code="pihcore.calculatedEstimatedDeliveryDate"/>:&#160;
+                </span>
+                <span id='calculated-edd' class="calculated-edd value"></span>
+            </span>
+        </div>
+    </div>
+    <div>
+        <p>
+            <br/>
+            <span id="gestational-age-wrapper">
+                <label>
+                    <uimessage code="pihcore.gestational.age" /><uimessage code="pihcore.gestational.age.instructions" />
+                </label>
+
+                <span>
+                    <obs conceptId="CIEL:1438" class="value gestationalAge" showUnits="true" unitsCssClass="append-to-value" size="80"/>
+                </span>
+            </span>
+        </p>
+    </div>
+</div>
