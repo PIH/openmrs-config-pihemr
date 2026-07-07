@@ -121,7 +121,7 @@ body {
     width: 420px;
 }
 
-.five-columns, .four-columns, .three-columns, .two-columns {
+.six-columns, .five-columns, .four-columns, .three-columns, .two-columns {
     display: table;
     height: 100%;
     width: 100%;
@@ -145,4 +145,9 @@ body {
 .five-columns > div {
     display: table-cell;
     width: 20%;
+}
+
+.six-columns > div {
+    display: table-cell;
+    width: 16.6%;
 }
