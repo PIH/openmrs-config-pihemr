@@ -22,19 +22,19 @@ const yesValue = "1";
 const noValue = "2";
 
 function dateFromString(dateString) {
-  var returnDate = null;
-  //the dateString is a string with the following format YYYY-MM-DD
-  if (dateString) {
-    const returnDate = new Date(dateString);
-    let yearMonthDay = dateString.split('-');
-    if (yearMonthDay.length == 3) {
-      returnDate.setFullYear(yearMonthDay[0]);
-      returnDate.setMonth(+yearMonthDay[1] - 1); // the month starts from 0 for January
-      returnDate.setDate(yearMonthDay[2]);
-      returnDate.setHours(0, 0, 0);
+    //the dateString is a string with the following format YYYY-MM-DD
+    if (dateString) {
+        const returnDate = new Date();
+        let yearMonthDay = dateString.split('-');
+        if (yearMonthDay.length == 3) {
+            returnDate.setFullYear(yearMonthDay[0]);
+            returnDate.setMonth(+yearMonthDay[1] - 1); // the month starts from 0 for January
+            returnDate.setDate(yearMonthDay[2]);
+            returnDate.setHours(0, 0, 0);
+        }
+        return returnDate;
     }
-    return returnDate;
-  }
+    return null;
 }
 
 function isPatientPregnant() {
@@ -73,7 +73,7 @@ function setUpEdd(currentEncounterDate, msgWeeks) {
     // SL-1279: Last menstruation date should not be more than 10 months in the past of the encounter date
     const today = currentEncounterDate ? new Date(+currentEncounterDate) : new Date();
     if (lastPeriodDateValue && isPatientPregnant() && (daysBetweenUTCDates(new Date(lastPeriodDateValue), today) < 305)) {
-      const lastPeriodDate = new Date(lastPeriodDateValue);
+      const lastPeriodDate = dateFromString(lastPeriodDateValue);
       let yearMonthDay = lastPeriodDateValue.split('-');
       if (yearMonthDay.length == 3) {
         lastPeriodDate.setFullYear(yearMonthDay[0]);
@@ -177,7 +177,8 @@ function calculateGestationalDays(lastPeriodDate, currentEncounterDate, msgWeeks
  * takes lastPeriodDate:Date as input, returns Date as output
  */
 function calculateExpectedDeliveryDate(lastPeriodDate) {
-  return new Date(lastPeriodDate.getTime() + 1000 * 60 * 60 * 24 * 280);
+    const date = new Date(lastPeriodDate);
+    return new Date(date.getFullYear() + 1, date.getMonth() - 3, date.getDate() + 7);
 }
 
 /**
