@@ -178,7 +178,13 @@ function calculateGestationalDays(lastPeriodDate, currentEncounterDate, msgWeeks
  */
 function calculateExpectedDeliveryDate(lastPeriodDate) {
     const date = new Date(lastPeriodDate);
-    return new Date(date.getFullYear() + 1, date.getMonth() - 3, date.getDate() + 7);
+    // EDD = LMP + 280 days (40 weeks). An exact 280-day offset is used, rather than the
+    // calendar-based Naegele rule (+1 year -3 months +7 days, which varies 279-282 days),
+    // so this stays consistent with the gestational-age calculations that assume 40 weeks
+    // = 280 days. setDate() advances the calendar date, keeping the result at local midnight
+    // (DST-safe) and handling month/year rollover.
+    date.setDate(date.getDate() + 280);
+    return date;
 }
 
 /**
