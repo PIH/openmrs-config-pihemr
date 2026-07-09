@@ -44,16 +44,18 @@ insert into temp_vaccinations (
   encounter_datetime,
   encounter_type)
 select
-  patient_id,
+  e.patient_id,
   encounter_id,
   encounter_datetime,
   et.name
 from encounter e
 inner join encounter_type et on et.encounter_type_id = e.encounter_type
+INNER JOIN visit v ON e.visit_id = v.visit_id AND v.voided = 0
 where e.encounter_type in (@obgynnote)
  AND date(e.encounter_datetime) >=@startDate
  AND date(e.encounter_datetime) <=@endDate
-and voided = 0
+and e.voided = 0
+AND v.location_id = @location
 ;
 
 update temp_vaccinations set zlemrid = zlemr(patient_id);

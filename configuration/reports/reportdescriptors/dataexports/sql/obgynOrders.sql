@@ -52,10 +52,12 @@ select
 from encounter e
 inner join encounter_type et on et.encounter_type_id = e.encounter_type
 inner join orders o on o.encounter_id = e.encounter_id and o.voided = 0
+INNER JOIN visit v ON e.visit_id = v.visit_id AND v.voided = 0
 where e.encounter_type in (@obgynnote)
 AND date(e.encounter_datetime) >=@startDate
 AND date(e.encounter_datetime) <=@endDate
 and e.voided = 0
+AND v.location_id = @location
 ;
 
 update temp_orders set zlemrid = zlemr(patient_id);

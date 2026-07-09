@@ -9,6 +9,11 @@ parameters:
   - key: "endDate"
     type: "java.util.Date"
     label: "reporting.parameter.endDate"
+  - key: "location"
+    type: "org.openmrs.Location"
+    label: "reporting.parameter.location"
+    widgetConfiguration:
+      withTag: "Visit Location"
 datasets:
   - key: "dispensing"
     type: "sql"

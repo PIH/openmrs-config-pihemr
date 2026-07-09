@@ -126,6 +126,7 @@ WHERE p.voided = 0
 -- Admission <= end date of period, Exit >= start date of period (or null)
 AND adm.encounter_datetime < ADDDATE(@endDate, INTERVAL 1 DAY)
 AND (COALESCE(dis.encounter_datetime, v.date_stopped) IS NULL OR COALESCE(dis.encounter_datetime, v.date_stopped) >= @startDate)
+AND v.location_id = @location
 
 -- Exclude test patients
 AND p.patient_id NOT IN (SELECT person_id FROM person_attribute WHERE value = 'true' AND person_attribute_type_id = @testPt AND voided = 0)

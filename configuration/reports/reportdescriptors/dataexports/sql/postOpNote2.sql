@@ -63,6 +63,8 @@ INNER JOIN encounter e ON p.patient_id = e.patient_id and e.voided = 0 AND e.enc
 
 INNER JOIN location el ON e.location_id = el.location_id
 
+INNER JOIN visit v ON e.visit_id = v.visit_id AND v.voided = 0
+
 --Emergency
 LEFT OUTER JOIN obs emergency ON e.encounter_id = emergency.encounter_id AND emergency.concept_id = 525 AND emergency.voided = 0
 LEFT OUTER JOIN concept_name emergency_n ON emergency.value_coded = emergency_n.concept_id AND emergency_n.locale = 'fr' AND emergency_n.locale_preferred = 1 AND emergency_n.voided = 0
@@ -141,6 +143,7 @@ WHERE p.voided = 0
 AND p.patient_id NOT IN (SELECT person_id FROM person_attribute WHERE value = 'true' AND person_attribute_type_id = @testPt AND voided = 0)
 
 AND e.encounter_datetime >= @startDate AND e.encounter_datetime < ADDDATE(@endDate, INTERVAL 1 DAY)
+AND v.location_id = @location
 
 GROUP BY e.encounter_id
 

@@ -53,16 +53,18 @@ insert into temp_echo (
   date_created
   )
 select
-  patient_id,
+  e.patient_id,
   encounter_id,
-  visit_id,
+  e.visit_id,
   encounter_datetime,
-  date_created
+  e.date_created
 from encounter e
+INNER JOIN visit v ON e.visit_id = v.visit_id AND v.voided = 0
 where e.encounter_type in (@echo_note)
 AND ((date(e.encounter_datetime) >=@startDate) or @startDate is null)
 AND ((date(e.encounter_datetime) <=@endDate)  or @endDate is null)
-and voided = 0
+and e.voided = 0
+AND v.location_id = @location
 ;
 -- encounter and demo info
 update temp_echo set emrid = patient_identifier(patient_id, metadata_uuid('org.openmrs.module.emrapi', 'emr.primaryIdentifierType'));

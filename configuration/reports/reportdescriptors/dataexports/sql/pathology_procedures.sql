@@ -22,10 +22,13 @@ set @nonCodedProcedure = concept_from_mapping('PIH','10772');
 DROP TEMPORARY TABLE IF EXISTS temp_procedure_encounters;
 create temporary table temp_procedure_encounters
 select o.encounter_id, o.order_id , o.order_number  from orders o
+inner join encounter e on e.encounter_id = o.encounter_id and e.voided = 0
+INNER JOIN visit v ON e.visit_id = v.visit_id AND v.voided = 0
 where o.order_type_id = @pathologyTestOrder
 and o.voided = 0
 AND ((date(o.date_activated) >= @startDate) or  @startDate is null)
 AND ((date(o.date_activated) <= @endDate) or @endDate is null)
+AND v.location_id = @location
 ;
 
 insert into temp_procedure (patient_id, encounter_id, order_id, order_number, coded_procedure, noncoded_procedure)

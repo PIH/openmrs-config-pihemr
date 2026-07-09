@@ -76,9 +76,11 @@ Cons_Diagnosis_noncoded  text
 insert into temp_ED_Triage (patient_id, encounter_id, visit_id, Triage_datetime)
 select e.patient_id, e.encounter_id, e.visit_id,e.encounter_datetime
 from encounter e
+inner join visit v on e.visit_id = v.visit_id and v.voided = 0
 where e.encounter_type = @EDTriageEnc and e.voided = 0
 AND date(e.encounter_datetime) >=@startDate
 AND date(e.encounter_datetime) <=@endDate
+AND v.location_id = @location
 ;
 
 -- patient level info

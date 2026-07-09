@@ -102,13 +102,15 @@ malnutrition_referral_actor  varchar(255)
 
 
 insert into temp_j9_mother_home_visit (encounter_id, encounter_type, patient_id, encounter_date)
-select encounter_id, name,patient_id, date(encounter_datetime) from encounter e
+select e.encounter_id, name,e.patient_id, date(encounter_datetime) from encounter e
 inner join encounter_type et on et.encounter_type_id = e.encounter_type
-where encounter_type in (@prenatal_homeasess_encounter_type, @pediatric_homeasess_encounter_type, @postnatal_homeasess_encounter_type,@mat_followup_homeasess_encounter_type) 
-and voided = 0
+inner join visit v on e.visit_id = v.visit_id and v.voided = 0
+where encounter_type in (@prenatal_homeasess_encounter_type, @pediatric_homeasess_encounter_type, @postnatal_homeasess_encounter_type,@mat_followup_homeasess_encounter_type)
+and e.voided = 0
 -- filter by date
 and date(encounter_datetime) >=  date(@startDate)
-and date(encounter_datetime) <=  date(@endDate);
+and date(encounter_datetime) <=  date(@endDate)
+and v.location_id = @location;
 
 
 -- update vital signs

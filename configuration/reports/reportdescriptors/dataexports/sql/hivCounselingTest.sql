@@ -77,6 +77,7 @@ SELECT
   cmnt.value_text                      AS 'REMARQUES'
 FROM
   encounter e
+  INNER JOIN visit v ON e.visit_id = v.visit_id AND v.voided = 0
   INNER JOIN
   -- Patient's demographics
   current_name_address cna ON cna.person_id = e.patient_id
@@ -408,4 +409,5 @@ LEFT JOIN
                                        rm.source = 'CIEL' AND rm.code = 162749)
               AND cmnt.voided = 0
               AND e.encounter_id = cmnt.encounter_id
+WHERE v.location_id = @location
 ORDER BY e.encounter_datetime;

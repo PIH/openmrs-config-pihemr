@@ -160,17 +160,19 @@ insert into temp_delivery (
   date_entered,
   encounter_type)
 select
-  patient_id,
+  e.patient_id,
   encounter_id,
   encounter_datetime,
-  e.date_created, 
+  e.date_created,
   et.name
 from encounter e
 inner join encounter_type et on et.encounter_type_id = e.encounter_type
+inner join visit v on e.visit_id = v.visit_id and v.voided = 0
 where e.encounter_type in (@delivery_note)
 AND ((date(e.encounter_datetime) >=@startDate) or @startDate is null)
 AND ((date(e.encounter_datetime) <=@endDate)  or @endDate is null)
-and voided = 0
+and e.voided = 0
+AND v.location_id = @location
 ;
 
 create index temp_delivery_encounter_id on temp_delivery (encounter_id);

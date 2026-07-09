@@ -155,6 +155,7 @@ FROM temp_patient p
          INNER JOIN encounter_provider ep ON ep.encounter_id = e.encounter_id and ep.voided = 0
          INNER JOIN provider pv ON pv.provider_id = ep.provider_id
          INNER JOIN person_name pn ON pn.person_id = pv.person_id and pn.voided = 0
+         INNER JOIN visit v ON e.visit_id = v.visit_id AND v.voided = 0
 WHERE e.voided = 0
   AND e.encounter_id in (select encounter_id from temp_vaccinations)
   AND et.uuid in (
@@ -166,6 +167,7 @@ WHERE e.voided = 0
     )
     AND e.encounter_datetime >= @startDate
     AND e.encounter_datetime < ADDDATE(@endDate, INTERVAL 1 DAY)
+    AND v.location_id = @location
 ;
 
 # BACILLE CAMILE-GUERIN VACCINATION

@@ -110,10 +110,12 @@ create index temp_dispensing_enc_ei on temp_dispensing_enc(encounter_id);
 
 update temp_dispensing_enc t
 inner join encounter e on e.encounter_id = t.encounter_id
+inner join visit v on e.visit_id = v.visit_id and v.voided = 0
 set t.patient_id = e.patient_id,
 	t.visit_id = e.visit_id ,
 	t.location_id = e.location_id ,
-	t.dispensedDatetime = e.encounter_datetime; 
+	t.dispensedDatetime = e.encounter_datetime
+where v.location_id = @location;
  
 DROP TEMPORARY TABLE IF EXISTS temp_obs;
 create temporary table temp_obs 

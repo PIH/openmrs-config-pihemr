@@ -41,6 +41,7 @@ INNER JOIN person pr ON p.patient_id = pr.person_id AND pr.voided = 0
 LEFT OUTER JOIN (SELECT * FROM person_address WHERE voided = 0 ORDER BY date_created DESC) pa ON p.patient_id = pa.person_id
 INNER JOIN (SELECT person_id, given_name, family_name FROM person_name WHERE voided = 0 ORDER BY date_created desc) n ON p.patient_id = n.person_id
 INNER JOIN encounter e ON p.patient_id = e.patient_id and e.voided = 0 AND e.encounter_type in (@oncNoteEnc, @oncIntakeEnc, @chemoEnc, @dispEnc)
+INNER JOIN visit v ON e.visit_id = v.visit_id AND v.voided = 0
 INNER JOIN location el ON e.location_id = el.location_id
 -- Provider Name
 INNER JOIN encounter_provider ep ON ep.encounter_id = e.encounter_id and ep.voided = 0
@@ -124,5 +125,6 @@ AND p.patient_id NOT IN (SELECT person_id FROM person_attribute WHERE value = 't
 AND (e.encounter_type <> @dispEnc or disp.Outpatient_chemo is not null)
 AND date(e.encounter_datetime) >= @startDate
 AND date(e.encounter_datetime) <= @endDate
+AND v.location_id = @location
 GROUP BY e.encounter_id
 order by e.encounter_datetime;
