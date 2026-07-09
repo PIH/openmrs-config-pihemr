@@ -10,6 +10,18 @@ body {
     }
 }
 
+@media print {
+    .print-form-datestamps { display: block !important }
+    button.cancel, button.submit { display: none }
+    label { font-weight: bold }
+    label[for] { font-weight: normal } /* refers to the radio set label */
+}
+
+textarea {
+    overflow-y: hidden; /* fixes scrollbar flash - kudos to @brettjonesdev */
+    padding-top: 1.1em; /* fixes text jump on Enter keypress */
+}
+
 .patient-dashboard-widget-label {
     font-weight: bold;
     font-size: 0.9em;
@@ -22,6 +34,10 @@ body {
 .status-data-alert {
     font-weight: bold;
     color: red;
+}
+
+#encounterDate input {
+    min-width: 15%
 }
 
 /* Ensure datetime picker is on one line */
@@ -150,4 +166,30 @@ body {
 .six-columns > div {
     display: table-cell;
     width: 16.6%;
+}
+
+.two-column-without-divs {
+    column-count: 2;
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+}
+
+.prior-obs-value {
+    color: blue;
+    font-size: smaller;
+}
+
+.small-input input {
+    min-width: 7em;
+}
+
+.provider-grid {
+    display: inline-grid;
+    grid-template-columns: 400px 400px;
+    background-color: #F2F2F2;
+}
+
+.provider-grid > div {
+    padding-left: 5px;
+    border: none;
 }
