@@ -169,8 +169,11 @@ function calculateGestationalDays(lastPeriodDate, currentEncounterDate, msgWeeks
   const gestAgeMs = today.getTime() - lastPeriodDate.getTime();
   const gestAgeDays = Math.floor(gestAgeMs / (1000 * 3600 * 24))
   const gestAgeWeeks = Math.floor(gestAgeDays / 7);
-  const gestAgeRemainderDays = gestAgeDays % 7;
-  return gestAgeWeeks + (gestAgeRemainderDays ? gestAgeRemainderDays / 10 : 0);
+  const gestAgeRemainderDays = gestAgeDays % 7;   
+  return gestAgeWeeks +
+      " " +
+      (gestAgeRemainderDays ? gestAgeRemainderDays + "/7 " : " ") +
+      msgWeeks;
 }
 
 /**
