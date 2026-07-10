@@ -142,6 +142,7 @@ INSERT INTO temp_ncd_program (patient_program_id, patient_id, date_enrolled, dat
   location_id,
   outcome_concept_id
   FROM patient_program WHERE voided = 0 AND program_id IN (SELECT program_id FROM program WHERE uuid = '515796ec-bf3a-11e7-abc4-cec278b6b50a') -- uuid of the NCD program
+  AND location_id = @location
   ORDER BY patient_id;
 
 UPDATE temp_ncd_program p INNER JOIN current_name_address d ON d.person_id = p.patient_id

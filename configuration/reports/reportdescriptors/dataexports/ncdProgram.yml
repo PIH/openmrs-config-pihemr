@@ -2,6 +2,12 @@ key: "ncdprogramexport"
 uuid: "1de224fc-82d4-40cc-be07-f2e95ed2e452"
 name: "mirebalaisreports.ncdprogramdataexport.name"
 description: "mirebalaisreports.ncdprogramdataexport.description"
+parameters:
+  - key: "location"
+    type: "org.openmrs.Location"
+    label: "reporting.parameter.location"
+    widgetConfiguration:
+      withTag: "Visit Location"
 datasets:
   - key: "ncdprogramexport"
     type: "sql"
