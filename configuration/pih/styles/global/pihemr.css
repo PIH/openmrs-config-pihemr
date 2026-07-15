@@ -40,6 +40,16 @@ textarea {
     min-width: 15%
 }
 
+#encounter-diagnoses-target {
+    display: inline-block;
+    width: 40%;
+    vertical-align: top;
+}
+
+#encounter-diagnoses-app {
+    margin-bottom: 20px;
+}
+
 /* Ensure datetime picker is on one line */
 .hfe-hours, .hfe-minutes, .hfe-seconds {
     width: 70px;
@@ -168,7 +178,7 @@ textarea {
     width: 16.6%;
 }
 
-.two-column-without-divs {
+.two-column-without-divs, .two-columns-without-divs {
     column-count: 2;
     -webkit-column-count: 2;
     -moz-column-count: 2;
