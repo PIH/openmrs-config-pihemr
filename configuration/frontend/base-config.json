@@ -119,7 +119,7 @@
   },
   "@openmrs/esm-login-app": {
     "logo": {
-      "src": "${openmrsSpaBase}/site/pih-logo.png",
+      "src": "${openmrsSpaBase}/pih-logo.png",
       "alt": "Partners In Health"
     },
     "links": {
