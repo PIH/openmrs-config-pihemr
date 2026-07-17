@@ -2,6 +2,13 @@ key: "allpatientswithids"
 uuid: "d534683e-20bd-11e3-b5bd-0bec7fb71852"
 name: "mirebalaisreports.allpatientswithids.name"
 description: "mirebalaisreports.allpatientswithids.description"
+parameters:
+  - key: "location"
+    type: "org.openmrs.Location"
+    label: "reporting.parameter.location"
+    required: false
+    widgetConfiguration:
+      withTag: "Visit Location"
 datasets:
   - key: "dsd"
     type: "sql"
