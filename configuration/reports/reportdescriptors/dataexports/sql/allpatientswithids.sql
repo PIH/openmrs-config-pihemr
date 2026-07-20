@@ -1,5 +1,7 @@
 CALL initialize_global_metadata();
 
+SET @health_center_attribute_type_id = (select person_attribute_type_id from person_attribute_type where uuid = '8d87236c-c2cc-11de-8d13-0010c6dffd0f');
+
 DROP TEMPORARY TABLE IF EXISTS temp_patients;
 CREATE TEMPORARY TABLE temp_patients
 (
@@ -36,9 +38,9 @@ update temp_patients t set t.given_name = person_given_name(patient_id);
 update temp_patients t
 left outer join person_attribute pa_hc on pa_hc.person_id = t.patient_id
 	and pa_hc.voided = 0
-	and pa_hc.person_attribute_type_id = (select person_attribute_type_id from person_attribute_type where uuid = '8d87236c-c2cc-11de-8d13-0010c6dffd0f')
+	and pa_hc.person_attribute_type_id = @health_center_attribute_type_id
 left outer join location loc_hc on loc_hc.location_id = pa_hc.value
-set t.health_center_id = pa_hc.value,
+set t.health_center_id = loc_hc.location_id,
 	t.health_center = loc_hc.name;
 
 -- person table fields
@@ -108,5 +110,4 @@ SELECT
        telephone_number,
        Section_Communale_CDC_ID,
        last_biometric_date
-from temp_patients
-where (@location is null or health_center_id = @location);
+from temp_patients;
