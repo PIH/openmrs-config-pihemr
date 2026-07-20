@@ -2,6 +2,13 @@ key: "mentalhealthprogramexport"
 uuid: "e2d8b170-e793-10e5-a837-0888200c9a66"
 name: "mirebalaisreports.mentalhealthprogramdataexport.name"
 description: "mirebalaisreports.mentalhealthprogramdataexport.description"
+parameters:
+  - key: "location"
+    type: "org.openmrs.Location"
+    label: "reporting.parameter.location"
+    widgetConfiguration:
+      withTag: "Visit Location"
+      defaultIfOnlyOneOption: true
 datasets:
   - key: "mentalhealthprogramexport"
     type: "sql"

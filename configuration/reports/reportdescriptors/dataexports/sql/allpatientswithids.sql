@@ -6,6 +6,8 @@ CREATE TEMPORARY TABLE temp_patients
 	patient_id					int(11),
 	family_name					varchar(255),
 	given_name					varchar(255),
+	health_center_id				int(11),
+	health_center					varchar(255),
 	patient_address_level_1				varchar(255),
 	patient_address_level_2				varchar(255),
 	patient_address_level_3				varchar(255),
@@ -29,6 +31,15 @@ select patient_id from patient where voided = 0
 -- patient name
 update temp_patients t set t.family_name = person_family_name(patient_id);
 update temp_patients t set t.given_name = person_given_name(patient_id);
+
+-- health center (person attribute)
+update temp_patients t
+left outer join person_attribute pa_hc on pa_hc.person_id = t.patient_id
+	and pa_hc.voided = 0
+	and pa_hc.person_attribute_type_id = (select person_attribute_type_id from person_attribute_type where uuid = '8d87236c-c2cc-11de-8d13-0010c6dffd0f')
+left outer join location loc_hc on loc_hc.location_id = pa_hc.value
+set t.health_center_id = pa_hc.value,
+	t.health_center = loc_hc.name;
 
 -- person table fields
 update temp_patients t
@@ -82,6 +93,7 @@ set t.last_biometric_date = bio.date_created;
 SELECT
        family_name,
        given_name,
+       health_center,
        patient_address_level_1,
        patient_address_level_2,
        patient_address_level_3,
@@ -96,4 +108,5 @@ SELECT
        telephone_number,
        Section_Communale_CDC_ID,
        last_biometric_date
-from temp_patients;
+from temp_patients
+where (@location is null or health_center_id = @location);

@@ -72,6 +72,9 @@ INNER JOIN person_name provn ON epp.person_id = provn.person_id AND provn.voided
 -- Location of encounter
 INNER JOIN location el ON e.location_id = el.location_id
 
+-- Visit
+INNER JOIN visit v ON e.visit_id = v.visit_id AND v.voided = 0
+
 -- Radiology report construct observation
 LEFT OUTER JOIN obs rrc ON e.encounter_id = rrc.encounter_id AND rrc.concept_id = 632 AND rrc.voided = 0
 
@@ -118,6 +121,7 @@ WHERE p.voided = 0
 AND p.patient_id NOT IN (SELECT person_id FROM person_attribute WHERE value = 'true' AND person_attribute_type_id = @testPt AND voided = 0)
 
 AND e.encounter_datetime >= @startDate AND e.encounter_datetime < ADDDATE(@endDate, INTERVAL 1 DAY)
+AND v.location_id = @location
 
 GROUP BY e.encounter_id
 

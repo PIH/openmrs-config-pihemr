@@ -9,6 +9,13 @@ parameters:
   - key: "endDate"
     type: "java.util.Date"
     label: "reporting.parameter.endDate"
+  - key: "visitLocation"
+    type: "org.openmrs.Location"
+    label: "reporting.parameter.location"
+    required: false
+    widgetConfiguration:
+      withTag: "Visit Location"
+      defaultIfOnlyOneOption: true
 datasets:
   - {key: "consultations", type: "consultationsDataSetManager"}
 designs:

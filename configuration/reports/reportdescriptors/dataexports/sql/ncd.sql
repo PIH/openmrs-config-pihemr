@@ -108,14 +108,18 @@ clinical_impression_summary text
 );
 
 insert into temp_ncd_section (patient_id, encounter_id, visit_id, encounter_location_id, encounter_type, encounter_datetime,visit_type)
-select patient_id, encounter_id, visit_id, location_id, group_concat(encounter_type), encounter_datetime, encounterName(encounter_type)from encounter where voided = 0 and encounter_type
+select e.patient_id, e.encounter_id, e.visit_id, e.location_id, group_concat(e.encounter_type), e.encounter_datetime, encounterName(e.encounter_type)
+from encounter e
+inner join visit v on e.visit_id = v.visit_id and v.voided = 0
+where e.voided = 0 and e.encounter_type
 in (@NCDInitEnc, @NCDFollowEnc)
-AND patient_id NOT IN (SELECT person_id FROM person_attribute WHERE value = "true" AND person_attribute_type_id = @testPt
+AND e.patient_id NOT IN (SELECT person_id FROM person_attribute WHERE value = "true" AND person_attribute_type_id = @testPt
                          AND voided = 0)
-AND visit_id IS NOT NULL
-AND DATE(encounter_datetime) >=  date(@startDate)
-AND DATE(encounter_datetime) <=  date(@endDate)
-GROUP BY visit_id;
+AND e.visit_id IS NOT NULL
+AND DATE(e.encounter_datetime) >=  date(@startDate)
+AND DATE(e.encounter_datetime) <=  date(@endDate)
+AND v.location_id = @location
+GROUP BY e.visit_id;
 
 -- Most recent ZL EMR ID    
 update temp_ncd_section tns set tns.emr_id = patient_identifier(patient_id, metadata_uuid('org.openmrs.module.emrapi', 'emr.primaryIdentifierType'));    

@@ -75,6 +75,7 @@ select patient_id,
        If(date_completed is null, datediff(now(), date_enrolled), datediff(date_completed, date_enrolled)),
        concept_name(outcome_concept_id, 'fr')
        from patient_program where program_id = @program_id and voided = 0
+       and location_id = @location
      ;
 
 -- exclude test patients

@@ -63,20 +63,23 @@ date_created,
 diagnosis_concept,
 coded
 )
-select 
+select
 o.person_id,
 o.encounter_id,
 obs_id,
 o.obs_group_id,
 o.obs_datetime,
 o.date_created,
-o.value_coded, 
-1 
-from obs o 
+o.value_coded,
+1
+from obs o
+inner join encounter e on e.encounter_id = o.encounter_id and e.voided = 0
+inner join visit v on e.visit_id = v.visit_id and v.voided = 0
 where concept_id = concept_from_mapping('PIH','3064')
 AND o.voided = 0
 AND ((date(o.obs_datetime) >=@startDate) or @startDate is null)
 AND ((date(o.obs_datetime) <=@endDate)  or @endDate is null)
+AND v.location_id = @location
 ;
 create index temp_diagnoses_e on temp_diagnoses(encounter_id);
 create index temp_diagnoses_p on temp_diagnoses(patient_id);
@@ -173,7 +176,7 @@ date_created,
 diagnosis_entered,
 coded
 )
-select 
+select
 o.person_id,
 o.encounter_id,
 o.obs_id,
@@ -181,11 +184,14 @@ o.obs_datetime,
 o.date_created,
 o.value_text,
 0
-from obs o 
+from obs o
+inner join encounter e on e.encounter_id = o.encounter_id and e.voided = 0
+inner join visit v on e.visit_id = v.visit_id and v.voided = 0
 where concept_id = concept_from_mapping('PIH','Diagnosis or problem, non-coded')
 AND o.voided = 0
 AND ((date(o.obs_datetime) >=@startDate) or @startDate is null)
 AND ((date(o.obs_datetime) <=@endDate)  or @endDate is null)
+AND v.location_id = @location
 ;
 
 -- patient level info

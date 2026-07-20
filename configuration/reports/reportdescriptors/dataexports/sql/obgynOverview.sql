@@ -186,9 +186,11 @@ select
     e.visit_id
 from
     encounter e
+INNER JOIN visit v ON e.visit_id = v.visit_id AND v.voided = 0
 where e.encounter_type =@obgyn
       and date(e.encounter_datetime) >= date(@startDate)
       and date(e.encounter_datetime) <= date(@endDate)
+      AND v.location_id = @location
 ;
 
 create index temp_obgyn_patient on temp_obgyn(patient_id);

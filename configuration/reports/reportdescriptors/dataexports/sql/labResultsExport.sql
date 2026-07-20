@@ -149,13 +149,17 @@ create index temp_lab_patient_ei on temp_lab_encounter(encounter_id);
   
 update temp_lab_encounter t
 inner join encounter e on e.encounter_id = t.encounter_id
+inner join visit v on e.visit_id = v.visit_id and v.voided = 0
 set t.patient_id = e.patient_id ,
  	t.encounter_location_id = e.location_id,
- 	t.encounter_type_id = e.encounter_type, 
-	t.specimen_collection_date = e.encounter_datetime, 
+ 	t.encounter_type_id = e.encounter_type,
+	t.specimen_collection_date = e.encounter_datetime,
 	t.date_created = e.date_created,
 	t.creator = e.creator,
-	t.visit_id = e.visit_id;
+	t.visit_id = e.visit_id
+where v.location_id = @location;
+
+DELETE FROM temp_labresults WHERE encounter_id NOT IN (SELECT encounter_id FROM temp_lab_encounter WHERE visit_id IS NOT NULL);
 
 update temp_lab_encounter t
 set encounter_type = encounter_type_name_from_id(encounter_type_id);

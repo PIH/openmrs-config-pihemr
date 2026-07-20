@@ -61,19 +61,21 @@ INSERT INTO temp_vitals(
     date_created,
     entered_by
 )
-SELECT  patient_id,
-		encounter_id,
-        visit_id,
-        encounter_datetime,
-        date_created,
-        creator
+SELECT  e.patient_id,
+		e.encounter_id,
+        e.visit_id,
+        e.encounter_datetime,
+        e.date_created,
+        e.creator
 FROM encounter e
-WHERE voided = 0
-AND encounter_type = (SELECT encounter_type_id 
+INNER JOIN visit v ON e.visit_id = v.visit_id AND v.voided = 0
+WHERE e.voided = 0
+AND encounter_type = (SELECT encounter_type_id
 			FROM encounter_type
 			WHERE uuid = '4fb47712-34a6-40d2-8ed3-e153abbd25b7') #Vital Signs
 AND DATE(encounter_datetime) >=@startDate
 AND DATE(encounter_datetime) <=@endDate
+AND v.location_id = @location
 ;
 
 UPDATE temp_vitals SET department = PERSON_ADDRESS_STATE_PROVINCE(patient_id);

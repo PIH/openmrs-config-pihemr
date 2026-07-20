@@ -214,13 +214,15 @@ encounter e
 INNER JOIN patient p ON p.patient_id = e.patient_id
 INNER JOIN person pr ON pr.person_id = e.patient_id
 LEFT JOIN encounter_type et ON et.encounter_type_id = e.encounter_type
+INNER JOIN visit v ON v.visit_id = e.visit_id AND v.voided = 0
 WHERE
 DATE(e.encounter_datetime) >=  @startDate AND
 DATE(e.encounter_datetime) <=  @endDate AND
 pr.voided = 0 AND
 p.voided = 0 AND
 e.voided = 0 AND
-et.name IN ('COVID-19 Admission', 'COVID-19 Progress', 'COVID-19 Discharge');
+et.name IN ('COVID-19 Admission', 'COVID-19 Progress', 'COVID-19 Discharge') AND
+v.location_id = @location;
 
 -- Test patient
 DELETE FROM temp_encounter

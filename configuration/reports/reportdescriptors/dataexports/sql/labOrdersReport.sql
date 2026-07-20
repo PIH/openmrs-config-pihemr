@@ -67,10 +67,13 @@ SELECT
     o.order_reason
 FROM
     orders o
+    INNER JOIN encounter e ON o.encounter_id = e.encounter_id AND e.voided = 0
+    INNER JOIN visit v ON e.visit_id = v.visit_id AND v.voided = 0
 WHERE o.order_type_id =@testOrder
       AND order_action = 'NEW'
       AND (@startDate IS NULL OR DATE(o.date_activated) >= DATE(@startDate))
-      AND (@endDate IS NULL OR DATE(o.date_activated) <= DATE(@endDate));
+      AND (@endDate IS NULL OR DATE(o.date_activated) <= DATE(@endDate))
+      AND v.location_id = @location;
 
 ## REMOVE TEST PATIENTS
 DELETE

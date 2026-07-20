@@ -67,10 +67,13 @@ post_result_diagnosis		VARCHAR(255)
 );
 
 insert into temp_pathology (order_id,encounter_id, order_number, patient_id, prepath_dx)
-select o.order_id , o.encounter_id, o.order_number, patient_id, concept_name(order_reason,@locale)  from orders o
+select o.order_id , o.encounter_id, o.order_number, o.patient_id, concept_name(order_reason,@locale)  from orders o
+inner join encounter e on e.encounter_id = o.encounter_id and e.voided = 0
+INNER JOIN visit v ON e.visit_id = v.visit_id AND v.voided = 0
 where o.order_type_id = @pathologyTestOrder
 AND ((date(o.date_activated) >= @startDate) or  @startDate is null)
 AND ((date(o.date_activated) <= @endDate) or @endDate is null)
+AND v.location_id = @location
 ;
 
 DROP TEMPORARY TABLE IF EXISTS temp_obs;

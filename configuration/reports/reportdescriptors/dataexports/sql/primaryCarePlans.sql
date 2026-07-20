@@ -85,16 +85,18 @@ insert into temp_plan (
   encounter_datetime,
   encounter_type)
 select
-  patient_id,
-  encounter_id,
-  encounter_datetime,
+  e.patient_id,
+  e.encounter_id,
+  e.encounter_datetime,
   et.name
 from encounter e
 inner join encounter_type et on et.encounter_type_id = e.encounter_type
+inner join visit v on e.visit_id = v.visit_id and v.voided = 0
 where e.encounter_type in (@AdultInitEnc, @AdultFollowEnc, @PedInitEnc, @PedFollowEnc)
 AND date(e.encounter_datetime) >=@startDate
 AND date(e.encounter_datetime) <=@endDate
-and voided = 0
+and e.voided = 0
+AND v.location_id = @location
 ;
 
 update temp_plan set zlemrid = zlemr(patient_id);
