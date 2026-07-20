@@ -8,6 +8,7 @@ parameters:
     label: "reporting.parameter.location"
     widgetConfiguration:
       withTag: "Visit Location"
+      defaultIfOnlyOneOption: true
 datasets:
   - key: "ncdprogramexport"
     type: "sql"

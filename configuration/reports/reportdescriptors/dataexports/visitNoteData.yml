@@ -14,6 +14,7 @@ parameters:
     label: "reporting.parameter.location"
     widgetConfiguration:
       withTag: "Visit Location"
+      defaultIfOnlyOneOption: true
 datasets:
   - {key: "chiefComplaint", type: "sql", config: "sql/chiefComplaint.sql"}
   - {key: "diagnoses", type: "sql", config: "sql/diagnoses.sql"}
