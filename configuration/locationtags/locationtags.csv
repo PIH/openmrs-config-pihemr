@@ -23,6 +23,7 @@ eb6e297f-d4e2-4aad-af0d-33c95f7ee08e,,Vitals Glucose Location,Location where vit
 a61fa90a-d71d-4b44-b148-affac16fdec3,,MCH Triage Location,Location where the Maternal triage form is available
 d192602a-fa83-47b5-8831-a669c49aa22a,,Maternal Admission Location,Location where the Maternal admission form is available
 10ac48aa-1e05-436a-aa84-c762aa7beeb8,,Maternal Discharge Location,Location where Maternity patients are discharged
+f379d478-d98d-46bb-9236-ebee8299bd01,,Maternal Death Location,Location where details of maternal death are captured
 8fa112e0-e506-11e4-b571-0800200c9a66,,Registration Location,Signifies a Location where the registration app should be available
 a6f68610-e53c-11e4-b571-0800200c9a66,,Registration and Check-In Location,Signifies a Location where the combined registration/check-in app should be available
 0ba7b0d0-e1ef-11e4-b571-0800200c9a66,,Order Radiology Study Location,Signifies a Location where a radiology study can be ordered

@@ -437,6 +437,8 @@ encounterType:
     uuid: "0ef67d23-0cf4-4a3e-8617-ac9d55bdd005"
   MATERNAL_DISCHARGE:
     uuid: "2110a810-db62-4914-ba95-604b96010164"
+  MATERNAL_DEATH:
+    uuid: "415b342e-9e4d-4496-bac4-7b6ffb8619f0"
   NEWBORN_INITIAL:
     uuid: "093b6ffc-e55a-461a-85cc-c6acf7714a23"
   NEWBORN_ASSESSMENT:
