@@ -30,7 +30,8 @@ CREATE TEMPORARY TABLE temp_diagnoses
  obs_id                   int(11),        
  obs_group_id             int(11),       
  obs_datetime             datetime,       
- diagnosis_entered        text,           
+ diagnosis_entered        text, 
+ diagnosis_entered_fr     text,          
  dx_order                 varchar(255),   
  certainty                varchar(255),   
  coded                    varchar(255),   
@@ -101,6 +102,7 @@ create index temp_obs_ci1 on temp_obs(obs_group_id, concept_id);
 
  -- details for coded diagnoses
 update temp_diagnoses t set t.diagnosis_entered = concept_name(diagnosis_concept,'en');
+update temp_diagnoses t set t.diagnosis_entered_fr = concept_name(diagnosis_concept,'fr');
 update temp_diagnoses t set t.diagnosis_coded_fr = concept_name(diagnosis_concept,'fr');
 
 update temp_diagnoses t
@@ -174,6 +176,7 @@ obs_id,
 obs_datetime,
 date_created,
 diagnosis_entered,
+diagnosis_entered_fr,
 coded
 )
 select
@@ -182,6 +185,7 @@ o.encounter_id,
 o.obs_id,
 o.obs_datetime,
 o.date_created,
+o.value_text,
 o.value_text,
 0
 from obs o
@@ -336,6 +340,7 @@ d.obs_datetime,
 d.entered_by,
 d.provider,
 d.diagnosis_entered,
+d.diagnosis_entered_fr,
 d.dx_order,
 d.certainty,
 d.coded,
