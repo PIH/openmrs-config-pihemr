@@ -15,7 +15,7 @@ CREATE TEMPORARY TABLE temp_cc
     encounter_type        varchar(255),                
     provider              varchar(255), 
     encounter_id          int(11),
-    chief_complaint       varchar(255)
+    chief_complaint       text
 );
 
 insert into temp_cc (
