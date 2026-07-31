@@ -423,7 +423,7 @@
         </globalProperty>
         <globalProperty>
             <property>pihapps.labs.collectResultComments</property>
-            <value>false</value>
+            <value>true</value>
         </globalProperty>
 
         <!-- Bed Management -->
