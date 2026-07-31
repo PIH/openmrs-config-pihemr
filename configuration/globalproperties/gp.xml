@@ -425,6 +425,10 @@
             <property>pihapps.labs.collectResultComments</property>
             <value>true</value>
         </globalProperty>
+        <globalProperty>
+            <property>pihcore.usePihAppsLabs</property>
+            <value>true</value>
+        </globalProperty>
 
         <!-- Bed Management -->
         <globalProperty>
