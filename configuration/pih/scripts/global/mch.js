@@ -84,9 +84,9 @@ function setUpEdd(currentEncounterDate, msgWeeks) {
 
       const gestAgeText = calculateGestationalDays(lastPeriodDate, currentEncounterDate, msgWeeks);
       const edd = calculateExpectedDeliveryDate(lastPeriodDate);
-      const locale = window.sessionContext.locale || navigator.language;
+      const locale = (window.sessionContext && window.sessionContext.locale) || navigator.language;
       jq(".calculated-edd-and-gestational").show();
-      if (!preserveExistingEdd) {
+      if (!preserveExistingEdd && getField("edd.value")) {
         getField("edd.value").datepicker("setDate", edd);
         jq("#edd input[type='hidden']").trigger('change');
       }
@@ -99,7 +99,7 @@ function setUpEdd(currentEncounterDate, msgWeeks) {
         // Don't erase an EDD that was already recorded on the encounter on initial load
         // (e.g. when editing an existing form with no/old LMP); only clear a value we
         // auto-calculated, or one the user invalidated by changing the LMP.
-        if (!preserveExistingEdd) {
+        if (!preserveExistingEdd && getField("edd.value")) {
             getField("edd.value").datepicker("setDate", '');
         }
         jq(".calculated-edd").text('');
