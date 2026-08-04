@@ -50,6 +50,12 @@ textarea {
     margin-bottom: 20px;
 }
 
+#data-collection {
+    display: inline-block;
+    width: 58%;
+    vertical-align: top;
+}
+
 /* Ensure datetime picker is on one line */
 .hfe-hours, .hfe-minutes, .hfe-seconds {
     width: 70px;
@@ -116,6 +122,12 @@ textarea {
 
 .section-header {
     margin-top: 1.5em;
+}
+
+.field-error {
+    color: #ff6666;
+    font-size: 1.1em;
+    display: block;
 }
 
 .half-size-text {
@@ -212,4 +224,13 @@ textarea {
 .provider-grid > div {
     padding-left: 5px;
     border: none;
+}
+
+.check-inline input[type="checkbox"] {
+    margin: 0px 5px;
+    top:5px;
+}
+
+.check-inline label {
+    margin: 0px;
 }
