@@ -139,8 +139,6 @@
                 })
                 const encounterDate = getDatePart(new Date(getValue('encounter-date.value'))) || new Date();
                 getField('encounter-date.value').datepicker('option', 'maxDate', new Date());
-                getField('test-date.value').datepicker('option', 'maxDate', null);
-                getField('test-date.value').datepicker('option', 'minDate', null);
                 getField('viral-load.value').change(toggleViralLoadFields);
                 toggleViralLoadFields();
             });
