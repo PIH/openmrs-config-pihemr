@@ -112,7 +112,12 @@ textarea {
     top:5px; /*added to offset the checkbox position to line up*/
 }
 
-.section-container label { /*new definition to override labels inside section-containers*/
+.section-container input[type="text"] {
+    min-width: 0%;
+}
+
+.section-container label,
+.section-container-color label { /*new definition to override labels inside section-containers*/
     margin: 0px;
 }
 
@@ -206,6 +211,12 @@ textarea {
     -moz-column-count: 2;
 }
 
+.three-columns-without-divs {
+    column-count: 3;
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+}
+
 .prior-obs-value {
     color: blue;
     font-size: smaller;
@@ -233,4 +244,19 @@ textarea {
 
 .check-inline label {
     margin: 0px;
+}
+
+/* Remove these after htmlform update with the subforms */
+#who-when-where {
+    margin-bottom: 6px;
+    border-bottom: 1px solid #ccc;
+}
+
+#who-when-where p {
+    display: inline-block;
+    padding-right: 20px;
+}
+
+#where > input[type=text] {
+    display: inline-block;
 }
