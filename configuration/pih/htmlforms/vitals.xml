@@ -83,11 +83,7 @@
             }
 
         </style>
-
     </ifMode>
-
-
-
 
     <!-- only show/handle the English conversion fields if we are in 'ENTER' or 'EDIT' mode -->
     <ifMode mode="VIEW" include="false">

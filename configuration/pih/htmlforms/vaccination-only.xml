@@ -4,52 +4,15 @@
           formVersion="1.0">
 
 <style type="text/css">
-    #who-when-where {
-        margin-bottom: 6px;
-        border-bottom: 1px solid #ccc;
-    }
-
-    #who-when-where p {
-        display: inline-block;
-        padding-right: 20px;
-    }
-
-    #where > input[type=text] {
-        display: inline-block;
-    }
-
-    .field-error {
-        color: #ff6666;
-        font-size: 1.1em;
-        display: block;
-    }
-
-    <ifMode mode="VIEW" include="false">
-        #data-collection {
-        display: inline-block;
-        width: 58%;
-        vertical-align: top;
-        }
-
-        #encounter-diagnoses-target {
-        display: inline-block;
-        width: 40%;
-        vertical-align: top;
-        }
-
-        #encounter-diagnoses-app {
-        margin-bottom: 20px;
-        }
-    </ifMode>
 
     <ifMode mode="EDIT">
         #disposition small {
-        font-size: 100%;
-        display: block;
+            font-size: 100%;
+            display: block;
         }
 
         #disposition span {
-        padding-left: 15px;
+            padding-left: 15px;
         }
     </ifMode>
 </style>

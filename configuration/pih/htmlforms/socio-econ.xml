@@ -6,12 +6,6 @@
     <style type="text/css">
         <ifMode mode="VIEW" include="false">
 
-            #data-collection {
-                display: inline-block;
-                width: 58%;
-                vertical-align: top;
-            }
-
             form input[type="checkbox"], form input[type="radio"],
             .form input[type="checkbox"], .form input[type="radio"] {
                 float: none;
@@ -20,38 +14,6 @@
 
             form label, .form label {
                 display: inline-block;
-            }
-
-            .two-columns {
-                display: table;
-                height: 100%;
-                width: 100%;
-            }
-
-            .two-columns > div {
-                display: table-cell;
-                width: 50%;
-            }
-
-            .section-container {
-                background: #F2F2F2;
-                box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-                padding: 10px 5px 10px 15px;
-                line-height: 1.5em; /*add this for vertical spacing between elements*/
-            }
-
-            .section-container input[type="checkbox"] {
-                margin: 0px 5px; /*changed values to vertical, horizontal*/
-                top:5px; /*added to offset the checkbox position to line up*/
-            }
-
-            .section-container label,
-            .section-container-color label {
-                margin: 0px;
-            }
-
-            .section {
-                width: 95%;
             }
 
         </ifMode>
