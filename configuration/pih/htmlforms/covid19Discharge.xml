@@ -22,9 +22,6 @@
     <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.ExitPatientFromCovidProgramAction"/>
 
     <style type="text/css">
-        .narrow {
-            width: 200px;
-        }
 
         .simple-form-ui input {
             min-width: 90%
@@ -32,36 +29,6 @@
 
         form fieldset {
             min-width: 90%
-        }
-
-        #encounterDate input {
-            min-width: 15%
-        }
-
-        .section-container {
-            background: #F2F2F2;
-            box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-            padding: 10px 5px 10px 15px;
-            line-height: 1.5em; /*add this for vertical spacing between elements*/
-        }
-
-        .section-container input[type="checkbox"] {
-            margin: 0px 5px; /*changed values to vertical, horizontal*/
-            top:5px; /*added to offset the checkbox position to line up*/
-        }
-
-        .section-container label { /*new definition to override labels inside section-containers*/
-            margin: 0px;
-        }
-
-        .section {
-            width: 100%;
-        }
-
-        .two-columns {
-            column-count: 2;
-            -webkit-column-count: 2;
-            -moz-column-count: 2;
         }
 
         form input[type="checkbox"], form input[type="radio"],
@@ -72,12 +39,6 @@
 
         form label, .form label {
             display: inline-block;
-        }
-
-        #data-collection {
-            display: inline-block;
-            width: 58%;
-            vertical-align: top;
         }
 
     </style>
@@ -208,22 +169,22 @@
                 </p>
 
                 <div class="two-columns">
-                    <p>
+                    <div>
                         <label>
                             <uimessage code="pihcore.admitICUDate" />
                         </label>
                         <span class="small">
                             <obs conceptId="CIEL:165992" allowTime="false" />
                         </span>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                         <label>
                             <uimessage code="pihcore.dischargeICUDate" />
                         </label>
                         <span class="small">
                         <obs conceptId="CIEL:165993" allowTime="false" />
                         </span>
-                    </p>
+                    </div>
                 </div>
             </div>
 
@@ -237,7 +198,7 @@
                 <uimessage code="mirebalais.dispensing.medication" />
             </h3>
 
-            <div class="two-columns">
+            <div class="two-columns-without-divs">
                 <p>
                     <repeat with="['Amoxicillin','CIEL:71160'],
                                   ['Doxycycline','CIEL:75222']">
@@ -294,19 +255,22 @@
             </p>
 
             <div class="two-columns">
-                <label>
-                    <uimessage code="pihcore.followupPlan"/>
-                </label>
-                <p>
-                    <obs conceptId="CIEL:162749" style="textarea" rows="3" cols="40"/>
-                </p>
-
-                <label>
-                    <uimessage code="pihcore.otherComments"/>
-                </label>
-                <p>
-                    <obs conceptId="CIEL:161011" style="textarea" rows="3" cols="40"/>
-                </p>
+                <div>
+                    <label>
+                        <uimessage code="pihcore.followupPlan"/>
+                    </label>
+                    <p>
+                        <obs conceptId="CIEL:162749" style="textarea" rows="3" cols="40"/>
+                    </p>
+                </div>
+                <div>
+                    <label>
+                        <uimessage code="pihcore.otherComments"/>
+                    </label>
+                    <p>
+                        <obs conceptId="CIEL:161011" style="textarea" rows="3" cols="40"/>
+                    </p>
+                </div>
             </div>
 
             <label>

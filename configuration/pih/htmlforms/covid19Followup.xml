@@ -21,53 +21,12 @@
     <postSubmissionAction class="org.openmrs.module.pihcore.htmlformentry.action.ApplyDispositionAction"/>
 
     <style type="text/css">
-
-        .narrow {
-            width: 200px;
-        }
-
         .simple-form-ui input {
             min-width: 90%
         }
 
         form fieldset {
             min-width: 90%
-        }
-
-        #encounterDate input {
-            min-width: 15%
-        }
-
-        .section-container {
-            background: #F2F2F2;
-            box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-            padding: 10px 5px 10px 15px;
-            line-height: 1.5em; /*add this for vertical spacing between elements*/
-        }
-
-        .section-container input[type="checkbox"] {
-            margin: 0px 5px; /*changed values to vertical, horizontal*/
-            top:5px; /*added to offset the checkbox position to line up*/
-        }
-
-        .section-container label { /*new definition to override labels inside section-containers*/
-            margin: 0px;
-        }
-
-        .section {
-            width: 100%;
-        }
-
-        .two-columns {
-            column-count: 2;
-            -webkit-column-count: 2;
-            -moz-column-count: 2;
-        }
-
-        .three-columns {
-            column-count: 3;
-            -webkit-column-count: 3;
-            -moz-column-count: 3;
         }
 
         form input[type="checkbox"], form input[type="radio"],
@@ -79,11 +38,6 @@
         form label, .form label {
             display: inline-block;
         }
-
-        #data-collection {
-            display: inline-block;
-            width: 58%;
-            vertical-align: top;
     </style>
 
     <ifMode mode="VIEW" include="false" >
@@ -461,7 +415,7 @@
                 <uimessage code="pihcore.supportiveCare"/>
             </strong>
             <div>
-                <div class="two-columns">
+                <div class="two-columns-without-divs">
                     <obs conceptId="CIEL:165995" style="checkbox"
                          answerConceptId="CIEL:81341" toggle="o2therapy"/>
                     <span class="small">
@@ -591,7 +545,7 @@
             <h3>
                 <uimessage code="pihcore.lab.other" />
             </h3>
-            <div class="two-columns">
+            <div class="two-columns-without-divs">
                 <repeat>
                     <template>
                         <label>
@@ -628,7 +582,7 @@
             <h3>
                 <uimessage code="pihcore.lab.abg"/>
             </h3>
-            <div class="two-columns">
+            <div class="two-columns-without-divs">
                 <repeat>
                     <template>
                         <label>

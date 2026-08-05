@@ -4,22 +4,6 @@
   formEncounterType="c30d6e06-0f00-460a-8f81-3c39a1853b56"
   formVersion="1.0">
 
-  <style type="text/css">
-    #who-when-where {
-        margin-bottom: 6px;
-        border-bottom: 1px solid #ccc;
-    }
-
-    #who-when-where p {
-        display: inline-block;
-        padding-right: 20px;
-    }
-
-    #where > input[type=text] {
-        display: inline-block;
-    }
-  </style>
-
   <ifMode mode="VIEW" include="false">
     <div id="who-when-where">
       <p id="who">
