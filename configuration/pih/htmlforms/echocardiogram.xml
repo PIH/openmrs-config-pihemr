@@ -20,68 +20,12 @@
 
     <style type="text/css">
 
-        .narrow {
-            width: 200px;
-        }
-
-        .five-columns, .four-columns, .three-columns, .two-columns {
-            display: table;
-            height: 100%;
-            width: 100%;
-        }
-
-        .two-columns > div {
-            display: table-cell;
-            width: 50%;
-        }
-
         .simple-form-ui input {
             min-width: 90%
         }
 
         form fieldset {
             min-width: 90%
-        }
-
-        #encounterDate input {
-            min-width: 15%
-        }
-
-        textarea {
-            overflow-y: hidden; /* fixes scrollbar flash - kudos to @brettjonesdev */
-            padding-top: 1.1em; /* fixes text jump on Enter keypress */
-        }
-
-        @media print {
-            .print-form-datestamps { display: block !important }
-            button.cancel, button.submit { display: none }
-            label { font-weight: bold }
-            label[for] { font-weight: normal } /* refers to the radio set label */
-        }
-
-
-        .side-by-side label {
-            display: inline-block;
-        }
-
-        .section-container {
-            background: #F2F2F2;
-            box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-            padding: 10px 5px 10px 15px;
-            line-height: 1.5em; /*add this for vertical spacing between elements*/
-        }
-
-        .section-container input[type="checkbox"] {
-            margin: 0px 5px; /*changed values to vertical, horizontal*/
-            top:5px; /*added to offset the checkbox position to line up*/
-        }
-
-        .section-container label { /*new definition to override labels inside section-containers*/
-            margin: 0px;
-        }
-
-        - .section {
-            width: 100%;
         }
 
         p.radio > * {

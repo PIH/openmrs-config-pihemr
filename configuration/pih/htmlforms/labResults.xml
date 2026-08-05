@@ -5,42 +5,10 @@
 
     <style type="text/css">
 
-        .section-header {
-            margin-top: 1.5em;
-        }
-
         p.radio > * {
             display: inline;
             float: none !important;
             min-width: initial;
-        }
-
-        .section-container input[type="checkbox"] {
-            margin: 0px 5px; /* changed values to vertical, horizontal */
-            top: 5px; /* added to offset the checkbox position to line up */
-        }
-
-        .side-by-side label {
-            display: inline-block;
-        }
-
-        .list-inline label, .list-inline input[type="radio"], .list-inline span,
-        .list-inline-wide label, .list-inline-wide input[type="radio"], .list-inline-wide span,
-        .list-inline-extra-wide label, .list-inline-extra-wide input[type="radio"], .list-inline-extra-wide span {
-            display: inline-block;
-            float: none;
-        }
-
-        .list-inline label:first-child {
-            width: 220px;
-        }
-
-        .list-inline-wide label:first-child {
-            width: 320px;
-        }
-
-        .list-inline-extra-wide label:first-child {
-            width: 420px;
         }
 
         form input[type="radio"], .form input[type="radio"] {

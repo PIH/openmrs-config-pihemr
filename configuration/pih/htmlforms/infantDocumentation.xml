@@ -9,142 +9,88 @@
 
     <style type="text/css">
 
-        .field-error {
-        color: #ffc0b5;
-        font-size: 1.1em;
-        display: block;
-        }
-
         .legalValue {
-        background-color: white !important;
-        }
-
-        .two-columns {
-        display: table;
-        height: 100%;
-        width: 100%;
-        }
-
-        .two-columns > div {
-        display: table-cell;
-        width: 50%;
+            background-color: white !important;
         }
 
         .simple-form-ui input {
-        min-width: 80%
+            min-width: 80%
         }
 
         form fieldset {
-        min-width: 90%;
-        display: block;
-        }
-
-        .encounter-summary-container #calculated-ratio {
-        font-size: 1em;
-        font-weight: normal;
-        }
-
-        #encounterDate input {
-        min-width: 15%
+            min-width: 90%;
+            display: block;
         }
 
         div.inline-radio > * {
-        display: inline;
-        float: none !important;
-        min-width: initial;
+            display: inline;
+            float: none !important;
+            min-width: initial;
         }
 
         .inline-obs > span {
-        display: inline-block;
-        }
-
-        .light-font {
-        font-family: "OpenSansLight",sans-serif;
+            display: inline-block;
         }
 
         .small-obs {
-        max-width: 10em;
-        display: block;
-        margin-bottom: 1em;
+            max-width: 10em;
+            display: block;
+            margin-bottom: 1em;
         }
 
         .small-obs input {
-        min-width: 4em;
-        display: inline;
-        margin-right: 0.5em;
+            min-width: 4em;
+            display: inline;
+            margin-right: 0.5em;
         }
 
         .medium-obs {
-        max-width: 16em;
-        display: block;
-        margin-bottom: 1em;
+            max-width: 16em;
+            display: block;
+            margin-bottom: 1em;
         }
 
         .medium-obs input {
-        min-width: 8em;
-        margin-right: 0.5em;
+            min-width: 8em;
+            margin-right: 0.5em;
         }
 
         .small-text {
-        color: #555555;
-        font-size: 90%;
-        display: block;
-        }
-
-        .section-container {
-        background: #F2F2F2;
-        box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-        padding: 10px 5px 10px 15px;
-        margin: 10px 0;
-        line-height: 1.5em; /*add this for vertical spacing between elements*/
-        }
-
-        .section-container input[type="checkbox"] {
-        margin: 0px 5px; /*changed values to vertical, horizontal*/
-        top:5px; /*added to offset the checkbox position to line up*/
-        }
-
-        .section-container label { /*new definition to override labels inside section-containers*/
-        margin: 0px;
+            color: #555555;
+            font-size: 90%;
+            display: block;
         }
 
         .question-container {
-        padding: 5px 5px 10px 15px;
-        margin: 5px 0;
-        line-height: 1.5em; /*add this for vertical spacing between elements*/
+            padding: 5px 5px 10px 15px;
+            margin: 5px 0;
+            line-height: 1.5em; /*add this for vertical spacing between elements*/
         }
 
         .question-container label {
-        margin-top: 5px;
+            margin-top: 5px;
         }
 
         .section {
-        width: 95%;
+            width: 95%;
         }
 
         legend {
-        width: auto;
-        font-size: 16px;
+            width: auto;
+            font-size: 16px;
         }
 
         textarea {
-        width: 95%;
+            width: 95%;
         }
 
         /* Grey out disabled checkboxes */
         input[type=checkbox][disabled] {
-        filter: invert(15%);
+            filter: invert(15%);
         }
 
         .section-button {
-        margin: 10px 0 0 24px;
-        }
-
-        @media print {
-        .print-form-datestamps { display: block !important }
-        button.cancel, button.submit { display: none }
-        label { font-weight: bold }
-        label[for] { font-weight: normal } /* refers to the radio set label */
+            margin: 10px 0 0 24px;
         }
 
     </style>

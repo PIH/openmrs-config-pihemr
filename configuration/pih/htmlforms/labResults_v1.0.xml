@@ -5,23 +5,10 @@
 
     <style type="text/css">
 
-        .section-header {
-            margin-top: 1.5em;
-        }
-
         p.radio > * {
             display: inline;
             float: none !important;
             min-width: initial;
-        }
-
-        .section-container input[type="checkbox"] {
-            margin: 0px 5px; /* changed values to vertical, horizontal */
-            top: 5px; /* added to offset the checkbox position to line up */
-        }
-
-        .side-by-side label {
-            display: inline-block;
         }
 
         form input[type="radio"], .form input[type="radio"] {

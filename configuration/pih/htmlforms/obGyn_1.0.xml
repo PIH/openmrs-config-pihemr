@@ -5,42 +5,6 @@
           htmlformUuid="994ad633-babf-4b15-a54e-59e77477bd1a"
           formVersion="1.0">
 
-    <style type="text/css">
-
-        #who-when-where {
-            margin-bottom: 6px;
-            border-bottom: 1px solid #ccc;
-        }
-
-        #who-when-where p {
-            display: inline-block;
-            padding-right: 20px;
-        }
-
-        #where > input[type=text] {
-            display: inline-block;
-        }
-
-        .field-error {
-            color: #ff6666;
-            font-size: 1.1em;
-            display: block;
-        }
-
-        @media print {
-            .print-form-datestamps { display: block !important }
-            button.cancel, button.submit { display: none }
-            label { font-weight: bold }
-            label[for] { font-weight: normal } /* refers to the radio set label */
-            }
-
-        #data-collection {
-            display: inline-block;
-            width: 58%;
-            vertical-align: top;
-        }
-    </style>
-
     <div class="print-form-datestamps" style="display:none">
         <p><uimessage code="pihcore.form.created_on"/>:
             <lookup complexExpression="$form.dateCreated"/>
