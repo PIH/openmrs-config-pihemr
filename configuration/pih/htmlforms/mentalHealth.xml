@@ -59,35 +59,6 @@
 		gap:50px;
 		justify-content:space-between;
 		}
-		#who-when-where {
-		margin-bottom: 6px;
-		border-bottom: 1px solid #ccc;
-		}
-		
-		#who-when-where p {
-		display: inline-block;
-		padding-right: 20px;
-		}
-		
-		#where &gt; input[type=text] {
-		display: inline-block;
-		}
-		
-		.narrow {
-		    width: 200px;
-		}
-		
-		.field-error {
-            color: #ff6666;
-            font-size: 1.1em;
-            display: block;
-		}
-
-		.three-columns {
-            column-count: 3;
-            -webkit-column-count: 3;
-            -moz-column-count: 3;
-		}
 		
 		.simple-form-ui input {
 		    min-width: 80%
@@ -96,46 +67,6 @@
 		form fieldset {
             min-width: 90%;
             display: block;
-		}
-		
-		#calculated-waist-hip-ratio {
-            font-weight: bold;
-            font-size: 1.4em;
-		}
-		
-		.encounter-summary-container #calculated-ratio {
-            font-size: 1em;
-            font-weight: normal;
-		}
-		
-		#encounterDate input {
-		    min-width: 15%
-		}
-		
-		.half-size-text {
-            color: #ff6666;
-            font-size: 50%;
-            display: block;
-		}
-		
-		.section-container {
-            background: #F2F2F2;
-            box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-            padding: 10px 5px 10px 15px;
-            line-height: 1.5em; /*add this for vertical spacing between elements*/
-		}
-		
-		.section-container input[type="checkbox"] {
-            margin: 0px 5px; /*changed values to vertical, horizontal*/
-            top:5px; /*added to offset the checkbox position to line up*/
-		}
-		
-		.section-container label { /*new definition to override labels inside section-containers*/
-		    margin: 0px;
-		}
-		
-		- .section {
-		width: 100%;
 		}
 		
 		textarea {
@@ -187,10 +118,6 @@
 
 		.simple-form-ui select {
 		min-width: unset;
-		}
-
-		.side-by-side label {
-			display: inline-block;
 		}
 
 		.side-by-side input[type="radio"] {
@@ -1023,7 +950,6 @@
 				<uimessage code="pihcore.diagnoses.neurodevelopmental" />
 			</div>
 			<div class="collapsible-content">
-				<p>
 					<div class="two-columns">
 						<div>
 							<repeat>
@@ -1043,37 +969,36 @@
 								<render cId="CIEL:121303" toggleName="autism" />
 							</repeat>
 						</div>
-						<div>
-							<div id="autism">
-								<repeat>
-									<template>
-										<obs conceptId="PIH:Mental health diagnosis" style="checkbox" answerConceptId="{cId}" />
-									</template>
-									<render cId="PIH:20596" toggleName="autism1" />
-									<render cId="PIH:20597" toggleName="autism2" />
-									<render cId="PIH:20598" toggleName="autism3" />
-								</repeat>
-							</div>
-						</div>
-						<div>
+					</div>
+					<div>
+						<div id="autism">
 							<repeat>
 								<template>
-									<obs conceptId="PIH:Mental health diagnosis" style="checkbox" answerConceptId="{cId}" toggle="{toggleName}" />
+									<obs conceptId="PIH:Mental health diagnosis" style="checkbox" answerConceptId="{cId}" />
 								</template>
-								<render cId="CIEL:117468" />
-								<render cId="CIEL:112850" />
-								<render cId="CIEL:119487" />
-								<render cId="CIEL:142505" />
-								<render cId="CIEL:145283" />
-								<render cId="CIEL:142503" />
-								<render cId="PIH:20593" />
-								<render cId="CIEL:139448" />
-								<render cId="PIH:20182" />
-								<render cId="PIH:20181" />
+								<render cId="PIH:20596" toggleName="autism1" />
+								<render cId="PIH:20597" toggleName="autism2" />
+								<render cId="PIH:20598" toggleName="autism3" />
 							</repeat>
 						</div>
 					</div>
-				</p>
+					<div class="two-columns">
+						<repeat>
+							<template>
+								<obs conceptId="PIH:Mental health diagnosis" style="checkbox" answerConceptId="{cId}" toggle="{toggleName}" />
+							</template>
+							<render cId="CIEL:117468" />
+							<render cId="CIEL:112850" />
+							<render cId="CIEL:119487" />
+							<render cId="CIEL:142505" />
+							<render cId="CIEL:145283" />
+							<render cId="CIEL:142503" />
+							<render cId="PIH:20593" />
+							<render cId="CIEL:139448" />
+							<render cId="PIH:20182" />
+							<render cId="PIH:20181" />
+						</repeat>
+					</div>
 			</div>
 		</div>
 		<div class="section-container">
@@ -1152,67 +1077,65 @@
 				<uimessage code="pihcore.diagnoses.bipolar" />
 			</div>
 			<div class="collapsible-content">
-				<p>
-					<div class="two-columns">
-						<div>
-							<repeat>
-								<template>
-									<obs conceptId="PIH:Mental health diagnosis" style="checkbox" answerConceptId="{cId}" toggle="{toggleName}" />
-								</template>
-								<render cId="CIEL:115768" />
-								<render cId="CIEL:115725" />
-								<render cId="PIH:20201" />
-								<render cId="PIH:20202" />
-								<render cId="CIEL:134156" />
-								<render cId="PIH:20212" />
-								<render cId="CIEL:126628" />
-								<render cId="PIH:20637" />
-								<render cId="CIEL:121121" />
-								<render cId="PIH:20207" />
-								<render cId="PIH:20208" />
-								<render cId="PIH:20209" />
-								<render cId="PIH:20211" />
-								<render cId="PIH:20535" toggleName="bipolar" />
-							</repeat>
-						</div>
-					</div>
-					<div id="bipolar">
+				<div class="two-columns">
+					<div>
 						<repeat>
 							<template>
-								<obs conceptId="PIH:Mental health diagnosis" style="checkbox" answerConceptId="{cId}" />
+								<obs conceptId="PIH:Mental health diagnosis" style="checkbox" answerConceptId="{cId}" toggle="{toggleName}" />
 							</template>
-							<render cId="PIH:20402" />
-							<render cId="PIH:20403" />
-							<render cId="PIH:20404" />
-							<render cId="PIH:20405" />
-							<render cId="PIH:20406" />
-							<render cId="PIH:20407" />
-							<render cId="PIH:20408" />
-							<render cId="PIH:20409" />
-							<render cId="PIH:20410" />
-							<render cId="PIH:20411" />
-							<render cId="PIH:20412" />
-							<render cId="PIH:20413" />
-							<render cId="PIH:20414" />
-							<render cId="PIH:20415" />
-							<render cId="PIH:20416" />
-							<render cId="PIH:20417" />
-							<render cId="PIH:20418" />
-							<render cId="PIH:20419" />
+							<render cId="CIEL:115768" />
+							<render cId="CIEL:115725" />
+							<render cId="PIH:20201" />
+							<render cId="PIH:20202" />
+							<render cId="CIEL:134156" />
+							<render cId="PIH:20212" />
+							<render cId="CIEL:126628" />
+							<render cId="PIH:20637" />
+							<render cId="CIEL:121121" />
+							<render cId="PIH:20207" />
+							<render cId="PIH:20208" />
+							<render cId="PIH:20209" />
+							<render cId="PIH:20211" />
+							<render cId="PIH:20535" toggleName="bipolar" />
 						</repeat>
 					</div>
-					<div class="two-columns">
-						<div>
-							<repeat>
-								<template>
-									<obs conceptId="PIH:Mental health diagnosis" style="checkbox" answerConceptId="{cId}" toggle="{toggleName}" />
-								</template>
-								<render cId="PIH:20214" />
-								<render cId="CIEL:121131" />
-							</repeat>
-						</div>
+				</div>
+				<div id="bipolar">
+					<repeat>
+						<template>
+							<obs conceptId="PIH:Mental health diagnosis" style="checkbox" answerConceptId="{cId}" />
+						</template>
+						<render cId="PIH:20402" />
+						<render cId="PIH:20403" />
+						<render cId="PIH:20404" />
+						<render cId="PIH:20405" />
+						<render cId="PIH:20406" />
+						<render cId="PIH:20407" />
+						<render cId="PIH:20408" />
+						<render cId="PIH:20409" />
+						<render cId="PIH:20410" />
+						<render cId="PIH:20411" />
+						<render cId="PIH:20412" />
+						<render cId="PIH:20413" />
+						<render cId="PIH:20414" />
+						<render cId="PIH:20415" />
+						<render cId="PIH:20416" />
+						<render cId="PIH:20417" />
+						<render cId="PIH:20418" />
+						<render cId="PIH:20419" />
+					</repeat>
+				</div>
+				<div class="two-columns">
+					<div>
+						<repeat>
+							<template>
+								<obs conceptId="PIH:Mental health diagnosis" style="checkbox" answerConceptId="{cId}" toggle="{toggleName}" />
+							</template>
+							<render cId="PIH:20214" />
+							<render cId="CIEL:121131" />
+						</repeat>
 					</div>
-				</p>
+				</div>
 			</div>
 		</div>
 		<div class="section-container">
@@ -1220,73 +1143,71 @@
 				<uimessage code="pihcore.diagnoses.depressive" />
 			</div>
 			<div class="collapsible-content">
-				<p>
-					<div class="two-columns">
-						<div>
-							<repeat>
-								<template>
-									<obs conceptId="PIH:Mental health diagnosis" style="checkbox" answerConceptId="{cId}" toggle="{toggleName}" />
-								</template>
-								<render cId="CIEL:118905" />
-								<render cId="CIEL:134147" />
-								<render cId="CIEL:134016" />
-								<render cId="CIEL:126443" />
-								<render cId="CIEL:126616" />
-								<render cId="CIEL:127799" />
-								<render cId="CIEL:127798" />
-								<render cId="PIH:20250" />
-								<render cId="CIEL:166672" />
-								<render cId="CIEL:118779" />
-								<render cId="CIEL:129205" />
-								<render cId="PIH:20251" />
-								<render cId="CIEL:134079" />
-								<render cId="CIEL:135380" />
-								<render cId="CIEL:141732" toggleName="depression" />
-							</repeat>
-						</div>
-					</div>
-					<div id="depression">
+				<div class="two-columns">
+					<div>
 						<repeat>
 							<template>
 								<obs conceptId="PIH:Mental health diagnosis" style="checkbox" answerConceptId="{cId}" toggle="{toggleName}" />
 							</template>
-							<render cId="PIH:20423" />
-							<render cId="PIH:20424" />
-							<render cId="PIH:20425" />
-							<render cId="PIH:20426" />
-							<render cId="PIH:20427" />
-							<render cId="PIH:20428" />
-							<render cId="PIH:20420" />
-							<render cId="PIH:20421" />
-							<render cId="PIH:20422" />
-							<render cId="PIH:20429" />
-							<render cId="PIH:20430" />
-							<render cId="PIH:20431" />
-							<render cId="PIH:20432" />
-							<render cId="PIH:20433" />
-							<render cId="PIH:20434" />
-							<render cId="PIH:20435" />
-							<render cId="PIH:20436" />
-							<render cId="PIH:20437" />
-							<render cId="PIH:20438" />
-							<render cId="PIH:20439" />
-							<render cId="PIH:20440" />
-							<render cId="PIH:20441" />
-							<render cId="PIH:20442" />
-							<render cId="PIH:20443" />
+							<render cId="CIEL:118905" />
+							<render cId="CIEL:134147" />
+							<render cId="CIEL:134016" />
+							<render cId="CIEL:126443" />
+							<render cId="CIEL:126616" />
+							<render cId="CIEL:127799" />
+							<render cId="CIEL:127798" />
+							<render cId="PIH:20250" />
+							<render cId="CIEL:166672" />
+							<render cId="CIEL:118779" />
+							<render cId="CIEL:129205" />
+							<render cId="PIH:20251" />
+							<render cId="CIEL:134079" />
+							<render cId="CIEL:135380" />
+							<render cId="CIEL:141732" toggleName="depression" />
 						</repeat>
 					</div>
-					<div class="two-columns">
-						<div>
-							<repeat>
-								<template>
-									<obs conceptId="PIH:Mental health diagnosis" style="checkbox" answerConceptId="{cId}" toggle="{toggleName}" />
-								</template>
-								<render cId="CIEL:119537" />
-							</repeat>
-						</div>
+				</div>
+				<div id="depression">
+					<repeat>
+						<template>
+							<obs conceptId="PIH:Mental health diagnosis" style="checkbox" answerConceptId="{cId}" toggle="{toggleName}" />
+						</template>
+						<render cId="PIH:20423" />
+						<render cId="PIH:20424" />
+						<render cId="PIH:20425" />
+						<render cId="PIH:20426" />
+						<render cId="PIH:20427" />
+						<render cId="PIH:20428" />
+						<render cId="PIH:20420" />
+						<render cId="PIH:20421" />
+						<render cId="PIH:20422" />
+						<render cId="PIH:20429" />
+						<render cId="PIH:20430" />
+						<render cId="PIH:20431" />
+						<render cId="PIH:20432" />
+						<render cId="PIH:20433" />
+						<render cId="PIH:20434" />
+						<render cId="PIH:20435" />
+						<render cId="PIH:20436" />
+						<render cId="PIH:20437" />
+						<render cId="PIH:20438" />
+						<render cId="PIH:20439" />
+						<render cId="PIH:20440" />
+						<render cId="PIH:20441" />
+						<render cId="PIH:20442" />
+						<render cId="PIH:20443" />
+					</repeat>
+				</div>
+				<div class="two-columns">
+					<div>
+						<repeat>
+							<template>
+								<obs conceptId="PIH:Mental health diagnosis" style="checkbox" answerConceptId="{cId}" toggle="{toggleName}" />
+							</template>
+							<render cId="CIEL:119537" />
+						</repeat>
 					</div>
-				</p>
+				</div>
 			</div>
 		</div>
 		<div class="section-container">
@@ -1294,35 +1215,33 @@
 				<uimessage code="pihcore.diagnoses.anxiety" />
 			</div>
 			<div class="collapsible-content">
-				<p>
-					<div class="two-columns">
-						<div>
-							<repeat>
-								<template>
-									<obs conceptId="PIH:Mental health diagnosis" style="checkbox" answerConceptId="{cId}" />
-								</template>
-								<render cId="PIH:20280" />
-								<render cId="CIEL:118678" />
-								<render cId="CIEL:122735" />
-								<render cId="CIEL:169253" />
-								<render cId="CIEL:169254" />
-								<render cId="CIEL:169255" />
-								<render cId="CIEL:157897" />
-								<render cId="CIEL:169256" />
-								<render cId="CIEL:169257" />
-								<render cId="PIH:20281" />
-								<render cId="CIEL:126309" />
-								<render cId="CIEL:130967" />
-								<render cId="CIEL:149209" />
-								<render cId="CIEL:139545" />
-								<render cId="CIEL:169258" />
-								<render cId="CIEL:148563" />
-								<render cId="CIEL:121543" />
-								<render cId="CIEL:121541" />
-							</repeat>
-						</div>
+				<div class="two-columns">
+					<div>
+						<repeat>
+							<template>
+								<obs conceptId="PIH:Mental health diagnosis" style="checkbox" answerConceptId="{cId}" />
+							</template>
+							<render cId="PIH:20280" />
+							<render cId="CIEL:118678" />
+							<render cId="CIEL:122735" />
+							<render cId="CIEL:169253" />
+							<render cId="CIEL:169254" />
+							<render cId="CIEL:169255" />
+							<render cId="CIEL:157897" />
+							<render cId="CIEL:169256" />
+							<render cId="CIEL:169257" />
+							<render cId="PIH:20281" />
+							<render cId="CIEL:126309" />
+							<render cId="CIEL:130967" />
+							<render cId="CIEL:149209" />
+							<render cId="CIEL:139545" />
+							<render cId="CIEL:169258" />
+							<render cId="CIEL:148563" />
+							<render cId="CIEL:121543" />
+							<render cId="CIEL:121541" />
+						</repeat>
 					</div>
-				</p>
+				</div>
 			</div>
 		</div>
 		<div class="section-container">
