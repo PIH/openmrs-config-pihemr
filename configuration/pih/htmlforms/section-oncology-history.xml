@@ -24,10 +24,6 @@
             width: 120px;
         }
 
-        .section-header {
-            margin-top: 1.5em;
-        }
-
         .past-medical-history-item {
         }
 
@@ -48,12 +44,6 @@
             vertical-align: middle;
         }
 
-        .two-columns-history {
-            column-count: 2;
-            -webkit-column-count: 2;
-            -moz-column-count: 2;
-        }
-
         p.radio > * {
             display: inline;
             float: none !important;
@@ -72,79 +62,17 @@
             float: none;
         }
 
-        .section-container {
-            background: #F2F2F2;
-            box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-            padding: 10px 5px 10px 15px;
-            line-height: 1.5em; /*add this for vertical spacing between elements*/
-        }
-
-        .section-container-color {
-            background: #F2F2F2;
-            box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-            padding: 10px 5px 10px 15px;
-            line-height: 1.5em; /*add this for vertical spacing between elements*/
-        }
-
-        .section-container input[type="checkbox"] {
-            margin: 0px 5px; /*changed values to vertical, horizontal*/
-            top:5px; /*added to offset the checkbox position to line up*/
-        }
-
-        .section-container label { /*new definition to override labels inside section-containers*/
-            margin: 0px;
-        }
-
-       - .section {
-            width: 100%;
-        }
-
-        .five-columns, .four-columns, .three-columns, .two-columns {
-            display: table;
-            height: 100%;
-            width: 100%;
-        }
-
-        .two-columns > div {
-            display: table-cell;
-            width: 50%;
-        }
-
-        .three-columns > div {
-            display: table-cell;
-            width: 33%;
-        }
-
-        .four-columns > div {
-            display: table-cell;
-            width: 25%;
-        }
-
-        .five-columns > div {
-            display: table-cell;
-            width: 20%;
-        }
-
-        .side-by-side label {
-            display: inline-block;
-        }
-
         form input[type="radio"], .form input[type="radio"] {
             float: none;
             display: inline-block;
         }
-    </style>
 
-
-    <!-- special formatting when in view mode -->
-    <style type="text/css">
         <ifMode mode="VIEW" include="false">
             #family-history br {
-                display: none;
+            display: none;
             }
         </ifMode>
     </style>
-
 
     <script type="text/javascript">
 
@@ -647,7 +575,7 @@
                 <uimessage code="zl.consultNote.patientHistory.title" />
             </h3>
 
-            <div class="two-columns-history">
+            <div class="two-columns-without-divs">
                 <pastMedicalHistoryCheckbox concept="PIH:DIABETES"/>
                 <pastMedicalHistoryCheckbox concept="CIEL:142474" comment="Type 1 DM"/>
                 <pastMedicalHistoryCheckbox concept="CIEL:142473" comment="Type 2 DM"/>

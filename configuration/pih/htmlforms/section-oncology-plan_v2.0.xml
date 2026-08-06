@@ -9,12 +9,8 @@
             display: block;
         }
 
-        .side-by-side label {
-            display: inline-block;
-        }
-
         label {
-            padding: 0px 3px 0px 0px
+            padding: 0px 3px 0px 0px;
         }
 
         form input[type="radio"], .form input[type="radio"] {
@@ -36,65 +32,32 @@
             vertical-align: middle;
         }
 
-        .five-columns, .four-columns, .three-columns, .two-columns {
-            display: table;
-            height: 100%;
-            width: 100%;
-        }
-
-        .two-columns > div {
-            display: table-cell;
-            width: 50%;
-        }
-
-        .three-columns > div {
-            display: table-cell;
-            width: 33%;
-        }
-
-        .two-column-old {
-            column-count: 2;
-            -webkit-column-count: 2;
-            -moz-column-count: 2;
-        }
-
-        .three-columns-old {
-            column-count: 3;
-            -webkit-column-count: 3;
-            -moz-column-count: 3;
-        }
-
         p.radio > * {
             display: inline;
             float: none !important;
             min-width: initial;
         }
 
-        .section-container-color {
-            background: #F2F2F2;
-            box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-            padding: 10px 5px 10px 15px;
-            line-height: 1.5em; /*add this for vertical spacing between elements*/
-        }
-
-        .section {
-            width: 100%;
-        }
-
         label {
-            padding: 0px 3px 0px 0px
+            padding: 0px 3px 0px 0px;
         }
 
-        #encounter-diagnoses-target {
-            display: inline-block;
-            width: 40%;
-            vertical-align: top;
+        #test-orders {
+            padding-top padding-bottom: 0px;
+            line-height: 0.1;
         }
 
-        #encounter-diagnoses-app {
-            margin-bottom: 20px;
+        #test-orders .orderwidget-orderable-section {
+            border-bottom: none;
         }
 
+        #test-orders .orderwidget-existing-order-section {
+            display:none;
+        }
+
+        #test-orders .orderwidget-section-header {
+            padding-bottom: 25px;
+        }
     </style>
 
     <ifMode mode="VIEW" include="false">
@@ -368,27 +331,6 @@
             </p>
         </div>
     </section>
-
-    <style type="text/css">
-
-        #test-orders {
-            padding-top padding-bottom: 0px;
-            line-height: 0.1;
-        }
-
-        #test-orders .orderwidget-orderable-section {
-            border-bottom: none;
-        }
-
-        #test-orders .orderwidget-existing-order-section {
-            display:none;
-        }
-
-        #test-orders .orderwidget-section-header {
-            padding-bottom: 25px;
-        }
-    </style>
-    <br/>
 
     <section id="test-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.lab.lab_tests.title">
