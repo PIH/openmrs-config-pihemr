@@ -1,30 +1,6 @@
-<htmlform formUuid="3498f204-a6fa-4df0-b7fd-a94eb03a43c9" formName="Diagnostic" formVersion="1.0">
+<htmlform formUuid="3498f204-a6fa-4df0-b7fd-a94eb03a43c9"
+          formName="Diagnostic" formVersion="1.0">
 
-    <style type="text/css">
-        <ifMode mode="VIEW" include="false">
-
-            #data-collection {
-                display: inline-block;
-                width: 58%;
-                vertical-align: top;
-            }
-
-            #encounter-diagnoses-target {
-                display: inline-block;
-                width: 40%;
-                vertical-align: top;
-            }
-
-            #encounter-diagnoses-app {
-                margin-bottom: 20px;
-            }
-
-            .hasDatepicker {
-                min-width: 100%;
-            }
-
-        </ifMode>
-    </style>
     <ifMode mode="VIEW" include="false">
         <h3><uimessage code="zl.exam.clinicalImpression.title"/></h3>
 

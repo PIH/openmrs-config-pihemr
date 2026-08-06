@@ -20,31 +20,9 @@
     <style type="text/css">
         <ifMode mode="VIEW" include="false">
 
-            #data-collection {
-                display: inline-block;
-                width: 58%;
-                vertical-align: top;
-            }
-
             #primary-care-exam input[type="checkbox"] {
                 margin: 0px 5px;  /* changed values to vertical, horizontal */
                 top:5px;          /* added to offset the checkbox position to line up */
-            }
-
-            .section-container-color {
-                background: #F2F2F2;
-                box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-                padding: 10px 5px 10px 15px;
-                line-height: 1.5em; /*add this for vertical spacing between elements*/
-            }
-
-           - .section {
-                width: 100%;
-           }
-
-            .section-container input[type="checkbox"] {
-                margin: 0px 5px; /* changed values to vertical, horizontal */
-                top:5px;         /* added to offset the checkbox position to line up */
             }
 
             form input[type="radio"], .form input[type="radio"] {
@@ -56,35 +34,6 @@
                 display: inline-block;
             }
 
-            .section-container label { /*new definition to override labels inside section-containers*/
-                margin: 0px;
-            }
-
-            .two-columns {
-                column-count: 2;
-                -webkit-column-count: 2;
-                -moz-column-count: 2;
-            }
-
-            .five-columns, .four-columns, .three-columns, .two-columns-n {
-                display: table;
-                height: 100%;
-                width: 100%;
-            }
-
-            .two-columns-n > div {
-                display: table-cell;
-                width: 50%;
-            }
-
-            .three-columns > div {
-                display: table-cell;
-                width: 33%;
-            }
-
-            .narrow {
-                width: 200px;
-            }
         </ifMode>
     </style>
 
@@ -315,7 +264,7 @@
                 <uimessage code="pihcore.exam.general_exam.title"/>
             </b>
 
-            <div class="two-columns-n exam">
+            <div class="two-columns exam">
                 <div>
                     <repeat>
                         <template>
@@ -359,7 +308,7 @@
                 <uimessage code="pihcore.exam.skin_exam.title"/>
             </b>
 
-            <div class="two-columns-n exam">
+            <div class="two-columns exam">
                 <div>
                     <repeat>
                         <template>
@@ -401,7 +350,7 @@
                 <uimessage code="pihcore.exam.heent_exam.title"/>
             </b>
 
-            <div class="two-columns-n exam">
+            <div class="two-columns exam">
                 <div>
                     <repeat>
                         <template>
@@ -443,7 +392,7 @@
                 <uimessage code="pihcore.exam.lymph_exam.title"/>
             </b>
 
-            <div class="two-columns-n exam">
+            <div class="two-columns exam">
                 <div>
                     <repeat>
                         <template>
@@ -486,7 +435,7 @@
                 <uimessage code="pihcore.exam.cardiac_exam.title"/>
             </b>
 
-            <div class="two-columns-n exam">
+            <div class="two-columns exam">
                 <div>
                     <repeat>
                         <template>
@@ -524,7 +473,7 @@
                 <uimessage code="pihcore.exam.chest_exam.title"/>
             </b>
 
-            <div class="two-columns-n exam">
+            <div class="two-columns exam">
                 <div>
                     <repeat>
                         <template>
@@ -565,7 +514,7 @@
                 <uimessage code="pihcore.exam.abdominal_exam.title"/>
             </b>
 
-            <div class="two-columns-n exam">
+            <div class="two-columns exam">
                 <div>
                     <repeat>
                         <template>
@@ -610,7 +559,7 @@
                     <uimessage code="pihcore.exam.urogenital_exam.title"/>
                 </b>
 
-                <div class="two-columns-n exam">
+                <div class="two-columns exam">
                     <div>
                         <repeat>
                             <template>
@@ -653,7 +602,7 @@
                     <uimessage code="pihcore.exam.urology_exam.title"/>
                 </b>
 
-                <div class="two-columns-n exam">
+                <div class="two-columns exam">
                     <div>
                         <repeat>
                             <template>
@@ -692,7 +641,7 @@
                     <uimessage code="pihcore.exam.gynecology_exam.title"/>
                 </b>
 
-                <div class="two-columns-n exam">
+                <div class="two-columns exam">
                     <div>
                         <repeat>
                             <template>
@@ -849,7 +798,7 @@
                     <uimessage code="pihcore.exam.obstetrical_exam.title"/>
                 </b>
 
-                <div class="two-columns-n in-line">
+                <div class="two-columns in-line">
                     <div>
                         <label>
                             <uimessage code="pihcore.fundalHeight"/>
@@ -924,7 +873,7 @@
                     <uimessage code="pihcore.exam.postpartum_exam.title"/>
                 </b>
 
-                <div class="two-columns-n exam">
+                <div class="two-columns exam">
                     <div>
                         <p class="in-line">
                             <!-- Lochia type/color -->
@@ -1101,7 +1050,7 @@
                 <uimessage code="pihcore.exam.mental_exam.title"/>
             </b>
 
-            <div class="two-columns-n exam">
+            <div class="two-columns exam">
                 <div>
                     <repeat>
                         <template>
@@ -1142,7 +1091,7 @@
                 <uimessage code="pihcore.exam.neuro_exam.title"/>
             </b>
 
-            <div class="two-columns-n exam">
+            <div class="two-columns exam">
                 <div>
                     <repeat>
                         <template>
@@ -1184,21 +1133,23 @@
                 <uimessage code="pihcore.exam.peripheral_reflex_exam.title"/>
             </b>
 
-            <div class="exam">
-                <p>
-                    <obs class="normalObs" conceptId="CIEL:160623"
-                         answerConceptId="CIEL:1115" style="checkbox"/>
-                </p>
-                <p>
-                    <obs class="abnormalObs" conceptId="CIEL:160623"
-                         answerConceptId="CIEL:1116" style="checkbox"/>
-                </p>
-                <p>
-                    <obs class="abnormalObs" conceptId="CIEL:160623"
-                         answerConceptId="CIEL:5622"
-                         style="checkbox" showCommentField="true" commentFieldLabel=""/>
-                </p>
-
+            <div class="two-columns exam">
+                <div>
+                    <p>
+                        <obs class="normalObs" conceptId="CIEL:160623"
+                             answerConceptId="CIEL:1115" style="checkbox"/>
+                    </p>
+                    <p>
+                        <obs class="abnormalObs" conceptId="CIEL:160623"
+                             answerConceptId="CIEL:1116" style="checkbox"/>
+                    </p>
+                    <p>
+                        <obs class="abnormalObs" conceptId="CIEL:160623"
+                             answerConceptId="CIEL:5622"
+                             style="checkbox" showCommentField="true" commentFieldLabel=""/>
+                    </p>
+                </div>
+                <div></div>
             </div>
         </div>
 
@@ -1226,7 +1177,7 @@
                         <uimessage code="pihcore.exam.gross_motor_skills_exam.title"/>
                     </b>
 
-                    <div class="two-columns-n exam">
+                    <div class="two-columns exam">
                         <div>
                             <p>
                                 <obs class="normalObs" conceptId="PIH:GROSS MOTOR SKILLS EVALUATION"
@@ -1252,7 +1203,7 @@
                         <uimessage code="pihcore.exam.fine_motor_skills_exam.title"/>
                     </b>
 
-                    <div class="two-columns-n exam">
+                    <div class="two-columns exam">
                         <div>
                             <p>
                                 <obs class="normalObs" conceptId="PIH:FINE MOTOR SKILLS EVALUATION"
@@ -1278,7 +1229,7 @@
                         <uimessage code="pihcore.exam.language_development_evaluation.title"/>
                     </b>
 
-                    <div class="two-columns-n exam">
+                    <div class="two-columns exam">
                         <div>
                             <p>
                                 <obs class="normalObs" conceptId="PIH:LANGUAGE DEVELOPMENT EVALUATION"
@@ -1303,7 +1254,7 @@
                         <uimessage code="pihcore.exam.social_skills_evaluation.title"/>
                     </b>
 
-                    <div class="two-columns-n exam">
+                    <div class="two-columns exam">
                         <div>
                             <p>
                                 <obs class="normalObs" conceptId="PIH:SOCIAL SKILLS EVALUATION" answerConceptId="PIH:NORMAL"
@@ -1332,7 +1283,7 @@
                 <uimessage code="pihcore.exam.musculoskeletal_exam.title"/>
             </b>
 
-            <div class="two-columns-n exam">
+            <div class="two-columns exam">
                 <div>
                     <repeat>
                         <template>
@@ -1381,7 +1332,7 @@
                 <uimessage code="pihcore.exam.other_exam.title"/>
             </b>
 
-            <div class="two-columns-n exam">
+            <div class="two-columns exam">
                 <div>
                     <p class="in-line">
                         <uimessage code="pihcore.exam.tannerstage"/>

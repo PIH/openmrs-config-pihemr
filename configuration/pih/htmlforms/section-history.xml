@@ -16,10 +16,6 @@
             width: 120px;
         }
 
-        .section-header {
-            margin-top: 1.5em;
-        }
-
         .past-medical-history-item {
         }
 
@@ -52,32 +48,6 @@
             min-width: initial;
         }
 
-        .section-container {
-        background: #F2F2F2;
-        box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-        padding: 10px 5px 10px 15px;
-        line-height: 1.5em; /*add this for vertical spacing between elements*/
-        }
-
-        .section-container-color {
-        background: #F2F2F2;
-        box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-        padding: 10px 5px 10px 15px;
-        line-height: 1.5em; /*add this for vertical spacing between elements*/
-        }
-
-        .section-container input[type="checkbox"] {
-        margin: 0px 5px; /*changed values to vertical, horizontal*/
-        top:5px; /*added to offset the checkbox position to line up*/
-        }
-
-        .section-container label { /*new definition to override labels inside section-containers*/
-        margin: 0px;
-        }
-
-       - .section {
-        width: 100%;
-        }
     </style>
 
 
@@ -199,10 +169,11 @@
                 </p>
 
                 <div class="two-columns">
-                    <p>
+                    <div>
                         <strong>
                             <uimessage code="pihcore.refer.internal"/>
                         </strong>
+                        <br/>
 
                         <repeat>
                             <template>
@@ -226,31 +197,30 @@
 
                         <obs conceptId="PIH:Type of referring service" style="checkbox"
                              answerConceptId="PIH:OTHER" commentFieldLabel=""/>
-                    </p>
+                    </div>
 
-                    <p>
-                        <strong>
-                            <uimessage code="pihcore.refer.external"/>
-                        </strong>
-                        <obs conceptId="PIH:Type of referring service" style="checkbox"
-                             answerConceptId="PIH:11956" commentFieldLabel=""/>
-                        <obs conceptId="PIH:Type of referring service" style="checkbox"
-                             answerConceptId="PIH:Non-ZL supported site" commentFieldLabel=""/>
-                    </p>
+                    <div>
+                        <p>
+                            <strong>
+                                <uimessage code="pihcore.refer.external"/>
+                            </strong>
+                            <obs conceptId="PIH:Type of referring service" style="checkbox"
+                                 answerConceptId="PIH:11956" commentFieldLabel=""/>
+                            <obs conceptId="PIH:Type of referring service" style="checkbox"
+                                 answerConceptId="PIH:Non-ZL supported site" commentFieldLabel=""/>
+                        </p>
 
-                    <p>
-                        <strong>
-                            <uimessage code="pihcore.refer.community"/>
-                        </strong>
+                        <p>
+                            <strong>
+                                <uimessage code="pihcore.refer.community"/>
+                            </strong>
 
-                        <obs conceptId="PIH:Type of referring service" style="checkbox"
-                             answerConceptId="CIEL:1555"/>
-                        <obs conceptId="PIH:Type of referring service" style="checkbox"
-                             answerConceptId="PIH:11965"/>
-                    </p>
-
-                    <br/>
-                    <br/>
+                            <obs conceptId="PIH:Type of referring service" style="checkbox"
+                                 answerConceptId="CIEL:1555"/>
+                            <obs conceptId="PIH:Type of referring service" style="checkbox"
+                                 answerConceptId="PIH:11965"/>
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -286,9 +256,8 @@
     <section id="patient-history" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="zl.consultNote.patientHistory.title">
         <div class="section-container-color">
-            <!-- ANTECEDENTS PERSONNELS / HABITUDES -->
 
-            <div class="two-columns">
+            <div class="two-columns-without-divs">
                 <!-- Allergy is intentionally ommitted because it should be handled in more detail through the Allergy UI -->
                 <pastMedicalHistoryCheckbox concept="PIH:ASTHMA"/>
                 <pastMedicalHistoryCheckbox concept="PIH:HEART DISEASE" specify="true" class="medicalHistoryText patientHistory" />
@@ -331,45 +300,47 @@
                  headerCode="pihcore.birth-history" >
             <div class="section-container">
                 <div class="two-columns" >
-                    <p>
-                        <!-- Term of birth:  premie, at term, post date -->
-                        <obsgroup groupingConceptId="CIEL:1633" >
-                            <obs conceptId="CIEL:1628"
-                                 answerConceptIds="CIEL:1860,CIEL:1395,CIEL:113600"
+                    <div>
+                        <p>
+                            <!-- Term of birth:  premie, at term, post date -->
+                            <obsgroup groupingConceptId="CIEL:1633" >
+                                <obs conceptId="CIEL:1628"
+                                     answerConceptIds="CIEL:1860,CIEL:1395,CIEL:113600"
+                                     style="radio" answerSeparator="" />
+                            </obsgroup>
+                        </p>
+
+                        <p>
+                            <label>
+                                <uimessage code="pihcore.deliveryLocation" />
+                            </label>
+                            <obs conceptId="CIEL:163774" answerConceptIds="CIEL:1589,CIEL:1536,CIEL:5622"
                                  style="radio" answerSeparator="" />
-                        </obsgroup>
-                    </p>
+                        </p>
+                    </div>
 
-                    <p>
-                        <label>
-                            <uimessage code="pihcore.deliveryLocation" />
-                        </label>
-                        <obs conceptId="CIEL:163774" answerConceptIds="CIEL:1589,CIEL:1536,CIEL:5622"
-                             style="radio" answerSeparator="" />
-                    </p>
+                    <div>
+                        <p>
+                            <label>
+                                <uimessage code="pihcore.birthweight" />
+                            </label>
+                            <span class="small">
+                                <field>
+                                    <!-- ToDo: Fix units to show on the right-side of the box - not the next line -->
+                                    <obs conceptId="CIEL:5916" showUnits="false" />
+                                </field>
+                            </span>
+                        </p>
 
-
-                    <p>
-                        <label>
-                            <uimessage code="pihcore.birthweight" />
-                        </label>
-                        <span class="small">
-                            <field>
-                                <!-- ToDo: Fix units to show on the right-side of the box - not the next line -->
-                                <obs conceptId="CIEL:5916" showUnits="false" />
-                            </field>
-                        </span>
-                    </p>
-
-                    <p>
-                        <!-- Mother's disease during pregnancy -->
-                        <pastMedicalHistoryCheckbox concept="CIEL:118203" label="pihcore.momDiseaseDuringPregnancy"
-                                                    specify="true" class="medicalHistoryText patientHistory"/>
-                        <!-- Neonatal disease -->
-                        <pastMedicalHistoryCheckbox concept="CIEL:115374"
-                                                    specify="true" class="medicalHistoryText patientHistory"/>
-                    </p>
-
+                        <p>
+                            <!-- Mother's disease during pregnancy -->
+                            <pastMedicalHistoryCheckbox concept="CIEL:118203" label="pihcore.momDiseaseDuringPregnancy"
+                                                        specify="true" class="medicalHistoryText patientHistory"/>
+                            <!-- Neonatal disease -->
+                            <pastMedicalHistoryCheckbox concept="CIEL:115374"
+                                                        specify="true" class="medicalHistoryText patientHistory"/>
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -485,23 +456,21 @@
                              answerCode="pihcore.pregnancy.status"
                              style="checkbox"/>
 
-                        <div class="two-columns">
-                            <div id="pregnant">
-                                <p>
-                                    <!-- LMP -->
-                                    <label>
-                                        <uimessage code="pihcore.pregnancy.lastPeriod"/>
-                                    </label>
-                                    <obs id="lastPeriodDate" conceptId="CIEL:1427"/>
-                                </p>
+                        <div id="pregnant" class="two-columns">
+                            <div>
+                                <!-- LMP -->
+                                <label>
+                                    <uimessage code="pihcore.pregnancy.lastPeriod"/>
+                                </label>
+                                <obs id="lastPeriodDate" conceptId="CIEL:1427"/>
+                            </div>
 
-                                <p>
-                                    <!-- DPA -->
-                                    <label>
-                                        <uimessage code="pihcore.pregnancy.dueDate"/>
-                                    </label>
-                                    <obs id="edd" conceptId="CIEL:5596" allowFutureDates="true" allowPastDates="true"/>
-                                </p>
+                            <div>
+                                <!-- DPA -->
+                                <label>
+                                    <uimessage code="pihcore.pregnancy.dueDate"/>
+                                </label>
+                                <obs id="edd" conceptId="CIEL:5596" allowFutureDates="true" allowPastDates="true"/>
                             </div>
                         </div>
 

@@ -12,92 +12,10 @@
             min-width: 90%
         }
 
-        #encounterDate input {
-            min-width: 15%
-        }
-
-        textarea {
-            overflow-y: hidden; /* fixes scrollbar flash - kudos to @brettjonesdev */
-            padding-top: 1.1em; /* fixes text jump on Enter keypress */
-        }
-
-        @media print {
-            .print-form-datestamps { display: block !important }
-            button.cancel, button.submit { display: none }
-            label { font-weight: bold }
-            label[for] { font-weight: normal } /* refers to the radio set label */
-        }
-
-        .section-container {
-            background: #F2F2F2;
-            box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-            padding: 10px 5px 10px 15px;
-            line-height: 1.5em; /*add this for vertical spacing between elements*/
-        }
-
-        .section-container input[type="checkbox"] {
-            margin: 0px 5px; /*changed values to vertical, horizontal*/
-            top:5px; /*added to offset the checkbox position to line up*/
-        }
-
-        .section-container label { /*new definition to override labels inside section-containers*/
-            margin: 0px;
-        }
-
-       - .section {
-        width: 100%;
-        }
-
-        .five-columns, .four-columns, .three-columns, .two-columns {
-            display: table;
-            height: 100%;
-            width: 100%;
-        }
-
-        .two-columns > div {
-            display: table-cell;
-            width: 50%;
-        }
-
-        .three-columns > div {
-            display: table-cell;
-            width: 33%;
-        }
-
         form input[type="radio"], .form input[type="radio"] {
             float: none;
             display: inline-block;
         }
-
-        .side-by-side label {
-            display: inline-block;
-        }
-
-        <ifMode mode="VIEW" include="false">
-            .date-one-line {
-                display: flex;
-            }
-
-            .date-one-line label {
-                align-self: center;
-                margin-right: 1em;
-            }
-
-            .date-one-line span {
-                display: flex;
-            }
-
-            .hasDatepicker {
-                min-width: 120px;
-                margin-top: 0px;
-            }
-
-            .hfe-hours, .hfe-minutes, .hfe-seconds {
-                width: 70px;
-                min-width: 70px;
-                margin: 0px 10px 0px 10px;
-            }
-        </ifMode>
 
     </style>
 
@@ -170,47 +88,11 @@
     <style type="text/css">
         <ifMode mode="VIEW" include="false">
 
-            #data-collection {
-                display: inline-block;
-                width: 58%;
-                vertical-align: top;
-            }
-
             #primary-care-exam input[type="checkbox"] {
                 margin: 0px 5px;  /* changed values to vertical, horizontal */
                 top:5px;          /* added to offset the checkbox position to line up */
             }
 
-            .section-container-color {
-                background: #F2F2F2;
-                box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-                padding: 10px 5px 10px 15px;
-                line-height: 1.5em; /*add this for vertical spacing between elements*/
-            }
-
-    
-            .in-line label {
-                display: inline-block;
-            }
-
-            .section-container label { /*new definition to override labels inside section-containers*/
-                margin: 0px;
-            }
-
-            .two-columns {
-                column-count: 2;
-                -webkit-column-count: 2;
-                -moz-column-count: 2;
-            }
-
-            .two-columns-n > div {
-                display: table-cell;
-                width: 50%;
-            }
-
-            .narrow {
-                width: 200px;
-            }
         </ifMode>
     </style>
 
@@ -880,7 +762,7 @@
                     <uimessage code="pihcore.exam.postpartum_exam.title"/>
                 </b>
 
-                <div class="two-columns-n exam">
+                <div class="two-columns exam">
                     <div>
                         <p class="in-line">
                             <!-- Lochia type/color -->
