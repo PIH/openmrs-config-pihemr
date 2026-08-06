@@ -20,79 +20,39 @@
 
     <style type="text/css">
 
-        .narrow {
-        width: 200px;
-        }
-
         .column {
-        float: left;
-        width: 50%
+            float: left;
+            width: 50%;
         }
 
         .column_narrow {
-        float: left;
-        width: 20%
+            float: left;
+            width: 20%;
         }
 
         .column_wide {
-        float: left;
-        width: 80%
+            float: left;
+            width: 80%;
         }
 
         .simple-form-ui input {
-        min-width: 80%
+            min-width: 80%
         }
 
         form fieldset {
-        min-width: 90%
-        }
-
-        #encounterDate input {
-        min-width: 15%
-        }
-
-        textarea {
-        overflow-y: hidden; /* fixes scrollbar flash - kudos to @brettjonesdev */
-        padding-top: 1.1em; /* fixes text jump on Enter keypress */
-        }
-
-        @media print {
-        .print-form-datestamps { display: block !important }
-        button.cancel, button.submit { display: none }
-        label { font-weight: bold }
-        label[for] { font-weight: normal } /* refers to the radio set label */
-        }
-
-        .section-container {
-        background: #F2F2F2;
-        box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-        padding: 10px 5px 10px 15px;
-        line-height: 1.5em; /*add this for vertical spacing between elements*/
-        }
-
-        .section-container input[type="checkbox"] {
-        margin: 0px 5px; /*changed values to vertical, horizontal*/
-        top:5px; /*added to offset the checkbox position to line up*/
-        }
-
-        .section-container label { /*new definition to override labels inside section-containers*/
-        margin: 0px;
-        }
-
-        .section {
-        width: 100%;
+            min-width: 90%
         }
 
         .diagnosis, .diagnosis-primary, .diagnosis-secondary, .diagnosis-confirmed {
-        display: inline-block;
+            display: inline-block;
         }
 
         .diagnosis {
-        min-width: 60%
+            min-width: 60%
         }
 
         .diagnosis-primary, .diagnosis-secondary {
-        min-width: 15%;
+            min-width: 15%;
         }
 
     </style>

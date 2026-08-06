@@ -9,39 +9,8 @@
 
     <style type="text/css">
 
-        #who-when-where {
-            margin-bottom: 6px;
-            border-bottom: 1px solid #ccc;
-        }
-
-        #who-when-where p {
-            display: inline-block;
-            padding-right: 20px;
-        }
-
-        #where > input[type=text] {
-            display: inline-block;
-        }
-
-        .field-error {
-            color: #ffc0b5;
-            font-size: 1.1em;
-            display: block;
-        }
-
         .legalValue {
             background-color: white !important;
-        }
-
-        .two-columns {
-            display: table;
-            height: 100%;
-            width: 100%;
-        }
-
-        .two-columns > div {
-            display: table-cell;
-            width: 50%;
         }
 
         .simple-form-ui input {
@@ -53,15 +22,6 @@
             display: block;
         }
 
-        .encounter-summary-container #calculated-ratio {
-            font-size: 1em;
-            font-weight: normal;
-        }
-
-        #encounterDate input {
-            min-width: 15%
-        }
-
         div.inline-radio > * {
             display: inline;
             float: none !important;
@@ -70,10 +30,6 @@
 
         .inline-obs > span {
             display: inline-block;
-        }
-
-        .light-font {
-            font-family: "OpenSansLight",sans-serif;
         }
 
         .small-obs {
@@ -105,23 +61,6 @@
             display: block;
         }
 
-        .section-container {
-            background: #F2F2F2;
-            box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-            padding: 10px 5px 10px 15px;
-            margin: 10px 0;
-            line-height: 1.5em; /*add this for vertical spacing between elements*/
-        }
-
-        .section-container input[type="checkbox"] {
-            margin: 0px 5px; /*changed values to vertical, horizontal*/
-            top:5px; /*added to offset the checkbox position to line up*/
-        }
-
-        .section-container label { /*new definition to override labels inside section-containers*/
-            margin: 0px;
-        }
-
         .question-container {
             padding: 5px 5px 10px 15px;
             margin: 5px 0;
@@ -130,10 +69,6 @@
 
         .question-container label {
             margin-top: 5px;
-        }
-
-       .section {
-         width: 95%;
         }
 
         legend {
@@ -153,14 +88,6 @@
         .section-button {
             margin: 10px 0 0 24px;
         }
-
-        @media print {
-            .print-form-datestamps { display: block !important }
-            button.cancel, button.submit { display: none }
-            label { font-weight: bold }
-            label[for] { font-weight: normal } /* refers to the radio set label */
-        }
-
     </style>
 
     <div class="print-form-datestamps" style="display:none">
