@@ -71,12 +71,7 @@
             #maternal-danger-signs-form .append-to-value {
                 padding-left: 5px;
             }
-            .section-container {
-                background: #F2F2F2;
-                box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-                padding: 10px 5px 10px 15px;
-                line-height: 1.5em; /*add this for vertical spacing between elements*/
-            }
+
         </style>
 
     </ifMode>

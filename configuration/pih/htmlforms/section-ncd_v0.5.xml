@@ -21,103 +21,13 @@
 
     <style type="text/css">
 
-        #who-when-where {
-            margin-bottom: 6px;
-            border-bottom: 1px solid #ccc;
-        }
-
-        #who-when-where p {
-            display: inline-block;
-            padding-right: 20px;
-        }
-
-        #where > input[type=text] {
-            display: inline-block;
-        }
-
-        .narrow {
-            width: 200px;
-        }
-
-        .field-error {
-            color: #ff6666;
-            font-size: 1.1em;
-            display: block;
-        }
-
-        .five-columns, .four-columns, .three-columns, .two-columns {
-            display: table;
-            height: 100%;
-            width: 100%;
-        }
-
-        .two-columns > div {
-            display: table-cell;
-            width: 50%;
-        }
-
-        .three-columns > div {
-        display: table-cell;
-        width: 33%;
-        }
-
-        .four-columns > div {
-        display: table-cell;
-        width: 25%;
-        }
-
-        .five-columns > div {
-            display: table-cell;
-            width: 20%;
-        }
-
         .simple-form-ui input {
             min-width: 80%
         }
 
         form fieldset {
-        min-width: 90%;
-        display: block;
-        }
-
-        #calculated-waist-hip-ratio {
-        font-weight: bold;
-        font-size: 1.4em;
-        }
-
-        .encounter-summary-container #calculated-ratio {
-        font-size: 1em;
-        font-weight: normal;
-        }
-
-        #encounterDate input {
-        min-width: 15%
-        }
-
-        .half-size-text {
-        color: #ff6666;
-        font-size: 50%;
-        display: block;
-        }
-
-        .section-container {
-        background: #F2F2F2;
-        box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-        padding: 10px 5px 10px 15px;
-        line-height: 1.5em; /*add this for vertical spacing between elements*/
-        }
-
-        .section-container input[type="checkbox"] {
-        margin: 0px 5px; /*changed values to vertical, horizontal*/
-        top:5px; /*added to offset the checkbox position to line up*/
-        }
-
-        .section-container label { /*new definition to override labels inside section-containers*/
-            margin: 0px;
-        }
-
-       - .section {
-            width: 100%;
+            min-width: 90%;
+            display: block;
         }
 
         textarea {
@@ -130,10 +40,6 @@
 
         form input[type="radio"], .form input[type="radio"] {
             float: none;
-            display: inline-block;
-        }
-
-        .side-by-side label {
             display: inline-block;
         }
     </style>

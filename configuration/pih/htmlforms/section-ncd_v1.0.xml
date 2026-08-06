@@ -33,41 +33,6 @@
 
     <style type="text/css">
 
-        #who-when-where {
-        margin-bottom: 6px;
-        border-bottom: 1px solid #ccc;
-        }
-
-        #who-when-where p {
-        display: inline-block;
-        padding-right: 20px;
-        }
-
-        #where > input[type=text] {
-        display: inline-block;
-        }
-
-        .narrow {
-        width: 200px;
-        }
-
-        .field-error {
-        color: #ff6666;
-        font-size: 1.1em;
-        display: block;
-        }
-
-        .two-columns {
-            display: table;
-            height: 100%;
-            width: 100%;
-        }
-
-        .two-columns > div {
-            display: table-cell;
-            width: 50%;
-        }
-
         .simple-form-ui input {
         min-width: 80%
         }
@@ -77,48 +42,8 @@
         display: block;
         }
 
-        #calculated-waist-hip-ratio {
-        font-weight: bold;
-        font-size: 1.4em;
-        }
-
-        .encounter-summary-container #calculated-ratio {
-        font-size: 1em;
-        font-weight: normal;
-        }
-
-        #encounterDate input {
-        min-width: 15%
-        }
-
-        .half-size-text {
-        color: #ff6666;
-        font-size: 50%;
-        display: block;
-        }
-
-        .section-container {
-        background: #F2F2F2;
-        box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-        padding: 10px 5px 10px 15px;
-        line-height: 1.5em; /*add this for vertical spacing between elements*/
-        }
-
-        .section-container input[type="checkbox"] {
-        margin: 0px 5px; /*changed values to vertical, horizontal*/
-        top:5px; /*added to offset the checkbox position to line up*/
-        }
-
-        .section-container label { /*new definition to override labels inside section-containers*/
-        margin: 0px;
-        }
-
-       - .section {
-        width: 100%;
-        }
-
         textarea {
-        width: 95%;
+            width: 95%;
         }
 
         ul.copd {
@@ -1114,23 +1039,6 @@
 
     <div id="buttons-section"></div>
     <ifMode mode="VIEW" include="false">
-        <style type="text/css">
-            .ncdButtonDark.confirm, ncdButtonDark.confirm {
-                background: #3f746d;
-                border-color: #3f746d;
-            }
-
-            .ncdButtonLight.confirm, ncdButtonLight.confirm {
-                background: #6f9792;
-                border-color: #6f9792;
-            }
-
-            .ncdButtonSelf.confirm, ncdButtonSelf.confirm {
-                background: #6f9792;
-                border-color: #6f9792;
-                color: black;
-            }
-        </style>
 
         <div id="buttonsTopRow">
             <repeat>
