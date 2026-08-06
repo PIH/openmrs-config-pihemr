@@ -182,7 +182,7 @@
                         <encounterDate id="encounter-date" default="now" />
                     </field>
                 </div>
-                <div class="section-container" style="color:black">
+                <div>
                     <obs conceptId="PIH:11781" answerConceptId="PIH:YES"
                          style="checkbox" answerCode="pihcore.date_estimated"/>
                 </div>
