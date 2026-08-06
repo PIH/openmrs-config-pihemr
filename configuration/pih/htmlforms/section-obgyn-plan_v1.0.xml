@@ -9,54 +9,14 @@
             min-width: 98%
         }
 
-        .five-columns, .four-columns, .two-columns {
-            display: table;
-            height: 100%;
-            width: 100%;
-        }
-
-        .two-columns > div {
-            display: table-cell;
-            width: 50%;
-        }
-
-        .three-column {
-            column-count: 3;
-            -webkit-column-count: 3;
-            -moz-column-count: 3;
-        }
-
         p.radio > * {
             display: inline;
             float: none !important;
             min-width: initial;
         }
 
-        .section-container {
-            background: #F2F2F2;
-            box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-            padding: 10px 5px 10px 15px;
-            line-height: 1.5em; /*add this for vertical spacing between elements*/
-        }
-
-        .section-container label { /*new definition to override labels inside section-containers*/
-            margin: 0px;
-        }
-
-        - .section {
-            width: 98%;
-        }
-
-        .section-header {
-            margin-top: 1.5em;
-        }
-
         label {
             padding: 0px 3px 0px 0px
-        }
-
-        .side-by-side label {
-            display: inline-block;
         }
 
         form input[type="radio"], .form input[type="radio"] {
@@ -64,7 +24,7 @@
             display: inline-block;
         }
 
-         #test-orders {
+        #test-orders {
         }
 
 
@@ -80,11 +40,6 @@
         #test-orders span, #test-orders label {
             display: inline !important;
             vertical-align: middle;
-        }
-         .three-columns {
-            column-count: 3;
-            -webkit-column-count: 3;
-            -moz-column-count: 3;
         }
     </style>
 
@@ -275,7 +230,7 @@
      <section id="test-orders" sectionTag="fieldset" headerTag="legend" headerStyle="title"
              headerCode="pihcore.lab.lab_tests.title">
         <div class="section-container">
-            <div class="three-columns">
+            <div class="three-columns-without-divs">
                 <p>
                     <label>
                         <uimessage code="pihcore.lab.hematology.title"/>
@@ -548,7 +503,7 @@
             <label>
                 <uimessage code="Counseling" />
             </label>
-            <div class="three-column">
+            <div class="three-columns-without-divs">
                 <repeat>
                     <template>
                         <p>

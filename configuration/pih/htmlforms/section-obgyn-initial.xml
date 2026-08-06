@@ -20,28 +20,8 @@
 			min-width: 98%
 		}
 		
-		#encounterDate input {
-			min-width: 15%
-		}
-		
 		.small-input input {
 			min-width: 15em;
-		}
-		
-		textarea {
-			overflow-y: hidden; /* fixes scrollbar flash - kudos to @brettjonesdev */
-			padding-top: 1.1em; /* fixes text jump on Enter keypress */
-		}
-		
-		@media print {
-			.print-form-datestamps { display: block !important }
-			button.cancel, button.submit { display: none }
-			label { font-weight: bold }
-			label[for] { font-weight: normal } /* refers to the radio set label */
-		}
-		
-		.side-by-side label {
-			display: inline-block;
 		}
 		
 		.family-history-item .label {
@@ -70,68 +50,6 @@
 			vertical-align: middle;
 		}
 		
-		.six-columns, .five-columns, .four-columns, .three-columns, .two-columns {
-			display: table;
-			height: 100%;
-			width: 100%;
-		}
-		
-		.two-columns > div {
-			display: table-cell;
-			width: 50%;
-		}
-		
-		.three-columns > div {
-			display: table-cell;
-			width: 33%;
-		}
-		
-		.four-columns > div {
-			display: table-cell;
-			width: 25%;
-		}
-		
-		.five-columns > div {
-			display: table-cell;
-			width: 20%;
-		}
-
-		.six-columns > div {
-			display: table-cell;
-			width: 10%;
-		}
-		
-		.section-container {
-			background: #F2F2F2;
-			box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-			padding: 10px 5px 10px 15px;
-			line-height: 1.5em; /*add this for vertical spacing between elements*/
-		}
-		
-		.section-container input[type="checkbox"] {
-			margin: 0px 5px; /*changed values to vertical, horizontal*/
-			top:5px; /*added to offset the checkbox position to line up*/
-		}
-		
-		.section-container label { /*new definition to override labels inside section-containers*/
-			margin: 0px;
-		}
-		
-		.section-container-color {
-			background: #F2F2F2;
-			box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.2);
-			padding: 10px 5px 10px 15px;
-			line-height: 1.5em; /*add this for vertical spacing between elements*/
-		}
-		
-		- .section {
-			width: 98%;
-		}
-		
-		.section-header {
-			margin-top: 1.5em;
-		}
-		
 		form input[type="radio"], .form input[type="radio"] {
 			float: none;
 			display: inline-block;
@@ -148,29 +66,11 @@
 			display: inline-block;
 			float: none;
 		}
+
+		<!-- special formatting when in view mode -->
 		<ifMode mode="VIEW" include="false">
-			.date-one-line {
-				display: flex;
-			}
-			
-			.date-one-line label {
-				align-self: center;
-				margin-right: 1em;
-			}
-			
-			.date-one-line span {
-				display: flex;
-			}
-			
-			.hasDatepicker {
-				min-width: 120px;
-				margin-top: 0px;
-			}
-			
-			.hfe-hours, .hfe-minutes, .hfe-seconds {
-				width: 70px;
-				min-width: 70px;
-				margin: 0px 10px 0px 10px;
+			#family-history br {
+			display: none;
 			}
 		</ifMode>
 	</style>
@@ -543,14 +443,7 @@
 		});
 		</script>
 	</ifMode>
-	<!-- special formatting when in view mode -->
-	<style type="text/css">
-		<ifMode mode="VIEW" include="false">
-			#family-history br {
-				display: none;
-			}
-		</ifMode>
-	</style>
+
 	<ifMode mode="VIEW" include="true">
 		<script type="text/javascript">
 			jq(function() {
