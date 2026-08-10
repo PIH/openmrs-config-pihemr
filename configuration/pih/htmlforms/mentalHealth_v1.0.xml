@@ -31,27 +31,13 @@
 		</code>
 	</translations>
 	<style type="text/css">
-		.toggle-div {
-		cursor: pointer;
-		background-color: #003F5E;
-		color: white;
-		padding: 10px;
-		border-radius: 5px;
-		}
+
 		#autism, #psychosis, #bipolar, #depression{
 		margin-left:20px;
 		background-color:#d4e3fa;
 		border-radius: 5px;
 		}
-		.collapsible-content {
-		overflow: hidden;
-		transition: max-height 0.5s ease-out;
-		max-height: 0;
-		}
-		
-		.collapsible-content.open {
-		max-height: none; /* Allows the height to adjust automatically */
-		}
+
 		<!-- My custom css -->
 		#radio_button_container{
 		display:flex;

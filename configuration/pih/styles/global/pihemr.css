@@ -276,3 +276,21 @@ textarea {
     border-color: #6f9792;
     color: black;
 }
+
+.toggle-div {
+    cursor: pointer;
+    background-color: #003F5E;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.collapsible-content {
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+    max-height: 0;
+}
+
+.collapsible-content.open {
+    max-height: none; /* Allows the height to adjust automatically */
+}
