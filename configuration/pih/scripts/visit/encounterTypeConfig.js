@@ -907,6 +907,32 @@ angular.module("encounterTypeConfig", [])
             }
         };
 
+        // AYFS Intake
+        encounterTypes["1f3375af-fd9e-42a9-954e-99533ee15de9"] = {
+            "sierra_leone": {
+                defaultState: "short",
+                shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+                templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("ayfsIntake.xml"),
+                icon: "fas fa-fw fa-venus",
+                editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("ayfsIntake.xml"),
+                showOnVisitList: true
+            }
+        };
+        // AYFS Followup)
+        /*
+        encounterTypes["73399721-644e-494b-86c9-5dd345072db3"] = {
+            "sierra_leone": {
+                defaultState: "short",
+                shortTemplate: "templates/encounters/defaultEncounterShort.page",
+                longTemplate: "templates/encounters/viewEncounterWithHtmlFormLong.page",
+                templateModelUrl: "/htmlformentryui/htmlform/viewEncounterWithHtmlForm/getAsHtml.action?encounterId={{encounter.uuid}}&definitionUiResource=" + getFormResource("ayfsFollowup.xml"),
+                icon: "fas fa-fw fa-venus",
+                editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("ayfsFollowup.xml"),
+                showOnVisitList: true
+            }
+        }; */
+
         // vitals with glucose
         encounterTypes["2fd151a2-fbef-43e3-b82d-c3f70f1d7333"] = {
             defaultState: "short",
