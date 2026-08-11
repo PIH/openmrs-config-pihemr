@@ -31,11 +31,11 @@ jobs:
         SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
         SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
 
-    - name: Trigger build of config-pihsl
+    - name: Trigger build of pihsl-emr
       uses: peter-evans/repository-dispatch@v4
       with:
         token: ${{ secrets.GHA_WRITE_TOKEN }}
-        repository: PIH/openmrs-config-pihsl
+        repository: PIH/pihsl-emr
         event-type: dependency-trigger
 
     - name: Trigger build of config-zl
@@ -45,11 +45,11 @@ jobs:
         repository: PIH/openmrs-config-zl
         event-type: dependency-trigger
 
-    - name: Trigger build of config-pihliberia
+    - name: Trigger build of pihliberia-emr
       uses: peter-evans/repository-dispatch@v4
       with:
         token: ${{ secrets.GHA_WRITE_TOKEN }}
-        repository: PIH/openmrs-config-pihliberia
+        repository: PIH/pihliberia-emr
         event-type: dependency-trigger
 
     - name: Trigger build of ces-emr
