@@ -263,12 +263,15 @@ visitAttributeType:
 encounterType:
   PATIENT_REGISTRATION:
     uuid: "873f968a-73a8-4f9c-ac78-9f4778b751b6"
+    name: "Patient Registration"
   CHECK_IN:
     uuid: "55a0d3ea-a4d7-4e88-8f01-5aceb2d3c61b"
+    name: "Check-In"
   PAYMENT:
     uuid: "f1c286d0-b83f-4cd4-8348-7ea3c28ead13"
   VITALS:
     uuid: "4fb47712-34a6-40d2-8ed3-e153abbd25b7"
+    name: "Vital Signs"
   PRIMARY_CARE_VISIT:
     uuid: "1373cf95-06e8-468b-a3da-360ac1cf026d"
   CONSULTATION_INITIAL:
@@ -297,6 +300,7 @@ encounterType:
     uuid: "6a3afa6f-8f78-44a9-80c9-3f4f3b6ad8f2"
   MEDICATION_DISPENSED:
     uuid: "8ff50dea-18a1-4609-b4c9-3f8f2d611b84"
+    name: "Medication Dispensing"
   POST_OPERATIVE_NOTE:
     uuid: "c4941dee-7a9b-4c1c-aa6f-8193e9e5e4e5"
   TRANSFER:
