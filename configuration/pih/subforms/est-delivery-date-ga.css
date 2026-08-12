@@ -1,17 +1,177 @@
 
-/* style guide for estimated delivery date */
-.gestationalAge {
-    white-space: nowrap;
-    display:    inline-flex;
+/* style guide for estimated delivery date
+Colors / class names (.value, .field-error, .two-columns, teal #3f746d,
+                      section background #F2F2F2) are taken from configuration/pih/styles/global/pihemr.css
+                                                  so this sits comfortably next to the rest of the PIH htmlforms.
+*/
+
+:root{
+    --page-bg:      #f4f4f5;
+    --text:         #1a1a1a;
+    --caption:      #8a8a8a;
+    --rule:         #cfcfcf;
+    --rule-strong:  #3a3a3a;
+    --required:     #e0362a;
+    --teal-text:    #2f6f68;   /* close to pihemr.css .ncdButtonDark #3f746d */
+    --teal-bg:      #d9f0ec;
+    --focus-blue:   #3169e0;
+    --focus-blue-bg:#eef2ff;
 }
 
-.gestationalAge span{
+* { box-sizing: border-box; }
+
+body{
+    margin: 0;
+    background: var(--page-bg);
+    font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    color: var(--text);
+}
+
+.edd-div{
+    max-width: 720px;
     margin-left: 10px;
-    margin-top: 10px;
 }
 
-.gestationalAge input[type="text"]{
-    min-width: 2%;
-    width: 80px;
-    white-space: nowrap;
+.field-group{
+    margin-bottom: 30px;
+}
+
+.field-label{
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.required-asterisk{
+    color: var(--required);
+    font-weight: 700;
+}
+
+#estimatedGestationalAge input[type="text"] {
+    display: inline-block;
+}
+
+#estimatedGestationalAge .units {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 20px; /* Adjust the value for more or less space */
+}
+
+/* PIH's "Calculated" badge - tinted version of the brand teal used
+   for confirm buttons in pihemr.css (.ncdButtonDark.confirm #3f746d) */
+.badge-calculated{
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--teal-text);
+    background: var(--teal-bg);
+    padding: 3px 10px;
+    border-radius: 999px;
+    line-height: 1.4;
+}
+
+.field-value-row{
+    padding: 6px 0 10px 28px;
+    border-bottom: 1px solid var(--rule-strong);
+    font-size: 1.15rem;
+}
+
+/* Targets native date inputs */
+.section-container input[type="date"] {
+    width: 150px !important;
+    box-sizing: border-box;
+}
+
+/* Targets inputs used with datepicker libraries (like the ones in your current view) */
+.section-container input.hasDatepicker,
+.section-container input[id$="-display"] {
+    width: 150px !important;
+    box-sizing: border-box;
+}
+
+.field-value-row.calculated{
+    /* border: 2px solid transparent; */
+    border-radius: 4px;
+    padding: 10px 12px;
+    margin-left: 16px;
+    transition: border-color .4s ease, background-color .4s ease;
+}
+
+.field-value-row.calculated.flash{
+    border-color: var(--focus-blue);
+    background: var(--focus-blue-bg);
+}
+
+.field-caption{
+    color: var(--caption);
+    font-size: 0.85rem;
+    margin-top: 8px;
+    padding-left: 2px;
+}
+
+/* ---- Yes / No radio row ---- */
+.radio-row{
+    display: flex;
+    gap: 32px;
+    padding-left: 28px;
+}
+
+.radio-option{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.05rem;
+    cursor: pointer;
+}
+
+.radio-option input[type="radio"]{
+    width: 20px;
+    height: 20px;
+    accent-color: var(--text);
+    cursor: pointer;
+}
+
+/* ---- plain date input styled to look like the flat underlined value ---- */
+input[type="date"].value-input{
+    font: inherit;
+    color: var(--text);
+    border: none;
+    background: transparent;
+    padding: 0;
+    width: 100%;
+}
+input[type="date"].value-input:focus{
+    outline: none;
+}
+
+.value.calculated-value{
+    font-weight: 500;
+}
+
+.hidden{ display: none !important; }
+
+/* Container: Change to flex to align children horizontally */
+span#knowing_period_question {
+    display: flex !important;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 15px; /* Adjust spacing between pairs */
+}
+
+/* Children: Ensure labels and inputs don't force new lines */
+span#knowing_period_question label,
+span#knowing_period_question input {
+    display: inline-flex !important;
+    width: auto !important;
+    margin: 0;
+    cursor: pointer;
+}
+
+/* Optional: Group radio + label text closer together */
+span#knowing_period_question input[type="radio"] {
+    margin-right: 5px !important;
 }

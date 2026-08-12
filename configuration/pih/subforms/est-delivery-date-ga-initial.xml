@@ -3,58 +3,82 @@
     <subform path="configuration/pih/subforms/est-delivery-date-ga.js"/>
     <subform path="configuration/pih/subforms/est-delivery-date-ga.css"/>
 
-    <div class="two-columns">
-        <!-- Last menstrual period (LMP or DDR) -->
-        <div>
-            <label>
-                <uimessage code="pihcore.pregnancy.lastPeriod"/>
-            </label>
-            <span class="small">
-                <obs id="lastPeriodDate" conceptId="CIEL:1427" allowFutureDates="false"/>
-            </span>
+    <div class="edd-div">
+        <!-- Visit date / encounterDate -->
+        <div class="field-group">
+            <div class="field-label">Visit date</div>
+            <div class="field-value-row" id="visitDateDisplay"></div>
+            <div class="field-caption">Encounter date</div>
         </div>
 
-        <!-- Due date (DPA) -->
-        <div>
-            <label>
+        <!-- Date of last menstruation known? Yes/No -->
+        <div class="field-group">
+            <div class="field-label">
+                <label><uimessage code="pihcore.pregnancy.lastPeriod.known" /></label>
+                <span class="required-asterisk">*</span>
+            </div>
+            <div class="radio-row field-value-row">
+                <obs id="knowing_period_question" conceptId="PIH:20679" style="radio"
+                     answerConceptIds="CIEL:1065,CIEL:1066" answerCodes="pihcore.yes,pihcore.no" required="true"/>
+            </div>
+        </div>
+
+        <div class="field-group hidden" id="lastPeriodDateGroup">
+            <div class="field-label">Last menstrual period</div>
+            <div class="field-value-row">
+                <obs id="lastPeriodDate" conceptId="CIEL:1427" allowFutureDates="false" class="value-input" size="120"/>
+            </div>
+            <div class="field-caption">Entered by provider</div>
+        </div>
+
+        <div class="field-group hidden" id="estimatedGaGroup">
+            <div class="field-label">
+                <uimessage code="Estimated gestational age (weeks)"/>
+            </div>
+            <div class="field-value-row value estimated-gestational-age-value" id="gestationalAge">
+                <obs conceptId="CIEL:1438" showUnits="true" class="value-input" id="estimatedGestationalAge"/>
+            </div>
+            <div class="field-caption">Provider estimate ·
+                <i><uimessage code="Decimal represents number of days.  For example, 37.4 = 37 weeks + 4 days."/></i>
+            </div>
+        </div>
+
+        <div class="field-group hidden" id="eddGroup">
+            <div class="field-label">
                 <uimessage code="pihcore.pregnancy.dueDate"/>
-            </label>
-            <span class="small">
-                <obs id="edd" conceptId="CIEL:5596" allowFutureDates="true" allowPastDates="true"/>
-            </span>
+            </div>
+            <div class="field-value-row value" id="estimatedEddDiv">
+                <obs id="edd" conceptId="CIEL:5596" allowFutureDates="true" allowPastDates="true" class="value-input"/>
+            </div>
         </div>
-    </div>
+        <div class="field-group hidden" id="calculatedEddGroup">
+            <div class="field-label">
+                <uimessage code="pihcore.calculatedEstimatedDeliveryDate"/>:&#160;
+                <span class="badge-calculated">Calculated</span>
+            </div>
+            <div class="field-value-row calculated value calculated-edd" id="calculated-edd"></div>
+            <div class="field-caption">LMP + 280 days (Naegele's rule)</div>
+        </div>
 
-    <div id="calculated-edd-and-gestational" class="two-columns hidden">
-        <div>
-            <span id="calculated-gestational-age-wrapper">
-                <span id="calculated-gestational-age-label">
-                    <uimessage code="pihcore.calculatedGestationalAge"/>:&#160;
-                </span>
-                <span id='calculated-gestational-age-value' class="calculated-gestational-age-value value"></span>
-            </span>
+        <!-- Manual EDD entry, shown only when LMP is unknown - mirrors the real
+             subform's two-columns layout (lastPeriodDate | edd), where a provider
+             can enter the due date directly instead of the LMP -->
+        <div class="field-group hidden" id="manualEddGroup">
+            <div class="field-label">Estimated delivery date</div>
+            <div class="field-value-row">
+                <input type="date" class="value-input" id="manualEdd"/>
+            </div>
+            <div class="field-caption">Entered by provider</div>
         </div>
-        <div>
-            <span id="calculated-edd-wrapper">
-                <span id="calculated-edd-label">
-                    <uimessage code="pihcore.calculatedEstimatedDeliveryDate"/>:&#160;
-                </span>
-                <span id='calculated-edd' class="calculated-edd value"></span>
-            </span>
-        </div>
-    </div>
-    <div>
-        <p>
-            <br/>
-            <span id="gestational-age-wrapper">
-                <label>
-                    <uimessage code="pihcore.gestational.age" /><uimessage code="pihcore.gestational.age.instructions" />
-                </label>
 
-                <span>
-                    <obs conceptId="CIEL:1438" class="value gestationalAge" showUnits="true" unitsCssClass="append-to-value" size="80"/>
-                </span>
-            </span>
-        </p>
+        <div class="field-group hidden" id="gaGroup">
+            <div class="field-label">
+                <uimessage code="pihcore.calculatedGestationalAge"/>:&#160;
+                <span class="badge-calculated">Calculated</span>
+            </div>
+            <div class="field-value-row calculated value calculated-gestational-age-value" id="calculated-gestational-age-value"></div>
+            <div class="field-caption">From LMP to visit date</div>
+        </div>
+
     </div>
 </div>
