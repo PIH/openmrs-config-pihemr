@@ -191,6 +191,8 @@ jq(document).ready(function() {
                 getField("estimatedGestationalAge.value").val('');
             } else if (this.value === noValue) {
                 getField("lastPeriodDate.value").datepicker("setDate", null);
+                jq(".calculated-edd").text('');
+                jq(".calculated-gestational-age-value").text('');
             }
         }
         updateVisibleGroups();
