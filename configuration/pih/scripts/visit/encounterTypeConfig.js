@@ -919,8 +919,7 @@ angular.module("encounterTypeConfig", [])
                 showOnVisitList: true
             }
         };
-        // AYFS Followup)
-        /*
+        // AYFS Followup
         encounterTypes["73399721-644e-494b-86c9-5dd345072db3"] = {
             "sierra_leone": {
                 defaultState: "short",
@@ -931,7 +930,7 @@ angular.module("encounterTypeConfig", [])
                 editUrl: hfeStandardEditUrl + "&definitionUiResource=" + getFormResource("ayfsFollowup.xml"),
                 showOnVisitList: true
             }
-        }; */
+        };
 
         // vitals with glucose
         encounterTypes["2fd151a2-fbef-43e3-b82d-c3f70f1d7333"] = {
