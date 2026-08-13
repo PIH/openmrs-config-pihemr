@@ -565,6 +565,14 @@ relationshipType:
     uuid: "2fa6fcea-aa58-11e8-98d0-529269fb1459"
   motherToChild:
     uuid: "9a4b3b84-8a9f-11e8-9a94-a6cf71072f73"
+  householdMember:
+    uuid: "c9ff0f6a-92af-42e4-8c4a-6e2fecbe41c0"
+  coworker:
+    uuid: "6102dabf-3f29-4647-807f-39b5f455b48b"
+  friend:
+    uuid: "e4e14bf9-c1a8-4fd7-956f-de0fc19c4380"
+  otherCloseContact:
+    uuid: "5955b72f-32fb-4097-be52-e8d274bea935"
 
 privilege:
   app_appointmentschedulingui_appointment_types: "App: appointmentschedulingui.appointmentTypes"

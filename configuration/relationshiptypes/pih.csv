@@ -4,3 +4,7 @@ ${relationshipType.chwToPatient.uuid},,Community Health Worker,Patient,CHW to Pa
 ${relationshipType.nurseChwToPatient.uuid},,Nurse accompagnateur,Patient,Nurse accompagnateur to Patient relationship
 ${relationshipType.clinicianToPatient.uuid},,Clinician,Patient,Clinician/Patient relationship
 ${relationshipType.motherToChild.uuid},,Mother,Child,Mother to Child relationship
+${relationshipType.householdMember.uuid},,Household Member/Worker,Household Member/Worker,Household Member/Worker relationship
+${relationshipType.coworker.uuid},,Coworker,Coworker,Coworker relationship
+${relationshipType.friend.uuid},,Friend,Friend,Friend relationship
+${relationshipType.otherCloseContact.uuid},,Other Close Contact,Other Close Contact,Other Close Contact relationship
