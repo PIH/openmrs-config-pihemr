@@ -3,11 +3,11 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.pih.openmrs</groupId>
-    <artifactId>openmrs-config-pihemr</artifactId>
-    <name>PIH-EMR OpenMRS Configuration</name>
-    <description>Top-Level configuration for PIH-EMR OpenMRS distro</description>
-    <url>https://github.com/PIH/openmrs-config-pihemr</url>
-    <version>1.12.0-SNAPSHOT</version>
+    <artifactId>pihemr</artifactId>
+    <name>PIH EMR</name>
+    <description>Top-level content and distro modules for the PIH EMR OpenMRS distribution</description>
+    <url>https://github.com/PIH/pihemr</url>
+    <version>3.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <organization>
@@ -29,9 +29,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:https://github.com/PIH/openmrs-config-pihemr.git</connection>
-        <developerConnection>scm:git:https://github.com/PIH/openmrs-config-pihemr.git</developerConnection>
-        <url>https://github.com/PIH/openmrs-config-pihemr</url>
+        <connection>scm:git:https://github.com/PIH/pihemr.git</connection>
+        <developerConnection>scm:git:https://github.com/PIH/pihemr.git</developerConnection>
+        <url>https://github.com/PIH/pihemr</url>
       <tag>HEAD</tag>
   </scm>
 
@@ -40,20 +40,12 @@
     </modules>
 
     <build>
-        <filters>
-            <filter>${project.build.directory}/openmrs-packager-config/configuration/constants.properties</filter>
-        </filters>
         <pluginManagement>
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
                     <version>3.7.1</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.openmrs.maven.plugins</groupId>
-                    <artifactId>openmrs-packager-maven-plugin</artifactId>
-                    <version>1.9.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.sonatype.central</groupId>
@@ -87,33 +79,6 @@
                     <waitUntil>published</waitUntil>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.openmrs.maven.plugins</groupId>
-                <artifactId>openmrs-packager-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>generate-resource-filters</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>generate-resource-filters</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>compile-configurations</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile-configurations</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>package-configurations</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>package-configurations</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
@@ -128,16 +93,6 @@
             </activation>
             <build>
                 <plugins>
-                    <!--
-                    To deploy non-snapshot versions to Sonatype, signatures must be generated using gpg
-                    Note that gpg2 key must exist on Bamboo server and the key and passphrase can be
-                    passed on the command line.
-
-                    Instructions for creating a key:
-                    https://central.sonatype.org/pages/working-with-pgp-signatures.html
-
-                    Command to run: clean deploy -U -DdeployRelease -Dgpg.passphrase=*** -Dgpg.keyname=[email_address_associated_with_generated_key]
-                    -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
@@ -199,6 +154,5 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
-
 
 </project>
