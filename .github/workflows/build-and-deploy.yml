@@ -1,0 +1,79 @@
+name: Build and deploy
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+  repository_dispatch:
+
+jobs:
+  build-and-publish:
+    if: github.repository_owner == 'PIH'
+    concurrency:
+      group: build-and-deploy-${{ github.ref }}
+      cancel-in-progress: true
+    uses: PIH/openmrs-contrib-distro-tools/.github/workflows/build-and-deploy.yml@main
+    with:
+      image_name: partnersinhealth/pihemr
+    secrets: inherit
+
+  trigger-downstream-builds:
+    needs: build-and-publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger build of pihsl-emr
+        uses: peter-evans/repository-dispatch@v4
+        with:
+          token: ${{ secrets.GHA_WRITE_TOKEN }}
+          repository: PIH/pihsl-emr
+          event-type: dependency-trigger
+      - name: Trigger build of zl-emr
+        uses: peter-evans/repository-dispatch@v4
+        with:
+          token: ${{ secrets.GHA_WRITE_TOKEN }}
+          repository: PIH/zl-emr
+          event-type: dependency-trigger
+      - name: Trigger build of pihliberia-emr
+        uses: peter-evans/repository-dispatch@v4
+        with:
+          token: ${{ secrets.GHA_WRITE_TOKEN }}
+          repository: PIH/pihliberia-emr
+          event-type: dependency-trigger
+      - name: Trigger build of ces-emr
+        uses: peter-evans/repository-dispatch@v4
+        with:
+          token: ${{ secrets.GHA_WRITE_TOKEN }}
+          repository: PIH/ces-emr
+          event-type: dependency-trigger
+      - name: Trigger build of lesotho-emr
+        uses: peter-evans/repository-dispatch@v4
+        with:
+          token: ${{ secrets.GHA_WRITE_TOKEN }}
+          repository: PIH/lesotho-emr
+          event-type: dependency-trigger
+
+  deploy-debian:
+    needs: build-and-publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 8
+          cache: 'maven'
+
+      - name: Install Debian build tools
+        run: sudo apt-get update && sudo apt-get install -y devscripts build-essential lintian debhelper rename
+
+      - name: Build Debian package
+        run: mvn -B -Pdistribution package --file distro/pom.xml
+
+      - name: Publish Debian package
+        working-directory: distro/target/debian
+        run: ./publish.sh unstable
+        env:
+          DEBIAN_REPO_USER: ${{ secrets.DEBIAN_REPO_USER }}
+          DEBIAN_REPO_PASSWORD: ${{ secrets.DEBIAN_REPO_PASSWORD }}
