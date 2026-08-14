@@ -14,5 +14,5 @@ fi
 mkdir -p mds
 cd mds/
 rm *.xml*
-unzip -B '../../configuration/pih/concepts/*.zip'
+unzip -B '../../content/configuration/backend_configuration/pih/concepts/*.zip'
 cd ..

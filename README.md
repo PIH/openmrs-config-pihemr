@@ -36,7 +36,7 @@ expect this to continue to grow in the near future.
 The preferred method of managing metadata generally is using
 [Initializer](https://github.com/mekomsolutions/openmrs-module-initializer), aka "Iniz."
 All subdirectories of
-[`configuration/`](https://github.com/PIH/openmrs-config-pihemr/tree/master/configuration)
+[`content/configuration/`](https://github.com/PIH/pihemr/tree/master/content/configuration)
 other than `pih/` and `reports/` are processed by Initializer. At present, this includes
 - attribute types
 - global properties
@@ -56,7 +56,7 @@ for information about each one.
 ### PIH Config
 
 PIH Config json files (which determine what components are turned on for each server, among other things) are
-found in the country-specific config projects in the 'configuration/pih' directory. Which "config" files are
+found in the country-specific config projects in the 'content/configuration/backend_configuration/pih' directory. Which "config" files are
 activated depends on the "pih.config" property defined in the runtime properties file for your specific server.
 
 For example, if you set pih.config as follows in your runtime.properties file:
@@ -203,7 +203,7 @@ Although one could override the Encounter Type Config in a distro config project
 point, better to issue PRs against the existing Encounter Type Config.  (Ideally in the future we will provide
 a more sophisticated way to override parts of the Encounter Type Config without having to override all of it).
 
-https://github.com/PIH/openmrs-config-pihemr/blob/master/configuration/pih/scripts/visit/encounterTypeConfig.js
+https://github.com/PIH/pihemr/blob/master/content/configuration/backend_configuration/pih/scripts/visit/encounterTypeConfig.js
 
 ### Addresses and Address Hierarchy
 
@@ -212,18 +212,18 @@ There are two parts to address configuration.
 First there is the Address Hierarchy module configuration, which manages the address hierarchy
 data in MySQL. This is done by adding
 [AddressHierarchy config files](https://wiki.openmrs.org/display/docs/Address+Hierarchy+Advanced+Features) (see "Activator Loading of Address Configuration & Entries") to the
-`configuration/addresshierarchy/` directory in the config repository for your distribution.
+`content/configuration/backend_configuration/addresshierarchy/` directory in the config repository for your distribution.
 
 Then there's the RegistrationApp configuration with respect to addresses. The two settings of note
 here are the shortcut field and the manual (i.e., free-text) fields. These are configured in the
 addressConfig tree in your PIH config file (found in 
-`configuration/pih` directory of the config project for your distribution). These options are handled by 
+`content/configuration/backend_configuration/pih` directory of the config project for your distribution). These options are handled by 
 [mirebalais/.../PatientRegistrationApp](https://github.com/PIH/openmrs-module-mirebalais/blob/8a565656ff335cd28dcb310c0b1c4de3dcd4d62f/api/src/main/java/org/openmrs/module/mirebalais/apploader/apps/PatientRegistrationApp.java).
 If you don’t provide this configuration, this file provides defaults.
 
 ### Concepts 
 
-[OpenConceptLab (OCL)](https://app.openconceptlab.org/#/orgs/PIH/sources/PIH/concepts/) is used for concept management.  OCL exports a version of the PIH source which is added to the "configuration/ocl" directory.  During installation (run), that zip package is installed in the OpenMRS instance.
+[OpenConceptLab (OCL)](https://app.openconceptlab.org/#/orgs/PIH/sources/PIH/concepts/) is used for concept management.  OCL exports a version of the PIH source which is added to the "content/configuration/backend_configuration/ocl" directory.  During installation (run), that zip package is installed in the OpenMRS instance.
 package.  Generally, we have consolidated all the PIH EMR concepts which are installed on all servers.
 
 Country-specific concepts are added for Mexico, but hopefully this will change.
@@ -231,7 +231,7 @@ Country-specific concepts are added for Mexico, but hopefully this will change.
 ### Forms
 
 All forms are now packages within the PIH Config.  Any form suitable to be shared across implementations can 
-be found "/configuration/pih/htmlforms" directory of this project.  Country-specific forms can be found in the
+be found "/content/configuration/backend_configuration/pih/htmlforms" directory of this project.  Country-specific forms can be found in the
 same directory in the site-specific repositories.  If a form with the same name is found in both this repository
 and the country-specific repository, the country-specific format "wins".
 
@@ -244,7 +244,7 @@ form will be loaded. (Note that there may be some cases where the form path does
 In these cases, the form will not be hot-reloaded.)
 
 Also note that although we do not yet use this feature, variable substitution is available within forms. You
-can define a variable in `constants.yml` in the top-level directory and then use it within multiple forms.
+can define a variable in `content/content.properties` and then use it within multiple forms.
 
 The application logic that specifies when to display forms, and which form files to use, is still in code and found 
 in [CALF](https://github.com/PIH/openmrs-module-mirebalais/blob/master/api/src/main/java/org/openmrs/module/mirebalais/apploader/CustomAppLoaderFactory.java).
@@ -256,14 +256,14 @@ at the active location.  Location Tags are currently set up in the PIH config; s
 A form must refer to an encounter type. Encounter types are managed using
 [Initializer](https://github.com/mekomsolutions/openmrs-module-initializer/blob/master/readme/et.md);
 see
-[pihemr/configuration/encountertypes](https://github.com/PIH/openmrs-config-pihemr/tree/master/configuration/encountertypes).
+[pihemr/content/configuration/backend_configuration/encountertypes](https://github.com/PIH/pihemr/tree/master/content/configuration/backend_configuration/encountertypes).
 
 All forms are associated with components, which are declared in
 [pihcore/Components.java](https://github.com/PIH/openmrs-module-pihcore/blob/master/api/src/main/java/org/openmrs/module/pihcore/config/Components.java)
 and then used in the CALF.
 
 When creating a form you will also need to add boilerplate to
-[pihemr/encounterTypeConfig.js](https://github.com/PIH/openmrs-config-pihemr/blob/master/configuration/pih/scripts/visit/encounterTypeConfig.js).
+[pihemr/encounterTypeConfig.js](https://github.com/PIH/pihemr/blob/master/content/configuration/backend_configuration/pih/scripts/visit/encounterTypeConfig.js).
 This configures features of how the form appears. If a form will have sections,
 this is configured here.
 
@@ -349,7 +349,7 @@ Program Workflow States
 
 ### Reports
 
-SQL-based reports can be added to the "Reports" section of the PIH-EMR by including the SQL file in the "config-pihemr" or a country-specific config, along with a yml file that defines that report.  The YML file should be placed in the configuration/reports/reportdescriptors/dataexports directory of the appropriate config project.
+SQL-based reports can be added to the "Reports" section of the PIH-EMR by including the SQL file in the "config-pihemr" or a country-specific config, along with a yml file that defines that report.  The YML file should be placed in the content/configuration/backend_configuration/reports/reportdescriptors/dataexports directory of the appropriate config project.
 
 #### Sample YAML file format
 
@@ -386,7 +386,7 @@ config:
 
 ```
 
-There are several further examples of yml files for reports in "configuration/reports/reportdescriptors/dataexport".
+There are several further examples of yml files for reports in "content/configuration/backend_configuration/reports/reportdescriptors/dataexport".
 
 #### Global metadata
 
@@ -402,13 +402,13 @@ to expand to support all reports (see ticket https://pihemr.atlassian.net/browse
 To aid in the writing of SQL for the reports above and other SQL scripts (ETLs etc...), a set of views and functions have been written and are deployed through liquibase:
 
 Views:
-[create_views.sql](./configuration/pih/liquibase/sql/create_views.sql)
+[create_views.sql](./content/configuration/backend_configuration/pih/liquibase/sql/create_views.sql)
 
 Functions:
-[create_functions.sql](./configuration/pih/liquibase/sql/create_functions.sql)
+[create_functions.sql](./content/configuration/backend_configuration/pih/liquibase/sql/create_functions.sql)
 
 Documentation for the functions exist here: 
-[sql_function_reference.csv](./configuration/pih/liquibase/sql/sql_function_reference.csv)
+[sql_function_reference.csv](./content/configuration/backend_configuration/pih/liquibase/sql/sql_function_reference.csv)
 
 It is recommended that these are used as much as possible in any SQL scripts.
 
@@ -416,14 +416,14 @@ It is recommended that these are used as much as possible in any SQL scripts.
 
 Message properties files are used to localize the PIH EMR into different languages.  Currently we support French,
 Haitian Kreyol, and Spanish, and there's a separate messages_<lang>.properties files for each within the
-configuration/messagesproperties folder.
+content/configuration/backend_configuration/messagesproperties folder.
 
 To add or update translations, edit these files directly. We no longer use Transifex for message codes in
 this repo.```
 
 #### Implementation-specific messages code
 
-Implementations can add their own message properties files the configuration/messageproperties directory of
+Implementations can add their own message properties files the content/configuration/backend_configuration/messageproperties directory of
 their own config projects, as as long as they are given a unique filename (ie not "messages_<lang>.properties").
 so as not to conflict with any of the message files provided by the PIH EMR config.  
 
@@ -432,7 +432,7 @@ a matching name.
 
 ### Logo
 
-To customize the header logo, you can put a "logo.png" file in "configuration/pih/logo" and it will replace the default PIH "hands" logo.  
+To customize the header logo, you can put a "logo.png" file in "content/configuration/backend_configuration/pih/logo" and it will replace the default PIH "hands" logo.  
 
 See:
 
@@ -441,12 +441,12 @@ https://github.com/PIH/openmrs-config-pihliberia/tree/master/configuration/pih/l
 ### Custom JavaScript and CSS
 
 An implementation can add it's own custom JavaScript and CSS by adding JavaScript files to
-"configuration/pih/scripts" directory and CSS file to "configuration/pih/styles".  These files
+"content/configuration/backend_configuration/pih/scripts" directory and CSS file to "content/configuration/backend_configuration/pih/styles".  These files
 can then be accessed as a "file" resource within application code.
 
 As an example, we currently include the encounterTypeConfig.js this way:
 
-https://github.com/PIH/openmrs-config-pihemr/tree/master/configuration/pih/scripts
+https://github.com/PIH/pihemr/tree/master/content/configuration/backend_configuration/pih/scripts
 
 To reference the file, we do the following:
 
@@ -461,8 +461,8 @@ Adding CSS using the "includeCss" function works in a similar way.
  
 #### Globally including CSS and JavaScript
 
-Additionally, any JavaScript or CSS files included in the "configuration/pih/scripts/global" and 
-"configuration/pih/styles/global" directory will be automatically included by the UI Framework on *all* display pages.
+Additionally, any JavaScript or CSS files included in the "content/configuration/backend_configuration/pih/scripts/global" and 
+"content/configuration/backend_configuration/pih/styles/global" directory will be automatically included by the UI Framework on *all* display pages.
 This is a good way to provide a custom style sheet for all UI Framework pages.  The Liberia distribution does
 this, for example:
  
@@ -510,7 +510,7 @@ Here's a workflow that breaks that down into concrete steps.
 1. Go to the [HUM-CI Concept Dictionary](https://humci.pih-emr.org/mirebalais/dictionary/index.htm) and, for each question/answer/diagnosis/etc, search for a concept that might be appropriate.
     1. If there is a suitable concept in HUM-CI, then it already also exists in the Concept Server. Add the CIEL or PIH mapping to your requirements spreadsheet.
     1. If there is no suitable concept in HUM-CI, search for a suitable CIEL concept in [mdsbuilder](https://mdsbuilder.openmrs.org/openmrs/).
-        1. If the concept exists in CIEL, import it following the [method below](https://github.com/PIH/openmrs-config-pihemr/#importing-concepts-from-ciel-to-pih-server).
+        1. If the concept exists in CIEL, import it following the [method below](https://github.com/PIH/pihemr/#importing-concepts-from-ciel-to-pih-server).
         1. If there is no suitable concept in CIEL, ask a Concept Manager to create it for you. They might also add it to the [CIEL request sheet](https://docs.google.com/spreadsheets/d/1hAJLuKBVwzJEvo3hDp2tRqeRWKMSlxgphK1rc-Nm3IA/edit#gid=0), so that we can eventually give the new concept a CIEL code.
 1. Check that a translation of the concept name exists in your implementation’s language. If it doesn't, evaluate whether or not the display name you want for the concept is a direct translation of the English concept name.
     1. If it is, add the display name as the translation for the concept.
@@ -525,7 +525,7 @@ Here's a workflow that breaks that down into concrete steps.
     1. Click "Export."
     1. Download this newly created MDS package.
     1. Open the `openmrs-config-pihemr` repository on your computer. Or use `openmrs-config-yoursite` if this MDS package is specific to your site.
-    1. Drop the new version of the MDS package into `configuration/pih/concepts`, delete the old one, commit the change and open a PR.
+    1. Drop the new version of the MDS package into `content/configuration/backend_configuration/pih/concepts`, delete the old one, commit the change and open a PR.
 1. Now that you know that the concept is being imported via an MDS package, you can use it in a form (or whatever). Refer to your concept by Reference Term Mapping. If it's not obvious from context or mapping what the concept is, add a comment with the concept's name.
 1. Add the display name to the correct `messages.properties` file, with the correct key. They key to use will depend on the context in which the concept is being used. For HTML Form Entry, the key will be something you code into the form.
 
@@ -539,7 +539,7 @@ Use Metadata Sharing (mds) to add the concept to the PIH EMR package.
     1. Use "From peer"
     1. Uncheck "dates differ"
     1. Review the matches identified by the importer
-1. Add the concepts to one of the PIH EMR mds packages.  Zip file updates should be installed in the "configuration/pih/concepts" directory of this repo.
+1. Add the concepts to one of the PIH EMR mds packages.  Zip file updates should be installed in the "content/configuration/backend_configuration/pih/concepts" directory of this repo.
 
 https://user-images.githubusercontent.com/1031876/135696332-f4023d54-c706-4f27-93b7-7891c41bf78c.mp4
 
