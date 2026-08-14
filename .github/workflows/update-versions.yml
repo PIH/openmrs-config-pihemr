@@ -1,0 +1,16 @@
+name: Update Versions
+
+on:
+  schedule:
+    - cron: "30 * * * *"
+  workflow_dispatch:
+
+jobs:
+  update-versions:
+    permissions:
+      contents: write
+    concurrency:
+      group: update-versions-${{ github.ref }}
+      cancel-in-progress: true
+    uses: PIH/openmrs-contrib-distro-tools/.github/workflows/update-versions.yml@main
+    secrets: inherit
