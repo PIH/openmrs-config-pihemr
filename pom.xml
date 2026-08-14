@@ -37,6 +37,7 @@
 
     <modules>
         <module>content</module>
+        <module>distro</module>
     </modules>
 
     <build>
