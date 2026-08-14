@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# This script expects a file named .pihemr-debian-env in the users home directory, which contains the credentials for the debian repository
-# DEBIAN_REPO_USER=user
-# DEBIAN_REPO_PASSWORD='password'
+# This script expects DEBIAN_REPO_USER and DEBIAN_REPO_PASSWORD to be set as environment variables
+# (set by CI), containing the credentials for the debian repository
 
 usage () {
     echo -e "Usage: publish.sh [stable|unstable]\n"

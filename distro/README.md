@@ -4,17 +4,19 @@ This module defines the base PIH EMR OpenMRS distribution — a specific OpenMRS
 
 ## How it works
 
-Component versions are defined as Maven properties in `pom.xml`, inherited from the [`pihcore`](https://github.com/PIH/openmrs-module-pihcore) parent module's own version properties. During the Maven build (`mvn clean package`), these properties are interpolated into `openmrs-distro.properties`, and the `openmrs-sdk-maven-plugin`'s `build-distro` goal resolves the resulting war/module/OWA set into `target/distro/`. Only the resulting jar (containing the resolved `openmrs-distro.properties`) is published — there's no bundled zip artifact.
+Component versions come from the [`pihcore`](https://github.com/PIH/openmrs-module-pihcore) parent module's own version properties (this repo's `pom.xml` only defines its own `pihcoreVersion`/`appShellVersion`/`frontendDir` properties). During the Maven build (`mvn clean package`), these inherited properties are interpolated into `openmrs-distro.properties`, and the `openmrs-sdk-maven-plugin`'s `build-distro` goal resolves the resulting war/module/OWA set into `target/distro/`. Only the resulting jar (containing the resolved `openmrs-distro.properties`) is published — there's no bundled zip artifact.
 
 Unlike a country-specific distro (e.g. `lesotho-distro`), this module has no parent distro or content/frontend of its own to layer — it's the root of that chain, so it doesn't declare any `content.*`/`spa.*` entries in `openmrs-distro.properties`.
 
 ## Updating component versions
 
-To update a component version, change the corresponding property in `pom.xml` (or let the scheduled `update-versions.yml` workflow do it automatically) and rebuild:
+Since `omod.*`/`war.openmrs` versions are inherited from the `pihcore` parent rather than declared here, updating them means bumping the `pihcore` parent's own version (in the [`openmrs-module-pihcore`](https://github.com/PIH/openmrs-module-pihcore) repo), then rebuilding here:
 
 ```bash
 mvn clean package
 ```
+
+Note that this repo's scheduled `update-versions.yml` workflow (which runs `mvn versions:update-properties`) only updates properties backing dependencies declared in this repo's own `pom.xml` — since neither `content/` nor `distro/` declares any dependencies, that workflow is a no-op here and has no effect on module/omod versions.
 
 ## Debian package
 

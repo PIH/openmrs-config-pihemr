@@ -10,15 +10,16 @@ The configuration distro projects are as follows:
 
 |Site|Repo  |
 |---|---|
-|CES|https://github.com/PIH/openmrs-config-ces|
-|Liberia|https://github.com/PIH/openmrs-config-pihliberia|
-|SES|https://github.com/PIH/openmrs-config-ses|
-|Sierra Leone|https://github.com/PIH/openmrs-config-pihsl|
-|ZL|https://github.com/PIH/openmrs-config-zl|
+|CES|https://github.com/PIH/ces-emr|
+|Lesotho|https://github.com/PIH/lesotho-emr|
+|Liberia|https://github.com/PIH/pihliberia-emr|
+|Sierra Leone|https://github.com/PIH/pihsl-emr|
+|ZL|https://github.com/PIH/zl-emr|
 
 
-These configurations are merged and packaged using the [OpenMRS Packager Maven Plugin](https://github.com/openmrs/openmrs-contrib-packager-maven-plugin). The full documentation for using the plug-in to 
-build a site-specific deployment configuration can be found at the above link.  
+This repository provides the `content/` module, whose `content.properties` file defines `var.*` constants that are merged with the `${...}` placeholders found throughout `configuration/**` by the [OpenMRS Initializer module](https://github.com/mekomsolutions/openmrs-module-initializer) (and the OpenMRS SDK, when resolving a distro) at deploy time — not at Maven build time. It also provides the `distro/` module, which defines the base PIH EMR distribution. Country-specific config repos provide their own `content` and `distro` modules that layer on top of these.
+
+The OpenMRS SDK's `build-distro` goal assembles the `content/`, `distro/`, and any country-specific modules into a runnable distribution. See [`content/README.md`](content/README.md) and [`distro/README.md`](distro/README.md) for details on how each module works.
 
 As part of our build, the latest configuration artifacts for each country are deployed to [sonatype](https://s01.oss.sonatype.org/#nexus-search;quick~org.pih.openmrs).
 
@@ -524,7 +525,7 @@ Here's a workflow that breaks that down into concrete steps.
     1. Check "2. Publish package." Click "Next."
     1. Click "Export."
     1. Download this newly created MDS package.
-    1. Open the `openmrs-config-pihemr` repository on your computer. Or use `openmrs-config-yoursite` if this MDS package is specific to your site.
+    1. Open the `pihemr` repository on your computer. Or use `openmrs-config-yoursite` if this MDS package is specific to your site.
     1. Drop the new version of the MDS package into `content/configuration/backend_configuration/pih/concepts`, delete the old one, commit the change and open a PR.
 1. Now that you know that the concept is being imported via an MDS package, you can use it in a form (or whatever). Refer to your concept by Reference Term Mapping. If it's not obvious from context or mapping what the concept is, add a comment with the concept's name.
 1. Add the display name to the correct `messages.properties` file, with the correct key. They key to use will depend on the context in which the concept is being used. For HTML Form Entry, the key will be something you code into the form.
@@ -573,7 +574,7 @@ https://docs.transifex.com/client/installing-the-client
 
 Add a new code and English translation to the "messages_en.properties" file.
 
-Run the following command from the top-level directory from where you have "openmrs-config-pihemr" checked out:
+Run the following command from the top-level directory from where you have "pihemr" checked out:
 
 ```tx push -s```
 
