@@ -57,6 +57,7 @@
         <appShellVersion>next</appShellVersion>
         <frontendDir>${project.build.directory}/distro/web/frontend</frontendDir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <sdkVersion>6.9.0-SNAPSHOT</sdkVersion>
     </properties>
 
     <build>
@@ -79,11 +80,18 @@
                 </configuration>
             </plugin>
 
-            <!-- Use the SDK to retrieve the war, modules, and owas -->
+            <!-- Use the SDK to retrieve the war, modules, and owas. Pinned to the same
+                 SDK snapshot as the other xxx-emr distro projects, rather than the last
+                 stable release: 6.7.0's build-distro goal hardcodes an unconditional
+                 "nightly-amazoncorretto-11" base image tag for the generated Dockerfile,
+                 which no longer exists on Docker Hub. This snapshot's build-distro adds
+                 resolveDockerImageTag, which checks Docker Hub for a tag matching the
+                 actual resolved platform version (e.g. "2.8.9-amazoncorretto-11") before
+                 falling back to the old static template. -->
             <plugin>
                 <groupId>org.openmrs.maven.plugins</groupId>
                 <artifactId>openmrs-sdk-maven-plugin</artifactId>
-                <version>6.7.0</version>
+                <version>${sdkVersion}</version>
                 <executions>
                     <execution>
                         <id>build-distro</id>
