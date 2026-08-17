@@ -18,6 +18,22 @@
     <description>Distro project for PIH EMR</description>
     <url>https://github.com/PIH/pihemr</url>
 
+    <!-- Overrides the <distributionManagement> inherited from the pihcore parent (which points at
+         its own JFrog repo, "openmrs-repo-modules-pih") with Sonatype Central's snapshot repo.
+         Without this, `mvn deploy` builds and uploads correctly to Central for the reactor's other
+         artifacts, but this module's attached test-jar still gets deployed to the inherited JFrog
+         repository and fails there with 401 (no credentials configured for it in this repo's CI). -->
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+        </repository>
+        <snapshotRepository>
+            <id>central</id>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <developers>
         <developer>
             <name>Partners In Health</name>
@@ -88,9 +104,8 @@
                  deliberately, for its omod.*/war.openmrs version properties), which is NOT a
                  descendant of the root pihemr aggregator pom and so does not inherit that pom's
                  central-publishing-maven-plugin activation or its release-signing profile below
-                 - both must be re-declared here, or `mvn deploy` on this module would silently
-                 fall through to pihcore's own inherited (Nexus-based) distributionManagement
-                 instead of Sonatype Central. -->
+                 - both must be re-declared here. This alone isn't enough to fully escape pihcore's
+                 inherited (JFrog-based) distributionManagement, though - see the override above. -->
             <plugin>
                 <groupId>org.sonatype.central</groupId>
                 <artifactId>central-publishing-maven-plugin</artifactId>
