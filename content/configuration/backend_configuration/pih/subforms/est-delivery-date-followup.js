@@ -23,11 +23,10 @@ jq(document).ready(function() {
     <ifMode mode="VIEW" include="false">
         const lastLMP = '<lookup complexExpression="$fn.formatDate($fn.latestObsBeforeCurrentEncounter('CIEL:1427', false).getValueDatetime(), 'yyyy-MM-dd')"/>';
 
-        const lastLMPrecordedDate = '<lookup complexExpression="$fn.formatDate($fn.latestObsBeforeCurrentEncounter('CIEL:1427', false).obsDatetime, 'yyyy-MM-dd')"/>';
-        const lastLMPformName = '<lookup complexExpression="$fn.latestObsBeforeCurrentEncounter('CIEL:1427', false).encounter.form.name"/>';
-        const lastLMPencLocation = '<lookup complexExpression="$fn.latestObsBeforeCurrentEncounter('CIEL:1427', false).encounter.location.name"/>';
-
         if ( lastLMP ) {
+            const lastLMPrecordedDate = '<lookup complexExpression="$fn.formatDate($fn.latestObsBeforeCurrentEncounter('CIEL:1427', false).obsDatetime, 'yyyy-MM-dd')"/>';
+            const lastLMPformName = '<lookup complexExpression="$fn.latestObsBeforeCurrentEncounter('CIEL:1427', false).encounter.form.name"/>';
+            const lastLMPencLocation = '<lookup complexExpression="$fn.latestObsBeforeCurrentEncounter('CIEL:1427', false).encounter.location.name"/>';
             const lastLMPDate = new Date(lastLMP);
             var daysBetween = daysBetweenUTCDates(currentEncounterDate, lastLMPDate);
             if (daysBetween &lt;= 305) {
