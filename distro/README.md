@@ -24,4 +24,4 @@ Note that this repo's scheduled `update-versions.yml` workflow (which runs `mvn 
 
 ## Release
 
-Releases follow semantic versioning and run via the `release.yml` GitHub Actions workflow (a thin caller into `openmrs-contrib-distro-tools`'s reusable `release.yml`), which runs `mvn release:prepare release:perform -Prelease` across the whole reactor (`content/` + `distro/`) from the root `pom.xml`.
+Releases follow semantic versioning and run via the `release-to-sonatype.yml` GitHub Actions workflow (a thin caller into `openmrs-contrib-distro-tools`'s reusable `release-to-sonatype.yml`), which runs `mvn release:prepare release:perform -Prelease` across the whole reactor (`content/` + `distro/`) from the root `pom.xml`.
