@@ -21,12 +21,14 @@ jq(document).ready(function() {
     const locale = (window.sessionContext &amp;&amp; window.sessionContext.locale) || navigator.language;
     jq("#visitDateDisplay").text((Intl.DateTimeFormat(locale, { dateStyle: "medium" })).format(currentEncounterDate));
     <ifMode mode="VIEW" include="false">
-        const lastLMP = '<lookup complexExpression="$fn.formatDate($fn.latestObsBeforeCurrentEncounter('CIEL:1427', false).getValueDatetime(), 'yyyy-MM-dd')"/>';
+        <lookup complexExpression="#set( $lmpObs = $fn.latestObsBeforeCurrentEncounter('CIEL:1427', false) )"/>
+        const lastLMP = '<lookup complexExpression="#if($lmpObs)$!{fn.formatDate($lmpObs.getValueDatetime(), 'yyyy-MM-dd')}#end"/>';
 
         if ( lastLMP ) {
-            const lastLMPrecordedDate = '<lookup complexExpression="$fn.formatDate($fn.latestObsBeforeCurrentEncounter('CIEL:1427', false).obsDatetime, 'yyyy-MM-dd')"/>';
-            const lastLMPformName = '<lookup complexExpression="$fn.latestObsBeforeCurrentEncounter('CIEL:1427', false).encounter.form.name"/>';
-            const lastLMPencLocation = '<lookup complexExpression="$fn.latestObsBeforeCurrentEncounter('CIEL:1427', false).encounter.location.name"/>';
+
+            const lastLMPrecordedDate = '<lookup complexExpression="#if($lmpObs)$!{fn.formatDate($lmpObs.obsDatetime, 'yyyy-MM-dd')}#end"/>';
+            const lastLMPformName = '<lookup complexExpression="#if($lmpObs)$!{lmpObs.encounter.form.name}#end"/>';
+            const lastLMPencLocation = '<lookup complexExpression="#if($lmpObs)$!{lmpObs.encounter.location.name}#end"/>';
             const lastLMPDate = new Date(lastLMP);
             var daysBetween = daysBetweenUTCDates(currentEncounterDate, lastLMPDate);
             if (daysBetween &lt;= 305) {
@@ -42,12 +44,13 @@ jq(document).ready(function() {
 
         var encObsGA = getField("estimatedGestationalAge.value") != null ? getField("estimatedGestationalAge.value").val() : null; // the encounter already has an GA obs value
         if ( ! encObsGA ) {
-            const lastGA = '<lookup complexExpression="$fn.latestObsBeforeCurrentEncounter('CIEL:1438', false).getValueNumeric()"/>';
+            <lookup complexExpression="#set( $gaObs = $fn.latestObsBeforeCurrentEncounter('CIEL:1438', false) )"/>
+            const lastGA = '<lookup complexExpression="#if($gaObs)$!{gaObs.getValueNumeric()}#end"/>';
             if (lastGA) {
                 jq("#lastGACaption").removeClass("hidden");
-                const lastGArecordedDate = '<lookup complexExpression="$fn.formatDate($fn.latestObsBeforeCurrentEncounter('CIEL:1438', false).obsDatetime, 'yyyy-MM-dd')"/>';
-                const lastGAformName = '<lookup complexExpression="$fn.latestObsBeforeCurrentEncounter('CIEL:1438', false).encounter.form.name"/>';
-                const lastGAencLocation = '<lookup complexExpression="$fn.latestObsBeforeCurrentEncounter('CIEL:1438', false).encounter.location.name"/>';
+                const lastGArecordedDate = '<lookup complexExpression="#if($gaObs)$!{fn.formatDate($gaObs.obsDatetime, 'yyyy-MM-dd')}#end"/>';
+                const lastGAformName = '<lookup complexExpression="#if($gaObs)$!{gaObs.encounter.form.name}#end"/>';
+                const lastGAencLocation = '<lookup complexExpression="#if($gaObs)$!{gaObs.encounter.location.name}#end"/>';
                 jq("#lastGAValue").text(lastGA);
                 jq("#lastGAFormName").text(lastGAformName);
                 jq("#lastGAobsDateTime").text(lastGArecordedDate);
@@ -57,10 +60,11 @@ jq(document).ready(function() {
 
         var encObsEdd = getField("edd.value") != null ? getField("edd.value").val() : null; // the encounter already has an EDD obs value
         if ( !encObsEdd ) {
-            const lastEDD = '<lookup complexExpression="$fn.formatDate($fn.latestObsBeforeCurrentEncounter('CIEL:5596', false).getValueDatetime(), 'yyyy-MM-dd')"/>';
-            const lastEnteredEDD = '<lookup complexExpression="$fn.formatDate($fn.latestObsBeforeCurrentEncounter('CIEL:5596', false).obsDatetime, 'yyyy-MM-dd')"/>';
-            const lastEDDformName = '<lookup complexExpression="$fn.latestObsBeforeCurrentEncounter('CIEL:5596', false).encounter.form.name"/>';
-            const lastEDDencLocation = '<lookup complexExpression="$fn.latestObsBeforeCurrentEncounter('CIEL:5596', false).encounter.location.name"/>';
+            <lookup complexExpression="#set( $eddObs = $fn.latestObsBeforeCurrentEncounter('CIEL:5596', false) )"/>
+            const lastEDD = '<lookup complexExpression="#if($eddObs)$!{fn.formatDate($eddObs.getValueDatetime(), 'yyyy-MM-dd')}#end"/>';
+            const lastEnteredEDD = '<lookup complexExpression="#if($eddObs)$!{fn.formatDate($eddObs.obsDatetime, 'yyyy-MM-dd')}#end"/>';
+            const lastEDDformName = '<lookup complexExpression="#if($eddObs)$!{eddObs.encounter.form.name}#end"/>';
+            const lastEDDencLocation = '<lookup complexExpression="#if($eddObs)$!{eddObs.encounter.location.name}#end"/>';
             if (lastEDD) {
                 // UHM-8643: Estimated Delivery Date should not be greater than 10 months from encounter date
                 const deliveryDate = dateFromString(lastEDD);
