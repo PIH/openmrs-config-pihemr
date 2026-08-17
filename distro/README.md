@@ -4,7 +4,7 @@ This module defines the base PIH EMR OpenMRS distribution — a specific OpenMRS
 
 ## How it works
 
-Component versions come from the [`pihcore`](https://github.com/PIH/openmrs-module-pihcore) parent module's own version properties (this repo's `pom.xml` only defines its own `pihcoreVersion`/`appShellVersion`/`frontendDir` properties). During the Maven build (`mvn clean package`), these inherited properties are interpolated into `openmrs-distro.properties`, and the `openmrs-sdk-maven-plugin`'s `build-distro` goal resolves the resulting war/module/OWA set into `target/distro/`. Only the resulting jar (containing the resolved `openmrs-distro.properties`) is published — there's no bundled zip artifact.
+Component versions come from the [`pihcore`](https://github.com/PIH/openmrs-module-pihcore) parent module's own version properties (this repo's `pom.xml` only defines its own `pihcoreVersion`/`appShellVersion`/`frontendDir`/`sdkVersion` properties). During the Maven build (`mvn clean package`), these inherited properties are interpolated into `openmrs-distro.properties`, and the `openmrs-sdk-maven-plugin`'s `build-distro` goal resolves the resulting war/module/OWA set into `target/distro/`. Only the resulting jar (containing the resolved `openmrs-distro.properties`) is published — there's no bundled zip artifact.
 
 Unlike a country-specific distro (e.g. `lesotho-distro`), this module has no parent distro or content/frontend of its own to layer — it's the root of that chain, so it doesn't declare any `content.*`/`spa.*` entries in `openmrs-distro.properties`.
 
