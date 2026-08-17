@@ -4,7 +4,7 @@ import argparse
 import re
 from pathlib import Path
 
-DIR = Path("../configuration/messageproperties")
+DIR = Path("../content/configuration/backend_configuration/messageproperties")
 
 def main(lang):
     en_strings = properties_to_dict(read_file("en"))
