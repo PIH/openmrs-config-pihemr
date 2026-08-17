@@ -75,5 +75,5 @@ jobs:
         working-directory: distro/target/debian
         run: ./publish.sh unstable
         env:
-          DEBIAN_REPO_USER: ${{ secrets.DEBIAN_REPO_USER }}
-          DEBIAN_REPO_PASSWORD: ${{ secrets.DEBIAN_REPO_PASSWORD }}
+          DEBIAN_REPO_USER: ${{ secrets.OPENMRS_MAVEN_USERNAME }}
+          DEBIAN_REPO_PASSWORD: ${{ secrets.OPENMRS_MAVEN_PASSWORD }}
