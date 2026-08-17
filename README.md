@@ -17,7 +17,9 @@ The configuration distro projects are as follows:
 |ZL|https://github.com/PIH/zl-emr|
 
 
-This repository provides the `content/` module, whose `content.properties` file defines `var.*` constants that are merged with the `${...}` placeholders found throughout `configuration/**` by the [OpenMRS Initializer module](https://github.com/mekomsolutions/openmrs-module-initializer) (and the OpenMRS SDK, when resolving a distro) at deploy time — not at Maven build time. It also provides the `distro/` module, which defines the base PIH EMR distribution. Country-specific config repos provide their own `content` and `distro` modules that layer on top of these.
+This repository provides the `content/` module, which contains a base set of configuration files that are shared across multiple PIHEMR-based distribution
+It also provides the `distro/` module, which defines the base PIH EMR distribution. 
+Country-specific config repos provide their own `content` and `distro` modules that layer on top of these.
 
 The OpenMRS SDK's `build-distro` goal assembles the `content/`, `distro/`, and any country-specific modules into a runnable distribution. See [`content/README.md`](content/README.md) and [`distro/README.md`](distro/README.md) for details on how each module works.
 
