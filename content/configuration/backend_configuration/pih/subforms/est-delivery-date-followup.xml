@@ -1,7 +1,7 @@
 <!-- The htmlform code for Initial estimated delivery date and gestational age -->
 <div id="edd-and-ga-widget">
     <subform path="configuration/pih/subforms/edd.js"/>
-    <subform path="configuration/pih/subforms/est-delivery-date-ga.js"/>
+    <subform path="configuration/pih/subforms/est-delivery-date-followup.js"/>
     <subform path="configuration/pih/subforms/est-delivery-date-ga.css"/>
 
     <div class="edd-div">
@@ -12,44 +12,49 @@
             <div class="field-caption">Encounter date</div>
         </div>
 
-        <!-- Date of last menstruation known? Yes/No -->
-        <div class="field-group">
-            <div class="field-label">
-                <label><uimessage code="pihcore.pregnancy.lastPeriod.known" /></label>
-                <span class="required-asterisk">*</span>
-            </div>
-            <div class="radio-row field-value-row">
-                <obs id="knowing_period_question" conceptId="PIH:20679" style="radio"
-                     answerConceptIds="CIEL:1065,CIEL:1066" answerCodes="pihcore.yes,pihcore.no" required="true"/>
-            </div>
-        </div>
-
         <div class="field-group hidden" id="lastPeriodDateGroup">
             <div class="field-label">Last menstrual period</div>
             <div class="field-value-row">
-                <obs id="lastPeriodDate" conceptId="CIEL:1427" allowFutureDates="false" class="value-input" size="120"/>
+                <span id="lastPeriodDate" class="obs-field value-input">
+                    <span id="lastPeriodDateValue" class="value"></span>
+                </span>
             </div>
-            <div class="field-caption">Entered by provider</div>
+            <div id="lastLMPCaption" class="field-caption hidden">
+                <span id="lastLMPFormName"></span>&nbsp;
+                <i class="icon-time small"></i><span id="lastLMPobsDateTime"></span>&nbsp;
+                <i class="icon-map-marker small"></i><span id="lastLMPencLocation"></span>
+            </div>
         </div>
 
-        <div class="field-group hidden" id="estimatedGaGroup">
+        <div class="field-group" id="estimatedGaGroup">
             <div class="field-label">
                 <uimessage code="Estimated gestational age (weeks)"/>
             </div>
             <div class="field-value-row value estimated-gestational-age-value" id="gestationalAge">
                 <obs conceptId="CIEL:1438" showUnits="true" class="value-input" id="estimatedGestationalAge"/>
             </div>
-            <div class="field-caption">Provider estimate ·
-                <i><uimessage code="Decimal represents number of days.  For example, 37.4 = 37 weeks + 4 days."/></i>
+            <div id="lastGACaption" class="field-caption hidden">
+                <span id="lastGAText">Last recorded GA value: </span>
+                <span id="lastGAValue"></span>&nbsp;weeks
+                <i class="icon-time small"></i><span id="lastGAobsDateTime"></span>&nbsp;
+                <span id="lastGAFormName"></span>&nbsp;
+                <i class="icon-map-marker small"></i><span id="lastGAencLocation"></span>
             </div>
         </div>
 
-        <div class="field-group hidden" id="eddGroup">
+        <div class="field-group" id="eddGroup">
             <div class="field-label">
                 <uimessage code="pihcore.pregnancy.dueDate"/>
             </div>
             <div class="field-value-row value" id="estimatedEddDiv">
                 <obs id="edd" conceptId="CIEL:5596" allowFutureDates="true" allowPastDates="true" class="value-input"/>
+            </div>
+            <div id="lastEDDCaption" class="field-caption hidden">
+                <span id="lastEDDText">Last recorded EDD value: </span>
+                <span id="lastEDDValue"></span>&nbsp;
+                <i class="icon-time small"></i><span id="lastEDDobsDateTime"></span>&nbsp;
+                <span id="lastEDDFormName"></span>&nbsp;
+                <i class="icon-map-marker small"></i><span id="lastEDDencLocation"></span>
             </div>
         </div>
         <div class="field-group hidden" id="calculatedEddGroup">

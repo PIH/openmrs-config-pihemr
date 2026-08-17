@@ -55,27 +55,7 @@ jq(document).ready(function() {
             msgWeeks;
     }
 
-    /**
-     * takes lastPeriodDate:Date as input, returns Date as output
-     */
-    function calculateExpectedDeliveryDate(lastPeriodDate) {
-        const date = new Date(lastPeriodDate);
-        // EDD = LMP + 280 days (40 weeks). An exact 280-day offset is used, rather than the
-        // calendar-based Naegele rule (+1 year -3 months +7 days, which varies 279-282 days),
-        // so this stays consistent with the gestational-age calculations that assume 40 weeks
-        // = 280 days. setDate() advances the calendar date, keeping the result at local midnight
-        // (DST-safe) and handling month/year rollover.
-        date.setDate(date.getDate() + 280);
-        return date;
-    }
 
-    function daysBetweenUTCDates(date1, date2) {
-        const date1UTC = Date.UTC(date1.getFullYear(), date1.getMonth(), date1.getDate());
-        const date2UTC = Date.UTC(date2.getFullYear(), date2.getMonth(), date2.getDate());
-        const timeDiff = Math.abs(date2UTC - date1UTC);
-        const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-        return daysDiff;
-    }
 
     function setUpEdd(currentEncounterDate, msgWeeks) {
         var encObsEdd = getField("edd.value") != null ? getField("edd.value").val() : null; // the encounter already has an EDD obs value
@@ -200,20 +180,10 @@ jq(document).ready(function() {
 
     jq("#gestationalAge input[type='text']").change(function() {
         const numValue = Number(this.value);
-        if (isNaN(numValue)) {
-            console.error("Gestational age must be a valid number");
-            return;
+        const newEdd = calculateEddFromGA(numValue, currentEncounterDate);
+        if (newEdd) {
+            getField("edd.value").datepicker("setDate", newEdd);
         }
-        // The gestational age is stored in weeks.days notation (e.g. 25.5 = 25 weeks 5 days),
-        // so convert it to days before computing days remaining, to stay consistent with the
-        // EDD -> gestational age calculation above.
-        const gestAgeWeeks = Math.floor(numValue);
-        const gestAgeRemainderDays = Math.round((numValue - gestAgeWeeks) * 10);
-        const gestAgeDays = gestAgeWeeks * 7 + gestAgeRemainderDays;
-        // EDD = encounter date + days remaining until 40 weeks (280 days) is reached
-        const daysRemaining = 280 - gestAgeDays;
-        const newEdd = new Date(currentEncounterDate.getTime() + daysRemaining * 24 * 60 * 60 * 1000);
-        getField("edd.value").datepicker("setDate", newEdd);
     });
 
     <ifMode mode="VIEW" include="false">
