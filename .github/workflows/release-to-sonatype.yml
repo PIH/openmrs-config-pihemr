@@ -1,9 +1,0 @@
-name: Release new version
-
-on:
-  workflow_dispatch:
-
-jobs:
-  release:
-    uses: PIH/openmrs-contrib-distro-tools/.github/workflows/release-to-sonatype.yml@main
-    secrets: inherit
