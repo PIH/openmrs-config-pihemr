@@ -20,7 +20,8 @@
     <style type="text/css">
         <ifMode mode="VIEW" include="true">
 
-            #primary-care-exam-form br {
+            #primary-care-exam-form br,
+            #primary-care-exam-form hr {
                 display: none;
             }
 
