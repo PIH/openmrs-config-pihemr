@@ -18,79 +18,18 @@
           formVersion="1.0">
 
     <style type="text/css">
-        <ifMode mode="VIEW" include="false">
-
-            #primary-care-exam input[type="checkbox"] {
-                margin: 0px 5px;  /* changed values to vertical, horizontal */
-                top:5px;          /* added to offset the checkbox position to line up */
-            }
-
-            form input[type="radio"], .form input[type="radio"] {
-                float: none;
-                display: inline-block;
-            }
-
-            .in-line label {
-                display: inline-block;
-            }
-
-        </ifMode>
-    </style>
-
-    <style type="text/css">
         <ifMode mode="VIEW" include="true">
-
-            #primary-care-exam-form legend {
-                display: none;
-            }
-
-            #primary-care-exam-form fieldset {
-                margin: 0px;
-                border: 0px;
-                padding: 0px;
-            }
-
-            #primary-care-exam-form fieldset h3 {
-                font-size: 1em;
-                width: 200px;
-                display: inline-block;
-                margin: 0px;
-                margin-right: 10px;
-                color: #3E3E3E;
-                vertical-align: top;
-            }
-
-            #primary-care-exam-form fieldset p {
-                vertical-align: top;
-                display: inline-block;
-                float: none;
-            }
-
-            #primary-care-exam-form fieldset .left {
-                vertical-align: top;
-                display: inline-block;
-                float: none;
-            }
-
-            #primary-care-exam-form .title {
-                display: none;
-            }
-
-            #primary-care-exam-form .comment-field {
-                display: block;
-                margin-left: 215px;
-            }
 
             #primary-care-exam-form br {
                 display: none;
             }
 
             .toggle-div {
-                cursor: pointer;
-                padding: 10px;
-                border-radius: 5px;
                 background-color: #F2F2F2;
-                color: black;
+                color: #003F5E;
+                font-weight: bold;
+                font-size: large;
+                padding: 5px 0px 0px 0px;
             }
 
             .collapsible-content {
